@@ -162,119 +162,6 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-图片OOM问题" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/15/图片OOM问题/" class="article-date">
-  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/15/图片OOM问题/">
-        图片OOM问题
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="OOM"><a href="#OOM" class="headerlink" title="OOM"></a>OOM</h3><p>大家在项目开发中多多少少会遇到一些OOM的问题，内存是个大问题。</p>
-<h3 id="手机内存解析"><a href="#手机内存解析" class="headerlink" title="手机内存解析"></a>手机内存解析</h3><p>Android是一个多任务系统, 为了保证多任务的运行, Android给每个App可使用的Heap大小设定了一个限定值.</p>
-<p>这个值是系统设置的prop值, 系统编译时内置的, 保存在system/build.prop中. 一般国内的手机厂商都会做修改, 根据手机配置不同而不同, 可以通过如下命令查看:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell</span><br><span class="line">$ cat /system/build.prop</span><br></pre></td></tr></table></figure>
-<p>也可以直接使用getprop查看单项prop:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell getprop dalvik.vm.heapsize</span><br><span class="line">512m</span><br></pre></td></tr></table></figure>
-<p>heap size相关的prop如下:</p>
-<ul>
-<li>dalvik.vm.heapstartsize=8m</li>
-<li>dalvik.vm.heapgrowthlimit=192m</li>
-<li>dalvik.vm.heapsize=512m</li>
-<li>dalvik.vm.heaptargetutilization=0.75</li>
-<li>dalvik.vm.heapminfree=2m</li>
-<li>dalvik.vm.heapmaxfree=8m</li>
-</ul>
-<h4 id="dalvik-vm-heapstartsize"><a href="#dalvik-vm-heapstartsize" class="headerlink" title="dalvik.vm.heapstartsize"></a>dalvik.vm.heapstartsize</h4><p>App启动后, 系统分配给它的Heap初始大小. 随着App使用可增加.</p>
-<h4 id="dalvik-vm-heapgrowthlimit"><a href="#dalvik-vm-heapgrowthlimit" class="headerlink" title="dalvik.vm.heapgrowthlimit"></a>dalvik.vm.heapgrowthlimit</h4><p>默认情况下, App可使用的Heap的最大值, 超过这个值就会产生OOM.</p>
-<h4 id="dalvik-vm-heapsize"><a href="#dalvik-vm-heapsize" class="headerlink" title="dalvik.vm.heapsize"></a>dalvik.vm.heapsize</h4><p>如果App的manifest文件中配置了largeHeap属性, 如下.则App可使用的Heap的最大值为此项设定值.</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:largeHeap</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="dalvik-vm-heaptargetutilization"><a href="#dalvik-vm-heaptargetutilization" class="headerlink" title="dalvik.vm.heaptargetutilization"></a>dalvik.vm.heaptargetutilization</h4><p>当前理想的堆内存利用率. GC后, Dalvik的Heap内存会进行相应的调整, 调整到当前存活的对象的大小和 / Heap大小 接近这个选项的值, 即这里的0.75. 注意, 这只是一个参考值.</p>
-<h4 id="dalvik-vm-heapminfree"><a href="#dalvik-vm-heapminfree" class="headerlink" title="dalvik.vm.heapminfree"></a>dalvik.vm.heapminfree</h4><p>单次Heap内存调整的最小值.</p>
-<h4 id="dalvik-vm-heapmaxfree"><a href="#dalvik-vm-heapmaxfree" class="headerlink" title="dalvik.vm.heapmaxfree"></a>dalvik.vm.heapmaxfree</h4><p>单次Heap内存调整的最大值.</p>
-<h3 id="图片内存问题"><a href="#图片内存问题" class="headerlink" title="图片内存问题"></a>图片内存问题</h3><h4 id="本地图片内存问题"><a href="#本地图片内存问题" class="headerlink" title="本地图片内存问题"></a>本地图片内存问题</h4><p>本地图片一定要将对应分辨率的图片放到对应的目录下，当图片放置在不同drawable文件夹中，且只有这一张图片时，运行设备会根据自身的屏幕密度，对图片进行放缩，放缩比例符合前面图上的规则，不同目录下的对应放大倍数(drawable默认1X)：</p>
-<ul>
-<li>mdpi     1X </li>
-<li>hdpi     1.5X</li>
-<li>xhdpi    2X</li>
-<li>xxhdpi   3X</li>
-<li><p>xxxhdpi  4x</p>
-</li>
-<li><p>density     1    1.5 2    3    3.5     4</p>
-</li>
-<li><p>densityDpi    160    240    320    480    560    640</p>
-</li>
-<li><p>在使用离线图片时首先注意，切对应比例的图并将图片放到对应的比例文件目录下，防止将大比例的图片放到小比例的目录下导致图片被指数放大导致OOM，或者将小比例图片放到大比例文件夹下导致图片失真。</p>
-</li>
-<li>图片的大小根据实际情况来，显示200*200的图不要使用比比例大的图片，用了也要做压缩，防止内存泄漏。</li>
-</ul>
-<h4 id="网络图片内存问题"><a href="#网络图片内存问题" class="headerlink" title="网络图片内存问题"></a>网络图片内存问题</h4><p>网络图片也会导致内存泄漏，后端可能为了兼容更多客户端，配置的图片的尺寸和质量会很高，我们如果直接把网上下载的图片拿来直接用可能会导致OOM，因此网络下载的图片也要根据具体显示的view的大小来对图片进行压缩。</p>
-<h4 id="图片压缩的问题"><a href="#图片压缩的问题" class="headerlink" title="图片压缩的问题"></a>图片压缩的问题</h4><p>图片压缩是按照大小来实现质量压缩。</p>
-<h4 id="不要将Button的背景设置为selector"><a href="#不要将Button的背景设置为selector" class="headerlink" title="不要将Button的背景设置为selector"></a>不要将Button的背景设置为selector</h4><p>在布局文件和代码中，都可以为Button设置background为selector，这样方便实现按钮的正反选效果，但实际跟踪发现，如果是将Button的背景设置为selector，在初始化Button的时候会将正反选图片都加载在内存中（具体可以查看Android源码，在类Drawable.java的createFromXmlInner方法中对图片进行解析，最终调用Drawable的inflate方法），相当于一个按钮占用了两张相同大小图片所使用的内存，如果一个界面上按钮很多或者是按钮很大，光是按钮占用的内存就会很大，可以通过在布局文件中给按钮只设置正常状态下的背景图片，然后在代码中监听按钮的点击状态，当按下按钮时为按钮设置反选效果的图片，抬起时重新设置为正常状态下的背景</p>
-<h4 id="尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable"><a href="#尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable" class="headerlink" title="尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable"></a>尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable</h4><p>AnimationDrawable也是一个耗内存大户，图片帧数越多耗内存越大，具体可以查看AnimationDrawable的源码，在AnimationDrawable实例化的时候，Drawable的createFromXmlInner方法会调用AnimationDrawable的inflate方法，该方法里面有一个while循环去一次性将所有帧都读取出来，也就是在初始化的时候就将所有的帧读在内存中了，有多少张图片，它就要消耗对应大小的内存。</p>
-<h4 id="尽量使用vector-drawable"><a href="#尽量使用vector-drawable" class="headerlink" title="尽量使用vector drawable"></a>尽量使用vector drawable</h4><h4 id="在服务器段配置相对较小的webp格式"><a href="#在服务器段配置相对较小的webp格式" class="headerlink" title="在服务器段配置相对较小的webp格式"></a>在服务器段配置相对较小的webp格式</h4><h4 id="其他方式优化"><a href="#其他方式优化" class="headerlink" title="其他方式优化"></a>其他方式优化</h4><ul>
-<li>尽量将Activity中的小图片和背景合并，一张小图片既浪费布局的时间，又平白地增加了内存占用；</li>
-<li>对于在需要时才显示的图片或者布局，可以使用ViewStub标签，通过sdk/tools目录下的hierarchyviewer.bat查看布局文件会发现，使用viewstub标签的组件几乎不消耗布局的时间，在代码中当需要显示时再去实例化有助于提高Activity的布局效率和节省Activity消耗的内存。</li>
-<li>尽量不要在Activity的主题中为Activity设置默认的背景图片，这样会导致Activity占用的内存翻倍：</li>
-</ul>
-<h3 id="Bitmap-相关"><a href="#Bitmap-相关" class="headerlink" title="Bitmap 相关"></a>Bitmap 相关</h3><h4 id="不同格式的图片每像素所占字节数"><a href="#不同格式的图片每像素所占字节数" class="headerlink" title="不同格式的图片每像素所占字节数"></a>不同格式的图片每像素所占字节数</h4><ul>
-<li><p>Alpha_8: 1个字节</p>
-</li>
-<li><p>RGB_565: 2个字节</p>
-</li>
-<li><p>ARGB_4444: 2个字节</p>
-</li>
-<li><p>ARGB_8888: 4个字节</p>
-</li>
-</ul>
-<h4 id="生成Bitmap所占大小-size"><a href="#生成Bitmap所占大小-size" class="headerlink" title="生成Bitmap所占大小(size)"></a>生成Bitmap所占大小(size)</h4><p>公式: 宽 <em> 高 </em> 每个像素所占字节</p>
-<p>size = width <em> height </em> bytes(格式1,2,3,4)*放大缩小倍数</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-AccessibilityService 辅助类实现系统监听" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1172,6 +1059,93 @@ public static LruCache&lt;String, Bitmap&gt; MEMORYLRUCACHE= new LruCache&lt;Str
 <li>合理的线程池大小(核数*3/2)。</li>
 <li>合理的内存缓存大小(1/8)。</li>
 <li>合理的磁盘缓存大小(15M)。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-Android 内部存储 外部存储" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/04/Android 内部存储 外部存储/" class="article-date">
+  	<time datetime="2016-10-03T16:00:00.000Z" itemprop="datePublished">2016-10-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/04/Android 内部存储 外部存储/">
+        Android 内部存储 外部存储
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-内部存储-外部存储"><a href="#Android-内部存储-外部存储" class="headerlink" title="Android 内部存储 外部存储"></a>Android 内部存储 外部存储</h1><p>最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把内置存储（机身存储）当做内部存储，而把扩展的SD卡当做是外部存储。这么认为确实没错，因为在4.4（API19）以前的手机上确实是这样的，手机自身带的存储卡就是内部存储，而扩展的SD卡就是外部存储。但是从4.4的系统开始，很多的中高端机器都将自己的机身存储扩展到了8G以上，比如有的人的手机是16G的，有的人的手机是32G的，但是这个16G，32G是内部存储吗，不是的！！！，它们依然是外部存储，也就是说4.4系统及以上的手机将机身存储存储（手机自身带的存储叫做机身存储）在概念上分成了”内部存储internal” 和”外部存储external” 两部分。既然16G，32G是外部存储，那有人又有疑惑了，那4.4系统及以上的手机要是插了SD卡呢，SD卡又是什么呢，如果SD卡也是外部存储的话，那怎么区分机身存储的外部存储跟SD卡的外部存储呢？对，SD卡也是外部存储，那怎么区分呢，在4.4以后的系统中，API提供了这样一个方法来遍历手机的外部存储路径：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">File[] files;</span><br><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">    files = getExternalFilesDirs(Environment.MEDIA_MOUNTED);</span><br><span class="line">    <span class="keyword">for</span>(File file:files)&#123;</span><br><span class="line">        Log.e(<span class="string">"main"</span>,file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你的手机插了SD卡的话，那么它打印的路径就有两条了，例如我的华为荣耀7插了SD卡，它的结果如下：<br>/storage/emulated/0/Android/data/packname/files/mounted<br>/storage/B3E4-1711/Android/data/packname/files/mounted<br>其中/storage/emulated/0目录就是机身存储的外部存储路径,而/storage/B3E4-1711/就是SD卡的路径 </p>
+<h2 id="内存-RAM"><a href="#内存-RAM" class="headerlink" title="内存 RAM"></a>内存 RAM</h2><p>物理位置是位于手机内部的随机存储器上，就是俗称的RAM。就是计算机上对内存储器的理解。</p>
+<h2 id="内部存储内部ROM"><a href="#内部存储内部ROM" class="headerlink" title="内部存储内部ROM"></a>内部存储内部ROM</h2><p>/data文件夹就是我们常说的内部存储。</p>
+<h3 id="data-app"><a href="#data-app" class="headerlink" title="data/app"></a>data/app</h3><p>app文件夹里存放着我们所有安装的app的apk文件，其实，当我们调试一个app的时候，可以看到控制台输出的内容，有一项是uploading …..就是上传我们的apk到这个文件夹，上传成功之后才开始安装。</p>
+<h3 id="data-data"><a href="#data-data" class="headerlink" title="data/data"></a>data/data</h3><p>如果打开过data文件，应该都知道这些文件夹是干什么用的，我们在使用sharedPreferenced的时候，将数据持久化存储于本地，其实就是存在这个文件中的xml文件里，我们App里边的数据库文件就存储于databases文件夹中，还有我们的普通数据存储在files中，缓存文件存储在cache文件夹中，存储在这里的文件我们都称之为内部存储。</p>
+<h3 id="常用目录"><a href="#常用目录" class="headerlink" title="常用目录"></a>常用目录</h3><ul>
+<li>内部存储的cache目录:/data/data/packageName/cache<br>-&gt; context.getCacheDir（）</li>
+<li>内部存储的files目录:/data/data/packageName/files -&gt; context.getFilesDir();</li>
+<li>内部存储的data目录:/data - &gt; Environment.getDataDirectory();</li>
+<li>data/data/包名/shared_prefs -&gt; sp</li>
+<li>data/data/包名/databases    -&gt; db</li>
+</ul>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>不需要权限</li>
+<li>百分百会有</li>
+<li>存在这里的文件只有你自己的app可以访问。</li>
+<li>当app卸载的时候，系统会删除对应app的所有信息。</li>
+</ul>
+<h2 id="外部存储外部ROM和SDCard"><a href="#外部存储外部ROM和SDCard" class="headerlink" title="外部存储外部ROM和SDCard"></a>外部存储外部ROM和SDCard</h2><p>外部存储一般就是我们上面看到的storage文件夹，当然也有可能是mnt文件夹，这个不同厂家有可能不一样。一般来说，在storage文件夹中有一个sdcard文件夹，这个文件夹中的文件又分为两类，一类是公有目录，还有一类是私有目录，其中的公有目录有九大类，比如DCIM、DOWNLOAD等这种系统为我们创建的文件夹，私有目录就是Android这个文件夹，这个文件夹打开之后里边有一个data文件夹，打开这个data文件夹，里边有许多包名组成的文件夹。</p>
+<p>外部存储可以有多个，在4.4前，外挂的sdcard是外部存储。4.4后，有一部分手机的本身内存已经超过8G，这时候系统会把机身内存分为两个部分，一部分是内部存储，一部分是外部存储，如果这时候再外挂sdcard就会产生两个外部存储的部分。</p>
+<h3 id="常用目录-1"><a href="#常用目录-1" class="headerlink" title="常用目录"></a>常用目录</h3><ul>
+<li>外部存储的cache目录:/storage/sdcard0/Android/data/packageName/cache -&gt; context.getExternalCacheDir()</li>
+<li>外部存储的files目录:/storage/sdcard0/Android/data/packageName/files-&gt; context.getExternalFilesDir()</li>
+<li>外部存储的sdcard的根目录:/storage/sdcard0/ -&gt; Environemnt.getExternalStorageDirectory()</li>
+</ul>
+<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>需要权限</li>
+<li>可能不存在外部存储，可装卸载。</li>
+<li>所有人都可以访问，不安全。</li>
+<li>app卸载的时候，系统会删除存在getExternalFilesDir()-{路径为:/mnt/sdcard/Android/data/&lt; package name &gt;/files/…}目录的内容。</li>
 </ul>
 
       

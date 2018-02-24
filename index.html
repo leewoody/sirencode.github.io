@@ -514,93 +514,6 @@
 
 
   
-    <article id="post-Android 内部存储 外部存储" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/31/Android 内部存储 外部存储/" class="article-date">
-  	<time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished">2018-01-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/31/Android 内部存储 外部存储/">
-        Android 内部存储 外部存储
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-内部存储-外部存储"><a href="#Android-内部存储-外部存储" class="headerlink" title="Android 内部存储 外部存储"></a>Android 内部存储 外部存储</h1><p>最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把内置存储（机身存储）当做内部存储，而把扩展的SD卡当做是外部存储。这么认为确实没错，因为在4.4（API19）以前的手机上确实是这样的，手机自身带的存储卡就是内部存储，而扩展的SD卡就是外部存储。但是从4.4的系统开始，很多的中高端机器都将自己的机身存储扩展到了8G以上，比如有的人的手机是16G的，有的人的手机是32G的，但是这个16G，32G是内部存储吗，不是的！！！，它们依然是外部存储，也就是说4.4系统及以上的手机将机身存储存储（手机自身带的存储叫做机身存储）在概念上分成了”内部存储internal” 和”外部存储external” 两部分。既然16G，32G是外部存储，那有人又有疑惑了，那4.4系统及以上的手机要是插了SD卡呢，SD卡又是什么呢，如果SD卡也是外部存储的话，那怎么区分机身存储的外部存储跟SD卡的外部存储呢？对，SD卡也是外部存储，那怎么区分呢，在4.4以后的系统中，API提供了这样一个方法来遍历手机的外部存储路径：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">File[] files;</span><br><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">    files = getExternalFilesDirs(Environment.MEDIA_MOUNTED);</span><br><span class="line">    <span class="keyword">for</span>(File file:files)&#123;</span><br><span class="line">        Log.e(<span class="string">"main"</span>,file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果你的手机插了SD卡的话，那么它打印的路径就有两条了，例如我的华为荣耀7插了SD卡，它的结果如下：<br>/storage/emulated/0/Android/data/packname/files/mounted<br>/storage/B3E4-1711/Android/data/packname/files/mounted<br>其中/storage/emulated/0目录就是机身存储的外部存储路径,而/storage/B3E4-1711/就是SD卡的路径 </p>
-<h2 id="内存-RAM"><a href="#内存-RAM" class="headerlink" title="内存 RAM"></a>内存 RAM</h2><p>物理位置是位于手机内部的随机存储器上，就是俗称的RAM。就是计算机上对内存储器的理解。</p>
-<h2 id="内部存储内部ROM"><a href="#内部存储内部ROM" class="headerlink" title="内部存储内部ROM"></a>内部存储内部ROM</h2><p>/data文件夹就是我们常说的内部存储。</p>
-<h3 id="data-app"><a href="#data-app" class="headerlink" title="data/app"></a>data/app</h3><p>app文件夹里存放着我们所有安装的app的apk文件，其实，当我们调试一个app的时候，可以看到控制台输出的内容，有一项是uploading …..就是上传我们的apk到这个文件夹，上传成功之后才开始安装。</p>
-<h3 id="data-data"><a href="#data-data" class="headerlink" title="data/data"></a>data/data</h3><p>如果打开过data文件，应该都知道这些文件夹是干什么用的，我们在使用sharedPreferenced的时候，将数据持久化存储于本地，其实就是存在这个文件中的xml文件里，我们App里边的数据库文件就存储于databases文件夹中，还有我们的普通数据存储在files中，缓存文件存储在cache文件夹中，存储在这里的文件我们都称之为内部存储。</p>
-<h3 id="常用目录"><a href="#常用目录" class="headerlink" title="常用目录"></a>常用目录</h3><ul>
-<li>内部存储的cache目录:/data/data/packageName/cache<br>-&gt; context.getCacheDir（）</li>
-<li>内部存储的files目录:/data/data/packageName/files -&gt; context.getFilesDir();</li>
-<li>内部存储的data目录:/data - &gt; Environment.getDataDirectory();</li>
-<li>data/data/包名/shared_prefs -&gt; sp</li>
-<li>data/data/包名/databases    -&gt; db</li>
-</ul>
-<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
-<li>不需要权限</li>
-<li>百分百会有</li>
-<li>存在这里的文件只有你自己的app可以访问。</li>
-<li>当app卸载的时候，系统会删除对应app的所有信息。</li>
-</ul>
-<h2 id="外部存储外部ROM和SDCard"><a href="#外部存储外部ROM和SDCard" class="headerlink" title="外部存储外部ROM和SDCard"></a>外部存储外部ROM和SDCard</h2><p>外部存储一般就是我们上面看到的storage文件夹，当然也有可能是mnt文件夹，这个不同厂家有可能不一样。一般来说，在storage文件夹中有一个sdcard文件夹，这个文件夹中的文件又分为两类，一类是公有目录，还有一类是私有目录，其中的公有目录有九大类，比如DCIM、DOWNLOAD等这种系统为我们创建的文件夹，私有目录就是Android这个文件夹，这个文件夹打开之后里边有一个data文件夹，打开这个data文件夹，里边有许多包名组成的文件夹。</p>
-<p>外部存储可以有多个，在4.4前，外挂的sdcard是外部存储。4.4后，有一部分手机的本身内存已经超过8G，这时候系统会把机身内存分为两个部分，一部分是内部存储，一部分是外部存储，如果这时候再外挂sdcard就会产生两个外部存储的部分。</p>
-<h3 id="常用目录-1"><a href="#常用目录-1" class="headerlink" title="常用目录"></a>常用目录</h3><ul>
-<li>外部存储的cache目录:/storage/sdcard0/Android/data/packageName/cache -&gt; context.getExternalCacheDir()</li>
-<li>外部存储的files目录:/storage/sdcard0/Android/data/packageName/files-&gt; context.getExternalFilesDir()</li>
-<li>外部存储的sdcard的根目录:/storage/sdcard0/ -&gt; Environemnt.getExternalStorageDirectory()</li>
-</ul>
-<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><ul>
-<li>需要权限</li>
-<li>可能不存在外部存储，可装卸载。</li>
-<li>所有人都可以访问，不安全。</li>
-<li>app卸载的时候，系统会删除存在getExternalFilesDir()-{路径为:/mnt/sdcard/Android/data/&lt; package name &gt;/files/…}目录的内容。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-线程与CPU" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1596,6 +1509,60 @@
 <h4 id="浮动按钮"><a href="#浮动按钮" class="headerlink" title="浮动按钮"></a>浮动按钮</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">layout_constraintHorizontal_bias</span><br><span class="line">layout_constraintVertical_bias</span><br></pre></td></tr></table></figure>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.constraint.ConstraintLayout</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">...</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">"com.zhy.constrantlayout_learn.MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"60dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"60dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"#612"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintHorizontal_bias</span>=<span class="string">"0.9"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintLeft_toLeftOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintRight_toRightOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintVertical_bias</span>=<span class="string">"0.9"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">....</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-android 动画view" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/25/android 动画view/" class="article-date">
+  	<time datetime="2017-09-24T16:00:00.000Z" itemprop="datePublished">2017-09-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/25/android 动画view/">
+        自定义View 动画
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h4 id="handler回调不断的重绘"><a href="#handler回调不断的重绘" class="headerlink" title="handler回调不断的重绘"></a>handler回调不断的重绘</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">CustomProgressLayer</span> <span class="keyword">extends</span> <span class="title">View</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Paint mPaint;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> startAngle;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> angle;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> color = Color.parseColor(<span class="string">"#242629"</span>);</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> DURTATION = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> FRAME_NUM = <span class="number">20</span>;</span><br><span class="line">    <span class="keyword">private</span> onCompassLayerAnimationEnd compassLayerAnimationEnd;</span><br><span class="line">    <span class="keyword">private</span> RectF oval;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setCompassLayerAnimationEnd</span><span class="params">(onCompassLayerAnimationEnd compassLayerAnimationEnd)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.compassLayerAnimationEnd = compassLayerAnimationEnd;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomProgressLayer</span><span class="params">(Context context)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, <span class="keyword">null</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomProgressLayer</span><span class="params">(Context context, AttributeSet attrs)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>(context, attrs, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">CustomProgressLayer</span><span class="params">(Context context, AttributeSet attrs, <span class="keyword">int</span> defStyleAttr)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(context, attrs, defStyleAttr);</span><br><span class="line">        mPaint = <span class="keyword">new</span> Paint();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onSizeChanged</span><span class="params">(<span class="keyword">int</span> w, <span class="keyword">int</span> h, <span class="keyword">int</span> oldw, <span class="keyword">int</span> oldh)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onSizeChanged(w, h, oldw, oldh);</span><br><span class="line">        oval = <span class="keyword">new</span> RectF(<span class="number">0</span>, <span class="number">0</span>, getMeasuredWidth(), getMeasuredHeight());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDraw</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">        start = System.currentTimeMillis();</span><br><span class="line">        mPaint.setAntiAlias(<span class="keyword">true</span>);<span class="comment">//取消锯齿</span></span><br><span class="line">        mPaint.setStyle(Paint.Style.FILL);</span><br><span class="line">        mPaint.setXfermode(<span class="keyword">null</span>);</span><br><span class="line">        mPaint.setColor(color);</span><br><span class="line">        canvas.saveLayer(<span class="number">0</span>, <span class="number">0</span>, getWidth(), getHeight(), <span class="keyword">null</span>,</span><br><span class="line">                Canvas.MATRIX_SAVE_FLAG | Canvas.CLIP_SAVE_FLAG</span><br><span class="line">                        | Canvas.HAS_ALPHA_LAYER_SAVE_FLAG</span><br><span class="line">                        | Canvas.FULL_COLOR_LAYER_SAVE_FLAG</span><br><span class="line">                        | Canvas.CLIP_TO_LAYER_SAVE_FLAG);</span><br><span class="line">        canvas.drawRect(oval, mPaint);</span><br><span class="line">        <span class="keyword">if</span> (angle != <span class="number">0</span>) &#123;</span><br><span class="line">            mPaint.setXfermode(<span class="keyword">new</span> PorterDuffXfermode(PorterDuff.Mode.DST_OUT));</span><br><span class="line">            canvas.drawArc(oval, startAngle, currentAngle &gt; angle ? angle : currentAngle, <span class="keyword">true</span>, mPaint);</span><br><span class="line">        &#125;</span><br><span class="line">        waitTime = System.currentTimeMillis() - start &gt; <span class="number">16</span> ? <span class="number">0</span> : System.currentTimeMillis() - start;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Handler handler = <span class="keyword">new</span> Handler();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> gapAngle = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> currentAngle = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> waitTime = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">long</span> start = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">float</span> endAngle = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> clockwise = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">    Runnable drawRunnable = <span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">if</span> (clockwise) &#123;</span><br><span class="line">                <span class="keyword">if</span> (currentAngle &gt;= angle) &#123;</span><br><span class="line">                    currentAngle = angle;</span><br><span class="line">                    onEnd();</span><br><span class="line">                    invalidate();</span><br><span class="line">                    <span class="comment">//移除当前Runnable</span></span><br><span class="line">                    handler.removeCallbacks(drawRunnable);</span><br><span class="line">                    waitTime = <span class="number">0</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    currentAngle += gapAngle;</span><br><span class="line">                    handler.postDelayed(drawRunnable, waitTime);</span><br><span class="line">                    invalidate();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">if</span> (currentAngle &gt;= angle) &#123;</span><br><span class="line">                    currentAngle = angle;</span><br><span class="line">                    startAngle = endAngle;</span><br><span class="line">                    onEnd();</span><br><span class="line">                    invalidate();</span><br><span class="line">                    <span class="comment">//移除当前Runnable</span></span><br><span class="line">                    handler.removeCallbacks(drawRunnable);</span><br><span class="line">                    waitTime = <span class="number">0</span>;</span><br><span class="line">                &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                    startAngle -= gapAngle;</span><br><span class="line">                    currentAngle += gapAngle;</span><br><span class="line">                    currentAngle = currentAngle &gt; angle ? angle : currentAngle;</span><br><span class="line">                    handler.postDelayed(drawRunnable, waitTime);</span><br><span class="line">                    invalidate();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">invalidateView</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        handler.postDelayed(drawRunnable, <span class="number">0</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">drawStatue</span><span class="params">(<span class="keyword">float</span> start, <span class="keyword">float</span> angle, <span class="keyword">int</span> color, <span class="keyword">boolean</span> clockwise)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.startAngle = start - <span class="number">90</span>;</span><br><span class="line">        <span class="keyword">this</span>.angle = angle;</span><br><span class="line">        <span class="keyword">this</span>.color = color;</span><br><span class="line">        <span class="keyword">this</span>.gapAngle = <span class="keyword">this</span>.angle / (<span class="keyword">float</span>) FRAME_NUM;</span><br><span class="line">        BigDecimal b = <span class="keyword">new</span> BigDecimal(<span class="keyword">this</span>.gapAngle);</span><br><span class="line">        <span class="keyword">this</span>.gapAngle = (<span class="keyword">float</span>) b.setScale(<span class="number">2</span>, BigDecimal.ROUND_HALF_UP).doubleValue();</span><br><span class="line">        currentAngle = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">this</span>.clockwise = clockwise;</span><br><span class="line">        <span class="keyword">if</span> (!clockwise) &#123;</span><br><span class="line">            <span class="keyword">this</span>.endAngle = start - <span class="number">90</span>;</span><br><span class="line">            <span class="keyword">this</span>.startAngle = startAngle + angle;</span><br><span class="line">        &#125;</span><br><span class="line">        invalidateView();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">onCompassLayerAnimationEnd</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">onEnd</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">onEnd</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (compassLayerAnimationEnd != <span class="keyword">null</span>) &#123;</span><br><span class="line">            compassLayerAnimationEnd.onEnd();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     
