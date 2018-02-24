@@ -1,20 +1,526 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>react-native android使用入门 | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Facebook 在2015.9.15发布了 React Native for Android，把JavaScript 开发技术扩展到了Android平台。React Native 让开发者使用 JavaScript 和 React 编写应用，利用相同的核心代码就可以创建 基于Web，iOS 和 Android 平台的原生应用。 与 WebView 不同，React Native 运行的界面，最终">
+<meta property="og:type" content="article">
+<meta property="og:title" content="react-native android使用入门">
+<meta property="og:url" content="https://github.com/sirencode/2016/08/19/react-native/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="Facebook 在2015.9.15发布了 React Native for Android，把JavaScript 开发技术扩展到了Android平台。React Native 让开发者使用 JavaScript 和 React 编写应用，利用相同的核心代码就可以创建 基于Web，iOS 和 Android 平台的原生应用。 与 WebView 不同，React Native 运行的界面，最终">
+<meta property="og:updated_time" content="2016-08-19T02:52:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="react-native android使用入门">
+<meta name="twitter:description" content="Facebook 在2015.9.15发布了 React Native for Android，把JavaScript 开发技术扩展到了Android平台。React Native 让开发者使用 JavaScript 和 React 编写应用，利用相同的核心代码就可以创建 基于Web，iOS 和 Android 平台的原生应用。 与 WebView 不同，React Native 运行的界面，最终">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-react-native" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/19/react-native/" class="article-date">
+  	<time datetime="2016-08-18T16:00:00.000Z" itemprop="datePublished">2016-08-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      react-native android使用入门
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Facebook 在2015.9.15发布了 React Native for Android，把JavaScript 开发技术扩展到了Android平台。React Native 让开发者使用 JavaScript 和 React 编写应用，利用相同的核心代码就可以创建 基于Web，iOS 和 Android 平台的原生应用。</p>
+<p>与 WebView 不同，React Native 运行的界面，最终会被解释映射为原生的 View，可以直接使用布局边界或者 Hierarchy Viewer 看出层级（js 文件会打包为一个bundle，位于assets下面，RN引擎会加载并进行解释映射）。</p>
+<p>本文将浅析Android React的架构及相关基础知识。</p>
+<h4 id="环境搭建（mac）"><a href="#环境搭建（mac）" class="headerlink" title="环境搭建（mac）"></a>环境搭建（mac）</h4><p>1.安装Homebrew (osx的包管理工具):</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></span><br></pre></td></tr></table></figure>
+<p>2.安装node.js :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install node</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chown -R $(whoami) /usr/<span class="built_in">local</span>/share/systemtap</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew link node</span><br></pre></td></tr></table></figure>
+<p>3.安装watchman :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install watchman</span><br></pre></td></tr></table></figure>
+<p>4.安装flow :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install flow</span><br></pre></td></tr></table></figure>
+<p>5.设置npm淘宝镜像: (也可参考<a href="http://npm.taobao.org/" target="_blank" rel="noopener">http://npm.taobao.org/</a>)</p>
+<ul>
+<li>1 创建 .npmrc 文件(在用户主目录下)</li>
+<li>2 加入以下配置信息:<br>registry = <a href="http://registry.npm.taobao.org" target="_blank" rel="noopener">http://registry.npm.taobao.org</a></li>
+</ul>
+<p>6.安装React-Native :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g react-native-cli</span><br></pre></td></tr></table></figure>
+<p>7.创建React-Native项目HelloWorld:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$  react-native init HelloWorld</span><br></pre></td></tr></table></figure>
+<p>8.运行Android应用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> AwesomeProject</span><br><span class="line">$ react-native run-android</span><br></pre></td></tr></table></figure>
+<p>9.版本查看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ react-native --version</span><br></pre></td></tr></table></figure>
+<p>10.真机测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb reverse tcp:8081 tcp:8081（5.0以上）</span><br></pre></td></tr></table></figure>
+<p>11.react-native 升级以及版本管理</p>
+<p>  npm install</p>
+<p>  1 查询react-native的npm包得最新版本:</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm info react-native</span><br></pre></td></tr></table></figure>
+<p>  2 安装react-native的指定版本(可以是升级或者降级):</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save react-native@0.22.2</span><br></pre></td></tr></table></figure>
+<p>  3 更新项目配置:</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ react-native upgrade</span><br></pre></td></tr></table></figure>
+<p>12.离线调试</p>
+<ul>
+<li>1 离线文件下载地址:<a href="http://localhost:8081/index.android.bundle?platform=android" target="_blank" rel="noopener">http://localhost:8081/index.android.bundle?platform=android</a></li>
+<li>2 将代码拷贝到Android的assets目录的index.android.bundle.js文件下</li>
+</ul>
+<h4 id="RN实现原理"><a href="#RN实现原理" class="headerlink" title="RN实现原理"></a>RN实现原理</h4><p>RN需要一个JS的运行环境， 在IOS上直接使用内置的javascriptcore， 在Android 则使用webkit.org官方开源的jsc.so。 此外还集成了其他开源组件，如fresco图片组件，okhttp网络组件等。</p>
+<p>RN 会把应用的JS代码（包括依赖的framework）编译成一个js文件（一般命名为index.android.bundle),RN的整体框架目标就是为了解释运行这个js 脚本文件，如果是js 扩展的API， 则直接通过bridge调用native方法; 如果是UI界面， 则映射到virtual DOM这个虚拟的JS数据结构中，通过bridge 传递到native ， 然后根据数据属性设置各个对应的真实native的View。 bridge是一种JS 和 JAVA代码通信的机制， 用bridge函数传入对方module 和 method即可得到异步回调的结果。</p>
+<p>对于 Android 开发者来说， RN是一个普通的安卓程序加上一堆事件响应， 事件来源主要是JS的命令。主要有二个线程，UI main thread, JS thread。 UI thread创建一个APP的事件循环后，就挂在looper等待事件 , 事件驱动各自的对象执行命令。 JS thread 运行的脚本相当于底层数据采集器， 不断上传数据，转化成UI 事件， 通过bridge转发到UI thread, 从而改变真实的View。 后面再深一层发现， UI main thread 跟 JS thread更像是CS 模型，JS thread更像服务端， UI main thread是客户端， UI main thread 不断询问JS thread并且请求数据，如果数据有变，则更新UI界面。</p>
+<h4 id="代码流程"><a href="#代码流程" class="headerlink" title="代码流程"></a>代码流程</h4><h4 id="js开发者角度"><a href="#js开发者角度" class="headerlink" title="js开发者角度"></a>js开发者角度</h4><p>对于JS开发者来说， 整个RN APP就只有一个JS文件， 而开发者需要编写的有主要是四个部分：</p>
+<p>1 require 所有依赖到的组件， 相当于java中的import 或者 c++ 中的include。</p>
+<p>2 var AwesomeProject = React.createClass 创建APP， 并且在render函数中返回UI界面结构（采用JSX ), 实际经过编译， 都会变成JS 代码， 比如 变成 React.createElement(View,{style:{flex:1}},</p>
+<p>3 var styles = StyleSheet.create({， 创建CSS 样式，实际上会直接当做参数直接反馈到上面的React.createElement</p>
+<p>4 AppRegistry.registerComponent(‘AwesomeProject’, () =&gt; AwesomeProject); 以上三个更像是参数，这个才是JS 程序的入口。即把当前APP的对象注册到AppRegistry组件中， AppRegistry组件是js module。<br>接着就等待Native事件驱动渲染JS端定义的APP组件。</p>
+<h4 id="android开发者角度"><a href="#android开发者角度" class="headerlink" title="android开发者角度"></a>android开发者角度</h4><p>对于Android 开发者， 普通安卓程序入口是Activity.onCreate()方法 ， 主要有三个对象</p>
+<p>1 ReactRootView, Android 标准的FrameLayout对象，另外一个功能是提供react 世界的入口，函数startReactApplication实际调用attachMeasuredRootView触发react世界的初始化。</p>
+<p>2 MyReactPackage， 配置当前APP 需要加载的模块，RN 的JS框架会在初始化阶段就会把native的模块按照配置加载到JS数据结构中（MessageQueue), 从而才能在JS 层即可直接判断native是否支持某个模块。支持三种类型模块配置， native module(实际就是不需要操作View结构的API), view managers(实际是映射到virtual DOM中的View组件)， JS module 。</p>
+<p>3 ReactInstanceManager， 构建React世界的运行环境，发送事件到JS世界， 驱动整个React世界运转。 通过builder可以创建不同的React环境， 比如内置js 路径， 开发环境dev的js名字，是否支持调试等。doInBackground会加载指定的JS文件, onPostExecute会调用runApplication接口运行JS APP。</p>
+<h4 id="通信机制"><a href="#通信机制" class="headerlink" title="通信机制"></a>通信机制</h4><p>RN框架最主要的就是实现了一套JAVA和 JS通信的方案，该方案可以做到比较简便的互调对方的接口。一般的JS运行环境是直接扩展JS接口，然后JS通过扩展接口发送信息到主线程。但RN的通信的实现机制是单向调用，Native线程定期向JS线程拉取数据， 然后转成JS的调用预期，最后转交给Native对应的调用模块。这样最终同样也可以达到Java和 JS 定义的Module互相调用的目的。</p>
+<h4 id="自定义原生模块"><a href="#自定义原生模块" class="headerlink" title="自定义原生模块"></a>自定义原生模块</h4><p>1 首先编写一个自定义模块的类，该类需要继承ReactContextBaseJavaModule, 并需要实现getName()方法返回一个模块名称，在本实例中，该自定义模块将实现Android的Toast功能，所以定义了一个show()方法，并加上了ReactMethod注解，这个注解可以将show(String msg, int duration)中的Java参数类型映射成Js中对应的数据类型，具体映射关系如下:</p>
+<pre><code>Boolean -&gt; Bool
+Integer -&gt; Number
+Double -&gt; Number
+Float -&gt; Number
+String -&gt; String
+Callback -&gt; function
+ReadableMap -&gt; Object
+ReadableArray -&gt; Array
+</code></pre><h4 id="以Toast为例："><a href="#以Toast为例：" class="headerlink" title="以Toast为例："></a>以Toast为例：</h4><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>public class ToastAndroidModule extends    ReactContextBaseJavaModule {
+
+private static final String DURATION_SHORT_KEY = &quot;SHORT&quot;;
+private static final String DURATION_LONG_KEY = &quot;LONG&quot;;
+
+public ToastAndroidModule(ReactApplicationContext reactContext) {
+    super(reactContext);
+}
+
+/**
+ * 定义模块名称
+ * @return
+ */
+@Override
+public String getName() {
+    return &quot;MyToastAndroid&quot;;
+}
+
+/**
+ * 可以设置一些常量，能够在js层调用，本例中在JS代码中调用如&quot;MyToastAndroid.LONG&quot;
+ * @return
+ */
+@Nullable
+@Override
+public Map&lt;String, Object&gt; getConstants() {
+    final Map&lt;String, Object&gt; constants = new HashMap&lt;&gt;(2);
+    constants.put(DURATION_SHORT_KEY, Toast.LENGTH_SHORT);
+    constants.put(DURATION_LONG_KEY, Toast.LENGTH_LONG);
+    return constants;
+}
+
+/**
+ * 自定义方法，通过ReactMethod注解可以把一些Java常量类型映射成js类型
+ * @param msg
+ * @param duration
+ */
+@ReactMethod
+public void show(String msg, int duration) {
+    Toast.makeText(getReactApplicationContext(), msg, duration).show();
+}
+}
+</code></pre><h4 id="注册模块"><a href="#注册模块" class="headerlink" title="注册模块"></a>注册模块</h4><p>在目前0.20版本上，我们自定义原生模块(NativeModule)是需要注册才能生效的，所以编写好模块之后需要重新打包安装到手机上。</p>
+<h4 id="编写Package"><a href="#编写Package" class="headerlink" title="编写Package"></a>编写Package</h4><p>注册模块首先可以先写个自定义的Package，顾名思义，就是一个可以包含你自己写的模块的一个包，然后把包在MainActivity(本例中的类)中注册下，通过已有工程引入React组件的可以根据实际情况修改，也不难。<br>本例中新建一个MyPackage类，通过实现ReactPackage的三个接口来完成模块的绑定，其中createNativeModules方法是我们本例需要用到的，其他两个之后再说，要注意三个方法均不能返回null类型，不需要用到的请传入一个空集合！</p>
+<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><pre><code>public class MyPackage implements ReactPackage {
+@Override
+public List&lt;NativeModule&gt; createNativeModules(ReactApplicationContext reactContext) {
+    List&lt;NativeModule&gt; modules = new ArrayList&lt;&gt;(1);
+    // 将我们自定义模块添加一个集合中，这样React组件就会在合适的时机将我们引用的模块加载进去，这样后面才能愉快地玩耍~
+    modules.add(new ToastAndroidModule(reactContext));
+    return modules;
+}
+
+@Override
+public List&lt;Class&lt;? extends JavaScriptModule&gt;&gt; createJSModules() {
+    //现在不需要用到，不要传null，否则报错
+    return Collections.emptyList();
+}
+
+@Override
+public List&lt;ViewManager&gt; createViewManagers(ReactApplicationContext reactContext) {
+    //现在不需要用到，不要传null，否则报错
+    return Collections.emptyList();
+}
+}
+</code></pre><h4 id="注册Package"><a href="#注册Package" class="headerlink" title="注册Package"></a>注册Package</h4><p>写好Package之后，就可以愉快将Package加入到MainActivity(本例)类里，方法很简单，直接贴部分源代码</p>
+<h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><pre><code>public class MainActivity extends ReactActivity {
+
+/**
+ * Returns the name of the main component registered from JavaScript.
+ * This is used to schedule rendering of the component.
+ */
+@Override
+protected String getMainComponentName() {
+    return &quot;AwesomeProject&quot;;
+}
+
+/**
+ * Returns whether dev mode should be enabled.
+ * This enables e.g. the dev menu.
+ */
+@Override
+protected boolean getUseDeveloperSupport() {
+    return BuildConfig.DEBUG;
+}
+
+/**
+ * A list of packages used by the app. If the app uses additional views
+ * or modules besides the default ones, add more packages here.
+ */
+@Override
+protected List&lt;ReactPackage&gt; getPackages() {
+    return Arrays.&lt;ReactPackage&gt;asList(
+            new MainReactPackage(),
+            //加入我们自己写的Package
+            new MyPackage()
+    );
+}
+}
+</code></pre><h4 id="JS调用"><a href="#JS调用" class="headerlink" title="JS调用"></a>JS调用</h4><h4 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h4><pre><code>import React, {
+AppRegistry,
+Component,
+StyleSheet,
+Text,
+View,
+NativeModules
+} from &apos;react-native&apos;;
+
+class AwesomeProject extends Component {
+constructor(props) {
+    super(props);
+}
+
+componentDidMount() {
+    var MyToastAndroid = NativeModules.MyToastAndroid;
+    MyToastAndroid.show(&apos;This is from MyToastAndroid Native Module&apos;, MyToastAndroid.LONG)
+}
+
+render() {
+    return (
+        &lt;View style={styles.container}&gt;
+            &lt;Text&gt;
+                NativeModule Test by BogerChan
+            &lt;/Text&gt;
+        &lt;/View&gt;
+    );
+}
+};
+var styles = StyleSheet.create({
+container: {
+    flex: 1,
+    flexDirection: &apos;row&apos;,
+    justifyContent: &apos;center&apos;,
+    alignItems: &apos;center&apos;,
+    backgroundColor: &apos;#F5FCFF&apos;,
+},
+});
+AppRegistry.registerComponent(&apos;AwesomeProject&apos;, () =&gt; AwesomeProject);
+</code></pre><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>1 体验 web 开发的便捷，不再需要编译，重新加载一下 js 就行了</li>
+<li>2 可以直接使用 Chrome 或者 Nuclide 调试</li>
+<li>3 Android / iOS 两端可以共享很大一部分代码（RN 还在进行 Windows, MacOS, Node-webkit 等平台的支持）</li>
+<li>4 热更新，JS bundle 下发一下新的就行了（当然也有一定局限性，如果是 hybrid，则 native 的 RN module 部分不能更新）</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>1 前端开发不会原生做不了 React Native（除非你能真只用自带的那些东西），而且理解那些 RN 提供的组件也会很头晕（需要同时了解 Android 和 iOS）。</li>
+<li>2 原生开发需要一定成本的学习实践才能掌握 React Native。毕竟 ES6 不像过去的 JS 那么傻瓜式了。</li>
+<li>3 React Native 目前仍然处于快速迭代开发的阶段，你永远也不知道下个版本自己升级需要修改多少原来的代码。</li>
+<li>4 React Native 的资料较少，尤其是国内的，更尤其是 hybrid 开发的（GitHub 上的开源项目大多是纯 RN 的）。</li>
+</ul>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ul>
+<li>因为bridge,  JS和 JAVA是异步互通，如果实现复杂多API的逻辑，可能会导致部分效率损耗在多线程通信。JS 异步的编程方式多多少少带来一些不便。</li>
+<li>因为bridge,  可能某些场景做不到及时响应。比如帧动画的实时控制。</li>
+<li>Android版本刚推出不完善，并且目前RN版本还在不停的更新中， 可能存在暗坑。</li>
+<li>加入JS引擎， 内存的控制比较麻烦，会比普通native增加不少。</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/08/20/traceView/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Android 性能优化-traceview
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/08/18/android 6.0 permission/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 6.0权限处理</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="react-native" data-title="react-native android使用入门" data-url="https://github.com/sirencode/2016/08/19/react-native/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="react-native android使用入门">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

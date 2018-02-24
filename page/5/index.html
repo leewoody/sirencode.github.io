@@ -1,20 +1,1196 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Diablo</title>
 
-block nav
-    - var pageName = "HOME"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = __("site_index")
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Diablo">
+<meta property="og:url" content="https://github.com/sirencode/page/5/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Diablo">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        each post in page.posts.toArray()
-            a(href=url_for(post.path), title=post.title).body__item.post__title
-                span!= post.title
-                span(class="archive_date")!= date(post.date)
-    div.body__pagination
-        div.pull-right!= paginator()
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap">
+  
+    <article id="post-shell脚本" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/12/shell脚本/" class="article-date">
+  	<time datetime="2017-01-11T16:00:00.000Z" itemprop="datePublished">2017-01-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/12/shell脚本/">
+        shell脚本
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="从第一行开始"><a href="#从第一行开始" class="headerlink" title="从第一行开始"></a>从第一行开始</h4><p>此行称为 shebang（就是 sharp (#) + bang (!) 的意思），会指引操作系统使用接下来指定的程序运行此文件.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br></pre></td></tr></table></figure>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>Shell 变量默认全都是字符串。</p>
+<h4 id="变量赋值和引用"><a href="#变量赋值和引用" class="headerlink" title="变量赋值和引用"></a>变量赋值和引用</h4><p>Shell 编程中，使用变量无需事先声明。变量名的命名遵守大小写字母数字和下划线组成，且不能以数字开头。请注意 shell 环境中的确有以数字和特殊符号开头的变量名，但是那些东西不可以用接下来的方式赋值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">varname=值 [var2=val2 ....]</span><br></pre></td></tr></table></figure>
+<h5 id="请注意这边等号左右不能有空格。-要取用一个变量的值，只需在变量名前面加一个"><a href="#请注意这边等号左右不能有空格。-要取用一个变量的值，只需在变量名前面加一个" class="headerlink" title="请注意这边等号左右不能有空格。 要取用一个变量的值，只需在变量名前面加一个 $"></a>请注意这边等号左右不能有空格。 要取用一个变量的值，只需在变量名前面加一个 $</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># assign</span></span><br><span class="line">a=<span class="string">"hello world"</span>  <span class="comment"># 等号两边均不能有空格存在</span></span><br><span class="line"><span class="comment"># print</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">'%s\n'</span> <span class="string">"A is: <span class="variable">$a</span>"</span></span><br></pre></td></tr></table></figure>
+<p>有时候变量名可能会和其它文字（匹配最长的符合变量名或特殊变量名要求的内容）混淆，比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">num=2</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"this is the <span class="variable">$numnd</span>"</span>   <span class="comment"># 输出 this is the       — shell 尝试寻找 $numnd 的值</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"this is the <span class="variable">$&#123;num&#125;</span>nd"</span> <span class="comment"># 输出 this is the 2nd   — 修好了！</span></span><br><span class="line"><span class="comment"># 花括号可以隔开变量名，但是放歪了的话…</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"this is the &#123;<span class="variable">$num</span>&#125;nd"</span> <span class="comment"># 输出 this is the &#123;2&#125;nd — 切是切开了，但是…</span></span><br></pre></td></tr></table></figure>
+<h4 id="变量计算"><a href="#变量计算" class="headerlink" title="变量计算"></a>变量计算</h4><p>我们可以用很多方法达成我们的目标。首先是好孩子的方法——C 风格表达式。bash 里面可以用 (( )) 执行 C 风格的算术表达式。$(( )) 会展开成为这个 C 表达式求值的结果。以前 bash 有个 $[ ] 一样，但是别去用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var=0</span><br><span class="line">(( var += 1 )) <span class="comment"># 这是一种，现在 var 是 1</span></span><br><span class="line">(( var++ ))    <span class="comment"># 这也是一种自增，2</span></span><br><span class="line">(( var = var * var )) <span class="comment"># 怎么来乘法了！var 现在是 4。</span></span><br><span class="line"><span class="built_in">let</span> <span class="string">'var = var / 3'</span>   <span class="comment"># 还是只有 bash 才能用的拓展。除法是整数除法，向 0 舍入，1。</span></span><br><span class="line"><span class="built_in">echo</span> $((var += 2))    <span class="comment"># echo 出 3，var 现在是 3。</span></span><br><span class="line">var=$((var-1))        <span class="comment"># 展开成 var=2，var 现在是……还用说吗，2。</span></span><br></pre></td></tr></table></figure>
+<h3 id="Shell里的流程控制"><a href="#Shell里的流程控制" class="headerlink" title="Shell里的流程控制"></a>Shell里的流程控制</h3><h4 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> </span><br><span class="line">  判断命令，可以有很多个，真假取最后的返回值</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  如果前述为真做什么</span><br><span class="line">[ <span class="comment"># 方括号代表可选，别真打进去了！</span></span><br><span class="line"><span class="keyword">elif</span></span><br><span class="line">  可以再来个判断，如果签名为假继续尝试这里</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  如果前述为真做什么 ]</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  如果全都不行做什么</span><br><span class="line"><span class="keyword">fi</span> <span class="comment"># 结束，就是倒写的 if 啦。</span></span><br></pre></td></tr></table></figure>
+<h5 id="amp-amp-和-操作符"><a href="#amp-amp-和-操作符" class="headerlink" title="&amp;&amp; 和 || 操作符"></a>&amp;&amp; 和 || 操作符</h5><h5 id="case-语句"><a href="#case-语句" class="headerlink" title="case 语句"></a>case 语句</h5><p>case表达式可以用来匹配一个给定的字符串，而不是数字（可别和C语言里的switch…case混淆）。</p>
+<p>我们利用这点写了一个名为smartzip的脚本，该脚本可以自动解压bzip2, gzip和zip 类型的压缩文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ftype=<span class="string">"<span class="variable">$(file "$1")</span>"</span></span><br><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$ftype</span>"</span> <span class="keyword">in</span></span><br><span class="line"><span class="string">"<span class="variable">$1</span>: Zip archive"</span>*)</span><br><span class="line">   unzip <span class="string">"<span class="variable">$1</span>"</span> ;;</span><br><span class="line"><span class="string">"<span class="variable">$1</span>: gzip compressed"</span>*)</span><br><span class="line">   gunzip <span class="string">"<span class="variable">$1</span>"</span> ;;</span><br><span class="line"><span class="string">"<span class="variable">$1</span>: bzip2 compressed"</span>*)</span><br><span class="line">   bunzip2 <span class="string">"<span class="variable">$1</span>"</span> ;;</span><br><span class="line">*)</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"File <span class="variable">$1</span> can not be uncompressed with smartzip"</span>;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<p>你可能注意到上面使用了一个特殊变量 $1，该变量包含有传递给该脚本的第一个参数值。也就是说，当我们运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smartzip articles.zip</span><br></pre></td></tr></table></figure>
+<h4 id="select-循环语句"><a href="#select-循环语句" class="headerlink" title="select 循环语句"></a>select 循环语句</h4><p>select 循环语句是bash的一种扩展应用，擅长于交互式场合。<br>用户可以从一组不同的值中进行选择</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pocket=()</span><br><span class="line">select var <span class="keyword">in</span> 跳跳糖 糖 很多糖 企鹅糖; <span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"除了 <span class="variable">$var</span> 还要什么吗？"</span></span><br><span class="line">  <span class="keyword">if</span> ((RANDOM%4 == 0)); <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"呀！时间不够了，快上车！"</span></span><br><span class="line">    <span class="built_in">break</span> <span class="comment"># break 还是那个 break</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  pocket+=(<span class="string">"<span class="variable">$var</span>"</span>)</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"你最后说的那个 <span class="variable">$var</span> 弄丢了……"</span></span><br><span class="line">IFS=<span class="string">'、'</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"现在口袋里只有：<span class="variable">$&#123;pocket[*]&#125;</span>。"</span></span><br><span class="line">IFS=$<span class="string">' \t\n'</span></span><br></pre></td></tr></table></figure>
+<h4 id="while-for-循环"><a href="#while-for-循环" class="headerlink" title="while/for 循环"></a>while/for 循环</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ...; <span class="keyword">do</span></span><br><span class="line">   ....</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>只要测试表达式条件为真，则while循环将一直运行。关键字”break”用来跳出循环，而关键字”continue”则可以跳过一个循环的余下部分，直接跳到下一次循环中。<br>for循环会查看一个字符串列表（字符串用空格分隔），并将其赋给一个变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> var <span class="keyword">in</span> ....; <span class="keyword">do</span></span><br><span class="line">   ....</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h3 id="Shell里的一些特殊符号"><a href="#Shell里的一些特殊符号" class="headerlink" title="Shell里的一些特殊符号"></a>Shell里的一些特殊符号</h3><h4 id="引号"><a href="#引号" class="headerlink" title="引号"></a>引号</h4><p>在向程序传递任何参数之前，程序会扩展通配符和变量。这里所谓的扩展是指程序会把通配符（比如*）替换成适当的文件名，把变量替换成变量值。我们可以使用引号来防止这种扩展，先来看一个例子，假设在当前目录下有两个jpg文件：mail.jpg和tux.jpg。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> *.jpg   <span class="comment"># =&gt; mail.jpg tux.jpg</span></span><br></pre></td></tr></table></figure>
+<p>引号（单引号和双引号）可以防止通配符*的扩展：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"*.jpg"</span>  <span class="comment"># =&gt; *.jpg</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'*.jpg'</span>  <span class="comment"># =&gt; *.jpg</span></span><br></pre></td></tr></table></figure>
+<p>其中单引号更严格一些，它可以防止任何变量扩展；而双引号可以防止通配符扩展但允许变量扩展：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span>   <span class="comment"># =&gt; /bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"<span class="variable">$SHELL</span>"</span> <span class="comment"># =&gt; /bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'$SHELL'</span> <span class="comment"># =&gt; $SHELL</span></span><br></pre></td></tr></table></figure>
+<p>此外还有一种防止这种扩展的方法，即使用转义字符——反斜杠\：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> \*.jpg   <span class="comment"># =&gt; *.jpg</span></span><br><span class="line"><span class="built_in">echo</span> \<span class="variable">$SHELL</span>  <span class="comment"># =&gt; $SHELL</span></span><br></pre></td></tr></table></figure>
+<h3 id="Shell里的函数"><a href="#Shell里的函数" class="headerlink" title="Shell里的函数"></a>Shell里的函数</h3><p>如果你写过比较复杂的脚本，就会发现可能在几个地方使用了相同的代码，这时如果用上函数，会方便很多。函数的大致样子如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 别笑，bash 里面函数名的确可以这样……</span></span><br><span class="line"><span class="comment"># (POSIX sh 函数名倒是和变量名要求差不多)</span></span><br><span class="line">我是一个函数() &#123;</span><br><span class="line">  <span class="comment"># 函数里面 $1 $2 对应函数所接受到的第一、第二……个参数。</span></span><br><span class="line">  这里有很多命令</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-app启动速度检测" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/06/app启动速度检测/" class="article-date">
+  	<time datetime="2017-01-05T16:00:00.000Z" itemprop="datePublished">2017-01-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/06/app启动速度检测/">
+        App启动速度检测
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="启动时间监控"><a href="#启动时间监控" class="headerlink" title="启动时间监控"></a>启动时间监控</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -W -S packagename/activity</span><br></pre></td></tr></table></figure>
+<ul>
+<li>-W 列出启动过程中统计到的具体数据</li>
+<li>-S 强制停止当前的Activity,重新启动</li>
+</ul>
+<h4 id="WaitTime"><a href="#WaitTime" class="headerlink" title="WaitTime"></a>WaitTime</h4><p>WaitTime 返回从 startActivity 到应用第一帧完全显示这段时间. 就是总的耗时，包括前一个应用 Activity pause 的时间和新应用启动的时间；</p>
+<h4 id="ThisTime"><a href="#ThisTime" class="headerlink" title="ThisTime"></a>ThisTime</h4><p>ThisTime 表示一连串启动 Activity 的最后一个 Activity 的启动耗时；</p>
+<h4 id="TotalTime"><a href="#TotalTime" class="headerlink" title="TotalTime"></a>TotalTime</h4><p>TotalTime 表示新应用启动的耗时，包括新进程的启动和 Activity 的启动，但不包括前一个应用Activity pause的耗时。</p>
+<p>开发者一般只要关心 TotalTime 即可，这个时间才是自己应用真正启动的耗时。</p>
+<h3 id="自动化统计脚本"><a href="#自动化统计脚本" class="headerlink" title="自动化统计脚本"></a>自动化统计脚本</h3><p>因为统计APP的启动速度，次数太少了会影响结果的准确性，所以为了方便，将之写成了脚本的形式，自动运行，自动计算，之后就一目了然了。</p>
+<p>效果图：</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E7%BB%93%E6%9E%9C.png" alt="结果"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">filePath=<span class="string">"/Users/shenyonghe/Desktop/qdsd.log"</span></span><br><span class="line">rm -f <span class="variable">$filePath</span></span><br><span class="line">sleep 1</span><br><span class="line">count=3 </span><br><span class="line">thisTime=0</span><br><span class="line">totalTime=0</span><br><span class="line">waitTime=0</span><br><span class="line">pageName=<span class="string">"com.baidao.futures"</span></span><br><span class="line">activityPath=<span class="string">"com.baidao.futures/com.baidao.futures.module.splash.SplashActivity"</span></span><br><span class="line"><span class="keyword">for</span>((i=0;i&lt;<span class="variable">$count</span>;i++))</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    adb shell am start -W -S <span class="variable">$activityPath</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">    sleep 5</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> “============分割线============”</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	 <span class="comment">#筛选ThisTime</span></span><br><span class="line">     thisResult=$(<span class="built_in">echo</span> <span class="variable">$line</span> | grep <span class="string">"ThisTime:"</span>)</span><br><span class="line">     <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$thisResult</span>"</span> != <span class="string">""</span> ]]</span><br><span class="line">     <span class="keyword">then</span></span><br><span class="line">     tmp=$(<span class="built_in">echo</span> <span class="variable">$line</span> | egrep -o <span class="string">'[0-9]+'</span>)</span><br><span class="line">     val=$((thisTime + tmp))</span><br><span class="line">     thisTime=<span class="variable">$val</span></span><br><span class="line">     <span class="keyword">fi</span> </span><br><span class="line"></span><br><span class="line">     <span class="comment">#筛选TotalTime</span></span><br><span class="line">     totalResult=$(<span class="built_in">echo</span> <span class="variable">$line</span> | grep <span class="string">"TotalTime:"</span>)</span><br><span class="line">     <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$totalResult</span>"</span> != <span class="string">""</span> ]]</span><br><span class="line">     <span class="keyword">then</span></span><br><span class="line">     tmp=$(<span class="built_in">echo</span> <span class="variable">$line</span> | egrep -o <span class="string">'[0-9]+'</span>)</span><br><span class="line">     val=$((totalTime + tmp))</span><br><span class="line">     totalTime=<span class="variable">$val</span></span><br><span class="line">     <span class="keyword">fi</span> </span><br><span class="line"></span><br><span class="line">     <span class="comment">#筛选WaitTime</span></span><br><span class="line">     waitResult=$(<span class="built_in">echo</span> <span class="variable">$line</span> | grep <span class="string">"WaitTime:"</span>)</span><br><span class="line">     <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$waitResult</span>"</span> != <span class="string">""</span> ]]</span><br><span class="line">     <span class="keyword">then</span></span><br><span class="line">     tmp=$(<span class="built_in">echo</span> <span class="variable">$line</span> | egrep -o <span class="string">'[0-9]+'</span>)</span><br><span class="line">     val=$((waitTime + tmp))</span><br><span class="line">     waitTime=<span class="variable">$val</span></span><br><span class="line">     <span class="keyword">fi</span> </span><br><span class="line"><span class="keyword">done</span> &lt; <span class="variable">$filePath</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'============分析结果============'</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">adb shell getprop ro.product.model | tee -a <span class="variable">$filePath</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'分析次数:'</span><span class="variable">$count</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">valThis=$((thisTime / count))</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'平均启动时间 ThisTime:'</span><span class="variable">$valThis</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">valTotal=$((totalTime / count))</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'平均启动时间 Totalime:'</span><span class="variable">$valTotal</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">valWait=$((waitTime / count))</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'平均启动时间 WaitTime:'</span><span class="variable">$valWait</span> | tee -a <span class="variable">$filePath</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-自动化测试Espresso" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/23/自动化测试Espresso/" class="article-date">
+  	<time datetime="2016-12-22T16:00:00.000Z" itemprop="datePublished">2016-12-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/23/自动化测试Espresso/">
+        Espresso
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Espresso 也是一款自动化测试的框架，和UiAutomator类似。<br>基本上使用流程和UiAutomator类似。</p>
+<h4 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h4><ul>
+<li>查找元素：找到UI上测试的元素位置，比如找到一个按钮</li>
+<li>执行操作：给某个元素执行一个动作，比如触发按钮的点击事件</li>
+<li>检查结果：判断做出的动作是否符合期望，比如按钮点击后，是否符合我的期望</li>
+</ul>
+<h3 id="访问UI元素"><a href="#访问UI元素" class="headerlink" title="访问UI元素"></a>访问UI元素</h3><p>对比与UiAutomator，Espresso可以直接根据id来访问元素，同样Espresso也是可以根据文本信息匹配进行访问的。<br>Espresso 提供onView()方法来访问UI元素，然后在执行一种操作，最后再进行验证。</p>
+<p>下面的一个代码示例，表示访问一个EditText，输入一些内容，关闭输入法，最后点击按钮。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testChangeText_sameActivity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Type text and then press the button.</span></span><br><span class="line">    onView(withId(R.id.editTextUserInput)).perform(typeText(STRING_TO_BE_TYPED), closeSoftKeyboard());</span><br><span class="line">    onView(withId(R.id.changeTextButton)).perform(click());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用withId-进行Id访问，也可以使用withText-进行文本匹配。"><a href="#使用withId-进行Id访问，也可以使用withText-进行文本匹配。" class="headerlink" title="使用withId()进行Id访问，也可以使用withText()进行文本匹配。"></a>使用withId()进行Id访问，也可以使用withText()进行文本匹配。</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Espresso.onView(ViewMatchers.withText(<span class="string">"Sign-in"</span>));</span><br><span class="line">Espresso.onView(ViewMatchers.withId(R.id.button_signin));</span><br></pre></td></tr></table></figure>
+<h4 id="结合-Hamcrest库中的Matchers，可以使用allOf-来组合选择多个UI元素。"><a href="#结合-Hamcrest库中的Matchers，可以使用allOf-来组合选择多个UI元素。" class="headerlink" title="结合 Hamcrest库中的Matchers，可以使用allOf()来组合选择多个UI元素。"></a>结合 Hamcrest库中的Matchers，可以使用allOf()来组合选择多个UI元素。</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">onView(allOf(withId(R.id.button_signin), withText(<span class="string">"Sign-in"</span>)));</span><br><span class="line">onView(allOf(withId(R.id.button_signin), not(withText(<span class="string">"Sign-out"</span>))));</span><br></pre></td></tr></table></figure>
+<h3 id="执行动作"><a href="#执行动作" class="headerlink" title="执行动作"></a>执行动作</h3><p>调用ViewInteraction.perform()和 DataInteraction.perform()，可以模拟用户执行UI元素的操作。可以指定一个或者多个动作，Espresso会按照指定的顺序，依次发送动作事件，这些动作是线程安全的。</p>
+<p>ViewActions 可以提供一些列常用的方法，我们可以利用写方法来操作UI元素。</p>
+<ul>
+<li>ViewActions.click(): 点击事件</li>
+<li>ViewActions.typeText(): 输入指定的文字内容</li>
+<li>ViewActions.scrollTo(): 滑动</li>
+<li>ViewActions.pressKey(): 按下按键</li>
+<li>ViewActions.clearText(): 清空文本</li>
+<li>ViewActions.pressBack() 返回键</li>
+<li>ViewActions.pressMenuKey() 菜单键</li>
+<li>ViewActions.doubleClick() 双击</li>
+<li>ViewActions.longClick() 长按</li>
+<li>ViewActions.closeSoftKeyboard() 收起键盘</li>
+<li>ViewActions.swipeLeft(): 从右向左滑动</li>
+<li>ViewActions.swipeRight(): 从左向右滑动</li>
+<li>ViewActions.swipeDown(): 从上向下滑动</li>
+<li>ViewActions.swipeUp(): 从下向上滑动</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li>输入内容时，会出现无法输入的状况，一般是由于键盘类型导致的，切换为系统的google输入法就OK了。</li>
+</ul>
+<h3 id="在命令行中通过-Gradle-执行"><a href="#在命令行中通过-Gradle-执行" class="headerlink" title="在命令行中通过 Gradle 执行"></a>在命令行中通过 Gradle 执行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ​./gradlew connectedAndroidTest</span><br><span class="line">    等价于</span><br><span class="line">$ ./gradlew cAT</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-RSA加密" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/20/RSA加密/" class="article-date">
+  	<time datetime="2016-12-19T16:00:00.000Z" itemprop="datePublished">2016-12-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/20/RSA加密/">
+        RSA
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>RSA是一种非对称加密算法，常用来对传输数据进行加密，配合上数字摘要算法，也可以进行文字签名。</p>
+<h3 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h3><ul>
+<li><p>加密：公钥放在客户端，并使用公钥对数据进行加密，服务端拿到数据后用私钥进行解密；</p>
+</li>
+<li><p>加签：私钥放在客户端，并使用私钥对数据进行加签，服务端拿到数据后用公钥进行验签。</p>
+</li>
+</ul>
+<p>前者完全为了加密；后者主要是为了防恶意攻击，防止别人模拟我们的客户端对我们的服务器进行攻击，导致服务器瘫痪。</p>
+<p>RSA使用“密钥对”对数据进行加密解密，在加密解密前需要先生存公钥（Public Key）和私钥（Private Key）。</p>
+<ul>
+<li><p>公钥(Public key): 用于加密数据. 用于公开, 一般存放在数据提供方, 例如iOS客户端。</p>
+</li>
+<li><p>私钥(Private key): 用于解密数据. 必须保密, 私钥泄露会造成安全问题。</p>
+</li>
+</ul>
+<h3 id="生成公钥私钥"><a href="#生成公钥私钥" class="headerlink" title="生成公钥私钥"></a>生成公钥私钥</h3><h4 id="1-生成模长为1024bit的私钥"><a href="#1-生成模长为1024bit的私钥" class="headerlink" title="1 生成模长为1024bit的私钥"></a>1 生成模长为1024bit的私钥</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ genrsa -out private_key.pem 1024</span><br></pre></td></tr></table></figure>
+<h4 id="2-生成certification-require-file"><a href="#2-生成certification-require-file" class="headerlink" title="2 生成certification require file"></a>2 生成certification require file</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ req -new -key private_key.pem -out rsaCertReq.csr</span><br></pre></td></tr></table></figure>
+<h4 id="3-生成certification-并指定过期时间"><a href="#3-生成certification-并指定过期时间" class="headerlink" title="3 生成certification 并指定过期时间"></a>3 生成certification 并指定过期时间</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ x509 -req -days 3650 -<span class="keyword">in</span> rsaCertReq.csr -signkey private_key.pem -out rsaCert.crt</span><br></pre></td></tr></table></figure>
+<h4 id="4-生成java公钥"><a href="#4-生成java公钥" class="headerlink" title="4 生成java公钥"></a>4 生成java公钥</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rsa -<span class="keyword">in</span> private_key.pem -pubout -out public_key.pem</span><br></pre></td></tr></table></figure>
+<h4 id="5-生成pem结尾的私钥供Java使用-需要验证密码"><a href="#5-生成pem结尾的私钥供Java使用-需要验证密码" class="headerlink" title="5 生成pem结尾的私钥供Java使用(需要验证密码)"></a>5 生成pem结尾的私钥供Java使用(需要验证密码)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ pkcs8 -topk8 -<span class="keyword">in</span> private_key.pem -out pkcs8_private_key.pem -nocrypt</span><br></pre></td></tr></table></figure>
+<h4 id="6-生成公钥供iOS使用"><a href="#6-生成公钥供iOS使用" class="headerlink" title="6 生成公钥供iOS使用"></a>6 生成公钥供iOS使用</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line"><span class="variable">$x509</span> -outform der -<span class="keyword">in</span> rsaCert.crt -out public_key.der</span><br></pre></td></tr></table></figure>
+<h4 id="7-生成私钥供iOS使用-这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码"><a href="#7-生成私钥供iOS使用-这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码" class="headerlink" title="7 生成私钥供iOS使用 这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码"></a>7 生成私钥供iOS使用 这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ pkcs12 -<span class="built_in">export</span> -out private_key.p12 -inkey private_key.pem -<span class="keyword">in</span> rsaCert.crt</span><br></pre></td></tr></table></figure>
+<h4 id="8-查看公钥私钥内容"><a href="#8-查看公钥私钥内容" class="headerlink" title="8 查看公钥私钥内容"></a>8 查看公钥私钥内容</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat public_key.pem/private_key.pem</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-jrebel" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/16/jrebel/" class="article-date">
+  	<time datetime="2016-12-15T16:00:00.000Z" itemprop="datePublished">2016-12-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/16/jrebel/">
+        Android  jrebel
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Jrebel 是一款 Java 程序的开发工具，它允许你的应用程序代码更新之后不用重新部署或重启。毫无疑问，支持 Android 应用程序，无须配置，使用起来超简单方便，亲测确实很快速，能极大的节省你调试的时间，<a href="https://zeroturnaround.com/" target="_blank" rel="noopener">官方地址：</a></p>
+<h3 id="安装与使用"><a href="#安装与使用" class="headerlink" title="安装与使用"></a>安装与使用</h3><p>AS:打开 Preference -&gt; Plugins -&gt; Browse Repositories ，搜索 JRebel ，直接点击安装。</p>
+<p>安装成功之后重启 AS，然后会发现在顶部工具栏会出现如下三个按钮：</p>
+<ul>
+<li>Run app with JRebel for Android</li>
+<li>Debug app with JRebel for Android</li>
+<li>Apply changes with JRebel for Android</li>
+</ul>
+<p>顾名思义，一般我们只需要第一次安装的时候使用第一个按钮运行一次，之后代码变动，只需要点击第三个按钮，你的真机或者模拟器很快就展示出来修改代码之后的效果。</p>
+<p>最后，还有一个很关键的，JRebel 是收费的，个人用户每年要 49 刀，还是蛮贵的，不过如果每天可以节省你几十分钟甚至成个小时的时间，一年下来这些时间相较这个价格来说是很合算的。但是如果你不想付费，这里也有一个方法，可以去官网用邮箱注册个账号获取体验码，可以免费体验 21 天，21 天到期之后你可以重新注册，据说官方对邮件没有验证，感兴趣的同学不妨试下。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-7.0适配问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/11/7.0适配问题/" class="article-date">
+  	<time datetime="2016-12-10T16:00:00.000Z" itemprop="datePublished">2016-12-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/11/7.0适配问题/">
+        Android7.0变更以及适配问题
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Android 7.0 除了提供诸多新特性和功能外，还对系统和 API 行为做出了各种变更。本文重点介绍您应该了解并在开发应用时加以考虑的一些主要变更。</p>
+<h3 id="电池和内存"><a href="#电池和内存" class="headerlink" title="电池和内存"></a>电池和内存</h3><p>Android 7.0 包括旨在延长设备电池寿命和减少 RAM 使用的系统行为变更。这些变更可能会影响应用访问系统资源，以及应用通过特定隐式 intent 与其他应用交互的方式。</p>
+<h4 id="低电耗模式"><a href="#低电耗模式" class="headerlink" title="低电耗模式"></a>低电耗模式</h4><p>Android 6.0（API 级别 23）引入了低电耗模式，当用户设备未插接电源、处于静止状态且屏幕关闭时，该模式会推迟 CPU 和网络活动，从而延长电池寿命。而 Android 7.0 则通过在设备未插接电源且屏幕关闭状态下、但不一定要处于静止状态（例如用户外出时把手持式设备装在口袋里）时应用部分 CPU 和网络限制，进一步增强了低电耗模式。</p>
+<p>当设备处于充电状态且屏幕已关闭一定时间后，设备会进入低电耗模式并应用第一部分限制：</p>
+<ul>
+<li>关闭应用网络访问、推迟作业和同步。</li>
+</ul>
+<p>如果进入低电耗模式后设备处于静止状态达到一定时间:</p>
+<ul>
+<li>系统则会对 PowerManager.WakeLock、AlarmManager 闹铃、GPS 和 WLAN 扫描应用余下的低电耗模式限制。</li>
+</ul>
+<font color="#0099ff" size="2" face="黑体">无论是应用部分还是全部低电耗模式限制，系统都会唤醒设备以提供简短的维护时间窗口，在此窗口期间，应用程序可以访问网络并执行任何被推迟的作业/同步(9分钟)。</font>
+
+<ul>
+<li>从6.0的推迟访问到7.0的限制访问，这个时候我们要做好低功耗模式下的处理。</li>
+</ul>
+<h4 id="低电耗模式限制"><a href="#低电耗模式限制" class="headerlink" title="低电耗模式限制"></a>低电耗模式限制</h4><p>在低电耗模式下，您的应用会受到以下限制：</p>
+<ul>
+<li>暂停访问网络。</li>
+<li>系统将忽略 wake locks。</li>
+<li>标准 AlarmManager 闹铃（包括 setExact() 和 setWindow()）  推迟到下一维护时段。</li>
+<li>如果您需要设置在低电耗模式下触发的闹铃，请使用 * setAndAllowWhileIdle() 或 setExactAndAllowWhileIdle()。<br>一般情况下，使用 setAlarmClock() 设置的闹铃将继续触发 — 但系统会在这些闹铃触发之前不久退出低电耗模式。</li>
+<li>系统不执行 Wi-Fi 扫描。</li>
+<li>系统不允许运行同步适配器。</li>
+<li>系统不允许运行 JobScheduler。</li>
+<li>低电耗模式检查清单<br>如果可能，请使用 GCM 进行下游消息传递。</li>
+<li>如果您的用户必须立即查看通知，请务必使用 GCM 高优先级消息。</li>
+<li>在初始消息负载中提供足够的信息，这样随后就无需访问网络。</li>
+<li>使用 setAndAllowWhileIdle() 和 setExactAndAllowWhileIdle() 设置关键闹铃。</li>
+</ul>
+<h3 id="后台优化"><a href="#后台优化" class="headerlink" title="后台优化"></a>后台优化</h3><p>Android 7.0 移除了三项隐式广播，以帮助优化内存使用和电量消耗。此项变更很有必要，因为隐式广播会在后台频繁启动已注册侦听这些广播的应用。删除这些广播可以显著提升设备性能和用户体验。</p>
+<p>移动设备会经历频繁的连接变更，例如在 WLAN 和移动数据之间切换时。目前，可以通过在应用清单中注册一个接收器来侦听隐式 CONNECTIVITY_ACTION 广播，让应用能够监控这些变更。由于很多应用会注册接收此广播，因此单次网络切换即会导致所有应用被唤醒并同时处理此广播。</p>
+<p>同理，在之前版本的 Android 中，应用可以注册接收来自其他应用（例如相机）的隐式 ACTION_NEW_PICTURE 和 ACTION_NEW_VIDEO 广播。当用户使用相机应用拍摄照片时，这些应用即会被唤醒以处理广播。</p>
+<p>为缓解这些问题，Android 7.0 应用了以下优化措施：</p>
+<p>面向 Android 7.0 开发的应用不会收到 CONNECTIVITY_ACTION 广播，即使它们已有清单条目来请求接受这些事件的通知。在前台运行的应用如果使用 BroadcastReceiver 请求接收通知，则仍可以在主线程中侦听 CONNECTIVITY_CHANGE。<br>应用无法发送或接收 ACTION_NEW_PICTURE 或 ACTION_NEW_VIDEO 广播。此项优化会影响所有应用，而不仅仅是面向 Android 7.0 的应用。<br>如果您的应用使用任何 intent，您仍需要尽快移除它们的依赖关系，以正确适配 Android 7.0 设备。Android 框架提供多个解决方案来缓解对这些隐式广播的需求。例如，JobScheduler API 提供了一个稳健可靠的机制来安排满足指定条件（例如连入无限流量网络）时所执行的网络操作。您甚至可以使用 JobScheduler 来适应内容提供程序变化。</p>
+<ul>
+<li>移除了三项隐式广播，网络变化，照相和录视频。网络变化在前台可以监听，其他两项完全删除，删除的两项面向所有API。</li>
+</ul>
+<h3 id="权限变更"><a href="#权限变更" class="headerlink" title="权限变更"></a>权限变更</h3><h4 id="系统权限更改"><a href="#系统权限更改" class="headerlink" title="系统权限更改"></a>系统权限更改</h4><p>为了提高私有文件的安全性，面向 Android 7.0 或更高版本的应用私有目录被限制访问　(0700)。此设置可防止私有文件的元数据泄漏，如它们的大小或存在性。此权限更改有多重副作用：</p>
+<ul>
+<li>私有文件的文件权限不应再由所有者放宽，为使用 MODE_WORLD_READABLE 和/或 MODE_WORLD_WRITEABLE 而进行的此类尝试将触发 SecurityException。（用来控制其他应用是否有权限读写该文件权限受限）</li>
+</ul>
+<p>注：迄今为止，这种限制尚不能完全执行。应用仍可能使用原生 API 或 File API 来修改它们的私有目录权限。但是，我们强烈反对放宽私有目录的权限。</p>
+<ul>
+<li><p>传递软件包网域外的 file:// URI 可能给接收器留下无法访问的路径。因此，尝试传递 file:// URI 会触发 FileUriExposedException。分享私有文件内容的推荐方法是使用 FileProvider。</p>
+</li>
+<li><p>DownloadManager 不再按文件名分享私人存储的文件。旧版应用在访问 COLUMN_LOCAL_FILENAME 时可能出现无法访问的路径。面向 Android 7.0 或更高版本的应用在尝试访问 COLUMN_LOCAL_FILENAME 时会触发 SecurityException。通过使用 DownloadManager.Request.setDestinationInExternalFilesDir() 或 DownloadManager.Request.setDestinationInExternalPublicDir() 将下载位置设置为公共位置的旧版应用仍可以访问 COLUMN_LOCAL_FILENAME 中的路径，但是我们强烈反对使用这种方法。对于由 DownloadManager 公开的文件，首选的访问方式是使用ContentResolver.openFileDescriptor()。</p>
+</li>
+</ul>
+<h4 id="在应用间共享文件"><a href="#在应用间共享文件" class="headerlink" title="在应用间共享文件"></a>在应用间共享文件</h4><p>对于面向 Android 7.0 的应用，Android 框架执行的 StrictMode API 政策禁止在您的应用外部公开 file:// URI。如果一项包含文件 URI 的 intent 离开您的应用，则应用出现故障，并出现 FileUriExposedException 异常。</p>
+<p>要在应用间共享文件，您应发送一项 content:// URI，并授予 URI 临时访问权限。进行此授权的最简单方式是使用 FileProvider 类。</p>
+<h3 id="无障碍改进"><a href="#无障碍改进" class="headerlink" title="无障碍改进"></a>无障碍改进</h3><h4 id="屏幕缩放"><a href="#屏幕缩放" class="headerlink" title="屏幕缩放"></a>屏幕缩放</h4><p>Android 7.0 支持用户设置显示尺寸，以放大或缩小屏幕上的所有元素，从而提升设备对视力不佳用户的可访问性。用户无法将屏幕缩放至低于最小屏幕宽度 sw320dp，该宽度是 Nexus 4 的宽度，也是常规中等大小手机的宽度。</p>
+<ul>
+<li><p>当设备密度发生更改时，系统会以如下方式通知正在运行的应用：</p>
+</li>
+<li><p>如果是面向 API 级别 23 或更低版本系统的应用，系统会自动终止其所有后台进程。这意味着如果用户切换离开此类应用，转而打开 Settings 屏幕并更改 Display size 设置，则系统会像处理内存不足的情况一样终止该应用。如果应用具有任何前台进程，则系统会如处理运行时更改中所述将配置变更通知给这些进程，就像对待设备屏幕方向变更一样。</p>
+</li>
+<li>如果是面向 Android 7.0 的应用，则其所有进程（前台和后台）都会收到有关配置变更的通知，如处理运行时更改中所述。<br>大多数应用并不需要进行任何更改即可支持此功能，不过前提是这些应用遵循 Android 最佳做法。具体要检查的事项：</li>
+<li>在屏幕宽度为 sw320dp 的设备上测试您的应用，并确保其充分运行。</li>
+<li>当设备配置发生变更时，更新任何与密度相关的缓存信息，例如缓存位图或从网络加载的资源。当应用从暂停状态恢复运行时，检查配置变更。<br>注：如果您要缓存与配置相关的数据，则最好也包括相关元数据，例如该数据对应的屏幕尺寸或像素密度。保存这些元数据便于您在配置变更后决定是否需要刷新缓存数据。</li>
+<li>避免用像素单位指定尺寸，因为像素不会随屏幕密度缩放。应改为使用与密度无关像素 (dp) 单位指定尺寸。</li>
+</ul>
+<h3 id="NDK-应用链接至平台库"><a href="#NDK-应用链接至平台库" class="headerlink" title="NDK 应用链接至平台库"></a>NDK 应用链接至平台库</h3><p>从 Android 7.0 开始，系统将阻止应用动态链接非公开 NDK 库，这种库可能会导致您的应用崩溃。此行为变更旨在为跨平台更新和不同设备提供统一的应用体验。即使您的代码可能不会链接私有库，但您的应用中的第三方静态库可能会这么做。因此，所有开发者都应进行相应检查，确保他们的应用不会在运行 Android 7.0 的设备上崩溃。如果您的应用使用原生代码，则只能使用公开 NDK API。</p>
+<p>您的应用可通过以下三种方式尝试访问私有平台 API：</p>
+<ul>
+<li>您的应用直接访问私有平台库。您应更新您的应用以添加该应用的库副本，或使用公开 NDK API。</li>
+<li>您的应用使用一个可访问私有平台库的第三方库。即使您确定您的应用不会直接访问私有库，您仍应针对此情景测试您的应用。</li>
+<li>您的应用引用一个其 APK 中未包含的库。例如，如果您尝试使用您自己的 OpenSSL 副本，但忘记将它与应用的 APK 进行捆绑，则可能会出现此情况。正常情况下，此应用可在包含 libcrypto.so 的 Android 平台版本上运行。不过，此应用在不包含此库的新版 Android（例如，Android 6.0 和更高的版本）上会崩溃。为修复此问题，请确保您的 APK 捆绑您的所有非 NDK 库。</li>
+<li><p>应用不应使用 NDK 中未包含的原生库，因为这些库可能会发生更改或在不同 Android 版本之间的可用性不同。例如，从 OpenSSL 切换至 BoringSSL 即属于此类更改。此外，由于不属于 NDK 中的平台库没有兼容性要求，因此不同的设备可能提供不同级别的兼容性。</p>
+</li>
+<li><p>为降低此限制可能对当前发布的应用的影响，面向 API 级别 23 或更低级别的应用在 Android N 上可暂时访问颇为常用的一组库，例如 libandroid_runtime.so、libcutils.so、libcrypto.so 和 libssl.so。如果您的应用加载其中某个库，logcat 会生成一个警告，并在目标设备上显示一个 Toast 来通知您。如果您看到这些警告，您应更新您的应用以添加该应用自己的库副本，或仅使用公开 NDK API。将来发布的 Android 平台可能会完全限制对私有库的使用，并导致您的应用崩溃。</p>
+</li>
+<li><p>所有应用在调用既非公开又不可暂时访问的 API 时都会生成一个运行时错误。结果就是 System.loadLibrary 和 dlopen(3) 同时返回 NULL，并可能导致您的应用崩溃。您应检查应用代码以移除对私有平台 API 的使用，并使用预览版设备或模拟器全面测试应用。如果您不确定您的应用是否使用私有库，您可以检查 logcat 以识别运行时错误。</p>
+</li>
+<li><p>下表描述的是根据应用使用的私有原生库及其目标 API 级别 (android:targetSdkVersion)，应用预期显示的行为。</p>
+</li>
+</ul>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-12-11%20%E4%B8%8B%E5%8D%882.02.33.png" alt="图片"></p>
+<h3 id="Android-for-Work"><a href="#Android-for-Work" class="headerlink" title="Android for Work"></a>Android for Work</h3><p>Android 7.0 包含一些针对面向 Android for Work 的应用的变更，包括对证书安装、密码重置、二级用户管理、设备标识符访问权限的变更。如果您是要针对 Android for Work 环境开发应用，则应仔细检查这些变更并相应地修改您的应用。</p>
+<ul>
+<li><p>您必须先安装授权证书安装程序，然后 DPC 才能对其进行设置。对于面向 N SDK 的配置文件和设备所有者应用，您应在设备规范控制器 (DPC) 调用 DevicePolicyManager.setCertInstallerPackage() 之前安装授权证书安装程序。如果尚未安装此安装程序，则系统会引发 IllegalArgumentException。</p>
+</li>
+<li><p>针对设备管理员的重置密码限制现在也适用于配置文件所有者。设备管理员无法再使用 DevicePolicyManager.resetPassword() 来清除或更改已经设置的密码。设备管理员仍可以设置密码，但只能在设备没有密码、PIN 码或图案时这样做。</p>
+</li>
+<li><p>即使设置了限制，设备所有者和配置文件所有者仍可以管理帐户。而且，即使具有 DISALLOW_MODIFY_ACCOUNTS 用户限制，设备所有者和配置文件所有者仍可调用 Account Management API。</p>
+</li>
+<li><p>设备所有者可以更轻松地管理二级用户。当设备在设备所有者模式下运行时，系统将自动设置 DISALLOW_ADD_USER 限制。这样可以防止用户创建非托管二级用户。此外，CreateUser() 和 createAndInitializeUser() 方法已弃用，取而代之的是 DevicePolicyManager.createAndManageUser() 方法。</p>
+</li>
+<li><p>设备所有者可以访问设备标识符。设备所有者可以使用 DevicePolicyManagewr.getWifiMacAddress() 访问设备的 WLAN MAC 地址。如果设备上从未启用 WLAN，则此方法将返回一个 null 值。</p>
+</li>
+<li><p>工作模式设置控制工作应用访问。当工作模式关闭时，系统启动器通过使工作应用显示为灰色来指示它们不可用。启用工作模式会再次恢复正常行为。</p>
+</li>
+<li><p>从 Settings UI 安装包含客户端证书链和对应的私钥的 PKCS #12 文件时，系统不再将该证书链中的 CA 证书安装到受信任的凭据存储空间。当应用稍后尝试检索客户端证书链时，这不会影响 KeyChain.getCertificateChain() 的结果。如果需要，使用 .crt 或 .cer 文件扩展名的 DER 编码格式通过 Settings UI 单独将 CA 证书安装到受信任的凭据存储空间。</p>
+</li>
+<li><p>从 Android 7.0 开始，可针对每个用户管理指纹登记和存储空间。如果配置文件所有者的设备规范客户端 (DPC) 面向 Android N 设备上的 Android N 之前的版本，则用户仍可以在该设备上设置指纹，但工作应用不能访问设备指纹。当 DPC 面向 Android N 和更高版本时，用户可以通过转到 Settings &gt; Security &gt; Work profile security 专门为托管配置文件设置指纹。</p>
+</li>
+<li><p>DevicePolicyManager.getStorageEncryptionStatus() 返回新的加密状态 ENCRYPTION_STATUS_ACTIVE_PER_USER，以表明加密处于活动状态，且加密密钥与用户关联。仅当 DPC 面向 API 级别 24 和更高级别时才会返回新的状态。对于面向更早的 API 级别的应用，即使加密密钥是用户或配置文件特有的，系统也会返回 ENCRYPTION_STATUS_ACTIVE。</p>
+</li>
+<li><p>在 Android 7.0 中，如果设备通过单独的工作挑战安装了托管配置文件，则原本通常会影响整个设备的多个方法将会改变其行为方式。这些方法将仅应用于托管配置文件，而不是影响整个设备。（此类方法的完整列表位于 DevicePolicyManager.getParentProfileInstance() 文档中。）例如，DevicePolicyManager.lockNow() 只锁定托管配置文件，而不是锁定整个设备。对于上述每个方法，您可以通过对 DevicePolicyManager 的父实例调用该方法来获取以前的行为；您可以通过调用 DevicePolicyManager.getParentProfileInstance() 获取此父项。例如，如果您调用父实例的 lockNow() 方法，则整个设备将被锁定。</p>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p>如果一个应用在 Android 7.0 上运行，但却是针对更低 API 级别开发的，那么在用户更改显示尺寸时，系统将终止此应用进程。应用必须能够妥善处理此情景。否则，当用户从最近使用记录中恢复运行应用时，应用将会出现崩溃现象。<br>您应测试应用以确保不会发生此行为。要进行此测试，您可以通过 DDMS 手动终止应用，以造成相同的崩溃现象。<br>在密度发生更改时，系统不会自动终止面向 N 及更高版本的应用；不过，这些应用仍可能对配置变更做出不良响应。</p>
+</li>
+<li><p>Android 7.0 上的应用应能够妥善处理配置变更，并且在后续启动时不会出现崩溃现象。您可以通过更改字体大小 (Setting &gt;Display &gt; Font size) 并随后从最近使用记录中恢复运行应用，来验证应用行为。</p>
+</li>
+<li><p>由于之前的 Android 版本中的一项错误，系统未能将对主线程上的一个 TCP 套接字的写入操作举报为违反严格模式。Android 7.0 修复了此错误。呈现出这种行为的应用现在会引发 android.os.NetworkOnMainThreadException。一般情况下，我们不建议在主线程上执行网络操作，因为这些操作通常会出现可能导致 ANR 和卡顿的高尾延迟。</p>
+</li>
+<li><p>Debug.startMethodTracing() 方法系列现在默认在您的共享存储空间上的软件包特定目录中存储输出，而非 SD 卡根目录。这意味着应用不再需要请求 WRITE_EXTERNAL_STORAGE 权限来使用这些 API 。</p>
+</li>
+<li><p>许多平台 API 现在开始检查在 Binder 事务间发送的大负载，系统现在会将 TransactionTooLargeExceptions 作为 RuntimeExceptions 再次引发，而不再只是默默记录或抑制它们。一个常见例子是在 Activity.onSaveInstanceState() 上存储过多数据，导致 ActivityThread.StopInfo 在您的应用面向 Android 7.0 时引发 RuntimeException。</p>
+</li>
+<li><p>如果应用向 View 发布 Runnable 任务，并且 View 未附加到窗口，系统会用 View 为 Runnable 任务排队；在 View 附加到窗口之前，不会执行 Runnable 任务。此行为会修复以下错误：</p>
+<pre><code>如果一项应用是从并非预期窗口 UI 线程的其他线程发布到 View，则 Runnable 可能会因此运行错误的线程。
+
+如果 Runnable 任务是从并非环路线程的其他线程发布，则应用可能会曝光 Runnable 任务。
+</code></pre></li>
+<li><p>如果 Android 7.0 上一项有 DELETE_PACKAGES 权限的应用尝试删除一个软件包，但另一项应用已经安装了这个软件包，则系统需要用户进行确认。在这种情况下，应用在调用 PackageInstaller.uninstall() 时预计的返回状态应为 STATUS_PENDING_USER_ACTION。</p>
+</li>
+<li><p>名为 Crypto 的 JCA 提供程序已弃用，因为它仅有的 SHA1PRNG 算法为弱加密。应用无法再使用 SHA1PRNG（不安全地）派生密钥，因为不再提供此提供程序。如需了解详细信息，请参阅博文 Android N 中已弃用“Crypto”安全提供程序</p>
+</li>
+</ul>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="打开系统相机或者图片裁剪崩溃"><a href="#打开系统相机或者图片裁剪崩溃" class="headerlink" title="打开系统相机或者图片裁剪崩溃"></a>打开系统相机或者图片裁剪崩溃</h4><p>问题就出现在Uri uri = Uri.parse(“file://“+ path),Uri.fromFile(file); 按照Android N的要求，若要在应用间共享文件，您应发送一项 content://URI，并授予 URI 临时访问权限。</p>
+<p>FileProvider 的使用:</p>
+<h5 id="注册provider"><a href="#注册provider" class="headerlink" title="注册provider"></a>注册provider</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">provider</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:name</span>=<span class="string">"android.support.v4.content.FileProvider"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:authorities</span>=<span class="string">"cn.lovexiaoai.myapp.fileprovider"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:grantUriPermissions</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:exported</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">meta-data</span></span></span><br><span class="line"><span class="tag">                  <span class="attr">android:name</span>=<span class="string">"android.support.FILE_PROVIDER_PATHS"</span></span></span><br><span class="line"><span class="tag">                  <span class="attr">android:resource</span>=<span class="string">"@xml/filepaths"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">provider</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="资源文件下创建相应的xml文件（如上：则创建filepaths-xml）"><a href="#资源文件下创建相应的xml文件（如上：则创建filepaths-xml）" class="headerlink" title="资源文件下创建相应的xml文件（如上：则创建filepaths.xml）"></a>资源文件下创建相应的xml文件（如上：则创建filepaths.xml）</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">paths</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">external-path</span> <span class="attr">path</span>=<span class="string">"images"</span> <span class="attr">name</span>=<span class="string">"camera_photos"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">paths</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><files-path>代表的根目录： Context.getFilesDir()</files-path></p>
+</li>
+<li><p><external-path>代表的根目录: Environment.getExternalStorageDirectory()</external-path></p>
+</li>
+<li><p><cache-path>代表的根目录: getCacheDir()</cache-path></p>
+</li>
+</ul>
+<h5 id="使用FileProcider"><a href="#使用FileProcider" class="headerlink" title="使用FileProcider"></a>使用FileProcider</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Uri photoURI = FileProvider.getUriForFile(context, <span class="string">"cn.lovexiaoai.myapp.fileprovider"</span>, file);</span><br><span class="line">intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); <span class="comment">//一定要加上权限申请，添加这一句表示对目标应用临时授权该Uri所代表的文件</span></span><br></pre></td></tr></table></figure>
+<h5 id="定义多个provider问题"><a href="#定义多个provider问题" class="headerlink" title="定义多个provider问题"></a>定义多个provider问题</h5><p>Studio uggestion: add ‘tools:replace=”android: authorities”  </p>
+<p>在provider里面添加tools:replace=”android: authorities” 属性即可。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-子线程绘制UI" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/18/子线程绘制UI/" class="article-date">
+  	<time datetime="2016-11-17T16:00:00.000Z" itemprop="datePublished">2016-11-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/18/子线程绘制UI/">
+        子线程绘制UI
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>UI绘制是一个比较耗时的操作，特别当页面相对比较复杂或者有一些很大的资源的时候，比如大图什么的。所以我们希望可以把一些相对不重要的部分延迟显示，不要阻塞了用户的操作，或者阻塞了关键UI的显然导致掉帧卡顿。实现思路，我们借助SurfaceView的特性来实现UI绘制和显示的分离从而避免卡顿现象。</p>
+<h3 id="SurfaceView和View对比"><a href="#SurfaceView和View对比" class="headerlink" title="SurfaceView和View对比"></a>SurfaceView和View对比</h3><ul>
+<li>View适用于主动更新的情况，而SurfaceView主要适用于被动更新，例如频繁的刷新。</li>
+<li>View在主线程中对画面进行刷新，而SurfaceView通常通过一个子线程来进行页面的刷新。</li>
+<li>View在绘制时没有使用双缓冲机制，而SurfaceView在底层实现机制中就已经实现了双缓冲机制</li>
+<li>SurfaceView允许你在非ui线程中去绘制。</li>
+<li>SurfaceView的帧率可以操作60FPS</li>
+<li>在要求实时性比较高的游戏开发中，显然，view的ondraw是满足不了你的，这时候只能是用SurfaceView。</li>
+<li>SurfaceView的刷新处于主动，有利于频繁的更新画面。</li>
+<li>SurfaceView的绘制在子线程进行，避免了UI线程的阻塞。</li>
+<li>SurfaceView在底层实现了一个双缓冲机制，效率大大提升</li>
+</ul>
+<h3 id="双缓冲机制"><a href="#双缓冲机制" class="headerlink" title="双缓冲机制"></a>双缓冲机制</h3><p>双缓冲可以理解为有两个线程轮番去解析视频流的帧图像，当一个线程解析完帧图像后，把图像渲染到界面中，同时另一线程开始解析下一帧图像，使得两个线程轮番配合去解析视频流，以达到流畅播放的效果。</p>
+<h3 id="SurfaceView使用"><a href="#SurfaceView使用" class="headerlink" title="SurfaceView使用"></a>SurfaceView使用</h3><p>其实SurfaceView也是继承自View,只不过实现了双缓冲的机制。</p>
+<ul>
+<li>1、首先这个自定义的SurfaceView类必须继承SurfaceView实现SurfaceHolder.Callback接口。</li>
+<li>2、实现SurfaceHolder.Callback中的三个SurfaceView生命周期，分别为：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">surfaceDestroyed</span><span class="params">(SurfaceHolder holder)</span>：当SurfaceHolder被销毁的时候回调。</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">surfaceCreated</span><span class="params">(SurfaceHolder holder)</span>：当SurfaceHolder被创建的时候回调。</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">surfaceChange</span><span class="params">(SurfaceHolder holder)</span>：当SurfaceHolder的尺寸发生变化的时候被回调。</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、在surfaceCreated方法里开启一个子线程。</li>
+<li>4、在这个子线程中开启一个由Flag控制的While循环，用于不断地绘制。</li>
+<li>5、在循环中通过SurfaceHolder对象的lockCanvas方法获得一个Canvas对象用于绘制。</li>
+<li>6、每次绘制完成通过SurfaceHolder对象unlockCanvasAndPost方法传入Canvas对象完成更新。</li>
+<li>7、最后要在surfaceDestroyed方法中去改变while循环的Flag为false，结束子线程的绘制。</li>
+</ul>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><p>SurfaceView内部实现了双缓冲的机制，但是实现这个功能是非常消耗系统内存的。因为移动设备的局限性，Android在设计的时候规定，SurfaceView如果为用户可见的时候，创建SurfaceView的SurfaceHolder用于显示视频流解析的帧图片，如果发现SurfaceView变为用户不可见的时候，则立即销毁SurfaceView的SurfaceHolder，以达到节约系统资源的目的。</p>
+<ul>
+<li>不适合频繁显示隐藏的控件。</li>
+<li>由于双缓存机制的原因，使用SurfaceView会比较耗内存。</li>
+</ul>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>一些频繁刷新的view。</li>
+<li>一些复杂的，绘制一次很耗时并且会造成卡顿的view。</li>
+<li>大的背景图，广告图，gif播放。。。</li>
+<li>对于一些游戏画面，或者摄像头预览、视频播放</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-性能优化-UI" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/17/性能优化-UI/" class="article-date">
+  	<time datetime="2016-11-16T16:00:00.000Z" itemprop="datePublished">2016-11-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/17/性能优化-UI/">
+        性能优化-UI
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在日常的开发时，复杂的页面里面就会出现UI绘制卡顿现象，也就是掉帧。</p>
+<h3 id="UI卡顿掉帧"><a href="#UI卡顿掉帧" class="headerlink" title="UI卡顿掉帧"></a>UI卡顿掉帧</h3><p>大多数手机的屏幕刷新频率是60hz，如果在1000/60=16.67ms内没有办法把这一帧的任务执行完毕，就会发生丢帧的现象。丢帧越多，用户感受到的卡顿情况就越严重。</p>
+<p>每一次UI的绘制在16ms内才可以做到无卡顿现象，而复杂的UI以及不恰当的处理可能导致，一次绘制的时间超过16ms,也就出现了卡顿现象。</p>
+<h3 id="UI绘制"><a href="#UI绘制" class="headerlink" title="UI绘制"></a>UI绘制</h3><p>渲染操作通常依赖于两个核心组件：CPU与GPU。CPU负责包括Measure，Layout，Record，Execute的计算操作，GPU负责Rasterization(栅格化)操作。CPU通常存在的问题的原因是存在非必需的视图组件，它不仅仅会带来重复的计算操作，而且还会占用额外的GPU资源。</p>
+<h4 id="Android-UI-and-the-GPU"><a href="#Android-UI-and-the-GPU" class="headerlink" title="Android UI and the GPU"></a>Android UI and the GPU</h4><p>Resterization栅格化是绘制那些Button，Shape，Path，String，Bitmap等组件最基础的操作。它把那些组件拆分到不同的像素上进行显示。这是一个很费时的操作，GPU的引入就是为了加快栅格化的操作。</p>
+<p>CPU负责把UI组件计算成Polygons，Texture纹理，然后交给GPU进行栅格化渲染。</p>
+<p>然而每次从CPU转移到GPU是一件很麻烦的事情，所幸的是OpenGL ES可以把那些需要渲染的纹理Hold在GPU Memory里面，在下次需要渲染的时候直接进行操作。所以如果你更新了GPU所hold住的纹理内容，那么之前保存的状态就丢失了。</p>
+<p>在Android里面那些由主题所提供的资源，例如Bitmaps，Drawables都是一起打包到统一的Texture纹理当中，然后再传递到GPU里面，这意味着每次你需要使用这些资源的时候，都是直接从纹理里面进行获取渲染的。当然随着UI组件的越来越丰富，有了更多演变的形态。例如显示图片的时候，需要先经过CPU的计算加载到内存中，然后传递给GPU进行渲染。文字的显示比较复杂，需要先经过CPU换算成纹理，然后交给GPU进行渲染，返回到CPU绘制单个字符的时候，再重新引用经过GPU渲染的内容。动画则存在一个更加复杂的操作流程。</p>
+<p>为了能够使得App流畅，我们需要在每帧16ms以内处理完所有的CPU与GPU的计算，绘制，渲染等等操作。</p>
+<h4 id="Overdraw"><a href="#Overdraw" class="headerlink" title="Overdraw"></a>Overdraw</h4><p>Overdraw(过度绘制)描述的是屏幕上的某个像素在同一帧的时间内被绘制了多次。在多层次重叠的UI结构里面，如果不可见的UI也在做绘制的操作，会导致某些像素区域被绘制了多次。这样就会浪费大量的CPU以及GPU资源。</p>
+<p>调试Overdraw</p>
+<p><img src="http://hukai.me/images/overdraw_options_view.png" alt="图片"></p>
+<p>蓝色，淡绿，淡红，深红代表了4种不同程度的Overdraw情况，我们的目标就是尽量减少红色Overdraw，看到更多的蓝色区域。</p>
+<h4 id="Hierarchy-Viewer-Walkthrough"><a href="#Hierarchy-Viewer-Walkthrough" class="headerlink" title="Hierarchy Viewer: Walkthrough"></a>Hierarchy Viewer: Walkthrough</h4><p>Hierarchy Viewer可以很直接的呈现布局的层次关系，视图组件的各种属性。 我们可以通过红，黄，绿三种不同的颜色来区分布局的Measure，Layout，Executive的相对性能表现如何。</p>
+<h3 id="做好UI页面的容错处理"><a href="#做好UI页面的容错处理" class="headerlink" title="做好UI页面的容错处理"></a>做好UI页面的容错处理</h3><p>通常一个界面会包括：内容，空数据，异常错误，加载，网络错误等5种状态view，所以我们就设置这5种View的切换</p>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><ul>
+<li>移除Window默认的Background</li>
+<li>移除XML布局文件中非必需的Background</li>
+<li>按需显示占位背景图片</li>
+<li>尽量不要嵌套使用RelativeLayout.</li>
+<li>尽量不要在嵌套的LinearLayout中都使用weight属性.</li>
+<li>Layout的选择, 以尽量减少View树的层级为主.</li>
+<li>去除不必要的父布局.</li>
+<li>善用TextView的Drawable减少布局层级.<pre><code>tv_location.setCompoundDrawables(addr, null, null, null);
+    tv_location.setCompoundDrawablePadding(ContextUtil.dp2px(this, 5));
+</code></pre></li>
+<li>如果H Viewer查看层级超过5层, 你就需要考虑优化下布局了~</li>
+<li>能用一个View搞定的，别用两个</li>
+<li>使用Spannable减少textview个数</li>
+<li>用LinearLayout自带的分割线(android:divider=”@drawable/divider” android:showDividers=”middle”)</li>
+</ul>
+<h3 id="布局优化"><a href="#布局优化" class="headerlink" title="布局优化"></a>布局优化</h3><h4 id="重用布局include"><a href="#重用布局include" class="headerlink" title="重用布局include"></a>重用布局include</h4><h4 id="减少布局层次merge"><a href="#减少布局层次merge" class="headerlink" title="减少布局层次merge"></a>减少布局层次merge</h4><ul>
+<li><p>布局顶结点是FrameLayout且不需要设置background或padding等属性，可以用merge代替，因为Activity内容视图的parent view就是个FrameLayout，所以可以用merge消除只剩一个。</p>
+</li>
+<li><p>某布局作为子布局被其他布局include时，使用merge当作该布局的顶节点，这样在被引入时顶结点会自动被忽略，而将其子节点全部合并到主布局中。</p>
+</li>
+</ul>
+<h3 id="网络图片优化"><a href="#网络图片优化" class="headerlink" title="网络图片优化"></a>网络图片优化</h3><h4 id="支持根据URL加参数来获取指定质量和尺寸的图片"><a href="#支持根据URL加参数来获取指定质量和尺寸的图片" class="headerlink" title="支持根据URL加参数来获取指定质量和尺寸的图片"></a>支持根据URL加参数来获取指定质量和尺寸的图片</h4><h4 id="根据网络情况来取不同质量的图片-50-是缩略图，75-低质量，100-高质量"><a href="#根据网络情况来取不同质量的图片-50-是缩略图，75-低质量，100-高质量" class="headerlink" title="根据网络情况来取不同质量的图片(50%是缩略图，75%低质量，100%高质量)"></a>根据网络情况来取不同质量的图片(50%是缩略图，75%低质量，100%高质量)</h4><p>七牛的格式：<br><a href="http://oc4zuck5v.bkt.clouddn.com/iti3gcwpqe2jpg.jpg?imageView2/0/w/200/h/200/q/100" target="_blank" rel="noopener">http://oc4zuck5v.bkt.clouddn.com/iti3gcwpqe2jpg.jpg?imageView2/0/w/200/h/200/q/100</a></p>
+<p>url:<a href="http://oc4zuck5v.bkt.clouddn.com/iti3gcwpqe2jpg.jpg" target="_blank" rel="noopener">http://oc4zuck5v.bkt.clouddn.com/iti3gcwpqe2jpg.jpg</a></p>
+<p>格式：imageView2/<mode>/w/<longedge><br>                 /h/<shortedge><br>                 /format/<format><br>                 /interlace/<interlace><br>                 /q/<quality><br>                 /ignore-error/<ignoreerror></ignoreerror></quality></interlace></format></shortedge></longedge></mode></p>
+<h4 id="mode"><a href="#mode" class="headerlink" title="mode"></a>mode</h4><ul>
+<li>0 等比缩放，不裁剪，如果只指定 w 参数则表示限定长边（短边自适应），只指定 h 参数则表示限定短边（长边自适应）。</li>
+<li>1 等比缩放，居中裁剪，转后的缩略图通常恰好是 <width>x<height> 的大小（有一个边缩放的时候会因为超出矩形框而被裁剪掉多余部分）。如果只指定 w 参数或只指定 h 参数，代表限定为长宽相等的正方图。</height></width></li>
+<li>2 等比缩放，不裁剪，如果只指定 w 参数则表示限定宽（长自适应），只指定 h 参数则表示限定长（宽自适应）。它和模式0类似，区别只是限定宽和高，不是限定长边和短边。从应用场景来说，模式0适合移动设备上做缩略图，模式2适合PC上做缩略图。</li>
+<li>3 等比缩放，不裁剪，如果只指定 w 参数或只指定 h 参数，代表长宽限定为同样的值。你可以理解为模式1是模式3的结果再做居中裁剪得到的。</li>
+<li>4 等比缩放，不裁剪。如果只指定 w 参数或只指定 h 参数，表示长边短边限定为同样的值。这个模式很适合在手持设备做图片的全屏查看（把这里的长边短边分别设为手机屏幕的分辨率即可），生成的图片尺寸刚好充满整个屏幕（某一个边可能会超出屏幕）。</li>
+<li>5 等比缩放，居中裁剪。如果只指定 w 参数或只指定 h 参数，表示长边短边限定为同样的值。同上模式4，但超出限定的矩形部分会被裁剪。</li>
+</ul>
+<h4 id="format"><a href="#format" class="headerlink" title="format"></a>format</h4><p>新图的输出格式<br>取值范围：jpg，gif，png，webp等，默认为原图格式。<br>参考支持转换的图片格式。</p>
+<h4 id="interlace"><a href="#interlace" class="headerlink" title="interlace"></a>interlace</h4><p>是否支持渐进显示<br>取值范围：1 支持渐进显示，0不支持渐进显示(默认为0)。<br>适用目标格式：jpg<br>效果：网速慢时，图片显示由模糊到清晰。</p>
+<h4 id="q-Quality"><a href="#q-Quality" class="headerlink" title="/q/Quality"></a>/q/Quality</h4><p>新图的图片质量<br>取值范围是[1, 100]，默认75。<br>七牛会根据原图质量算出一个修正值，取修正值和指定值中的小值。<br>注意：</p>
+<ul>
+<li>如果图片的质量值本身大于90，会根据指定值进行处理，此时修正值会失效。</li>
+<li>指定值后面可以增加 !，表示强制使用指定值，如100!。</li>
+<li>支持图片类型：jpg。</li>
+</ul>
+<p>Quality修正值算法：min[90, 原图quality*sqrt(原图长宽乘积/结果图片长宽乘积)]</p>
+<h4 id="ignoreError"><a href="#ignoreError" class="headerlink" title="ignoreError"></a>ignoreError</h4><p>可选<br>取值：1</p>
+<ul>
+<li>未设置此参数时，正常返回处理结果。</li>
+<li>设置了此参数时，若图像处理的结果失败，则返回原图。</li>
+<li>设置了此参数时，若图像处理的结果成功，则正常返回处理结果。</li>
+</ul>
+<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><ul>
+<li>可以仅指定w参数或h参数。</li>
+<li>新图的宽/高/长边/短边，不会比原图大，即本接口总是缩小图片。</li>
+<li>所有模式都可以只指定w参数或只指定h参数，并获得合理结果。在w、h为限定最大值时，未指定某参数等价于将该参数设置为无穷大（自适应）；在w、h为限定最小值时，未指定参数等于给定的参数，也就限定的矩形是正方形。</li>
+<li>处理后的图片w和h参数不能超过9999像素，总像素不得超过24999999（2500w-1）像素。</li>
+<li>处理前的图片w和h参数不能超过3万像素，总像素不能超过2亿像素。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-APK大小分析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/15/APK大小分析/" class="article-date">
+  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/15/APK大小分析/">
+        APK大小分析
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h3><p>AS -&gt; Build -&gt; AnalyzeApk(AS2.2之后)</p>
+<h3 id="APK组成部分"><a href="#APK组成部分" class="headerlink" title="APK组成部分"></a>APK组成部分</h3><ul>
+<li>asserts</li>
+<li>lib</li>
+<li>res</li>
+<li>dex</li>
+<li>META-INF</li>
+<li>androidManifest</li>
+</ul>
+<h4 id="asserts"><a href="#asserts" class="headerlink" title="asserts"></a>asserts</h4><p>assets目录可以存放一些配置文件或资源文件，比如webview的本地html，react native的jsbundle等，微信的整个assets占用了13.4M。如果你的应用对本地资源要求很少的话，这个文件应该不会太大。</p>
+<h4 id="lib"><a href="#lib" class="headerlink" title="lib"></a>lib</h4><p>lib目录下会有各种so文件，分析器会检查出项目自己的so和各种库的so。微博和微信一样只支持了arm一个平台，淘宝支持了arm和x86两个平台。</p>
+<h4 id="resources-arsc"><a href="#resources-arsc" class="headerlink" title="resources.arsc"></a>resources.arsc</h4><p>这个文件是编译后的二进制资源文件，里面是id-name-value的一个map。因为微信做了资源的混淆，所以这里可以看到资源名称都是不可读的。</p>
+<h4 id="META-INF"><a href="#META-INF" class="headerlink" title="META-INF"></a>META-INF</h4><p>META-INF目录下存放的是签名信息，用来保证apk包的完整性和系统的安全性，帮助用户避免安装来历不明的盗版apk。</p>
+<h4 id="res"><a href="#res" class="headerlink" title="res"></a>res</h4><p>res目录存放的是资源文件。包括图片、字符串。raw文件夹下面是音频文件，各种xml文件等等。因为微信做了资源混淆，图片名字都不可读了。</p>
+<h4 id="dex"><a href="#dex" class="headerlink" title="dex"></a>dex</h4><p>dex文件是java代码打包后的字节码，一个dex文件最多只支持65536个方法，这也是为什么微信有了三个dex文件的原因。</p>
+<p>因为dex分包是不均匀的，你可以理解为装箱，一个箱子的大小是固定的，但你代码的量是不确定的，微信把前两个箱子装满了，最后还剩了2m多的代码，这些代码也占用了一个箱子，最终产生了上图不均匀的结果。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-图片OOM问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/15/图片OOM问题/" class="article-date">
+  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/15/图片OOM问题/">
+        图片OOM问题
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="OOM"><a href="#OOM" class="headerlink" title="OOM"></a>OOM</h3><p>大家在项目开发中多多少少会遇到一些OOM的问题，内存是个大问题。</p>
+<h3 id="手机内存解析"><a href="#手机内存解析" class="headerlink" title="手机内存解析"></a>手机内存解析</h3><p>Android是一个多任务系统, 为了保证多任务的运行, Android给每个App可使用的Heap大小设定了一个限定值.</p>
+<p>这个值是系统设置的prop值, 系统编译时内置的, 保存在system/build.prop中. 一般国内的手机厂商都会做修改, 根据手机配置不同而不同, 可以通过如下命令查看:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell</span><br><span class="line">$ cat /system/build.prop</span><br></pre></td></tr></table></figure>
+<p>也可以直接使用getprop查看单项prop:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell getprop dalvik.vm.heapsize</span><br><span class="line">512m</span><br></pre></td></tr></table></figure>
+<p>heap size相关的prop如下:</p>
+<ul>
+<li>dalvik.vm.heapstartsize=8m</li>
+<li>dalvik.vm.heapgrowthlimit=192m</li>
+<li>dalvik.vm.heapsize=512m</li>
+<li>dalvik.vm.heaptargetutilization=0.75</li>
+<li>dalvik.vm.heapminfree=2m</li>
+<li>dalvik.vm.heapmaxfree=8m</li>
+</ul>
+<h4 id="dalvik-vm-heapstartsize"><a href="#dalvik-vm-heapstartsize" class="headerlink" title="dalvik.vm.heapstartsize"></a>dalvik.vm.heapstartsize</h4><p>App启动后, 系统分配给它的Heap初始大小. 随着App使用可增加.</p>
+<h4 id="dalvik-vm-heapgrowthlimit"><a href="#dalvik-vm-heapgrowthlimit" class="headerlink" title="dalvik.vm.heapgrowthlimit"></a>dalvik.vm.heapgrowthlimit</h4><p>默认情况下, App可使用的Heap的最大值, 超过这个值就会产生OOM.</p>
+<h4 id="dalvik-vm-heapsize"><a href="#dalvik-vm-heapsize" class="headerlink" title="dalvik.vm.heapsize"></a>dalvik.vm.heapsize</h4><p>如果App的manifest文件中配置了largeHeap属性, 如下.则App可使用的Heap的最大值为此项设定值.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:largeHeap</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="dalvik-vm-heaptargetutilization"><a href="#dalvik-vm-heaptargetutilization" class="headerlink" title="dalvik.vm.heaptargetutilization"></a>dalvik.vm.heaptargetutilization</h4><p>当前理想的堆内存利用率. GC后, Dalvik的Heap内存会进行相应的调整, 调整到当前存活的对象的大小和 / Heap大小 接近这个选项的值, 即这里的0.75. 注意, 这只是一个参考值.</p>
+<h4 id="dalvik-vm-heapminfree"><a href="#dalvik-vm-heapminfree" class="headerlink" title="dalvik.vm.heapminfree"></a>dalvik.vm.heapminfree</h4><p>单次Heap内存调整的最小值.</p>
+<h4 id="dalvik-vm-heapmaxfree"><a href="#dalvik-vm-heapmaxfree" class="headerlink" title="dalvik.vm.heapmaxfree"></a>dalvik.vm.heapmaxfree</h4><p>单次Heap内存调整的最大值.</p>
+<h3 id="图片内存问题"><a href="#图片内存问题" class="headerlink" title="图片内存问题"></a>图片内存问题</h3><h4 id="本地图片内存问题"><a href="#本地图片内存问题" class="headerlink" title="本地图片内存问题"></a>本地图片内存问题</h4><p>本地图片一定要将对应分辨率的图片放到对应的目录下，当图片放置在不同drawable文件夹中，且只有这一张图片时，运行设备会根据自身的屏幕密度，对图片进行放缩，放缩比例符合前面图上的规则，不同目录下的对应放大倍数(drawable默认1X)：</p>
+<ul>
+<li>mdpi     1X </li>
+<li>hdpi     1.5X</li>
+<li>xhdpi    2X</li>
+<li>xxhdpi   3X</li>
+<li><p>xxxhdpi  4x</p>
+</li>
+<li><p>density     1    1.5 2    3    3.5     4</p>
+</li>
+<li><p>densityDpi    160    240    320    480    560    640</p>
+</li>
+<li><p>在使用离线图片时首先注意，切对应比例的图并将图片放到对应的比例文件目录下，防止将大比例的图片放到小比例的目录下导致图片被指数放大导致OOM，或者将小比例图片放到大比例文件夹下导致图片失真。</p>
+</li>
+<li>图片的大小根据实际情况来，显示200*200的图不要使用比比例大的图片，用了也要做压缩，防止内存泄漏。</li>
+</ul>
+<h4 id="网络图片内存问题"><a href="#网络图片内存问题" class="headerlink" title="网络图片内存问题"></a>网络图片内存问题</h4><p>网络图片也会导致内存泄漏，后端可能为了兼容更多客户端，配置的图片的尺寸和质量会很高，我们如果直接把网上下载的图片拿来直接用可能会导致OOM，因此网络下载的图片也要根据具体显示的view的大小来对图片进行压缩。</p>
+<h4 id="图片压缩的问题"><a href="#图片压缩的问题" class="headerlink" title="图片压缩的问题"></a>图片压缩的问题</h4><p>图片压缩是按照大小来实现质量压缩。</p>
+<h4 id="不要将Button的背景设置为selector"><a href="#不要将Button的背景设置为selector" class="headerlink" title="不要将Button的背景设置为selector"></a>不要将Button的背景设置为selector</h4><p>在布局文件和代码中，都可以为Button设置background为selector，这样方便实现按钮的正反选效果，但实际跟踪发现，如果是将Button的背景设置为selector，在初始化Button的时候会将正反选图片都加载在内存中（具体可以查看Android源码，在类Drawable.java的createFromXmlInner方法中对图片进行解析，最终调用Drawable的inflate方法），相当于一个按钮占用了两张相同大小图片所使用的内存，如果一个界面上按钮很多或者是按钮很大，光是按钮占用的内存就会很大，可以通过在布局文件中给按钮只设置正常状态下的背景图片，然后在代码中监听按钮的点击状态，当按下按钮时为按钮设置反选效果的图片，抬起时重新设置为正常状态下的背景</p>
+<h4 id="尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable"><a href="#尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable" class="headerlink" title="尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable"></a>尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable</h4><p>AnimationDrawable也是一个耗内存大户，图片帧数越多耗内存越大，具体可以查看AnimationDrawable的源码，在AnimationDrawable实例化的时候，Drawable的createFromXmlInner方法会调用AnimationDrawable的inflate方法，该方法里面有一个while循环去一次性将所有帧都读取出来，也就是在初始化的时候就将所有的帧读在内存中了，有多少张图片，它就要消耗对应大小的内存。</p>
+<h4 id="尽量使用vector-drawable"><a href="#尽量使用vector-drawable" class="headerlink" title="尽量使用vector drawable"></a>尽量使用vector drawable</h4><h4 id="在服务器段配置相对较小的webp格式"><a href="#在服务器段配置相对较小的webp格式" class="headerlink" title="在服务器段配置相对较小的webp格式"></a>在服务器段配置相对较小的webp格式</h4><h4 id="其他方式优化"><a href="#其他方式优化" class="headerlink" title="其他方式优化"></a>其他方式优化</h4><ul>
+<li>尽量将Activity中的小图片和背景合并，一张小图片既浪费布局的时间，又平白地增加了内存占用；</li>
+<li>对于在需要时才显示的图片或者布局，可以使用ViewStub标签，通过sdk/tools目录下的hierarchyviewer.bat查看布局文件会发现，使用viewstub标签的组件几乎不消耗布局的时间，在代码中当需要显示时再去实例化有助于提高Activity的布局效率和节省Activity消耗的内存。</li>
+<li>尽量不要在Activity的主题中为Activity设置默认的背景图片，这样会导致Activity占用的内存翻倍：</li>
+</ul>
+<h3 id="Bitmap-相关"><a href="#Bitmap-相关" class="headerlink" title="Bitmap 相关"></a>Bitmap 相关</h3><h4 id="不同格式的图片每像素所占字节数"><a href="#不同格式的图片每像素所占字节数" class="headerlink" title="不同格式的图片每像素所占字节数"></a>不同格式的图片每像素所占字节数</h4><ul>
+<li><p>Alpha_8: 1个字节</p>
+</li>
+<li><p>RGB_565: 2个字节</p>
+</li>
+<li><p>ARGB_4444: 2个字节</p>
+</li>
+<li><p>ARGB_8888: 4个字节</p>
+</li>
+</ul>
+<h4 id="生成Bitmap所占大小-size"><a href="#生成Bitmap所占大小-size" class="headerlink" title="生成Bitmap所占大小(size)"></a>生成Bitmap所占大小(size)</h4><p>公式: 宽 <em> 高 </em> 每个像素所占字节</p>
+<p>size = width <em> height </em> bytes(格式1,2,3,4)*放大缩小倍数</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+    </nav>
+  
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

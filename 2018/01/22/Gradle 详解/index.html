@@ -1,20 +1,341 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Gradle 详解 | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Gradle 详解定义Gradle是一个基于Apache Ant和Apache Maven概念的项目自动化建构工具。它使用一种基于Groovy的特定领域语言来声明项目设置，而不是传统的XML。 Android工程通过gradle文件管理各项配置，gradle文件利用DSL（Domain Specific Language）语言描述配置，并使用Groovy语言处理编译逻辑。 Gradle 和 And">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle 详解">
+<meta property="og:url" content="https://github.com/sirencode/2018/01/22/Gradle 详解/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="Gradle 详解定义Gradle是一个基于Apache Ant和Apache Maven概念的项目自动化建构工具。它使用一种基于Groovy的特定领域语言来声明项目设置，而不是传统的XML。 Android工程通过gradle文件管理各项配置，gradle文件利用DSL（Domain Specific Language）语言描述配置，并使用Groovy语言处理编译逻辑。 Gradle 和 And">
+<meta property="og:image" content="https://upload-images.jianshu.io/upload_images/2839011-58310b412bae9a01.png?imageMogr2/auto-orient/">
+<meta property="og:image" content="http://loody.me/images/android_build.png">
+<meta property="og:image" content="http://loody.me/images/android_build_detail.png">
+<meta property="og:updated_time" content="2018-01-22T03:15:45.783Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gradle 详解">
+<meta name="twitter:description" content="Gradle 详解定义Gradle是一个基于Apache Ant和Apache Maven概念的项目自动化建构工具。它使用一种基于Groovy的特定领域语言来声明项目设置，而不是传统的XML。 Android工程通过gradle文件管理各项配置，gradle文件利用DSL（Domain Specific Language）语言描述配置，并使用Groovy语言处理编译逻辑。 Gradle 和 And">
+<meta name="twitter:image" content="https://upload-images.jianshu.io/upload_images/2839011-58310b412bae9a01.png?imageMogr2/auto-orient/">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Gradle 详解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/22/Gradle 详解/" class="article-date">
+  	<time datetime="2018-01-21T16:00:00.000Z" itemprop="datePublished">2018-01-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Gradle 详解
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Gradle-详解"><a href="#Gradle-详解" class="headerlink" title="Gradle 详解"></a>Gradle 详解</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Gradle是一个基于Apache Ant和Apache Maven概念的项目自动化建构工具。它使用一种基于Groovy的特定领域语言来声明项目设置，而不是传统的XML。</p>
+<p>Android工程通过gradle文件管理各项配置，gradle文件利用DSL（Domain Specific Language）语言描述配置，并使用Groovy语言处理编译逻辑。</p>
+<p>Gradle 和 Android 插件独立于 Android Studio 运行。这意味着，可以在 Android Studio 内、使用计算机上的命令行工具或在未安装 Android Studio 的计算机（例如持续性集成服务器）上构建 Android 应用。如果您不使用 Android Studio，可以学习如何从命令行构建和运行您的应用。无论您是从命令行、在远程计算机上还是使用 Android Studio 构建项目，构建的输出都相同。</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p>Gradle中，每一个待编译的工程都叫一个Project。每一个Project在构建的时候都包含一系列的Task。比如一个Android APK的编译可能包含：Java源码编译Task、资源编译Task、JNI编译Task、lint检查Task、打包生成APK的Task、签名Task等。</p>
+<p>Gradle 工作主要包含三个阶段：</p>
+<ul>
+<li>首先是初始化阶段。对我们前面的multi-project build而言，就是执行settings.gradle，确定项目project(每个模块都是一个project)对象的个数。</li>
+<li>Configration阶段的目标是解析每个project中的build.gradle。比如multi-project build例子中，解析每个子目录中的build.gradle。在这两个阶段之间，我们可以加一些定制化的Hook。这当然是通过API来添加的。Configuration阶段完了后，整个build的project以及内部的Task关系就确定了。一个Project包含很多Task，每个Task之间有依赖关系。Configuration会建立一个有向图来描述Task之间的依赖关系。所以，我们可以添加一个HOOK，即当Task关系图建立好后，执行一些操作。</li>
+<li>最后一个阶段就是执行任务了。</li>
+</ul>
+<p>简言之，Gradle有一个初始化流程，这个时候settings.gradle会执行。 在配置阶段，每个Project都会被解析，其内部的任务也会被添加到一个有向图里，用于解决执行过程中的依赖关系。然后才是执行阶段。你在gradle xxx中指定什么任务，gradle就会将这个xxx任务链上的所有任务全部按依赖顺序执行一遍！</p>
+<h2 id="打包流程"><a href="#打包流程" class="headerlink" title="打包流程"></a>打包流程</h2><h3 id="编译–-gt-DEX–-gt-打包–-gt-签名和对齐"><a href="#编译–-gt-DEX–-gt-打包–-gt-签名和对齐" class="headerlink" title="编译–&gt;DEX–&gt;打包–&gt;签名和对齐"></a>编译–&gt;DEX–&gt;打包–&gt;签名和对齐</h3><p><img src="https://upload-images.jianshu.io/upload_images/2839011-58310b412bae9a01.png?imageMogr2/auto-orient/" alt=""></p>
+<ul>
+<li>1 Java编译器对工程本身的java代码进行编译，这些java代码有三个来源：app的源代码，由资源文件生成的R文件(aapt工具)，以及有aidl文件生成的java接口文件(aidl工具)。产出为.class文件。</li>
+<li>2 .class文件和依赖的三方库文件通过dex工具生成Delvik虚拟机可执行的.dex文件，可能有一个或多个，包含了所有的class信息，包括项目自身的class和依赖的class。产出为.dex文件。</li>
+<li>3 apkbuilder工具将.dex文件和编译后的资源文件生成未经签名对齐的apk文件。这里编译后的资源文件包括两部分，一是由aapt编译产生的编译后的资源文件，二是依赖的三方库里的资源文件。产出为未经签名的.apk文件。</li>
+<li>4 分别由Jarsigner和zipalign对apk文件进行签名和对齐，生成最终的apk文件。</li>
+</ul>
+<p>老官网：<br><img src="http://loody.me/images/android_build.png" alt=""></p>
+<ul>
+<li>1 通过aapt打包res资源文件，生成R.java、resources.arsc和res文件（二进制 &amp; 非二进制如res/raw和pic保持原样）</li>
+<li>2 处理.aidl文件，生成对应的Java接口文件</li>
+<li>3 通过Java Compiler编译R.java、Java接口文件、Java源文件，生成.class文件</li>
+<li>4 通过dex命令，将.class文件和第三方库中的.class文件处理生成classes.dex</li>
+<li>5 通过apkbuilder工具，将aapt生成的resources.arsc和res文件、assets文件和classes.dex一起打包生成apk</li>
+<li>6 通过Jarsigner工具，对上面的apk进行debug或release签名</li>
+<li>7 通过zipalign工具，将签名后的apk进行对齐处理。</li>
+</ul>
+<p><img src="http://loody.me/images/android_build_detail.png" alt=""></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/26/线程与CPU/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          线程与CPU
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/01/08/麦肯锡工作法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">麦肯锡工作法</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="Gradle 详解" data-title="Gradle 详解" data-url="https://github.com/sirencode/2018/01/22/Gradle 详解/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Gradle 详解">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

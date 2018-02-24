@@ -1,20 +1,320 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 无线adb连接 | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="打开手机的xxxx端口 确保手机开启了usb调试 用usb线把手机和电脑连接起来 执行命令：  1adb tcpip 5555 找到手机的IP地址一般在 设置-关于手机-状态信息-IP地址可以找到。比如，我这里看到手机的IP地址是192.168.1.242 通过IP地址和端口连接手机执行命令： 1adb connect 192.168.1.242:xxxx 如果提示 connected to 19">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 无线adb连接">
+<meta property="og:url" content="https://github.com/sirencode/2016/10/20/无线 adb连接/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="打开手机的xxxx端口 确保手机开启了usb调试 用usb线把手机和电脑连接起来 执行命令：  1adb tcpip 5555 找到手机的IP地址一般在 设置-关于手机-状态信息-IP地址可以找到。比如，我这里看到手机的IP地址是192.168.1.242 通过IP地址和端口连接手机执行命令： 1adb connect 192.168.1.242:xxxx 如果提示 connected to 19">
+<meta property="og:updated_time" content="2016-10-20T02:05:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 无线adb连接">
+<meta name="twitter:description" content="打开手机的xxxx端口 确保手机开启了usb调试 用usb线把手机和电脑连接起来 执行命令：  1adb tcpip 5555 找到手机的IP地址一般在 设置-关于手机-状态信息-IP地址可以找到。比如，我这里看到手机的IP地址是192.168.1.242 通过IP地址和端口连接手机执行命令： 1adb connect 192.168.1.242:xxxx 如果提示 connected to 19">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-无线 adb连接" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/20/无线 adb连接/" class="article-date">
+  	<time datetime="2016-10-19T16:00:00.000Z" itemprop="datePublished">2016-10-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 无线adb连接
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="打开手机的xxxx端口"><a href="#打开手机的xxxx端口" class="headerlink" title="打开手机的xxxx端口"></a>打开手机的xxxx端口</h4><ul>
+<li>确保手机开启了usb调试</li>
+<li>用usb线把手机和电脑连接起来</li>
+<li>执行命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb tcpip 5555</span><br></pre></td></tr></table></figure>
+<h4 id="找到手机的IP地址"><a href="#找到手机的IP地址" class="headerlink" title="找到手机的IP地址"></a>找到手机的IP地址</h4><p>一般在 设置-关于手机-状态信息-IP地址可以找到。<br>比如，我这里看到手机的IP地址是192.168.1.242</p>
+<h4 id="通过IP地址和端口连接手机"><a href="#通过IP地址和端口连接手机" class="headerlink" title="通过IP地址和端口连接手机"></a>通过IP地址和端口连接手机</h4><p>执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb connect 192.168.1.242:xxxx</span><br></pre></td></tr></table></figure>
+<p>如果提示 connected to 192.168.1.242:xxxx 表示连接成功</p>
+<p>如果提示 unable to connect to 192.168.1.242:xxxx Operation timed out 可能你的IP地址输错了;或者adb服务不可用;或者手机跟电脑没有正确地处在一个局域网中；或者链接被代理Block了等等等…</p>
+<p>如果提示 unable to connect to 192.168.1.242:xxxx Connection refused 可能你手机的5555端口没有正确打开；或者有防火墙拦截等…</p>
+<h4 id="安装-adb-wifi插件"><a href="#安装-adb-wifi插件" class="headerlink" title="安装 adb wifi插件"></a>安装 adb wifi插件</h4>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/27/性能优化 - 代码层问题/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          性能优化 - 代码层问题
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/19/清空Android studio配置/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">清空Android studio配置</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="无线 adb连接" data-title="Android 无线adb连接" data-url="https://github.com/sirencode/2016/10/20/无线 adb连接/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 无线adb连接">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

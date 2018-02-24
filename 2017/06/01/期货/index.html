@@ -1,20 +1,434 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>期货 | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="结算公式结算价指当天交易结束后，对未平仓合约进行当日交易保证金及当日盈亏结算的基准价。 开仓开仓也称建仓，是指期货交易者新建期货头寸的行为。 结算 若是股指期货，则算式中的价格改为”点数”；”交易单位”改为”合约乘数”  结算准备金余额的计算公式1当日结算准备金余额 = 上一交易日结算准备金余额 + 上一交易日交易保证金 - 当日交易保证金 + 当日盈亏 + 入金 - 出金 - 手续分 当日盈亏的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="期货">
+<meta property="og:url" content="https://github.com/sirencode/2017/06/01/期货/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="结算公式结算价指当天交易结束后，对未平仓合约进行当日交易保证金及当日盈亏结算的基准价。 开仓开仓也称建仓，是指期货交易者新建期货头寸的行为。 结算 若是股指期货，则算式中的价格改为”点数”；”交易单位”改为”合约乘数”  结算准备金余额的计算公式1当日结算准备金余额 = 上一交易日结算准备金余额 + 上一交易日交易保证金 - 当日交易保证金 + 当日盈亏 + 入金 - 出金 - 手续分 当日盈亏的">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/%E6%9C%9F%E8%B4%A7-%E5%AE%9E%E5%80%BC.png">
+<meta property="og:updated_time" content="2017-06-07T09:45:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="期货">
+<meta name="twitter:description" content="结算公式结算价指当天交易结束后，对未平仓合约进行当日交易保证金及当日盈亏结算的基准价。 开仓开仓也称建仓，是指期货交易者新建期货头寸的行为。 结算 若是股指期货，则算式中的价格改为”点数”；”交易单位”改为”合约乘数”  结算准备金余额的计算公式1当日结算准备金余额 = 上一交易日结算准备金余额 + 上一交易日交易保证金 - 当日交易保证金 + 当日盈亏 + 入金 - 出金 - 手续分 当日盈亏的">
+<meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/%E6%9C%9F%E8%B4%A7-%E5%AE%9E%E5%80%BC.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-期货" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/01/期货/" class="article-date">
+  	<time datetime="2017-05-31T16:00:00.000Z" itemprop="datePublished">2017-06-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      期货
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="结算公式"><a href="#结算公式" class="headerlink" title="结算公式"></a>结算公式</h2><h3 id="结算价"><a href="#结算价" class="headerlink" title="结算价"></a>结算价</h3><p>指当天交易结束后，对未平仓合约进行当日交易保证金及当日盈亏结算的基准价。</p>
+<h3 id="开仓"><a href="#开仓" class="headerlink" title="开仓"></a>开仓</h3><p>开仓也称建仓，是指期货交易者新建期货头寸的行为。</p>
+<h3 id="结算"><a href="#结算" class="headerlink" title="结算"></a>结算</h3><ul>
+<li>若是股指期货，则算式中的价格改为”点数”；”交易单位”改为”合约乘数”</li>
+</ul>
+<h4 id="结算准备金余额的计算公式"><a href="#结算准备金余额的计算公式" class="headerlink" title="结算准备金余额的计算公式"></a>结算准备金余额的计算公式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当日结算准备金余额 = 上一交易日结算准备金余额 + 上一交易日交易保证金 - 当日交易保证金 + 当日盈亏 + 入金 - 出金 - 手续分</span><br></pre></td></tr></table></figure>
+<h4 id="当日盈亏的计算公式"><a href="#当日盈亏的计算公式" class="headerlink" title="当日盈亏的计算公式"></a>当日盈亏的计算公式</h4><h5 id="商品期货当日盈亏计算"><a href="#商品期货当日盈亏计算" class="headerlink" title="商品期货当日盈亏计算"></a>商品期货当日盈亏计算</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当日盈亏 = ∑[(卖出成交价 - 当日结算价) * 卖出量] + ∑[(当日结算价价 - 买入成交价) * 买入量] + (上一交易日结算价 - 当日结算价) * (上一交易日卖出持仓量 - 上一交易日买入持仓量)</span><br></pre></td></tr></table></figure>
+<h5 id="股票指数期货交易当日盈亏计算"><a href="#股票指数期货交易当日盈亏计算" class="headerlink" title="股票指数期货交易当日盈亏计算"></a>股票指数期货交易当日盈亏计算</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当日盈亏 = ∑[(卖出成交价 - 当日结算价) * 卖出手数 * 合约乘数] +∑[(当日结算价 - 买入成交价) * 买入手数 * 合约乘数] + (上一交易日结算价 - 当日结算价) * (上一交易日卖出持仓手数 - 上一交易日买入持仓手数) * 合约乘数</span><br></pre></td></tr></table></figure>
+<h4 id="当日交易保证金计算公式"><a href="#当日交易保证金计算公式" class="headerlink" title="当日交易保证金计算公式"></a>当日交易保证金计算公式</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当日交易保证金 = 当日结算价 * 当日交易结束后的持仓总量 * 交易保证金比例</span><br></pre></td></tr></table></figure>
+<h5 id="股票当日交易保证金计算公式"><a href="#股票当日交易保证金计算公式" class="headerlink" title="股票当日交易保证金计算公式"></a>股票当日交易保证金计算公式</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当日交易保证金 = 当日结算价 * 当日交易结束后的持仓总量 * 交易保证金比例 * 合约乘数</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意：股票期货交易计算中，”成交价”与”结算价”均以”点数”表示。</li>
+</ul>
+<h3 id="期货结算"><a href="#期货结算" class="headerlink" title="期货结算"></a>期货结算</h3><p>分为逐日盯市和逐笔对冲两种结算方式</p>
+<h4 id="平仓盈亏"><a href="#平仓盈亏" class="headerlink" title="平仓盈亏"></a>平仓盈亏</h4><h5 id="逐日盯市"><a href="#逐日盯市" class="headerlink" title="逐日盯市"></a>逐日盯市</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">平仓盈亏 = 平当日仓盈亏 + 平历史仓盈亏</span><br><span class="line"></span><br><span class="line">平当日仓盈亏 = ∑[(卖出成交价 - 买入成交价) * 交易单位 * 平仓手数]</span><br><span class="line"></span><br><span class="line">平历史仓盈亏 = ∑[(卖出成交价 - 上日结算价) * 交易单位 * 平仓手数] + ∑[(上日结算价 - 买入成交价) * 交易单位 * 平仓手数]</span><br></pre></td></tr></table></figure>
+<h5 id="逐笔对冲"><a href="#逐笔对冲" class="headerlink" title="逐笔对冲"></a>逐笔对冲</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">平当日仓盈亏 = ∑[(卖出成交价 - 买入成交价) * 交易单位 * 平仓手数]</span><br></pre></td></tr></table></figure>
+<h4 id="持仓盯市盈亏-逐日盯市"><a href="#持仓盯市盈亏-逐日盯市" class="headerlink" title="持仓盯市盈亏(逐日盯市)"></a>持仓盯市盈亏(逐日盯市)</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">持仓当日盈亏 = 当日持仓盈亏 + 历史持仓盈亏</span><br><span class="line"></span><br><span class="line">当日持仓盈亏 = ∑[(卖出成交价 - 当日结算价) * 交易单位 * 卖出手数] + ∑[(当日结算价 - 买入成交价) * 交易单位 * 买入手数]</span><br><span class="line"></span><br><span class="line">历史持仓盈亏 = ∑[(上次结算价 - 当日结算价) * 交易单位 * 卖出手数] + ∑[(当日结算价 - 上日结算价) * 交易单位 * 买入手数]</span><br></pre></td></tr></table></figure>
+<h4 id="浮动盈亏"><a href="#浮动盈亏" class="headerlink" title="浮动盈亏"></a>浮动盈亏</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">浮动盈亏 = ∑[(卖出成交价 - 当日结算价) * 交易单位 * 卖出手数] + ∑[(当日结算价 - 买入成交价) * 交易单位 * 买入手数]</span><br></pre></td></tr></table></figure>
+<h4 id="当日盈亏"><a href="#当日盈亏" class="headerlink" title="当日盈亏"></a>当日盈亏</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当日盈亏 = 平仓盈亏(逐日盯市) + 持仓盯市盈利(逐日盯市)</span><br></pre></td></tr></table></figure>
+<h4 id="当日结存"><a href="#当日结存" class="headerlink" title="当日结存"></a>当日结存</h4><h5 id="逐日盯市-1"><a href="#逐日盯市-1" class="headerlink" title="逐日盯市"></a>逐日盯市</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当日结存 = 上日结存(逐日盯市) + 当日盈亏 + 入金 - 出金 - 手续费(等)</span><br></pre></td></tr></table></figure>
+<h5 id="逐笔对冲-1"><a href="#逐笔对冲-1" class="headerlink" title="逐笔对冲"></a>逐笔对冲</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">当日结存 = 上日结存(逐笔对冲) + 平仓盈亏(逐笔对冲) + 入金 - 出金 - 手续费(等)</span><br></pre></td></tr></table></figure>
+<h4 id="客户权益"><a href="#客户权益" class="headerlink" title="客户权益"></a>客户权益</h4><h5 id="逐日盯市-2"><a href="#逐日盯市-2" class="headerlink" title="逐日盯市"></a>逐日盯市</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">客户权益 = 当日结存(逐日盯市)</span><br></pre></td></tr></table></figure>
+<h5 id="逐笔对冲-2"><a href="#逐笔对冲-2" class="headerlink" title="逐笔对冲"></a>逐笔对冲</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">客户权益 = 当日结存(逐笔对冲) + 浮动盈亏</span><br></pre></td></tr></table></figure>
+<h3 id="期货及其衍生品"><a href="#期货及其衍生品" class="headerlink" title="期货及其衍生品"></a>期货及其衍生品</h3><h4 id="期货"><a href="#期货" class="headerlink" title="期货"></a>期货</h4><p>期货：通常是指以某种大宗商品或金融资产为标的可交易的标准化合约。<br>根据标的物种类分为商品期货和金融期货，其他期货。</p>
+<p>商品期货：标的物为实物商品的期货合约，主要包括农产品期货，金属期货和能源化工期货。<br>金融期货：标的物金融产品，外汇期货，利率期货，股指期货，股票期货。</p>
+<h4 id="远期-远期合同-远期合约"><a href="#远期-远期合同-远期合约" class="headerlink" title="远期/远期合同/远期合约"></a>远期/远期合同/远期合约</h4><p>远期：指交易双方约定在未来的某一确定时间，以确定的价格买卖一定数量的某种标的资产合约。</p>
+<h4 id="互换"><a href="#互换" class="headerlink" title="互换"></a>互换</h4><p>指两个或两个以上当事人按照商定条件，在约定的时间内交换一系列现金流的合约。</p>
+<h4 id="期权"><a href="#期权" class="headerlink" title="期权"></a>期权</h4><p>期权是一种选择的权利，即买方能够在未来的特定事件或者一段时间内按照事先约定的价格买入或者卖出某种约定标的物的权利。</p>
+<h3 id="期货及衍生品的主要特征"><a href="#期货及衍生品的主要特征" class="headerlink" title="期货及衍生品的主要特征"></a>期货及衍生品的主要特征</h3><h4 id="合约标准化"><a href="#合约标准化" class="headerlink" title="合约标准化"></a>合约标准化</h4><p>期货合约是由交易所统一制定的标准化合约。</p>
+<h4 id="场内集中竞价交易"><a href="#场内集中竞价交易" class="headerlink" title="场内集中竞价交易"></a>场内集中竞价交易</h4><p>期货交易实行场内交易，所有买卖指令必须在交易所内进行集中竞价成交。只有交易所的会员方能进场交易，其他交易者只能委托交易所代理进行期货交易。</p>
+<h4 id="保证金交易"><a href="#保证金交易" class="headerlink" title="保证金交易"></a>保证金交易</h4><p>期货交易实行保证金制度。交易者在买卖期货合约时按合约价值的一定比率缴纳保证金(一般为5% - 15%)作为履约保证，即可进行数倍于保证金的交易。这种以大博小的保证金交易，也被称为”杠杆交易”。保证金比率越低，杠杆效应就越大，高收益和高风险的特点就越明显。</p>
+<h4 id="双向交易"><a href="#双向交易" class="headerlink" title="双向交易"></a>双向交易</h4><p>交易者既可以买入建仓，即通过买入期货合约开始交易，也可以卖出建仓，即通过卖出期货合约开始交易。双向投资机会，在价格上升时，可通过低买高卖来获利，在货价下降时，可以通过高卖低买来获利。</p>
+<h4 id="对冲了解"><a href="#对冲了解" class="headerlink" title="对冲了解"></a>对冲了解</h4><p>交易者在期货市场建仓后，大多并不是通过交割(即交收现货)来结束交易，而是通过对冲了解。通过卖出/买入同一期货合约来解除履约责任。</p>
+<h4 id="当日无负债结算-逐日盯市"><a href="#当日无负债结算-逐日盯市" class="headerlink" title="当日无负债结算(逐日盯市)"></a>当日无负债结算(逐日盯市)</h4><p>按当日结算价对交易者结算所有合约的盈亏，交易保证金及手续费，税金等费用，确保无负债。</p>
+<h3 id="期货交易"><a href="#期货交易" class="headerlink" title="期货交易"></a>期货交易</h3><h4 id="合约主要条款"><a href="#合约主要条款" class="headerlink" title="合约主要条款"></a>合约主要条款</h4><h5 id="合约名称"><a href="#合约名称" class="headerlink" title="合约名称"></a>合约名称</h5><p>合约品种名称及上市交易所名称。</p>
+<h5 id="交易单位-合约价值"><a href="#交易单位-合约价值" class="headerlink" title="交易单位/合约价值"></a>交易单位/合约价值</h5><p>交易单位指交易所交易每手期货合约代表的标的物的数量，”10吨/手”。合约价格指每手期货合约代表的标的物的价值，只能以合约价格整数倍交易，””。</p>
+<h5 id="最小变动价位"><a href="#最小变动价位" class="headerlink" title="最小变动价位"></a>最小变动价位</h5><p>交易所公开竞价过程中，对合约 每计量单位报价的最小变动数值。每次报价的变动值必须是最小变动价的整数倍。</p>
+<h5 id="报价单位"><a href="#报价单位" class="headerlink" title="报价单位"></a>报价单位</h5><p>指在公开竞价过程中对期货合约报价所使用的单位，即每计量单位的货币价格，”100元/吨”。</p>
+<h5 id="每日价格最大波动限制"><a href="#每日价格最大波动限制" class="headerlink" title="每日价格最大波动限制"></a>每日价格最大波动限制</h5><p>每日价格最大波动限制规定了期货合约在一个交易日中的交易价格波动不得高于或者低于规定的涨跌幅度。</p>
+<h5 id="合约交割月份"><a href="#合约交割月份" class="headerlink" title="合约交割月份"></a>合约交割月份</h5><p>指某种期货合约到期交割的月份</p>
+<h5 id="交易时间"><a href="#交易时间" class="headerlink" title="交易时间"></a>交易时间</h5><p>只能在规定的交易时间内进行交易</p>
+<h5 id="最后交易日"><a href="#最后交易日" class="headerlink" title="最后交易日"></a>最后交易日</h5><p>在交割月份中进行交易的最后一个交易日，过了期限必须按规定进行实物交割或现金交割。</p>
+<h5 id="交割日期"><a href="#交割日期" class="headerlink" title="交割日期"></a>交割日期</h5><p>指合约标的物所有权进行转移，以实物交割或现金交割方式了结未平仓合约的时间。</p>
+<h4 id="交割等级"><a href="#交割等级" class="headerlink" title="交割等级"></a>交割等级</h4><p>合约标的物质量等级</p>
+<h5 id="交割地点"><a href="#交割地点" class="headerlink" title="交割地点"></a>交割地点</h5><p>实物交割指定地点</p>
+<h5 id="交易手续费"><a href="#交易手续费" class="headerlink" title="交易手续费"></a>交易手续费</h5><p>成交合约金额的一定比例或按成交手数收取费用</p>
+<h5 id="交割方式"><a href="#交割方式" class="headerlink" title="交割方式"></a>交割方式</h5><p>实物交割和现金交割。</p>
+<h5 id="交易代码"><a href="#交易代码" class="headerlink" title="交易代码"></a>交易代码</h5><p>交易所对每一期货品种都规定了交易代码。</p>
+<h4 id="期货市场基本制度"><a href="#期货市场基本制度" class="headerlink" title="期货市场基本制度"></a>期货市场基本制度</h4><h4 id="1-保障金制度"><a href="#1-保障金制度" class="headerlink" title="1 保障金制度"></a>1 保障金制度</h4><h4 id="2-保障金制度一般特点"><a href="#2-保障金制度一般特点" class="headerlink" title="2 保障金制度一般特点"></a>2 保障金制度一般特点</h4><ul>
+<li>保障金要求与其面临的风险相对应，风险越大，保障金越高。</li>
+<li>交易所根据合约特点设定最低保障金标准。</li>
+<li>交易所或结算机构只向其会员收取保证金，会员期货公司向其客户收取保证金。</li>
+</ul>
+<h4 id="3-当日无负债结算制度"><a href="#3-当日无负债结算制度" class="headerlink" title="3 当日无负债结算制度"></a>3 当日无负债结算制度</h4><p>当天的盈亏进行结算，并进行资金划转。</p>
+<h4 id="4-涨跌停板制度"><a href="#4-涨跌停板制度" class="headerlink" title="4 涨跌停板制度"></a>4 涨跌停板制度</h4><h4 id="5-持仓限额及大户报告制度"><a href="#5-持仓限额及大户报告制度" class="headerlink" title="5 持仓限额及大户报告制度"></a>5 持仓限额及大户报告制度</h4><p>持仓额度指交易所规定会员或客户可以持有的，按单位计算的某一合约投机头寸的最大数额。</p>
+<p>大户报告制度指当交易所会员或客户某品种某合约持仓达到交易所规定的持仓报告标准时，会员或客户应向交易所报告。</p>
+<h4 id="6-强行平仓制度"><a href="#6-强行平仓制度" class="headerlink" title="6 强行平仓制度"></a>6 强行平仓制度</h4><ul>
+<li>1 交易保证金不足而强行平仓</li>
+<li>2 违反持仓限额制度而实行强行平仓</li>
+</ul>
+<h4 id="7-信息披露制度"><a href="#7-信息披露制度" class="headerlink" title="7 信息披露制度"></a>7 信息披露制度</h4><ul>
+<li>即时行情</li>
+<li>持仓量，成交量排名情况</li>
+<li>期货交易所交易规则及其实施细规定的其他信息</li>
+</ul>
+<h3 id="期货交易流程"><a href="#期货交易流程" class="headerlink" title="期货交易流程"></a>期货交易流程</h3><h4 id="开户"><a href="#开户" class="headerlink" title="开户"></a>开户</h4><p>申请开户 -&gt; 阅读”期货交易风险说明书”并签字确认 -&gt; 签署”期货经纪合同书” -&gt; 申请交易编码并确认资金账号</p>
+<h4 id="下单"><a href="#下单" class="headerlink" title="下单"></a>下单</h4><p>下单，是指客户在每笔交易前向期货公司业务人员下达交易指令，说明拟买卖合约的种类，数量价格</p>
+<h5 id="1市价指令"><a href="#1市价指令" class="headerlink" title="1市价指令"></a>1市价指令</h5><p>按当时市场价格即刻成交的指令，以当时市场上可执行的最好交个达成交易。</p>
+<h5 id="2限价指令"><a href="#2限价指令" class="headerlink" title="2限价指令"></a>2限价指令</h5><p>客户必须指明具体的价位，必须按限定的价格或更好的价格成交的指令。</p>
+<h5 id="3止损指令"><a href="#3止损指令" class="headerlink" title="3止损指令"></a>3止损指令</h5><p>降到这一价位，出手，防止配的更多。</p>
+<h5 id="4停止限价指令"><a href="#4停止限价指令" class="headerlink" title="4停止限价指令"></a>4停止限价指令</h5><p>当价格达到客户预设的触发价时，变为限价指令。</p>
+<h5 id="5-触价指令"><a href="#5-触价指令" class="headerlink" title="5 触价指令"></a>5 触价指令</h5><h5 id="6-限时指令"><a href="#6-限时指令" class="headerlink" title="6 限时指令"></a>6 限时指令</h5><h5 id="7-长效指令"><a href="#7-长效指令" class="headerlink" title="7 长效指令"></a>7 长效指令</h5><h5 id="8-套利指令"><a href="#8-套利指令" class="headerlink" title="8 套利指令"></a>8 套利指令</h5><h5 id="9-取消指令"><a href="#9-取消指令" class="headerlink" title="9 取消指令"></a>9 取消指令</h5><h4 id="竞价"><a href="#竞价" class="headerlink" title="竞价"></a>竞价</h4><p>竞价方式主要有公开喊价方式和计算机撮合成交两种方式。</p>
+<h3 id="期权-1"><a href="#期权-1" class="headerlink" title="期权"></a>期权</h3><p>期权也称选择权，是指期权的买方有权在约定的期限内。按照事先确定的价格，买入或卖出一定数量某种特定商品或金融指标的权利。</p>
+<h4 id="期权基本要素"><a href="#期权基本要素" class="headerlink" title="期权基本要素"></a>期权基本要素</h4><ul>
+<li>期权的价格又称权利金，期权费和保险费。</li>
+<li>标的资产又称标的物(买入卖出的资产)。</li>
+<li>行权方向，买入和卖出两种。</li>
+<li>行权方式，指期权合约规定的期权多头可以执行期权的时间，到期日才执行的期权和在期权有效期内的任何时间都可以执行的期权。</li>
+<li>执行价格又称履约价格，行权价格。</li>
+<li>最后交易日是期权合约能在交易所交易的最后日期。</li>
+<li>期权到期日，指期权买方可以执行期权的最后日期。</li>
+</ul>
+<h4 id="期权交易"><a href="#期权交易" class="headerlink" title="期权交易"></a>期权交易</h4><p>期权交易或买卖的对象是期权合约，买方支付期权费获得期权。在规定的行权期限内，买方可以行使权力买进或卖出标的资产。</p>
+<h4 id="建仓和头寸了结"><a href="#建仓和头寸了结" class="headerlink" title="建仓和头寸了结"></a>建仓和头寸了结</h4><p>建仓方向和头寸类型：</p>
+<ul>
+<li>开仓买入期权，也称建立期权多头头寸，称交易者为期权多头。</li>
+<li>开仓卖出期权，也称建立期权空头头寸，称交易者为期权空头。</li>
+</ul>
+<p>了结期权头寸的方式，期权多头可以通过对冲平仓，行权等方式将期权头寸了结，也可以持有期权至合约到期。当期权多头行权时，空头必须履约，即以履约的方式了结期权头寸。如果多头没有行权，则空头也可以通过对冲平仓了结期权头寸，或持有期权至合约到期。</p>
+<h4 id="期权的特点"><a href="#期权的特点" class="headerlink" title="期权的特点"></a>期权的特点</h4><h5 id="买卖双方的权利义务不同"><a href="#买卖双方的权利义务不同" class="headerlink" title="买卖双方的权利义务不同"></a>买卖双方的权利义务不同</h5><p>期权交易是权力的买卖，期权买方支付期权费获得权力，卖方将权力出售给买方从而拥有了履约的义务。</p>
+<h5 id="买卖双方的收益和损失特征不同"><a href="#买卖双方的收益和损失特征不同" class="headerlink" title="买卖双方的收益和损失特征不同"></a>买卖双方的收益和损失特征不同</h5><p>买方损失有限，最多为支付的期权费，收益可能很大。卖方最大收益为获得的期权费，损失可能超大。</p>
+<h5 id="对买卖双方保证金缴纳的规定不同"><a href="#对买卖双方保证金缴纳的规定不同" class="headerlink" title="对买卖双方保证金缴纳的规定不同"></a>对买卖双方保证金缴纳的规定不同</h5><p>卖方损失巨大，必须缴纳保证金作为履约担保。</p>
+<h5 id="独特的非线性损益结构"><a href="#独特的非线性损益结构" class="headerlink" title="独特的非线性损益结构"></a>独特的非线性损益结构</h5><h4 id="期权的基本类型"><a href="#期权的基本类型" class="headerlink" title="期权的基本类型"></a>期权的基本类型</h4><p>按行权时间区分：</p>
+<h5 id="美式期权"><a href="#美式期权" class="headerlink" title="美式期权"></a>美式期权</h5><p>指期权买方在期权到期日前的人合计一日都可以形式权力的期权。</p>
+<h5 id="欧式期权"><a href="#欧式期权" class="headerlink" title="欧式期权"></a>欧式期权</h5><p>指期权买方只能在期权到期日行使权力的期权。</p>
+<p>按行权方向区分：</p>
+<h5 id="看涨期权-买权-认购期权"><a href="#看涨期权-买权-认购期权" class="headerlink" title="看涨期权(买权/认购期权)"></a>看涨期权(买权/认购期权)</h5><p>指买方支付合约费从而拥有在合约期限内或特定时间内，安特定价格向期权卖方买入一定数量标的资产的权力。</p>
+<h5 id="看跌期权-卖权-认沽期权"><a href="#看跌期权-卖权-认沽期权" class="headerlink" title="看跌期权(卖权/认沽期权)"></a>看跌期权(卖权/认沽期权)</h5><p>按标的资产类型区分：</p>
+<h5 id="商品期权"><a href="#商品期权" class="headerlink" title="商品期权"></a>商品期权</h5><h5 id="金融期权"><a href="#金融期权" class="headerlink" title="金融期权"></a>金融期权</h5><p>按市场类型区分：<br>在交易所上市交易的期权成为场内期权也称为交易所期权；在交易所之外交易的期权成为场外期权。</p>
+<h5 id="场内期权"><a href="#场内期权" class="headerlink" title="场内期权"></a>场内期权</h5><h5 id="场外期权"><a href="#场外期权" class="headerlink" title="场外期权"></a>场外期权</h5><h4 id="期权价格及影响因素"><a href="#期权价格及影响因素" class="headerlink" title="期权价格及影响因素"></a>期权价格及影响因素</h4><h4 id="期权内涵-内在-价值"><a href="#期权内涵-内在-价值" class="headerlink" title="期权内涵(内在)价值"></a>期权内涵(内在)价值</h4><p>期权内涵价值有无及大小取决于标的物的资产价格与执行价格的关系。</p>
+<p>看涨期权的内涵价值 = 标的资产价格 - 执行价格</p>
+<p>看跌期权的内涵价值 = 执行价格 - 标的资产价格</p>
+<p>根据内涵价值计算结果的不同，可以将期权分为实值期权，虚值期权和平值期权；</p>
+<h4 id="实值，平值与虚值期权的关系"><a href="#实值，平值与虚值期权的关系" class="headerlink" title="实值，平值与虚值期权的关系"></a>实值，平值与虚值期权的关系</h4><p><img src="http://oc4zuck5v.bkt.clouddn.com/%E6%9C%9F%E8%B4%A7-%E5%AE%9E%E5%80%BC.png" alt=""></p>
+<h4 id="期货的时间价值"><a href="#期货的时间价值" class="headerlink" title="期货的时间价值"></a>期货的时间价值</h4><p>标的资产价格波动率越高，期权的时间价值应该越大。</p>
+<p>时间价值 = 权利金 - 内涵价值</p>
+<ul>
+<li>平值期权和虚值期权的时间价值总是大于等于0.</li>
+<li>美式期权的时间价值总是大于等于0.</li>
+<li>实值欧式看跌期权的时间价值可能小于0.</li>
+</ul>
+<h3 id="交易期权的基本策略"><a href="#交易期权的基本策略" class="headerlink" title="交易期权的基本策略"></a>交易期权的基本策略</h3><p>期权交易的最基本策略有买进看涨期权，买进看跌期权，卖出看涨期权，卖出看跌期权四种。</p>
+<h4 id="买进看涨期权"><a href="#买进看涨期权" class="headerlink" title="买进看涨期权"></a>买进看涨期权</h4><p>目的：预期价格上涨而买进。</p>
+<h5 id="损益分析"><a href="#损益分析" class="headerlink" title="损益分析"></a>损益分析</h5><p>注：C为期权的价格，X为执行价格，S为标的资产价格。</p>
+<p>损益平衡点 = X + C </p>
+<h2 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h2><h4 id="期权头寸"><a href="#期权头寸" class="headerlink" title="期权头寸"></a>期权头寸</h4><p>买方：期权的多头。</p>
+<p>买方：期权的空头。</p>
+<h4 id="期权四种头寸"><a href="#期权四种头寸" class="headerlink" title="期权四种头寸"></a>期权四种头寸</h4><ul>
+<li>看跌期权多头</li>
+<li>看涨期权多头</li>
+<li>看跌期权空头</li>
+<li>看涨期权空头</li>
+</ul>
+<h4 id="标的资产"><a href="#标的资产" class="headerlink" title="标的资产"></a>标的资产</h4><p>股票/货币/指数/期货期权</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/06/05/积极心理学-瑜伽篇/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          积极心理学-瑜伽篇(晨读)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/26/独立思考/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">独立思考</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="期货" data-title="期货" data-url="https://github.com/sirencode/2017/06/01/期货/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="期货">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

@@ -1,20 +1,506 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 自定义View | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在我们实际的项目开发过程中，或多或少会遇到一些UI是无法用系统的控件可以实现的，这时我们就要考虑自己去实现这些UI,在这里我记录了一些关于自定义View的基本实以及相关方法的解析。 View的生命周期首先我们需要对view的各个生命周期做一些简单的了解，以及各个生命周期的主要作用。 主要的生命周期介绍 1 onFinishInflate() 当View中所有的子控件均被映射成xml后触发 。 2">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 自定义View">
+<meta property="og:url" content="https://github.com/sirencode/2016/09/26/自定义View/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="在我们实际的项目开发过程中，或多或少会遇到一些UI是无法用系统的控件可以实现的，这时我们就要考虑自己去实现这些UI,在这里我记录了一些关于自定义View的基本实以及相关方法的解析。 View的生命周期首先我们需要对view的各个生命周期做一些简单的了解，以及各个生命周期的主要作用。 主要的生命周期介绍 1 onFinishInflate() 当View中所有的子控件均被映射成xml后触发 。 2">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/2509931-aa6e65e864d6dea0.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2017-08-21T03:25:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 自定义View">
+<meta name="twitter:description" content="在我们实际的项目开发过程中，或多或少会遇到一些UI是无法用系统的控件可以实现的，这时我们就要考虑自己去实现这些UI,在这里我记录了一些关于自定义View的基本实以及相关方法的解析。 View的生命周期首先我们需要对view的各个生命周期做一些简单的了解，以及各个生命周期的主要作用。 主要的生命周期介绍 1 onFinishInflate() 当View中所有的子控件均被映射成xml后触发 。 2">
+<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/2509931-aa6e65e864d6dea0.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-自定义View" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/26/自定义View/" class="article-date">
+  	<time datetime="2016-09-25T16:00:00.000Z" itemprop="datePublished">2016-09-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 自定义View
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在我们实际的项目开发过程中，或多或少会遇到一些UI是无法用系统的控件可以实现的，这时我们就要考虑自己去实现这些UI,在这里我记录了一些关于自定义View的基本实以及相关方法的解析。</p>
+<h3 id="View的生命周期"><a href="#View的生命周期" class="headerlink" title="View的生命周期"></a>View的生命周期</h3><p>首先我们需要对view的各个生命周期做一些简单的了解，以及各个生命周期的主要作用。</p>
+<h4 id="主要的生命周期介绍"><a href="#主要的生命周期介绍" class="headerlink" title="主要的生命周期介绍"></a>主要的生命周期介绍</h4><ul>
+<li>1 onFinishInflate() 当View中所有的子控件均被映射成xml后触发 。</li>
+<li>2 onMeasure( int ,  int ) 确定所有子元素的大小 。</li>
+<li>3 onLayout( boolean ,  int ,  int ,  int ,  int ) 当View分配所有的子元素的大小和位置时触发 。</li>
+<li>4 onSizeChanged( int ,  int ,  int ,  int ) 当view的大小发生变化时触发  。</li>
+<li>5 onDraw(Canvas) view渲染内容的细节。  </li>
+<li>6 onKeyDown( int , KeyEvent) 有按键按下后触发  。</li>
+<li>7 onKeyUp( int , KeyEvent) 有按键按下后弹起时触发  。</li>
+<li>8 onTrackballEvent(MotionEvent) 轨迹球事件 。 </li>
+<li>9 onTouchEvent(MotionEvent) 触屏事件  。</li>
+<li>10 onFocusChanged( boolean ,  int , Rect) 当View获取或失去焦点时触发   。</li>
+<li>11 onWindowFocusChanged( boolean ) 当窗口包含的view获取或失去焦点时触发  。</li>
+<li>12 onAttachedToWindow() 当view被附着到一个窗口时触发  。</li>
+<li>13 onDetachedFromWindow() 当view离开附着的窗口时触发，Android123提示该方法和  onAttachedToWindow() 是相反的。  </li>
+<li>14 onWindowVisibilityChanged( int ) 当窗口中包含的可见的view发生变化时触发。</li>
+</ul>
+<h4 id="生命周期调用顺序"><a href="#生命周期调用顺序" class="headerlink" title="生命周期调用顺序"></a>生命周期调用顺序</h4><p>[改变可见性] –&gt; 构造View() –&gt; onFinishInflate() –&gt; onAttachedToWindow() –&gt; onMeasure() –&gt; onSizeChanged() –&gt; onLayout() –&gt; onDraw() –&gt; onDetackedFromWindow()</p>
+<h4 id="MeasureSpec"><a href="#MeasureSpec" class="headerlink" title="MeasureSpec"></a>MeasureSpec</h4><p><img src="http://upload-images.jianshu.io/upload_images/2509931-aa6e65e864d6dea0.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
+<p>注：UNSPECIFIED 模式主要用于系统内部多次 Measure 的情形，一般不需关注此模式。</p>
+<h4 id="在-Activity-已启动的时候获取某个-View-的宽-高"><a href="#在-Activity-已启动的时候获取某个-View-的宽-高" class="headerlink" title="在 Activity 已启动的时候获取某个 View 的宽/高"></a>在 Activity 已启动的时候获取某个 View 的宽/高</h4><p>1 Activity/View#onWindowFocusChanged</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onWindowFocusChanged</span><span class="params">(<span class="keyword">boolean</span> hasFocus)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onWindowFocusChanged(hasFocus);</span><br><span class="line">        <span class="keyword">if</span> (!hasFocus) &#123;</span><br><span class="line">            <span class="keyword">int</span> width = view.getMeasuredWidth();</span><br><span class="line">            <span class="keyword">int</span> height = view.getMeasuredHeight();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>2 view.post(runnable)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStart();</span><br><span class="line">        view.post(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">int</span> width = mTextView.getMeasuredWidth();</span><br><span class="line">                <span class="keyword">int</span> height = mTextView.getMeasuredHeight();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>3 ViewTreeObserver</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStart();</span><br><span class="line"></span><br><span class="line">        ViewTreeObserver observer = view.getViewTreeObserver();</span><br><span class="line">        observer.addOnGlobalLayoutListener(<span class="keyword">new</span> ViewTreeObserver.OnGlobalLayoutListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onGlobalLayout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                view.getViewTreeObserver().removeOnGlobalLayoutListener(<span class="keyword">this</span>);</span><br><span class="line">                <span class="keyword">int</span> width = mTextView.getMeasuredWidth();</span><br><span class="line">                <span class="keyword">int</span> height = mTextView.getMeasuredHeight();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="1-初始化创建"><a href="#1-初始化创建" class="headerlink" title="1 初始化创建"></a>1 初始化创建</h5><ul>
+<li>有一种形式的构造函数会在View在代码中被创建时调用，另一种形式的构造函数会在View从layout加载出来时被调用。<br>第二种形式的构造函数会解析和应用layout文件中定义的任何属性。</li>
+<li>onFinishInflate()：该方法当View及其子View从XML文件中加载完成后会被调用。</li>
+</ul>
+<h5 id="2-三个构造方法介绍"><a href="#2-三个构造方法介绍" class="headerlink" title="2 三个构造方法介绍"></a>2 三个构造方法介绍</h5><ul>
+<li>public view（Context context）       当在代码中创建对象时会被调用。</li>
+<li>public View (Context context, AttributeSet attrs)   这个方法是通过xml文件来创建一个view对象的时候调用。很显然xml文件一般是布局文件，就是现实控件的时候调用，而布局文件中免不了会有属性的设置，如android：layout_width等，对这些属性的设置对应的处理代码也在这个方法中完成。</li>
+<li>public View (Context context, AttributeSet attrs, int defStyleAttr) 在xml布局文件中调用View,并且View标签中还有自定义属性时,这里调用的还是第二个构造函数。也就是说,系统默认只会调用View的前两个构造函数,至于第三个构造函数的调用,通常是我们自己在构造函数中主动调用的（例如,在第二个构造函数中调用第三个构造函数）。这是当前Theme中的包含的一个指向style的引用.当我们没有给自定义View设置declare-styleable资源集合时,默认从这个集合里面查找布局文件中配置属性值.传入0表示不向该defStyleAttr中查找默认值。第四个参数是一个指向Style的资源ID,但是仅在defStyleAttr为0或者defStyleAttr不为0但Theme中没有为defStyleAttr属性赋值时起作用。</li>
+</ul>
+<h5 id="3-布局"><a href="#3-布局" class="headerlink" title="3 布局"></a>3 布局</h5><ul>
+<li>onMeasure(int, int)：该方法在计算当前View及其所有子View尺寸大小需求时会被调用。再此方法中计算各个View的高宽的值，初始化一些需要的大小值。</li>
+<li>onLayout(boolean, int, int, int, int)：该方法在当前View需要为其子View分配尺寸和位置时会被调用。</li>
+<li>onSizeChanged(int, int, int, int)：该方法在当前View尺寸变化时被调用。</li>
+</ul>
+<h5 id="4-绘制"><a href="#4-绘制" class="headerlink" title="4 绘制"></a>4 绘制</h5><ul>
+<li>onDraw(android.graphics.Canvas)：该方法在当前View需要呈现其内容时被调用。</li>
+</ul>
+<h5 id="5-事件处理"><a href="#5-事件处理" class="headerlink" title="5 事件处理"></a>5 事件处理</h5><ul>
+<li>onKeyDown(int, KeyEvent)：该方法在一个物理按键事件发生时被调用。</li>
+<li>onKeyUp(int, KeyEvent)：该方法在一个物理按键弹起事件发生时被调用。</li>
+<li>onTrackballEvent(MotionEvent)：该方法在一个轨迹球运动事件发生时被调用。</li>
+<li>onTouchEvent(MotionEvent)：该方法在一个触摸屏幕运动事件发生时被调用。</li>
+</ul>
+<h5 id="6-聚焦"><a href="#6-聚焦" class="headerlink" title="6 聚焦"></a>6 聚焦</h5><ul>
+<li>onFocusChanged(boolean, int, android.graphics.Rect)：该方法在当前View获得或失去焦点时被调用。</li>
+<li>onWindowFocusChanged(boolean)：该方法在包含当前View的window获得或失去焦点时被调用。</li>
+</ul>
+<h5 id="7-附上"><a href="#7-附上" class="headerlink" title="7 附上"></a>7 附上</h5><ul>
+<li>onAttachedToWindow()：该方法在当前View被附到一个window上时被调用。</li>
+<li>onDetachedFromWindow()：该方法在当前View从一个window上分离时被调用。</li>
+<li>onVisibilityChanged(View, int)：该方法在当前View或其祖先的可见性改变时被调用。</li>
+<li>onWindowVisibilityChanged(int)：该方法在包含当前View的window可见性改变时被调用。</li>
+</ul>
+<h5 id="8-总结"><a href="#8-总结" class="headerlink" title="8 总结"></a>8 总结</h5><ul>
+<li>View默认为可见的，不是默认值时先调用onVisibilityChanged()，但是此时该View的尺寸、位置等信息都不知道。</li>
+<li>可见性改变后才是调用带有两个参数的构造函数，当然，如果该View不是在layout中定义的话，会调用一个参数的构造函数。</li>
+<li>从XMl文件中inflate完成（onFinishInflate()）。</li>
+<li>将View加到window中（View是gone的，那么View创建生命周期也就结束）。</li>
+<li>测量view的长宽（onMeasure()）。</li>
+<li>定位View 在父View中的位置（onLayout()），若View是invisible，则View的创建生命周期结束。</li>
+<li>绘制View的content（onDraw()），只有可见的View才在window中绘制。</li>
+<li>View的销毁流程和可见性没有关系。</li>
+</ul>
+<h3 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h3><h4 id="创建自定义属性文件"><a href="#创建自定义属性文件" class="headerlink" title="创建自定义属性文件"></a>创建自定义属性文件</h4><p>在res/values/attrs.xml文件下定义自定义view的属性。</p>
+<p>format取值：</p>
+<ul>
+<li>1 reference：参考某一资源ID</li>
+<li>2 color：颜色值</li>
+<li>3 boolean：布尔值</li>
+<li>4 dimension：尺寸值</li>
+<li>5 float：浮点值</li>
+<li>6 integer：整型值</li>
+<li>7 string：字符串</li>
+<li>8 fraction：百分数</li>
+<li>9 enum：枚举值</li>
+<li>10 flag：位或运算</li>
+</ul>
+<p>定义:</p>
+<pre><code>&lt;declare-styleable name=&quot;mystyle_attrs&quot;&gt;
+    &lt;attr name=&quot;string&quot; format=&quot;string&quot; /&gt;
+    &lt;attr name=&quot;color&quot; format=&quot;color&quot; /&gt;
+    &lt;attr name=&quot;boolean&quot; format=&quot;boolean&quot; /&gt;
+    &lt;attr name=&quot;dimension&quot; format=&quot;dimension&quot; /&gt;
+    &lt;attr name=&quot;float&quot; format=&quot;float&quot; /&gt;
+    &lt;attr name=&quot;integer&quot; format=&quot;integer&quot; /&gt;
+    &lt;attr name=&quot;reference&quot; format=&quot;reference&quot; /&gt;
+    &lt;attr name=&quot;fraction&quot; format=&quot;fraction&quot; /&gt;
+    &lt;attr name=&quot;enum&quot; format=&quot;enum&quot; &gt;
+    &lt;enum name=&quot;one&quot; value=&quot;1&quot; /&gt;
+    &lt;enum name=&quot;two&quot; value=&quot;2&quot; /&gt;
+    &lt;enum name=&quot;three&quot; value=&quot;3&quot; /&gt;
+    &lt;enum name=&quot;four&quot; value=&quot;4&quot; /&gt;
+    &lt;/attr&gt;
+    &lt;attr name=&quot;flag&quot; format=&quot;flag&quot; /&gt;
+&lt;/declare-styleable&gt;
+</code></pre><p>使用：</p>
+<pre><code>android:reference = &quot;@drawable/图片ID&quot; 
+android:color = &quot;#00FF00&quot;
+android:boolean = &quot;true&quot;  
+android:dimension = &quot;42dip&quot; 
+android:float = &quot;1.0&quot; 
+android:integer = &quot;12&quot; 
+android:string = &quot;hello&quot; 
+android:fraction = &quot;200%&quot;
+android:enum = &quot;one&quot;  
+</code></pre><p>取值：</p>
+<pre><code>TypedArray ta = context.obtainStyledAttributes(attrs, mAttr);
+String text = ta.getString(ATTR_ANDROID_TEXT,&quot;defult&quot;);   
+</code></pre><h3 id="拖拽工具类ViewDragHelp"><a href="#拖拽工具类ViewDragHelp" class="headerlink" title="拖拽工具类ViewDragHelp"></a>拖拽工具类ViewDragHelp</h3><ul>
+<li>1 创建viewdraghelp对象。</li>
+<li>2 将View的触摸事件关联到viewdraghelp对象。</li>
+<li>3 在ViewDragHelper.Callback中对视图做操作。</li>
+<li>4 使用ViewDragHelper.smoothSlideViewTo()方法平滑滚动。</li>
+<li>5 自定义一些交互逻辑的自由实现。</li>
+</ul>
+<h4 id="ViewDragHelp解析"><a href="#ViewDragHelp解析" class="headerlink" title="ViewDragHelp解析"></a>ViewDragHelp解析</h4><p>创建对象：</p>
+<p>mDragger = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback(){});</p>
+<p>ViewDragHelper中拦截和处理事件时，需要会回调CallBack中的很多方法来决定一些事，比如：哪些子View可以移动、对个移动的View的边界的控制等等。</p>
+<p>回调方法：</p>
+<ul>
+<li>1 tryCaptureView(View child, int pointerId)，返回值可以决定一个parentview中哪个子view可以拖动，返回ture则表示可以捕获该view，你可以根据传入的第一个view参数决定哪些可以捕获。</li>
+<li>2 clampViewPositionHorizontal,clampViewPositionVertical可以在该方法中对child移动的边界进行控制。即：最小&gt;=paddingleft， 最大&lt;=ViewGroup.getWidth()-paddingright-child.getWidth。</li>
+<li>3 onEdgeTouched方法会在左边缘滑动的时候被调用。</li>
+<li>4 我们在onEdgeDragStarted回调方法中，主动通过captureChildView对其进行捕获，该方法可以绕过tryCaptureView，所以我们的tryCaptureView 虽然并未返回true，但却不影响。</li>
+<li>5 重写了Callback中的onViewReleased，我们在onViewReleased中判断如果是mAutoBackView则调用settleCapturedViewAt回到初始的位置。 大家可以看到紧随其后的代码是invalidate();因为其内部使用的是mScroller.startScroll，所以别忘了需要invalidate()以及结合computeScroll方法一起。</li>
+<li>6 onViewDragStateChanged当ViewDragHelper状态发生变化时回调（IDLE,DRAGGING,SETTING[自动滚动时]）。</li>
+<li>7 onViewPositionChanged当captureview的位置发生改变时回调。</li>
+</ul>
+<p>调用顺序</p>
+<pre><code>DOWN:
+getOrderedChildIndex(findTopChildUnder)
+-&gt;onEdgeTouched
+
+MOVE:
+getOrderedChildIndex(findTopChildUnder)
+-&gt;getViewHorizontalDragRange &amp;
+  getViewVerticalDragRange(checkTouchSlop)(MOVE中可能不止一次)
+-&gt;clampViewPositionHorizontal&amp;
+  clampViewPositionVertical
+-&gt;onEdgeDragStarted
+-&gt;tryCaptureView
+-&gt;onViewCaptured
+-&gt;onViewDragStateChanged
+
+processTouchEvent:
+
+DOWN:
+getOrderedChildIndex(findTopChildUnder)
+-&gt;tryCaptureView
+-&gt;onViewCaptured
+-&gt;onViewDragStateChanged
+-&gt;onEdgeTouched
+
+MOVE:
+-&gt;STATE==DRAGGING:dragTo
+-&gt;STATE!=DRAGGING:
+    onEdgeDragStarted
+    -&gt;getOrderedChildIndex(findTopChildUnder)
+    -&gt;getViewHorizontalDragRange&amp;
+      getViewVerticalDragRange(checkTouchSlop)
+    -&gt;tryCaptureView
+    -&gt;onViewCaptured
+    -&gt;onViewDragStateChanged
+</code></pre><h3 id="View-的事件传递"><a href="#View-的事件传递" class="headerlink" title="View 的事件传递"></a>View 的事件传递</h3><h4 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h4><ul>
+<li>事件分发 dispatchTouchEvent(View ViewGroup)</li>
+<li>事件拦截 onInterceptTouchEvent(ViewGroup)</li>
+<li>事件处理 onTouchEvent(View ViewGroup)</li>
+<li>ViewGroup的dispatchTouchEvent是真正在执行“分发”工作，而View的dispatchTouchEvent方法，并不执行分发工作，或者说它分发的对象就是自己，决定是否把touch事件交给自己处理，而处理的方法，便是onTouchEvent事件，事实上子View的dispatchTouchEvent方法真正执行的代码是这样的 return onTouchEvent(event);</li>
+<li>不论 View 自身是否注册点击事件，只要 View 是可点击的就会消费事件</li>
+<li>事件是否被消费由返回值决定，true 表示消费，false 表示不消费，与是否使用了事件无关。</li>
+<li>ViewGroup 和 ChildView 同时注册了事件监听器(onClick等)，由 ChildView 消费。</li>
+<li>一次触摸流程中产生事件应被同一 View 消费，全部接收或者全部拒绝。</li>
+<li>如果当前正在处理的事件被上层 View 拦截，会收到一个 ACTION_CANCEL，后续事件不会再传递过来。</li>
+</ul>
+<h4 id="View的事件的调度顺序是"><a href="#View的事件的调度顺序是" class="headerlink" title="View的事件的调度顺序是"></a>View的事件的调度顺序是</h4><p>onTouchListener &gt; onTouchEvent &gt; onLongClickListener &gt; onClickListener</p>
+<ul>
+<li>1、如果ViewGroup找到了能够处理该事件的View，则直接交给子View处理，自己的onTouchEvent不会被触发；</li>
+<li>2、可以通过复写onInterceptTouchEvent(ev)方法，拦截子View的事件（即return true），把事件交给自己处理，则会执行自己对应的onTouchEvent方法</li>
+<li>3、子View可以通过调用getParent().requestDisallowInterceptTouchEvent(true);  阻止ViewGroup对其MOVE或者UP事件进行拦截；</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li>1.Touch事件分发中只有两个主角:ViewGroup和View。ViewGroup包含onInterceptTouchEvent、dispatchTouchEvent、onTouchEvent三个相关事件。View包含dispatchTouchEvent、onTouchEvent两个相关事件。其中ViewGroup又继承于View。</li>
+<li>2.ViewGroup和View组成了一个树状结构，根节点为Activity内部包含的一个ViwGroup。</li>
+<li>3.触摸事件由Action_Down、Action_Move、Aciton_UP组成，其中一次完整的触摸事件中，Down和Up都只有一个，Move有若干个，可以为0个。</li>
+<li>4.当Acitivty接收到Touch事件时，将遍历子View进行Down事件的分发。ViewGroup的遍历可以看成是递归的。分发的目的是为了找到真正要处理本次完整触摸事件的View，这个View会在onTouchuEvent结果返回true。</li>
+<li>5.当某个子View返回true时，会中止Down事件的分发，同时在ViewGroup中记录该子View。接下去的Move和Up事件将由该子View直接进行处理。由于子View是保存在ViewGroup中的，多层ViewGroup的节点结构时，上级ViewGroup保存的会是真实处理事件的View所在的ViewGroup对象:如ViewGroup0-ViewGroup1-TextView的结构中，TextView返回了true，它将被保存在ViewGroup1中，而ViewGroup1也会返回true，被保存在ViewGroup0中。当Move和UP事件来时，会先从ViewGroup0传递至ViewGroup1，再由ViewGroup1传递至TextView。</li>
+<li>6.当ViewGroup中所有子View都不捕获Down事件时，将触发ViewGroup自身的onTouch事件。触发的方式是调用super.dispatchTouchEvent函数，即父类View的dispatchTouchEvent方法。在所有子View都不处理的情况下，触发Acitivity的onTouchEvent方法。</li>
+<li>7.onInterceptTouchEvent有两个作用：1.拦截Down事件的分发。2.中止Up和Move事件向目标View传递，使得目标View所在的ViewGroup捕获Up和Move事件。</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/03/APP启动时间优化/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          APP 启动时间优化
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/09/19/UI懒加载/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android UI懒加载-ViewStub</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="自定义View" data-title="Android 自定义View" data-url="https://github.com/sirencode/2016/09/26/自定义View/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 自定义View">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

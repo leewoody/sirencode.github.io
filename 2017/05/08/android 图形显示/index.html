@@ -1,20 +1,375 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>图形显示 | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="转载自：博客 绘制中的角色生产者 CPU：Measure，Layout，纹理和多边形生成，发送纹理和多边形到GPU GPU：将CPU生成的纹理和多边形进行栅格化以及合成  Android 4.1 加入的VSync信号同步到上层以及三缓冲 SurfaceFlinger-图形合成者作为上层应用的消费者，硬件层的生产者。负责图形的合成，和ActivityManagerService一样，是一个系统服务。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图形显示">
+<meta property="og:url" content="https://github.com/sirencode/2017/05/08/android 图形显示/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="转载自：博客 绘制中的角色生产者 CPU：Measure，Layout，纹理和多边形生成，发送纹理和多边形到GPU GPU：将CPU生成的纹理和多边形进行栅格化以及合成  Android 4.1 加入的VSync信号同步到上层以及三缓冲 SurfaceFlinger-图形合成者作为上层应用的消费者，硬件层的生产者。负责图形的合成，和ActivityManagerService一样，是一个系统服务。">
+<meta property="og:image" content="https://dn-mhke0kuv.qbox.me/08d0142d954b365dd8f0.png">
+<meta property="og:image" content="https://dn-mhke0kuv.qbox.me/62bd216a289d49f6eb7d.png">
+<meta property="og:image" content="https://dn-mhke0kuv.qbox.me/78c6579ffd792d84e129.jpg">
+<meta property="og:image" content="https://dn-mhke0kuv.qbox.me/60c10f0847f270b5c10b.png">
+<meta property="og:image" content="https://dn-mhke0kuv.qbox.me/47a962b7b7e477e031f2.png">
+<meta property="og:updated_time" content="2017-05-08T04:37:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="图形显示">
+<meta name="twitter:description" content="转载自：博客 绘制中的角色生产者 CPU：Measure，Layout，纹理和多边形生成，发送纹理和多边形到GPU GPU：将CPU生成的纹理和多边形进行栅格化以及合成  Android 4.1 加入的VSync信号同步到上层以及三缓冲 SurfaceFlinger-图形合成者作为上层应用的消费者，硬件层的生产者。负责图形的合成，和ActivityManagerService一样，是一个系统服务。">
+<meta name="twitter:image" content="https://dn-mhke0kuv.qbox.me/08d0142d954b365dd8f0.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-android 图形显示" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/05/08/android 图形显示/" class="article-date">
+  	<time datetime="2017-05-07T16:00:00.000Z" itemprop="datePublished">2017-05-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      图形显示
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>转载自：<a href="https://juejin.im/post/590a91ceac502e0058258293" target="_blank" rel="noopener">博客</a></p>
+<h3 id="绘制中的角色"><a href="#绘制中的角色" class="headerlink" title="绘制中的角色"></a>绘制中的角色</h3><h4 id="生产者"><a href="#生产者" class="headerlink" title="生产者"></a>生产者</h4><ul>
+<li>CPU：Measure，Layout，纹理和多边形生成，发送纹理和多边形到GPU</li>
+<li>GPU：将CPU生成的纹理和多边形进行栅格化以及合成</li>
+</ul>
+<p>Android 4.1 加入的VSync信号同步到上层以及三缓冲</p>
+<h4 id="SurfaceFlinger-图形合成者"><a href="#SurfaceFlinger-图形合成者" class="headerlink" title="SurfaceFlinger-图形合成者"></a>SurfaceFlinger-图形合成者</h4><p>作为上层应用的消费者，硬件层的生产者。负责图形的合成，和ActivityManagerService一样，是一个系统服务。</p>
+<p>生产者将自己的内容绘制在对应的Surface内，接着，SufaceFlinger需要将所有上层对应的Surface内的图形进行合成。</p>
+<h5 id="Surface："><a href="#Surface：" class="headerlink" title="Surface："></a>Surface：</h5><ul>
+<li>对应上层的一个Window（对话框、Activity、状态栏）</li>
+<li>作为上层图形绘制的画板</li>
+<li>Canvas是画笔，上层通过调用Canvas的API向Surface上绘制图形</li>
+<li>Surface内部存在多个缓冲区，形成一个BufferQueue</li>
+</ul>
+<p><img src="https://dn-mhke0kuv.qbox.me/08d0142d954b365dd8f0.png" alt="surface"></p>
+<p>Surface内部提供一个BufferQueue，与上层和SurfaceFlinger形成一个生产者消费者模型，上层对应Producer，SurfaceFlinger对应Consumer。三者通过Buffer产生联系，每个Buffer都有四种状态：</p>
+<ul>
+<li>Free：可被上层使用</li>
+<li>Dequeued：出列，正在被上层使用</li>
+<li>Queued：入列，已完成上层绘制，等待SurfaceFlinger合成</li>
+<li>Acquired：被获取，SurfaceFlinger正持有该Buffer进行合成</li>
+</ul>
+<p>Buffer的一次转移过程大致为：</p>
+<ul>
+<li>1 从BufferQueue转移到上层</li>
+<li>2 上层绘制完成再放回BufferQueue</li>
+<li>3 接着SurfaceFlinger再拿去合成</li>
+<li>4 最后又放回BufferQueue</li>
+</ul>
+<p>如此循环，形成一个Buffer被循环使用的过程。</p>
+<h4 id="显示屏"><a href="#显示屏" class="headerlink" title="显示屏"></a>显示屏</h4><p>显示屏上的内容，是从硬件帧缓冲区读取的，大致读取过程为：从Buffer的起始地址开始，从上往下，从左往右扫描整个Buffer，将内容映射到显示屏上。</p>
+<p>当然，屏幕上的内容需要需要不断的更新，如果在同一个Buffer进行读取和写入（合成）操作，将会导致屏幕显示多帧内容。所以硬件层除了提供一个Buffer用于屏幕显示，还提供了一个Buffer用于后台的图形合成，也就是我们常说的双缓冲。</p>
+<p><img src="https://dn-mhke0kuv.qbox.me/62bd216a289d49f6eb7d.png" alt=""></p>
+<p>前缓冲区：用来显示内容到屏幕的帧缓冲区</p>
+<p>后缓冲区：用于后台合成下一帧图形的帧缓冲区</p>
+<p>屏幕刷新率（HZ）：代表屏幕在一秒内刷新屏幕的次数，Android手机一般为60HZ（也就是1秒刷新60帧，大约16.67毫秒刷新1帧）</p>
+<p>系统帧速率（FPS）：代表了系统在一秒内合成的帧数，该值的大小由系统算法和硬件决定。</p>
+<p>垂直同步（VSync）：当屏幕从缓冲区扫描完一帧到屏幕上之后，开始扫描下一帧之前，发出的一个同步信号，该信号用来切换前缓冲区和后缓冲区。</p>
+<h3 id="Android绘制的主要流程"><a href="#Android绘制的主要流程" class="headerlink" title="Android绘制的主要流程"></a>Android绘制的主要流程</h3><p>生产者 -&gt; 中间处理 -&gt; 显示器</p>
+<p>图形的传递是通过Buffer作为载体</p>
+<ul>
+<li>1 生产者负责生成surface对象并交付给SurfaceFlinger进行合成。</li>
+<li>2 SurfaceFlinger将合成好的内容提交到屏幕的后缓冲区，等待屏幕的下一个垂直同步信号的到来，再显示到屏幕上。</li>
+</ul>
+<p>未加入的VSync信号同步到上层以及三缓冲的处理流程：</p>
+<p><img src="https://dn-mhke0kuv.qbox.me/78c6579ffd792d84e129.jpg" alt=""></p>
+<ul>
+<li>1 CPU和GPU代表上层的绘制执行者</li>
+<li>2 Composite代表的是SurfaceFlinger对多个Surface的合成</li>
+<li>3 Background Buffer和Front Buffer分别代表的是硬件帧缓冲区中的前缓冲和后缓冲</li>
+<li>4 显示屏扫描完一帧之后，会发出VSync信号来切换并显示下一帧</li>
+</ul>
+<p>上面的流程中，存在一个问题，屏幕的VSync信号只是用来控制帧缓冲区的切换，并未控制上层的绘制节奏，也就是说上层的生产节奏和屏幕的显示节奏是脱离的.</p>
+<p>google在Android 4.1系统中加入了上层接收垂直同步信号的逻辑，大致流程如下：</p>
+<p><img src="https://dn-mhke0kuv.qbox.me/60c10f0847f270b5c10b.png" alt=""></p>
+<p>屏幕在显示完一帧后，发出的垂直同步除了通知帧缓冲区的切换之外，该消息还会发送到上层，通知上层开始绘制下一帧。</p>
+<p>只有等到第二个VSync信号来了之后，CPU才开始在绘制下一帧。如果CPU和GPU需要合成的图形太多，将会导致连续性的卡顿，如果CPU和GPU大部分时候都无法在16.6ms完成一帧的绘制，将会导致连续的卡顿现象。</p>
+<h5 id="parallel-processing-and-triple-buffering"><a href="#parallel-processing-and-triple-buffering" class="headerlink" title="parallel processing and triple buffering"></a>parallel processing and triple buffering</h5><p>加入第三个Buffer，CPU和GPU还有SurfaceFlinger各占一个Buffer，并行处理图形：</p>
+<p><img src="https://dn-mhke0kuv.qbox.me/47a962b7b7e477e031f2.png" alt=""></p>
+<p>从上图可以看出，在第一个VSync到来时，尽管SurfaceFlinger占了一个Buffer，GPU又占了一个Buffer，CPU仍然可以在第三个Buffer中开始下一帧的计算，整个显示过程就开始时卡顿了一帧，之后都是流畅的。</p>
+<p>当然系统并非一直开启三个Buffer，因为Buffer是需要消耗资源的，并且，我们会发现，上图中，GPU处理好的图形，需要跨越两个VSync信号，才能显示。这样的话，给用户的影响是一个延迟的现象。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/05/09/gradle 配置信息详解/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          gradle 配置信息详解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/05/05/lambda 语法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">lambda 语法</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="android 图形显示" data-title="图形显示" data-url="https://github.com/sirencode/2017/05/08/android 图形显示/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="图形显示">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

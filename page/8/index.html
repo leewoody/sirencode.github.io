@@ -1,20 +1,1421 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Diablo</title>
 
-block nav
-    - var pageName = "HOME"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = __("site_index")
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Diablo">
+<meta property="og:url" content="https://github.com/sirencode/page/8/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Diablo">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        each post in page.posts.toArray()
-            a(href=url_for(post.path), title=post.title).body__item.post__title
-                span!= post.title
-                span(class="archive_date")!= date(post.date)
-    div.body__pagination
-        div.pull-right!= paginator()
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap">
+  
+    <article id="post-mvp" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/30/mvp/" class="article-date">
+  	<time datetime="2016-08-29T16:00:00.000Z" itemprop="datePublished">2016-08-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/30/mvp/">
+        Android 设计模式-MVP框架
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。</p>
+<h3 id="MVP介绍"><a href="#MVP介绍" class="headerlink" title="MVP介绍"></a>MVP介绍</h3><p>MVP实际是将原MVC模式下activity和fragment里面的代码抽离出来并封装到P里面，从而，降低了actvity和fragment的代码量，并解耦。</p>
+<ul>
+<li>M是指modle，model 是用户界面需要显示数据的抽象，也可以理解为从业务数据（结果）那里到用户界面的抽象（Business rule, data access, model classes）。</li>
+<li>视图这一层体现的很轻薄，负责显示数据、提供友好界面跟用户交互就行。MVP下Activity和Fragment体现在了这一层，<br>Activity一般也就做加载UI视图、设置监听再交由Presenter处理的一些工作，所以也就需要持有相应Presenter的引用。例如，Activity上滚动列表时隐藏或者显示Acionbar（Toolbar），这样的UI逻辑时也应该在这一层。另外在View上输入的数据做一些判断时，例如，EditText的输入数据，假如是简单的非空判断则可以作为View层的逻辑，而当需要对EditText的数据进行更复杂的比较时，如从数据库获取本地数据进行判断时明显需要经过Model层才能返回了，所以这些细节需要自己掂量。</li>
+<li>Presenter这一层处理着程序各种逻辑的分发，收到View层UI上的反馈命令、定时命令、系统命令等指令后分发处理逻辑交由业务层做具体的业务操作，然后将得到的 Model 给 View 显示。</li>
+</ul>
+<h4 id="获取数据-gt-改变View的流程（APP的主要流程）"><a href="#获取数据-gt-改变View的流程（APP的主要流程）" class="headerlink" title="获取数据-&gt;改变View的流程（APP的主要流程）"></a>获取数据-&gt;改变View的流程（APP的主要流程）</h4><p>步骤1：UI(Activity)实现View方法，引用Presenter<br>步骤2：Presenter调用Model，走Model具体逻辑<br>步骤3：Model逻辑实现，回调Presenter方法返回数据<br>步骤4：Presenter回调View，即回到UI，回调View方法</p>
+<h4 id="View改变-gt-业务处理"><a href="#View改变-gt-业务处理" class="headerlink" title="View改变-&gt;业务处理"></a>View改变-&gt;业务处理</h4><p>在View的改变事件——&gt;presenter -&gt; model处理，回调presenter -&gt; 根据结果显示UI</p>
+<h4 id="双向数据沟通"><a href="#双向数据沟通" class="headerlink" title="双向数据沟通"></a>双向数据沟通</h4><p>1 v变化——&gt; p -&gt; m处理<br>2 m处理后 -&gt; p -&gt; v变化</p>
+<p>或者</p>
+<p>1 m处理后 -&gt; p -&gt; v变化<br>2 v变化——&gt; p -&gt; m处理</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
+<ul>
+<li>1 数据解耦，所有的业务逻辑放到model里面，方便管理复用。</li>
+<li>2 代码的可读性好很多，方便后续修改阅读。</li>
+<li>3 代码的耦合度很低，方便其它地方复用相关模块代码。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>1 要写大量的代码，或者文件。</li>
+<li>2 使用起来没有以前方便，需要进行数据的分离处理。</li>
+</ul>
+<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><p>使用MVP时，Activity和Fragment变成了MVC模式中View层，Presenter相当于MVC模式中Controller层，处理业务逻辑。每一个Activity都有一个相应的presenter来处理数据进而获取model。</p>
+<p>由于写MVP模式要写大量的代码和文件，因此建议不需要所有的功能都用mvp实现，在逻辑的叶子节点上的功能可以不使用。另外，modle文件可以根据模块化共用一个modle,不需要每个功能都新建一个model。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-screen adapter" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/24/screen adapter/" class="article-date">
+  	<time datetime="2016-08-23T16:00:00.000Z" itemprop="datePublished">2016-08-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/24/screen adapter/">
+        Android 屏幕适配-比例适配
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。</p>
+<h3 id="适配分类"><a href="#适配分类" class="headerlink" title="适配分类"></a>适配分类</h3><h4 id="完美适配-100分"><a href="#完美适配-100分" class="headerlink" title="完美适配(100分)"></a>完美适配(100分)</h4><p>这种适配方式是无差的适配方案。<br>主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dimens文件实现。</p>
+<ul>
+<li>优点：完美适配，可以最大程度上还原设计稿。</li>
+<li>缺点：费时费力，还需要多种设计稿。</li>
+</ul>
+<h4 id="主流适配-dp（80分）"><a href="#主流适配-dp（80分）" class="headerlink" title="主流适配-dp（80分）"></a>主流适配-dp（80分）</h4><p>实现方式：使用dp在主流分辨率上去布局，而主流的dp是相差不多的，因此可以做到简单的适配效果。市场上大部分的适配方案就是这么实现的。</p>
+<ul>
+<li>优点：工作量小，适配率高。</li>
+<li>缺点：适配时会跟设计稿存在偏差，需要手动调。</li>
+</ul>
+<h4 id="比例适配（90分）"><a href="#比例适配（90分）" class="headerlink" title="比例适配（90分）"></a>比例适配（90分）</h4><p>顾名思义，就是按比例去适配。因为android主流手机的高宽比介于1.65~1.77之间，而这一部分的市场占有率大约在95%以上。也就是说市场主流的手机分辨率的中心线差不多在一条线上，也就是事说，宽高比大体相同。所以比例布局是一个不错的选择。</p>
+<p>1 首先我们筛选出需要适配的主流分辨率</p>
+<ul>
+<li>(320, 480);</li>
+<li>(480, 800);</li>
+<li>(480, 854);</li>
+<li>(540, 960);</li>
+<li>(600, 1024);</li>
+<li>(720, 1184);</li>
+<li>(720, 1196);</li>
+<li>(720, 1280);</li>
+<li>(768, 1024);</li>
+<li>(800, 1280);</li>
+<li>(1080, 1776);</li>
+<li>(1080, 1812);</li>
+<li>(1080, 1920);</li>
+<li>(1440, 2560);</li>
+</ul>
+<p>2 编写工具类生成资源文件：<br>  在编写前首先要确定，我们将屏幕的宽高各分成多少分：（我们这里选择高：480份，宽：320份）</p>
+<pre><code>public class MakeXml {
+//文件路径
+private final static String rootPath = &quot;/Users/yongheshen/Desktop/values/values-{0}x{1}/&quot;;
+
+//宽的份数
+private final static float dw = 320f;
+//高的份数
+private final static float dh = 480f;
+
+private final static String WTemplate = &quot;&lt;dimen name=\&quot;x{0}\&quot;&gt;{1}px&lt;/dimen&gt;\n&quot;;
+private final static String HTemplate = &quot;&lt;dimen name=\&quot;y{0}\&quot;&gt;{1}px&lt;/dimen&gt;\n&quot;;
+
+public static void main(String[] args)
+{
+    makeString(320, 480);
+    makeString(480, 800);
+    makeString(480, 854);
+    makeString(540, 960);
+    makeString(600, 1024);
+    makeString(720, 1184);
+    makeString(720, 1196);
+    makeString(720, 1280);
+    makeString(768, 1024);
+    makeString(800, 1280);
+    makeString(1080, 1776);
+    makeString(1080, 1812);
+    makeString(1080, 1920);
+    makeString(1440, 2560);
+}
+
+public static void makeString(int w, int h)
+{
+
+    StringBuffer sb = new StringBuffer();
+    sb.append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;utf-8\&quot;?&gt;\n&quot;);
+    sb.append(&quot;&lt;resources&gt;&quot;);
+    float cellw = w / dw;
+    for (int i = 1; i &lt; dw; i++)
+    {
+        sb.append(WTemplate.replace(&quot;{0}&quot;, i + &quot;&quot;).replace(&quot;{1}&quot;,
+                change(cellw * i) + &quot;&quot;));
+    }
+    sb.append(WTemplate.replace(&quot;{0}&quot;, &quot;320&quot;).replace(&quot;{1}&quot;, w + &quot;&quot;));
+    sb.append(&quot;&lt;/resources&gt;&quot;);
+
+    StringBuffer sb2 = new StringBuffer();
+    sb2.append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;utf-8\&quot;?&gt;\n&quot;);
+    sb2.append(&quot;&lt;resources&gt;&quot;);
+    float cellh = h / dh;
+    for (int i = 1; i &lt; dh; i++)
+    {
+        sb2.append(HTemplate.replace(&quot;{0}&quot;, i + &quot;&quot;).replace(&quot;{1}&quot;,
+                change(cellh * i) + &quot;&quot;));
+    }
+    sb2.append(HTemplate.replace(&quot;{0}&quot;, &quot;480&quot;).replace(&quot;{1}&quot;, h + &quot;&quot;));
+    sb2.append(&quot;&lt;/resources&gt;&quot;);
+
+    String path = rootPath.replace(&quot;{0}&quot;, h + &quot;&quot;).replace(&quot;{1}&quot;, w + &quot;&quot;);
+    File rootFile = new File(path);
+    if (!rootFile.exists())
+    {
+        rootFile.mkdirs();
+    }
+    File layxFile = new File(path + &quot;lay_x.xml&quot;);
+    File layyFile = new File(path + &quot;lay_y.xml&quot;);
+    try
+    {
+        PrintWriter pw = new PrintWriter(new FileOutputStream(layxFile));
+        pw.print(sb.toString());
+        pw.close();
+        pw = new PrintWriter(new FileOutputStream(layyFile));
+        pw.print(sb2.toString());
+        pw.close();
+    } catch (FileNotFoundException e)
+    {
+        e.printStackTrace();
+    }
+
+}
+
+public static float change(float a)
+{
+    int temp = (int) (a * 100);
+    return temp / 100f;
+}
+}
+</code></pre><p>3 之后将对应的values文件拷到项目中即可</p>
+<p>4 在适配的时候使用对应的比例单位x1,y1即可分别代表了x,y的份数，和具体单位无关。</p>
+<p>5 记得写一个默认lay_x.xml，lay_y.xml文件，确保适配方案外的正常显示。</p>
+<h4 id="比例适配优化"><a href="#比例适配优化" class="headerlink" title="比例适配优化"></a>比例适配优化</h4><p>现在比较流行瀑布流的布局方式，也就是定宽，不定高。<br>这种适配方式也很简单，我们只需要使用x份的值区布局就可以实现对应的效果。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>大家可以根据不同的需求去选择不同的适配方式。<br>完美布局表较适合用户非常广，切要适配到很多版本用户类型的APP。<br>比例布局比较居中，既可以简单实现也可以复杂实现。<br>dp布局比较适合初创版本或者小用户群的APP。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-性能分析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/24/性能分析/" class="article-date">
+  	<time datetime="2016-08-23T16:00:00.000Z" itemprop="datePublished">2016-08-24</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/24/性能分析/">
+        Android 性能分析
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="性能分类"><a href="#性能分类" class="headerlink" title="性能分类"></a>性能分类</h3><p>  除了交互、视觉、内容方面的问题外，在用户使用过程中，给用户造成烦恼的问题都可以归结为是性能问题，比如上文中列出的这些都属于性能问题，按照影响的方面不同，可以分为如下几大类：</p>
+<ul>
+<li><p>内存问题：耗内存、OOM、程序切换到后台后占用内存无法释放（OOM会影响产品的稳定性；耗内存、内存泄露会影响整机的性能；占用内存多预示着留给其它应用的剩余内存空间小）；</p>
+</li>
+<li><p>功耗问题：发烫（耗电）；</p>
+</li>
+<li><p>流畅度问题：启动慢、页面显示需要长时间转圈加载、页面切换卡顿、黑白屏（卡慢崩会让人烦躁）；</p>
+</li>
+</ul>
+<p>  针对上面一系列的性能问题，谷歌官方提供了各种各样的工具来针对性的解决各个方面的问题，也有很多不错的第三方工具值得尝试：</p>
+<ul>
+<li><p>内存问题：提供了Android Studio的静态代码检测功能、Android Monitor；第三方内存泄露分析工具Leakcanary、MAT；</p>
+</li>
+<li><p>功耗问题：提供了GPU呈现模式、battery-historian、Android Monitor；</p>
+</li>
+<li><p>流畅度问题：提供了Android Studio的静态代码检测功能、Android Monitor、HierarchyViewer、StrictMode、过渡绘制检测工具、TraceView等；</p>
+</li>
+</ul>
+<p>   除了上面提到的这些性能优化工具外，谷歌还在Youtube上提供了一系列关于Android应用性能优化的短视频Android Performance Patterns，介绍如何优化Android各个方面的性能问题。
+   
+   </p>
+<h3 id="性能优化指标"><a href="#性能优化指标" class="headerlink" title="性能优化指标"></a>性能优化指标</h3><p>性能优化的效果仅凭感觉很难衡量，一切应该看数据说话，比如流畅度优化，刷新频率每秒越接近60帧越理想，但只要每秒钟超过24帧人眼就无法辨别了，所以仅凭感觉是无法区分优化前的30帧和优化后的40帧的区别的。为了说明做性能优化有足够的价值，就有必要通过一系列指标来说明优化前后的区别。</p>
+<p>  性能指标的定义应该具有可衡量、可比较的特点，所以每项性能指标可以是数值，也可以是一份报告，比如：</p>
+<ul>
+<li><p>流畅度：FPS，即Frams per Second，一秒内的刷新帧数，越接近60帧越好；</p>
+</li>
+<li><p>启动时间：时间，越短越好；</p>
+</li>
+<li><p>内存泄露：AS静态代码检测结果、MAT检测结果，内存泄露很难用数值定义，但可以通过将优化前后工具检测的结果对比得出结论。没有内存泄露最好；</p>
+</li>
+<li><p>内存大小：峰值，峰值越低越好；</p>
+</li>
+<li><p>功耗：单位时间内的掉电量，掉电量越少越好；</p>
+</li>
+</ul>
+<p>  从上面各项性能指标的定义可以看出，性能优化效果的评估主要是通过对比得出来的，性能如何只是相对的。只要针对同一个应用的同一项指标，优化后比优化前更优，就说明优化是有效果的。
+  </p>
+<h3 id="性能优化原则和方法"><a href="#性能优化原则和方法" class="headerlink" title="性能优化原则和方法"></a>性能优化原则和方法</h3><h4 id="优化原则"><a href="#优化原则" class="headerlink" title="优化原则"></a>优化原则</h4><ul>
+<li><p>足够多的测量：不要凭感觉去检测性能问题、评估性能优化的效果，应该保持足够多的测量，数据不会说谎。使用各种性能工具有助于快速定位问题，这比凭感觉要靠谱得多；</p>
+</li>
+<li><p>使用低配置的设备：同样的程序，在低端配置的设备中，相同的问题会暴露得更为明显；高配的设备很多时候会让你忽略掉性能问题；</p>
+</li>
+<li><p>权衡利弊：在能够保证产品稳定、按时交付的前提下去做优化，不能顾此失彼，为了性能优化导致产品迟迟不能交付；</p>
+</li>
+</ul>
+<h4 id="优化方法"><a href="#优化方法" class="headerlink" title="优化方法"></a>优化方法</h4><ul>
+<li><p>了解问题：对于性能问题来讲，这个步骤只适用于某些明显的性能问题，很多无法感知的性能问题需要通过工具定位；</p>
+</li>
+<li><p>定位问题：通过工具检测、分析，定位在什么地方存在性能问题；如果很难定位，可以采用排除法（屏蔽部分代码，看现象是否仍然存在，如果还存在，则说明被屏蔽的代码没有问题，这样逐渐缩小问题的范围）；</p>
+</li>
+<li><p>分析问题：找到问题后，分析针对这个问题该如何解决，确定解决方案；</p>
+</li>
+<li><p>解决问题：这个没什么可说的，如果是自己无法解决的问题，借助搜索引擎，你遇到过的问题很多人都遇到过，并且极有可能已经被解决了；</p>
+</li>
+<li><p>验证问题：保证每一次优化都有效，没有产生新问题，保证产品的稳定；</p>
+</li>
+</ul>
+<h3 id="优化工具"><a href="#优化工具" class="headerlink" title="优化工具"></a>优化工具</h3><ul>
+<li><p>开发者选项：GPU呈现模式分析、GPU过渡绘制、严格模式、应用无响应ANR等；</p>
+</li>
+<li><p>IDE中：Android Studio，比如静态代码检测工具、Memory Monitor、CPU Monitor、NetWork Monitor、GPU Monitor、Layout Inspector、Analyze APK等；</p>
+</li>
+<li><p>SDK中：sdk\tools，比如DDMS、HierarchyViewer、TraceView等；</p>
+</li>
+<li><p>第三方性能优化工具：MAT、Leakcanary等；</p>
+</li>
+</ul>
+<h3 id="性能优化只线程"><a href="#性能优化只线程" class="headerlink" title="性能优化只线程"></a>性能优化只线程</h3><h4 id="线程性能"><a href="#线程性能" class="headerlink" title="线程性能"></a>线程性能</h4><p>在程序开发的实践当中，为了让程序表现得更加流畅，我们肯定会需要使用到多线程来提升程序的并发执行性能。但是编写多线程并发的代码一直以来都是一个相对棘手的问题，所以想要获得更佳的程序性能，我们非常有必要掌握多线程并发编程的基础技能。</p>
+<p>众所周知，Android程序的大多数代码操作都必须执行在主线程，例如系统事件(例如设备屏幕发生旋转)，输入事件(例如用户点击滑动等)，程序回调服务，UI绘制以及闹钟事件等等。那么我们在上述事件或者方法中插入的代码也将执行在主线程。</p>
+<p>为了避免上面提到的掉帧问题，我们需要使用多线程的技术方案，把那些操作复杂的任务移动到其他线程当中执行，这样就不容易阻塞主线程的操作，也就减小了出现掉帧的可能性。</p>
+<h4 id="线程内存问题"><a href="#线程内存问题" class="headerlink" title="线程内存问题"></a>线程内存问题</h4><p>增加并发的线程数会导致内存消耗的增加，平衡好这两者的关系是非常重要的。为了解决上面的问题，我们需要谨记的原则就是：不要在任何非UI线程里面去持有UI对象的引用。系统为了确保所有的UI对象都只会被UI线程所进行创建，更新，销毁的操作，特地设计了对应的工作机制(当Activity被销毁的时候，由该Activity所触发的非UI线程都将无法对UI对象进行操作，否者就会抛出程序执行异常的错误)来防止UI对象被错误的使用。</p>
+<h4 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h4><p>首先，默认情况下，所有的AsyncTask任务都是被线性调度执行的，他们处在同一个任务队列当中，按顺序逐个执行。假设你按照顺序启动20个AsyncTask，一旦其中的某个AsyncTask执行时间过长，队列中的其他剩余AsyncTask都处于阻塞状态，必须等到该任务执行完毕之后才能够有机会执行下一个任务。为了解决上面提到的线性队列等待的问题，我们可以使用AsyncTask.executeOnExecutor()强制指定AsyncTask使用线程池并发调度任务。</p>
+<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><p>使用线程池需要特别注意同时并发线程数量的控制，理论上来说，我们可以设置任意你想要的并发数量，但是这样做非常的不好。因为CPU只能同时执行固定数量的线程数，一旦同时并发的线程数量超过CPU能够同时执行的阈值，CPU就需要花费精力来判断到底哪些线程的优先级比较高，需要在不同的线程之间进行调度切换。</p>
+<p>一旦同时并发的线程数量达到一定的量级，这个时候CPU在不同线程之间进行调度的时间就可能过长，反而导致性能严重下降。另外需要关注的一点是，每开一个新的线程，都会耗费至少64K+的内存。为了能够方便的对线程数量进行控制，ThreadPoolExecutor为我们提供了初始化的并发线程数量，以及最大的并发数量进行设置。</p>
+<p>另外需要关注的一个问题是：Runtime.getRuntime().availableProcesser()方法并不可靠，他返回的值并不是真实的CPU核心数，因为CPU会在某些情况下选择对部分核心进行睡眠处理，在这种情况下，返回的数量就只能是激活的CPU核心数。</p>
+<h4 id="线程优先级"><a href="#线程优先级" class="headerlink" title="线程优先级"></a>线程优先级</h4><p>理论上来说，我们的程序可以创建出非常多的子线程一起并发执行的，可是基于CPU时间片轮转调度的机制，不可能所有的线程都可以同时被调度执行，CPU需要根据线程的优先级赋予不同的时间片。</p>
+<p>Android系统会根据当前运行的可见的程序和不可见的后台程序对线程进行归类，划分为forground的那部分线程会大致占用掉CPU的90%左右的时间片，background的那部分线程就总共只能分享到5%-10%左右的时间片。之所以设计成这样是因为forground的程序本身的优先级就更高，理应得到更多的执行时间。</p>
+<p>默认情况下，新创建的线程的优先级默认和创建它的母线程保持一致。如果主UI线程创建出了几十个工作线程，这些工作线程的优先级就默认和主线程保持一致了，为了不让新创建的工作线程和主线程抢占CPU资源，需要把这些线程的优先级进行降低处理，这样才能给帮组CPU识别主次，提高主线程所能得到的系统资源。</p>
+<p>在Android系统里面，我们可以通过android.os.Process.setThreadPriority(int)设置线程的优先级，参数范围从-20到24，数值越小优先级越高。Android系统还为我们提供了以下的一些预设值，我们可以通过给不同的工作线程设置不同数值的优先级来达到更细粒度的控制。大多数情况下，新创建的线程优先级会被设置为默认的0(主线程的优先级)，主线程设置为0的时候，新创建的线程还可以利用THREAD_PRIORITY_LESS_FAVORABLE或者THREAD_PRIORITY_MORE_FAVORABLE来控制线程的优先级。</p>
+<p>Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND); //设置线程优先级为后台</p>
+<p>转载自：<a href="http://mp.weixin.qq.com/s?__biz=MzIwNjQ1NzQxNA==&amp;mid=2247483802&amp;idx=1&amp;sn=baaf65910acfa1aebe20a727daeb9877&amp;scene=1&amp;srcid=0822oIn14PFsJUmUA4YaI5PQ#rd" target="_blank" rel="noopener">应用开发进阶必经之路之性能优化</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-gradle same dependencies" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/23/gradle same dependencies/" class="article-date">
+  	<time datetime="2016-08-22T16:00:00.000Z" itemprop="datePublished">2016-08-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/23/gradle same dependencies/">
+        Android 多模块相同依赖问题
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。</p>
+<h3 id="相同依赖带来的问题"><a href="#相同依赖带来的问题" class="headerlink" title="相同依赖带来的问题"></a>相同依赖带来的问题</h3><ul>
+<li>1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。</li>
+<li>2 版本混乱，相同的依赖版本可能不同，这样就带了了代码上的冗余，并且可能带来错误。</li>
+<li>3 相同的依赖不仅仅来自于不同的模块，有可能是不同的依赖库引用了相同的依赖，总之为了避免不必要的麻烦，我们还是在使用前检查一下吧。</li>
+</ul>
+<h3 id="抽离相同依赖"><a href="#抽离相同依赖" class="headerlink" title="抽离相同依赖"></a>抽离相同依赖</h3><h4 id="在项目根目录新建-gradle整理文件"><a href="#在项目根目录新建-gradle整理文件" class="headerlink" title="在项目根目录新建.gradle整理文件"></a>在项目根目录新建.gradle整理文件</h4><p>1 我们新建名为config.gradle的文件：</p>
+<p>代码如下：</p>
+<pre><code>//全局变量名称
+ext {
+// Android
+android = [
+  compileSdkVersion: 24,
+  buildToolsVersion: &apos;24.0.1&apos;,
+  applicationId    : &apos;com.baidao.ytxmobile&apos;,
+  minSdkVersion    : 14,
+  targetSdkVersion : 24
+]
+
+// AllDependencies
+allDependencies = [
+  support_recyclerview : &apos;com.android.support:recyclerview-v7:24.0.0&apos;,
+  support : &apos;com.android.support:appcompat-v7:24.1.1&apos;,
+  progress_switcher : &apos;com.github.drnkn:progress-switcher:1.1.3@aar&apos;
+]
+//app模块的依赖关系
+appDps = [
+  support_recyclerview : &quot;compile&quot;,
+  support : &apos;compile&apos;,
+  progress_switcher : &apos;compile&apos;
+]
+
+//RefreshLoadLayout模块的依赖关系
+RefreshLoadLayoutDps = [
+  support_recyclerview : &quot;compile&quot;,
+]
+
+dependenciesMethod = { dps, closure -&gt;
+dps.each { entry -&gt;
+  def value = entry.value
+  if (value instanceof List) {
+    value.each { result -&gt;
+      closure result, allDependencies.get(entry.key), entry.key
+    }
+  } else {
+    closure value, allDependencies.get(entry.key), entry.key
+  }
+}
+}
+
+}
+</code></pre><p>2 添加config.gradle文件的使用</p>
+<p>打开项目根目录下的build.gradle文件，并添加如下代码。</p>
+<pre><code>apply from: &quot;config.gradle&quot;
+</code></pre><p>3 在我们的模块中使用，相关依赖和相关属性</p>
+<p>打开我们模块对应的build.gradle文件。</p>
+<p>使用全局属性：</p>
+<pre><code>def globalConfiguration = rootProject.ext
+
+android {
+compileSdkVersion globalConfiguration.android.compileSdkVersion
+buildToolsVersion globalConfiguration.android.buildToolsVersion
+
+defaultConfig {
+minSdkVersion globalConfiguration.android.minSdkVersion
+targetSdkVersion globalConfiguration.android.targetSdkVersion
+applicationId &quot;diablo.lib.list.com&quot;
+versionCode 1
+versionName &quot;1.0&quot;
+}
+buildTypes {
+release {
+  minifyEnabled false
+  proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
+}
+}
+}
+</code></pre><p>在dependencies{}中添加相关依赖：</p>
+<pre><code>//appDps为在config文件中定义的模块名称
+rootProject.dependenciesMethod rootProject.ext.appDps, { type, library, key -&gt;
+if (type == &apos;compile&apos;) {
+  compile library
+} else if (type == &apos;debugCompile&apos;) {
+  debugCompile library
+} else if (type == &apos;testCompile&apos;) {
+  testCompile library
+} else if (type == &apos;apt&apos;) {
+  apt library
+} else if (type == &apos;debuggableReleaseCompile&apos;) {
+  debuggableReleaseCompile library
+} else if (type == &apos;debugProCompile&apos;) {
+  debugProCompile library
+}
+}
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-recycleview" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/23/recycleview/" class="article-date">
+  	<time datetime="2016-08-22T16:00:00.000Z" itemprop="datePublished">2016-08-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/23/recycleview/">
+        Android RecycleView
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>RecycleView相信大家都不会陌生，基本上每个项目里面都会用到。主要做一些展示工作的view，例如资讯，XX单等等。今天主要谈谈，在项目中我遇到的一些问题以及解决方案。</p>
+<h3 id="RecycleView-和-ListView的对比"><a href="#RecycleView-和-ListView的对比" class="headerlink" title="RecycleView 和 ListView的对比"></a>RecycleView 和 ListView的对比</h3><p>可以说RecycleView是ListView的升级版本。</p>
+<ul>
+<li>1 更灵活的定制功能，可以自定义动画，view的格式，间隙样式等等。</li>
+<li>2 更合理的代码规格，在adapter里面强制viewholder使用。</li>
+</ul>
+<h3 id="RecycleView使用"><a href="#RecycleView使用" class="headerlink" title="RecycleView使用"></a>RecycleView使用</h3><h4 id="基本功能-刷新加载"><a href="#基本功能-刷新加载" class="headerlink" title="基本功能-刷新加载"></a>基本功能-刷新加载</h4><p>网络上上拉刷新下拉加载的第三方的库很多，实现起来也是大同小异。但是在使用中多多少少有些瑕疵，如果用时间还是建议自己写一个，改起来也方便些。</p>
+<p>现在比较主流的事项方式是使用google官方的下拉刷新库，然后自定义上拉加载效果。</p>
+<h4 id="容错处理"><a href="#容错处理" class="headerlink" title="容错处理"></a>容错处理</h4><p>所谓的容错处理，就是当接收不到数据时候显示什么？数据为零时候显示什么？以及，点击刷新功能。</p>
+<p><a href="https://github.com/Drnkn/Android-ProgressSwitcher">推荐库</a></p>
+<p><a href="https://github.com/sirencode/RecycleViewLib">使用demo</a></p>
+<h4 id="瀑布流使用注意"><a href="#瀑布流使用注意" class="headerlink" title="瀑布流使用注意"></a>瀑布流使用注意</h4><p>在使用瀑布流的时候一般会出现对象变动，滑动时变动参差不齐的情况：</p>
+<pre><code>// 防止item位置互换
+layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+
+//防止滑到第一行不对齐
+recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            InformationsFragment.this.layoutManager.invalidateSpanAssignments();
+            int[] position =
+                    InformationsFragment.this.layoutManager.findFirstVisibleItemPositions(null);
+            int visible = position[0] &gt; LINE_COUNT - 1 ? View.VISIBLE : View.GONE;
+            goTop.setVisibility(visible);
+        }
+    });
+</code></pre><h3 id="多类型Item加载"><a href="#多类型Item加载" class="headerlink" title="多类型Item加载"></a>多类型Item加载</h3><p>封装自定义数据类型：</p>
+<pre><code> public class MultipleItemTypeData {
+
+private RecycleItemTypeData recycleItemTypeData;
+
+private String data;
+
+public MultipleItemTypeData(RecycleItemTypeData itemType, String data) {
+    this.recycleItemTypeData = itemType;
+    this.data = data;
+}
+}
+</code></pre><p>类型绑定：</p>
+<pre><code>public class RecycleItemTypeData {
+
+//recycleview item的类型
+private int itemType;
+
+//recycleview item当前类型对应的res资源
+private int typeRes;
+
+public RecycleItemTypeData(int itemType, int typeRes) {
+    this.itemType = itemType;
+    this.typeRes = typeRes;
+}
+}
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-lazy_load" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/22/lazy_load/" class="article-date">
+  	<time datetime="2016-08-21T16:00:00.000Z" itemprop="datePublished">2016-08-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/22/lazy_load/">
+        Android 性能优化-懒加载
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。</p>
+<h3 id="懒加载的使用"><a href="#懒加载的使用" class="headerlink" title="懒加载的使用"></a>懒加载的使用</h3><p>在android开发中我们用到了很多懒加载的例子。<br>如：</p>
+<ul>
+<li>1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示真正的图片。</li>
+<li>2 app初始化的时候，app开始前我们必不可少的要设置一些第三方的初始化工作，而这些初始化工作在主线程里面也相对耗时，所以可以将这些初始化工作放到子线程里面实现。</li>
+<li>3 view的懒加载，还有一种比较耗时的操作就是view的绘制过程，一个复杂的fragment的绘制也是一个很耗时的操作，为了尽量不丢帧，我们也可以做一个fragment的懒加载。</li>
+</ul>
+<h3 id="初始化的懒加载实现"><a href="#初始化的懒加载实现" class="headerlink" title="初始化的懒加载实现"></a>初始化的懒加载实现</h3><p>1 我们将application 和 activity oncreate()里面比较费时的操作抽取出来。</p>
+<p>2 将这些费时的操作放到一个子线程里面执行，并在初始化的时候启动初始化的子线程。</p>
+<p>3 有一个问题就是什么时候去使用这些需要初始化的东西，因为做了异步处理，我们不能知道什么时候初始化完成了。解决方法不一，最简单的办法就是设置全局变量，在使用前判断一下。在项目中我们一般都会对第三方的SDK封装一下，在封装的时候判断一下是否初始化就可以了。</p>
+<p>初始化:</p>
+<pre><code> protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    LazyThread lazyThread = new LazyThread();
+    lazyThread.start();
+}
+</code></pre><p>封装费时的初始化工作：</p>
+<pre><code>class LazyThread extends Thread{
+    @Override
+    public void run() {
+        //做一些费时的初始化工作
+        //完成后回调,或者设置全局变量
+    }
+} 
+</code></pre><p>这样就完成了初始化的懒加载，记得将application里面的初始化工作也做一下懒加载。</p>
+<h3 id="View的懒加载实现"><a href="#View的懒加载实现" class="headerlink" title="View的懒加载实现"></a>View的懒加载实现</h3><p>这个其实我们一直都在使用，比如我们要异步的去请求一张图片并显示出来，但是这个是需要一段时间才能请求到的。为了使等待时间不那么尴尬，我们设置一个默认图，等到请求到结果后再替换掉。</p>
+<h4 id="为什么做view的懒加载"><a href="#为什么做view的懒加载" class="headerlink" title="为什么做view的懒加载"></a>为什么做view的懒加载</h4><p>我们在做应用开发的时候，一个Activity里面可能会以viewpager（或其他容器）与多个Fragment来组合使用，而如果每个fragment都需要去加载数据，或从本地加载，或从网络加载，那么在这个activity刚创建的时候就变成需要初始化大量资源。为了减少初次加载的时间，我们要实现显示对应的fragment的时候再去初始化对应工作。</p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>Fragment里的setUserVisibleHint这个方法用于告诉系统，这个Fragment的UI是否是可见的。所以我们只需要继承Fragment并重写该方法，即可实现在fragment可见时才进行数据加载操作，即Fragment的懒加载。</p>
+<p>自定义lazyfragment:</p>
+<pre><code>public abstract class LazyFragment extends Fragment {
+protected boolean isVisible;
+/**
+ * 在这里实现Fragment数据的缓加载.
+ * @param isVisibleToUser
+ */
+@Override
+public void setUserVisibleHint(boolean isVisibleToUser) {
+    super.setUserVisibleHint(isVisibleToUser);
+    if(getUserVisibleHint()) {
+        isVisible = true;
+        onVisible();
+    } else {
+        isVisible = false;
+        onInvisible();
+    }
+}
+
+protected void onVisible(){
+    lazyLoad();
+}
+
+protected abstract void lazyLoad();
+
+protected void onInvisible(){}
+}
+</code></pre><p> 实现：</p>
+<pre><code> public class OpenResultFragment extends LazyFragment{
+// 标志位，标志已经初始化完成。
+private boolean isPrepared;
+
+@Override
+public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    Log.d(LOG_TAG, &quot;onCreateView&quot;);
+    View view = inflater.inflate(R.layout.fragment_open_result, container, false);
+    //XXX初始化view的各控件
+isPrepared = true;
+    lazyLoad();
+    return view;
+}
+
+@Override
+protected void lazyLoad() {
+    if(!isPrepared || !isVisible) {
+        return;
+    }
+    //填充各控件的数据
+}
+
+}
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-monkey" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/22/monkey/" class="article-date">
+  	<time datetime="2016-08-21T16:00:00.000Z" itemprop="datePublished">2016-08-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/22/monkey/">
+        Android Mokey压力测试
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。</p>
+<h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ol>
+<li>Monky测试使用的事件流数据流是随机的，不能自定义。</li>
+<li>测试的对象仅为应用程序包，有一定的局限性。</li>
+<li>运行Monkey时，对本次测试对象，事件数量，类型，频率等进行设置。可输入命令行或运行小脚本。</li>
+</ol>
+<h3 id="monkey事件"><a href="#monkey事件" class="headerlink" title="monkey事件"></a>monkey事件</h3><ul>
+<li>触摸事件，参数 –pct-touch</li>
+<li>手势事件 –pct-motion</li>
+<li>二指缩放 –pct-pinchzoom</li>
+<li>轨迹事件 –pct-trackball</li>
+<li>屏幕旋转 –pct-rotation</li>
+<li>导航键 –pct-majornav</li>
+<li>系统按键 –pct-syskeys</li>
+<li>启动activity –pct-appswitch</li>
+<li>键盘事件 –pct-flip</li>
+</ul>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li>-v 表示反馈信息级别 越大返回信息越多越详细。-v-vhe-v-v-v三个级别。</li>
+<li>-throttle 两个事件之间的事件间隔</li>
+<li>–pct-xxx &lt;百分比&gt;</li>
+<li>-p &lt;包名&gt; 一个或多个，monkey只允许在指定包名里面运行</li>
+<li>–ignore-crashes 发生crash不停止</li>
+<li>–ignore-timeouts anr不停止</li>
+<li>-s 伪随机数生成器，-s值相同执行的事件相同(便于问题复现)。</li>
+</ul>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>开启：（参数详解）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell monkey -v -p com.you.packet --throttle 300 120000 &gt; monkey_log.txt</span><br></pre></td></tr></table></figure>
+<ul>
+<li>－V:logcat级别（最高－VVV）</li>
+<li>-p:后加测试对象包名，一个或多个</li>
+<li>-throttle 300:Monkey每个事件间的间隔</li>
+<li>120000:事件总次数</li>
+<li>monkey_log.txt:本地日志名</li>
+</ul>
+<h3 id="停止monkey"><a href="#停止monkey" class="headerlink" title="停止monkey"></a>停止monkey</h3><ul>
+<li>获取monekey(com.android.commands.monkey)的进程ID</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell ps | grep monkey</span><br></pre></td></tr></table></figure>
+<ul>
+<li>杀死monkey进程</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell <span class="built_in">kill</span> 30898</span><br></pre></td></tr></table></figure>
+<h3 id="monkey-自定义脚本"><a href="#monkey-自定义脚本" class="headerlink" title="monkey 自定义脚本"></a>monkey 自定义脚本</h3><p>常规的monkey是测试执行随机的事件流的，但如果想执行特定场景，这个时候就要执行自定义脚本了。</p>
+<h4 id="monkey脚本常见API"><a href="#monkey脚本常见API" class="headerlink" title="monkey脚本常见API"></a>monkey脚本常见API</h4><ul>
+<li>LanchActivity(Pkg_name,cl_name) 启动被测试的某个activity，Pkg_name:包名，cl_name:Activity名</li>
+<li>Tap(x, y, tapDuration): 模拟一次手指单击事件。参数：x,y为控件坐标，tapDuration为点击的持续时间，此参数可省略。</li>
+<li>DispatchPress(keyName): 按键。参数： keycode。 详细的Android Keycode列表：<a href="http://blog.csdn.net/feizhixuan46789/article/details/16801429" target="_blank" rel="noopener">Android Keycode列表</a>。</li>
+<li>RotateScreen(rotationDegree, persist): 旋转屏幕。 参数：rotationDegree为旋转角度， e.g. 1代表90度；persist表示旋转之后是否固定，0表示旋转后恢复，非0则表示固定不变。</li>
+<li>DispatchFlip(true/false): 打开或者关闭软键盘。</li>
+<li>Drag(xStart, yStart, xEnd, yEnd, stepCount):  用于模拟一个拖拽操作。</li>
+<li>PinchZoom(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End, stepCount): 模拟缩放手势。</li>
+<li>UserWait(sleepTime): 休眠一段时间</li>
+<li>DeviceWakeUp(): 唤醒屏幕。</li>
+<li>PowerLog(power_log_type, test_case_status): 模拟电池电量信息。</li>
+<li>WriteLog(): 将电池信息写入sd卡。</li>
+<li>RunCmd(cmd): 运行shell命令。</li>
+<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFlags)：向指定位置，发送单个手势。</li>
+<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFilags) ：发送按键消息。</li>
+<li>LaunchInstrumentation(test_name,runner_name): 运行一个instrumentation测试用例。</li>
+<li>DispatchTrackball: 模拟发送轨迹球事件。</li>
+<li>ProfileWait: 等待5秒。</li>
+<li>StartCaptureFramerate():  获取帧率。</li>
+<li>EndCaptureFramerate(input): 结束获取帧率。</li>
+</ul>
+<h4 id="脚本demo"><a href="#脚本demo" class="headerlink" title="脚本demo"></a>脚本demo</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#头文件信息  </span></span><br><span class="line"><span class="built_in">type</span>=raw events  </span><br><span class="line">count=10  </span><br><span class="line">speed=1.0  </span><br><span class="line">start data &gt;&gt;  </span><br><span class="line"><span class="comment">#具体的脚本内容  </span></span><br><span class="line">LaunchActivity(com.example.package,com.example.ui.SplashActivity)  </span><br><span class="line">Tap(972,1818)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,607)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">DispatchString(1234567)  </span><br><span class="line">Tap(636,859)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(388,895)  </span><br><span class="line">UserWait(1000)  </span><br><span class="line">DispatchString(123456)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,1104)</span><br></pre></td></tr></table></figure>
+<h4 id="执行脚本"><a href="#执行脚本" class="headerlink" title="执行脚本"></a>执行脚本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ adb push monkey.script /sdcard/ </span><br><span class="line">$ adb shell  </span><br><span class="line">$ shell@pisces:/ $ monkey -f /sdcard/monkey.script -v 1</span><br></pre></td></tr></table></figure>
+<h4 id="日志分别存储"><a href="#日志分别存储" class="headerlink" title="日志分别存储"></a>日志分别存储</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Monkey [option] &lt;count&gt; 1&gt;/sdcard/monkey.txt 2&gt;/sdcard/error.txt</span><br></pre></td></tr></table></figure>
+<h3 id="monlkey的基本原理"><a href="#monlkey的基本原理" class="headerlink" title="monlkey的基本原理"></a>monlkey的基本原理</h3><p>monkey的代码核心模块主要包括主控，监控，事件源和事件四部分。</p>
+<ul>
+<li>主控模块：主控模块即com.android.commands.monkey.Monkey类,是入口函数所在的类，主要负责参数解析和赋值，初始化运行环境，执行runMonkeyCucles()方法针对不同的事件源开始获取并执行不同的事件。</li>
+<li>监控模块：监控部分包括异常监控和网络监控两部分。异常监控通过ActivityWatch类来实现，注意监控Activity的crash和ANR事件。网络监控通过MonkeyNetworkmonitor类来实现，主要用于统计运行期间移动网络和WiFi网络的链接时长。</li>
+<li>事件源模块：代表不同的事件来源。</li>
+<li>事件模块：事件代表了各种用户操作类型。</li>
+</ul>
+<h3 id="monkey-扩展"><a href="#monkey-扩展" class="headerlink" title="monkey 扩展"></a>monkey 扩展</h3><p>monkey本身的功能有限，比如不能截屏和网络重新连接等，为了更好的测试，有时候我们要添加一些功能。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-h5-webview" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/21/h5-webview/" class="article-date">
+  	<time datetime="2016-08-20T16:00:00.000Z" itemprop="datePublished">2016-08-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/21/h5-webview/">
+        Android 混合式开发-H5
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些建议。</p>
+<h3 id="Android开发的多种模式"><a href="#Android开发的多种模式" class="headerlink" title="Android开发的多种模式"></a>Android开发的多种模式</h3><h4 id="原生开发"><a href="#原生开发" class="headerlink" title="原生开发"></a>原生开发</h4><p>顾名思义，就是纯原生的开发模式，一点也不嵌入h5相关的功能模块。</p>
+<p>优点：</p>
+<ul>
+<li>性能极佳</li>
+<li>可以实现所有功能</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>开发成本高</li>
+<li>无法实热而更新</li>
+</ul>
+<h4 id="混合式开发"><a href="#混合式开发" class="headerlink" title="混合式开发"></a>混合式开发</h4><p>混合式开发是指，一些模块通过h5实现。具体哪些使用h5开发比较合适呐，这里我给出几点建议：</p>
+<ul>
+<li>需要模块话，在多端共用的，比如一个系统登录相关模块。</li>
+<li>更新比较频繁，且对性能要求不高的，例如项目的资讯模块。</li>
+<li>调用底层功能和首页第一屏的显示要求很高的性能的地方，一定不要用。</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>开发成本低，方便复用</li>
+<li>支持热更新</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>性能差，不同版本对H5的支持差异较大。</li>
+<li>一些调用系统功能的实现起来不方便。</li>
+</ul>
+<h4 id="纯Web版的App"><a href="#纯Web版的App" class="headerlink" title="纯Web版的App"></a>纯Web版的App</h4><p>这种App是纯h5开发，之后通过插件生成各个平台的APP，这个就不说了，性能简直无法直视，还有很多限制，我没见那个公司用过，一般适合没有APP开发经验的使用。即使调研我都没有过，很是嫌弃。</p>
+<h3 id="Hybrid开发的使用"><a href="#Hybrid开发的使用" class="headerlink" title="Hybrid开发的使用"></a>Hybrid开发的使用</h3><p>以上三种模式各有各的使用场景，我们这里主要讨论一下hybrid的开发模式，混合式开发模式的使用也分很多种情况。下面我们一个个分析，并给出不同建议，供大家选择。</p>
+<h4 id="混合式框架"><a href="#混合式框架" class="headerlink" title="混合式框架"></a>混合式框架</h4><p>所谓的混合式开发框架就是实现，js和java的互调工作，当然还需要对webview进行封装，屏蔽掉4.2之前的反向注入的bug，并定制属于自己的通信规则。</p>
+<p>这种框架网上很多，我用过cordova，太重了，有能力就自己写一个吧。</p>
+<h4 id="自定义框架"><a href="#自定义框架" class="headerlink" title="自定义框架"></a>自定义框架</h4><h4 id="1-java-gt-js-这里不解释，每个框架都一样"><a href="#1-java-gt-js-这里不解释，每个框架都一样" class="headerlink" title="1.java -&gt; js,这里不解释，每个框架都一样"></a>1.java -&gt; js,这里不解释，每个框架都一样</h4><pre><code>WebView.loadUrl(&quot;javascript:setUserName(&apos;xxx&apos;);&quot;);
+</code></pre><h4 id="2-js-gt-java-实现"><a href="#2-js-gt-java-实现" class="headerlink" title="2.js -&gt; java 实现"></a>2.js -&gt; java 实现</h4><p>1 通过webview的addJavascriptInterface实现通信，并重写webview来屏蔽掉4.2之前的bug.<br>代码实现：</p>
+<pre><code>mWebView.addJavascriptInterface(new JavaScriptInterface(), &quot;ncp&quot;);
+
+final class JavaScriptInterface {
+
+   public int callOnJs() {
+
+      return 1000;
+   }
+
+   public void callOnJs2(String mode) {
+     //TODO
+   }
+
+ }  
+</code></pre><p>如何修复反向注入bug:<a href="https://github.com/shenyonghe525/WebViewBugDemo">github</a></p>
+<p>2 通过相同的接口实现通信</p>
+<p>通过js的window.prompt(msg,defaultText) = android-&gt;WebViewChromeClient-&gt;onJsPrompt(WebView view,<br>String url, String message, String defaultValue, JsPromptResult result)<br>其中window.prompt -&gt; msg = onJsPrompt-&gt;message</p>
+<p>所以在js调用java方法步骤如下：</p>
+<ul>
+<li>1 在js中配置好需要的参数信息msg(此消息格式可以自定义)。</li>
+<li>2 在js中通过window.prompt(msg,””)方法将信息传到java中的WebViewChromeClient-&gt;onJsPrompt方法中。</li>
+<li>3 在onJsPrompt中将js传来的信息进行解析处理，传到供js调用的native方法中，之后做相关native方法处理。</li>
+<li>4 获得处理结果 拼接callbackJs参数 jscallback()-&gt;webView.loadUrl(callbackJs);。</li>
+</ul>
+<h4 id="3-js-gt-java-msg-拼接（规定通讯协议）"><a href="#3-js-gt-java-msg-拼接（规定通讯协议）" class="headerlink" title="3 js-&gt;java  msg 拼接（规定通讯协议）"></a>3 js-&gt;java  msg 拼接（规定通讯协议）</h4><ul>
+<li>协定协议:myname://class:port/method?params;</li>
+<li>myname:请求头信息，可根据实际情况自定义</li>
+<li>class:java中供js调用的方法类</li>
+<li>port:port我们并不会直接操作它，它是由Js代码自动生成的，port的作用是为了标识Js中的回调function,当Js调用Native方法时，<br>我们会得到本次调用的port号，我们需要在Native方法执行完毕后再把该port、执行的后结果、是否调用成功、<br>调用失败的msg等信息通过调用Js的onComplete方法传入，这时候Js凭什么知道你本次返回的信息是哪次调用的结果呢？就是通过port号，<br>因为在Js调用Native方法时我们会把自动生成的port号和此次回调的function绑定在一起，这样以来Native方法返回结果时把port也带过来，<br>就知道是哪次回调该用哪个function方法来处理.</li>
+<li>method:java中供js调用的方法类中的指定方法</li>
+<li><p>params:参数<br>RainbowBridge.callMethod(‘JsInvokeJavaScope’,’getAppName’,{},function(msg){alert(JSON.stringify(msg))});</p>
+</li>
+<li><p>java中供js调用的方法，参数也可以固定public static void finish(WebView webView, JSONObject data, JsCallback callback)<br>带返回值的将返回值放到callback中</p>
+</li>
+</ul>
+<p>Demo推荐：<a href="https://github.com/sirencode/RainbowBridge">地址</a></p>
+<h3 id="离线模式和在线模式"><a href="#离线模式和在线模式" class="headerlink" title="离线模式和在线模式"></a>离线模式和在线模式</h3><p>混合式的开发，根据资源包放的位置可以分为离线模式和在线模式。<br>离线模式：就是将h5的资源包压缩放到项目里面一同发布，之后根据升级提示去更新资源包。可以做到后台无感升级。<br>在线模式：就是把所有的资源都放在服务器上面，每次都去网上加载对应资源 ，对网速要求很高。</p>
+<h3 id="版本支持"><a href="#版本支持" class="headerlink" title="版本支持"></a>版本支持</h3><ul>
+<li>android 4.0前不支持h5标准。</li>
+<li>4.0-4.4对h5支持不好。</li>
+<li>4.4更换了内核，Chromium对webview的性能提升了很多，并做了更好的支持。</li>
+<li>4.4以上，基本支持所以的h5功能。</li>
+</ul>
+<h3 id="WebView独立进程"><a href="#WebView独立进程" class="headerlink" title="WebView独立进程"></a>WebView独立进程</h3><p>webview的使用会占用手机大量的内存，使用不当还会造成大量的内存泄漏，因此放到独立进程中。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-check_code_style" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/20/check_code_style/" class="article-date">
+  	<time datetime="2016-08-19T16:00:00.000Z" itemprop="datePublished">2016-08-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/20/check_code_style/">
+        Android 代码规范-CheckStyle
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。</p>
+<h3 id="AndroidStudio-集成CheckStyle"><a href="#AndroidStudio-集成CheckStyle" class="headerlink" title="AndroidStudio 集成CheckStyle"></a>AndroidStudio 集成CheckStyle</h3><h4 id="1-先安装CheckStyle插件"><a href="#1-先安装CheckStyle插件" class="headerlink" title="1.先安装CheckStyle插件"></a>1.先安装CheckStyle插件</h4><p>安装CheckStyle—IDEA，重启AndroidStudio。</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/CheckStyle%E2%80%94IDEA.jpg" alt="图片"></p>
+<ul>
+<li>这里有一个坑，如果导入这个插件后，studio无法启动，并报错，请修改studio文件夹下面的info.plist里面的值为1.8<pre><code class="bash">&lt;key&gt;JVMVersion&lt;/key&gt;
+&lt;string&gt;1.8,1.8+&lt;/string&gt;
+</code></pre>
+</li>
+</ul>
+<h4 id="2-导入CheckStyle"><a href="#2-导入CheckStyle" class="headerlink" title="2.导入CheckStyle"></a>2.导入CheckStyle</h4><p>AndroidStudio File-&gt;Other sttings -&gt;default settings…，在弹出的界面中按下图步骤执行6步，在第3步中Check Style配置文件在主工程android/static_code_check/checkstyle下面。</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/daoru_checkstyle.png" alt="图片"></p>
+<h4 id="3-1-运行CheckStyle"><a href="#3-1-运行CheckStyle" class="headerlink" title="3.1.    运行CheckStyle"></a>3.1.    运行CheckStyle</h4><p><img src="http://oc4zuck5v.bkt.clouddn.com/yunxingCheck_style.jpg" alt="图片"></p>
+<h3 id="CheckStyle检验的主要内容"><a href="#CheckStyle检验的主要内容" class="headerlink" title="CheckStyle检验的主要内容"></a>CheckStyle检验的主要内容</h3><ul>
+<li>Javadoc注释</li>
+<li>命名约定</li>
+<li>标题</li>
+<li>Import语句</li>
+<li>体积大小</li>
+<li>空白</li>
+<li>修饰符</li>
+<li>块</li>
+<li>代码问题</li>
+<li>类设计</li>
+<li>混合检查（包活一些有用的比如非必须的System.out和printstackTrace）</li>
+</ul>
+<p>我现在用的是基于华为的<a href="https://gist.github.com/ownwell/c32878440216f1866842" target="_blank" rel="noopener">CheckStyle:</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-traceView" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/20/traceView/" class="article-date">
+  	<time datetime="2016-08-19T16:00:00.000Z" itemprop="datePublished">2016-08-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/20/traceView/">
+        Android 性能优化-traceview
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。</p>
+<h3 id="TraceView的使用"><a href="#TraceView的使用" class="headerlink" title="TraceView的使用"></a>TraceView的使用</h3><h4 id="1-使用编译器自带的工具操作"><a href="#1-使用编译器自带的工具操作" class="headerlink" title="1.使用编译器自带的工具操作"></a>1.使用编译器自带的工具操作</h4><p>最简单的方式就是直接打开DDMS，选择一个进程，然后按上面的“Start Method Profiling”按钮，等红色小点变成黑色以后就表示TraceView已经开始工作了。然后我就可以滑动一下列表（现在手机上的操作肯定会很卡，因为Android系统在检测Dalvik虚拟机中每个Java方法的调用，这是我猜测的）。操作最好不要超过5s，因为最好是进行小范围的性能测试。然后再按一下刚才按的按钮，等一会就会出现结果图，然后就可以开始分析了。</p>
+<ul>
+<li>坑，用系统自带的工具分析使用起来是很简单，但是系统自带的工具的find查找功能不好用，这就尴尬了，这么多方法，找瞎了，所以我果断放弃了。</li>
+</ul>
+<h4 id="2-自己在代码里面实现"><a href="#2-自己在代码里面实现" class="headerlink" title="2.自己在代码里面实现"></a>2.自己在代码里面实现</h4><h5 id="开始分析："><a href="#开始分析：" class="headerlink" title="开始分析："></a>开始分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.startMethodTracing(<span class="string">"xxx"</span>,size);</span><br></pre></td></tr></table></figure>
+<h5 id="结束分析："><a href="#结束分析：" class="headerlink" title="结束分析："></a>结束分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.stopMethodTracing();</span><br></pre></td></tr></table></figure>
+<h5 id="别忘了加上读写sd卡权限："><a href="#别忘了加上读写sd卡权限：" class="headerlink" title="别忘了加上读写sd卡权限："></a>别忘了加上读写sd卡权限：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br><span class="line">  &lt;uses-permission android:name=<span class="string">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>至此性能分析的代发就完成了，之后打开APP运行即可，运行到stop之后就会在sd卡里面生成对应的xxx.trace文件。</p>
+<h5 id="导出traceview文件"><a href="#导出traceview文件" class="headerlink" title="导出traceview文件"></a>导出traceview文件</h5><p>  xxx.trace文件在sdcard根目录</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb pull sdcard/xxx.trace</span><br></pre></td></tr></table></figure>
+<h5 id="打开trace文件"><a href="#打开trace文件" class="headerlink" title="打开trace文件"></a>打开trace文件</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ traceview /Users/yonghe.shen/Desktop/my.trace</span><br></pre></td></tr></table></figure>
+<h5 id="筛选我们的应用相关的分析"><a href="#筛选我们的应用相关的分析" class="headerlink" title="筛选我们的应用相关的分析"></a>筛选我们的应用相关的分析</h5><p>find 输入包名，回车即可从上到下查看（DDMS中的find不好用）。</p>
+<h5 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h5><p><img src="http://oc4zuck5v.bkt.clouddn.com/traceview_par.png" alt="图片"></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>1注意设置trace文件的大小，默认大小8M,太大的分析工具会崩掉,太小又分析的不全面，那到底选择多大合适呐，我认为50M以下吧。</li>
+<li>2 另外我建议分段分析，这样文件也不大，分析的也比较全面。</li>
+<li>3 其实你要不限制大小，生成这个文件还是蛮大的，我跑过一个两百多兆的，分析工具直接卡死了。</li>
+<li>4 另外在执行start-&gt;stop之间的代码的时候会很卡，这个是正常现象，毕竟在疯狂采集信息。</li>
+<li>5 尽量小，例如一次只分析几个函数，避免ANR产生，如果还是出现了，那我只能建议你等了。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+    </nav>
+  
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

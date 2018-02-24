@@ -1,20 +1,396 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android imageview加载实现 | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="显示图片，作为APP开发中必不可少的一部分，也是问题大户。加载图片时主要分为两种，一种是加载网络图片另一种就是加载本地图片。在图片的加载中，我们为了快速的显示图片，肯定会用到缓存机制，为了避免大图出现OOM，还要对图片进行压缩。今天我们从各个角度分析一下在项目中，图片使用时会遇到的一些坑。 图片加载离线图片加载加载资源目录下的文件：BitmapFactory.decodeResource(Reso">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android imageview加载实现">
+<meta property="og:url" content="https://github.com/sirencode/2016/10/11/android imageview加载/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="显示图片，作为APP开发中必不可少的一部分，也是问题大户。加载图片时主要分为两种，一种是加载网络图片另一种就是加载本地图片。在图片的加载中，我们为了快速的显示图片，肯定会用到缓存机制，为了避免大图出现OOM，还要对图片进行压缩。今天我们从各个角度分析一下在项目中，图片使用时会遇到的一些坑。 图片加载离线图片加载加载资源目录下的文件：BitmapFactory.decodeResource(Reso">
+<meta property="og:updated_time" content="2016-10-11T09:02:27.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android imageview加载实现">
+<meta name="twitter:description" content="显示图片，作为APP开发中必不可少的一部分，也是问题大户。加载图片时主要分为两种，一种是加载网络图片另一种就是加载本地图片。在图片的加载中，我们为了快速的显示图片，肯定会用到缓存机制，为了避免大图出现OOM，还要对图片进行压缩。今天我们从各个角度分析一下在项目中，图片使用时会遇到的一些坑。 图片加载离线图片加载加载资源目录下的文件：BitmapFactory.decodeResource(Reso">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-android imageview加载" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/11/android imageview加载/" class="article-date">
+  	<time datetime="2016-10-10T16:00:00.000Z" itemprop="datePublished">2016-10-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android imageview加载实现
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>显示图片，作为APP开发中必不可少的一部分，也是问题大户。加载图片时主要分为两种，一种是加载网络图片另一种就是加载本地图片。在图片的加载中，我们为了快速的显示图片，肯定会用到缓存机制，为了避免大图出现OOM，还要对图片进行压缩。今天我们从各个角度分析一下在项目中，图片使用时会遇到的一些坑。</p>
+<h3 id="图片加载"><a href="#图片加载" class="headerlink" title="图片加载"></a>图片加载</h3><h4 id="离线图片加载"><a href="#离线图片加载" class="headerlink" title="离线图片加载"></a>离线图片加载</h4><p>加载资源目录下的文件：<br>BitmapFactory.decodeResource(Resources, resId, options);</p>
+<p>加载其他目录下的文件：<br>BitmapFactory.decodeFile(path, options);</p>
+<h4 id="在线图片加载"><a href="#在线图片加载" class="headerlink" title="在线图片加载"></a>在线图片加载</h4><h5 id="首先要下载图片资源"><a href="#首先要下载图片资源" class="headerlink" title="首先要下载图片资源"></a>首先要下载图片资源</h5><pre><code>/**
+ * 获取网络图片
+ * @param imageurl 图片网络地址
+ * @return Bitmap 返回位图
+ */
+public Bitmap GetImageInputStream(String imageurl){
+    URL url;
+    HttpURLConnection connection=null;
+    Bitmap bitmap=null;
+    try {
+        url = new URL(imageurl);
+        connection=(HttpURLConnection)url.openConnection();
+        connection.setConnectTimeout(10000); //超时设置
+        connection.setDoInput(true);
+        connection.setUseCaches(false); //设置不使用缓存
+        InputStream inputStream=connection.getInputStream();
+        bitmap= BitmapFactory.decodeStream(inputStream);
+        inputStream.close();
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+    return bitmap;
+}
+</code></pre><p>加载图片要放到子线程里面处理，所以再获取到图片后就要回调设置imageview的图片。</p>
+<p>使用线程下载资源的时候记得开启一个线程池管理线程资源。(建议一核开三个线程，但是你的APP除了下载还需要做其他事情所以我建议线程池个数 = 核数*3/2)。</p>
+<h3 id="图片压缩"><a href="#图片压缩" class="headerlink" title="图片压缩"></a>图片压缩</h3><p>为什么要压缩图片？</p>
+<p>因为在加载大图的时候可能出现oom异常，在这里需要注意的是，把本地资源图片放到正确的文件夹下，否则可能导致图片所占内存急剧指数倍曾加。</p>
+<p>图片的压缩分为两种，一种叫做质量压缩，一种叫做大小压缩。<br>质量压缩是比较好的一种选择，因为质量压缩可以避免将大的bitmap放到内存中去处理，避免是内存吃紧。</p>
+<h5 id="质量压缩实现"><a href="#质量压缩实现" class="headerlink" title="质量压缩实现"></a>质量压缩实现</h5><p>质量压缩的原理就是重新计算比例并设置bitmap的BitmapFactory.Options。</p>
+<h5 id="压缩比例的获取"><a href="#压缩比例的获取" class="headerlink" title="压缩比例的获取"></a>压缩比例的获取</h5><p>在图片处理的时候，我们大部分都是对图片的质量进行压缩，这也是我们所有需要的，你可能会好奇那为什么不直接把图片的扩大也做了。主要原因是，我们在app里面使用的大部分图片资源是矢量图，而矢量图的特点就是在压缩的时候不会失真，但是在扩大的时候就会失真，导致图片模糊。</p>
+<p>在计算图片的压缩比例前，我们要知道资源bitmap的宽高以及目标imageview的宽高，之后用bitmap的宽高去除imageview的宽高，获取两个值中较大的一个作为压缩比例。</p>
+<p>注意：在获取bitmap的宽高时，为了不把这个大的bitmap添加到内存中，options.inJustDecodeBounds = true; // 设置成了true,不占用内存，只获取bitmap宽高</p>
+<pre><code>/**
+ * @description 计算图片的压缩比率
+ *
+ * @param options 参数
+ * @param reqWidth 目标的宽度
+ * @param reqHeight 目标的高度
+ * @return
+ */
+private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+    // 源图片的高度和宽度
+    final int height = options.outHeight;
+    final int width = options.outWidth;
+    int inSampleSize = 1;
+    if (height &gt; reqHeight || width &gt; reqWidth) {
+        // 计算出实际宽高和目标宽高的比率
+        final int halfHeight = height / 2;
+        final int halfWidth = width / 2;
+        while ((halfHeight / inSampleSize) &gt; reqHeight &amp;&amp; (halfWidth / inSampleSize) &gt; reqWidth) {
+            inSampleSize *= 2;
+        }
+    }
+    return inSampleSize;
+}
+</code></pre><p>在获取到压缩比例后：</p>
+<pre><code>options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight); // 调用上面定义的方法计算inSampleSize值
+// 使用获取到的inSampleSize值再次解析图片
+options.inJustDecodeBounds = false;
+Bitmap src = BitmapFactory.decodeResource(res, resId, options); // 载入一个稍大的缩略图
+</code></pre><h3 id="图片缓存处理"><a href="#图片缓存处理" class="headerlink" title="图片缓存处理"></a>图片缓存处理</h3><h4 id="软缓存"><a href="#软缓存" class="headerlink" title="软缓存"></a>软缓存</h4><p>软缓存，就是内存缓存，Lru算法实现：</p>
+<pre><code> // 获取最大可用内存
+private static long maxMemory = Runtime.getRuntime().maxMemory();
+//设置内存缓存大小
+private static int cacheSize = (int) (maxMemory / 4);
+public static LruCache&lt;String, Bitmap&gt; MEMORYLRUCACHE= new LruCache&lt;String, Bitmap&gt;(cacheSize)
+{
+
+    @Override
+    protected int sizeOf(String key, Bitmap value)
+    {
+        // 在每次存入缓存的时候调用
+        return value.getByteCount();
+    }
+};
+</code></pre><h4 id="磁盘缓存"><a href="#磁盘缓存" class="headerlink" title="磁盘缓存"></a>磁盘缓存</h4><p><a href="https://github.com/JakeWharton/DiskLruCache">DiskLruCache</a></p>
+<h3 id="自定义图片请求框架实现"><a href="#自定义图片请求框架实现" class="headerlink" title="自定义图片请求框架实现"></a>自定义图片请求框架实现</h3><ul>
+<li>1 下载图片前先去内存缓存中读取，读取不到再去磁盘缓存中读取，再没有再去网络上加载图片。</li>
+<li>2 网络加载图片，计算压缩比例，并压缩bitmap,然后将bitmap放到内存缓存中和磁盘缓存中，设置图片。</li>
+</ul>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>合理的线程池大小(核数*3/2)。</li>
+<li>合理的内存缓存大小(1/8)。</li>
+<li>合理的磁盘缓存大小(15M)。</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/10/17/gradle 常用配置/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Gradle 常用配置
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/04/android 动画/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 动画</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="android imageview加载" data-title="Android imageview加载实现" data-url="https://github.com/sirencode/2016/10/11/android imageview加载/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android imageview加载实现">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

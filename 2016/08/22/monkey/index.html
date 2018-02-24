@@ -1,20 +1,384 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android Mokey压力测试 | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。 特征 Monky测试使用的事件流数据流是随机的，不能自定义。 测试的对象仅为应用程序包，有一定的局限性。 运行Monkey时，对本次测试对象，事件数量，类型，频率等进行设置。可输入命令行或运行小脚本。  monkey事件 触摸事件，参数 –pct-tou">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Mokey压力测试">
+<meta property="og:url" content="https://github.com/sirencode/2016/08/22/monkey/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。 特征 Monky测试使用的事件流数据流是随机的，不能自定义。 测试的对象仅为应用程序包，有一定的局限性。 运行Monkey时，对本次测试对象，事件数量，类型，频率等进行设置。可输入命令行或运行小脚本。  monkey事件 触摸事件，参数 –pct-tou">
+<meta property="og:updated_time" content="2017-01-16T02:19:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Mokey压力测试">
+<meta name="twitter:description" content="Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。 特征 Monky测试使用的事件流数据流是随机的，不能自定义。 测试的对象仅为应用程序包，有一定的局限性。 运行Monkey时，对本次测试对象，事件数量，类型，频率等进行设置。可输入命令行或运行小脚本。  monkey事件 触摸事件，参数 –pct-tou">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-monkey" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/22/monkey/" class="article-date">
+  	<time datetime="2016-08-21T16:00:00.000Z" itemprop="datePublished">2016-08-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android Mokey压力测试
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。</p>
+<h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ol>
+<li>Monky测试使用的事件流数据流是随机的，不能自定义。</li>
+<li>测试的对象仅为应用程序包，有一定的局限性。</li>
+<li>运行Monkey时，对本次测试对象，事件数量，类型，频率等进行设置。可输入命令行或运行小脚本。</li>
+</ol>
+<h3 id="monkey事件"><a href="#monkey事件" class="headerlink" title="monkey事件"></a>monkey事件</h3><ul>
+<li>触摸事件，参数 –pct-touch</li>
+<li>手势事件 –pct-motion</li>
+<li>二指缩放 –pct-pinchzoom</li>
+<li>轨迹事件 –pct-trackball</li>
+<li>屏幕旋转 –pct-rotation</li>
+<li>导航键 –pct-majornav</li>
+<li>系统按键 –pct-syskeys</li>
+<li>启动activity –pct-appswitch</li>
+<li>键盘事件 –pct-flip</li>
+</ul>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li>-v 表示反馈信息级别 越大返回信息越多越详细。-v-vhe-v-v-v三个级别。</li>
+<li>-throttle 两个事件之间的事件间隔</li>
+<li>–pct-xxx &lt;百分比&gt;</li>
+<li>-p &lt;包名&gt; 一个或多个，monkey只允许在指定包名里面运行</li>
+<li>–ignore-crashes 发生crash不停止</li>
+<li>–ignore-timeouts anr不停止</li>
+<li>-s 伪随机数生成器，-s值相同执行的事件相同(便于问题复现)。</li>
+</ul>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>开启：（参数详解）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell monkey -v -p com.you.packet --throttle 300 120000 &gt; monkey_log.txt</span><br></pre></td></tr></table></figure>
+<ul>
+<li>－V:logcat级别（最高－VVV）</li>
+<li>-p:后加测试对象包名，一个或多个</li>
+<li>-throttle 300:Monkey每个事件间的间隔</li>
+<li>120000:事件总次数</li>
+<li>monkey_log.txt:本地日志名</li>
+</ul>
+<h3 id="停止monkey"><a href="#停止monkey" class="headerlink" title="停止monkey"></a>停止monkey</h3><ul>
+<li>获取monekey(com.android.commands.monkey)的进程ID</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell ps | grep monkey</span><br></pre></td></tr></table></figure>
+<ul>
+<li>杀死monkey进程</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell <span class="built_in">kill</span> 30898</span><br></pre></td></tr></table></figure>
+<h3 id="monkey-自定义脚本"><a href="#monkey-自定义脚本" class="headerlink" title="monkey 自定义脚本"></a>monkey 自定义脚本</h3><p>常规的monkey是测试执行随机的事件流的，但如果想执行特定场景，这个时候就要执行自定义脚本了。</p>
+<h4 id="monkey脚本常见API"><a href="#monkey脚本常见API" class="headerlink" title="monkey脚本常见API"></a>monkey脚本常见API</h4><ul>
+<li>LanchActivity(Pkg_name,cl_name) 启动被测试的某个activity，Pkg_name:包名，cl_name:Activity名</li>
+<li>Tap(x, y, tapDuration): 模拟一次手指单击事件。参数：x,y为控件坐标，tapDuration为点击的持续时间，此参数可省略。</li>
+<li>DispatchPress(keyName): 按键。参数： keycode。 详细的Android Keycode列表：<a href="http://blog.csdn.net/feizhixuan46789/article/details/16801429" target="_blank" rel="noopener">Android Keycode列表</a>。</li>
+<li>RotateScreen(rotationDegree, persist): 旋转屏幕。 参数：rotationDegree为旋转角度， e.g. 1代表90度；persist表示旋转之后是否固定，0表示旋转后恢复，非0则表示固定不变。</li>
+<li>DispatchFlip(true/false): 打开或者关闭软键盘。</li>
+<li>Drag(xStart, yStart, xEnd, yEnd, stepCount):  用于模拟一个拖拽操作。</li>
+<li>PinchZoom(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End, stepCount): 模拟缩放手势。</li>
+<li>UserWait(sleepTime): 休眠一段时间</li>
+<li>DeviceWakeUp(): 唤醒屏幕。</li>
+<li>PowerLog(power_log_type, test_case_status): 模拟电池电量信息。</li>
+<li>WriteLog(): 将电池信息写入sd卡。</li>
+<li>RunCmd(cmd): 运行shell命令。</li>
+<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFlags)：向指定位置，发送单个手势。</li>
+<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFilags) ：发送按键消息。</li>
+<li>LaunchInstrumentation(test_name,runner_name): 运行一个instrumentation测试用例。</li>
+<li>DispatchTrackball: 模拟发送轨迹球事件。</li>
+<li>ProfileWait: 等待5秒。</li>
+<li>StartCaptureFramerate():  获取帧率。</li>
+<li>EndCaptureFramerate(input): 结束获取帧率。</li>
+</ul>
+<h4 id="脚本demo"><a href="#脚本demo" class="headerlink" title="脚本demo"></a>脚本demo</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#头文件信息  </span></span><br><span class="line"><span class="built_in">type</span>=raw events  </span><br><span class="line">count=10  </span><br><span class="line">speed=1.0  </span><br><span class="line">start data &gt;&gt;  </span><br><span class="line"><span class="comment">#具体的脚本内容  </span></span><br><span class="line">LaunchActivity(com.example.package,com.example.ui.SplashActivity)  </span><br><span class="line">Tap(972,1818)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,607)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">DispatchString(1234567)  </span><br><span class="line">Tap(636,859)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(388,895)  </span><br><span class="line">UserWait(1000)  </span><br><span class="line">DispatchString(123456)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,1104)</span><br></pre></td></tr></table></figure>
+<h4 id="执行脚本"><a href="#执行脚本" class="headerlink" title="执行脚本"></a>执行脚本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ adb push monkey.script /sdcard/ </span><br><span class="line">$ adb shell  </span><br><span class="line">$ shell@pisces:/ $ monkey -f /sdcard/monkey.script -v 1</span><br></pre></td></tr></table></figure>
+<h4 id="日志分别存储"><a href="#日志分别存储" class="headerlink" title="日志分别存储"></a>日志分别存储</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Monkey [option] &lt;count&gt; 1&gt;/sdcard/monkey.txt 2&gt;/sdcard/error.txt</span><br></pre></td></tr></table></figure>
+<h3 id="monlkey的基本原理"><a href="#monlkey的基本原理" class="headerlink" title="monlkey的基本原理"></a>monlkey的基本原理</h3><p>monkey的代码核心模块主要包括主控，监控，事件源和事件四部分。</p>
+<ul>
+<li>主控模块：主控模块即com.android.commands.monkey.Monkey类,是入口函数所在的类，主要负责参数解析和赋值，初始化运行环境，执行runMonkeyCucles()方法针对不同的事件源开始获取并执行不同的事件。</li>
+<li>监控模块：监控部分包括异常监控和网络监控两部分。异常监控通过ActivityWatch类来实现，注意监控Activity的crash和ANR事件。网络监控通过MonkeyNetworkmonitor类来实现，主要用于统计运行期间移动网络和WiFi网络的链接时长。</li>
+<li>事件源模块：代表不同的事件来源。</li>
+<li>事件模块：事件代表了各种用户操作类型。</li>
+</ul>
+<h3 id="monkey-扩展"><a href="#monkey-扩展" class="headerlink" title="monkey 扩展"></a>monkey 扩展</h3><p>monkey本身的功能有限，比如不能截屏和网络重新连接等，为了更好的测试，有时候我们要添加一些功能。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/08/22/lazy_load/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Android 性能优化-懒加载
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/08/21/h5-webview/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 混合式开发-H5</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="monkey" data-title="Android Mokey压力测试" data-url="https://github.com/sirencode/2016/08/22/monkey/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android Mokey压力测试">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

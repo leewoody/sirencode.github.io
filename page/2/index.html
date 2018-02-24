@@ -1,20 +1,981 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Diablo</title>
 
-block nav
-    - var pageName = "HOME"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = __("site_index")
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Diablo">
+<meta property="og:url" content="https://github.com/sirencode/page/2/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Diablo">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        each post in page.posts.toArray()
-            a(href=url_for(post.path), title=post.title).body__item.post__title
-                span!= post.title
-                span(class="archive_date")!= date(post.date)
-    div.body__pagination
-        div.pull-right!= paginator()
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap">
+  
+    <article id="post-电量分析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/09/01/电量分析/" class="article-date">
+  	<time datetime="2017-08-31T16:00:00.000Z" itemprop="datePublished">2017-09-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/09/01/电量分析/">
+        电量分析
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="安装环境"><a href="#安装环境" class="headerlink" title="安装环境"></a>安装环境</h3><h4 id="go"><a href="#go" class="headerlink" title="go"></a>go</h4><p><a href="http://golang.org/doc/install" target="_blank" rel="noopener">GO安装</a></p>
+<p>验证</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ go version</span><br><span class="line">go version go1.9 darwin/amd64</span><br></pre></td></tr></table></figure>
+<p>环境变量配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">export PATH=$PATH:/usr/local/go/bin</span><br><span class="line">export GOROOT=$HOME/Myworkspace</span><br><span class="line">export PATH=$PATH:$GOROOT/bin</span><br></pre></td></tr></table></figure>
+<h4 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h4><h4 id="python-2-7"><a href="#python-2-7" class="headerlink" title="python 2.7"></a>python 2.7</h4><h4 id="java"><a href="#java" class="headerlink" title="java"></a>java</h4><h4 id="Battery-Historian"><a href="#Battery-Historian" class="headerlink" title="Battery Historian"></a>Battery Historian</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">go get -d -u github.com/google/battery-historian/...</span><br><span class="line"></span><br><span class="line">$ <span class="built_in">cd</span> <span class="variable">$GOPATH</span>/src/github.com/google/battery-historian</span><br><span class="line"></span><br><span class="line"><span class="comment"># Compile Javascript files using the Closure compiler</span></span><br><span class="line">$ go run setup.go</span><br><span class="line"></span><br><span class="line"><span class="comment"># Run Historian on your machine (make sure $PATH contains $GOBIN)</span></span><br><span class="line">$ go run cmd/battery-historian/battery-historian.go [--port &lt;default:9999&gt;]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Compile Javascript如果提示下载失败，请翻墙，或者按照提示手动下载，并将zip包放到指定位置，并解压，再次执行对应命令</li>
+</ul>
+<h3 id="生成分析文件"><a href="#生成分析文件" class="headerlink" title="生成分析文件"></a>生成分析文件</h3><p>清除缓存数据</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell dumpsys batterystats --reset</span><br></pre></td></tr></table></figure>
+<p>android 默认不可以查看多次结果中每一次的具体信息，需要手动打开</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell dumpsys batterystats --<span class="built_in">enable</span> full-wake-history</span><br></pre></td></tr></table></figure>
+<p>android 7.0以上</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb bugreport bugreport.zip</span><br></pre></td></tr></table></figure>
+<p>5.0-6.0</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb bugreport &gt; bugreport.txt</span><br></pre></td></tr></table></figure>
+<ul>
+<li>当我们跑的是7.0以下的时候，可能会提示7.0以上的命令问题，需要对应的adb版本支持。</li>
+</ul>
+<h3 id="分析文件"><a href="#分析文件" class="headerlink" title="分析文件"></a>分析文件</h3><p>在google浏览器中打开<a href="http://localhost:port" target="_blank" rel="noopener">http://localhost:port</a></p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-09-01%20%E4%B8%8B%E5%8D%882.43.27.png" alt=""></p>
+<p>分析结果如下：</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-09-01%20%E4%B8%8B%E5%8D%882.45.54.png" alt=""></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-Android 组件化-生命周期" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/30/Android 组件化-生命周期/" class="article-date">
+  	<time datetime="2017-08-29T16:00:00.000Z" itemprop="datePublished">2017-08-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/30/Android 组件化-生命周期/">
+        Android 组件化-生命周期
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Lifecycle"><a href="#Lifecycle" class="headerlink" title="Lifecycle"></a>Lifecycle</h3><p>Lifecycle是一个持有某组件生命周期状态的类，并允许其他对象观察这一状态。</p>
+<p>Lifecycle使用两个枚举类型来跟踪相关联组件的生命周期状态。</p>
+<ul>
+<li>Event（事件）:生命周期事件由框架和Lifecycle类分发。这些事件映射到Activity和Fragment的回调。</li>
+<li>State（状态）：由Lifecycle对象所跟踪组件的当前状态。</li>
+</ul>
+<p><img src="https://developer.android.com/images/topic/libraries/architecture/lifecycle-states.png" alt="tupian"></p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><h4 id="打开项目的build添加："><a href="#打开项目的build添加：" class="headerlink" title="打开项目的build添加："></a>打开项目的build添加：</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">        maven &#123; url 'https://maven.google.com' &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="app-build"><a href="#app-build" class="headerlink" title="app build"></a>app build</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compile "android.arch.lifecycle:runtime:1.0.0-alpha9"</span><br><span class="line">compile "android.arch.lifecycle:extensions:1.0.0-alpha9"</span><br><span class="line">annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha9"</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意还只是测试版本，不太稳定，请慎重使用。</li>
+</ul>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>一个可以显示组件生命周期状态的类通过添加注解到其方法中来实现：</p>
+<p>aLifecycleOwner是一个实现LifecycleOwner接口的activity或者fragment。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyObserver</span> <span class="keyword">implements</span> <span class="title">LifecycleObserver</span> </span>&#123;</span><br><span class="line">    <span class="meta">@OnLifecycleEvent</span>(Lifecycle.Event.ON_RESUME)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnLifecycleEvent</span>(Lifecycle.Event.ON_PAUSE)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">aLifecycleOwner.getLifecycle().addObserver(<span class="keyword">new</span> MyObserver());</span><br></pre></td></tr></table></figure>
+<p>由于架构组件当前处在非正式版中，我们无法从一个稳定的组件中添加一个不稳定的API，因此Fragment和AppCompatActivity类暂时无法实现这些接口。目前可以使用LifecycleActivity和LifecycleFragment，当Lifecycles稳定以后，Fragment和AppCompatActivity将实现LifecycleOwner；LifecycleActivity和LifecycleFragment将会被弃用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> <span class="keyword">implements</span> <span class="title">LifecycleRegistryOwner</span> </span>&#123;</span><br><span class="line">    LifecycleRegistry lifecycleRegistry = <span class="keyword">new</span> LifecycleRegistry(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LifecycleRegistry <span class="title">getLifecycle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> lifecycleRegistry;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-MAT" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/25/MAT/" class="article-date">
+  	<time datetime="2017-08-24T16:00:00.000Z" itemprop="datePublished">2017-08-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/25/MAT/">
+        内存检查MAT
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://www.eclipse.org/mat/" target="_blank" rel="noopener">下载</a></p>
+<h3 id="mac-打不开问题"><a href="#mac-打不开问题" class="headerlink" title="mac 打不开问题"></a>mac 打不开问题</h3><p>mat -&gt; Contents -&gt; Eclipse -&gt; MemoryAnalyzer.ini</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-startup</span><br><span class="line">../Eclipse/plugins/org.eclipse.equinox.launcher_1.3.100.v20150511-1540.jar</span><br><span class="line">####添加行</span><br><span class="line">-data</span><br><span class="line">/Users/Diablo/log</span><br><span class="line">####</span><br><span class="line">--launcher.library</span><br><span class="line">../Eclipse/plugins/org.eclipse.equinox.launcher.cocoa.macosx.x86_64_1.1.300.v20150602-1417</span><br><span class="line">-vmargs</span><br><span class="line">-Xmx1024m</span><br><span class="line">-Dorg.eclipse.swt.internal.carbon.smallFonts</span><br><span class="line">-XstartOnFirstThread</span><br></pre></td></tr></table></figure>
+<h3 id="AS-生成-hprof文件"><a href="#AS-生成-hprof文件" class="headerlink" title="AS 生成 .hprof文件"></a>AS 生成 .hprof文件</h3><p>AS -&gt; DDMS -&gt; 点击Update Heap按钮(装有一半绿色液体的圆柱体）开始进行追踪 -&gt; 点击Dump HPROP File按钮结束追踪，生成并保存hprof文件 </p>
+<h3 id="将AS生成的-hprof文件转换格式"><a href="#将AS生成的-hprof文件转换格式" class="headerlink" title="将AS生成的.hprof文件转换格式"></a>将AS生成的.hprof文件转换格式</h3><p>cd到sdk目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hprof-conv /Users/Diablo/Desktop/ 1.hprof 2.hprof</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-多线程数据锁" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/25/多线程数据锁/" class="article-date">
+  	<time datetime="2017-08-24T16:00:00.000Z" itemprop="datePublished">2017-08-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/25/多线程数据锁/">
+        多线程数据锁
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于多线程数据的安全问题，解决方法是synchronized关键字，但是其实synchronized的用法不对可能不一定起到数据锁的效果。</p>
+<h3 id="synchronized原理"><a href="#synchronized原理" class="headerlink" title="synchronized原理"></a>synchronized原理</h3><p>每个锁对象都有两个队列，一个是就绪队列，一个是阻塞队列，就绪队列存储了将要获得锁的线程，阻塞队列存储了被阻塞的线程，当一个被线程被唤醒 (notify)后，才会进入到就绪队列，等待cpu的调度。</p>
+<ul>
+<li>1 获得同步锁</li>
+<li>2 清空工作内存</li>
+<li>3 从主存拷贝变量副本到工作内存</li>
+<li>4 对这些变量计算</li>
+<li>5 将变量从工作内存写回到主存</li>
+<li>6 释放锁</li>
+</ul>
+<h3 id="synchronized-同步方法"><a href="#synchronized-同步方法" class="headerlink" title="synchronized 同步方法"></a>synchronized 同步方法</h3><p>像下面这样实现的数据锁其实是不完整的数据锁，因为它只对Account的同一个对象起作用，account1，account2之间就没有互斥性。</p>
+<p>原因：synchronized关键字可以作为函数的修饰符，也可作为函数内的语句，也就是平时说的同步方法和同步语句块。如果再细的分类，synchronized可作用于instance变量、object reference（对象引用）、static函数和class literals(类名称字面常量)身上。而当修饰方法时，锁的其实是当前对象的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Account</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> balance;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Account</span><span class="params">(<span class="keyword">int</span> balance)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.balance = balance;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBalance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> balance;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">            balance = balance + num;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">withdraw</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">            balance = balance - num;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="synchronized-同步代码块"><a href="#synchronized-同步代码块" class="headerlink" title="synchronized 同步代码块"></a>synchronized 同步代码块</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Account</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//注：零长度的byte数组对象创建起来将比任何对象都经济――查看编译后的字节码：</span></span><br><span class="line">        <span class="comment">// 生成零长度的byte[]对象只需3条操作码，而Object lock = new Object()则需要7行操作码。</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">byte</span>[] lock = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">0</span>]; <span class="comment">// 特殊的instance变量</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> balance;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Account</span><span class="params">(<span class="keyword">int</span> balance)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.balance = balance;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBalance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> balance;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">                balance = balance + num;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">withdraw</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">                balance = balance - num;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="将synchronized作用于static-函数"><a href="#将synchronized作用于static-函数" class="headerlink" title="将synchronized作用于static 函数"></a>将synchronized作用于static 函数</h3><p>类方法，适用用所有对象。</p>
+<h3 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h3><p>用volatile修饰的变量，线程在每次使用变量的时候，都会读取变量修改后的最的值。volatile很容易被误用，用来进行原子性操作。</p>
+<p>可见性，是指线程之间的可见性，一个线程修改的状态对另一个线程是可见的。</p>
+<p>保证了不同线程对这个变量进行操作时的可见性，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。</p>
+<p>可见性只能保证每次读取的是最新的值，但是volatile没办法保证对变量的操作的原子性。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-double精度计算" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/08/double精度计算/" class="article-date">
+  	<time datetime="2017-08-07T16:00:00.000Z" itemprop="datePublished">2017-08-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/08/double精度计算/">
+        Double 精度计算
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当开发一些金融产品时，总会涉及到一些数据的比较，以及数据是否是某个单位的倍数的判断，但是在实际操作中你会看到，浮点数并不是绝对的数值，是会丢精度的。</p>
+<h3 id="现象"><a href="#现象" class="headerlink" title="现象"></a>现象</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">BigDecimal aDouble =<span class="keyword">new</span> BigDecimal(<span class="number">1.22</span>);</span><br><span class="line">System.out.println(<span class="string">"construct with a double value: "</span> + aDouble);</span><br><span class="line">BigDecimal aString = <span class="keyword">new</span> BigDecimal(<span class="string">"1.22"</span>);</span><br><span class="line">System.out.println(<span class="string">"construct with a String value: "</span> + aString);</span><br><span class="line"></span><br><span class="line">输出结果如下：</span><br><span class="line">construct with a <span class="keyword">double</span></span><br><span class="line">value:<span class="number">1.2199999999999999733546474089962430298328399658203125</span></span><br><span class="line">construct with a aString value:<span class="number">1.22</span></span><br></pre></td></tr></table></figure>
+<h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>因为java的精度是小数点后18位的，而小数部分是需要转化为二进制形式的，而某些小数如0.22在转化为二进制的时候会出现除不尽的情况。</p>
+<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>其实解决方法也是很简单，虽然并不是精确的结果，但是相差甚微，我们只需要四舍五入保留我们需要的小数点位数即可。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">getExactValue</span><span class="params">(<span class="keyword">double</span> value, <span class="keyword">int</span> digits)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> BigDecimal(BigDecimalUtil.format(value, digits)).doubleValue();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//results 0商，1余数    </span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">divideAndRemainder</span><span class="params">(<span class="keyword">double</span> v1, <span class="keyword">double</span> v2, <span class="keyword">int</span> digits)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (digits == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> v1 * <span class="number">10</span> % <span class="number">10</span> == <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        BigDecimal b1 = <span class="keyword">new</span> BigDecimal(BigDecimalUtil.format(v1, digits));</span><br><span class="line">        BigDecimal b2 = <span class="keyword">new</span> BigDecimal(BigDecimalUtil.format(v2, digits));</span><br><span class="line">        BigDecimal[] results = b1.divideAndRemainder(b2);</span><br><span class="line">        <span class="keyword">return</span> results[<span class="number">1</span>].doubleValue() == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>使用BigDecimal进行转换是一件很费时的事，所以注意使用的场景，不要过度使用导致性能问题。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-messenger" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/07/06/messenger/" class="article-date">
+  	<time datetime="2017-07-05T16:00:00.000Z" itemprop="datePublished">2017-07-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/06/messenger/">
+        Messenger 信使
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>Messenger 是用来实现进程间通信的一种方式，具体的通信方式是使用handler - message的方式来实现消息的互发(底层实现和aidl一致，也是通过binder通信)。和AIDL方式相比较使用起来更加便捷，不需要编写晦涩难懂的aild文件。</p>
+<p>转载<a href="http://blog.csdn.net/lmj623565791/article/details/47017485" target="_blank" rel="noopener">Android 基于Message的进程间通信 Messenger完全解析</a></p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h4 id="Server端"><a href="#Server端" class="headerlink" title="Server端"></a>Server端</h4><p>服务端就一个Service，可以看到代码相当的简单，只需要去声明一个Messenger对象，然后onBind方法返回mMessenger.getBinder().</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessengerService</span> <span class="keyword">extends</span> <span class="title">Service</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MSG_SUM = <span class="number">0x110</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//最好换成HandlerThread的形式</span></span><br><span class="line">    <span class="keyword">private</span> Messenger mMessenger = <span class="keyword">new</span> Messenger(<span class="keyword">new</span> Handler()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msgfromClient)</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            Message msgToClient = Message.obtain(msgfromClient);<span class="comment">//返回给客户端的消息</span></span><br><span class="line">            <span class="keyword">switch</span> (msgfromClient.what)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="comment">//msg 客户端传来的消息</span></span><br><span class="line">                <span class="keyword">case</span> MSG_SUM:</span><br><span class="line">                    msgToClient.what = MSG_SUM;</span><br><span class="line">                    <span class="keyword">try</span></span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="comment">//模拟耗时</span></span><br><span class="line">                        Thread.sleep(<span class="number">2000</span>);</span><br><span class="line">                        msgToClient.arg2 = msgfromClient.arg1 + msgfromClient.arg2;</span><br><span class="line">                        msgfromClient.replyTo.send(msgToClient);</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (InterruptedException e)</span><br><span class="line">                    &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125; <span class="keyword">catch</span> (RemoteException e)</span><br><span class="line">                    &#123;</span><br><span class="line">                        e.printStackTrace();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">super</span>.handleMessage(msgfromClient);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mMessenger.getBinder();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注册service</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">service</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:name</span>=<span class="string">".MessengerService"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:enabled</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">            <span class="attr">android:exported</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">action</span> <span class="attr">android:name</span>=<span class="string">"com.zhy.aidl.calc"</span>&gt;</span><span class="tag">&lt;/<span class="name">action</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">category</span> <span class="attr">android:name</span>=<span class="string">"android.intent.category.DEFAULT"</span>/&gt;</span></span><br><span class="line">            <span class="tag">&lt;/<span class="name">intent-filter</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">service</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h4><p>客户端首先bindService，然后在onServiceConnected中拿到回调的service（IBinder）对象，通过service对象去构造一个mService =new Messenger(service);然后就可以使用mService.send(msg)给服务端了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">AppCompatActivity</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String TAG = <span class="string">"MainActivity"</span>;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MSG_SUM = <span class="number">0x110</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Button mBtnAdd;</span><br><span class="line">    <span class="keyword">private</span> LinearLayout mLyContainer;</span><br><span class="line">    <span class="comment">//显示连接状态</span></span><br><span class="line">    <span class="keyword">private</span> TextView mTvState;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Messenger mService;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">boolean</span> isConn;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> Messenger mMessenger = <span class="keyword">new</span> Messenger(<span class="keyword">new</span> Handler()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">handleMessage</span><span class="params">(Message msgFromServer)</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">switch</span> (msgFromServer.what)</span><br><span class="line">            &#123;</span><br><span class="line">                <span class="keyword">case</span> MSG_SUM:</span><br><span class="line">                    TextView tv = (TextView) mLyContainer.findViewById(msgFromServer.arg1);</span><br><span class="line">                    tv.setText(tv.getText() + <span class="string">"=&gt;"</span> + msgFromServer.arg2);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">super</span>.handleMessage(msgFromServer);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> ServiceConnection mConn = <span class="keyword">new</span> ServiceConnection()</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">(ComponentName name, IBinder service)</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            mService = <span class="keyword">new</span> Messenger(service);</span><br><span class="line">            isConn = <span class="keyword">true</span>;</span><br><span class="line">            mTvState.setText(<span class="string">"connected!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span><span class="params">(ComponentName name)</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            mService = <span class="keyword">null</span>;</span><br><span class="line">            isConn = <span class="keyword">false</span>;</span><br><span class="line">            mTvState.setText(<span class="string">"disconnected!"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> mA;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">        setContentView(R.layout.activity_main);</span><br><span class="line"></span><br><span class="line">        <span class="comment">//开始绑定服务</span></span><br><span class="line">        bindServiceInvoked();</span><br><span class="line"></span><br><span class="line">        mTvState = (TextView) findViewById(R.id.id_tv_callback);</span><br><span class="line">        mBtnAdd = (Button) findViewById(R.id.id_btn_add);</span><br><span class="line">        mLyContainer = (LinearLayout) findViewById(R.id.id_ll_container);</span><br><span class="line"></span><br><span class="line">        mBtnAdd.setOnClickListener(<span class="keyword">new</span> View.OnClickListener()</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onClick</span><span class="params">(View v)</span></span></span><br><span class="line"><span class="function">            </span>&#123;</span><br><span class="line">                <span class="keyword">try</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="keyword">int</span> a = mA++;</span><br><span class="line">                    <span class="keyword">int</span> b = (<span class="keyword">int</span>) (Math.random() * <span class="number">100</span>);</span><br><span class="line"></span><br><span class="line">                    <span class="comment">//创建一个tv,添加到LinearLayout中</span></span><br><span class="line">                    TextView tv = <span class="keyword">new</span> TextView(MainActivity.<span class="keyword">this</span>);</span><br><span class="line">                    tv.setText(a + <span class="string">" + "</span> + b + <span class="string">" = caculating ..."</span>);</span><br><span class="line">                    tv.setId(a);</span><br><span class="line">                    mLyContainer.addView(tv);</span><br><span class="line"></span><br><span class="line">                    Message msgFromClient = Message.obtain(<span class="keyword">null</span>, MSG_SUM, a, b);</span><br><span class="line">                    msgFromClient.replyTo = mMessenger;</span><br><span class="line">                    <span class="keyword">if</span> (isConn)</span><br><span class="line">                    &#123;</span><br><span class="line">                        <span class="comment">//往服务端发送消息</span></span><br><span class="line">                        mService.send(msgFromClient);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125; <span class="keyword">catch</span> (RemoteException e)</span><br><span class="line">                &#123;</span><br><span class="line">                    e.printStackTrace();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">bindServiceInvoked</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        Intent intent = <span class="keyword">new</span> Intent();</span><br><span class="line">        intent.setAction(<span class="string">"com.zhy.aidl.calc"</span>);</span><br><span class="line">        bindService(intent, mConn, Context.BIND_AUTO_CREATE);</span><br><span class="line">        Log.e(TAG, <span class="string">"bindService invoked !"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy();</span><br><span class="line">        unbindService(mConn);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="源码分析"><a href="#源码分析" class="headerlink" title="源码分析"></a>源码分析</h3><p>服务端：</p>
+<p>服务端的onBind是这么写的：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mMessenger.getBinder();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>点进去</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> IBinder <span class="title">getBinder</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mTarget.asBinder();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>构造mMessenger对象的代码：new Messenger(new Handler())；</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Messenger</span><span class="params">(Handler target)</span> </span>&#123;</span><br><span class="line">        mTarget = target.getIMessenger();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>继续跟进去</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">final</span> IMessenger <span class="title">getIMessenger</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">synchronized</span> (mQueue) &#123;</span><br><span class="line">            <span class="keyword">if</span> (mMessenger != <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> mMessenger;</span><br><span class="line">            &#125;</span><br><span class="line">            mMessenger = <span class="keyword">new</span> MessengerImpl();</span><br><span class="line">            <span class="keyword">return</span> mMessenger;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">MessengerImpl</span> <span class="keyword">extends</span> <span class="title">IMessenger</span>.<span class="title">Stub</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">send</span><span class="params">(Message msg)</span> </span>&#123;</span><br><span class="line">            msg.sendingUid = Binder.getCallingUid();</span><br><span class="line">            Handler.<span class="keyword">this</span>.sendMessage(msg);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>mTarget是一个MessengerImpl对象，那么asBinder实际上是返回this，也就是MessengerImpl对象；</p>
+<p>这是个内部类，可以看到继承自IMessenger.Stub，然后实现了一个send方法，该方法就是将接收到的消息通过 Handler.this.sendMessage(msg);发送到handleMessage方法。</p>
+<p>看到这，大家有没有想到什么，难道不觉得extends IMessenger.Stub这种写法异常的熟悉么？</p>
+<p>我们传统写aidl文件，aapt给我们生成什么，生成IXXX.Stub类，然后我们服务端继承IXXX.Stub实现接口中的方法。</p>
+<p>没错，其实这里内部其实也是依赖一个aidl生成的类，这个aidl位于：frameworks/base/core/Java/android/os/IMessenger.aidl。</p>
+<p>实际上，就是依赖该aidl文件生成的类，继承了IMessenger.Stub类，实现了send方法，send方法中参数会通过客户端传递过来，最终发送给handler进行处理。</p>
+<p>客户端：</p>
+<p>客户端首先通过onServiceConnected拿到sevice（Ibinder）对象，这里没什么特殊的，我们平时的写法也是这样的，只不过我们平时会这么写：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">IMessenger.Stub.asInterface(service)拿到接口对象进行调用；</span><br></pre></td></tr></table></figure>
+<p>而，我们的代码中是</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mService = <span class="keyword">new</span> Messenger(service);</span><br></pre></td></tr></table></figure>
+<p>跟进去，你会发现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">Messenger</span><span class="params">(IBinder target)</span> </span>&#123;</span><br><span class="line">        mTarget = IMessenger.Stub.asInterface(target);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>到这里就可以明白，客户端与服务端通信，实际上和我们平时的写法没有任何区别，通过编写aidl文件，服务端onBind利用Stub编写接口实现返回；客户端利用回调得到的IBinder对象，使用IMessenger.Stub.asInterface(target)拿到接口实例进行调用.</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-跳转到fragment指定页" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/22/跳转到fragment指定页/" class="article-date">
+  	<time datetime="2017-06-21T16:00:00.000Z" itemprop="datePublished">2017-06-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/22/跳转到fragment指定页/">
+        定位跳转到fragment里面的子fragment的页面
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们现在的项目大都是，Mainactivity 里面几个tag，每个tag对应一个fragment。而恰巧有的时候在对应的fragment tag 里面还是会有类似外层那种多个tag的情况，而我们有的时候需要在任意位置定位到里面的tag。</p>
+<p>比如我们的app MainActivity有4个tag分别是首页，直播，交易，我，每个tag对应一个Fragment进行切换。然而在交易的主fragment里面的页面结构也是多个tag对应多个fragment的形式。这个时候需要准确定位到交易里面的一个tag，比如定位到登录的tag这种情况。</p>
+<h3 id="解决问题思路"><a href="#解决问题思路" class="headerlink" title="解决问题思路"></a>解决问题思路</h3><p>基本点：每次MainActivity的tag显隐都会调用onNewIntent方法，我们只需要将跳转命令传到这里(根)进行处理。</p>
+<p>痛点：当然最简单的方法就是销毁对应的fragmeng重新新建，并指定位置，这样做内存消耗太大。如过直接调用set位置的方法又不一定会生效，因为这个时候view可能还没有绘制成功。</p>
+<p>解决方法：将参数传递到onNewIntent中的intent中，在根activity中对数据进行解析处理。拿到数据后，模拟点击对应的tag,在对应tag的点击事件中获取对应的fragment并进行位置更新。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>根Activity实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">BaseActivity</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * navigateType intent</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String INTENT_NAVIGATE_TYPE = <span class="string">"navigateType"</span>;</span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String INTENT_NAVIGATE_DATA = <span class="string">"navigate_data"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onNewIntent</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onNewIntent(intent);</span><br><span class="line">        trackStartEvent();</span><br><span class="line">        <span class="keyword">if</span> (hasIntentNavigate(intent)) &#123;</span><br><span class="line">            initNavigateIntent(intent);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">hasIntentNavigate</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> intent != <span class="keyword">null</span> &amp;&amp; intent.hasExtra(INTENT_NAVIGATE_TYPE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initNavigateIntent</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        NavigateType type = (NavigateType) intent.getSerializableExtra(INTENT_NAVIGATE_TYPE);</span><br><span class="line">        intent.removeExtra(INTENT_NAVIGATE_TYPE);</span><br><span class="line">        Parcelable parcelable = intent.getParcelableExtra(INTENT_NAVIGATE_DATA);</span><br><span class="line">        intent.removeExtra(INTENT_NAVIGATE_DATA);</span><br><span class="line"></span><br><span class="line">        navigation(type, parcelable);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置tab</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTabSelected</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        selectedIndex = index;</span><br><span class="line">        homeView.setSelected(index == INDEX_HOME ? <span class="keyword">true</span> : <span class="keyword">false</span>);</span><br><span class="line">        liveView.setSelected(index == INDEX_LIVE ? <span class="keyword">true</span> : <span class="keyword">false</span>);</span><br><span class="line">        quoteView.setSelected(index == INDEX_QUOTE ? <span class="keyword">true</span> : <span class="keyword">false</span>);</span><br><span class="line">        meView.setSelected(index == INDEX_ME ? <span class="keyword">true</span> : <span class="keyword">false</span>);</span><br><span class="line">        tradeView.setSelected(index == INDEX_TRADE ? <span class="keyword">true</span> : <span class="keyword">false</span>);</span><br><span class="line">        switcher.switchToFragment(index);</span><br><span class="line">        updateFragmentData(index);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateFragmentData</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        Object data = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (index == INDEX_QUOTE) &#123;</span><br><span class="line">            data = quoteView.getTag();</span><br><span class="line">            quoteView.setTag(<span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (index == INDEX_TRADE) &#123;</span><br><span class="line">            data = tradeView.getTag();</span><br><span class="line">            tradeView.setTag(<span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (data != <span class="keyword">null</span>) &#123;</span><br><span class="line">            IHandleBackFragment fragment = getCurrentFragment();</span><br><span class="line">            <span class="keyword">if</span> (fragment <span class="keyword">instanceof</span> Updatable) &#123;</span><br><span class="line">                ((Updatable) fragment).update(data);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">navigation</span><span class="params">(NavigateType type, Parcelable data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (type) &#123;</span><br><span class="line">            <span class="keyword">case</span> HOME:</span><br><span class="line">                homeView.performClick();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> LIVE:</span><br><span class="line">                liveView.performClick();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> QUOTE:</span><br><span class="line">                quoteView.performClick();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> TRADE:</span><br><span class="line">                <span class="keyword">if</span> (data != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    tradeView.setTag(data);</span><br><span class="line">                &#125;</span><br><span class="line">                tradeView.performClick();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> ME:</span><br><span class="line">                meView.performClick();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应的fragment实现updatable接口,在对应的fragment里面将数据解析，并点模拟点击对应的tag,如果需要再往下传，就继续获取对应的子fragment，并调用update接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">ublic <span class="class"><span class="keyword">class</span> <span class="title">TradeMainFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> <span class="keyword">implements</span> <span class="title">Updatable</span></span>&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (data != <span class="keyword">null</span> &amp;&amp; getView() != <span class="keyword">null</span>) &#123;</span><br><span class="line">            handleIntentData(data);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            intentData = data;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">handleIntentData</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (data <span class="keyword">instanceof</span> TradeNavigation) &#123;</span><br><span class="line">            TradeNavigation tradeNavigation = (TradeNavigation) data;</span><br><span class="line">            <span class="keyword">if</span> (tradeNavigation.getPage() &gt; (pageViewAdapter.getCount() - <span class="number">1</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            tradeViewPager.setCurrentItem(tradeNavigation.getPage());</span><br><span class="line">            Fragment fragment = pageViewAdapter.getCurrentItem();</span><br><span class="line">            <span class="keyword">if</span> (fragment <span class="keyword">instanceof</span> Updatable) &#123;</span><br><span class="line">                ((Updatable) fragment).update(data);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-网络传输" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/12/网络传输/" class="article-date">
+  	<time datetime="2017-06-11T16:00:00.000Z" itemprop="datePublished">2017-06-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/12/网络传输/">
+        网络传输
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>网络传输五层模型：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/206855-efc1c8d2c47ac859.png?imageView2/2/w/1240/q/100" alt=""></p>
+<h4 id="层与协议"><a href="#层与协议" class="headerlink" title="层与协议"></a>层与协议</h4><p>每一层都是为了完成一种功能。为了实现这些功能，就需要大家都遵守共同的规则。大家都遵守的规则，就叫做”协议”（protocol）。</p>
+<h4 id="实体层-物理层"><a href="#实体层-物理层" class="headerlink" title="实体层/物理层"></a>实体层/物理层</h4><p>实体层就是把电脑连接起来的物理手段(可以用光缆、电缆、双绞线、无线电波等方式)。它主要规定了网络的一些电气特性，作用是负责传送0和1的电信号。</p>
+<h4 id="链接层-链路层"><a href="#链接层-链路层" class="headerlink" title="链接层/链路层"></a>链接层/链路层</h4><p>单纯的0和1没有任何意义，必须规定解读方式：多少个电信号算一组？每个信号位有何意义？这就是”链接层”的功能，它在”实体层”的上方，确定了0和1的分组方式。</p>
+<h5 id="以太网协议"><a href="#以太网协议" class="headerlink" title="以太网协议"></a>以太网协议</h5><p>早期的时候，每家公司都有自己的电信号分组方式。逐渐地，一种叫做”以太网”（Ethernet）的协议，占据了主导地位。以太网规定，一组电信号构成一个数据包，叫做”帧”（Frame）。每一帧分成两个部分：标头（Head）和数据（Data）。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/206855-c57bb4ac35d430ff.png?imageView2/2/w/1240/q/100" alt=""></p>
+<p>head包含数据包的一些说明项，比如发送者、接受者、数据类型等等；data则是数据包的具体内容。head的长度，固定为18字节。data的长度，最短为46字节，最长为1500字节。因此，整个”帧”最短为64字节，最长为1518字节。如果数据很长，就必须分割成多个帧进行发送。</p>
+<h5 id="MAC地址"><a href="#MAC地址" class="headerlink" title="MAC地址"></a>MAC地址</h5><p>MAC地址是发送者和接受者是的标识。网卡的地址，就是数据包的发送地址和接收地址，这叫做MAC地址。每块网卡出厂的时候，都有一个全世界独一无二的MAC地址，长度是48个二进制位，通常用12个十六进制数表示。前6个十六进制数是厂商编号，后6个是该厂商的网卡流水号。</p>
+<h5 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h5><p>以太网采用了一种很”原始”的方式，它不是把数据包准确送到接收方，而是向本网络内所有计算机发送，让每台计算机自己判断，是否为接收方。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/206855-064346740c398d0a.png?imageView2/2/w/1240/q/100" alt=""></p>
+<p>1号计算机向2号计算机发送一个数据包，同一个子网络的3号、4号、5号计算机都会收到这个包。它们读取这个包的”标头”，找到接收方的MAC地址，然后与自身的MAC地址相比较，如果两者相同，就接受这个包，做进一步处理，否则就丢弃这个包。这种发送方式就叫做”广播”（broadcasting）。</p>
+<h4 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h4><p>以太网采用广播方式发送数据包，所有成员人手一”包”，不仅效率低，而且局限在发送者所在的子网络。也就是说，如果两台计算机不在同一个子网络，广播是传不过去的。这种设计是合理的，否则互联网上每一台计算机都会收到所有包，那会引起灾难。</p>
+<p>因此，必须找到一种方法，能够区分哪些MAC地址属于同一个子网络，哪些不是。如果是同一个子网络，就采用广播方式发送，否则就采用”路由”方式发送。这就导致了”网络层”的诞生。它的作用是引进一套新的地址，使得我们能够区分不同的计算机是否属于同一个子网络。这套地址就叫做”网络地址”，简称”网址”。</p>
+<p>于是，”网络层”出现以后，每台计算机有了两种地址，一种是MAC地址，另一种是网络地址。两种地址之间没有任何联系，MAC地址是绑定在网卡上的，网络地址则是管理员分配的，它们只是随机组合在一起。网络地址帮助我们确定计算机所在的子网络，MAC地址则将数据包送到该子网络中的目标网卡。因此，从逻辑上可以推断，必定是先处理网络地址，然后再处理MAC地址。</p>
+<h5 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h5><p>规定网络地址的协议，叫做IP协议。它所定义的地址，就被称为IP地址。</p>
+<p>互联网上的每一台计算机，都会分配到一个IP地址。这个地址分成两个部分，前一部分代表网络，后一部分代表主机。比如，IP地址172.16.254.1，这是一个32位的地址，假定它的网络部分是前24位（172.16.254），那么主机部分就是后8位（最后的那个1）。处于同一个子网络的电脑，它们IP地址的网络部分必定是相同的，也就是说172.16.254.2应该与172.16.254.1处在同一个子网络。</p>
+<p>但是，问题在于单单从IP地址，我们无法判断网络部分。还是以172.16.254.1为例，它的网络部分，到底是前24位，还是前16位，甚至前28位，从IP地址上是看不出来的。</p>
+<p>那么，怎样才能从IP地址，判断两台计算机是否属于同一个子网络呢？这就要用到另一个参数”子网掩码”（subnet mask）。</p>
+<p>所谓”子网掩码”，就是表示子网络特征的一个参数。它在形式上等同于IP地址，也是一个32位二进制数字，它的网络部分全部为1，主机部分全部为0。比如，IP地址172.16.254.1，如果已知网络部分是前24位，主机部分是后8位，那么子网络掩码就是11111111.11111111.11111111.00000000，写成十进制就是255.255.255.0。</p>
+<p>知道”子网掩码”，我们就能判断，任意两个IP地址是否处在同一个子网络。方法是将两个IP地址与子网掩码分别进行AND运算（两个数位都为1，运算结果为1，否则为0），然后比较结果是否相同，如果是的话，就表明它们在同一个子网络中，否则就不是。</p>
+<p>比如，已知IP地址172.16.254.1和172.16.254.233的子网掩码都是255.255.255.0，请问它们是否在同一个子网络？两者与子网掩码分别进行AND运算，结果都是172.16.254.0，因此它们在同一个子网络。</p>
+<p>总结一下，IP协议的作用主要有两个，一个是为每一台计算机分配IP地址，另一个是确定哪些地址在同一个子网络。</p>
+<h5 id="IP数据包"><a href="#IP数据包" class="headerlink" title="IP数据包"></a>IP数据包</h5><p>IP数据包直接放进以太网数据包的”数据”部分.IP数据包的”标头”部分的长度为20到60字节，整个数据包的总长度最大为65,535字节。因此，理论上，一个IP数据包的”数据”部分，最长为65,515字节。前面说过，以太网数据包的”数据”部分，最长只有1500字节。因此，如果IP数据包超过了1500字节，它就需要分割成几个以太网数据包，分开发送了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/206855-622e82567f43612f.png?imageView2/2/w/1240/q/100" alt=""></p>
+<h5 id="ARP协议"><a href="#ARP协议" class="headerlink" title="ARP协议"></a>ARP协议</h5><p>因为IP数据包是放在以太网数据包里发送的，所以我们必须同时知道两个地址，一个是对方的MAC地址，另一个是对方的IP地址。通常情况下，对方的IP地址是已知的（后文会解释），但是我们不知道它的MAC地址。</p>
+<p>所以，我们需要一种机制，能够从IP地址得到MAC地址。</p>
+<p>这里又可以分成两种情况。第一种情况，如果两台主机不在同一个子网络，那么事实上没有办法得到对方的MAC地址，只能把数据包传送到两个子网络连接处的”网关”（gateway），让网关去处理。</p>
+<p>第二种情况，如果两台主机在同一个子网络，那么我们可以用ARP协议，得到对方的MAC地址。ARP协议也是发出一个数据包（包含在以太网数据包中），其中包含它所要查询主机的IP地址，在对方的MAC地址这一栏，填的是FF:FF:FF:FF:FF:FF，表示这是一个”广播”地址。它所在子网络的每一台主机，都会收到这个数据包，从中取出IP地址，与自身的IP地址进行比较。如果两者相同，都做出回复，向对方报告自己的MAC地址，否则就丢弃这个包。</p>
+<p>总之，有了ARP协议之后，我们就可以得到同一个子网络内的主机MAC地址，可以把数据包发送到任意一台主机之上了。</p>
+<h4 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h4><p>有了MAC地址和IP地址，我们已经可以在互联网上任意两台主机上建立通信。</p>
+<p>接下来的问题是，同一台主机上有许多程序都需要用到网络，比如，你一边浏览网页，一边与朋友在线聊天。当一个数据包从互联网上发来的时候，你怎么知道，它是表示网页的内容，还是表示在线聊天的内容？</p>
+<p>也就是说，我们还需要一个参数，表示这个数据包到底供哪个程序（进程）使用。这个参数就叫做”端口”（port），它其实是每一个使用网卡的程序的编号。每个数据包都发到主机的特定端口，所以不同的程序就能取到自己所需要的数据。</p>
+<p>“端口”是0到65535之间的一个整数，正好16个二进制位。0到1023的端口被系统占用，用户只能选用大于1023的端口。不管是浏览网页还是在线聊天，应用程序会随机选用一个端口，然后与服务器的相应端口联系。</p>
+<p>“传输层”的功能，就是建立”端口到端口”的通信。相比之下，”网络层”的功能是建立”主机到主机”的通信。只要确定主机和端口，我们就能实现程序之间的交流。因此，Unix系统就把主机+端口，叫做”套接字”（socket）。有了它，就可以进行网络应用程序开发了。</p>
+<h4 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h4><p>应用程序收到”传输层”的数据，接下来就要进行解读。由于互联网是开放架构，数据来源五花八门，必须事先规定好格式，否则根本无法解读。</p>
+<p>“应用层”的作用，就是规定应用程序的数据格式。</p>
+<p>这是最高的一层，直接面对用户。它的数据就放在TCP数据包的”数据”部分。因此，现在的以太网的数据包就变成下面这样。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/206855-fe25e1016f4034b8.png?imageView2/2/w/1240/q/100" alt=""></p>
+<p>实体层(它就是把电脑连接起来的物理手段，作用是负责传送0和1的电信号)-&gt;连接层(确定了0和1的分组方式)-&gt;网络层(区分不同的计算机是否属于同一个子网络,根据ip)-&gt;传输层(就是建立”端口到端口”的通信)-&gt;应用层(规定应用程序的数据格式，www/ftp等)</p>
+<h3 id="TCP-IP"><a href="#TCP-IP" class="headerlink" title="TCP/IP"></a>TCP/IP</h3><p>TCP：传输控制协议，面向连接的的协议，稳定可靠。当客户和服务器彼此交换数据前，必须先在双方之间建立一个TCP连接，之后才能传输数据。</p>
+<p>UDP：广播式数据传输，UDP不提供可靠性，它只是把应用程序传给IP层的数据报发送出去，但是并不能保证它们能到达目的地。由于UDP在传输数据报前不用在客户和服务器之间建立一个连接，且没有超时重发等机制，故而传输速度很快。</p>
+<p>TCP/UDP区别</p>
+<p>1.TCP是面向连接的、可靠的、有序的、速度慢的协议；UDP是无连接的、不可靠的、无序的、速度快的协议。</p>
+<p>2.TCP开销比UDP大，TCP头部需要20字节，UDP头部只要8个字节。</p>
+<p>3.TCP无界有拥塞控制，TCP有界无拥塞控制。（拥塞控制主要是四种方法：慢开始、拥塞避免、快重传、快恢复==这里面有一个拥塞窗口的概念）</p>
+<h4 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h4><ul>
+<li><p>第一次握手：建立连接。客户端发送连接请求报文段，将SYN位置为1，Sequence Number为x；然后，客户端进入SYN_SEND状态，等待服务器的确认。即A发送信息给B</p>
+</li>
+<li><p>第二次握手：服务器收到客户端的SYN报文段，需要对这个SYN报文段进行确认。即B收到连接信息后向A返回确认信息</p>
+</li>
+<li><p>第三次握手：客户端收到服务器的（SYN+ACK）报文段，并向服务器发送ACK报文段。即A收到确认信息后再次向B返回确认连接信息</p>
+</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/944365-ca6e707d5bef40fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h4 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h4><ul>
+<li><p>第一次挥手：A发送释放信息到B；（发出去之后，A-&gt;B发送数据这条路径就断了）</p>
+</li>
+<li><p>第二次挥手：B收到A的释放信息之后，回复确认释放的信息：我同意你的释放连接请求</p>
+</li>
+<li><p>第三次挥手：B发送“请求释放连接“信息给A</p>
+</li>
+<li><p>第四次挥手：A收到B发送的信息后向B发送确认释放信息：我同意你的释放连接请求</p>
+</li>
+</ul>
+<p><img src="http://upload-images.jianshu.io/upload_images/944365-a59e6fb7b501f1e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h3 id="Socket-与-Http-对比"><a href="#Socket-与-Http-对比" class="headerlink" title="Socket 与 Http 对比"></a>Socket 与 Http 对比</h3><p>Socket属于传输层，因为TCP/IP协议属于传输层，解决的是数据如何在网络中传输的问题，HTTP协议属于应用层，解决的是如何包装数据。</p>
+<p>Http:采用请求—响应方式。</p>
+<p>Socket：采用 服务器主动发送数据 的方式</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-ASNDK开发" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/07/ASNDK开发/" class="article-date">
+  	<time datetime="2017-06-06T16:00:00.000Z" itemprop="datePublished">2017-06-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/07/ASNDK开发/">
+        AS NDK开发
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="配置ndk"><a href="#配置ndk" class="headerlink" title="配置ndk"></a>配置ndk</h3><p>as -&gt; sdk -&gt; ndk下载</p>
+<h3 id="配置External-Tools"><a href="#配置External-Tools" class="headerlink" title="配置External Tools"></a>配置External Tools</h3><h4 id="javah"><a href="#javah" class="headerlink" title="javah"></a>javah</h4><p>Program:$JDKPath$/bin/javah</p>
+<p>Parameters:-classpath $Classpath$ -v -jni $FileClass$</p>
+<p>Working directory:$SourcepathEntry$/../jni</p>
+<h4 id="ndk-build"><a href="#ndk-build" class="headerlink" title="ndk-build"></a>ndk-build</h4><p>Program:/Users/Diablo/Library/Android/sdk/ndk-bundle/ndk-build</p>
+<p>Parameters:~</p>
+<p>Working directory:$ProjectFileDir$/app/src/main</p>
+<h4 id="ndk-build-clean"><a href="#ndk-build-clean" class="headerlink" title="ndk-build-clean"></a>ndk-build-clean</h4><p>Program:/Users/Diablo/Library/Android/sdk/ndk-bundle/ndk-build</p>
+<p>Parameters:clean</p>
+<p>Working directory:$ProjectFileDir$/app/src/main</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>local.properties配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ndk.dir=/Users/Diablo/Library/Android/sdk/ndk-bundle</span><br></pre></td></tr></table></figure>
+<p>gradle.properties配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.useDeprecatedNdk=<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<p>app/build配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">defaultConfig &#123;</span><br><span class="line">        ndk &#123;</span><br><span class="line">            moduleName "TradeC"</span><br><span class="line">            stl "stlport_static"</span><br><span class="line">            ldLibs "log"</span><br><span class="line">        &#125;</span><br><span class="line">        sourceSets.main&#123;</span><br><span class="line">            jni.srcDirs = []</span><br><span class="line">            jniLibs.srcDir "src/main/libs"</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>moduleName    模块名称，即编译出来的.so的名字</li>
+<li>stl 默认情况下JNI中是无法使用STL标准库的，加入此字段表示使用STL标准库。</li>
+<li>ldLibs (#include &lt;android/log.h&gt;)<br>就可以使用__android_log_print方法打印日志到logcat中。</li>
+</ul>
+<h3 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h3><h4 id="1-新建jni文件夹"><a href="#1-新建jni文件夹" class="headerlink" title="1 新建jni文件夹"></a>1 新建jni文件夹</h4><p>app右键 -&gt; new -&gt; folder -&gt; jni foider</p>
+<h4 id="2-新建MyNdk-java"><a href="#2-新建MyNdk-java" class="headerlink" title="2 新建MyNdk.java"></a>2 新建MyNdk.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyNdk</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.loadLibrary(<span class="string">"MyLibrary"</span>);    </span><br><span class="line">&#125;   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title">getString</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注：声明jni的方法必须带有native关键字，否则将视为一般的方法。设置native的方法允许为静态/非静态方法（即加或不加static关键字）。</li>
+</ul>
+<h4 id="3-右键MyNdk-gt-External-Tools-gt-javah"><a href="#3-右键MyNdk-gt-External-Tools-gt-javah" class="headerlink" title="3 右键MyNdk -&gt; External Tools -&gt; javah"></a>3 右键MyNdk -&gt; External Tools -&gt; javah</h4><p>执行后在jni文件夹会自动生成一个包名_MyNdk.h文件，包含了MyNdk.java里面生成的native方法。</p>
+<ul>
+<li>在右键之前先要build一下项目，才可以右键生成.h文件。</li>
+</ul>
+<h4 id="4-然后我们在jni目录下编写-MyLibrary-cpp、Android-mk、Application-mk这三个文件"><a href="#4-然后我们在jni目录下编写-MyLibrary-cpp、Android-mk、Application-mk这三个文件" class="headerlink" title="4 然后我们在jni目录下编写 MyLibrary.cpp、Android.mk、Application.mk这三个文件"></a>4 然后我们在jni目录下编写 MyLibrary.cpp、Android.mk、Application.mk这三个文件</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">包名_MyNdk.h</span><br><span class="line"><span class="comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span></span><br><span class="line">#include &lt;jni.h&gt;</span><br><span class="line"><span class="comment">/* Header for class com_zhangyp_higo_myndk_MyNdk */</span></span><br><span class="line"></span><br><span class="line">#ifndef _Included_com_zhangyp_higo_myndk_MyNdk</span><br><span class="line">#define _Included_com_zhangyp_higo_myndk_MyNdk</span><br><span class="line">#ifdef __cplusplus</span><br><span class="line">extern <span class="string">"C"</span> &#123;</span><br><span class="line">#endif</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Class:     com_zhangyp_higo_myndk_MyNdk</span></span><br><span class="line"><span class="comment"> * Method:    getString</span></span><br><span class="line"><span class="comment"> * Signature: ()Ljava/lang/String;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">JNIEXPORT jstring JNICALL Java_com_zhangyp_higo_myndk_MyNdk_getString</span><br><span class="line">  (JNIEnv *, jobject);</span><br><span class="line"></span><br><span class="line">#ifdef __cplusplus</span><br><span class="line">&#125;</span><br><span class="line">#endif</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">MyLibrary.cpp</span><br><span class="line"></span><br><span class="line">#include "com_zhangyp_higo_myndk_MyNdk.h"</span><br><span class="line"></span><br><span class="line">JNIEXPORT jstring JNICALL Java_com_zhangyp_higo_myndk_MyNdk_getString</span><br><span class="line">  (JNIEnv * env, jobject obj)&#123;</span><br><span class="line">   <span class="keyword">return</span> (*env).NewStringUTF(<span class="string">"This is mylibrary !!!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">Android.mk</span><br><span class="line"></span><br><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line"></span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line"></span><br><span class="line">LOCAL_MODULE := MyLibrary</span><br><span class="line">LOCAL_SRC_FILES =: MyLibrary.cpp</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br><span class="line"></span><br><span class="line">Application.mk</span><br><span class="line"></span><br><span class="line">APP_MODULES := MyLibrary</span><br><span class="line">APP_ABI := all</span><br></pre></td></tr></table></figure>
+<h4 id="5-生成-so文件，在jni文件夹右键执行ndk-build"><a href="#5-生成-so文件，在jni文件夹右键执行ndk-build" class="headerlink" title="5 生成.so文件，在jni文件夹右键执行ndk-build"></a>5 生成.so文件，在jni文件夹右键执行ndk-build</h4><h4 id="6-使用"><a href="#6-使用" class="headerlink" title="6 使用"></a>6 使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> MyNdk().getString()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-积极心理学-瑜伽篇" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/05/积极心理学-瑜伽篇/" class="article-date">
+  	<time datetime="2017-06-04T16:00:00.000Z" itemprop="datePublished">2017-06-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/05/积极心理学-瑜伽篇/">
+        积极心理学-瑜伽篇(晨读)
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="第一章-理解疼痛，消灭它"><a href="#第一章-理解疼痛，消灭它" class="headerlink" title="第一章 理解疼痛，消灭它"></a>第一章 理解疼痛，消灭它</h2><p>瑜伽不仅能帮你缓解慢性疼痛，减轻痛苦，还能帮你把”慢性疼痛反应”变成”慢性愈合反应”，为你带来巨大的能量和喜悦。</p>
+<h3 id="疼痛"><a href="#疼痛" class="headerlink" title="疼痛"></a>疼痛</h3><p>疼痛是一种身心相连的过程。疼痛不仅受到身体损伤和疾病的影响，也受想法，情绪，压力的影响。当疼痛变成慢性疼痛的时候，患者的反应就不是健康时的反应了。</p>
+<h4 id="疼痛是一种自我保护的反应"><a href="#疼痛是一种自我保护的反应" class="headerlink" title="疼痛是一种自我保护的反应"></a>疼痛是一种自我保护的反应</h4><p><img src="http://oc4zuck5v.bkt.clouddn.com/tengtong.png" alt=""></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    </nav>
+  
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

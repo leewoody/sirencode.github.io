@@ -1,20 +1,403 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>单元测试 | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="单元测试单元测试，是为了测试某一个类的某一个方法能否正常工作，而写的测试代码。单元测试只是测试一个方法单元，它不是测试一整个流程。 一个类的方法可以分为两种，一种是有返回值的，另一种是没有返回值的。对于有返回值的方法，我们要测起来比较容易，就跟上面的Calculator例子那样，输入相应的参数，得到相应的返回值，然后验证得到的返回值跟我们预期的值一样，就好了。另外一种就是返回值为void的，我们只">
+<meta property="og:type" content="article">
+<meta property="og:title" content="单元测试">
+<meta property="og:url" content="https://github.com/sirencode/2017/03/03/单元测试/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="单元测试单元测试，是为了测试某一个类的某一个方法能否正常工作，而写的测试代码。单元测试只是测试一个方法单元，它不是测试一整个流程。 一个类的方法可以分为两种，一种是有返回值的，另一种是没有返回值的。对于有返回值的方法，我们要测起来比较容易，就跟上面的Calculator例子那样，输入相应的参数，得到相应的返回值，然后验证得到的返回值跟我们预期的值一样，就好了。另外一种就是返回值为void的，我们只">
+<meta property="og:updated_time" content="2017-04-04T08:25:15.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="单元测试">
+<meta name="twitter:description" content="单元测试单元测试，是为了测试某一个类的某一个方法能否正常工作，而写的测试代码。单元测试只是测试一个方法单元，它不是测试一整个流程。 一个类的方法可以分为两种，一种是有返回值的，另一种是没有返回值的。对于有返回值的方法，我们要测起来比较容易，就跟上面的Calculator例子那样，输入相应的参数，得到相应的返回值，然后验证得到的返回值跟我们预期的值一样，就好了。另外一种就是返回值为void的，我们只">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-单元测试" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/03/03/单元测试/" class="article-date">
+  	<time datetime="2017-03-02T16:00:00.000Z" itemprop="datePublished">2017-03-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      单元测试
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><p>单元测试，是为了测试某一个类的某一个方法能否正常工作，而写的测试代码。单元测试只是测试一个方法单元，它不是测试一整个流程。</p>
+<p>一个类的方法可以分为两种，一种是有返回值的，另一种是没有返回值的。对于有返回值的方法，我们要测起来比较容易，就跟上面的Calculator例子那样，输入相应的参数，得到相应的返回值，然后验证得到的返回值跟我们预期的值一样，就好了。另外一种就是返回值为void的，我们只关注某些方法是否被调用了以及调用的次数，这时候就要用到mock技术来模拟这些操作。</p>
+<h3 id="Mock"><a href="#Mock" class="headerlink" title="Mock"></a>Mock</h3><p>mock对象就是在调试期间用来作为真实对象的替代品。Mockito是Java中常见的Mock框架。</p>
+<p>所谓的mock就是创建一个类的虚假的对象，在测试环境中，用来替换掉真实的对象.</p>
+<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><ul>
+<li><p>验证这个对象的某些方法的调用情况，调用了多少次，参数是什么等等</p>
+</li>
+<li><p>指定这个对象的某些方法的行为，返回特定的值，或者是执行特定的动作</p>
+</li>
+</ul>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>引入 </p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testCompile 'org.mockito:mockito-core:version'</span><br></pre></td></tr></table></figure>
+<h4 id="验证行为"><a href="#验证行为" class="headerlink" title="验证行为"></a>验证行为</h4><p>method</p>
+<ul>
+<li>Mockito.verify() ：验证Mock对象的方法是否被调用。</li>
+<li>Mockito.times() ：调用Mock对象的方法次数。</li>
+<li>Mockito.atMost(count) , Mockito.atLeast(count) , Mockito.never() ：最多次数，最少次数，永远调用。</li>
+<li>Mockito.anyInt() , Mockito.anyLong() , Mockito.anyDouble()等等 ： 参数设置-任意的Int类型，任意的Long类型。。。等。</li>
+</ul>
+<h4 id="验证方法的调用"><a href="#验证方法的调用" class="headerlink" title="验证方法的调用"></a>验证方法的调用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Mockito.verify(mockUserManager,Mockito.times(<span class="number">2</span>)).performLogin(<span class="string">"shenyonghe"</span>, <span class="string">"123423423"</span>);</span><br></pre></td></tr></table></figure>
+<p>其实更准确的说法是，这行代码验证的是，mockUserManager的performLogin()方法得到了两次调用。</p>
+<h4 id="指定mock对象的某些方法的行为"><a href="#指定mock对象的某些方法的行为" class="headerlink" title="指定mock对象的某些方法的行为"></a>指定mock对象的某些方法的行为</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当调用mockValidator的verifyPassword方法，同时传入"xiaochuang_is_handsome"时，返回true</span></span><br><span class="line">Mockito.when(mockValidator.verifyPassword(<span class="string">"xiaochuang_is_handsome"</span>)).thenReturn(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//当调用mockValidator的verifyPassword方法，同时传入"xiaochuang_is_not_handsome"时，返回false</span></span><br><span class="line">Mockito.when(validator.verifyPassword(<span class="string">"xiaochuang_is_not_handsome"</span>)).thenReturn(<span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
+<p>同样的，你可以用any系列方法来指定”无论传入任何参数值，都返回xxx”：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当调用mockValidator的verifyPassword方法时，返回true，无论参数是什么</span></span><br><span class="line">Mockito.when(validator.verifyPassword(anyString())).thenReturn(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
+<p>假设登录代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loginCallbackVersion</span><span class="params">(String username, String password)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (username == <span class="keyword">null</span> || username.length() == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">//假设我们对密码强度有一定要求，使用一个专门的validator来验证密码的有效性</span></span><br><span class="line">    <span class="keyword">if</span> (mPasswordValidator.verifyPassword(password)) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//login的结果将通过callback传递回来。</span></span><br><span class="line">    mUserManager.performLogin(username, password, <span class="keyword">new</span> NetworkCallback() &#123;  <span class="comment">//&lt;==</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">            <span class="comment">//update view with data</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(<span class="keyword">int</span> code, String msg)</span> </span>&#123;</span><br><span class="line">            <span class="comment">//show error msg</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>mock实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">Mockito.doAnswer(desiredAnswer).when(mockObject).targetMethod(args);</span><br><span class="line"></span><br><span class="line">传给doAnswer()的是一个Answer对象，我们想要执行什么样的动作，就在这里面实现。结合上面的例子解释：</span><br><span class="line"></span><br><span class="line">Mockito.doAnswer(<span class="keyword">new</span> Answer() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">answer</span><span class="params">(InvocationOnMock invocation)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="comment">//这里可以获得传给performLogin的参数</span></span><br><span class="line">        Object[] arguments = invocation.getArguments();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//callback是第三个参数</span></span><br><span class="line">        NetworkCallback callback = (NetworkCallback) arguments[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">        callback.onFailure(<span class="number">500</span>, <span class="string">"Server error"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">500</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).when(mockUserManager).performLogin(anyString(), anyString(), any(NetworkCallback.class));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### spy </span><br><span class="line"></span><br><span class="line">指定这个对象的某些方法的行为，返回特定的值，或者是执行特定的动作</span><br><span class="line"></span><br><span class="line">最后介绍一个Spy的东西。前面我们讲了mock对象的两大功能，对于第二大功能: 指定方法的特定行为，不知道你会不会好奇，如果我不指定的话，它会怎么样呢？那么现在补充一下，如果不指定的话，一个mock对象的所有非<span class="keyword">void</span>方法都将返回默认值：<span class="keyword">int</span>、<span class="keyword">long</span>类型方法将返回<span class="number">0</span>，<span class="keyword">boolean</span>方法将返回<span class="keyword">false</span>，对象方法将返回<span class="keyword">null</span>等等；而<span class="keyword">void</span>方法将什么都不做。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="comment">//假设目标类的实现是这样的</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PasswordValidator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">verifyPassword</span><span class="params">(String password)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"xiaochuang_is_handsome"</span>.equals(password);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSpy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//跟创建mock类似，只不过调用的是spy方法，而不是mock方法。spy的用法</span></span><br><span class="line">    PasswordValidator spyValidator = Mockito.spy(PasswordValidator.class);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在默认情况下，spy对象会调用这个类的真实逻辑，并返回相应的返回值，这可以对照上面的真实逻辑</span></span><br><span class="line">    spyValidator.verifyPassword(<span class="string">"xiaochuang_is_handsome"</span>); <span class="comment">//true</span></span><br><span class="line">    spyValidator.verifyPassword(<span class="string">"xiaochuang_is_not_handsome"</span>); <span class="comment">//false</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//spy对象的方法也可以指定特定的行为</span></span><br><span class="line">    Mockito.when(spyValidator.verifyPassword(anyString())).thenReturn(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//同样的，可以验证spy对象的方法调用情况</span></span><br><span class="line">    spyValidator.verifyPassword(<span class="string">"xiaochuang_is_handsome"</span>);</span><br><span class="line">    Mockito.verify(spyValidator).verifyPassword(<span class="string">"xiaochuang_is_handsome"</span>); <span class="comment">//pass</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>总之，spy与mock的唯一区别就是默认行为不一样：spy对象的方法默认调用真实的逻辑，mock对象的方法默认什么都不做，或直接返回默认值。</p>
+<h3 id="方法详情"><a href="#方法详情" class="headerlink" title="方法详情"></a>方法详情</h3><h4 id="after"><a href="#after" class="headerlink" title="after"></a>after</h4><p>after()等待整个周期的特点不同于timeout()，而timeout()一旦验证通过就尽快停止，例如：当使用times(2)可以产生不同的行为方式，可能通过后过会又失败。这种情况下，timeout只要times(2)通过就会通过，然后after执行完整个周期时间，可能会失败，也意味着times(2)也失败。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, after(<span class="number">100</span>)).someMethod()</span><br></pre></td></tr></table></figure>
+<h4 id="atLeast"><a href="#atLeast" class="headerlink" title="atLeast"></a>atLeast</h4><p>允许至少进行x次验证</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, atLeast(<span class="number">3</span>)).someMethod(<span class="string">"some arg"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="atLeastOnce"><a href="#atLeastOnce" class="headerlink" title="atLeastOnce"></a>atLeastOnce</h4><p>至少进行一次一次验证</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, atLeastOnce()).someMethod(<span class="string">"some arg"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="atMost"><a href="#atMost" class="headerlink" title="atMost"></a>atMost</h4><p>至多进行x次验证</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, atMost(<span class="number">3</span>)).someMethod(<span class="string">"some arg"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="calls"><a href="#calls" class="headerlink" title="calls"></a>calls</h4><p>允许顺序进行non-greedy验证</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inOrder.verify( mock, calls( <span class="number">2</span> )).someMethod( <span class="string">"some arg"</span> );</span><br></pre></td></tr></table></figure>
+<h4 id="Matchers的方法"><a href="#Matchers的方法" class="headerlink" title="Matchers的方法"></a>Matchers的方法</h4><ul>
+<li>anyBoolean</li>
+<li>anyByte</li>
+<li>anyChar</li>
+<li>anyCollection</li>
+<li>anyCollectionOf</li>
+<li>anyDouble</li>
+<li>anyFloat</li>
+<li>anyInt</li>
+<li>anyList</li>
+<li>anyListOf</li>
+<li>anyLong</li>
+<li>anyMap</li>
+<li>anyMapOf</li>
+<li>anyObject</li>
+<li>anySet**</li>
+<li>anySetOf</li>
+<li>anyShort</li>
+<li>anyString</li>
+<li>anyVararg</li>
+</ul>
+<h4 id="description函数"><a href="#description函数" class="headerlink" title="description函数"></a>description函数</h4><p>添加验证失败时要输出的文字内容</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, description(<span class="string">"This will print on failure"</span>)).someMethod(<span class="string">"some arg"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="doAnswer函数"><a href="#doAnswer函数" class="headerlink" title="doAnswer函数"></a>doAnswer函数</h4><p>当你想要测试一个无返回值的函数时，可以使用一个含有泛型类Answer参数的doAnswer()函数。为无返回值的函数做测试桩与when(Objecy)方法不同，因为编译器不喜欢在大括号内使用void函数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">doAnswer(<span class="keyword">new</span> Answer() &#123;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> Object <span class="title">answer</span><span class="params">(InvocationOnMock invocation)</span> </span>&#123;</span><br><span class="line">          Object[] args = invocation.getArguments();</span><br><span class="line">          Mock mock = invocation.getMock();</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">      &#125;&#125;)</span><br><span class="line">  .when(mock).someMethod();</span><br></pre></td></tr></table></figure>
+<h4 id="doCallRealMethod函数"><a href="#doCallRealMethod函数" class="headerlink" title="doCallRealMethod函数"></a>doCallRealMethod函数</h4><p>如果你想调用某一个方法的真实实现请使用doCallRealMethod()。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Foo mock = mock(Foo.class);</span><br><span class="line">doCallRealMethod().when(mock).someVoidMethod();</span><br><span class="line"></span><br><span class="line"><span class="comment">// this will call the real implementation of Foo.someVoidMethod()</span></span><br><span class="line"><span class="comment">// 调用Foo.someVoidMethod()的真实现</span></span><br><span class="line">mock.someVoidMethod();</span><br></pre></td></tr></table></figure>
+<h4 id="doNothing函数"><a href="#doNothing函数" class="headerlink" title="doNothing函数"></a>doNothing函数</h4><p>使用doNothing()函数是为了设置void函数什么也不做。需要注意的是默认情况下返回值为void的函数在mocks中是什么也不做的但是，也会有一些特殊情况。</p>
+<h4 id="doReturn函数"><a href="#doReturn函数" class="headerlink" title="doReturn函数"></a>doReturn函数</h4><p>在某些特殊情况下如果你无法使用when(Object)可以使用doReturn()函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不能完成的：真实方法被调用所以spy.get(0)抛出   IndexOutOfBoundsException(list仍是空的)</span></span><br><span class="line">   when(spy.get(<span class="number">0</span>)).thenReturn(<span class="string">"foo"</span>);</span><br><span class="line"></span><br><span class="line">   <span class="comment">//You have to use doReturn() for stubbing:</span></span><br><span class="line">   <span class="comment">//你应用使用doReturn()函数</span></span><br><span class="line">   doReturn(<span class="string">"foo"</span>).when(spy).get(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="doThrow函数"><a href="#doThrow函数" class="headerlink" title="doThrow函数"></a>doThrow函数</h4><p>当你想测试void函数中指定类的抛出异常时使用doThrow()</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">doThrow(RuntimeException.class).when(mock).someVoidMethod();</span><br></pre></td></tr></table></figure>
+<h4 id="inOrder函数"><a href="#inOrder函数" class="headerlink" title="inOrder函数"></a>inOrder函数</h4><p>验证in order是很灵活的。你可以只验证你感兴趣的，并不需要一个一个验证所有的交互。同样你也可以创建InOrder对象只在相关in-order的验证中进行传值。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">InOrder inOrder = inOrder(firstMock, secondMock);</span><br><span class="line">inOrder.verify(firstMock).add(<span class="string">"was called first"</span>);</span><br><span class="line">inOrder.verify(secondMock).add(<span class="string">"was called second"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="mock函数"><a href="#mock函数" class="headerlink" title="mock函数"></a>mock函数</h4><p>对给定的类或接口创建mock对象</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mock(Class, Answer)</span><br></pre></td></tr></table></figure>
+<h4 id="never-函数"><a href="#never-函数" class="headerlink" title="never()函数"></a>never()函数</h4><p>相当于times(0),可参见 times(int) </p>
+<h4 id="only-函数"><a href="#only-函数" class="headerlink" title="only()函数"></a>only()函数</h4><p>如果当前mock的方法只被调用一次，则允许被检验。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, only()).someMethod();</span><br><span class="line"><span class="comment">//上面这行代码是下面这两行代码的简写</span></span><br><span class="line">verify(mock).someMethod();</span><br><span class="line">verifyNoMoreInvocations(mock);</span><br></pre></td></tr></table></figure>
+<h4 id="reset-T…-mocks-函数"><a href="#reset-T…-mocks-函数" class="headerlink" title="reset(T… mocks)函数"></a>reset(T… mocks)函数</h4><p>你可以考虑写一些简单的、精悍的、聚焦的测试方法来代替reset()这个方法。当你在在测试方法的中间部分用到reset()这个方法时，说明你的测试方法太庞大了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List mock = mock(List.class);</span><br><span class="line">when(mock.size()).thenReturn(<span class="number">10</span>);</span><br><span class="line">mock.add(<span class="number">1</span>);</span><br><span class="line">reset(mock);</span><br><span class="line"><span class="comment">//此时会清除你之前所有的交互以及测试</span></span><br></pre></td></tr></table></figure>
+<h4 id="spy-Class-classToSpy-函数"><a href="#spy-Class-classToSpy-函数" class="headerlink" title="spy(Class classToSpy)函数"></a>spy(Class classToSpy)函数</h4><h4 id="timesout-long-millis-函数"><a href="#timesout-long-millis-函数" class="headerlink" title="timesout(long millis)函数"></a>timesout(long millis)函数</h4><p>允许验证时使用timeout。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在超时之前，`someMethod()`通过了2次调用</span></span><br><span class="line">verify(mock, timeout(<span class="number">100</span>).times(<span class="number">2</span>)).someMethod();</span><br></pre></td></tr></table></figure>
+<h4 id="time-int-wantedNumberOfInvocations-函数"><a href="#time-int-wantedNumberOfInvocations-函数" class="headerlink" title="time(int wantedNumberOfInvocations)函数"></a>time(int wantedNumberOfInvocations)函数</h4><p>允许验证调用方法的精确次数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, times(<span class="number">2</span>)).someMethod(<span class="string">"some arg"</span>);</span><br><span class="line"><span class="comment">//连续调用该方法两次</span></span><br></pre></td></tr></table></figure>
+<h4 id="verify-T-mock-函数"><a href="#verify-T-mock-函数" class="headerlink" title="verify(T mock)函数"></a>verify(T mock)函数</h4><p>验证发生的某些行为 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verify(mock).someMethod(<span class="string">"some arg"</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="verifyNoMoreInteractions-Object…-mocks-函数"><a href="#verifyNoMoreInteractions-Object…-mocks-函数" class="headerlink" title="verifyNoMoreInteractions(Object… mocks)函数"></a>verifyNoMoreInteractions(Object… mocks)函数</h4><p>检查入参的mocks是否有任何未经验证的交互,你可以在验证你的mocks之后使用这个方法，用以确保你的mocks没有其它地方会被调用.<br>测试柱的调用也被看成是交互。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mock.doSomething();</span><br><span class="line">mock.doSomethingUnexpected();</span><br><span class="line"><span class="comment">//验证</span></span><br><span class="line">verify(mock).doSomething();</span><br><span class="line"></span><br><span class="line"><span class="comment">//因为'doSomethingUnexpected()'是未被期望的，所以下面将会失败</span></span><br><span class="line">verifyNoMoreInteractions(mock);</span><br></pre></td></tr></table></figure>
+<h3 id="Robolectric"><a href="#Robolectric" class="headerlink" title="Robolectric"></a>Robolectric</h3><p><a href="http://robolectric.org/getting-started/" target="_blank" rel="noopener">Robolectric</a>是为android上的TDD开发而产生的一款第三方测试框架.</p>
+<h4 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h4><p>gradle导入：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testCompile "org.robolectric:robolectric:3.3.2"</span><br></pre></td></tr></table></figure>
+<p>Building with Android Studio</p>
+<p>将runconfig的working directory设置成：$MODULE_DIR$，不然会提示资源找不到错误。</p>
+<h4 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(RobolectricTestRunner.class)</span><br><span class="line"><span class="meta">@Config</span>(constants = BuildConfig.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RobolectricTest</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>具体使用见<a href="http://www.jianshu.com/p/9d988a2f8ff7" target="_blank" rel="noopener">用例</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/17/Android 安全概述/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Android 安全概述
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/02/10/AOP编程/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">AOP编程</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="单元测试" data-title="单元测试" data-url="https://github.com/sirencode/2017/03/03/单元测试/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="单元测试">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

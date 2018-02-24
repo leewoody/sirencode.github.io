@@ -1,20 +1,343 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>OKR | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="OKR 定义OKR的全称是Objectives and Key Results，即目标与关键成果法。它是一套定义和跟踪目标及其完成情况的管理方法。 OKR分两个部分，一个就是O代表的目标，第二个是KR代表的关键结果。一个O对应多个KR，KR是为了更好的支持O的完成，是要明显可量化的，便于度量的。 例子： Objective 目标：招募更多的司机 KRs：所有地区的司机基数提升 20% KRs：所有">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OKR">
+<meta property="og:url" content="https://github.com/sirencode/2017/04/13/OKR/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="OKR 定义OKR的全称是Objectives and Key Results，即目标与关键成果法。它是一套定义和跟踪目标及其完成情况的管理方法。 OKR分两个部分，一个就是O代表的目标，第二个是KR代表的关键结果。一个O对应多个KR，KR是为了更好的支持O的完成，是要明显可量化的，便于度量的。 例子： Objective 目标：招募更多的司机 KRs：所有地区的司机基数提升 20% KRs：所有">
+<meta property="og:updated_time" content="2018-02-05T08:41:41.252Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="OKR">
+<meta name="twitter:description" content="OKR 定义OKR的全称是Objectives and Key Results，即目标与关键成果法。它是一套定义和跟踪目标及其完成情况的管理方法。 OKR分两个部分，一个就是O代表的目标，第二个是KR代表的关键结果。一个O对应多个KR，KR是为了更好的支持O的完成，是要明显可量化的，便于度量的。 例子： Objective 目标：招募更多的司机 KRs：所有地区的司机基数提升 20% KRs：所有">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-OKR" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/04/13/OKR/" class="article-date">
+  	<time datetime="2017-04-12T16:00:00.000Z" itemprop="datePublished">2017-04-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      OKR
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="OKR-定义"><a href="#OKR-定义" class="headerlink" title="OKR 定义"></a>OKR 定义</h2><p>OKR的全称是Objectives and Key Results，即目标与关键成果法。它是一套定义和跟踪目标及其完成情况的管理方法。</p>
+<p>OKR分两个部分，一个就是O代表的目标，第二个是KR代表的关键结果。一个O对应多个KR，KR是为了更好的支持O的完成，是要明显可量化的，便于度量的。</p>
+<p>例子：</p>
+<p>Objective 目标：招募更多的司机</p>
+<p>KRs：所有地区的司机基数提升 20%</p>
+<p>KRs：所有活跃地区司机的平均工作时长提升至每周 90 小时  </p>
+<h2 id="OKR有几个原则"><a href="#OKR有几个原则" class="headerlink" title="OKR有几个原则"></a>OKR有几个原则</h2><ul>
+<li>在精不在多。因为它就是用来明确并聚焦工作重心的；</li>
+<li>可量化，有挑战，透明化：公开、透明、可视化的管理</li>
+</ul>
+<h2 id="为什么用OKR"><a href="#为什么用OKR" class="headerlink" title="为什么用OKR"></a>为什么用OKR</h2><ul>
+<li>1 OKR能让我们抓住主要矛盾，找出对企业发展真正重要的事。 </li>
+<li>2 让我们能聚焦优势资源在最重要的事上，可以很大程度的减少资源浪费，这对创业企业尤为重要。 </li>
+<li>3 能让团队成长的进化迭代周期更短。 </li>
+<li>4 能让每个人都有清晰的目标感，都能盯在重要的事情上。</li>
+<li>5 能让每个人对目标的理解都是一致的，从而同心协力，避免因为方向分散带来很多内耗。 </li>
+<li>6 能让我们变的更加战略主动，避免被竞争者牵着鼻子走。</li>
+</ul>
+<h2 id="OKR的三个层次"><a href="#OKR的三个层次" class="headerlink" title="OKR的三个层次"></a>OKR的三个层次</h2><ul>
+<li>公司OKR：明确公司的整体目标，聚焦重点。 </li>
+<li>团队OKR：明确团队的工作优先级。它并不是公司OKR的简单拆分，也不是个人OKR的简单汇总，而是从团队层面重新思考并确定出来的。 </li>
+<li><p>个人OKR：明确自己该做什么，是最具体的一层。 </p>
+<p>其中，每一层都向上对齐。</p>
+</li>
+</ul>
+<h2 id="制定OKR原则"><a href="#制定OKR原则" class="headerlink" title="制定OKR原则"></a>制定OKR原则</h2><ul>
+<li>OKR要能支撑战略。 </li>
+<li>最多有5个O，每个O最多4个KR。 </li>
+<li>目标要有野心，有时候甚至要有些不舒服。从打分来看，最终得分在0.6~0.7是最佳的，当然前提是执行是没问题的。如果得分在0.4，很可能是目标定的太难了，这样容易让人受挫，如果得分是1分的话，很可能目标就定的太简单了，起不到目标的拉动作用。最佳的OKR应该是既有挑战性，还要切合实际。</li>
+<li>一定要可以衡量。 </li>
+<li>一定要有截止时间。</li>
+<li>要有60%以上的目标是自下而上提出的。 </li>
+<li>目标必须100%的都是协商并同意的，不能是命令。 </li>
+</ul>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p>准备 -&gt; 确定OKR -&gt; 公式OKR -&gt; 执行OKR -&gt; 复盘OKR </p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/04/17/设计模式/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          设计模式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/04/10/node学习/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">node学习</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="OKR" data-title="OKR" data-url="https://github.com/sirencode/2017/04/13/OKR/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="OKR">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

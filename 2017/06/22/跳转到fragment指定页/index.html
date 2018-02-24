@@ -1,20 +1,317 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>定位跳转到fragment里面的子fragment的页面 | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="我们现在的项目大都是，Mainactivity 里面几个tag，每个tag对应一个fragment。而恰巧有的时候在对应的fragment tag 里面还是会有类似外层那种多个tag的情况，而我们有的时候需要在任意位置定位到里面的tag。 比如我们的app MainActivity有4个tag分别是首页，直播，交易，我，每个tag对应一个Fragment进行切换。然而在交易的主fragment里面">
+<meta property="og:type" content="article">
+<meta property="og:title" content="定位跳转到fragment里面的子fragment的页面">
+<meta property="og:url" content="https://github.com/sirencode/2017/06/22/跳转到fragment指定页/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="我们现在的项目大都是，Mainactivity 里面几个tag，每个tag对应一个fragment。而恰巧有的时候在对应的fragment tag 里面还是会有类似外层那种多个tag的情况，而我们有的时候需要在任意位置定位到里面的tag。 比如我们的app MainActivity有4个tag分别是首页，直播，交易，我，每个tag对应一个Fragment进行切换。然而在交易的主fragment里面">
+<meta property="og:updated_time" content="2017-06-22T06:41:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="定位跳转到fragment里面的子fragment的页面">
+<meta name="twitter:description" content="我们现在的项目大都是，Mainactivity 里面几个tag，每个tag对应一个fragment。而恰巧有的时候在对应的fragment tag 里面还是会有类似外层那种多个tag的情况，而我们有的时候需要在任意位置定位到里面的tag。 比如我们的app MainActivity有4个tag分别是首页，直播，交易，我，每个tag对应一个Fragment进行切换。然而在交易的主fragment里面">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-跳转到fragment指定页" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/22/跳转到fragment指定页/" class="article-date">
+  	<time datetime="2017-06-21T16:00:00.000Z" itemprop="datePublished">2017-06-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      定位跳转到fragment里面的子fragment的页面
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们现在的项目大都是，Mainactivity 里面几个tag，每个tag对应一个fragment。而恰巧有的时候在对应的fragment tag 里面还是会有类似外层那种多个tag的情况，而我们有的时候需要在任意位置定位到里面的tag。</p>
+<p>比如我们的app MainActivity有4个tag分别是首页，直播，交易，我，每个tag对应一个Fragment进行切换。然而在交易的主fragment里面的页面结构也是多个tag对应多个fragment的形式。这个时候需要准确定位到交易里面的一个tag，比如定位到登录的tag这种情况。</p>
+<h3 id="解决问题思路"><a href="#解决问题思路" class="headerlink" title="解决问题思路"></a>解决问题思路</h3><p>基本点：每次MainActivity的tag显隐都会调用onNewIntent方法，我们只需要将跳转命令传到这里(根)进行处理。</p>
+<p>痛点：当然最简单的方法就是销毁对应的fragmeng重新新建，并指定位置，这样做内存消耗太大。如过直接调用set位置的方法又不一定会生效，因为这个时候view可能还没有绘制成功。</p>
+<p>解决方法：将参数传递到onNewIntent中的intent中，在根activity中对数据进行解析处理。拿到数据后，模拟点击对应的tag,在对应tag的点击事件中获取对应的fragment并进行位置更新。</p>
+<h3 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h3><p>根Activity实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MainActivity</span> <span class="keyword">extends</span> <span class="title">BaseActivity</span> </span>&#123;</span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * navigateType intent</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String INTENT_NAVIGATE_TYPE = <span class="string">"navigateType"</span>;</span><br><span class="line">      <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String INTENT_NAVIGATE_DATA = <span class="string">"navigate_data"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onNewIntent</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onNewIntent(intent);</span><br><span class="line">        trackStartEvent();</span><br><span class="line">        <span class="keyword">if</span> (hasIntentNavigate(intent)) &#123;</span><br><span class="line">            initNavigateIntent(intent);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">hasIntentNavigate</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> intent != <span class="keyword">null</span> &amp;&amp; intent.hasExtra(INTENT_NAVIGATE_TYPE);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initNavigateIntent</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">        NavigateType type = (NavigateType) intent.getSerializableExtra(INTENT_NAVIGATE_TYPE);</span><br><span class="line">        intent.removeExtra(INTENT_NAVIGATE_TYPE);</span><br><span class="line">        Parcelable parcelable = intent.getParcelableExtra(INTENT_NAVIGATE_DATA);</span><br><span class="line">        intent.removeExtra(INTENT_NAVIGATE_DATA);</span><br><span class="line"></span><br><span class="line">        navigation(type, parcelable);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 设置tab</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setTabSelected</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        selectedIndex = index;</span><br><span class="line">        homeView.setSelected(index == INDEX_HOME ? <span class="keyword">true</span> : <span class="keyword">false</span>);</span><br><span class="line">        liveView.setSelected(index == INDEX_LIVE ? <span class="keyword">true</span> : <span class="keyword">false</span>);</span><br><span class="line">        quoteView.setSelected(index == INDEX_QUOTE ? <span class="keyword">true</span> : <span class="keyword">false</span>);</span><br><span class="line">        meView.setSelected(index == INDEX_ME ? <span class="keyword">true</span> : <span class="keyword">false</span>);</span><br><span class="line">        tradeView.setSelected(index == INDEX_TRADE ? <span class="keyword">true</span> : <span class="keyword">false</span>);</span><br><span class="line">        switcher.switchToFragment(index);</span><br><span class="line">        updateFragmentData(index);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">updateFragmentData</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">        Object data = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (index == INDEX_QUOTE) &#123;</span><br><span class="line">            data = quoteView.getTag();</span><br><span class="line">            quoteView.setTag(<span class="keyword">null</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (index == INDEX_TRADE) &#123;</span><br><span class="line">            data = tradeView.getTag();</span><br><span class="line">            tradeView.setTag(<span class="keyword">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (data != <span class="keyword">null</span>) &#123;</span><br><span class="line">            IHandleBackFragment fragment = getCurrentFragment();</span><br><span class="line">            <span class="keyword">if</span> (fragment <span class="keyword">instanceof</span> Updatable) &#123;</span><br><span class="line">                ((Updatable) fragment).update(data);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">navigation</span><span class="params">(NavigateType type, Parcelable data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">switch</span> (type) &#123;</span><br><span class="line">            <span class="keyword">case</span> HOME:</span><br><span class="line">                homeView.performClick();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> LIVE:</span><br><span class="line">                liveView.performClick();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> QUOTE:</span><br><span class="line">                quoteView.performClick();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> TRADE:</span><br><span class="line">                <span class="keyword">if</span> (data != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    tradeView.setTag(data);</span><br><span class="line">                &#125;</span><br><span class="line">                tradeView.performClick();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">case</span> ME:</span><br><span class="line">                meView.performClick();</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            <span class="keyword">default</span>:</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>对应的fragment实现updatable接口,在对应的fragment里面将数据解析，并点模拟点击对应的tag,如果需要再往下传，就继续获取对应的子fragment，并调用update接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">ublic <span class="class"><span class="keyword">class</span> <span class="title">TradeMainFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> <span class="keyword">implements</span> <span class="title">Updatable</span></span>&#123;</span><br><span class="line">       <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (data != <span class="keyword">null</span> &amp;&amp; getView() != <span class="keyword">null</span>) &#123;</span><br><span class="line">            handleIntentData(data);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            intentData = data;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">handleIntentData</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (data <span class="keyword">instanceof</span> TradeNavigation) &#123;</span><br><span class="line">            TradeNavigation tradeNavigation = (TradeNavigation) data;</span><br><span class="line">            <span class="keyword">if</span> (tradeNavigation.getPage() &gt; (pageViewAdapter.getCount() - <span class="number">1</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            tradeViewPager.setCurrentItem(tradeNavigation.getPage());</span><br><span class="line">            Fragment fragment = pageViewAdapter.getCurrentItem();</span><br><span class="line">            <span class="keyword">if</span> (fragment <span class="keyword">instanceof</span> Updatable) &#123;</span><br><span class="line">                ((Updatable) fragment).update(data);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/07/06/messenger/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Messenger 信使
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/06/12/网络传输/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">网络传输</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="跳转到fragment指定页" data-title="定位跳转到fragment里面的子fragment的页面" data-url="https://github.com/sirencode/2017/06/22/跳转到fragment指定页/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="定位跳转到fragment里面的子fragment的页面">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

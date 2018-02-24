@@ -1,20 +1,339 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>AS NDK开发 | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="配置ndkas -&amp;gt; sdk -&amp;gt; ndk下载 配置External ToolsjavahProgram:$JDKPath$/bin/javah Parameters:-classpath $Classpath$ -v -jni $FileClass$ Working directory:$SourcepathEntry$/../jni ndk-buildProgram:/Users/">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AS NDK开发">
+<meta property="og:url" content="https://github.com/sirencode/2017/06/07/ASNDK开发/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="配置ndkas -&amp;gt; sdk -&amp;gt; ndk下载 配置External ToolsjavahProgram:$JDKPath$/bin/javah Parameters:-classpath $Classpath$ -v -jni $FileClass$ Working directory:$SourcepathEntry$/../jni ndk-buildProgram:/Users/">
+<meta property="og:updated_time" content="2017-06-07T06:42:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="AS NDK开发">
+<meta name="twitter:description" content="配置ndkas -&amp;gt; sdk -&amp;gt; ndk下载 配置External ToolsjavahProgram:$JDKPath$/bin/javah Parameters:-classpath $Classpath$ -v -jni $FileClass$ Working directory:$SourcepathEntry$/../jni ndk-buildProgram:/Users/">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-ASNDK开发" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/06/07/ASNDK开发/" class="article-date">
+  	<time datetime="2017-06-06T16:00:00.000Z" itemprop="datePublished">2017-06-07</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      AS NDK开发
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="配置ndk"><a href="#配置ndk" class="headerlink" title="配置ndk"></a>配置ndk</h3><p>as -&gt; sdk -&gt; ndk下载</p>
+<h3 id="配置External-Tools"><a href="#配置External-Tools" class="headerlink" title="配置External Tools"></a>配置External Tools</h3><h4 id="javah"><a href="#javah" class="headerlink" title="javah"></a>javah</h4><p>Program:$JDKPath$/bin/javah</p>
+<p>Parameters:-classpath $Classpath$ -v -jni $FileClass$</p>
+<p>Working directory:$SourcepathEntry$/../jni</p>
+<h4 id="ndk-build"><a href="#ndk-build" class="headerlink" title="ndk-build"></a>ndk-build</h4><p>Program:/Users/Diablo/Library/Android/sdk/ndk-bundle/ndk-build</p>
+<p>Parameters:~</p>
+<p>Working directory:$ProjectFileDir$/app/src/main</p>
+<h4 id="ndk-build-clean"><a href="#ndk-build-clean" class="headerlink" title="ndk-build-clean"></a>ndk-build-clean</h4><p>Program:/Users/Diablo/Library/Android/sdk/ndk-bundle/ndk-build</p>
+<p>Parameters:clean</p>
+<p>Working directory:$ProjectFileDir$/app/src/main</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>local.properties配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ndk.dir=/Users/Diablo/Library/Android/sdk/ndk-bundle</span><br></pre></td></tr></table></figure>
+<p>gradle.properties配置：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.useDeprecatedNdk=<span class="keyword">true</span></span><br></pre></td></tr></table></figure>
+<p>app/build配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">defaultConfig &#123;</span><br><span class="line">        ndk &#123;</span><br><span class="line">            moduleName "TradeC"</span><br><span class="line">            stl "stlport_static"</span><br><span class="line">            ldLibs "log"</span><br><span class="line">        &#125;</span><br><span class="line">        sourceSets.main&#123;</span><br><span class="line">            jni.srcDirs = []</span><br><span class="line">            jniLibs.srcDir "src/main/libs"</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>moduleName    模块名称，即编译出来的.so的名字</li>
+<li>stl 默认情况下JNI中是无法使用STL标准库的，加入此字段表示使用STL标准库。</li>
+<li>ldLibs (#include &lt;android/log.h&gt;)<br>就可以使用__android_log_print方法打印日志到logcat中。</li>
+</ul>
+<h3 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h3><h4 id="1-新建jni文件夹"><a href="#1-新建jni文件夹" class="headerlink" title="1 新建jni文件夹"></a>1 新建jni文件夹</h4><p>app右键 -&gt; new -&gt; folder -&gt; jni foider</p>
+<h4 id="2-新建MyNdk-java"><a href="#2-新建MyNdk-java" class="headerlink" title="2 新建MyNdk.java"></a>2 新建MyNdk.java</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyNdk</span> </span>&#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        System.loadLibrary(<span class="string">"MyLibrary"</span>);    </span><br><span class="line">&#125;   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">native</span> String <span class="title">getString</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注：声明jni的方法必须带有native关键字，否则将视为一般的方法。设置native的方法允许为静态/非静态方法（即加或不加static关键字）。</li>
+</ul>
+<h4 id="3-右键MyNdk-gt-External-Tools-gt-javah"><a href="#3-右键MyNdk-gt-External-Tools-gt-javah" class="headerlink" title="3 右键MyNdk -&gt; External Tools -&gt; javah"></a>3 右键MyNdk -&gt; External Tools -&gt; javah</h4><p>执行后在jni文件夹会自动生成一个包名_MyNdk.h文件，包含了MyNdk.java里面生成的native方法。</p>
+<ul>
+<li>在右键之前先要build一下项目，才可以右键生成.h文件。</li>
+</ul>
+<h4 id="4-然后我们在jni目录下编写-MyLibrary-cpp、Android-mk、Application-mk这三个文件"><a href="#4-然后我们在jni目录下编写-MyLibrary-cpp、Android-mk、Application-mk这三个文件" class="headerlink" title="4 然后我们在jni目录下编写 MyLibrary.cpp、Android.mk、Application.mk这三个文件"></a>4 然后我们在jni目录下编写 MyLibrary.cpp、Android.mk、Application.mk这三个文件</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">包名_MyNdk.h</span><br><span class="line"><span class="comment">/* DO NOT EDIT THIS FILE - it is machine generated */</span></span><br><span class="line">#include &lt;jni.h&gt;</span><br><span class="line"><span class="comment">/* Header for class com_zhangyp_higo_myndk_MyNdk */</span></span><br><span class="line"></span><br><span class="line">#ifndef _Included_com_zhangyp_higo_myndk_MyNdk</span><br><span class="line">#define _Included_com_zhangyp_higo_myndk_MyNdk</span><br><span class="line">#ifdef __cplusplus</span><br><span class="line">extern <span class="string">"C"</span> &#123;</span><br><span class="line">#endif</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"> * Class:     com_zhangyp_higo_myndk_MyNdk</span></span><br><span class="line"><span class="comment"> * Method:    getString</span></span><br><span class="line"><span class="comment"> * Signature: ()Ljava/lang/String;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line">JNIEXPORT jstring JNICALL Java_com_zhangyp_higo_myndk_MyNdk_getString</span><br><span class="line">  (JNIEnv *, jobject);</span><br><span class="line"></span><br><span class="line">#ifdef __cplusplus</span><br><span class="line">&#125;</span><br><span class="line">#endif</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">MyLibrary.cpp</span><br><span class="line"></span><br><span class="line">#include "com_zhangyp_higo_myndk_MyNdk.h"</span><br><span class="line"></span><br><span class="line">JNIEXPORT jstring JNICALL Java_com_zhangyp_higo_myndk_MyNdk_getString</span><br><span class="line">  (JNIEnv * env, jobject obj)&#123;</span><br><span class="line">   <span class="keyword">return</span> (*env).NewStringUTF(<span class="string">"This is mylibrary !!!"</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">Android.mk</span><br><span class="line"></span><br><span class="line">LOCAL_PATH := $(call my-dir)</span><br><span class="line"></span><br><span class="line">include $(CLEAR_VARS)</span><br><span class="line"></span><br><span class="line">LOCAL_MODULE := MyLibrary</span><br><span class="line">LOCAL_SRC_FILES =: MyLibrary.cpp</span><br><span class="line">include $(BUILD_SHARED_LIBRARY)</span><br><span class="line"></span><br><span class="line">Application.mk</span><br><span class="line"></span><br><span class="line">APP_MODULES := MyLibrary</span><br><span class="line">APP_ABI := all</span><br></pre></td></tr></table></figure>
+<h4 id="5-生成-so文件，在jni文件夹右键执行ndk-build"><a href="#5-生成-so文件，在jni文件夹右键执行ndk-build" class="headerlink" title="5 生成.so文件，在jni文件夹右键执行ndk-build"></a>5 生成.so文件，在jni文件夹右键执行ndk-build</h4><h4 id="6-使用"><a href="#6-使用" class="headerlink" title="6 使用"></a>6 使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">new</span> MyNdk().getString()</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/06/12/网络传输/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          网络传输
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/06/05/积极心理学-瑜伽篇/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">积极心理学-瑜伽篇(晨读)</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="ASNDK开发" data-title="AS NDK开发" data-url="https://github.com/sirencode/2017/06/07/ASNDK开发/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="AS NDK开发">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

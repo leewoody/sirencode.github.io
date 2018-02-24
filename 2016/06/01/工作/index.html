@@ -1,20 +1,333 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>工作 | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1 UI编写，自定义view,list等等。 2 逻辑编写。 3 多套UI显示逻辑处理，（AB，后端区分）。 4 APP性能优化，启动速度优化，内存检查，代码格式化并review，lint，子线程绘制UI，矢量图使用。 5 通讯，http,socket长连接。 6 MVP,ui模块化（尽量少用fragment）。 7 容错，时刻记住前端要显示的就要有容错处理，一切获取到的资源都是不可靠的。 8 自">
+<meta property="og:type" content="article">
+<meta property="og:title" content="工作">
+<meta property="og:url" content="https://github.com/sirencode/2016/06/01/工作/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="1 UI编写，自定义view,list等等。 2 逻辑编写。 3 多套UI显示逻辑处理，（AB，后端区分）。 4 APP性能优化，启动速度优化，内存检查，代码格式化并review，lint，子线程绘制UI，矢量图使用。 5 通讯，http,socket长连接。 6 MVP,ui模块化（尽量少用fragment）。 7 容错，时刻记住前端要显示的就要有容错处理，一切获取到的资源都是不可靠的。 8 自">
+<meta property="og:updated_time" content="2016-12-29T01:21:54.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="工作">
+<meta name="twitter:description" content="1 UI编写，自定义view,list等等。 2 逻辑编写。 3 多套UI显示逻辑处理，（AB，后端区分）。 4 APP性能优化，启动速度优化，内存检查，代码格式化并review，lint，子线程绘制UI，矢量图使用。 5 通讯，http,socket长连接。 6 MVP,ui模块化（尽量少用fragment）。 7 容错，时刻记住前端要显示的就要有容错处理，一切获取到的资源都是不可靠的。 8 自">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-工作" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/01/工作/" class="article-date">
+  	<time datetime="2016-05-31T16:00:00.000Z" itemprop="datePublished">2016-06-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      工作
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1 UI编写，自定义view,list等等。</p>
+<p>2 逻辑编写。</p>
+<p>3 多套UI显示逻辑处理，（AB，后端区分）。</p>
+<p>4 APP性能优化，启动速度优化，内存检查，代码格式化并review，lint，子线程绘制UI，矢量图使用。</p>
+<p>5 通讯，http,socket长连接。</p>
+<p>6 MVP,ui模块化（尽量少用fragment）。</p>
+<p>7 容错，时刻记住前端要显示的就要有容错处理，一切获取到的资源都是不可靠的。</p>
+<p>8 自定义APP框架梳理，网络通信框架，数据解析框架，各种UI（轮播，引导页等），数据加载框架数据列表相关，异步图片缓存处理框架，事件总线，本地数据存储方式选择，webview相关使用，app跨进程通信处理，链式编程Rxjava,表格处理相关，直播sdk,客服SDK，环境切换,便以相关，自动升级工具，自定义log，数据采集，APP性能分析，AB测试，灰度。APP开发中的架构调整，哪里用ctivity哪里用fragment，mvp在哪里使用，目录结构，项目层次等等。</p>
+<p>9 加速编译-freeline</p>
+<p>10 coding Dojo - 代码道场</p>
+<p>11 辅助功能实现自动化操作</p>
+<p>12 TDD </p>
+<p>13 Espresso 自动化测试</p>
+<p>14 scrummaster，敏捷特训</p>
+<ul>
+<li>有问题，会议讨论一定要记录澄清(凡是留记录)。</li>
+<li>关于业务价值要有数学家思维，先去搞，结论看市场反馈。</li>
+<li>planmeeting 问题讨论时，将问题分成三个方面讨论，解决问题的业务方案-产品说了算，具体的技术实现-开发说了算，可行性问题-市场测试决定。</li>
+<li>PM决定产品走向，市场方向问题，不要将精力过多放到产品本身的讨论上来。</li>
+<li>理想团队人数7(+-)2,5-9人.(前提大家都是全栈开发)</li>
+<li>早会不是形式，是用来解决问题的，没问题不需要参加。</li>
+<li>接口的设计是由使用者决定的，一般前端决定。</li>
+<li>版本回收，做好强制升级，不能一直兼容很老的版本。</li>
+<li>产品前期不要将一些极端化的问题讨论进来，这样需求会一直讨论个没完没了，等问题出现再去解决。</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/07/06/binder/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Binder 进程间通信
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/06/01/搜索技巧/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">搜索技巧</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="工作" data-title="工作" data-url="https://github.com/sirencode/2016/06/01/工作/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="工作">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

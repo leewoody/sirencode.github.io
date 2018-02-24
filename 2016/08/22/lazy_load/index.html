@@ -1,20 +1,387 @@
-extends base
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 性能优化-懒加载 | Diablo</title>
 
-block nav
-    - var pageName = "POST"
-    include _partial/menu
+  <!-- keywords -->
+  
 
-block header
-    - var pageHeader = page.title
-    include _partial/body_header
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。 懒加载的使用在android开发中我们用到了很多懒加载的例子。如：  1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示真正的图片。 2 app初始化的时候，app开始前我们必不可少的要设置一些第三方的初始化工作，而这些">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 性能优化-懒加载">
+<meta property="og:url" content="https://github.com/sirencode/2016/08/22/lazy_load/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。 懒加载的使用在android开发中我们用到了很多懒加载的例子。如：  1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示真正的图片。 2 app初始化的时候，app开始前我们必不可少的要设置一些第三方的初始化工作，而这些">
+<meta property="og:updated_time" content="2016-08-25T10:03:04.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 性能优化-懒加载">
+<meta name="twitter:description" content="在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。 懒加载的使用在android开发中我们用到了很多懒加载的例子。如：  1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示真正的图片。 2 app初始化的时候，app开始前我们必不可少的要设置一些第三方的初始化工作，而这些">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-block content
-    div.body__content
-        if page.tags.length > 0
-            div.body__item.post_tags
-                for tag in page.tags.toArray()
-                    a(href=url_for(tag.path) class="post_tag")= tag.name
-        if page.content.length > 0
-            div.body__item
-                != page.more
-    div#disqus_thread
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-lazy_load" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/22/lazy_load/" class="article-date">
+  	<time datetime="2016-08-21T16:00:00.000Z" itemprop="datePublished">2016-08-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 性能优化-懒加载
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。</p>
+<h3 id="懒加载的使用"><a href="#懒加载的使用" class="headerlink" title="懒加载的使用"></a>懒加载的使用</h3><p>在android开发中我们用到了很多懒加载的例子。<br>如：</p>
+<ul>
+<li>1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示真正的图片。</li>
+<li>2 app初始化的时候，app开始前我们必不可少的要设置一些第三方的初始化工作，而这些初始化工作在主线程里面也相对耗时，所以可以将这些初始化工作放到子线程里面实现。</li>
+<li>3 view的懒加载，还有一种比较耗时的操作就是view的绘制过程，一个复杂的fragment的绘制也是一个很耗时的操作，为了尽量不丢帧，我们也可以做一个fragment的懒加载。</li>
+</ul>
+<h3 id="初始化的懒加载实现"><a href="#初始化的懒加载实现" class="headerlink" title="初始化的懒加载实现"></a>初始化的懒加载实现</h3><p>1 我们将application 和 activity oncreate()里面比较费时的操作抽取出来。</p>
+<p>2 将这些费时的操作放到一个子线程里面执行，并在初始化的时候启动初始化的子线程。</p>
+<p>3 有一个问题就是什么时候去使用这些需要初始化的东西，因为做了异步处理，我们不能知道什么时候初始化完成了。解决方法不一，最简单的办法就是设置全局变量，在使用前判断一下。在项目中我们一般都会对第三方的SDK封装一下，在封装的时候判断一下是否初始化就可以了。</p>
+<p>初始化:</p>
+<pre><code> protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    LazyThread lazyThread = new LazyThread();
+    lazyThread.start();
+}
+</code></pre><p>封装费时的初始化工作：</p>
+<pre><code>class LazyThread extends Thread{
+    @Override
+    public void run() {
+        //做一些费时的初始化工作
+        //完成后回调,或者设置全局变量
+    }
+} 
+</code></pre><p>这样就完成了初始化的懒加载，记得将application里面的初始化工作也做一下懒加载。</p>
+<h3 id="View的懒加载实现"><a href="#View的懒加载实现" class="headerlink" title="View的懒加载实现"></a>View的懒加载实现</h3><p>这个其实我们一直都在使用，比如我们要异步的去请求一张图片并显示出来，但是这个是需要一段时间才能请求到的。为了使等待时间不那么尴尬，我们设置一个默认图，等到请求到结果后再替换掉。</p>
+<h4 id="为什么做view的懒加载"><a href="#为什么做view的懒加载" class="headerlink" title="为什么做view的懒加载"></a>为什么做view的懒加载</h4><p>我们在做应用开发的时候，一个Activity里面可能会以viewpager（或其他容器）与多个Fragment来组合使用，而如果每个fragment都需要去加载数据，或从本地加载，或从网络加载，那么在这个activity刚创建的时候就变成需要初始化大量资源。为了减少初次加载的时间，我们要实现显示对应的fragment的时候再去初始化对应工作。</p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>Fragment里的setUserVisibleHint这个方法用于告诉系统，这个Fragment的UI是否是可见的。所以我们只需要继承Fragment并重写该方法，即可实现在fragment可见时才进行数据加载操作，即Fragment的懒加载。</p>
+<p>自定义lazyfragment:</p>
+<pre><code>public abstract class LazyFragment extends Fragment {
+protected boolean isVisible;
+/**
+ * 在这里实现Fragment数据的缓加载.
+ * @param isVisibleToUser
+ */
+@Override
+public void setUserVisibleHint(boolean isVisibleToUser) {
+    super.setUserVisibleHint(isVisibleToUser);
+    if(getUserVisibleHint()) {
+        isVisible = true;
+        onVisible();
+    } else {
+        isVisible = false;
+        onInvisible();
+    }
+}
+
+protected void onVisible(){
+    lazyLoad();
+}
+
+protected abstract void lazyLoad();
+
+protected void onInvisible(){}
+}
+</code></pre><p> 实现：</p>
+<pre><code> public class OpenResultFragment extends LazyFragment{
+// 标志位，标志已经初始化完成。
+private boolean isPrepared;
+
+@Override
+public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    Log.d(LOG_TAG, &quot;onCreateView&quot;);
+    View view = inflater.inflate(R.layout.fragment_open_result, container, false);
+    //XXX初始化view的各控件
+isPrepared = true;
+    lazyLoad();
+    return view;
+}
+
+@Override
+protected void lazyLoad() {
+    if(!isPrepared || !isVisible) {
+        return;
+    }
+    //填充各控件的数据
+}
+
+}
+</code></pre>
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/08/23/recycleview/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Android RecycleView
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/08/22/monkey/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android Mokey压力测试</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="lazy_load" data-title="Android 性能优化-懒加载" data-url="https://github.com/sirencode/2016/08/22/lazy_load/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 性能优化-懒加载">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>
