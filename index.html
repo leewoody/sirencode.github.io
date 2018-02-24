@@ -518,7 +518,7 @@
   
     <div class="article-meta">
       <a href="/2018/01/31/Android 内部存储 外部存储/" class="article-date">
-  	<time datetime="2018-01-31T02:44:24.975Z" itemprop="datePublished">2018-01-31</time>
+  	<time datetime="2018-01-30T16:00:00.000Z" itemprop="datePublished">2018-01-31</time>
 </a>
     </div>
   
@@ -527,10 +527,23 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/01/31/Android 内部存储 外部存储/">
+        Android 内部存储 外部存储
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>title: Android 内部存储 外部存储<br>date: 2018-01-31</p>
-<h1 id="Android-内部存储-外部存储"><a href="#Android-内部存储-外部存储" class="headerlink" title="Android 内部存储 外部存储"></a>Android 内部存储 外部存储</h1><p>最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把内置存储（机身存储）当做内部存储，而把扩展的SD卡当做是外部存储。这么认为确实没错，因为在4.4（API19）以前的手机上确实是这样的，手机自身带的存储卡就是内部存储，而扩展的SD卡就是外部存储。但是从4.4的系统开始，很多的中高端机器都将自己的机身存储扩展到了8G以上，比如有的人的手机是16G的，有的人的手机是32G的，但是这个16G，32G是内部存储吗，不是的！！！，它们依然是外部存储，也就是说4.4系统及以上的手机将机身存储存储（手机自身带的存储叫做机身存储）在概念上分成了”内部存储internal” 和”外部存储external” 两部分。既然16G，32G是外部存储，那有人又有疑惑了，那4.4系统及以上的手机要是插了SD卡呢，SD卡又是什么呢，如果SD卡也是外部存储的话，那怎么区分机身存储的外部存储跟SD卡的外部存储呢？对，SD卡也是外部存储，那怎么区分呢，在4.4以后的系统中，API提供了这样一个方法来遍历手机的外部存储路径：</p>
+        <h1 id="Android-内部存储-外部存储"><a href="#Android-内部存储-外部存储" class="headerlink" title="Android 内部存储 外部存储"></a>Android 内部存储 外部存储</h1><p>最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把内置存储（机身存储）当做内部存储，而把扩展的SD卡当做是外部存储。这么认为确实没错，因为在4.4（API19）以前的手机上确实是这样的，手机自身带的存储卡就是内部存储，而扩展的SD卡就是外部存储。但是从4.4的系统开始，很多的中高端机器都将自己的机身存储扩展到了8G以上，比如有的人的手机是16G的，有的人的手机是32G的，但是这个16G，32G是内部存储吗，不是的！！！，它们依然是外部存储，也就是说4.4系统及以上的手机将机身存储存储（手机自身带的存储叫做机身存储）在概念上分成了”内部存储internal” 和”外部存储external” 两部分。既然16G，32G是外部存储，那有人又有疑惑了，那4.4系统及以上的手机要是插了SD卡呢，SD卡又是什么呢，如果SD卡也是外部存储的话，那怎么区分机身存储的外部存储跟SD卡的外部存储呢？对，SD卡也是外部存储，那怎么区分呢，在4.4以后的系统中，API提供了这样一个方法来遍历手机的外部存储路径：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">File[] files;</span><br><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">    files = getExternalFilesDirs(Environment.MEDIA_MOUNTED);</span><br><span class="line">    <span class="keyword">for</span>(File file:files)&#123;</span><br><span class="line">        Log.e(<span class="string">"main"</span>,file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果你的手机插了SD卡的话，那么它打印的路径就有两条了，例如我的华为荣耀7插了SD卡，它的结果如下：<br>/storage/emulated/0/Android/data/packname/files/mounted<br>/storage/B3E4-1711/Android/data/packname/files/mounted<br>其中/storage/emulated/0目录就是机身存储的外部存储路径,而/storage/B3E4-1711/就是SD卡的路径 </p>
 <h2 id="内存-RAM"><a href="#内存-RAM" class="headerlink" title="内存 RAM"></a>内存 RAM</h2><p>物理位置是位于手机内部的随机存储器上，就是俗称的RAM。就是计算机上对内存储器的理解。</p>
