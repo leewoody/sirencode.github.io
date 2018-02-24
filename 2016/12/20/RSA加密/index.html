@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>RSA | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="简介RSA是一种非对称加密算法，常用来对传输数据进行加密，配合上数字摘要算法，也可以进行文字签名。 加密方式 加密：公钥放在客户端，并使用公钥对数据进行加密，服务端拿到数据后用私钥进行解密；  加签：私钥放在客户端，并使用私钥对数据进行加签，服务端拿到数据后用公钥进行验签。   前者完全为了加密；后者主要是为了防恶意攻击，防止别人模拟我们的客户端对我们的服务器进行攻击，导致服务器瘫痪。 RSA使用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RSA">
+<meta property="og:url" content="http://yoursite.com/2016/12/20/RSA加密/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="简介RSA是一种非对称加密算法，常用来对传输数据进行加密，配合上数字摘要算法，也可以进行文字签名。 加密方式 加密：公钥放在客户端，并使用公钥对数据进行加密，服务端拿到数据后用私钥进行解密；  加签：私钥放在客户端，并使用私钥对数据进行加签，服务端拿到数据后用公钥进行验签。   前者完全为了加密；后者主要是为了防恶意攻击，防止别人模拟我们的客户端对我们的服务器进行攻击，导致服务器瘫痪。 RSA使用">
+<meta property="og:updated_time" content="2016-12-22T02:04:03.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="RSA">
+<meta name="twitter:description" content="简介RSA是一种非对称加密算法，常用来对传输数据进行加密，配合上数字摘要算法，也可以进行文字签名。 加密方式 加密：公钥放在客户端，并使用公钥对数据进行加密，服务端拿到数据后用私钥进行解密；  加签：私钥放在客户端，并使用私钥对数据进行加签，服务端拿到数据后用公钥进行验签。   前者完全为了加密；后者主要是为了防恶意攻击，防止别人模拟我们的客户端对我们的服务器进行攻击，导致服务器瘫痪。 RSA使用">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-RSA加密" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/12/20/RSA加密/" class="article-date">
+  <time datetime="2016-12-19T16:00:00.000Z" itemprop="datePublished">2016-12-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      RSA
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>RSA是一种非对称加密算法，常用来对传输数据进行加密，配合上数字摘要算法，也可以进行文字签名。</p>
+<h3 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h3><ul>
+<li><p>加密：公钥放在客户端，并使用公钥对数据进行加密，服务端拿到数据后用私钥进行解密；</p>
+</li>
+<li><p>加签：私钥放在客户端，并使用私钥对数据进行加签，服务端拿到数据后用公钥进行验签。</p>
+</li>
+</ul>
+<p>前者完全为了加密；后者主要是为了防恶意攻击，防止别人模拟我们的客户端对我们的服务器进行攻击，导致服务器瘫痪。</p>
+<p>RSA使用“密钥对”对数据进行加密解密，在加密解密前需要先生存公钥（Public Key）和私钥（Private Key）。</p>
+<ul>
+<li><p>公钥(Public key): 用于加密数据. 用于公开, 一般存放在数据提供方, 例如iOS客户端。</p>
+</li>
+<li><p>私钥(Private key): 用于解密数据. 必须保密, 私钥泄露会造成安全问题。</p>
+</li>
+</ul>
+<h3 id="生成公钥私钥"><a href="#生成公钥私钥" class="headerlink" title="生成公钥私钥"></a>生成公钥私钥</h3><h4 id="1-生成模长为1024bit的私钥"><a href="#1-生成模长为1024bit的私钥" class="headerlink" title="1 生成模长为1024bit的私钥"></a>1 生成模长为1024bit的私钥</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ genrsa -out private_key.pem 1024</span><br></pre></td></tr></table></figure>
+<h4 id="2-生成certification-require-file"><a href="#2-生成certification-require-file" class="headerlink" title="2 生成certification require file"></a>2 生成certification require file</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ req -new -key private_key.pem -out rsaCertReq.csr</span><br></pre></td></tr></table></figure>
+<h4 id="3-生成certification-并指定过期时间"><a href="#3-生成certification-并指定过期时间" class="headerlink" title="3 生成certification 并指定过期时间"></a>3 生成certification 并指定过期时间</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ x509 -req -days 3650 -<span class="keyword">in</span> rsaCertReq.csr -signkey private_key.pem -out rsaCert.crt</span><br></pre></td></tr></table></figure>
+<h4 id="4-生成java公钥"><a href="#4-生成java公钥" class="headerlink" title="4 生成java公钥"></a>4 生成java公钥</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rsa -<span class="keyword">in</span> private_key.pem -pubout -out public_key.pem</span><br></pre></td></tr></table></figure>
+<h4 id="5-生成pem结尾的私钥供Java使用-需要验证密码"><a href="#5-生成pem结尾的私钥供Java使用-需要验证密码" class="headerlink" title="5 生成pem结尾的私钥供Java使用(需要验证密码)"></a>5 生成pem结尾的私钥供Java使用(需要验证密码)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ pkcs8 -topk8 -<span class="keyword">in</span> private_key.pem -out pkcs8_private_key.pem -nocrypt</span><br></pre></td></tr></table></figure>
+<h4 id="6-生成公钥供iOS使用"><a href="#6-生成公钥供iOS使用" class="headerlink" title="6 生成公钥供iOS使用"></a>6 生成公钥供iOS使用</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line"><span class="variable">$x509</span> -outform der -<span class="keyword">in</span> rsaCert.crt -out public_key.der</span><br></pre></td></tr></table></figure>
+<h4 id="7-生成私钥供iOS使用-这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码"><a href="#7-生成私钥供iOS使用-这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码" class="headerlink" title="7 生成私钥供iOS使用 这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码"></a>7 生成私钥供iOS使用 这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ pkcs12 -<span class="built_in">export</span> -out private_key.p12 -inkey private_key.pem -<span class="keyword">in</span> rsaCert.crt</span><br></pre></td></tr></table></figure>
+<h4 id="8-查看公钥私钥内容"><a href="#8-查看公钥私钥内容" class="headerlink" title="8 查看公钥私钥内容"></a>8 查看公钥私钥内容</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat public_key.pem/private_key.pem</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/12/20/RSA加密/" data-id="cje0yr9q9000icur9urzg7ba0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/12/23/自动化测试Espresso/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Espresso
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/12/16/jrebel/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android  jrebel</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/23/Protobuf/">Protobuf</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/31/Android 内部存储 外部存储/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/26/线程与CPU/">线程与CPU</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/22/Gradle 详解/">Gradle 详解</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/08/麦肯锡工作法/">麦肯锡工作法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

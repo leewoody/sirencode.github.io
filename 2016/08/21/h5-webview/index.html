@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Android 混合式开发-H5 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些建议。 Android开发的多种模式原生开发顾名思义，就是纯原生的开发模式，一点也不嵌入h5相关的功">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 混合式开发-H5">
+<meta property="og:url" content="http://yoursite.com/2016/08/21/h5-webview/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些建议。 Android开发的多种模式原生开发顾名思义，就是纯原生的开发模式，一点也不嵌入h5相关的功">
+<meta property="og:updated_time" content="2016-09-09T06:29:34.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 混合式开发-H5">
+<meta name="twitter:description" content="H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些建议。 Android开发的多种模式原生开发顾名思义，就是纯原生的开发模式，一点也不嵌入h5相关的功">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-h5-webview" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/08/21/h5-webview/" class="article-date">
+  <time datetime="2016-08-20T16:00:00.000Z" itemprop="datePublished">2016-08-21</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 混合式开发-H5
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些建议。</p>
+<h3 id="Android开发的多种模式"><a href="#Android开发的多种模式" class="headerlink" title="Android开发的多种模式"></a>Android开发的多种模式</h3><h4 id="原生开发"><a href="#原生开发" class="headerlink" title="原生开发"></a>原生开发</h4><p>顾名思义，就是纯原生的开发模式，一点也不嵌入h5相关的功能模块。</p>
+<p>优点：</p>
+<ul>
+<li>性能极佳</li>
+<li>可以实现所有功能</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>开发成本高</li>
+<li>无法实热而更新</li>
+</ul>
+<h4 id="混合式开发"><a href="#混合式开发" class="headerlink" title="混合式开发"></a>混合式开发</h4><p>混合式开发是指，一些模块通过h5实现。具体哪些使用h5开发比较合适呐，这里我给出几点建议：</p>
+<ul>
+<li>需要模块话，在多端共用的，比如一个系统登录相关模块。</li>
+<li>更新比较频繁，且对性能要求不高的，例如项目的资讯模块。</li>
+<li>调用底层功能和首页第一屏的显示要求很高的性能的地方，一定不要用。</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>开发成本低，方便复用</li>
+<li>支持热更新</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>性能差，不同版本对H5的支持差异较大。</li>
+<li>一些调用系统功能的实现起来不方便。</li>
+</ul>
+<h4 id="纯Web版的App"><a href="#纯Web版的App" class="headerlink" title="纯Web版的App"></a>纯Web版的App</h4><p>这种App是纯h5开发，之后通过插件生成各个平台的APP，这个就不说了，性能简直无法直视，还有很多限制，我没见那个公司用过，一般适合没有APP开发经验的使用。即使调研我都没有过，很是嫌弃。</p>
+<h3 id="Hybrid开发的使用"><a href="#Hybrid开发的使用" class="headerlink" title="Hybrid开发的使用"></a>Hybrid开发的使用</h3><p>以上三种模式各有各的使用场景，我们这里主要讨论一下hybrid的开发模式，混合式开发模式的使用也分很多种情况。下面我们一个个分析，并给出不同建议，供大家选择。</p>
+<h4 id="混合式框架"><a href="#混合式框架" class="headerlink" title="混合式框架"></a>混合式框架</h4><p>所谓的混合式开发框架就是实现，js和java的互调工作，当然还需要对webview进行封装，屏蔽掉4.2之前的反向注入的bug，并定制属于自己的通信规则。</p>
+<p>这种框架网上很多，我用过cordova，太重了，有能力就自己写一个吧。</p>
+<h4 id="自定义框架"><a href="#自定义框架" class="headerlink" title="自定义框架"></a>自定义框架</h4><h4 id="1-java-gt-js-这里不解释，每个框架都一样"><a href="#1-java-gt-js-这里不解释，每个框架都一样" class="headerlink" title="1.java -&gt; js,这里不解释，每个框架都一样"></a>1.java -&gt; js,这里不解释，每个框架都一样</h4><pre><code>WebView.loadUrl(&quot;javascript:setUserName(&apos;xxx&apos;);&quot;);
+</code></pre><h4 id="2-js-gt-java-实现"><a href="#2-js-gt-java-实现" class="headerlink" title="2.js -&gt; java 实现"></a>2.js -&gt; java 实现</h4><p>1 通过webview的addJavascriptInterface实现通信，并重写webview来屏蔽掉4.2之前的bug.<br>代码实现：</p>
+<pre><code>mWebView.addJavascriptInterface(new JavaScriptInterface(), &quot;ncp&quot;);
+
+final class JavaScriptInterface {
+
+   public int callOnJs() {
+
+      return 1000;
+   }
+
+   public void callOnJs2(String mode) {
+     //TODO
+   }
+
+ }  
+</code></pre><p>如何修复反向注入bug:<a href="https://github.com/shenyonghe525/WebViewBugDemo" target="_blank" rel="noopener">github</a></p>
+<p>2 通过相同的接口实现通信</p>
+<p>通过js的window.prompt(msg,defaultText) = android-&gt;WebViewChromeClient-&gt;onJsPrompt(WebView view,<br>String url, String message, String defaultValue, JsPromptResult result)<br>其中window.prompt -&gt; msg = onJsPrompt-&gt;message</p>
+<p>所以在js调用java方法步骤如下：</p>
+<ul>
+<li>1 在js中配置好需要的参数信息msg(此消息格式可以自定义)。</li>
+<li>2 在js中通过window.prompt(msg,””)方法将信息传到java中的WebViewChromeClient-&gt;onJsPrompt方法中。</li>
+<li>3 在onJsPrompt中将js传来的信息进行解析处理，传到供js调用的native方法中，之后做相关native方法处理。</li>
+<li>4 获得处理结果 拼接callbackJs参数 jscallback()-&gt;webView.loadUrl(callbackJs);。</li>
+</ul>
+<h4 id="3-js-gt-java-msg-拼接（规定通讯协议）"><a href="#3-js-gt-java-msg-拼接（规定通讯协议）" class="headerlink" title="3 js-&gt;java  msg 拼接（规定通讯协议）"></a>3 js-&gt;java  msg 拼接（规定通讯协议）</h4><ul>
+<li>协定协议:myname://class:port/method?params;</li>
+<li>myname:请求头信息，可根据实际情况自定义</li>
+<li>class:java中供js调用的方法类</li>
+<li>port:port我们并不会直接操作它，它是由Js代码自动生成的，port的作用是为了标识Js中的回调function,当Js调用Native方法时，<br>我们会得到本次调用的port号，我们需要在Native方法执行完毕后再把该port、执行的后结果、是否调用成功、<br>调用失败的msg等信息通过调用Js的onComplete方法传入，这时候Js凭什么知道你本次返回的信息是哪次调用的结果呢？就是通过port号，<br>因为在Js调用Native方法时我们会把自动生成的port号和此次回调的function绑定在一起，这样以来Native方法返回结果时把port也带过来，<br>就知道是哪次回调该用哪个function方法来处理.</li>
+<li>method:java中供js调用的方法类中的指定方法</li>
+<li><p>params:参数<br>RainbowBridge.callMethod(‘JsInvokeJavaScope’,’getAppName’,{},function(msg){alert(JSON.stringify(msg))});</p>
+</li>
+<li><p>java中供js调用的方法，参数也可以固定public static void finish(WebView webView, JSONObject data, JsCallback callback)<br>带返回值的将返回值放到callback中</p>
+</li>
+</ul>
+<p>Demo推荐：<a href="https://github.com/sirencode/RainbowBridge" target="_blank" rel="noopener">地址</a></p>
+<h3 id="离线模式和在线模式"><a href="#离线模式和在线模式" class="headerlink" title="离线模式和在线模式"></a>离线模式和在线模式</h3><p>混合式的开发，根据资源包放的位置可以分为离线模式和在线模式。<br>离线模式：就是将h5的资源包压缩放到项目里面一同发布，之后根据升级提示去更新资源包。可以做到后台无感升级。<br>在线模式：就是把所有的资源都放在服务器上面，每次都去网上加载对应资源 ，对网速要求很高。</p>
+<h3 id="版本支持"><a href="#版本支持" class="headerlink" title="版本支持"></a>版本支持</h3><ul>
+<li>android 4.0前不支持h5标准。</li>
+<li>4.0-4.4对h5支持不好。</li>
+<li>4.4更换了内核，Chromium对webview的性能提升了很多，并做了更好的支持。</li>
+<li>4.4以上，基本支持所以的h5功能。</li>
+</ul>
+<h3 id="WebView独立进程"><a href="#WebView独立进程" class="headerlink" title="WebView独立进程"></a>WebView独立进程</h3><p>webview的使用会占用手机大量的内存，使用不当还会造成大量的内存泄漏，因此放到独立进程中。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/08/21/h5-webview/" data-id="cje0yr9qq0011cur9zzxqvopw" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/08/22/lazy_load/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android 性能优化-懒加载
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/08/20/traceView/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Android 性能优化-traceview</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/23/Protobuf/">Protobuf</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/31/Android 内部存储 外部存储/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/26/线程与CPU/">线程与CPU</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/22/Gradle 详解/">Gradle 详解</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/08/麦肯锡工作法/">麦肯锡工作法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>

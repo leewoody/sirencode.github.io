@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>Android 代码规范-CheckStyle | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。 AndroidStudio 集成CheckStyle1.先安装CheckStyle插件安装CheckStyle—ID">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 代码规范-CheckStyle">
+<meta property="og:url" content="http://yoursite.com/2016/08/20/check_code_style/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。 AndroidStudio 集成CheckStyle1.先安装CheckStyle插件安装CheckStyle—ID">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/CheckStyle%E2%80%94IDEA.jpg">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/daoru_checkstyle.png">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/yunxingCheck_style.jpg">
+<meta property="og:updated_time" content="2016-08-20T01:28:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 代码规范-CheckStyle">
+<meta name="twitter:description" content="代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。 AndroidStudio 集成CheckStyle1.先安装CheckStyle插件安装CheckStyle—ID">
+<meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/CheckStyle%E2%80%94IDEA.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-check_code_style" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/08/20/check_code_style/" class="article-date">
+  <time datetime="2016-08-19T16:00:00.000Z" itemprop="datePublished">2016-08-20</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 代码规范-CheckStyle
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。</p>
+<h3 id="AndroidStudio-集成CheckStyle"><a href="#AndroidStudio-集成CheckStyle" class="headerlink" title="AndroidStudio 集成CheckStyle"></a>AndroidStudio 集成CheckStyle</h3><h4 id="1-先安装CheckStyle插件"><a href="#1-先安装CheckStyle插件" class="headerlink" title="1.先安装CheckStyle插件"></a>1.先安装CheckStyle插件</h4><p>安装CheckStyle—IDEA，重启AndroidStudio。</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/CheckStyle%E2%80%94IDEA.jpg" alt="图片"></p>
+<ul>
+<li>这里有一个坑，如果导入这个插件后，studio无法启动，并报错，请修改studio文件夹下面的info.plist里面的值为1.8<pre><code class="bash">&lt;key&gt;JVMVersion&lt;/key&gt;
+&lt;string&gt;1.8,1.8+&lt;/string&gt;
+</code></pre>
+</li>
+</ul>
+<h4 id="2-导入CheckStyle"><a href="#2-导入CheckStyle" class="headerlink" title="2.导入CheckStyle"></a>2.导入CheckStyle</h4><p>AndroidStudio File-&gt;Other sttings -&gt;default settings…，在弹出的界面中按下图步骤执行6步，在第3步中Check Style配置文件在主工程android/static_code_check/checkstyle下面。</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/daoru_checkstyle.png" alt="图片"></p>
+<h4 id="3-1-运行CheckStyle"><a href="#3-1-运行CheckStyle" class="headerlink" title="3.1.    运行CheckStyle"></a>3.1.    运行CheckStyle</h4><p><img src="http://oc4zuck5v.bkt.clouddn.com/yunxingCheck_style.jpg" alt="图片"></p>
+<h3 id="CheckStyle检验的主要内容"><a href="#CheckStyle检验的主要内容" class="headerlink" title="CheckStyle检验的主要内容"></a>CheckStyle检验的主要内容</h3><ul>
+<li>Javadoc注释</li>
+<li>命名约定</li>
+<li>标题</li>
+<li>Import语句</li>
+<li>体积大小</li>
+<li>空白</li>
+<li>修饰符</li>
+<li>块</li>
+<li>代码问题</li>
+<li>类设计</li>
+<li>混合检查（包活一些有用的比如非必须的System.out和printstackTrace）</li>
+</ul>
+<p>我现在用的是基于华为的<a href="https://gist.github.com/ownwell/c32878440216f1866842" target="_blank" rel="noopener">CheckStyle:</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2016/08/20/check_code_style/" data-id="cje0yr9qm000wcur9tcm9hy9k" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/08/20/traceView/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Android 性能优化-traceview
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/08/19/react-native/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">react-native android使用入门</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">December 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">July 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">June 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">May 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/04/">April 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">March 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">February 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/01/">January 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/12/">December 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/11/">November 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">October 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">September 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/08/">August 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">July 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">June 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/02/23/Protobuf/">Protobuf</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/31/Android 内部存储 外部存储/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/26/线程与CPU/">线程与CPU</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/22/Gradle 详解/">Gradle 详解</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/08/麦肯锡工作法/">麦肯锡工作法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
