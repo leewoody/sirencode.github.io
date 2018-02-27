@@ -162,6 +162,80 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android 动画原理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/27/Android 动画原理/" class="article-date">
+  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/27/Android 动画原理/">
+        Android 动画原理
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-动画原理"><a href="#Android-动画原理" class="headerlink" title="Android 动画原理"></a>Android 动画原理</h1><h2 id="Tween动画-Animation"><a href="#Tween动画-Animation" class="headerlink" title="Tween动画 Animation"></a>Tween动画 Animation</h2><p>原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。</p>
+<h3 id="1-startAnimation-animation"><a href="#1-startAnimation-animation" class="headerlink" title="1 startAnimation(animation);"></a>1 startAnimation(animation);</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startAnimation</span><span class="params">(Animation animation)</span> </span>&#123;</span><br><span class="line">    animation.setStartTime(Animation.START_ON_FIRST_FRAME);</span><br><span class="line">    setAnimation(animation);</span><br><span class="line">    invalidateParentCaches();</span><br><span class="line">    invalidate(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-invalidate请求View树进行重绘"><a href="#2-invalidate请求View树进行重绘" class="headerlink" title="2 invalidate请求View树进行重绘"></a>2 invalidate请求View树进行重绘</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidate</span><span class="params">(<span class="keyword">boolean</span> invalidateCache)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这里的mLeft，mRight都是相当于父View来讲的。所以这里的参数就是当前View所在的区域。</span></span><br><span class="line">    invalidateInternal(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, invalidateCache, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidateInternal</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b, <span class="keyword">boolean</span> invalidateCache,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">boolean</span> fullInvalidate)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//不需要绘制的情况（View不可见&amp;&amp;没有动画等）</span></span><br><span class="line">    <span class="keyword">if</span> (skipInvalidate()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">if</span>(condition<span class="comment">/*满足需要绘制的条件*/</span>)&#123;</span><br><span class="line">        <span class="keyword">final</span> AttachInfo ai = mAttachInfo;</span><br><span class="line">        <span class="keyword">final</span> ViewParent p = mParent;</span><br><span class="line">        <span class="keyword">if</span> (p != <span class="keyword">null</span> &amp;&amp; ai != <span class="keyword">null</span> &amp;&amp; l &lt; r &amp;&amp; t &lt; b) &#123;</span><br><span class="line">            <span class="keyword">final</span> Rect damage = ai.mTmpInvalRect;</span><br><span class="line">            damage.set(l, t, r, b);</span><br><span class="line">            p.invalidateChild(<span class="keyword">this</span>, damage);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-调用子view的draw方法"><a href="#3-调用子view的draw方法" class="headerlink" title="3 调用子view的draw方法"></a>3 调用子view的draw方法</h3><p>Animation 实现了下面方法设置Transformation动画信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数是 interpolatedTime 它代表插值后的时间，第二个参数是Transformation类的实例</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">applyTransformation</span><span class="params">(<span class="keyword">float</span> interpolatedTime, Transformation t)</span></span></span><br></pre></td></tr></table></figure>
+<p>view getAnimation()获取动画信息，getTransformation获取Transformation；</p>
+<p>Transformation是一个实体类，它主要的内容是透明度和一个矩阵，动画的变化，就隐藏在Transformation之中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">draw</span><span class="params">(Canvas canvas, ViewGroup parent, <span class="keyword">long</span> drawingTime)</span></span></span><br></pre></td></tr></table></figure>
+<p>draw中applyLegacyAnimation方法是用来获取变换的，其中有两个部分需要注意：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a.getTransformation(drawingTime, invalidationTransform, <span class="number">1f</span>);</span><br><span class="line">a.getInvalidateRegion(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, region,</span><br><span class="line">    invalidationTransform);</span><br></pre></td></tr></table></figure>
+<p>第一个就是获取变换，第二个是获取绘制无效区域。<br>其实这个无效区域是绘制后的无效区域，因为很有可能需要下次绘制(保证动画连续性)。</p>
+<p>动画的绘制：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (transformToApply != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (concatMatrix) &#123;</span><br><span class="line">        <span class="keyword">if</span> (drawingWithRenderNode) &#123;</span><br><span class="line">            renderNode.setAnimationMatrix(transformToApply.getMatrix());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            canvas.translate(-transX, -transY);</span><br><span class="line">            canvas.concat(transformToApply.getMatrix());</span><br><span class="line">            canvas.translate(transX, transY);</span><br><span class="line">        &#125;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> transformAlpha = transformToApply.getAlpha();</span><br><span class="line">    <span class="keyword">if</span> (transformAlpha &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        alpha *= transformAlpha;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分别从硬件加速和软件绘制上　对canvas进行矩阵变换．</p>
+<h2 id="帧动画"><a href="#帧动画" class="headerlink" title="帧动画"></a>帧动画</h2><p>原理：使用了Choreographer机制.</p>
+<p>Android系统从4.1(API 16)开始加入Choreographer这个类来控制同步处理输入(Input)、动画(Animation)、绘制(Draw)三个UI操作。收到VSync信号后，顺序执行3个操作，然后等待下一个信号，再次顺序执行3个操作。</p>
+<p>AnimationDrawable继承了DrawableContainer，因为DrawableContainer是一个drawable的容器，可以保存多个图片<br>同时，实现了Runnable接口，重写了run方法,根据源码中的start方法，它调用了setFrame方法，方法内部最重要的调用就是调用了<br> scheduleSelf(this, SystemClock.uptimeMillis() + mAnimationState.mDurations[frame]);callback调用view的scheduleDrawable方法而这个方法最终会调用Choreographer.subtractFrameDelay(delay));</p>
+<h2 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h2><p>原理：使用了Choreographer机制</p>
+<p>简单的说，Chreographer是组织上层进行处理绘制的控制类，它会在每次vsync信号来临时，执行与绘制相关的过程．</p>
+<p>Animator的过程发生在绘制之前（甚至是布局之前）.</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-子模块访问app模块" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1499,80 +1573,9 @@
 
 
   
-    <article id="post-Timing Wheel 定时轮算法" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/25/Timing Wheel 定时轮算法/" class="article-date">
-  	<time datetime="2017-10-24T16:00:00.000Z" itemprop="datePublished">2017-10-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/25/Timing Wheel 定时轮算法/">
-        Timing Wheel 定时轮算法
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>我们在做一款期货交易的app，网络部分使用的socket长连接。由于我们的网关服务器性能有限，因此需要在用户不频繁操作的时候，把用户断开。</p>
-<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>每个用户只要5分钟不请求长连接相关接口，我们就自动将用户断开，从而保证我们服务器的负载能力。</p>
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>最简单的实现方式就是使用timer定时器，但是由于timer定时器的性能消耗较大，当有成千上万个连接时，性能消耗是我们无法忍受的。因此我们使用了timing wheel算法，这个算法既保证了功能的实现，又保证了性能。</p>
-<h3 id="Timing-Wheel-原理"><a href="#Timing-Wheel-原理" class="headerlink" title="Timing Wheel 原理"></a>Timing Wheel 原理</h3><p><img src="http://img.my.csdn.net/uploads/201209/29/1348926970_9123.png" alt=""></p>
-<p>首先要定义三个变量：ticksPerWheel（一轮的tick数），tickDuration（一个tick的持续时间）<br>以及 timeUnit（时间单位），例如 当ticksPerWheel=60，tickDuration=1，timeUnit=秒，这就和现实中的始终的秒针走动完全类似了。</p>
-<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>按照我们的需求来实现：</p>
-<ul>
-<li>timeUnit = 1s</li>
-<li>ticksPerWheel = 5*60</li>
-<li><p>tickDuration = 5分钟</p>
-</li>
-<li><p>1 定义一个线程每秒跳动一下指针</p>
-</li>
-<li>2 定义一个map key = 刻度(0-299),value = List&lt;用户&gt;</li>
-<li>3 每当用户请求接口的时候，就将用户加入当前时间-1秒的那个list里面</li>
-<li>4 每当转到对应的刻度就去取一下当前刻度里面的用户列表，并逐一将用户断开连接。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </div>
