@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Gradle 依赖方式 | Diablo</title>
+
+  <!-- keywords -->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Gradle 依赖方式android gradle tools 2.Xapk只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错 providedProvided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。防止重复打包。 V7,V4之类的不使用pro">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gradle 依赖方式">
+<meta property="og:url" content="https://github.com/sirencode/2018/02/28/Gradle 依赖方式/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="Gradle 依赖方式android gradle tools 2.Xapk只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错 providedProvided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。防止重复打包。 V7,V4之类的不使用pro">
+<meta property="og:updated_time" content="2018-02-28T07:25:54.346Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Gradle 依赖方式">
+<meta name="twitter:description" content="Gradle 依赖方式android gradle tools 2.Xapk只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错 providedProvided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。防止重复打包。 V7,V4之类的不使用pro">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Gradle 依赖方式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/28/Gradle 依赖方式/" class="article-date">
+  	<time datetime="2018-02-27T16:00:00.000Z" itemprop="datePublished">2018-02-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Gradle 依赖方式
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Gradle-依赖方式"><a href="#Gradle-依赖方式" class="headerlink" title="Gradle 依赖方式"></a>Gradle 依赖方式</h1><h2 id="android-gradle-tools-2-X"><a href="#android-gradle-tools-2-X" class="headerlink" title="android gradle tools 2.X"></a>android gradle tools 2.X</h2><h3 id="apk"><a href="#apk" class="headerlink" title="apk"></a>apk</h3><p>只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错</p>
+<h3 id="provided"><a href="#provided" class="headerlink" title="provided"></a>provided</h3><p>Provided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。防止重复打包。</p>
+<p>V7,V4之类的不使用provided也不会导致支持包重复，依赖module编译出来的aar并不包含那些多个module（包括app module）重复使用的支持包。</p>
+<p>如果依赖module使用的style中引用了支持包（V7,V4之类的）中的主题，那么，使用provided会报错（找不到主题资源）。如果只是引用支持包中的类和接口是可以使用provided的（但意义也不大，反正也不会重复）。</p>
+<h3 id="compile"><a href="#compile" class="headerlink" title="compile"></a>compile</h3><p>compile是对所有的build type以及favlors都会参与编译并且打包到最终的apk文件中。</p>
+<h3 id="debugCompile"><a href="#debugCompile" class="headerlink" title="debugCompile"></a>debugCompile</h3><p>Debug compile 仅仅针对debug模式的编译和最终的debug apk打包。</p>
+<h3 id="releaseCompile"><a href="#releaseCompile" class="headerlink" title="releaseCompile"></a>releaseCompile</h3><p>Release compile 仅仅针对Release 模式的编译和最终的Release apk打包。</p>
+<h3 id="androidtestCompile"><a href="#androidtestCompile" class="headerlink" title="androidtestCompile"></a>androidtestCompile</h3><p>Test compile 仅仅是针对单元测试代码的编译编译以及最终打包测试apk时有效，而对正常的debug或者release apk包不起作用。</p>
+<h2 id="android-gradle-tools-3-X"><a href="#android-gradle-tools-3-X" class="headerlink" title="android gradle tools 3.X"></a>android gradle tools 3.X</h2><h3 id="runtimeOnly-apk"><a href="#runtimeOnly-apk" class="headerlink" title="runtimeOnly == apk"></a>runtimeOnly == apk</h3><h3 id="compileOnly-provided"><a href="#compileOnly-provided" class="headerlink" title="compileOnly == provided"></a>compileOnly == provided</h3><h3 id="api-compile"><a href="#api-compile" class="headerlink" title="api == compile"></a>api == compile</h3><h3 id="debugImplementation-debugCompile"><a href="#debugImplementation-debugCompile" class="headerlink" title="debugImplementation == debugCompile"></a>debugImplementation == debugCompile</h3><h3 id="releaseImplementation-releaseCompile"><a href="#releaseImplementation-releaseCompile" class="headerlink" title="releaseImplementation == releaseCompile"></a>releaseImplementation == releaseCompile</h3><h3 id="androidTestImplementation-androidtestCompile"><a href="#androidTestImplementation-androidtestCompile" class="headerlink" title="androidTestImplementation == androidtestCompile"></a>androidTestImplementation == androidtestCompile</h3><h3 id="implementation"><a href="#implementation" class="headerlink" title="implementation"></a>implementation</h3><p>implementation和compile类似，区别在于对外可见性，而且可以加快编译速度（原理在于减少不必要的重复编译过程）。</p>
+<p>只能在内部使用此模块，比如我在一个libiary中使用implementation依赖了gson库，然后我的主项目依赖了libiary，那么，我的主项目就无法访问gson库中的方法。这样的好处是编译速度会加快，推荐使用implementation的方式去依赖，如果你需要提供给外部访问，那么就使用api依赖即可</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/27/Android 动画原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 动画原理</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="Gradle 依赖方式" data-title="Gradle 依赖方式" data-url="https://github.com/sirencode/2018/02/28/Gradle 依赖方式/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Gradle 依赖方式">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>
