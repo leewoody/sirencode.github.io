@@ -261,6 +261,69 @@
 
 
   
+    <article id="post-AS资源文件自动分类" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/10/AS资源文件自动分类/" class="article-date">
+  	<time datetime="2017-02-09T16:00:00.000Z" itemprop="datePublished">2017-02-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/10/AS资源文件自动分类/">
+        AS资源文件自动分类
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>资源文件中过多的图片文件或者布局文件，在开发中去查找对应的文件变得非常麻烦。所以将资源文件进行按文件夹分类变得非常重要，基本每个开发人员都为此烦恼过。</p>
+<p>其实，最早的实现方式是，在对应资源文件下建立自定义文件夹，之后配置软连接的方式实现的。</p>
+<p>不过，最近大神开源了一款虚拟高效的自动归类的一个AS插件，可以在不修改项目任何代码的情况下对资源文件进行分类。</p>
+<p><a href="https://github.com/dmytrodanylyk/folding-plugin/releases">folding-plugin</a>下载</p>
+<h3 id="导入插件"><a href="#导入插件" class="headerlink" title="导入插件"></a>导入插件</h3><p>导入AS【File-&gt;Settings-Plugins,选择自定义插件，导入.jar文件】，导入完成，重启studio</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>右键对应资源文件夹-&gt;group/ungroup</p>
+<ul>
+<li>这些分组都是虚拟的，在Android视图下无效国，project等皆有效。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-SOLID原则" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -906,70 +969,6 @@
 <h4 id="6-生成公钥供iOS使用"><a href="#6-生成公钥供iOS使用" class="headerlink" title="6 生成公钥供iOS使用"></a>6 生成公钥供iOS使用</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line"><span class="variable">$x509</span> -outform der -<span class="keyword">in</span> rsaCert.crt -out public_key.der</span><br></pre></td></tr></table></figure>
 <h4 id="7-生成私钥供iOS使用-这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码"><a href="#7-生成私钥供iOS使用-这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码" class="headerlink" title="7 生成私钥供iOS使用 这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码"></a>7 生成私钥供iOS使用 这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ pkcs12 -<span class="built_in">export</span> -out private_key.p12 -inkey private_key.pem -<span class="keyword">in</span> rsaCert.crt</span><br></pre></td></tr></table></figure>
 <h4 id="8-查看公钥私钥内容"><a href="#8-查看公钥私钥内容" class="headerlink" title="8 查看公钥私钥内容"></a>8 查看公钥私钥内容</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat public_key.pem/private_key.pem</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-jrebel" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/12/16/jrebel/" class="article-date">
-  	<time datetime="2016-12-15T16:00:00.000Z" itemprop="datePublished">2016-12-16</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/16/jrebel/">
-        Android  jrebel
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Jrebel 是一款 Java 程序的开发工具，它允许你的应用程序代码更新之后不用重新部署或重启。毫无疑问，支持 Android 应用程序，无须配置，使用起来超简单方便，亲测确实很快速，能极大的节省你调试的时间，<a href="https://zeroturnaround.com/" target="_blank" rel="noopener">官方地址：</a></p>
-<h3 id="安装与使用"><a href="#安装与使用" class="headerlink" title="安装与使用"></a>安装与使用</h3><p>AS:打开 Preference -&gt; Plugins -&gt; Browse Repositories ，搜索 JRebel ，直接点击安装。</p>
-<p>安装成功之后重启 AS，然后会发现在顶部工具栏会出现如下三个按钮：</p>
-<ul>
-<li>Run app with JRebel for Android</li>
-<li>Debug app with JRebel for Android</li>
-<li>Apply changes with JRebel for Android</li>
-</ul>
-<p>顾名思义，一般我们只需要第一次安装的时候使用第一个按钮运行一次，之后代码变动，只需要点击第三个按钮，你的真机或者模拟器很快就展示出来修改代码之后的效果。</p>
-<p>最后，还有一个很关键的，JRebel 是收费的，个人用户每年要 49 刀，还是蛮贵的，不过如果每天可以节省你几十分钟甚至成个小时的时间，一年下来这些时间相较这个价格来说是很合算的。但是如果你不想付费，这里也有一个方法，可以去官网用邮箱注册个账号获取体验码，可以免费体验 21 天，21 天到期之后你可以重新注册，据说官方对邮件没有验证，感兴趣的同学不妨试下。</p>
 
       
     </div>
