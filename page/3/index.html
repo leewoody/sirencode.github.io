@@ -162,6 +162,79 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-多线程数据锁" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/25/多线程数据锁/" class="article-date">
+  	<time datetime="2017-08-24T16:00:00.000Z" itemprop="datePublished">2017-08-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/25/多线程数据锁/">
+        多线程数据锁
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>关于多线程数据的安全问题，解决方法是synchronized关键字，但是其实synchronized的用法不对可能不一定起到数据锁的效果。</p>
+<h3 id="synchronized原理"><a href="#synchronized原理" class="headerlink" title="synchronized原理"></a>synchronized原理</h3><p>每个锁对象都有两个队列，一个是就绪队列，一个是阻塞队列，就绪队列存储了将要获得锁的线程，阻塞队列存储了被阻塞的线程，当一个被线程被唤醒 (notify)后，才会进入到就绪队列，等待cpu的调度。</p>
+<ul>
+<li>1 获得同步锁</li>
+<li>2 清空工作内存</li>
+<li>3 从主存拷贝变量副本到工作内存</li>
+<li>4 对这些变量计算</li>
+<li>5 将变量从工作内存写回到主存</li>
+<li>6 释放锁</li>
+</ul>
+<h3 id="synchronized-同步方法"><a href="#synchronized-同步方法" class="headerlink" title="synchronized 同步方法"></a>synchronized 同步方法</h3><p>像下面这样实现的数据锁其实是不完整的数据锁，因为它只对Account的同一个对象起作用，account1，account2之间就没有互斥性。</p>
+<p>原因：synchronized关键字可以作为函数的修饰符，也可作为函数内的语句，也就是平时说的同步方法和同步语句块。如果再细的分类，synchronized可作用于instance变量、object reference（对象引用）、static函数和class literals(类名称字面常量)身上。而当修饰方法时，锁的其实是当前对象的方法。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Account</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> balance;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Account</span><span class="params">(<span class="keyword">int</span> balance)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.balance = balance;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBalance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> balance;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">            balance = balance + num;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">withdraw</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">            balance = balance - num;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="synchronized-同步代码块"><a href="#synchronized-同步代码块" class="headerlink" title="synchronized 同步代码块"></a>synchronized 同步代码块</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Account</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        <span class="comment">//注：零长度的byte数组对象创建起来将比任何对象都经济――查看编译后的字节码：</span></span><br><span class="line">        <span class="comment">// 生成零长度的byte[]对象只需3条操作码，而Object lock = new Object()则需要7行操作码。</span></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">byte</span>[] lock = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">0</span>]; <span class="comment">// 特殊的instance变量</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">int</span> balance;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">Account</span><span class="params">(<span class="keyword">int</span> balance)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.balance = balance;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getBalance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> balance;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">add</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">                balance = balance + num;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">withdraw</span><span class="params">(<span class="keyword">int</span> num)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">synchronized</span> (lock) &#123;</span><br><span class="line">                balance = balance - num;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="将synchronized作用于static-函数"><a href="#将synchronized作用于static-函数" class="headerlink" title="将synchronized作用于static 函数"></a>将synchronized作用于static 函数</h3><p>类方法，适用用所有对象。</p>
+<h3 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h3><p>用volatile修饰的变量，线程在每次使用变量的时候，都会读取变量修改后的最的值。volatile很容易被误用，用来进行原子性操作。</p>
+<p>可见性，是指线程之间的可见性，一个线程修改的状态对另一个线程是可见的。</p>
+<p>保证了不同线程对这个变量进行操作时的可见性，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。</p>
+<p>可见性只能保证每次读取的是最新的值，但是volatile没办法保证对变量的操作的原子性。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-double精度计算" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -972,80 +1045,6 @@
 <p>发现你的”我想要”的力量，发现自己最重要的”我想要”的力量，也就是你脆弱的时候给你动力的东西。</p>
 <h4 id="只要你愿意，你就有意志力"><a href="#只要你愿意，你就有意志力" class="headerlink" title="只要你愿意，你就有意志力"></a>只要你愿意，你就有意志力</h4><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>自控力就像肌肉一样有极限，自控力用得太多会疲倦，但坚持训练能增强自控力。</p>
 <h3 id="第四章-容忍罪恶-为何善行之后会有恶性？"><a href="#第四章-容忍罪恶-为何善行之后会有恶性？" class="headerlink" title="第四章 容忍罪恶:为何善行之后会有恶性？"></a>第四章 容忍罪恶:为何善行之后会有恶性？</h3>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Kotlin" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/05/19/Kotlin/" class="article-date">
-  	<time datetime="2017-05-18T16:00:00.000Z" itemprop="datePublished">2017-05-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/19/Kotlin/">
-        Kotlin
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Kotlin 是一个基于 JVM 的新的编程语言，由 JetBrains 开发。<br>Kotlin可以编译成Java字节码，也可以编译成JavaScript，方便在没有JVM的设备上运行。</p>
-<h3 id="使用-Kotlin-进行-Android-开发"><a href="#使用-Kotlin-进行-Android-开发" class="headerlink" title="使用 Kotlin 进行 Android 开发"></a>使用 Kotlin 进行 Android 开发</h3><ul>
-<li>兼容性：Kotlin 与 JDK 6 完全兼容，保障了 Kotlin 应用程序可以在较旧的 Android 设备上运行而无任何问题。Kotlin 工具在 Android Studio 中会完全支持，并且兼容 Android 构建系统。</li>
-<li>性能：由于非常相似的字节码结构，Kotlin 应用程序的运行速度与 Java 类似。 随着 Kotlin 对内联函数的支持，使用 lambda 表达式的代码通常比用 Java 写的代码运行得更快。</li>
-<li>互操作性：Kotlin 可与 Java 进行 100％ 的互操作，允许在 Kotlin 应用程序中使用所有现有的 Android 库 。这包括注解处理，所以数据绑定和 Dagger 也是一样。</li>
-<li>占用：Kotlin 具有非常紧凑的运行时库，可以通过使用 ProGuard 进一步减少。 在实际应用程序中，Kotlin 运行时 只增加几百个方法以及 .apk 文件不到 100K 大小。</li>
-</ul>
-<h3 id="AS中使用"><a href="#AS中使用" class="headerlink" title="AS中使用"></a>AS中使用</h3><h4 id="在主模块中配置-AS3-0中默认支持kotlin语法-："><a href="#在主模块中配置-AS3-0中默认支持kotlin语法-：" class="headerlink" title="在主模块中配置(AS3.0中默认支持kotlin语法)："></a>在主模块中配置(AS3.0中默认支持kotlin语法)：</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: 'kotlin-android'</span><br><span class="line">apply plugin: 'kotlin-android-extensions'</span><br><span class="line">...</span><br><span class="line">...</span><br><span class="line">compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"</span><br></pre></td></tr></table></figure>
-<p>kotlin-android-extensions：是一个编译器扩展， 可以让你摆脱代码中的 findViewById() 调用，并将其替换为合成的编译器生成的 属性。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> kotlinx.android.synthetic.main.activity_main.*</span><br><span class="line"><span class="comment">//直接id访问</span></span><br><span class="line">tv_title.text = <span class="string">"hello kotlin"</span></span><br></pre></td></tr></table></figure>
-<h4 id="java-转换为kotlin文件"><a href="#java-转换为kotlin文件" class="headerlink" title="java 转换为kotlin文件"></a>java 转换为kotlin文件</h4><p>Main menu -&gt; Code -&gt; Convert Java File to Kotlin File</p>
-<p>快捷键：command + alt + shift + K </p>
-<h3 id="kotlin-语法"><a href="#kotlin-语法" class="headerlink" title="kotlin 语法"></a>kotlin 语法</h3><h4 id="类和继承"><a href="#类和继承" class="headerlink" title="类和继承"></a>类和继承</h4><p>类声明由类名、类头（指定其类型参数、主 构造函数等）和由大括号包围的类体构成。类头和类体都是可选的； 如果一个类没有类体，可以省略花括号。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//类继承使用关键字 ':'</span></span><br><span class="line"><span class="comment">//类上的 open 标注与 Java 中 final 相反，它允许其他类 从这个类继承。默认情况下，在 Kotlin 中所有的类都是 final</span></span><br><span class="line">open <span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">    open val x: Int get &#123; …… &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Bar1 : Foo() &#123;</span><br><span class="line">    override val x: Int = ……</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Person constructor(firstName: String) &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="新建类对象"><a href="#新建类对象" class="headerlink" title="新建类对象"></a>新建类对象</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//注意 Kotlin 并没有 new 关键字。</span></span><br><span class="line">val invoice = Invoice()</span><br></pre></td></tr></table></figure>
-<h5 id="覆盖方法-属性"><a href="#覆盖方法-属性" class="headerlink" title="覆盖方法/属性"></a>覆盖方法/属性</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">open <span class="class"><span class="keyword">class</span> <span class="title">Base</span> </span>&#123;</span><br><span class="line">    <span class="function">open fun <span class="title">v</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">    <span class="function">fun <span class="title">nv</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">class Derived() : Base() &#123;</span><br><span class="line">    <span class="function">override fun <span class="title">v</span><span class="params">()</span> </span>&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">open <span class="class"><span class="keyword">class</span> <span class="title">Foo</span> </span>&#123;</span><br><span class="line">    open val x: Int get &#123; …… &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Bar1 : Foo() &#123;</span><br><span class="line">    override val x: Int = ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="数据类"><a href="#数据类" class="headerlink" title="数据类"></a>数据类</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//使用data 关键字自动生成get/set和toString()方法</span></span><br><span class="line"><span class="function">data class <span class="title">UserDto</span><span class="params">(var name: String, var sex: String, var age: Int)</span></span></span><br></pre></td></tr></table></figure>
-<h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><h5 id="函数声明"><a href="#函数声明" class="headerlink" title="函数声明"></a>函数声明</h5><p>Kotlin 中的函数使用 fun 关键字声明</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">fun <span class="title">double</span><span class="params">(x: Int)</span>: Int </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="类型映射"><a href="#类型映射" class="headerlink" title="类型映射"></a>类型映射</h4><p><img src="http://oc4zuck5v.bkt.clouddn.com/kotlin.png" alt=""></p>
-
       
     </div>
     
