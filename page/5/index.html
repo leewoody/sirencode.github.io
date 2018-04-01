@@ -162,11 +162,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-node学习" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-AS资源文件自动分类" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/04/10/node学习/" class="article-date">
-  	<time datetime="2017-04-09T16:00:00.000Z" itemprop="datePublished">2017-04-10</time>
+      <a href="/2017/02/10/AS资源文件自动分类/" class="article-date">
+  	<time datetime="2017-02-09T16:00:00.000Z" itemprop="datePublished">2017-02-10</time>
 </a>
     </div>
   
@@ -179,8 +179,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/10/node学习/">
-        node学习
+      <a class="article-title" href="/2017/02/10/AS资源文件自动分类/">
+        AS资源文件自动分类
         
       </a>
     </h1>
@@ -191,661 +191,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="学习js"><a href="#学习js" class="headerlink" title="学习js"></a>学习js</h3><p><a href="http://es6.ruanyifeng.com/" target="_blank" rel="noopener">ES6</a></p>
-<p>建议学习2，8 ，21章。</p>
-<h4 id="变量声明"><a href="#变量声明" class="headerlink" title="变量声明"></a>变量声明</h4><p>let:声明范围内可用。这表示外层代码块不受内层代码块的影响。</p>
-<p>var:全局可用。</p>
-<p>变量提升:即变量可以在声明之前使用，值为undefined。</p>
-<p>let命令改变了语法行为，它所声明的变量一定要在声明后使用，否则报错。</p>
-<p>let不允许在相同作用域内，重复声明同一个变量。</p>
-<p>如果区块中存在let和const命令，这个区块对这些命令声明的变量，从一开始就形成了封闭作用域。凡是在声明之前就使用这些变量，就会报错。总之，在代码块内，使用let命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”（temporal dead zone，简称 TDZ）。</p>
-<h4 id="const-命令"><a href="#const-命令" class="headerlink" title="const 命令"></a>const 命令</h4><p>const声明一个只读的常量。一旦声明，常量的值就不能改变。<br>const的作用域与let命令相同：只在声明所在的块级作用域内有效。</p>
-<h4 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h4><p>ES6 允许为函数的参数设置默认值，即直接写在参数定义的后面。</p>
-<p>参数变量是默认声明的，所以不能用let或const在函数内再次声明。</p>
-<p>如果参数默认值是变量，那么参数就不是传值的，而是每次都重新计算默认值表达式的值。也就是说，参数默认值是惰性求值的。</p>
-<p>指定了默认值以后，函数的length属性，将返回没有指定默认值的参数个数。也就是说，指定了默认值后，length属性将失真。</p>
-<p>如果设置了默认值的参数不是尾参数，那么length属性也不再计入后面的参数了。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">a</span>) </span>&#123;&#125;).length <span class="comment">// 1</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">a = <span class="number">5</span></span>) </span>&#123;&#125;).length <span class="comment">// 0</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">a, b, c = <span class="number">5</span></span>) </span>&#123;&#125;).length <span class="comment">// 2</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">a = <span class="number">0</span>, b, c</span>) </span>&#123;&#125;).length <span class="comment">// 0</span></span><br><span class="line">(<span class="function"><span class="keyword">function</span> (<span class="params">a, b = <span class="number">1</span>, c</span>) </span>&#123;&#125;).length <span class="comment">// 1</span></span><br></pre></td></tr></table></figure>
-<p>扩展运算符:扩展运算符（spread）是三个点（…）。它好比 rest 参数的逆运算，将一个数组转为用逗号分隔的参数序列。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ES6的写法</span></span><br><span class="line"><span class="built_in">Math</span>.max(...[<span class="number">14</span>, <span class="number">3</span>, <span class="number">77</span>])</span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="built_in">Math</span>.max(<span class="number">14</span>, <span class="number">3</span>, <span class="number">77</span>);</span><br><span class="line"><span class="comment">// ES6的合并数组</span></span><br><span class="line">[...arr1, ...arr2, ...arr3]</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> [first, ...rest] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line">first <span class="comment">// 1</span></span><br><span class="line">rest  <span class="comment">// [2, 3, 4, 5]</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//字符串</span></span><br><span class="line">[...<span class="string">'hello'</span>]</span><br><span class="line"><span class="comment">// [ "h", "e", "l", "l", "o" ]</span></span><br></pre></td></tr></table></figure>
-<p>如果将扩展运算符用于数组赋值，只能放在参数的最后一位，否则会报错。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> [...butLast, last] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="comment">// 报错</span></span><br><span class="line"><span class="keyword">const</span> [first, ...middle, last] = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>];</span><br><span class="line"><span class="comment">// 报错</span></span><br></pre></td></tr></table></figure>
-<p>ES6允许使用“箭头”（=&gt;）定义函数。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> f = <span class="function"><span class="params">()</span> =&gt;</span> <span class="number">5</span>;</span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="keyword">var</span> f = <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123; <span class="keyword">return</span> <span class="number">5</span> &#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> sum = <span class="function">(<span class="params">num1, num2</span>) =&gt;</span> num1 + num2;</span><br><span class="line"><span class="comment">// 等同于</span></span><br><span class="line"><span class="keyword">var</span> sum = <span class="function"><span class="keyword">function</span>(<span class="params">num1, num2</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">return</span> num1 + num2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-<p>export 命令</p>
-<p>如果你希望外部能够读取模块内部的某个变量，就必须使用export关键字输出该变量。export命令除了输出变量，还可以输出函数或类（class）。</p>
-<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 写法一</span></span><br><span class="line"><span class="keyword">export</span> <span class="keyword">var</span> m = <span class="number">1</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 写法二</span></span><br><span class="line"><span class="keyword">var</span> m = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> &#123;m&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 写法三</span></span><br><span class="line"><span class="keyword">var</span> n = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">export</span> &#123;n <span class="keyword">as</span> m&#125;;</span><br></pre></td></tr></table></figure>
-<h3 id="熟悉node的写法"><a href="#熟悉node的写法" class="headerlink" title="熟悉node的写法"></a>熟悉node的写法</h3><p><a href="http://www.runoob.com/nodejs/nodejs-tutorial.html" target="_blank" rel="noopener">Nodejs</a></p>
-<h3 id="sails"><a href="#sails" class="headerlink" title="sails"></a>sails</h3><h4 id="安装sails"><a href="#安装sails" class="headerlink" title="安装sails"></a>安装sails</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install sails -g</span><br></pre></td></tr></table></figure>
-<h4 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ sails new <span class="built_in">test</span>-project</span><br><span class="line">$ <span class="built_in">cd</span> <span class="built_in">test</span>-project</span><br><span class="line">$ sails lift /node app.js</span><br></pre></td></tr></table></figure>
-<h4 id="目录介绍"><a href="#目录介绍" class="headerlink" title="目录介绍"></a>目录介绍</h4><p>controller里面写业务接口，services里面写业务代码，models配置数据库表结构，之后配置routes路由。</p>
-<p>connections配置底层数据库，</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-学会提问" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/04/08/学会提问/" class="article-date">
-  	<time datetime="2017-04-07T16:00:00.000Z" itemprop="datePublished">2017-04-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/04/08/学会提问/">
-        学会提问
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="学会提出好问题"><a href="#学会提出好问题" class="headerlink" title="学会提出好问题"></a>学会提出好问题</h3><p>批判性的提问是检索信息和搜寻答案的最好方法。</p>
-<h4 id="批判思维"><a href="#批判思维" class="headerlink" title="批判思维"></a>批判思维</h4><ul>
-<li>有一套相互关联，环环相扣的关键问题的意识。</li>
-<li>恰如其分地提出和回答关键问题的能力。</li>
-<li>积极主动地利用关键问题的强烈愿望。</li>
-</ul>
-<h4 id="两种思维方式-海绵思维和淘金思维"><a href="#两种思维方式-海绵思维和淘金思维" class="headerlink" title="两种思维方式:海绵思维和淘金思维"></a>两种思维方式:海绵思维和淘金思维</h4><h5 id="海绵思维"><a href="#海绵思维" class="headerlink" title="海绵思维"></a>海绵思维</h5><p>充分吸收</p>
-<p>优点：吸取很多知识。被动吸收不需要冥思苦想。</p>
-<p>缺点：信息观点的取舍，如果依赖海绵思维，就会对自己读到的信息深信不疑。</p>
-<h5 id="淘金式思维"><a href="#淘金式思维" class="headerlink" title="淘金式思维"></a>淘金式思维</h5><p>对接触到的信息进行取舍，即带着问题去解除信息，这种交互式被称为淘金式思维。</p>
-<p>海绵思维强调单纯的知识获取结果，而淘金思维则重视获取知识过程中与知识展开积极互动。</p>
-<h4 id="脑海里存在一份淘金式思维清单"><a href="#脑海里存在一份淘金式思维清单" class="headerlink" title="脑海里存在一份淘金式思维清单"></a>脑海里存在一份淘金式思维清单</h4><ul>
-<li>我有没有问”为什么”别人要我相信他的观点</li>
-<li>在我想到别人的说法可能有问题时有没有把它记下来</li>
-<li>我对别人说过的话有没有进行客观评价</li>
-<li>针对某一特定主题我又没有在别人合理说法的基础上形成自己的结论</li>
-</ul>
-<h4 id="最好先问一问”关我什么事”"><a href="#最好先问一问”关我什么事”" class="headerlink" title="最好先问一问”关我什么事”"></a>最好先问一问”关我什么事”</h4><p>一寸光阴一寸金</p>
-<h4 id="弱批判思维和强批判思维"><a href="#弱批判思维和强批判思维" class="headerlink" title="弱批判思维和强批判思维"></a>弱批判思维和强批判思维</h4><p>弱批判思维是利用批判思维来捍卫自己的现有立场和看法。弱批判性思维是为了抵制和驳倒那些与你意见不同的人。强批判性思维是利用批判性思维来评估所有的断言和看法，尤其是自己的看法。强势的批判思维要求我们用关键性问题一视同仁地质疑一切主张，包括自己的主张。</p>
-<h4 id="也许我们根本就问错了问题"><a href="#也许我们根本就问错了问题" class="headerlink" title="也许我们根本就问错了问题"></a>也许我们根本就问错了问题</h4><ul>
-<li>论题和结论是什么</li>
-<li>理由是什么</li>
-<li>哪些词语意思不明确</li>
-<li>什么是价值观假设和描述性假设</li>
-<li>推理过程中有没有谬误</li>
-<li>证据的效力如何</li>
-<li>有没有替代原因</li>
-<li>数据有没有欺骗性</li>
-<li>有什么重要信息被忽略了</li>
-<li>能得出哪些合理的结论</li>
-</ul>
-<h4 id="价值观决定人与人的互动"><a href="#价值观决定人与人的互动" class="headerlink" title="价值观决定人与人的互动"></a>价值观决定人与人的互动</h4><p>批判性思维很大程度上依赖于虚心听取别人的意见来取长补短。</p>
-<h5 id="批判性思考的人拥有的主要价值观"><a href="#批判性思考的人拥有的主要价值观" class="headerlink" title="批判性思考的人拥有的主要价值观"></a>批判性思考的人拥有的主要价值观</h5><ul>
-<li>自助性</li>
-<li>好奇心：要想充分的利用淘金思维来立身处世，要兼听博观。</li>
-<li>谦虚有礼</li>
-<li>以理服人</li>
-</ul>
-<h4 id="理智思考和情感用事"><a href="#理智思考和情感用事" class="headerlink" title="理智思考和情感用事"></a>理智思考和情感用事</h4><p>接受还是拒绝一个立场，感情上的依恋绝不应该成为最重要的基础。</p>
-<h4 id="让对话一直进行下去"><a href="#让对话一直进行下去" class="headerlink" title="让对话一直进行下去"></a>让对话一直进行下去</h4><ul>
-<li>尽量阐明你对别人结论的理解</li>
-<li>问一下别人，有没有证据让他改变他的观点</li>
-<li>暂停一段时间，去尽可能找到支撑自己结论的最佳观点</li>
-<li>问一问别人，为什么他们认为你的证据不堪一击</li>
-<li>尽量弥合分歧</li>
-<li>寻找一些共同的价值观或其他一致同意的结论，以此为基础，找出对话中分歧产生的原因</li>
-<li>好奇心再强也要表现的体贴关心和不温不火</li>
-<li>确保你的情绪和肢体动作都表现的谦恭的样子</li>
-</ul>
-<h4 id="一厢情愿是批判性思维的最大劲敌"><a href="#一厢情愿是批判性思维的最大劲敌" class="headerlink" title="一厢情愿是批判性思维的最大劲敌"></a>一厢情愿是批判性思维的最大劲敌</h4><p>是不是因为我希望它是真的这事才是真的，还是有确凿无疑的证据证明它是真的？</p>
-<h3 id="理由是什么"><a href="#理由是什么" class="headerlink" title="理由是什么"></a>理由是什么</h3><p>只有找到支撑结论的理由时你才能判定一个结论的价值。</p>
-<p>理由 + 结论 = 论证</p>
-<p>一个论证由一个结论和多个支撑这一结论的理由组成。</p>
-<p>注意结论本身并不是证据，它是由证据或者其他看法支撑起来的看法。</p>
-<h4 id="尽量让理由和结论一目了然"><a href="#尽量让理由和结论一目了然" class="headerlink" title="尽量让理由和结论一目了然"></a>尽量让理由和结论一目了然</h4><p>找到文章的重点的技巧</p>
+        <p>资源文件中过多的图片文件或者布局文件，在开发中去查找对应的文件变得非常麻烦。所以将资源文件进行按文件夹分类变得非常重要，基本每个开发人员都为此烦恼过。</p>
+<p>其实，最早的实现方式是，在对应资源文件下建立自定义文件夹，之后配置软连接的方式实现的。</p>
+<p>不过，最近大神开源了一款虚拟高效的自动归类的一个AS插件，可以在不修改项目任何代码的情况下对资源文件进行分类。</p>
+<p><a href="https://github.com/dmytrodanylyk/folding-plugin/releases">folding-plugin</a>下载</p>
+<h3 id="导入插件"><a href="#导入插件" class="headerlink" title="导入插件"></a>导入插件</h3><p>导入AS【File-&gt;Settings-Plugins,选择自定义插件，导入.jar文件】，导入完成，重启studio</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>右键对应资源文件夹-&gt;group/ungroup</p>
 <ul>
-<li>圈出指示词</li>
-<li>用不同颜色标出理由和结论。</li>
-<li>在页边给理由和序号编上序号。</li>
-<li>读完长篇大论后，在文章的结尾处按顺序列出所有理由。</li>
+<li>这些分组都是虚拟的，在Android视图下无效国，project等皆有效。</li>
 </ul>
-<h4 id="薄弱的理由必然导致薄弱的结论"><a href="#薄弱的理由必然导致薄弱的结论" class="headerlink" title="薄弱的理由必然导致薄弱的结论"></a>薄弱的理由必然导致薄弱的结论</h4><h4 id="理想的做法是，理由是模具，结论据此得以成型和修改"><a href="#理想的做法是，理由是模具，结论据此得以成型和修改" class="headerlink" title="理想的做法是，理由是模具，结论据此得以成型和修改"></a>理想的做法是，理由是模具，结论据此得以成型和修改</h4><h3 id="哪些词语意思不明确"><a href="#哪些词语意思不明确" class="headerlink" title="哪些词语意思不明确***"></a>哪些词语意思不明确<strong><strong>***</strong></strong></h3><h3 id="论题和结论是什么"><a href="#论题和结论是什么" class="headerlink" title="论题和结论是什么"></a>论题和结论是什么</h3><p>只有理解了关键术语和词语的意思(无论直接还是含蓄)，你才能对一个论证进行评论。</p>
-<h4 id="让人捉摸不透的多义词"><a href="#让人捉摸不透的多义词" class="headerlink" title="让人捉摸不透的多义词"></a>让人捉摸不透的多义词</h4><h4 id="关键词"><a href="#关键词" class="headerlink" title="关键词"></a>关键词</h4><ul>
-<li>检查论题看有没有关键词</li>
-<li>在理由和结论里面寻找</li>
-<li>留意抽象的词语</li>
-<li>通过反串来判断别人怎么给特定的词语不同的定义</li>
-</ul>
-<h4 id="检查有没有歧义"><a href="#检查有没有歧义" class="headerlink" title="检查有没有歧义"></a>检查有没有歧义</h4><ul>
-<li>第一个障碍就是你自以为和别人表达的是同一个意思，应该多问”你这样说是什么意思”，而不是”我就知道你是这个意思”</li>
-<li>第二个障碍就是人文术语只有一个明显的定义，”这些词语有没有不同的意思？”</li>
-</ul>
-<h4 id="判定歧义"><a href="#判定歧义" class="headerlink" title="判定歧义"></a>判定歧义</h4><p>只有出现在分析推理的过程中，意思不明确的词才是关键。</p>
-<h4 id="小心那些饱含感情色彩的词语，它会让你思维短路"><a href="#小心那些饱含感情色彩的词语，它会让你思维短路" class="headerlink" title="小心那些饱含感情色彩的词语，它会让你思维短路"></a>小心那些饱含感情色彩的词语，它会让你思维短路</h4><p>那些激发强烈感情反应的术语被称为附加感情色彩的术语，它们感动我们的能力远远超越了它们本身的描述含义。</p>
-<h3 id="什么是价值观假设和描述性假设"><a href="#什么是价值观假设和描述性假设" class="headerlink" title="什么是价值观假设和描述性假设"></a>什么是价值观假设和描述性假设</h3><p>一个论证表面可见的部分常常最有可能穿上华丽的外衣。</p>
-<h4 id="价值观假设"><a href="#价值观假设" class="headerlink" title="价值观假设"></a>价值观假设</h4><p>价值观假设：是指一种想当然的看法，认为某些相互独立的价值观中一个比另一个更重要。</p>
-<h4 id="对方的背景可以作为价值观假设的一个线索"><a href="#对方的背景可以作为价值观假设的一个线索" class="headerlink" title="对方的背景可以作为价值观假设的一个线索"></a>对方的背景可以作为价值观假设的一个线索</h4><p>注意并不是因为一个人身为某一个团体的一元，就一定会认同这个团体的特定价值取向。</p>
-<h4 id="寻找价值观假设"><a href="#寻找价值观假设" class="headerlink" title="寻找价值观假设"></a>寻找价值观假设</h4><ul>
-<li>调查作者背景</li>
-<li>为什么作者的立场产生的结果对他而言显得那么重要？</li>
-<li>寻找类似的辩论，寻找类似的价值观假设</li>
-<li>反串，采取与作者相反的立场，看一看哪些价值观对这一相反立场显得非常重要</li>
-<li>找一找常见的价值观冲突</li>
-</ul>
-<h4 id="描述性假设"><a href="#描述性假设" class="headerlink" title="描述性假设"></a>描述性假设</h4><p>就是对这个世界过去，现在和未来是什么样的想法。</p>
-<h4 id="避免两费时间分析无意义的假设"><a href="#避免两费时间分析无意义的假设" class="headerlink" title="避免两费时间分析无意义的假设"></a>避免两费时间分析无意义的假设</h4><h3 id="推理过程中的谬误"><a href="#推理过程中的谬误" class="headerlink" title="推理过程中的谬误"></a>推理过程中的谬误</h3><p>谬误，就是推理中的欺骗手段，作者有可能利用这个欺骗手段来说服你采纳其结论。</p>
-<p>批判性阅读和聆听的主要目标就在于判定结论的可接受程度或者价值的大小。</p>
-<h4 id="三种常见谬误"><a href="#三种常见谬误" class="headerlink" title="三种常见谬误"></a>三种常见谬误</h4><ul>
-<li>提供的推理需要明显错误的或者让人不能接受的假设才能成立，因此是推理和结论前的毫无关系。</li>
-<li>把那些明明和结论无关的信息弄得好像和结论有关，以此来分散我们的注意力。</li>
-<li>看似为结论找证据，而证据算数的前提取决于结论本身已经成立。</li>
-</ul>
-<p>推理结构：</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202017-04-08%20%E4%B8%8B%E5%8D%883.24.00.png" alt="图片"></p>
-<h4 id="人身攻击谬论"><a href="#人身攻击谬论" class="headerlink" title="人身攻击谬论"></a>人身攻击谬论</h4><h4 id="滑坡谬误"><a href="#滑坡谬误" class="headerlink" title="滑坡谬误"></a>滑坡谬误</h4><p>滑坡谬误指假设采取提议的行动会引发一系列不可控的不利事件，而事实上却有现成的程序来防止这类连锁事件。</p>
-<h4 id="追求完美解决方案的谬误"><a href="#追求完美解决方案的谬误" class="headerlink" title="追求完美解决方案的谬误"></a>追求完美解决方案的谬误</h4><p>最求完美解决方案谬误是指假设因为尝试某种解决方案后还有遗留问题未解决，那么这种方案根本就不应该采用。(坐等完美解决方案，固守原地，现阶段方案可能不完美，但它可能让我们向彻底解决问题迈进一步)</p>
-<h4 id="偷梁换柱谬论"><a href="#偷梁换柱谬论" class="headerlink" title="偷梁换柱谬论"></a>偷梁换柱谬论</h4><p>偷梁换柱谬论是指在论证中关键词语有两种或者两种以上的含义，一旦不同含义之间的转换被认出来，这个结论就讲不通了。</p>
-<h4 id="诉诸公众谬误"><a href="#诉诸公众谬误" class="headerlink" title="诉诸公众谬误"></a>诉诸公众谬误</h4><p>诉诸公众谬误指通过引述大部分人都持有这一观点的说法来竭力证明某个论断有道理，错误地假设大部分人喜欢的一切就是有道理的，可以接受的。</p>
-<h4 id="诉诸可疑权威谬误"><a href="#诉诸可疑权威谬误" class="headerlink" title="诉诸可疑权威谬误"></a>诉诸可疑权威谬误</h4><p>诉诸可疑权威谬误指引用某一权威的话来证明结论，但该权威对这一结论并没有特别的专门知识。</p>
-<h4 id="诉诸情感谬误"><a href="#诉诸情感谬误" class="headerlink" title="诉诸情感谬误"></a>诉诸情感谬误</h4><p>诉诸情感谬误指使用带有强烈感情色彩的语言来分散读者或听众的注意力，让他们忽略相关理由和证据。常被用来记忆力用的感情有害怕，希望，爱国主义，怜悯同情。(常用语广告，政治和法庭辩论)</p>
-<h4 id="稻草人谬误"><a href="#稻草人谬误" class="headerlink" title="稻草人谬误"></a>稻草人谬误</h4><p>稻草人谬误指歪曲对方的观点，使它容易受到攻击，这样我们攻击的观点事实上根本就不存在。</p>
-<h4 id="虚假的两难谬误"><a href="#虚假的两难谬误" class="headerlink" title="虚假的两难谬误"></a>虚假的两难谬误</h4><p>虚假的两难谬误指当现实中存在两种以上的选择时却假设只有两种解决方案。(不是…就是，唯一的选择就是…,两种选则分别是…,因为甲不起作用只能用乙)</p>
-<h4 id="乱扣帽子谬误"><a href="#乱扣帽子谬误" class="headerlink" title="乱扣帽子谬误"></a>乱扣帽子谬误</h4><p>乱扣帽子谬误指错误地假设因为你为特定事件或行为提供了一个名称，你也就合情合理地解释了这一事件。</p>
-<h4 id="光环效应谬误"><a href="#光环效应谬误" class="headerlink" title="光环效应谬误"></a>光环效应谬误</h4><p>光环效应谬误指使用模糊，引发人们强烈感情认同的美德词汇，使我们倾向于同意某件事件而不去细致检查其理由。</p>
-<h4 id="转移话题谬误"><a href="#转移话题谬误" class="headerlink" title="转移话题谬误"></a>转移话题谬误</h4><p>转移话题谬误指一个不相干的话题被插进来，将注意力从原来的话题上移走，通过将注意力转移到另一话题上来帮助赢得辩论。谬误顺序：1 甲主题正在讨论。2 乙主题被介绍进来，看似和甲有关，其实没关系。3 甲主题被遗忘。</p>
-<h4 id="循环论证谬误"><a href="#循环论证谬误" class="headerlink" title="循环论证谬误"></a>循环论证谬误</h4><p>循环论证谬误指在推理过程中已然假设自己的结构成立的论证。</p>
-<h4 id="以偏概全谬误"><a href="#以偏概全谬误" class="headerlink" title="以偏概全谬误"></a>以偏概全谬误</h4><p>以偏概全谬误指一个人仅根据群体中极小部分人的经历就得出有关整个群体的结论。</p>
-<h4 id="强求确定性谬误"><a href="#强求确定性谬误" class="headerlink" title="强求确定性谬误"></a>强求确定性谬误</h4><p>强求确定性谬误指认为一个研究结果如果不是百分百确定的话就应该被抛弃。</p>
-<h4 id="错误类比谬误"><a href="#错误类比谬误" class="headerlink" title="错误类比谬误"></a>错误类比谬误</h4><p>错误类比谬误指有人提出一个类比，其中存在重要而又相关的不同点。</p>
-<h4 id="过度简化因果关系谬误"><a href="#过度简化因果关系谬误" class="headerlink" title="过度简化因果关系谬误"></a>过度简化因果关系谬误</h4><p>指依赖并不足以解释这个事件的具有因果关系的因素来解释一个事件，或者过分强调这些因素中的一个或多个因素的作用。</p>
-<h4 id="因果混淆谬误"><a href="#因果混淆谬误" class="headerlink" title="因果混淆谬误"></a>因果混淆谬误</h4><p>因果混淆谬误指将事件的起因和结果相混淆或是认不出两件事件之间可能是相互影响的。</p>
-<h4 id="忽略常见原因谬误"><a href="#忽略常见原因谬误" class="headerlink" title="忽略常见原因谬误"></a>忽略常见原因谬误</h4><p>忽略常见原因谬误指认不出两件事之间之所以有联系是因为常见的第三种因素在起作用。</p>
-<h4 id="事后归因谬误"><a href="#事后归因谬误" class="headerlink" title="事后归因谬误"></a>事后归因谬误</h4><p>事后归因谬误指假设某件事乙是由另一事件甲所造成的，仅仅因为乙在时间上紧随甲之后。</p>
-<p>一旦作者有下列行为之一，就应该驳回其推理</p>
-<ul>
-<li>对人不对事</li>
-<li>实用滑坡推理方式</li>
-<li>表现出寻找完美解决方案的趋势</li>
-<li>用模棱两可的话隐瞒真相</li>
-<li>不恰当地诉诸公众意见</li>
-<li>诉诸可以权威</li>
-<li>攻击稻草人</li>
-<li>呈现虚假的两难情形</li>
-<li>通过恶语中伤别人来解释</li>
-<li>将注意力从论题上转移开</li>
-<li>通过光环效应让读者分神</li>
-<li>循环论证</li>
-<li>介绍另一个话题来转移注意力</li>
-</ul>
-<h3 id="证据的效力如何：直觉-个人经历-典型案例-当事人证词和专家意见"><a href="#证据的效力如何：直觉-个人经历-典型案例-当事人证词和专家意见" class="headerlink" title="证据的效力如何：直觉 个人经历 典型案例 当事人证词和专家意见"></a>证据的效力如何：直觉 个人经历 典型案例 当事人证词和专家意见</h3><h4 id="怎么确定理由的可靠性，可以问一下问题？"><a href="#怎么确定理由的可靠性，可以问一下问题？" class="headerlink" title="怎么确定理由的可靠性，可以问一下问题？"></a>怎么确定理由的可靠性，可以问一下问题？</h4><ul>
-<li>你的证明是什么？</li>
-<li>你怎么知道它是真的？</li>
-<li>证据在哪里？</li>
-<li>你为什么相信它？</li>
-<li>你确信它是真的吗？</li>
-<li>你能证明吗？</li>
-</ul>
-<h4 id="事实断言"><a href="#事实断言" class="headerlink" title="事实断言"></a>事实断言</h4><ul>
-<li>1 当这个断言表现为无可置疑的常识，比如说”举重可以锻炼肌肉”</li>
-<li>2 断言是从无懈可击的论证中得出的结论。</li>
-<li>3 断言被很多过硬的证据合理的证实。</li>
-</ul>
-<h4 id="要铭记，没有一样证据可以向灌篮一样一锤定音，一劳永逸。你总是在找更好的证据，如果一根筋地去找完美证据，那你肯定要泄气。"><a href="#要铭记，没有一样证据可以向灌篮一样一锤定音，一劳永逸。你总是在找更好的证据，如果一根筋地去找完美证据，那你肯定要泄气。" class="headerlink" title="要铭记，没有一样证据可以向灌篮一样一锤定音，一劳永逸。你总是在找更好的证据，如果一根筋地去找完美证据，那你肯定要泄气。"></a>要铭记，没有一样证据可以向灌篮一样一锤定音，一劳永逸。你总是在找更好的证据，如果一根筋地去找完美证据，那你肯定要泄气。</h4><h4 id="主要的证据类型"><a href="#主要的证据类型" class="headerlink" title="主要的证据类型"></a>主要的证据类型</h4><ul>
-<li>直觉</li>
-<li>个人经历(以偏概全谬误)</li>
-<li>典型案例(要问一下是否有代表性)</li>
-<li>当事人证词(名人广告)：选择性，个人兴趣，省略作为判断的信息，人为因素</li>
-<li>权威或专家意见：专家也会常常犯错，同意他们内部也常常意见不统一。专家和观点是否有利益瓜葛。</li>
-<li>个人观察</li>
-<li>研究报告</li>
-</ul>
-<h3 id="证据的效力如何：个人观察，研究报告和类比"><a href="#证据的效力如何：个人观察，研究报告和类比" class="headerlink" title="证据的效力如何：个人观察，研究报告和类比"></a>证据的效力如何：个人观察，研究报告和类比</h3><h4 id="个人观察"><a href="#个人观察" class="headerlink" title="个人观察"></a>个人观察</h4><p>我们所”见”所说的都是经过一系列价值观，偏见，态度和期望过滤后剩下的东西。还有一些阻碍，比如注意力无法集中，环境压力，观察事件快速进行。</p>
-<h4 id="研究报告"><a href="#研究报告" class="headerlink" title="研究报告"></a>研究报告</h4><p>研究的质量有高有低，差别很大。</p>
-<p>研究成果常常互相矛盾。</p>
-<p>研究结果并不能证明结论。</p>
-<p>研究人员也也有他们的期望值，态度，价值观和需求。不论一个科学报告显得多么客观，还是难免会夹杂了重要的主观因素。</p>
-<p>研究的事实会随着时间的流逝而发生改变。</p>
-<p>赞成的：</p>
-<ul>
-<li>科学研究能接受公共验证</li>
-<li>研究可使用控制来让外部影响因素最小化</li>
-<li>科学研究使用语言方面能做到精确和前后一致</li>
-</ul>
-<p>反对的：</p>
-<ul>
-<li>研究的质量和人为因素变化较大</li>
-<li>研究结果互相矛盾，事实会随着时间的流逝发生变化</li>
-<li>研究结果只能支撑结论</li>
-</ul>
-<h4 id="样本能代替总体吗？"><a href="#样本能代替总体吗？" class="headerlink" title="样本能代替总体吗？"></a>样本能代替总体吗？</h4><ul>
-<li>样本的覆盖率必须要大到足以产生概括或者得出结论的程度。</li>
-<li>样本必须覆盖足够的范围或者说包含足够的多样性。</li>
-<li>样本的随机性越大越好。</li>
-</ul>
-<p>只有和我们研究过的人群或事件类似的或相同的情况我们才能加以概括。</p>
-<h4 id="调查和问卷的回答真实吗？"><a href="#调查和问卷的回答真实吗？" class="headerlink" title="调查和问卷的回答真实吗？"></a>调查和问卷的回答真实吗？</h4><ul>
-<li>由于种种原因人们常常掩盖真相。</li>
-<li>调查的问题的措辞含糊不清，问题可能被误读。小心查看问题的言辞用字。</li>
-<li>语境的影响也是很大</li>
-<li>哪怕是片面的调查也可能承载大量的信息，但你需要知道偏见所在，以防止自己过分被调查结果所说服。</li>
-</ul>
-<h4 id="类比作为证据可靠吗？"><a href="#类比作为证据可靠吗？" class="headerlink" title="类比作为证据可靠吗？"></a>类比作为证据可靠吗？</h4><p>类比往往涉及比较，他们依赖相似度作为主要类型的证据。</p>
-<p>影响类比质量的因素:</p>
-<ul>
-<li>两个作比较的事物相同和相异的方式。</li>
-<li>相似点和不同点的关联。</li>
-</ul>
-<p>原则：</p>
-<p>相关的共同点和不同点就是直接和类比所展示的那些潜在的原则相关。</p>
-<h3 id="有没有替代原因"><a href="#有没有替代原因" class="headerlink" title="有没有替代原因"></a>有没有替代原因</h3><p>代替原因：指一个言之有理的代替解释，可以说明为什么特定的结果发生。</p>
-<p>教训：</p>
-<ul>
-<li>很多类型的事件都可以通过各种相互替代的原因来加以解释。</li>
-<li>专家可以检查同一个证据的而发现不同原因对其进行解释。</li>
-<li>大部分持论者只给你那些他们喜欢的原因，独立思考的读者必须自己找出替代原因。</li>
-<li>特定因果断言的确定性和言之成理的替代原因的数量正好成反比。</li>
-</ul>
-<h4 id="找到更多的替代原因"><a href="#找到更多的替代原因" class="headerlink" title="找到更多的替代原因"></a>找到更多的替代原因</h4><ul>
-<li>我能不能找到其他的方法来解释这个证据</li>
-<li>从其他角度看问题，找重要原因</li>
-<li>如果这个解释不正确，还有什么别的解释可以说得通</li>
-</ul>
-<h4 id="唯一的原因还是原因之一"><a href="#唯一的原因还是原因之一" class="headerlink" title="唯一的原因还是原因之一"></a>唯一的原因还是原因之一</h4><p>我们找到的任何一个单独的原因都极有可能是引起事件发生的其中一个原因，而不是其唯一的原因。</p>
-<h4 id="组间差异代替原因"><a href="#组间差异代替原因" class="headerlink" title="组间差异代替原因"></a>组间差异代替原因</h4><p>研究人员将一个实验组同一个控制组进行比较.</p>
-<ul>
-<li>很多种因素可能引起研究组之间的差异</li>
-</ul>
-<h4 id="相关不能证明因果关系"><a href="#相关不能证明因果关系" class="headerlink" title="相关不能证明因果关系"></a>相关不能证明因果关系</h4><ul>
-<li>甲是乙的一个起因</li>
-<li>乙是甲的一个起因</li>
-<li>甲和乙有关系是因为第三种因素</li>
-<li>甲和乙互相影响</li>
-</ul>
-<h4 id="在这之后不等于因为这个"><a href="#在这之后不等于因为这个" class="headerlink" title="在这之后不等于因为这个"></a>在这之后不等于因为这个</h4><p>一件事紧接在另一件事后面发生的这一发现本身并不能证明两者之间因果关系，这可能是个巧合。</p>
-<h4 id="很多事情并非只有一个解释"><a href="#很多事情并非只有一个解释" class="headerlink" title="很多事情并非只有一个解释"></a>很多事情并非只有一个解释</h4><p>千万不要贸然接受你所遇到的事件的第一个解释。</p>
-<h4 id="哪个原因更合理"><a href="#哪个原因更合理" class="headerlink" title="哪个原因更合理"></a>哪个原因更合理</h4><p>比较理由时，使用下列标准：</p>
-<ul>
-<li>逻辑上的合理性</li>
-<li>和你所学的其他知识的一致性</li>
-<li>以前解释或预测事件的成功率</li>
-</ul>
-<h4 id="发觉潜在原因，逐步缩小潜在原因的范围"><a href="#发觉潜在原因，逐步缩小潜在原因的范围" class="headerlink" title="发觉潜在原因，逐步缩小潜在原因的范围"></a>发觉潜在原因，逐步缩小潜在原因的范围</h4><h3 id="数据有没有欺骗性"><a href="#数据有没有欺骗性" class="headerlink" title="数据有没有欺骗性"></a>数据有没有欺骗性</h3><p>要找出欺骗性的数据，第一个策略就是尽量找出足够多的关于这些数据是如何采集的信息。</p>
-<p>在对这样的数据做出反应之前，我们先要问一声他们是怎么得到的。</p>
-<h4 id="令人困扰的平均值"><a href="#令人困扰的平均值" class="headerlink" title="令人困扰的平均值"></a>令人困扰的平均值</h4><p>平均值的种类以及计算方法：</p>
-<ul>
-<li>平均数：把所有数值相加除以总数。</li>
-<li>中位数：把所有数值排序，位于最中间的数值。</li>
-<li>众数：出现频率最高的数字。</li>
-</ul>
-<p>不仅判断一个平均值是平均数，中位数还是众数非常重要，判断最小数值和最大数值之间的差距即全距以及每个数值出现的频率也很重要。</p>
-<p>了解全距和数值分布的一个整体好处就是这样会提醒你大多数人或事并不正好符合平均值，与平均值差异极大的结果也在意料中。</p>
-<h4 id="把一个结论改头换面包装成另一个结论"><a href="#把一个结论改头换面包装成另一个结论" class="headerlink" title="把一个结论改头换面包装成另一个结论"></a>把一个结论改头换面包装成另一个结论</h4><p>我们要加倍注意统计数据的措辞和结论的措辞，看看二者是不是指的同一件事，如果不是，数据说谎。</p>
-<h4 id="省略数据也是欺骗"><a href="#省略数据也是欺骗" class="headerlink" title="省略数据也是欺骗"></a>省略数据也是欺骗</h4><p>在判断数据影响力前还要哪些进一步的信息。</p>
-<p>当前遇到听起来让人心动的数字或者百分比，一定要当心。绝对数值百分比比较，相对比较信息忽略。</p>
-<h4 id="表达方式不同效果更加动人"><a href="#表达方式不同效果更加动人" class="headerlink" title="表达方式不同效果更加动人"></a>表达方式不同效果更加动人</h4><p>当遇到数字统计论证时，要了解相对结果和绝对结果。</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>了解数据是怎样产生的，数据的含义，以及数据存在的局限性。</p>
-<h3 id="有什么重要信息被忽略了"><a href="#有什么重要信息被忽略了" class="headerlink" title="有什么重要信息被忽略了"></a>有什么重要信息被忽略了</h3><h4 id="接受说服之前，先打问号"><a href="#接受说服之前，先打问号" class="headerlink" title="接受说服之前，先打问号"></a>接受说服之前，先打问号</h4><p>应应该记住几乎任何一个你所遇到的信息都有一个目的。换句话说就是这个信息的组织结构是由别人精心挑选呈现的，目的就是希望它从某种程度上影响到你的思维。</p>
-<h4 id="不完整的推论在所难免"><a href="#不完整的推论在所难免" class="headerlink" title="不完整的推论在所难免"></a>不完整的推论在所难免</h4><p>不完整推论出现的理由：</p>
-<ul>
-<li>时空(时间空间)对推论产生了限制。</li>
-<li>由于读者注意力集中时间的限制，论证必须尽快完成。</li>
-<li>持论者的知识的不全面。</li>
-<li>论证常常是为了欺骗(广告)。</li>
-<li>持论者常常与你有不同的价值观，信仰和态度。</li>
-</ul>
-<h4 id="识别省略信息的线索"><a href="#识别省略信息的线索" class="headerlink" title="识别省略信息的线索"></a>识别省略信息的线索</h4><p>找到常见类型重要信息的提示：</p>
-<h5 id="常见的反驳论证"><a href="#常见的反驳论证" class="headerlink" title="常见的反驳论证"></a>常见的反驳论证</h5><ul>
-<li>反对的人会提什么理由</li>
-<li>有没有研究和所说的研究冲突</li>
-<li>有没有备受尊敬的权威人士提供的例子，证词或观点被省略掉，或者支持对立面的类比被忽略</li>
-</ul>
-<h5 id="遗漏掉的定义"><a href="#遗漏掉的定义" class="headerlink" title="遗漏掉的定义"></a>遗漏掉的定义</h5><p>如果关键词用另一种方式定义，这个结论会有怎样的不同。</p>
-<h5 id="遗漏的价值观偏向或视角"><a href="#遗漏的价值观偏向或视角" class="headerlink" title="遗漏的价值观偏向或视角"></a>遗漏的价值观偏向或视角</h5><ul>
-<li>不同的价值观会不会产生处理这一论题的不同方法</li>
-<li>与作者从不同的价值观出发会产生怎样的论证</li>
-</ul>
-<h5 id="论证中”事实”的来源"><a href="#论证中”事实”的来源" class="headerlink" title="论证中”事实”的来源"></a>论证中”事实”的来源</h5><ul>
-<li>事实的来源是什么</li>
-<li>事实是不是由出色的研究和可靠的来源支撑</li>
-</ul>
-<h5 id="获得事实的细节"><a href="#获得事实的细节" class="headerlink" title="获得事实的细节"></a>获得事实的细节</h5><p>有多少人完成问卷？问题措辞？调查者有没有机会选择其他选项。</p>
-<h5 id="收集证据的其他技巧"><a href="#收集证据的其他技巧" class="headerlink" title="收集证据的其他技巧"></a>收集证据的其他技巧</h5><ul>
-<li>访谈和书面问卷的结果可能有怎样的不同</li>
-<li>实验室试验示范可以产生更可靠的结果</li>
-</ul>
-<h5 id="遗漏掉的或者不完整的数字，图表，表格湖综合数据"><a href="#遗漏掉的或者不完整的数字，图表，表格湖综合数据" class="headerlink" title="遗漏掉的或者不完整的数字，图表，表格湖综合数据"></a>遗漏掉的或者不完整的数字，图表，表格湖综合数据</h5><ul>
-<li>如果数据包含早期挥着未来的数据看起来会不会不一样。</li>
-<li>有没有故意拉长数字让差距显得很大</li>
-</ul>
-<h5 id="省略的结果，不管是正面反面，短期长期，还是提倡反对"><a href="#省略的结果，不管是正面反面，短期长期，还是提倡反对" class="headerlink" title="省略的结果，不管是正面反面，短期长期，还是提倡反对"></a>省略的结果，不管是正面反面，短期长期，还是提倡反对</h5><ul>
-<li>省略的结果代价是什么？好处又是什么？</li>
-</ul>
-<h4 id="考虑是否有负面效果"><a href="#考虑是否有负面效果" class="headerlink" title="考虑是否有负面效果"></a>考虑是否有负面效果</h4><p>被提倡的行动的潜在负面效果。</p>
-<p>提议潜在的长期负面效果是什么？</p>
-<h4 id="面对信息缺失的现实"><a href="#面对信息缺失的现实" class="headerlink" title="面对信息缺失的现实"></a>面对信息缺失的现实</h4><p>自动声明只要信息仍然找不到你就不能做出决断，那就会阻止你形成任何观点。</p>
-<h3 id="能得出什么合理的结论"><a href="#能得出什么合理的结论" class="headerlink" title="能得出什么合理的结论"></a>能得出什么合理的结论</h3><p>从一套理由中可以得出多套理论，它们都有可能是这套理由得出的结果。</p>
-<h4 id="各种假设和各种结论"><a href="#各种假设和各种结论" class="headerlink" title="各种假设和各种结论"></a>各种假设和各种结论</h4><p>理由可以解释成不同的含义，结论只有在某人对理由的含义进行特定的解读或者假设才能得出来。</p>
-<p>如果你对理由的不同含义进行不同的测试，那你就会得出不同的结论。</p>
-<h4 id="二分式思维方法-妨碍我们考虑多种可能"><a href="#二分式思维方法-妨碍我们考虑多种可能" class="headerlink" title="二分式思维方法:妨碍我们考虑多种可能"></a>二分式思维方法:妨碍我们考虑多种可能</h4><p>人们习惯用非黑即白，非是即否，非对即错的方式来思考问题，这就是二分式思维。</p>
-<h4 id="两面还是多面"><a href="#两面还是多面" class="headerlink" title="两面还是多面"></a>两面还是多面</h4><p>一些问题好似在寻求一个是或不是的答案，但是还有很多种可能，是的情况下和不是的情况下的每种理由都是一种可能。</p>
-<h4 id="寻找多个结论"><a href="#寻找多个结论" class="headerlink" title="寻找多个结论"></a>寻找多个结论</h4><p>即使我们接受了特定理由，我们也不一定就能得出特定的结论。</p>
-<h4 id="某个条件下才合理的理由"><a href="#某个条件下才合理的理由" class="headerlink" title="某个条件下才合理的理由"></a>某个条件下才合理的理由</h4><p>条件句为你提供了多种结论，他们同时也增加了结论的范围。</p>
-<h4 id="以解决问题为导向的可能结论"><a href="#以解决问题为导向的可能结论" class="headerlink" title="以解决问题为导向的可能结论"></a>以解决问题为导向的可能结论</h4><p>当一个规定性论证中的理由是实际存在的问题时，寻找这个问题不同的解决方法就是这个论证可能得出的结论。</p>
-<h4 id="更多可能的结论，更多可能的自由选择"><a href="#更多可能的结论，更多可能的自由选择" class="headerlink" title="更多可能的结论，更多可能的自由选择"></a>更多可能的结论，更多可能的自由选择</h4><h4 id="“是什么”和”应不应该”的问题"><a href="#“是什么”和”应不应该”的问题" class="headerlink" title="“是什么”和”应不应该”的问题"></a>“是什么”和”应不应该”的问题</h4><h4 id="论题种类-：描述性论题和规定性论题。"><a href="#论题种类-：描述性论题和规定性论题。" class="headerlink" title="论题种类 ：描述性论题和规定性论题。"></a>论题种类 ：描述性论题和规定性论题。</h4><p>这些论题都属于描述性论题。描述性论题指对过去，现在活着将来的各种描述的精确与否提出的问题。</p>
-<p>规定性论题：指对什么该做什么不该做，什么是对什么是错，什么是好什么是坏所提出的问题。</p>
-<h4 id="他想让我相信什么结论"><a href="#他想让我相信什么结论" class="headerlink" title="他想让我相信什么结论"></a>他想让我相信什么结论</h4><p>你相信一个结论是因为它由其他方法支撑，这就是在进行推理。一旦找到结论，就将结论作为你评论的重点。</p>
-<h4 id="找到结论的方法"><a href="#找到结论的方法" class="headerlink" title="找到结论的方法"></a>找到结论的方法</h4><ul>
-<li>问问论题是什么</li>
-<li>寻找指示词(因此，表明。。。)</li>
-<li>在可能的位置上查看一下</li>
-<li>记住不可能作为结论的东西</li>
-<li>检查一下交流的语境和作者的背景</li>
-<li>问一问”所以吶”</li>
-</ul>
-<h3 id="理由是什么？"><a href="#理由是什么？" class="headerlink" title="理由是什么？"></a>理由是什么？</h3>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 安全概述" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/03/17/Android 安全概述/" class="article-date">
-  	<time datetime="2017-03-16T16:00:00.000Z" itemprop="datePublished">2017-03-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/17/Android 安全概述/">
-        Android 安全概述
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="安全要点"><a href="#安全要点" class="headerlink" title="安全要点"></a>安全要点</h3><p>Android 操作系统内置了安全功能，可显著降低应用出现安全问题的频率及其造成的影响。系统经过精心设计，您在通常情况下只需使用默认的系统和文件权限即可打造自己的应用，而无需费心针对安全性作出艰难决策。</p>
-<p>下面是一些可以帮助您打造安全应用的核心安全功能：</p>
-<ul>
-<li>Android 应用沙盒，可以将您的应用数据和代码执行与其他应用分隔开来。</li>
-<li>应用框架，可以稳健实现常见的安全性功能，例如加密、权限和安全 IPC。</li>
-<li>ASLR、NX、ProPolice、safe_iop、OpenBSD dlmalloc、OpenBSD calloc 和 Linux mmap_min_addr 等多项技术，可降低与常见内存管理错误相关的风险。</li>
-<li>加密的文件系统，启用后可保护丢失或被盗设备上的数据。</li>
-<li>用户授予的权限，可用来限制对系统功能和用户数据的使用。</li>
-<li>应用定义的权限，可针对各个应用分别控制应用数据。</li>
-</ul>
-<p>不过，我们仍建议您熟悉一下本文档中所述的 Android 安全性最佳做法。遵循这些最佳做法，养成常规编码习惯，就可以有效减少因疏忽而引发安全问题的几率，防止对用户产生不利的影响。</p>
-<h3 id="数据存储"><a href="#数据存储" class="headerlink" title="数据存储"></a>数据存储</h3><h4 id="内部存储-在设备内存中存储私有数据"><a href="#内部存储-在设备内存中存储私有数据" class="headerlink" title="内部存储(在设备内存中存储私有数据)"></a>内部存储(在设备内存中存储私有数据)</h4><p>默认情况下，您在内部存储空间中创建的文件仅供您的应用访问。这项保护措施由 Android 实现，而且这对于大多数应用来说足够了。</p>
-<p>尽量避免将 MODE_WORLD_WRITEABLE 或 MODE_WORLD_READABLE 模式用于 IPC 文件，因为在这两种模式下，系统不提供针对特定应用限制数据访问的功能，也不会对数据格式进行任何控制。</p>
-<h4 id="使用外部存储设备-在共享的外部存储中存储公共数据"><a href="#使用外部存储设备-在共享的外部存储中存储公共数据" class="headerlink" title="使用外部存储设备(在共享的外部存储中存储公共数据)"></a>使用外部存储设备(在共享的外部存储中存储公共数据)</h4><p>在外部存储设备（例如 SD 卡）上创建的文件不受任何读取和写入权限的限制。对于外部存储设备中的内容，不仅用户可以将其移除，而且任何应用都可以对其进行修改，因此最好不要使用外部存储设备来存储敏感信息。</p>
-<h4 id="使用内容提供程序"><a href="#使用内容提供程序" class="headerlink" title="使用内容提供程序"></a>使用内容提供程序</h4><p>在创建要导出以供其他应用使用的 ContentProvider 时，您可以在清单中指定允许读取和写入的单一权限，也可以针对读取和写入操作分别指定权限。我们建议您仅对需要完成相应任务的应用授予权限。请注意，与其移除权限而影响到现有用户，不如以后要使用新功能时再添加权限。</p>
-<p>如果您要使用内容提供程序仅在自己的应用之间共享数据，最好将 android:protectionLevel 属性设置为 “signature” 保护级别。签名权限不需要用户确认，因此，这种方式不仅能提升用户体验，而且在相关应用使用相同的密钥进行签名来访问数据时，还能更好地控制对内容提供程序数据的访问。</p>
-<p>内容提供程序还可以通过以下方式提供更细化的访问权限：声明 android:grantUriPermissions 属性，并使用用来启动组件的 Intent 对象中的 FLAG_GRANT_READ_URI_PERMISSION 和 FLAG_GRANT_WRITE_URI_PERMISSION 标记。使用 <grant-uri-permission element=""> 还能进一步限制这些权限的范围。</grant-uri-permission></p>
-<p>访问内容提供程序时，请使用参数化的查询方法（例如 query()、update() 和 delete()），以免产生来源不受信任的 SQL 注入风险。请注意，如果以组合用户数据的方式构建 selection 参数，然后再将其提交至参数化方法，则使用参数化方法可能不够安全。</p>
-<h3 id="权限"><a href="#权限" class="headerlink" title="权限"></a>权限</h3><p>由于 Android 通过沙盒机制管理各个应用，因此应用必须以明确的方式共享资源和数据。应用会通过声明自己需要的权限来获取基本沙盒未提供的额外功能（包括对相机等设备功能的访问权限），从而实现这一点。</p>
-<h4 id="请求权限"><a href="#请求权限" class="headerlink" title="请求权限"></a>请求权限</h4><p>尽量减少应用请求的权限。如果不具备对敏感数据的访问权限，就能降低不慎误用这类权限的风险，并可提高用户的采用率，同时让您的应用不那么容易受到攻击者的攻击。一般来说，如果您的应用无需某项权限也能正常运行，就不要请求该权限。</p>
-<p>除了请求权限之外，您的应用也可以使用 <permissions> 来保护对安全性要求较高且会被其他应用访问的 IPC，例如 ContentProvider。一般而言，我们建议您尽量使用访问权限控制，而不使用需要用户确认的权限，因为权限管理对用户来说可能比较复杂。例如，对于同一开发者提供的不同应用之间的 IPC 通信，不妨使用 “signature” 保护级别。</permissions></p>
-<h4 id="创建权限"><a href="#创建权限" class="headerlink" title="创建权限"></a>创建权限</h4><p>如果必须创建新权限，请尽量考虑创建 “signature” 保护级别的权限。“签名”级别权限的内容对用户完全透明开放，而且只有由执行权限检查的应用的开发者签名的应用才可访问这些内容。</p>
-<p>如果您创建了 “dangerous” 保护级别的权限，则事情就会更加复杂，您需要注意：</p>
-<ul>
-<li>该权限必须包含一个字符串，向用户清楚明确地说明他们需要做出的安全决策。</li>
-<li>该权限的字符串必须翻译成多种不同语言。</li>
-<li>用户可能会因为权限含糊不清或存在风险而选择不安装应用。</li>
-<li>应用可能会在权限创建程序尚未安装的情况下请求权限。</li>
-</ul>
-<h3 id="网络传输"><a href="#网络传输" class="headerlink" title="网络传输"></a>网络传输</h3><h4 id="使用-IP-网络"><a href="#使用-IP-网络" class="headerlink" title="使用 IP 网络"></a>使用 IP 网络</h4><p>Android 网络运行机制与其他 Linux 环境差别不大，关键是确保对敏感数据使用合适的协议，如使用 HttpsURLConnection 来保证网络流量安全。我们建议您在服务器支持 HTTPS 的情况下一律使用 HTTPS（而非 HTTP），因为移动设备经常会连接到不安全的网络（如公共 WLAN 热点）。</p>
-<p>您可以使用 SSLSocket 类轻松实现经过身份验证和加密的套接字层通信。考虑到 Android 设备会频繁使用 WLAN 连接到不安全的无线网络，我们强烈建议所有通过网络通信的应用使用安全的网络。</p>
-<p>我们发现有些应用使用 localhost 网络端口处理敏感的 IPC。我们不建议采用这种方法，因为设备上的其他应用也可以访问这些接口。相反，您应该使用可通过 Service 等进行身份验证的 Android IPC 机制。（绑定到 INADDR_ANY 比使用回送功能还要糟糕，因为这样一来，您的应用可能会收到任何位置发来的请求。）</p>
-<p>此外，还有一个需要再三强调的常见问题就是，切勿相信通过 HTTP 或其他非安全协议下载的数据，包括 WebView 中的输入验证以及对通过 HTTP 发出的 intent 的任何响应。</p>
-<h4 id="使用电话网络"><a href="#使用电话网络" class="headerlink" title="使用电话网络"></a>使用电话网络</h4><p>短信 协议主要是为用户间通信设计的，并不适合要传输数据的应用。考虑到短信的局限性，因此，想从网络服务器向用户设备上安装的应用发送数据消息时，我们强烈建议您使用 Google 云消息传递 (GCM) 和 IP 网络。</p>
-<p>请注意，短信在网络上和设备上均未经过加密，也没有经过严格的身份验证。而且，短信的所有接收者都应明白，您的应用收到的短信可能来自恶意用户。因此，切勿使用未经身份验证的短信数据执行敏感命令。还需要注意的是，短信可能包含欺骗性内容，也有可能在网络上传输时被拦截。在 Android 设备上，短信会以广播 intent 的形式传输，因此可能会被其他拥有 READ_SMS 权限的应用读取或捕获。</p>
-<h3 id="输入验证"><a href="#输入验证" class="headerlink" title="输入验证"></a>输入验证</h3><p>无论应用是在哪种平台上运行，输入验证功能不完善都是影响应用的最常见安全问题。Android 为此提供了平台级对策，可降低应用出现输入验证问题的可能性。如果可行，请尽量使用这些功能。另请注意，选择类型安全的语言通常也有助于降低出现输入验证问题的可能性。</p>
-<p>使用基于字符串的动态语言（如 JavaScript 和 SQL）也可能因为转义字符和脚本注入而出现输入验证问题。</p>
-<h3 id="处理用户数据"><a href="#处理用户数据" class="headerlink" title="处理用户数据"></a>处理用户数据</h3><p>通常情况下，确保用户数据安全的最佳做法是尽量避免使用会访问用户敏感数据或个人数据的 API。如果您拥有用户数据的访问权限，并且能够避免存储或传输这些信息，那么就不要存储或传输这些数据。最后，请评估您的应用逻辑能否使用经过哈希算法处理或不可逆的数据格式进行实现。例如，您的应用可能会使用电子邮件地址的哈希值作为主要密钥，以避免传输或存储电子邮件地址。这样可降低在无意之中泄露数据的可能性，还可以降低攻击者尝试利用您的应用搞破坏的可能性。</p>
-<p>请注意，如果您的应用会访问密码或用户名等个人信息，部分司法辖区可能会要求您提供隐私权政策，以说明您如何使用或存储这类数据。因此，遵循安全最佳做法（即尽可能减少对用户数据的访问）也有助于简化合规工作。</p>
-<p>此外，您还应考虑自己的应用是否会在无意之中将个人信息泄露给其他方，如广告使用的第三方组件或应用使用的第三方服务。如果不知道某个组件或服务为什么需要个人信息，就不要提供个人信息。通常，减少您的应用对个人信息的访问，可以降低引发这方面问题的可能性。</p>
-<p>如果必须访问敏感数据，请判断这些信息是必须传输至服务器，还是可以在客户端上执行相应操作。建议您在客户端上运行所有需要使用敏感数据的代码，以避免传输用户数据。</p>
-<p>此外，请务必不要使用权限过于宽松的 IPC、完全没有写入限制的文件或网络套接字，避免在无意之中将用户数据泄露给设备上的其他应用。这属于一种造成受权限保护的数据遭泄露的特殊情况，我们已在请求权限部分讨论过。</p>
-<p>如果需要 GUI(Globally Unique Identifier) ，请创建一个较长的具有唯一性的编号并加以存储。请勿使用可能与个人信息关联的电话标识符，如电话号码或 IMEI。</p>
-<p>GUI:</p>
-<ul>
-<li><p>Mac Address<br>It may be possible to retrieve a Mac address from a device’s WiFi or Bluetooth hardware. We do not recommend using this as a unique identifier. To start with, not all devices have WiFi. Also, if the WiFi is not turned on, the hardware may not report the Mac address.</p>
-</li>
-<li><p>Serial Number<br>Since Android 2.3 (“Gingerbread”) this is available via android.os.Build.SERIAL. Devices without telephony are required to report a unique device ID here; some phones may do so also.</p>
-</li>
-<li><p>ANDROID_ID<br>More specifically, Settings.Secure.ANDROID_ID. This is a 64-bit quantity that is generated and stored when the device first boots. It is reset when the device is wiped.</p>
-</li>
-<li><p>ANDROID_ID seems a good choice for a unique device identifier. There are downsides: First, it is not 100% reliable on releases of Android prior to 2.2 (“Froyo”). Also, there has been at least one widely-observed bug in a popular handset from a major manufacturer, where every instance has the same ANDROID_ID.</p>
-</li>
-<li><p>Conclusion<br>For the vast majority of applications, the requirement is to identify a particular installation, not a physical device. Fortunately, doing so is straightforward.</p>
-</li>
-</ul>
-<p>向设备上的日志写入内容时，请务必谨慎小心。在 Android 中，日志是共享资源，拥有 READ_LOGS 权限的所有应用均可访问。即使电话日志数据是临时数据并会在重新启动时清空，不当记录用户信息也可能在无意之中将用户数据泄露给其他应用。</p>
-<h3 id="使用-WebView"><a href="#使用-WebView" class="headerlink" title="使用 WebView"></a>使用 WebView</h3><p>由于 WebView 使用的网络内容可能包含 HTML 和 JavaScript，当的使用可能引入常见的网络安全问题，例如跨站脚本攻击（JavaScript 注入）。Android 内置了多种机制，可将 WebView 的功能限制为您应用所需的最低功能，以缩小这些潜在问题的影响范围。</p>
-<p>如果您的应用不直接使用 WebView 中的 JavaScript，请勿调用 setJavaScriptEnabled()。部分示例代码会使用这种方法，不过您可能需要在实际应用时根据具体情况进行调整。因此，如果不需要使用这种调用方法，请将其移除。默认情况下，WebView 不会执行 JavaScript，因此不可能出现跨站脚本攻击这样的安全问题。</p>
-<p>addJavaScriptInterface() 允许 JavaScript 调用正常情况下是为 Android 应用预留的操作，因此在使用时请格外小心。如果要使用，请仅将 addJavaScriptInterface() 用于所有输入内容都可信的网页。如果您接受不受信任的输入内容，那么不受信任的 JavaScript 可能会调用您应用中的 Android 方法。一般情况下，我们建议您仅将 addJavaScriptInterface() 用于应用 APK 内含的 JavaScript。</p>
-<p>如果您的应用通过 WebView 访问敏感数据，您可能需要使用 clearCache() 方法来删除本地存储的所有文件。您也可以使用服务器端标头（例如 no-cache）来指示应用不应缓存特定内容。</p>
-<p>在 Android 4.4（API 级别 19）之前平台上运行的设备使用的 webkit 版本存在多个安全问题。如果您的应用在这些设备上运行，解决方法是确认 WebView 对象只显示值得信任的内容。还应使用可更新的安全 Provider 对象确保您的应用在 SSL 中不会暴露给潜在的漏洞，如更新您的安全提供程序以防范 SSL 攻击中所述。如果您的应用必须从开放网络渲染内容，请考虑提供您自己的渲染程序，以便使用最新的安全补丁程序保持其处于最新状态。</p>
-<h3 id="处理凭据"><a href="#处理凭据" class="headerlink" title="处理凭据"></a>处理凭据</h3><p>一般情况下，我们建议您尽量降低要求用户凭据的频率；这样会让钓鱼攻击显得比较可疑，从而能够降低其成功率。作为替代方法，您可以使用授权令牌并根据需要刷新。</p>
-<p>请尽量避免将用户名和密码存储在设备上。您可以使用用户提供的用户名和密码进行初始身份验证，然后使用针对特定服务的短时效授权令牌。</p>
-<p>可供多个应用访问的服务应使用 AccountManager 进行访问。如果可行，请使用 AccountManager 类来调用基于云的服务；此外，请勿将密码存储在设备上。</p>
-<p>使用 AccountManager 检索 Account 后，请先确认 CREATOR 再传送凭据，以免无意中将凭据传送给错误的应用。</p>
-<p>如果凭据仅供您创建的应用使用，那么您可以使用 checkSignature() 验证访问 AccountManager 的应用。另外，如果只有一个应用使用该凭据，那么您可以使用 KeyStore 存储凭据。</p>
-<h3 id="使用加密"><a href="#使用加密" class="headerlink" title="使用加密"></a>使用加密</h3><p>Android 不仅提供数据隔离机制、支持完整文件系统加密并提供安全通信通道，还提供大量使用加密来保护数据的算法。</p>
-<p>一般情况下，请尝试根据您的具体情况使用已经实现的最高级别的框架。如果您需要从某个已知位置安全地检索文件，使用简单的 HTTPS URI 即可满足需要，无需具备加密知识。如果您需要一个安全通道，不妨考虑使用 HttpsURLConnection 或 SSLSocket，而无需自行编写协议。</p>
-<h3 id="使用进程间通信"><a href="#使用进程间通信" class="headerlink" title="使用进程间通信"></a>使用进程间通信</h3><p>部分应用会尝试使用传统 Linux 技术（如网络套接字和共享文件）来实现 IPC。强烈建议您改为使用 Android 针对 IPC 提供的系统功能，例如使用 Service 的 Intent、Binder 或 Messenger，以及 BroadcastReceiver。Android IPC 机制让您验证连接至 IPC 的应用的身份，并为每种 IPC 机制设置安全策略。</p>
-<p>许多安全元素在各种 IPC 机制之间是共享的。如果您的 IPC 机制并不打算让其他应用使用，请在该组件的清单元素（例如 <service> 元素）中将 android:exported 属性设置为 “false”。对于同一 UID 中包含多项进程的应用，这种做法非常有用；当您在以后的开发过程中决定不以 IPC 的形式提供功能但又不想重新编写代码时，这样做也会有所助益。</service></p>
-<p>如果您的 IPC 预期供其他应用访问，您可以使用 <permission> 元素应用安全策略。如果 IPC 是在您自己的不同应用（以同一密钥登录）之间使用，建议您在 android:protectionLevel 中使用 “signature” 级别权限。</permission></p>
-<h3 id="动态加载代码"><a href="#动态加载代码" class="headerlink" title="动态加载代码"></a>动态加载代码</h3><p>我们强烈建议您不要从应用 APK 外部加载代码。这样做不仅会明显加大应用因代码注入或代码篡改产生问题的可能性，还会增加版本管理和应用测试的难度。这最终会导致无法验证应用的行为，因此，某些环境中可能会禁止采用此做法。</p>
-<p>如果您的应用会动态加载代码，您务必谨记，运行动态加载的代码需要拥有与应用 APK 相同的安全权限。用户是因为您才决定安装您的应用的，因此他们希望您提供的是在您的应用内运行的代码，包括动态加载的代码。</p>
-<p>与动态加载代码相关的主要安全风险与这样的代码需要来自可验证的来源有关。如果这些模块已直接纳入您的 APK 中，那么其他应用就无法对其进行修改；无论代码是原生库代码还是使用 DexClassLoader 加载的类，均是如此。我们见过很多应用尝试从不安全的位置（例如，通过未加密的协议从网络上进行下载）或任何人都可写入内容的位置（如外部存储设备）加载代码的例子；对于前一种位置，网络上的用户将可以修改正在传输的内容，对于后一种位置，用户设备上的其他应用将可以修改设备上的内容。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-单元测试" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/03/03/单元测试/" class="article-date">
-  	<time datetime="2017-03-02T16:00:00.000Z" itemprop="datePublished">2017-03-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/03/单元测试/">
-        单元测试
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><p>单元测试，是为了测试某一个类的某一个方法能否正常工作，而写的测试代码。单元测试只是测试一个方法单元，它不是测试一整个流程。</p>
-<p>一个类的方法可以分为两种，一种是有返回值的，另一种是没有返回值的。对于有返回值的方法，我们要测起来比较容易，就跟上面的Calculator例子那样，输入相应的参数，得到相应的返回值，然后验证得到的返回值跟我们预期的值一样，就好了。另外一种就是返回值为void的，我们只关注某些方法是否被调用了以及调用的次数，这时候就要用到mock技术来模拟这些操作。</p>
-<h3 id="Mock"><a href="#Mock" class="headerlink" title="Mock"></a>Mock</h3><p>mock对象就是在调试期间用来作为真实对象的替代品。Mockito是Java中常见的Mock框架。</p>
-<p>所谓的mock就是创建一个类的虚假的对象，在测试环境中，用来替换掉真实的对象.</p>
-<h3 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h3><ul>
-<li><p>验证这个对象的某些方法的调用情况，调用了多少次，参数是什么等等</p>
-</li>
-<li><p>指定这个对象的某些方法的行为，返回特定的值，或者是执行特定的动作</p>
-</li>
-</ul>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>引入 </p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testCompile 'org.mockito:mockito-core:version'</span><br></pre></td></tr></table></figure>
-<h4 id="验证行为"><a href="#验证行为" class="headerlink" title="验证行为"></a>验证行为</h4><p>method</p>
-<ul>
-<li>Mockito.verify() ：验证Mock对象的方法是否被调用。</li>
-<li>Mockito.times() ：调用Mock对象的方法次数。</li>
-<li>Mockito.atMost(count) , Mockito.atLeast(count) , Mockito.never() ：最多次数，最少次数，永远调用。</li>
-<li>Mockito.anyInt() , Mockito.anyLong() , Mockito.anyDouble()等等 ： 参数设置-任意的Int类型，任意的Long类型。。。等。</li>
-</ul>
-<h4 id="验证方法的调用"><a href="#验证方法的调用" class="headerlink" title="验证方法的调用"></a>验证方法的调用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Mockito.verify(mockUserManager,Mockito.times(<span class="number">2</span>)).performLogin(<span class="string">"shenyonghe"</span>, <span class="string">"123423423"</span>);</span><br></pre></td></tr></table></figure>
-<p>其实更准确的说法是，这行代码验证的是，mockUserManager的performLogin()方法得到了两次调用。</p>
-<h4 id="指定mock对象的某些方法的行为"><a href="#指定mock对象的某些方法的行为" class="headerlink" title="指定mock对象的某些方法的行为"></a>指定mock对象的某些方法的行为</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当调用mockValidator的verifyPassword方法，同时传入"xiaochuang_is_handsome"时，返回true</span></span><br><span class="line">Mockito.when(mockValidator.verifyPassword(<span class="string">"xiaochuang_is_handsome"</span>)).thenReturn(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">//当调用mockValidator的verifyPassword方法，同时传入"xiaochuang_is_not_handsome"时，返回false</span></span><br><span class="line">Mockito.when(validator.verifyPassword(<span class="string">"xiaochuang_is_not_handsome"</span>)).thenReturn(<span class="keyword">false</span>);</span><br></pre></td></tr></table></figure>
-<p>同样的，你可以用any系列方法来指定”无论传入任何参数值，都返回xxx”：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当调用mockValidator的verifyPassword方法时，返回true，无论参数是什么</span></span><br><span class="line">Mockito.when(validator.verifyPassword(anyString())).thenReturn(<span class="keyword">true</span>);</span><br></pre></td></tr></table></figure>
-<p>假设登录代码如下：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">loginCallbackVersion</span><span class="params">(String username, String password)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (username == <span class="keyword">null</span> || username.length() == <span class="number">0</span>) <span class="keyword">return</span>;</span><br><span class="line">    <span class="comment">//假设我们对密码强度有一定要求，使用一个专门的validator来验证密码的有效性</span></span><br><span class="line">    <span class="keyword">if</span> (mPasswordValidator.verifyPassword(password)) <span class="keyword">return</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//login的结果将通过callback传递回来。</span></span><br><span class="line">    mUserManager.performLogin(username, password, <span class="keyword">new</span> NetworkCallback() &#123;  <span class="comment">//&lt;==</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onSuccess</span><span class="params">(Object data)</span> </span>&#123;</span><br><span class="line">            <span class="comment">//update view with data</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFailure</span><span class="params">(<span class="keyword">int</span> code, String msg)</span> </span>&#123;</span><br><span class="line">            <span class="comment">//show error msg</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>mock实现：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">Mockito.doAnswer(desiredAnswer).when(mockObject).targetMethod(args);</span><br><span class="line"></span><br><span class="line">传给doAnswer()的是一个Answer对象，我们想要执行什么样的动作，就在这里面实现。结合上面的例子解释：</span><br><span class="line"></span><br><span class="line">Mockito.doAnswer(<span class="keyword">new</span> Answer() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">answer</span><span class="params">(InvocationOnMock invocation)</span> <span class="keyword">throws</span> Throwable </span>&#123;</span><br><span class="line">        <span class="comment">//这里可以获得传给performLogin的参数</span></span><br><span class="line">        Object[] arguments = invocation.getArguments();</span><br><span class="line"></span><br><span class="line">        <span class="comment">//callback是第三个参数</span></span><br><span class="line">        NetworkCallback callback = (NetworkCallback) arguments[<span class="number">2</span>];</span><br><span class="line"></span><br><span class="line">        callback.onFailure(<span class="number">500</span>, <span class="string">"Server error"</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">500</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;).when(mockUserManager).performLogin(anyString(), anyString(), any(NetworkCallback.class));</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### spy </span><br><span class="line"></span><br><span class="line">指定这个对象的某些方法的行为，返回特定的值，或者是执行特定的动作</span><br><span class="line"></span><br><span class="line">最后介绍一个Spy的东西。前面我们讲了mock对象的两大功能，对于第二大功能: 指定方法的特定行为，不知道你会不会好奇，如果我不指定的话，它会怎么样呢？那么现在补充一下，如果不指定的话，一个mock对象的所有非<span class="keyword">void</span>方法都将返回默认值：<span class="keyword">int</span>、<span class="keyword">long</span>类型方法将返回<span class="number">0</span>，<span class="keyword">boolean</span>方法将返回<span class="keyword">false</span>，对象方法将返回<span class="keyword">null</span>等等；而<span class="keyword">void</span>方法将什么都不做。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">```java</span><br><span class="line"><span class="comment">//假设目标类的实现是这样的</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">PasswordValidator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">verifyPassword</span><span class="params">(String password)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="string">"xiaochuang_is_handsome"</span>.equals(password);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testSpy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">//跟创建mock类似，只不过调用的是spy方法，而不是mock方法。spy的用法</span></span><br><span class="line">    PasswordValidator spyValidator = Mockito.spy(PasswordValidator.class);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//在默认情况下，spy对象会调用这个类的真实逻辑，并返回相应的返回值，这可以对照上面的真实逻辑</span></span><br><span class="line">    spyValidator.verifyPassword(<span class="string">"xiaochuang_is_handsome"</span>); <span class="comment">//true</span></span><br><span class="line">    spyValidator.verifyPassword(<span class="string">"xiaochuang_is_not_handsome"</span>); <span class="comment">//false</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">//spy对象的方法也可以指定特定的行为</span></span><br><span class="line">    Mockito.when(spyValidator.verifyPassword(anyString())).thenReturn(<span class="keyword">true</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">//同样的，可以验证spy对象的方法调用情况</span></span><br><span class="line">    spyValidator.verifyPassword(<span class="string">"xiaochuang_is_handsome"</span>);</span><br><span class="line">    Mockito.verify(spyValidator).verifyPassword(<span class="string">"xiaochuang_is_handsome"</span>); <span class="comment">//pass</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>总之，spy与mock的唯一区别就是默认行为不一样：spy对象的方法默认调用真实的逻辑，mock对象的方法默认什么都不做，或直接返回默认值。</p>
-<h3 id="方法详情"><a href="#方法详情" class="headerlink" title="方法详情"></a>方法详情</h3><h4 id="after"><a href="#after" class="headerlink" title="after"></a>after</h4><p>after()等待整个周期的特点不同于timeout()，而timeout()一旦验证通过就尽快停止，例如：当使用times(2)可以产生不同的行为方式，可能通过后过会又失败。这种情况下，timeout只要times(2)通过就会通过，然后after执行完整个周期时间，可能会失败，也意味着times(2)也失败。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, after(<span class="number">100</span>)).someMethod()</span><br></pre></td></tr></table></figure>
-<h4 id="atLeast"><a href="#atLeast" class="headerlink" title="atLeast"></a>atLeast</h4><p>允许至少进行x次验证</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, atLeast(<span class="number">3</span>)).someMethod(<span class="string">"some arg"</span>);</span><br></pre></td></tr></table></figure>
-<h4 id="atLeastOnce"><a href="#atLeastOnce" class="headerlink" title="atLeastOnce"></a>atLeastOnce</h4><p>至少进行一次一次验证</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, atLeastOnce()).someMethod(<span class="string">"some arg"</span>);</span><br></pre></td></tr></table></figure>
-<h4 id="atMost"><a href="#atMost" class="headerlink" title="atMost"></a>atMost</h4><p>至多进行x次验证</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, atMost(<span class="number">3</span>)).someMethod(<span class="string">"some arg"</span>);</span><br></pre></td></tr></table></figure>
-<h4 id="calls"><a href="#calls" class="headerlink" title="calls"></a>calls</h4><p>允许顺序进行non-greedy验证</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">inOrder.verify( mock, calls( <span class="number">2</span> )).someMethod( <span class="string">"some arg"</span> );</span><br></pre></td></tr></table></figure>
-<h4 id="Matchers的方法"><a href="#Matchers的方法" class="headerlink" title="Matchers的方法"></a>Matchers的方法</h4><ul>
-<li>anyBoolean</li>
-<li>anyByte</li>
-<li>anyChar</li>
-<li>anyCollection</li>
-<li>anyCollectionOf</li>
-<li>anyDouble</li>
-<li>anyFloat</li>
-<li>anyInt</li>
-<li>anyList</li>
-<li>anyListOf</li>
-<li>anyLong</li>
-<li>anyMap</li>
-<li>anyMapOf</li>
-<li>anyObject</li>
-<li>anySet**</li>
-<li>anySetOf</li>
-<li>anyShort</li>
-<li>anyString</li>
-<li>anyVararg</li>
-</ul>
-<h4 id="description函数"><a href="#description函数" class="headerlink" title="description函数"></a>description函数</h4><p>添加验证失败时要输出的文字内容</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, description(<span class="string">"This will print on failure"</span>)).someMethod(<span class="string">"some arg"</span>);</span><br></pre></td></tr></table></figure>
-<h4 id="doAnswer函数"><a href="#doAnswer函数" class="headerlink" title="doAnswer函数"></a>doAnswer函数</h4><p>当你想要测试一个无返回值的函数时，可以使用一个含有泛型类Answer参数的doAnswer()函数。为无返回值的函数做测试桩与when(Objecy)方法不同，因为编译器不喜欢在大括号内使用void函数。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">doAnswer(<span class="keyword">new</span> Answer() &#123;</span><br><span class="line">      <span class="function"><span class="keyword">public</span> Object <span class="title">answer</span><span class="params">(InvocationOnMock invocation)</span> </span>&#123;</span><br><span class="line">          Object[] args = invocation.getArguments();</span><br><span class="line">          Mock mock = invocation.getMock();</span><br><span class="line">          <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">      &#125;&#125;)</span><br><span class="line">  .when(mock).someMethod();</span><br></pre></td></tr></table></figure>
-<h4 id="doCallRealMethod函数"><a href="#doCallRealMethod函数" class="headerlink" title="doCallRealMethod函数"></a>doCallRealMethod函数</h4><p>如果你想调用某一个方法的真实实现请使用doCallRealMethod()。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Foo mock = mock(Foo.class);</span><br><span class="line">doCallRealMethod().when(mock).someVoidMethod();</span><br><span class="line"></span><br><span class="line"><span class="comment">// this will call the real implementation of Foo.someVoidMethod()</span></span><br><span class="line"><span class="comment">// 调用Foo.someVoidMethod()的真实现</span></span><br><span class="line">mock.someVoidMethod();</span><br></pre></td></tr></table></figure>
-<h4 id="doNothing函数"><a href="#doNothing函数" class="headerlink" title="doNothing函数"></a>doNothing函数</h4><p>使用doNothing()函数是为了设置void函数什么也不做。需要注意的是默认情况下返回值为void的函数在mocks中是什么也不做的但是，也会有一些特殊情况。</p>
-<h4 id="doReturn函数"><a href="#doReturn函数" class="headerlink" title="doReturn函数"></a>doReturn函数</h4><p>在某些特殊情况下如果你无法使用when(Object)可以使用doReturn()函数</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 不能完成的：真实方法被调用所以spy.get(0)抛出   IndexOutOfBoundsException(list仍是空的)</span></span><br><span class="line">   when(spy.get(<span class="number">0</span>)).thenReturn(<span class="string">"foo"</span>);</span><br><span class="line"></span><br><span class="line">   <span class="comment">//You have to use doReturn() for stubbing:</span></span><br><span class="line">   <span class="comment">//你应用使用doReturn()函数</span></span><br><span class="line">   doReturn(<span class="string">"foo"</span>).when(spy).get(<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
-<h4 id="doThrow函数"><a href="#doThrow函数" class="headerlink" title="doThrow函数"></a>doThrow函数</h4><p>当你想测试void函数中指定类的抛出异常时使用doThrow()</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">doThrow(RuntimeException.class).when(mock).someVoidMethod();</span><br></pre></td></tr></table></figure>
-<h4 id="inOrder函数"><a href="#inOrder函数" class="headerlink" title="inOrder函数"></a>inOrder函数</h4><p>验证in order是很灵活的。你可以只验证你感兴趣的，并不需要一个一个验证所有的交互。同样你也可以创建InOrder对象只在相关in-order的验证中进行传值。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">InOrder inOrder = inOrder(firstMock, secondMock);</span><br><span class="line">inOrder.verify(firstMock).add(<span class="string">"was called first"</span>);</span><br><span class="line">inOrder.verify(secondMock).add(<span class="string">"was called second"</span>);</span><br></pre></td></tr></table></figure>
-<h4 id="mock函数"><a href="#mock函数" class="headerlink" title="mock函数"></a>mock函数</h4><p>对给定的类或接口创建mock对象</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mock(Class, Answer)</span><br></pre></td></tr></table></figure>
-<h4 id="never-函数"><a href="#never-函数" class="headerlink" title="never()函数"></a>never()函数</h4><p>相当于times(0),可参见 times(int) </p>
-<h4 id="only-函数"><a href="#only-函数" class="headerlink" title="only()函数"></a>only()函数</h4><p>如果当前mock的方法只被调用一次，则允许被检验。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, only()).someMethod();</span><br><span class="line"><span class="comment">//上面这行代码是下面这两行代码的简写</span></span><br><span class="line">verify(mock).someMethod();</span><br><span class="line">verifyNoMoreInvocations(mock);</span><br></pre></td></tr></table></figure>
-<h4 id="reset-T…-mocks-函数"><a href="#reset-T…-mocks-函数" class="headerlink" title="reset(T… mocks)函数"></a>reset(T… mocks)函数</h4><p>你可以考虑写一些简单的、精悍的、聚焦的测试方法来代替reset()这个方法。当你在在测试方法的中间部分用到reset()这个方法时，说明你的测试方法太庞大了。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">List mock = mock(List.class);</span><br><span class="line">when(mock.size()).thenReturn(<span class="number">10</span>);</span><br><span class="line">mock.add(<span class="number">1</span>);</span><br><span class="line">reset(mock);</span><br><span class="line"><span class="comment">//此时会清除你之前所有的交互以及测试</span></span><br></pre></td></tr></table></figure>
-<h4 id="spy-Class-classToSpy-函数"><a href="#spy-Class-classToSpy-函数" class="headerlink" title="spy(Class classToSpy)函数"></a>spy(Class classToSpy)函数</h4><h4 id="timesout-long-millis-函数"><a href="#timesout-long-millis-函数" class="headerlink" title="timesout(long millis)函数"></a>timesout(long millis)函数</h4><p>允许验证时使用timeout。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 在超时之前，`someMethod()`通过了2次调用</span></span><br><span class="line">verify(mock, timeout(<span class="number">100</span>).times(<span class="number">2</span>)).someMethod();</span><br></pre></td></tr></table></figure>
-<h4 id="time-int-wantedNumberOfInvocations-函数"><a href="#time-int-wantedNumberOfInvocations-函数" class="headerlink" title="time(int wantedNumberOfInvocations)函数"></a>time(int wantedNumberOfInvocations)函数</h4><p>允许验证调用方法的精确次数</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">verify(mock, times(<span class="number">2</span>)).someMethod(<span class="string">"some arg"</span>);</span><br><span class="line"><span class="comment">//连续调用该方法两次</span></span><br></pre></td></tr></table></figure>
-<h4 id="verify-T-mock-函数"><a href="#verify-T-mock-函数" class="headerlink" title="verify(T mock)函数"></a>verify(T mock)函数</h4><p>验证发生的某些行为 </p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">verify(mock).someMethod(<span class="string">"some arg"</span>);</span><br></pre></td></tr></table></figure>
-<h4 id="verifyNoMoreInteractions-Object…-mocks-函数"><a href="#verifyNoMoreInteractions-Object…-mocks-函数" class="headerlink" title="verifyNoMoreInteractions(Object… mocks)函数"></a>verifyNoMoreInteractions(Object… mocks)函数</h4><p>检查入参的mocks是否有任何未经验证的交互,你可以在验证你的mocks之后使用这个方法，用以确保你的mocks没有其它地方会被调用.<br>测试柱的调用也被看成是交互。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">mock.doSomething();</span><br><span class="line">mock.doSomethingUnexpected();</span><br><span class="line"><span class="comment">//验证</span></span><br><span class="line">verify(mock).doSomething();</span><br><span class="line"></span><br><span class="line"><span class="comment">//因为'doSomethingUnexpected()'是未被期望的，所以下面将会失败</span></span><br><span class="line">verifyNoMoreInteractions(mock);</span><br></pre></td></tr></table></figure>
-<h3 id="Robolectric"><a href="#Robolectric" class="headerlink" title="Robolectric"></a>Robolectric</h3><p><a href="http://robolectric.org/getting-started/" target="_blank" rel="noopener">Robolectric</a>是为android上的TDD开发而产生的一款第三方测试框架.</p>
-<h4 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h4><p>gradle导入：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">testCompile "org.robolectric:robolectric:3.3.2"</span><br></pre></td></tr></table></figure>
-<p>Building with Android Studio</p>
-<p>将runconfig的working directory设置成：$MODULE_DIR$，不然会提示资源找不到错误。</p>
-<h4 id="使用-1"><a href="#使用-1" class="headerlink" title="使用"></a>使用</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RunWith</span>(RobolectricTestRunner.class)</span><br><span class="line"><span class="meta">@Config</span>(constants = BuildConfig.class)</span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">RobolectricTest</span> </span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>具体使用见<a href="http://www.jianshu.com/p/9d988a2f8ff7" target="_blank" rel="noopener">用例</a></p>
 
       
     </div>
@@ -970,11 +324,11 @@
 
 
   
-    <article id="post-AS资源文件自动分类" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-android 基本知识" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/02/10/AS资源文件自动分类/" class="article-date">
-  	<time datetime="2017-02-09T16:00:00.000Z" itemprop="datePublished">2017-02-10</time>
+      <a href="/2017/02/08/android 基本知识/" class="article-date">
+  	<time datetime="2017-02-07T16:00:00.000Z" itemprop="datePublished">2017-02-08</time>
 </a>
     </div>
   
@@ -987,8 +341,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/10/AS资源文件自动分类/">
-        AS资源文件自动分类
+      <a class="article-title" href="/2017/02/08/android 基本知识/">
+        Android 基本知识
         
       </a>
     </h1>
@@ -999,14 +353,53 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>资源文件中过多的图片文件或者布局文件，在开发中去查找对应的文件变得非常麻烦。所以将资源文件进行按文件夹分类变得非常重要，基本每个开发人员都为此烦恼过。</p>
-<p>其实，最早的实现方式是，在对应资源文件下建立自定义文件夹，之后配置软连接的方式实现的。</p>
-<p>不过，最近大神开源了一款虚拟高效的自动归类的一个AS插件，可以在不修改项目任何代码的情况下对资源文件进行分类。</p>
-<p><a href="https://github.com/dmytrodanylyk/folding-plugin/releases">folding-plugin</a>下载</p>
-<h3 id="导入插件"><a href="#导入插件" class="headerlink" title="导入插件"></a>导入插件</h3><p>导入AS【File-&gt;Settings-Plugins,选择自定义插件，导入.jar文件】，导入完成，重启studio</p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>右键对应资源文件夹-&gt;group/ungroup</p>
+        <h4 id="Android沙箱"><a href="#Android沙箱" class="headerlink" title="Android沙箱"></a>Android沙箱</h4><p>Android“沙箱”的本质是为了实现不同应用程序和进程之间的互相隔离，即在默认情况下，应用程序没有权限访问系统资源或其它应用程序的资源。每个APP和系统进程都被分配唯一并且固定的User Id，这个uid与内核层进程的uid对应。每个APP在各自独立的Dalvik虚拟机中运行，拥有独立的地址空间和资源。运行于Dalvik虚拟机中的 进程必须依托内核层Linux进程而存在，因此Android使用Dalvik虚拟机和Linux的文件访问控制来实现沙箱机制，任何应用程序如果想要访问系统资源或者其它应用程序的资源必须在自己的manifest文件中进行声明权限或者共享uid。</p>
+<p>安装在设备中的每一个apk文件，Android给每个APK进程分配一个单独的用户空间,其manifest中的userid就是对应一个Linux 用户都会被分配到一个属于自己的统一的Linux用户ID，并且为它创建一个沙箱，以防止影响其他应用程序（或者其他应用程序影响它）。用户ID 在应用程序安装到设备中时被分配，并且在这个设备中保持它的永久性。</p>
+<p>通过Shared User id,拥有同一个User id的多个APK可以配置成运行在同一个进程中.所以默认就是可以互相访问任意数据. 也可以配置成运行成不同的进程, 同时可以访问其他APK的数据目录下的数据库和文件.就像访问本程序的数据一样.</p>
+<h5 id="为什么做沙箱"><a href="#为什么做沙箱" class="headerlink" title="为什么做沙箱"></a>为什么做沙箱</h5><p>沙箱，对使用者来说可以理解为一种安全环境，对恶意访问者来说是一种限制。Android 沙箱实现了应用程序的相互隔离，用于对文件系统的实体访问进行控制，也可以对其他Android系统资源进行访问控制。</p>
+<h4 id="APP构建过程"><a href="#APP构建过程" class="headerlink" title="APP构建过程"></a>APP构建过程</h4><p>使用Android Asset Packaging Tool(aapt) ，将AndroidManifest.xml和res下的资源编译生成R.Java文件，这样java文件就可以去引用资源了 - 使用aidl 工具去生成对应的Java interfaces - 将src和通过aapt生成的R.java，.aidl文件通过javaC命令去生成.class 文件 - 使用dex tool 将class文件转化成Dalvik byte code.这时候要将所有class文件和第三方的jar包都包括。 - 所有没有编译过得图片和编译过的图片,.dex文件传给apkbuilder去打包成.apk - 最后采用zipalign tool 打入签名.</p>
+<p><img src="http://img.blog.csdn.net/20170205174903577?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWmhlbmc1NDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片"></p>
+<h5 id="编译一个application-module或者library文件，大致可以分为gradle-task代表的五个阶段："><a href="#编译一个application-module或者library文件，大致可以分为gradle-task代表的五个阶段：" class="headerlink" title="编译一个application module或者library文件，大致可以分为gradle task代表的五个阶段："></a>编译一个application module或者library文件，大致可以分为gradle task代表的五个阶段：</h5><ol>
+<li>Preparation of dependecies 在这个阶段gradle检测module依赖的所有library是否ready。如果这个module依赖于另一个module，则另一个module也要被编译。 </li>
+<li>Merging resources and processing Manifest 在这个阶段之后，资源和Manifest文件被打包。 </li>
+<li>Compiling 在这个阶段处理编译器的注解，源码被编译成字节码。 </li>
+<li>Postprocessing 所有带 “transform”前缀的task都是这个阶段进行处理的。 </li>
+<li>Packaging and publishing 这个阶段library生成.aar文件，application生成.apk文件。</li>
+</ol>
+<h4 id="Dalvik、ART-虚拟机"><a href="#Dalvik、ART-虚拟机" class="headerlink" title="Dalvik、ART 虚拟机"></a>Dalvik、ART 虚拟机</h4><h5 id="jvm"><a href="#jvm" class="headerlink" title="jvm"></a>jvm</h5><p>JVM本质上就是一个软件，是计算机硬件的一层软件抽象，在这之上才能够运行Java程序，JAVA在编译后会生成类似于汇编语言的JVM字节码，与C语言编译后产生的汇编语言不同的是，C编译成的汇编语言会直接在硬件上跑，但JAVA编译后生成的字节码是在JVM上跑，需要由JVM把字节码翻译成机器指令，才能使JAVA程序跑起来。</p>
+<p>JVM运行在操作系统上，屏蔽了底层实现的差异，从而有了JAVA吹嘘的平台独立性和Write Once Run Anywhere。根据JVM规范实现的具体虚拟机有几十种，主流的JVM包括Hotspot、Jikes RVM等，都是用C/C++和汇编编写的，每个JRE编译的时候针对每个平台编译，因此下载JRE（JVM、Java核心类库和支持文件）的时候是分平台的，JVM的作用是把平台无关的.class里面的字节码翻译成平台相关的机器码，来实现跨平台。</p>
+<h5 id="dvm"><a href="#dvm" class="headerlink" title="dvm"></a>dvm</h5><p>JVM是Java Virtual Machine，而DVM就是Dalvik Virtual Machine，是安卓中使用的虚拟机，所有安卓程序都运行在安卓系统进程里，每个进程对应着一个Dalvik虚拟机实例。他们都提供了对象生命周期管理、堆栈管理、线程管理、安全和异常管理以及垃圾回收等重要功能，各自拥有一套完整的指令系统，以下简要对比两种虚拟机的不同。</p>
 <ul>
-<li>这些分组都是虚拟的，在Android视图下无效国，project等皆有效。</li>
+<li>JAVA虚拟机运行的是JAVA字节码，Dalvik虚拟机运行的是Dalvik字节码,JAVA程序经过编译，生成JAVA字节码保存在class文件中，JVM通过解码class文件中的内容来运行程序。而DVM运行的是Dalvik字节码，所有的Dalvik字节码由JAVA字节码转换而来，并被打包到一个DEX（Dalvik Executable）可执行文件中，DVM通过解释DEX文件来执行这些字节码。</li>
+<li>Dalvik可执行文件体积更小</li>
+<li>JVM基于栈，DVM基于寄存器</li>
+</ul>
+<h5 id="JIT-AOT-ART"><a href="#JIT-AOT-ART" class="headerlink" title="JIT AOT ART"></a>JIT AOT ART</h5><p>首先了解JIT（Just In Time，即时编译技术）和AOT(Ahead Of Time，预编译技术)两种编译模式。</p>
+<p>JIT以JVM为例，javac把程序源码编译成JAVA字节码，JVM通过逐条解释字节码将其翻译成对应的机器指令，逐条读入，逐条解释翻译，执行速度必然比C/C++编译后的可执行二进制字节码程序慢，为了提高执行速度，就引入了JIT技术，JIT会在运行时分析应用程序的代码，识别哪些方法可以归类为热方法，这些方法会被JIT编译器编译成对应的汇编代码，然后存储到代码缓存中，以后调用这些方法时就不用解释执行了，可以直接使用代码缓存中已编译好的汇编代码。这能显著提升应用程序的执行效率。（安卓Dalvik虚拟机在2.2中增加了JIT）</p>
+<p>相对的AOT就是指C/C++这类语言，编译器在编译时直接将程序源码编译成目标机器码，运行时直接运行机器码。</p>
+<p>Dalvik虚拟机执行的是dex字节码，ART虚拟机执行的是本地机器码</p>
+<p>Dalvik执行的是dex字节码，依靠JIT编译器去解释执行，运行时动态地将执行频率很高的dex字节码翻译成本地机器码，然后在执行，但是将dex字节码翻译成本地机器码是发生在应用程序的运行过程中，并且应用程序每一次重新运行的时候，都要重新做这个翻译工作，因此，及时采用了JIT，Dalvik虚拟机的总体性能还是不能与直接执行本地机器码的ART虚拟机相比。</p>
+<p>安卓运行时从Dalvik虚拟机替换成ART虚拟机，并不要求开发者重新将自己的应用直接编译成目标机器码，也就是说，应用程序仍然是一个包含dex字节码的apk文件。所以在安装应用的时候，dex中的字节码将被编译成本地机器码，之后每次打开应用，执行的都是本地机器码。移除了运行时的解释执行，效率更高，启动更快。（安卓在4.4中发布了ART运行时）</p>
+<h4 id="Apk安装过程"><a href="#Apk安装过程" class="headerlink" title="Apk安装过程"></a>Apk安装过程</h4><p>1 将Apk文件导入或者通过网络下载到手机上面。</p>
+<p>2 当Apk文件被复制到一个应用目录时，它由包管理器自动探查并安装，因为包管理器会监视这些目录的变化。</p>
+<p>3 点击弹出安装，首先检查是否信任(未知来源)，packgeinstaller弹出基本GUI附带上APK文件的URI的intent，显示所需权限的确认框，</p>
+<p>4 点击确认按钮，packgeinstaller 会调用pachgemanagerservice服务，它会执行真实的安装过程。pachgemanagerservice负责解析Apk文件，启动应用安装，更新和卸载包，维护包数据库，并且负责权限管理。</p>
+<p>5 pachgemanagerservice并没有root权限来创建删除和更改应用目录的所有者，因此pachgemanagerservice将这些操作托付给installed守护进程</p>
+<ul>
+<li>打开一个Apk文件会触发application/vnd.android.package-achive处理程序启动，这一程序通常是packageinstaller系统中的packageinstalleractivity组件。</li>
+<li>packageinstalleractivity首先检查(根据Apk的UID和包名，并检查它是不是特权应用，可以安装在/system/priv-app/目录下)应用是否受信任，如果不具有特权就会被标记为”未知来源”，弹出警示框并结束安装。</li>
+<li>如果允许安装，packageinstalleractivity解析Apk,并且从AndroidManifest.xml文件获取信息和包签名，当使用java.util.jar.JarFile和相关类对每个条目提取签名验证证书时，apk的完整性会被自动验证。(系统应用是被隐式信任的，并且在解析时只验证AndroidManifest.xml的完整性，非系统应用全部文件都会被验证)。</li>
+<li>一旦解析完毕packageinstalleractivity会在一个对话框里面显示该应用的相关信息和所需权限。用户点击确认后，packageinstalleractivity将Apk文件和manifest摘要发给InstallerAppProgress，然后由它启动实际的安装过程。manifest摘要包含了安装元数据，例如引用URL，安装包名和初始UID。</li>
+<li>InstallerAppProgress将apk的url和安装元数据传递给PackageManagerService的installPackageWithVerificationAndEncryption()方法，从而启动安装进程。</li>
+<li>安装方法首先验证调用者是否具备INSTALL_PACKAGES权限，该权限是signature保护的，并且系统应用默认拥有该权限(多用户系统验证)。</li>
+<li>确定首选安装位置，可以是内存，或者sdcard。</li>
+<li>如果apk文件没有加密，就不需要验证，下一步就是将它复制到应用程序的目录中（/data/app）。</li>
+<li>当Apk文件成功复制后，它包含的任何本地库都会被提取到一个指定的app目录（/data/app-lib/）。</li>
+<li>接下来，临时的apk和库目录均会被重命名为它们最终基于包名称的名字</li>
+<li>包扫描，包管理器首先创建packagesettings结构，其中包括包名，代码路径，单独的资源路径和一个本地库路径。然后给新包赋予一个UID，并将其存在配置结构里。一旦新的app拥有UID，则其数据目录就可以创建了。</li>
+<li>创建数据目录，调用install守护进程，创建数据目录(/data/data/包名，data/app-lib/包名，需要root权限)。</li>
+<li>生成odex文件，如果是ART则生成本地机器代码。</li>
+<li>将包添加到系统包的数据库中。</li>
 </ul>
 
       
@@ -1147,108 +540,6 @@
 
 
   
-    <article id="post-android 基本知识" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/02/08/android 基本知识/" class="article-date">
-  	<time datetime="2017-02-07T16:00:00.000Z" itemprop="datePublished">2017-02-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/08/android 基本知识/">
-        Android 基本知识
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="Android沙箱"><a href="#Android沙箱" class="headerlink" title="Android沙箱"></a>Android沙箱</h4><p>Android“沙箱”的本质是为了实现不同应用程序和进程之间的互相隔离，即在默认情况下，应用程序没有权限访问系统资源或其它应用程序的资源。每个APP和系统进程都被分配唯一并且固定的User Id，这个uid与内核层进程的uid对应。每个APP在各自独立的Dalvik虚拟机中运行，拥有独立的地址空间和资源。运行于Dalvik虚拟机中的 进程必须依托内核层Linux进程而存在，因此Android使用Dalvik虚拟机和Linux的文件访问控制来实现沙箱机制，任何应用程序如果想要访问系统资源或者其它应用程序的资源必须在自己的manifest文件中进行声明权限或者共享uid。</p>
-<p>安装在设备中的每一个apk文件，Android给每个APK进程分配一个单独的用户空间,其manifest中的userid就是对应一个Linux 用户都会被分配到一个属于自己的统一的Linux用户ID，并且为它创建一个沙箱，以防止影响其他应用程序（或者其他应用程序影响它）。用户ID 在应用程序安装到设备中时被分配，并且在这个设备中保持它的永久性。</p>
-<p>通过Shared User id,拥有同一个User id的多个APK可以配置成运行在同一个进程中.所以默认就是可以互相访问任意数据. 也可以配置成运行成不同的进程, 同时可以访问其他APK的数据目录下的数据库和文件.就像访问本程序的数据一样.</p>
-<h5 id="为什么做沙箱"><a href="#为什么做沙箱" class="headerlink" title="为什么做沙箱"></a>为什么做沙箱</h5><p>沙箱，对使用者来说可以理解为一种安全环境，对恶意访问者来说是一种限制。Android 沙箱实现了应用程序的相互隔离，用于对文件系统的实体访问进行控制，也可以对其他Android系统资源进行访问控制。</p>
-<h4 id="APP构建过程"><a href="#APP构建过程" class="headerlink" title="APP构建过程"></a>APP构建过程</h4><p>使用Android Asset Packaging Tool(aapt) ，将AndroidManifest.xml和res下的资源编译生成R.Java文件，这样java文件就可以去引用资源了 - 使用aidl 工具去生成对应的Java interfaces - 将src和通过aapt生成的R.java，.aidl文件通过javaC命令去生成.class 文件 - 使用dex tool 将class文件转化成Dalvik byte code.这时候要将所有class文件和第三方的jar包都包括。 - 所有没有编译过得图片和编译过的图片,.dex文件传给apkbuilder去打包成.apk - 最后采用zipalign tool 打入签名.</p>
-<p><img src="http://img.blog.csdn.net/20170205174903577?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWmhlbmc1NDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片"></p>
-<h5 id="编译一个application-module或者library文件，大致可以分为gradle-task代表的五个阶段："><a href="#编译一个application-module或者library文件，大致可以分为gradle-task代表的五个阶段：" class="headerlink" title="编译一个application module或者library文件，大致可以分为gradle task代表的五个阶段："></a>编译一个application module或者library文件，大致可以分为gradle task代表的五个阶段：</h5><ol>
-<li>Preparation of dependecies 在这个阶段gradle检测module依赖的所有library是否ready。如果这个module依赖于另一个module，则另一个module也要被编译。 </li>
-<li>Merging resources and processing Manifest 在这个阶段之后，资源和Manifest文件被打包。 </li>
-<li>Compiling 在这个阶段处理编译器的注解，源码被编译成字节码。 </li>
-<li>Postprocessing 所有带 “transform”前缀的task都是这个阶段进行处理的。 </li>
-<li>Packaging and publishing 这个阶段library生成.aar文件，application生成.apk文件。</li>
-</ol>
-<h4 id="Dalvik、ART-虚拟机"><a href="#Dalvik、ART-虚拟机" class="headerlink" title="Dalvik、ART 虚拟机"></a>Dalvik、ART 虚拟机</h4><h5 id="jvm"><a href="#jvm" class="headerlink" title="jvm"></a>jvm</h5><p>JVM本质上就是一个软件，是计算机硬件的一层软件抽象，在这之上才能够运行Java程序，JAVA在编译后会生成类似于汇编语言的JVM字节码，与C语言编译后产生的汇编语言不同的是，C编译成的汇编语言会直接在硬件上跑，但JAVA编译后生成的字节码是在JVM上跑，需要由JVM把字节码翻译成机器指令，才能使JAVA程序跑起来。</p>
-<p>JVM运行在操作系统上，屏蔽了底层实现的差异，从而有了JAVA吹嘘的平台独立性和Write Once Run Anywhere。根据JVM规范实现的具体虚拟机有几十种，主流的JVM包括Hotspot、Jikes RVM等，都是用C/C++和汇编编写的，每个JRE编译的时候针对每个平台编译，因此下载JRE（JVM、Java核心类库和支持文件）的时候是分平台的，JVM的作用是把平台无关的.class里面的字节码翻译成平台相关的机器码，来实现跨平台。</p>
-<h5 id="dvm"><a href="#dvm" class="headerlink" title="dvm"></a>dvm</h5><p>JVM是Java Virtual Machine，而DVM就是Dalvik Virtual Machine，是安卓中使用的虚拟机，所有安卓程序都运行在安卓系统进程里，每个进程对应着一个Dalvik虚拟机实例。他们都提供了对象生命周期管理、堆栈管理、线程管理、安全和异常管理以及垃圾回收等重要功能，各自拥有一套完整的指令系统，以下简要对比两种虚拟机的不同。</p>
-<ul>
-<li>JAVA虚拟机运行的是JAVA字节码，Dalvik虚拟机运行的是Dalvik字节码,JAVA程序经过编译，生成JAVA字节码保存在class文件中，JVM通过解码class文件中的内容来运行程序。而DVM运行的是Dalvik字节码，所有的Dalvik字节码由JAVA字节码转换而来，并被打包到一个DEX（Dalvik Executable）可执行文件中，DVM通过解释DEX文件来执行这些字节码。</li>
-<li>Dalvik可执行文件体积更小</li>
-<li>JVM基于栈，DVM基于寄存器</li>
-</ul>
-<h5 id="JIT-AOT-ART"><a href="#JIT-AOT-ART" class="headerlink" title="JIT AOT ART"></a>JIT AOT ART</h5><p>首先了解JIT（Just In Time，即时编译技术）和AOT(Ahead Of Time，预编译技术)两种编译模式。</p>
-<p>JIT以JVM为例，javac把程序源码编译成JAVA字节码，JVM通过逐条解释字节码将其翻译成对应的机器指令，逐条读入，逐条解释翻译，执行速度必然比C/C++编译后的可执行二进制字节码程序慢，为了提高执行速度，就引入了JIT技术，JIT会在运行时分析应用程序的代码，识别哪些方法可以归类为热方法，这些方法会被JIT编译器编译成对应的汇编代码，然后存储到代码缓存中，以后调用这些方法时就不用解释执行了，可以直接使用代码缓存中已编译好的汇编代码。这能显著提升应用程序的执行效率。（安卓Dalvik虚拟机在2.2中增加了JIT）</p>
-<p>相对的AOT就是指C/C++这类语言，编译器在编译时直接将程序源码编译成目标机器码，运行时直接运行机器码。</p>
-<p>Dalvik虚拟机执行的是dex字节码，ART虚拟机执行的是本地机器码</p>
-<p>Dalvik执行的是dex字节码，依靠JIT编译器去解释执行，运行时动态地将执行频率很高的dex字节码翻译成本地机器码，然后在执行，但是将dex字节码翻译成本地机器码是发生在应用程序的运行过程中，并且应用程序每一次重新运行的时候，都要重新做这个翻译工作，因此，及时采用了JIT，Dalvik虚拟机的总体性能还是不能与直接执行本地机器码的ART虚拟机相比。</p>
-<p>安卓运行时从Dalvik虚拟机替换成ART虚拟机，并不要求开发者重新将自己的应用直接编译成目标机器码，也就是说，应用程序仍然是一个包含dex字节码的apk文件。所以在安装应用的时候，dex中的字节码将被编译成本地机器码，之后每次打开应用，执行的都是本地机器码。移除了运行时的解释执行，效率更高，启动更快。（安卓在4.4中发布了ART运行时）</p>
-<h4 id="Apk安装过程"><a href="#Apk安装过程" class="headerlink" title="Apk安装过程"></a>Apk安装过程</h4><p>1 将Apk文件导入或者通过网络下载到手机上面。</p>
-<p>2 当Apk文件被复制到一个应用目录时，它由包管理器自动探查并安装，因为包管理器会监视这些目录的变化。</p>
-<p>3 点击弹出安装，首先检查是否信任(未知来源)，packgeinstaller弹出基本GUI附带上APK文件的URI的intent，显示所需权限的确认框，</p>
-<p>4 点击确认按钮，packgeinstaller 会调用pachgemanagerservice服务，它会执行真实的安装过程。pachgemanagerservice负责解析Apk文件，启动应用安装，更新和卸载包，维护包数据库，并且负责权限管理。</p>
-<p>5 pachgemanagerservice并没有root权限来创建删除和更改应用目录的所有者，因此pachgemanagerservice将这些操作托付给installed守护进程</p>
-<ul>
-<li>打开一个Apk文件会触发application/vnd.android.package-achive处理程序启动，这一程序通常是packageinstaller系统中的packageinstalleractivity组件。</li>
-<li>packageinstalleractivity首先检查(根据Apk的UID和包名，并检查它是不是特权应用，可以安装在/system/priv-app/目录下)应用是否受信任，如果不具有特权就会被标记为”未知来源”，弹出警示框并结束安装。</li>
-<li>如果允许安装，packageinstalleractivity解析Apk,并且从AndroidManifest.xml文件获取信息和包签名，当使用java.util.jar.JarFile和相关类对每个条目提取签名验证证书时，apk的完整性会被自动验证。(系统应用是被隐式信任的，并且在解析时只验证AndroidManifest.xml的完整性，非系统应用全部文件都会被验证)。</li>
-<li>一旦解析完毕packageinstalleractivity会在一个对话框里面显示该应用的相关信息和所需权限。用户点击确认后，packageinstalleractivity将Apk文件和manifest摘要发给InstallerAppProgress，然后由它启动实际的安装过程。manifest摘要包含了安装元数据，例如引用URL，安装包名和初始UID。</li>
-<li>InstallerAppProgress将apk的url和安装元数据传递给PackageManagerService的installPackageWithVerificationAndEncryption()方法，从而启动安装进程。</li>
-<li>安装方法首先验证调用者是否具备INSTALL_PACKAGES权限，该权限是signature保护的，并且系统应用默认拥有该权限(多用户系统验证)。</li>
-<li>确定首选安装位置，可以是内存，或者sdcard。</li>
-<li>如果apk文件没有加密，就不需要验证，下一步就是将它复制到应用程序的目录中（/data/app）。</li>
-<li>当Apk文件成功复制后，它包含的任何本地库都会被提取到一个指定的app目录（/data/app-lib/）。</li>
-<li>接下来，临时的apk和库目录均会被重命名为它们最终基于包名称的名字</li>
-<li>包扫描，包管理器首先创建packagesettings结构，其中包括包名，代码路径，单独的资源路径和一个本地库路径。然后给新包赋予一个UID，并将其存在配置结构里。一旦新的app拥有UID，则其数据目录就可以创建了。</li>
-<li>创建数据目录，调用install守护进程，创建数据目录(/data/data/包名，data/app-lib/包名，需要root权限)。</li>
-<li>生成odex文件，如果是ART则生成本地机器代码。</li>
-<li>将包添加到系统包的数据库中。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-函数执行时间监控-hugo" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1362,6 +653,322 @@
 <p>所以请尽量使用for-each的方法，但是对于ArrayList，请使用方法one()。</p>
 <h4 id="使用包级访问而不是内部类的私有访问"><a href="#使用包级访问而不是内部类的私有访问" class="headerlink" title="使用包级访问而不是内部类的私有访问"></a>使用包级访问而不是内部类的私有访问</h4><h4 id="避免使用float类型"><a href="#避免使用float类型" class="headerlink" title="避免使用float类型"></a>避免使用float类型</h4><p>Android系统中float类型的数据存取速度是int类型的一半，尽量优先采用int类型。</p>
 <h4 id="使用库函数"><a href="#使用库函数" class="headerlink" title="使用库函数"></a>使用库函数</h4><p>尽量使用System.arraycopy()等一些封装好的库函数，它的效率是手动编写copy实现的9倍多。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-shell脚本" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/12/shell脚本/" class="article-date">
+  	<time datetime="2017-01-11T16:00:00.000Z" itemprop="datePublished">2017-01-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/12/shell脚本/">
+        shell脚本
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="从第一行开始"><a href="#从第一行开始" class="headerlink" title="从第一行开始"></a>从第一行开始</h4><p>此行称为 shebang（就是 sharp (#) + bang (!) 的意思），会指引操作系统使用接下来指定的程序运行此文件.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br></pre></td></tr></table></figure>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>Shell 变量默认全都是字符串。</p>
+<h4 id="变量赋值和引用"><a href="#变量赋值和引用" class="headerlink" title="变量赋值和引用"></a>变量赋值和引用</h4><p>Shell 编程中，使用变量无需事先声明。变量名的命名遵守大小写字母数字和下划线组成，且不能以数字开头。请注意 shell 环境中的确有以数字和特殊符号开头的变量名，但是那些东西不可以用接下来的方式赋值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">varname=值 [var2=val2 ....]</span><br></pre></td></tr></table></figure>
+<h5 id="请注意这边等号左右不能有空格。-要取用一个变量的值，只需在变量名前面加一个"><a href="#请注意这边等号左右不能有空格。-要取用一个变量的值，只需在变量名前面加一个" class="headerlink" title="请注意这边等号左右不能有空格。 要取用一个变量的值，只需在变量名前面加一个 $"></a>请注意这边等号左右不能有空格。 要取用一个变量的值，只需在变量名前面加一个 $</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># assign</span></span><br><span class="line">a=<span class="string">"hello world"</span>  <span class="comment"># 等号两边均不能有空格存在</span></span><br><span class="line"><span class="comment"># print</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">'%s\n'</span> <span class="string">"A is: <span class="variable">$a</span>"</span></span><br></pre></td></tr></table></figure>
+<p>有时候变量名可能会和其它文字（匹配最长的符合变量名或特殊变量名要求的内容）混淆，比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">num=2</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"this is the <span class="variable">$numnd</span>"</span>   <span class="comment"># 输出 this is the       — shell 尝试寻找 $numnd 的值</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"this is the <span class="variable">$&#123;num&#125;</span>nd"</span> <span class="comment"># 输出 this is the 2nd   — 修好了！</span></span><br><span class="line"><span class="comment"># 花括号可以隔开变量名，但是放歪了的话…</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"this is the &#123;<span class="variable">$num</span>&#125;nd"</span> <span class="comment"># 输出 this is the &#123;2&#125;nd — 切是切开了，但是…</span></span><br></pre></td></tr></table></figure>
+<h4 id="变量计算"><a href="#变量计算" class="headerlink" title="变量计算"></a>变量计算</h4><p>我们可以用很多方法达成我们的目标。首先是好孩子的方法——C 风格表达式。bash 里面可以用 (( )) 执行 C 风格的算术表达式。$(( )) 会展开成为这个 C 表达式求值的结果。以前 bash 有个 $[ ] 一样，但是别去用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var=0</span><br><span class="line">(( var += 1 )) <span class="comment"># 这是一种，现在 var 是 1</span></span><br><span class="line">(( var++ ))    <span class="comment"># 这也是一种自增，2</span></span><br><span class="line">(( var = var * var )) <span class="comment"># 怎么来乘法了！var 现在是 4。</span></span><br><span class="line"><span class="built_in">let</span> <span class="string">'var = var / 3'</span>   <span class="comment"># 还是只有 bash 才能用的拓展。除法是整数除法，向 0 舍入，1。</span></span><br><span class="line"><span class="built_in">echo</span> $((var += 2))    <span class="comment"># echo 出 3，var 现在是 3。</span></span><br><span class="line">var=$((var-1))        <span class="comment"># 展开成 var=2，var 现在是……还用说吗，2。</span></span><br></pre></td></tr></table></figure>
+<h3 id="Shell里的流程控制"><a href="#Shell里的流程控制" class="headerlink" title="Shell里的流程控制"></a>Shell里的流程控制</h3><h4 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> </span><br><span class="line">  判断命令，可以有很多个，真假取最后的返回值</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  如果前述为真做什么</span><br><span class="line">[ <span class="comment"># 方括号代表可选，别真打进去了！</span></span><br><span class="line"><span class="keyword">elif</span></span><br><span class="line">  可以再来个判断，如果签名为假继续尝试这里</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  如果前述为真做什么 ]</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  如果全都不行做什么</span><br><span class="line"><span class="keyword">fi</span> <span class="comment"># 结束，就是倒写的 if 啦。</span></span><br></pre></td></tr></table></figure>
+<h5 id="amp-amp-和-操作符"><a href="#amp-amp-和-操作符" class="headerlink" title="&amp;&amp; 和 || 操作符"></a>&amp;&amp; 和 || 操作符</h5><h5 id="case-语句"><a href="#case-语句" class="headerlink" title="case 语句"></a>case 语句</h5><p>case表达式可以用来匹配一个给定的字符串，而不是数字（可别和C语言里的switch…case混淆）。</p>
+<p>我们利用这点写了一个名为smartzip的脚本，该脚本可以自动解压bzip2, gzip和zip 类型的压缩文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ftype=<span class="string">"<span class="variable">$(file "$1")</span>"</span></span><br><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$ftype</span>"</span> <span class="keyword">in</span></span><br><span class="line"><span class="string">"<span class="variable">$1</span>: Zip archive"</span>*)</span><br><span class="line">   unzip <span class="string">"<span class="variable">$1</span>"</span> ;;</span><br><span class="line"><span class="string">"<span class="variable">$1</span>: gzip compressed"</span>*)</span><br><span class="line">   gunzip <span class="string">"<span class="variable">$1</span>"</span> ;;</span><br><span class="line"><span class="string">"<span class="variable">$1</span>: bzip2 compressed"</span>*)</span><br><span class="line">   bunzip2 <span class="string">"<span class="variable">$1</span>"</span> ;;</span><br><span class="line">*)</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"File <span class="variable">$1</span> can not be uncompressed with smartzip"</span>;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<p>你可能注意到上面使用了一个特殊变量 $1，该变量包含有传递给该脚本的第一个参数值。也就是说，当我们运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smartzip articles.zip</span><br></pre></td></tr></table></figure>
+<h4 id="select-循环语句"><a href="#select-循环语句" class="headerlink" title="select 循环语句"></a>select 循环语句</h4><p>select 循环语句是bash的一种扩展应用，擅长于交互式场合。<br>用户可以从一组不同的值中进行选择</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pocket=()</span><br><span class="line">select var <span class="keyword">in</span> 跳跳糖 糖 很多糖 企鹅糖; <span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"除了 <span class="variable">$var</span> 还要什么吗？"</span></span><br><span class="line">  <span class="keyword">if</span> ((RANDOM%4 == 0)); <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"呀！时间不够了，快上车！"</span></span><br><span class="line">    <span class="built_in">break</span> <span class="comment"># break 还是那个 break</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  pocket+=(<span class="string">"<span class="variable">$var</span>"</span>)</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"你最后说的那个 <span class="variable">$var</span> 弄丢了……"</span></span><br><span class="line">IFS=<span class="string">'、'</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"现在口袋里只有：<span class="variable">$&#123;pocket[*]&#125;</span>。"</span></span><br><span class="line">IFS=$<span class="string">' \t\n'</span></span><br></pre></td></tr></table></figure>
+<h4 id="while-for-循环"><a href="#while-for-循环" class="headerlink" title="while/for 循环"></a>while/for 循环</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ...; <span class="keyword">do</span></span><br><span class="line">   ....</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>只要测试表达式条件为真，则while循环将一直运行。关键字”break”用来跳出循环，而关键字”continue”则可以跳过一个循环的余下部分，直接跳到下一次循环中。<br>for循环会查看一个字符串列表（字符串用空格分隔），并将其赋给一个变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> var <span class="keyword">in</span> ....; <span class="keyword">do</span></span><br><span class="line">   ....</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h3 id="Shell里的一些特殊符号"><a href="#Shell里的一些特殊符号" class="headerlink" title="Shell里的一些特殊符号"></a>Shell里的一些特殊符号</h3><h4 id="引号"><a href="#引号" class="headerlink" title="引号"></a>引号</h4><p>在向程序传递任何参数之前，程序会扩展通配符和变量。这里所谓的扩展是指程序会把通配符（比如*）替换成适当的文件名，把变量替换成变量值。我们可以使用引号来防止这种扩展，先来看一个例子，假设在当前目录下有两个jpg文件：mail.jpg和tux.jpg。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> *.jpg   <span class="comment"># =&gt; mail.jpg tux.jpg</span></span><br></pre></td></tr></table></figure>
+<p>引号（单引号和双引号）可以防止通配符*的扩展：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"*.jpg"</span>  <span class="comment"># =&gt; *.jpg</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'*.jpg'</span>  <span class="comment"># =&gt; *.jpg</span></span><br></pre></td></tr></table></figure>
+<p>其中单引号更严格一些，它可以防止任何变量扩展；而双引号可以防止通配符扩展但允许变量扩展：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span>   <span class="comment"># =&gt; /bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"<span class="variable">$SHELL</span>"</span> <span class="comment"># =&gt; /bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'$SHELL'</span> <span class="comment"># =&gt; $SHELL</span></span><br></pre></td></tr></table></figure>
+<p>此外还有一种防止这种扩展的方法，即使用转义字符——反斜杠\：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> \*.jpg   <span class="comment"># =&gt; *.jpg</span></span><br><span class="line"><span class="built_in">echo</span> \<span class="variable">$SHELL</span>  <span class="comment"># =&gt; $SHELL</span></span><br></pre></td></tr></table></figure>
+<h3 id="Shell里的函数"><a href="#Shell里的函数" class="headerlink" title="Shell里的函数"></a>Shell里的函数</h3><p>如果你写过比较复杂的脚本，就会发现可能在几个地方使用了相同的代码，这时如果用上函数，会方便很多。函数的大致样子如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 别笑，bash 里面函数名的确可以这样……</span></span><br><span class="line"><span class="comment"># (POSIX sh 函数名倒是和变量名要求差不多)</span></span><br><span class="line">我是一个函数() &#123;</span><br><span class="line">  <span class="comment"># 函数里面 $1 $2 对应函数所接受到的第一、第二……个参数。</span></span><br><span class="line">  这里有很多命令</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-app启动速度检测" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/06/app启动速度检测/" class="article-date">
+  	<time datetime="2017-01-05T16:00:00.000Z" itemprop="datePublished">2017-01-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/06/app启动速度检测/">
+        App启动速度检测
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="启动时间监控"><a href="#启动时间监控" class="headerlink" title="启动时间监控"></a>启动时间监控</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -W -S packagename/activity</span><br></pre></td></tr></table></figure>
+<ul>
+<li>-W 列出启动过程中统计到的具体数据</li>
+<li>-S 强制停止当前的Activity,重新启动</li>
+</ul>
+<h4 id="WaitTime"><a href="#WaitTime" class="headerlink" title="WaitTime"></a>WaitTime</h4><p>WaitTime 返回从 startActivity 到应用第一帧完全显示这段时间. 就是总的耗时，包括前一个应用 Activity pause 的时间和新应用启动的时间；</p>
+<h4 id="ThisTime"><a href="#ThisTime" class="headerlink" title="ThisTime"></a>ThisTime</h4><p>ThisTime 表示一连串启动 Activity 的最后一个 Activity 的启动耗时；</p>
+<h4 id="TotalTime"><a href="#TotalTime" class="headerlink" title="TotalTime"></a>TotalTime</h4><p>TotalTime 表示新应用启动的耗时，包括新进程的启动和 Activity 的启动，但不包括前一个应用Activity pause的耗时。</p>
+<p>开发者一般只要关心 TotalTime 即可，这个时间才是自己应用真正启动的耗时。</p>
+<h3 id="自动化统计脚本"><a href="#自动化统计脚本" class="headerlink" title="自动化统计脚本"></a>自动化统计脚本</h3><p>因为统计APP的启动速度，次数太少了会影响结果的准确性，所以为了方便，将之写成了脚本的形式，自动运行，自动计算，之后就一目了然了。</p>
+<p>效果图：</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E7%BB%93%E6%9E%9C.png" alt="结果"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">filePath=<span class="string">"/Users/shenyonghe/Desktop/qdsd.log"</span></span><br><span class="line">rm -f <span class="variable">$filePath</span></span><br><span class="line">sleep 1</span><br><span class="line">count=3 </span><br><span class="line">thisTime=0</span><br><span class="line">totalTime=0</span><br><span class="line">waitTime=0</span><br><span class="line">pageName=<span class="string">"com.baidao.futures"</span></span><br><span class="line">activityPath=<span class="string">"com.baidao.futures/com.baidao.futures.module.splash.SplashActivity"</span></span><br><span class="line"><span class="keyword">for</span>((i=0;i&lt;<span class="variable">$count</span>;i++))</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    adb shell am start -W -S <span class="variable">$activityPath</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">    sleep 5</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> “============分割线============”</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	 <span class="comment">#筛选ThisTime</span></span><br><span class="line">     thisResult=$(<span class="built_in">echo</span> <span class="variable">$line</span> | grep <span class="string">"ThisTime:"</span>)</span><br><span class="line">     <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$thisResult</span>"</span> != <span class="string">""</span> ]]</span><br><span class="line">     <span class="keyword">then</span></span><br><span class="line">     tmp=$(<span class="built_in">echo</span> <span class="variable">$line</span> | egrep -o <span class="string">'[0-9]+'</span>)</span><br><span class="line">     val=$((thisTime + tmp))</span><br><span class="line">     thisTime=<span class="variable">$val</span></span><br><span class="line">     <span class="keyword">fi</span> </span><br><span class="line"></span><br><span class="line">     <span class="comment">#筛选TotalTime</span></span><br><span class="line">     totalResult=$(<span class="built_in">echo</span> <span class="variable">$line</span> | grep <span class="string">"TotalTime:"</span>)</span><br><span class="line">     <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$totalResult</span>"</span> != <span class="string">""</span> ]]</span><br><span class="line">     <span class="keyword">then</span></span><br><span class="line">     tmp=$(<span class="built_in">echo</span> <span class="variable">$line</span> | egrep -o <span class="string">'[0-9]+'</span>)</span><br><span class="line">     val=$((totalTime + tmp))</span><br><span class="line">     totalTime=<span class="variable">$val</span></span><br><span class="line">     <span class="keyword">fi</span> </span><br><span class="line"></span><br><span class="line">     <span class="comment">#筛选WaitTime</span></span><br><span class="line">     waitResult=$(<span class="built_in">echo</span> <span class="variable">$line</span> | grep <span class="string">"WaitTime:"</span>)</span><br><span class="line">     <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$waitResult</span>"</span> != <span class="string">""</span> ]]</span><br><span class="line">     <span class="keyword">then</span></span><br><span class="line">     tmp=$(<span class="built_in">echo</span> <span class="variable">$line</span> | egrep -o <span class="string">'[0-9]+'</span>)</span><br><span class="line">     val=$((waitTime + tmp))</span><br><span class="line">     waitTime=<span class="variable">$val</span></span><br><span class="line">     <span class="keyword">fi</span> </span><br><span class="line"><span class="keyword">done</span> &lt; <span class="variable">$filePath</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'============分析结果============'</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">adb shell getprop ro.product.model | tee -a <span class="variable">$filePath</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'分析次数:'</span><span class="variable">$count</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">valThis=$((thisTime / count))</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'平均启动时间 ThisTime:'</span><span class="variable">$valThis</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">valTotal=$((totalTime / count))</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'平均启动时间 Totalime:'</span><span class="variable">$valTotal</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">valWait=$((waitTime / count))</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'平均启动时间 WaitTime:'</span><span class="variable">$valWait</span> | tee -a <span class="variable">$filePath</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-自动化测试Espresso" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/23/自动化测试Espresso/" class="article-date">
+  	<time datetime="2016-12-22T16:00:00.000Z" itemprop="datePublished">2016-12-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/23/自动化测试Espresso/">
+        Espresso
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Espresso 也是一款自动化测试的框架，和UiAutomator类似。<br>基本上使用流程和UiAutomator类似。</p>
+<h4 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h4><ul>
+<li>查找元素：找到UI上测试的元素位置，比如找到一个按钮</li>
+<li>执行操作：给某个元素执行一个动作，比如触发按钮的点击事件</li>
+<li>检查结果：判断做出的动作是否符合期望，比如按钮点击后，是否符合我的期望</li>
+</ul>
+<h3 id="访问UI元素"><a href="#访问UI元素" class="headerlink" title="访问UI元素"></a>访问UI元素</h3><p>对比与UiAutomator，Espresso可以直接根据id来访问元素，同样Espresso也是可以根据文本信息匹配进行访问的。<br>Espresso 提供onView()方法来访问UI元素，然后在执行一种操作，最后再进行验证。</p>
+<p>下面的一个代码示例，表示访问一个EditText，输入一些内容，关闭输入法，最后点击按钮。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testChangeText_sameActivity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Type text and then press the button.</span></span><br><span class="line">    onView(withId(R.id.editTextUserInput)).perform(typeText(STRING_TO_BE_TYPED), closeSoftKeyboard());</span><br><span class="line">    onView(withId(R.id.changeTextButton)).perform(click());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用withId-进行Id访问，也可以使用withText-进行文本匹配。"><a href="#使用withId-进行Id访问，也可以使用withText-进行文本匹配。" class="headerlink" title="使用withId()进行Id访问，也可以使用withText()进行文本匹配。"></a>使用withId()进行Id访问，也可以使用withText()进行文本匹配。</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Espresso.onView(ViewMatchers.withText(<span class="string">"Sign-in"</span>));</span><br><span class="line">Espresso.onView(ViewMatchers.withId(R.id.button_signin));</span><br></pre></td></tr></table></figure>
+<h4 id="结合-Hamcrest库中的Matchers，可以使用allOf-来组合选择多个UI元素。"><a href="#结合-Hamcrest库中的Matchers，可以使用allOf-来组合选择多个UI元素。" class="headerlink" title="结合 Hamcrest库中的Matchers，可以使用allOf()来组合选择多个UI元素。"></a>结合 Hamcrest库中的Matchers，可以使用allOf()来组合选择多个UI元素。</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">onView(allOf(withId(R.id.button_signin), withText(<span class="string">"Sign-in"</span>)));</span><br><span class="line">onView(allOf(withId(R.id.button_signin), not(withText(<span class="string">"Sign-out"</span>))));</span><br></pre></td></tr></table></figure>
+<h3 id="执行动作"><a href="#执行动作" class="headerlink" title="执行动作"></a>执行动作</h3><p>调用ViewInteraction.perform()和 DataInteraction.perform()，可以模拟用户执行UI元素的操作。可以指定一个或者多个动作，Espresso会按照指定的顺序，依次发送动作事件，这些动作是线程安全的。</p>
+<p>ViewActions 可以提供一些列常用的方法，我们可以利用写方法来操作UI元素。</p>
+<ul>
+<li>ViewActions.click(): 点击事件</li>
+<li>ViewActions.typeText(): 输入指定的文字内容</li>
+<li>ViewActions.scrollTo(): 滑动</li>
+<li>ViewActions.pressKey(): 按下按键</li>
+<li>ViewActions.clearText(): 清空文本</li>
+<li>ViewActions.pressBack() 返回键</li>
+<li>ViewActions.pressMenuKey() 菜单键</li>
+<li>ViewActions.doubleClick() 双击</li>
+<li>ViewActions.longClick() 长按</li>
+<li>ViewActions.closeSoftKeyboard() 收起键盘</li>
+<li>ViewActions.swipeLeft(): 从右向左滑动</li>
+<li>ViewActions.swipeRight(): 从左向右滑动</li>
+<li>ViewActions.swipeDown(): 从上向下滑动</li>
+<li>ViewActions.swipeUp(): 从下向上滑动</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li>输入内容时，会出现无法输入的状况，一般是由于键盘类型导致的，切换为系统的google输入法就OK了。</li>
+</ul>
+<h3 id="在命令行中通过-Gradle-执行"><a href="#在命令行中通过-Gradle-执行" class="headerlink" title="在命令行中通过 Gradle 执行"></a>在命令行中通过 Gradle 执行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ​./gradlew connectedAndroidTest</span><br><span class="line">    等价于</span><br><span class="line">$ ./gradlew cAT</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-RSA加密" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/20/RSA加密/" class="article-date">
+  	<time datetime="2016-12-19T16:00:00.000Z" itemprop="datePublished">2016-12-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/20/RSA加密/">
+        RSA
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>RSA是一种非对称加密算法，常用来对传输数据进行加密，配合上数字摘要算法，也可以进行文字签名。</p>
+<h3 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h3><ul>
+<li><p>加密：公钥放在客户端，并使用公钥对数据进行加密，服务端拿到数据后用私钥进行解密；</p>
+</li>
+<li><p>加签：私钥放在客户端，并使用私钥对数据进行加签，服务端拿到数据后用公钥进行验签。</p>
+</li>
+</ul>
+<p>前者完全为了加密；后者主要是为了防恶意攻击，防止别人模拟我们的客户端对我们的服务器进行攻击，导致服务器瘫痪。</p>
+<p>RSA使用“密钥对”对数据进行加密解密，在加密解密前需要先生存公钥（Public Key）和私钥（Private Key）。</p>
+<ul>
+<li><p>公钥(Public key): 用于加密数据. 用于公开, 一般存放在数据提供方, 例如iOS客户端。</p>
+</li>
+<li><p>私钥(Private key): 用于解密数据. 必须保密, 私钥泄露会造成安全问题。</p>
+</li>
+</ul>
+<h3 id="生成公钥私钥"><a href="#生成公钥私钥" class="headerlink" title="生成公钥私钥"></a>生成公钥私钥</h3><h4 id="1-生成模长为1024bit的私钥"><a href="#1-生成模长为1024bit的私钥" class="headerlink" title="1 生成模长为1024bit的私钥"></a>1 生成模长为1024bit的私钥</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ genrsa -out private_key.pem 1024</span><br></pre></td></tr></table></figure>
+<h4 id="2-生成certification-require-file"><a href="#2-生成certification-require-file" class="headerlink" title="2 生成certification require file"></a>2 生成certification require file</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ req -new -key private_key.pem -out rsaCertReq.csr</span><br></pre></td></tr></table></figure>
+<h4 id="3-生成certification-并指定过期时间"><a href="#3-生成certification-并指定过期时间" class="headerlink" title="3 生成certification 并指定过期时间"></a>3 生成certification 并指定过期时间</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ x509 -req -days 3650 -<span class="keyword">in</span> rsaCertReq.csr -signkey private_key.pem -out rsaCert.crt</span><br></pre></td></tr></table></figure>
+<h4 id="4-生成java公钥"><a href="#4-生成java公钥" class="headerlink" title="4 生成java公钥"></a>4 生成java公钥</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rsa -<span class="keyword">in</span> private_key.pem -pubout -out public_key.pem</span><br></pre></td></tr></table></figure>
+<h4 id="5-生成pem结尾的私钥供Java使用-需要验证密码"><a href="#5-生成pem结尾的私钥供Java使用-需要验证密码" class="headerlink" title="5 生成pem结尾的私钥供Java使用(需要验证密码)"></a>5 生成pem结尾的私钥供Java使用(需要验证密码)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ pkcs8 -topk8 -<span class="keyword">in</span> private_key.pem -out pkcs8_private_key.pem -nocrypt</span><br></pre></td></tr></table></figure>
+<h4 id="6-生成公钥供iOS使用"><a href="#6-生成公钥供iOS使用" class="headerlink" title="6 生成公钥供iOS使用"></a>6 生成公钥供iOS使用</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line"><span class="variable">$x509</span> -outform der -<span class="keyword">in</span> rsaCert.crt -out public_key.der</span><br></pre></td></tr></table></figure>
+<h4 id="7-生成私钥供iOS使用-这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码"><a href="#7-生成私钥供iOS使用-这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码" class="headerlink" title="7 生成私钥供iOS使用 这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码"></a>7 生成私钥供iOS使用 这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ pkcs12 -<span class="built_in">export</span> -out private_key.p12 -inkey private_key.pem -<span class="keyword">in</span> rsaCert.crt</span><br></pre></td></tr></table></figure>
+<h4 id="8-查看公钥私钥内容"><a href="#8-查看公钥私钥内容" class="headerlink" title="8 查看公钥私钥内容"></a>8 查看公钥私钥内容</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat public_key.pem/private_key.pem</span><br></pre></td></tr></table></figure>
 
       
     </div>
