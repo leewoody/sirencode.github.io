@@ -162,6 +162,322 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-shell脚本" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/12/shell脚本/" class="article-date">
+  	<time datetime="2017-01-11T16:00:00.000Z" itemprop="datePublished">2017-01-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/12/shell脚本/">
+        shell脚本
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="从第一行开始"><a href="#从第一行开始" class="headerlink" title="从第一行开始"></a>从第一行开始</h4><p>此行称为 shebang（就是 sharp (#) + bang (!) 的意思），会指引操作系统使用接下来指定的程序运行此文件.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br></pre></td></tr></table></figure>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>Shell 变量默认全都是字符串。</p>
+<h4 id="变量赋值和引用"><a href="#变量赋值和引用" class="headerlink" title="变量赋值和引用"></a>变量赋值和引用</h4><p>Shell 编程中，使用变量无需事先声明。变量名的命名遵守大小写字母数字和下划线组成，且不能以数字开头。请注意 shell 环境中的确有以数字和特殊符号开头的变量名，但是那些东西不可以用接下来的方式赋值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">varname=值 [var2=val2 ....]</span><br></pre></td></tr></table></figure>
+<h5 id="请注意这边等号左右不能有空格。-要取用一个变量的值，只需在变量名前面加一个"><a href="#请注意这边等号左右不能有空格。-要取用一个变量的值，只需在变量名前面加一个" class="headerlink" title="请注意这边等号左右不能有空格。 要取用一个变量的值，只需在变量名前面加一个 $"></a>请注意这边等号左右不能有空格。 要取用一个变量的值，只需在变量名前面加一个 $</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># assign</span></span><br><span class="line">a=<span class="string">"hello world"</span>  <span class="comment"># 等号两边均不能有空格存在</span></span><br><span class="line"><span class="comment"># print</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">'%s\n'</span> <span class="string">"A is: <span class="variable">$a</span>"</span></span><br></pre></td></tr></table></figure>
+<p>有时候变量名可能会和其它文字（匹配最长的符合变量名或特殊变量名要求的内容）混淆，比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">num=2</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"this is the <span class="variable">$numnd</span>"</span>   <span class="comment"># 输出 this is the       — shell 尝试寻找 $numnd 的值</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"this is the <span class="variable">$&#123;num&#125;</span>nd"</span> <span class="comment"># 输出 this is the 2nd   — 修好了！</span></span><br><span class="line"><span class="comment"># 花括号可以隔开变量名，但是放歪了的话…</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"this is the &#123;<span class="variable">$num</span>&#125;nd"</span> <span class="comment"># 输出 this is the &#123;2&#125;nd — 切是切开了，但是…</span></span><br></pre></td></tr></table></figure>
+<h4 id="变量计算"><a href="#变量计算" class="headerlink" title="变量计算"></a>变量计算</h4><p>我们可以用很多方法达成我们的目标。首先是好孩子的方法——C 风格表达式。bash 里面可以用 (( )) 执行 C 风格的算术表达式。$(( )) 会展开成为这个 C 表达式求值的结果。以前 bash 有个 $[ ] 一样，但是别去用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var=0</span><br><span class="line">(( var += 1 )) <span class="comment"># 这是一种，现在 var 是 1</span></span><br><span class="line">(( var++ ))    <span class="comment"># 这也是一种自增，2</span></span><br><span class="line">(( var = var * var )) <span class="comment"># 怎么来乘法了！var 现在是 4。</span></span><br><span class="line"><span class="built_in">let</span> <span class="string">'var = var / 3'</span>   <span class="comment"># 还是只有 bash 才能用的拓展。除法是整数除法，向 0 舍入，1。</span></span><br><span class="line"><span class="built_in">echo</span> $((var += 2))    <span class="comment"># echo 出 3，var 现在是 3。</span></span><br><span class="line">var=$((var-1))        <span class="comment"># 展开成 var=2，var 现在是……还用说吗，2。</span></span><br></pre></td></tr></table></figure>
+<h3 id="Shell里的流程控制"><a href="#Shell里的流程控制" class="headerlink" title="Shell里的流程控制"></a>Shell里的流程控制</h3><h4 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> </span><br><span class="line">  判断命令，可以有很多个，真假取最后的返回值</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  如果前述为真做什么</span><br><span class="line">[ <span class="comment"># 方括号代表可选，别真打进去了！</span></span><br><span class="line"><span class="keyword">elif</span></span><br><span class="line">  可以再来个判断，如果签名为假继续尝试这里</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  如果前述为真做什么 ]</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  如果全都不行做什么</span><br><span class="line"><span class="keyword">fi</span> <span class="comment"># 结束，就是倒写的 if 啦。</span></span><br></pre></td></tr></table></figure>
+<h5 id="amp-amp-和-操作符"><a href="#amp-amp-和-操作符" class="headerlink" title="&amp;&amp; 和 || 操作符"></a>&amp;&amp; 和 || 操作符</h5><h5 id="case-语句"><a href="#case-语句" class="headerlink" title="case 语句"></a>case 语句</h5><p>case表达式可以用来匹配一个给定的字符串，而不是数字（可别和C语言里的switch…case混淆）。</p>
+<p>我们利用这点写了一个名为smartzip的脚本，该脚本可以自动解压bzip2, gzip和zip 类型的压缩文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ftype=<span class="string">"<span class="variable">$(file "$1")</span>"</span></span><br><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$ftype</span>"</span> <span class="keyword">in</span></span><br><span class="line"><span class="string">"<span class="variable">$1</span>: Zip archive"</span>*)</span><br><span class="line">   unzip <span class="string">"<span class="variable">$1</span>"</span> ;;</span><br><span class="line"><span class="string">"<span class="variable">$1</span>: gzip compressed"</span>*)</span><br><span class="line">   gunzip <span class="string">"<span class="variable">$1</span>"</span> ;;</span><br><span class="line"><span class="string">"<span class="variable">$1</span>: bzip2 compressed"</span>*)</span><br><span class="line">   bunzip2 <span class="string">"<span class="variable">$1</span>"</span> ;;</span><br><span class="line">*)</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"File <span class="variable">$1</span> can not be uncompressed with smartzip"</span>;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<p>你可能注意到上面使用了一个特殊变量 $1，该变量包含有传递给该脚本的第一个参数值。也就是说，当我们运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smartzip articles.zip</span><br></pre></td></tr></table></figure>
+<h4 id="select-循环语句"><a href="#select-循环语句" class="headerlink" title="select 循环语句"></a>select 循环语句</h4><p>select 循环语句是bash的一种扩展应用，擅长于交互式场合。<br>用户可以从一组不同的值中进行选择</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pocket=()</span><br><span class="line">select var <span class="keyword">in</span> 跳跳糖 糖 很多糖 企鹅糖; <span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"除了 <span class="variable">$var</span> 还要什么吗？"</span></span><br><span class="line">  <span class="keyword">if</span> ((RANDOM%4 == 0)); <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"呀！时间不够了，快上车！"</span></span><br><span class="line">    <span class="built_in">break</span> <span class="comment"># break 还是那个 break</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  pocket+=(<span class="string">"<span class="variable">$var</span>"</span>)</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"你最后说的那个 <span class="variable">$var</span> 弄丢了……"</span></span><br><span class="line">IFS=<span class="string">'、'</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"现在口袋里只有：<span class="variable">$&#123;pocket[*]&#125;</span>。"</span></span><br><span class="line">IFS=$<span class="string">' \t\n'</span></span><br></pre></td></tr></table></figure>
+<h4 id="while-for-循环"><a href="#while-for-循环" class="headerlink" title="while/for 循环"></a>while/for 循环</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ...; <span class="keyword">do</span></span><br><span class="line">   ....</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>只要测试表达式条件为真，则while循环将一直运行。关键字”break”用来跳出循环，而关键字”continue”则可以跳过一个循环的余下部分，直接跳到下一次循环中。<br>for循环会查看一个字符串列表（字符串用空格分隔），并将其赋给一个变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> var <span class="keyword">in</span> ....; <span class="keyword">do</span></span><br><span class="line">   ....</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h3 id="Shell里的一些特殊符号"><a href="#Shell里的一些特殊符号" class="headerlink" title="Shell里的一些特殊符号"></a>Shell里的一些特殊符号</h3><h4 id="引号"><a href="#引号" class="headerlink" title="引号"></a>引号</h4><p>在向程序传递任何参数之前，程序会扩展通配符和变量。这里所谓的扩展是指程序会把通配符（比如*）替换成适当的文件名，把变量替换成变量值。我们可以使用引号来防止这种扩展，先来看一个例子，假设在当前目录下有两个jpg文件：mail.jpg和tux.jpg。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> *.jpg   <span class="comment"># =&gt; mail.jpg tux.jpg</span></span><br></pre></td></tr></table></figure>
+<p>引号（单引号和双引号）可以防止通配符*的扩展：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"*.jpg"</span>  <span class="comment"># =&gt; *.jpg</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'*.jpg'</span>  <span class="comment"># =&gt; *.jpg</span></span><br></pre></td></tr></table></figure>
+<p>其中单引号更严格一些，它可以防止任何变量扩展；而双引号可以防止通配符扩展但允许变量扩展：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span>   <span class="comment"># =&gt; /bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"<span class="variable">$SHELL</span>"</span> <span class="comment"># =&gt; /bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'$SHELL'</span> <span class="comment"># =&gt; $SHELL</span></span><br></pre></td></tr></table></figure>
+<p>此外还有一种防止这种扩展的方法，即使用转义字符——反斜杠\：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> \*.jpg   <span class="comment"># =&gt; *.jpg</span></span><br><span class="line"><span class="built_in">echo</span> \<span class="variable">$SHELL</span>  <span class="comment"># =&gt; $SHELL</span></span><br></pre></td></tr></table></figure>
+<h3 id="Shell里的函数"><a href="#Shell里的函数" class="headerlink" title="Shell里的函数"></a>Shell里的函数</h3><p>如果你写过比较复杂的脚本，就会发现可能在几个地方使用了相同的代码，这时如果用上函数，会方便很多。函数的大致样子如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 别笑，bash 里面函数名的确可以这样……</span></span><br><span class="line"><span class="comment"># (POSIX sh 函数名倒是和变量名要求差不多)</span></span><br><span class="line">我是一个函数() &#123;</span><br><span class="line">  <span class="comment"># 函数里面 $1 $2 对应函数所接受到的第一、第二……个参数。</span></span><br><span class="line">  这里有很多命令</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-app启动速度检测" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/06/app启动速度检测/" class="article-date">
+  	<time datetime="2017-01-05T16:00:00.000Z" itemprop="datePublished">2017-01-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/06/app启动速度检测/">
+        App启动速度检测
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="启动时间监控"><a href="#启动时间监控" class="headerlink" title="启动时间监控"></a>启动时间监控</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -W -S packagename/activity</span><br></pre></td></tr></table></figure>
+<ul>
+<li>-W 列出启动过程中统计到的具体数据</li>
+<li>-S 强制停止当前的Activity,重新启动</li>
+</ul>
+<h4 id="WaitTime"><a href="#WaitTime" class="headerlink" title="WaitTime"></a>WaitTime</h4><p>WaitTime 返回从 startActivity 到应用第一帧完全显示这段时间. 就是总的耗时，包括前一个应用 Activity pause 的时间和新应用启动的时间；</p>
+<h4 id="ThisTime"><a href="#ThisTime" class="headerlink" title="ThisTime"></a>ThisTime</h4><p>ThisTime 表示一连串启动 Activity 的最后一个 Activity 的启动耗时；</p>
+<h4 id="TotalTime"><a href="#TotalTime" class="headerlink" title="TotalTime"></a>TotalTime</h4><p>TotalTime 表示新应用启动的耗时，包括新进程的启动和 Activity 的启动，但不包括前一个应用Activity pause的耗时。</p>
+<p>开发者一般只要关心 TotalTime 即可，这个时间才是自己应用真正启动的耗时。</p>
+<h3 id="自动化统计脚本"><a href="#自动化统计脚本" class="headerlink" title="自动化统计脚本"></a>自动化统计脚本</h3><p>因为统计APP的启动速度，次数太少了会影响结果的准确性，所以为了方便，将之写成了脚本的形式，自动运行，自动计算，之后就一目了然了。</p>
+<p>效果图：</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E7%BB%93%E6%9E%9C.png" alt="结果"></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br><span class="line">filePath=<span class="string">"/Users/shenyonghe/Desktop/qdsd.log"</span></span><br><span class="line">rm -f <span class="variable">$filePath</span></span><br><span class="line">sleep 1</span><br><span class="line">count=3 </span><br><span class="line">thisTime=0</span><br><span class="line">totalTime=0</span><br><span class="line">waitTime=0</span><br><span class="line">pageName=<span class="string">"com.baidao.futures"</span></span><br><span class="line">activityPath=<span class="string">"com.baidao.futures/com.baidao.futures.module.splash.SplashActivity"</span></span><br><span class="line"><span class="keyword">for</span>((i=0;i&lt;<span class="variable">$count</span>;i++))</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">    adb shell am start -W -S <span class="variable">$activityPath</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">    sleep 5</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> “============分割线============”</span><br><span class="line"></span><br><span class="line"><span class="keyword">while</span> <span class="built_in">read</span> line</span><br><span class="line"><span class="keyword">do</span></span><br><span class="line">	 <span class="comment">#筛选ThisTime</span></span><br><span class="line">     thisResult=$(<span class="built_in">echo</span> <span class="variable">$line</span> | grep <span class="string">"ThisTime:"</span>)</span><br><span class="line">     <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$thisResult</span>"</span> != <span class="string">""</span> ]]</span><br><span class="line">     <span class="keyword">then</span></span><br><span class="line">     tmp=$(<span class="built_in">echo</span> <span class="variable">$line</span> | egrep -o <span class="string">'[0-9]+'</span>)</span><br><span class="line">     val=$((thisTime + tmp))</span><br><span class="line">     thisTime=<span class="variable">$val</span></span><br><span class="line">     <span class="keyword">fi</span> </span><br><span class="line"></span><br><span class="line">     <span class="comment">#筛选TotalTime</span></span><br><span class="line">     totalResult=$(<span class="built_in">echo</span> <span class="variable">$line</span> | grep <span class="string">"TotalTime:"</span>)</span><br><span class="line">     <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$totalResult</span>"</span> != <span class="string">""</span> ]]</span><br><span class="line">     <span class="keyword">then</span></span><br><span class="line">     tmp=$(<span class="built_in">echo</span> <span class="variable">$line</span> | egrep -o <span class="string">'[0-9]+'</span>)</span><br><span class="line">     val=$((totalTime + tmp))</span><br><span class="line">     totalTime=<span class="variable">$val</span></span><br><span class="line">     <span class="keyword">fi</span> </span><br><span class="line"></span><br><span class="line">     <span class="comment">#筛选WaitTime</span></span><br><span class="line">     waitResult=$(<span class="built_in">echo</span> <span class="variable">$line</span> | grep <span class="string">"WaitTime:"</span>)</span><br><span class="line">     <span class="keyword">if</span> [[ <span class="string">"<span class="variable">$waitResult</span>"</span> != <span class="string">""</span> ]]</span><br><span class="line">     <span class="keyword">then</span></span><br><span class="line">     tmp=$(<span class="built_in">echo</span> <span class="variable">$line</span> | egrep -o <span class="string">'[0-9]+'</span>)</span><br><span class="line">     val=$((waitTime + tmp))</span><br><span class="line">     waitTime=<span class="variable">$val</span></span><br><span class="line">     <span class="keyword">fi</span> </span><br><span class="line"><span class="keyword">done</span> &lt; <span class="variable">$filePath</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'============分析结果============'</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">adb shell getprop ro.product.model | tee -a <span class="variable">$filePath</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'分析次数:'</span><span class="variable">$count</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">valThis=$((thisTime / count))</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'平均启动时间 ThisTime:'</span><span class="variable">$valThis</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">valTotal=$((totalTime / count))</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'平均启动时间 Totalime:'</span><span class="variable">$valTotal</span> | tee -a <span class="variable">$filePath</span></span><br><span class="line">valWait=$((waitTime / count))</span><br><span class="line"><span class="built_in">echo</span> <span class="string">'平均启动时间 WaitTime:'</span><span class="variable">$valWait</span> | tee -a <span class="variable">$filePath</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-自动化测试Espresso" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/23/自动化测试Espresso/" class="article-date">
+  	<time datetime="2016-12-22T16:00:00.000Z" itemprop="datePublished">2016-12-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/23/自动化测试Espresso/">
+        Espresso
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Espresso 也是一款自动化测试的框架，和UiAutomator类似。<br>基本上使用流程和UiAutomator类似。</p>
+<h4 id="步骤："><a href="#步骤：" class="headerlink" title="步骤："></a>步骤：</h4><ul>
+<li>查找元素：找到UI上测试的元素位置，比如找到一个按钮</li>
+<li>执行操作：给某个元素执行一个动作，比如触发按钮的点击事件</li>
+<li>检查结果：判断做出的动作是否符合期望，比如按钮点击后，是否符合我的期望</li>
+</ul>
+<h3 id="访问UI元素"><a href="#访问UI元素" class="headerlink" title="访问UI元素"></a>访问UI元素</h3><p>对比与UiAutomator，Espresso可以直接根据id来访问元素，同样Espresso也是可以根据文本信息匹配进行访问的。<br>Espresso 提供onView()方法来访问UI元素，然后在执行一种操作，最后再进行验证。</p>
+<p>下面的一个代码示例，表示访问一个EditText，输入一些内容，关闭输入法，最后点击按钮。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">testChangeText_sameActivity</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// Type text and then press the button.</span></span><br><span class="line">    onView(withId(R.id.editTextUserInput)).perform(typeText(STRING_TO_BE_TYPED), closeSoftKeyboard());</span><br><span class="line">    onView(withId(R.id.changeTextButton)).perform(click());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用withId-进行Id访问，也可以使用withText-进行文本匹配。"><a href="#使用withId-进行Id访问，也可以使用withText-进行文本匹配。" class="headerlink" title="使用withId()进行Id访问，也可以使用withText()进行文本匹配。"></a>使用withId()进行Id访问，也可以使用withText()进行文本匹配。</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Espresso.onView(ViewMatchers.withText(<span class="string">"Sign-in"</span>));</span><br><span class="line">Espresso.onView(ViewMatchers.withId(R.id.button_signin));</span><br></pre></td></tr></table></figure>
+<h4 id="结合-Hamcrest库中的Matchers，可以使用allOf-来组合选择多个UI元素。"><a href="#结合-Hamcrest库中的Matchers，可以使用allOf-来组合选择多个UI元素。" class="headerlink" title="结合 Hamcrest库中的Matchers，可以使用allOf()来组合选择多个UI元素。"></a>结合 Hamcrest库中的Matchers，可以使用allOf()来组合选择多个UI元素。</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">onView(allOf(withId(R.id.button_signin), withText(<span class="string">"Sign-in"</span>)));</span><br><span class="line">onView(allOf(withId(R.id.button_signin), not(withText(<span class="string">"Sign-out"</span>))));</span><br></pre></td></tr></table></figure>
+<h3 id="执行动作"><a href="#执行动作" class="headerlink" title="执行动作"></a>执行动作</h3><p>调用ViewInteraction.perform()和 DataInteraction.perform()，可以模拟用户执行UI元素的操作。可以指定一个或者多个动作，Espresso会按照指定的顺序，依次发送动作事件，这些动作是线程安全的。</p>
+<p>ViewActions 可以提供一些列常用的方法，我们可以利用写方法来操作UI元素。</p>
+<ul>
+<li>ViewActions.click(): 点击事件</li>
+<li>ViewActions.typeText(): 输入指定的文字内容</li>
+<li>ViewActions.scrollTo(): 滑动</li>
+<li>ViewActions.pressKey(): 按下按键</li>
+<li>ViewActions.clearText(): 清空文本</li>
+<li>ViewActions.pressBack() 返回键</li>
+<li>ViewActions.pressMenuKey() 菜单键</li>
+<li>ViewActions.doubleClick() 双击</li>
+<li>ViewActions.longClick() 长按</li>
+<li>ViewActions.closeSoftKeyboard() 收起键盘</li>
+<li>ViewActions.swipeLeft(): 从右向左滑动</li>
+<li>ViewActions.swipeRight(): 从左向右滑动</li>
+<li>ViewActions.swipeDown(): 从上向下滑动</li>
+<li>ViewActions.swipeUp(): 从下向上滑动</li>
+</ul>
+<p>注意：</p>
+<ul>
+<li>输入内容时，会出现无法输入的状况，一般是由于键盘类型导致的，切换为系统的google输入法就OK了。</li>
+</ul>
+<h3 id="在命令行中通过-Gradle-执行"><a href="#在命令行中通过-Gradle-执行" class="headerlink" title="在命令行中通过 Gradle 执行"></a>在命令行中通过 Gradle 执行</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ ​./gradlew connectedAndroidTest</span><br><span class="line">    等价于</span><br><span class="line">$ ./gradlew cAT</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-RSA加密" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/20/RSA加密/" class="article-date">
+  	<time datetime="2016-12-19T16:00:00.000Z" itemprop="datePublished">2016-12-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/20/RSA加密/">
+        RSA
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>RSA是一种非对称加密算法，常用来对传输数据进行加密，配合上数字摘要算法，也可以进行文字签名。</p>
+<h3 id="加密方式"><a href="#加密方式" class="headerlink" title="加密方式"></a>加密方式</h3><ul>
+<li><p>加密：公钥放在客户端，并使用公钥对数据进行加密，服务端拿到数据后用私钥进行解密；</p>
+</li>
+<li><p>加签：私钥放在客户端，并使用私钥对数据进行加签，服务端拿到数据后用公钥进行验签。</p>
+</li>
+</ul>
+<p>前者完全为了加密；后者主要是为了防恶意攻击，防止别人模拟我们的客户端对我们的服务器进行攻击，导致服务器瘫痪。</p>
+<p>RSA使用“密钥对”对数据进行加密解密，在加密解密前需要先生存公钥（Public Key）和私钥（Private Key）。</p>
+<ul>
+<li><p>公钥(Public key): 用于加密数据. 用于公开, 一般存放在数据提供方, 例如iOS客户端。</p>
+</li>
+<li><p>私钥(Private key): 用于解密数据. 必须保密, 私钥泄露会造成安全问题。</p>
+</li>
+</ul>
+<h3 id="生成公钥私钥"><a href="#生成公钥私钥" class="headerlink" title="生成公钥私钥"></a>生成公钥私钥</h3><h4 id="1-生成模长为1024bit的私钥"><a href="#1-生成模长为1024bit的私钥" class="headerlink" title="1 生成模长为1024bit的私钥"></a>1 生成模长为1024bit的私钥</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ genrsa -out private_key.pem 1024</span><br></pre></td></tr></table></figure>
+<h4 id="2-生成certification-require-file"><a href="#2-生成certification-require-file" class="headerlink" title="2 生成certification require file"></a>2 生成certification require file</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ req -new -key private_key.pem -out rsaCertReq.csr</span><br></pre></td></tr></table></figure>
+<h4 id="3-生成certification-并指定过期时间"><a href="#3-生成certification-并指定过期时间" class="headerlink" title="3 生成certification 并指定过期时间"></a>3 生成certification 并指定过期时间</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ x509 -req -days 3650 -<span class="keyword">in</span> rsaCertReq.csr -signkey private_key.pem -out rsaCert.crt</span><br></pre></td></tr></table></figure>
+<h4 id="4-生成java公钥"><a href="#4-生成java公钥" class="headerlink" title="4 生成java公钥"></a>4 生成java公钥</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rsa -<span class="keyword">in</span> private_key.pem -pubout -out public_key.pem</span><br></pre></td></tr></table></figure>
+<h4 id="5-生成pem结尾的私钥供Java使用-需要验证密码"><a href="#5-生成pem结尾的私钥供Java使用-需要验证密码" class="headerlink" title="5 生成pem结尾的私钥供Java使用(需要验证密码)"></a>5 生成pem结尾的私钥供Java使用(需要验证密码)</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ pkcs8 -topk8 -<span class="keyword">in</span> private_key.pem -out pkcs8_private_key.pem -nocrypt</span><br></pre></td></tr></table></figure>
+<h4 id="6-生成公钥供iOS使用"><a href="#6-生成公钥供iOS使用" class="headerlink" title="6 生成公钥供iOS使用"></a>6 生成公钥供iOS使用</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line"><span class="variable">$x509</span> -outform der -<span class="keyword">in</span> rsaCert.crt -out public_key.der</span><br></pre></td></tr></table></figure>
+<h4 id="7-生成私钥供iOS使用-这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码"><a href="#7-生成私钥供iOS使用-这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码" class="headerlink" title="7 生成私钥供iOS使用 这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码"></a>7 生成私钥供iOS使用 这边会让你输入密码，后期用到在生成secKeyRef的时候会用到这个密码</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ openssl </span><br><span class="line">$ pkcs12 -<span class="built_in">export</span> -out private_key.p12 -inkey private_key.pem -<span class="keyword">in</span> rsaCert.crt</span><br></pre></td></tr></table></figure>
+<h4 id="8-查看公钥私钥内容"><a href="#8-查看公钥私钥内容" class="headerlink" title="8 查看公钥私钥内容"></a>8 查看公钥私钥内容</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat public_key.pem/private_key.pem</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-jrebel" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -632,6 +948,76 @@
 
 
   
+    <article id="post-APK大小分析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/15/APK大小分析/" class="article-date">
+  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/15/APK大小分析/">
+        APK大小分析
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h3><p>AS -&gt; Build -&gt; AnalyzeApk(AS2.2之后)</p>
+<h3 id="APK组成部分"><a href="#APK组成部分" class="headerlink" title="APK组成部分"></a>APK组成部分</h3><ul>
+<li>asserts</li>
+<li>lib</li>
+<li>res</li>
+<li>dex</li>
+<li>META-INF</li>
+<li>androidManifest</li>
+</ul>
+<h4 id="asserts"><a href="#asserts" class="headerlink" title="asserts"></a>asserts</h4><p>assets目录可以存放一些配置文件或资源文件，比如webview的本地html，react native的jsbundle等，微信的整个assets占用了13.4M。如果你的应用对本地资源要求很少的话，这个文件应该不会太大。</p>
+<h4 id="lib"><a href="#lib" class="headerlink" title="lib"></a>lib</h4><p>lib目录下会有各种so文件，分析器会检查出项目自己的so和各种库的so。微博和微信一样只支持了arm一个平台，淘宝支持了arm和x86两个平台。</p>
+<h4 id="resources-arsc"><a href="#resources-arsc" class="headerlink" title="resources.arsc"></a>resources.arsc</h4><p>这个文件是编译后的二进制资源文件，里面是id-name-value的一个map。因为微信做了资源的混淆，所以这里可以看到资源名称都是不可读的。</p>
+<h4 id="META-INF"><a href="#META-INF" class="headerlink" title="META-INF"></a>META-INF</h4><p>META-INF目录下存放的是签名信息，用来保证apk包的完整性和系统的安全性，帮助用户避免安装来历不明的盗版apk。</p>
+<h4 id="res"><a href="#res" class="headerlink" title="res"></a>res</h4><p>res目录存放的是资源文件。包括图片、字符串。raw文件夹下面是音频文件，各种xml文件等等。因为微信做了资源混淆，图片名字都不可读了。</p>
+<h4 id="dex"><a href="#dex" class="headerlink" title="dex"></a>dex</h4><p>dex文件是java代码打包后的字节码，一个dex文件最多只支持65536个方法，这也是为什么微信有了三个dex文件的原因。</p>
+<p>因为dex分包是不均匀的，你可以理解为装箱，一个箱子的大小是固定的，但你代码的量是不确定的，微信把前两个箱子装满了，最后还剩了2m多的代码，这些代码也占用了一个箱子，最终产生了上图不均匀的结果。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-图片OOM问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -720,553 +1106,6 @@
 </ul>
 <h4 id="生成Bitmap所占大小-size"><a href="#生成Bitmap所占大小-size" class="headerlink" title="生成Bitmap所占大小(size)"></a>生成Bitmap所占大小(size)</h4><p>公式: 宽 <em> 高 </em> 每个像素所占字节</p>
 <p>size = width <em> height </em> bytes(格式1,2,3,4)*放大缩小倍数</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-APK大小分析" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/15/APK大小分析/" class="article-date">
-  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/15/APK大小分析/">
-        APK大小分析
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h3><p>AS -&gt; Build -&gt; AnalyzeApk(AS2.2之后)</p>
-<h3 id="APK组成部分"><a href="#APK组成部分" class="headerlink" title="APK组成部分"></a>APK组成部分</h3><ul>
-<li>asserts</li>
-<li>lib</li>
-<li>res</li>
-<li>dex</li>
-<li>META-INF</li>
-<li>androidManifest</li>
-</ul>
-<h4 id="asserts"><a href="#asserts" class="headerlink" title="asserts"></a>asserts</h4><p>assets目录可以存放一些配置文件或资源文件，比如webview的本地html，react native的jsbundle等，微信的整个assets占用了13.4M。如果你的应用对本地资源要求很少的话，这个文件应该不会太大。</p>
-<h4 id="lib"><a href="#lib" class="headerlink" title="lib"></a>lib</h4><p>lib目录下会有各种so文件，分析器会检查出项目自己的so和各种库的so。微博和微信一样只支持了arm一个平台，淘宝支持了arm和x86两个平台。</p>
-<h4 id="resources-arsc"><a href="#resources-arsc" class="headerlink" title="resources.arsc"></a>resources.arsc</h4><p>这个文件是编译后的二进制资源文件，里面是id-name-value的一个map。因为微信做了资源的混淆，所以这里可以看到资源名称都是不可读的。</p>
-<h4 id="META-INF"><a href="#META-INF" class="headerlink" title="META-INF"></a>META-INF</h4><p>META-INF目录下存放的是签名信息，用来保证apk包的完整性和系统的安全性，帮助用户避免安装来历不明的盗版apk。</p>
-<h4 id="res"><a href="#res" class="headerlink" title="res"></a>res</h4><p>res目录存放的是资源文件。包括图片、字符串。raw文件夹下面是音频文件，各种xml文件等等。因为微信做了资源混淆，图片名字都不可读了。</p>
-<h4 id="dex"><a href="#dex" class="headerlink" title="dex"></a>dex</h4><p>dex文件是java代码打包后的字节码，一个dex文件最多只支持65536个方法，这也是为什么微信有了三个dex文件的原因。</p>
-<p>因为dex分包是不均匀的，你可以理解为装箱，一个箱子的大小是固定的，但你代码的量是不确定的，微信把前两个箱子装满了，最后还剩了2m多的代码，这些代码也占用了一个箱子，最终产生了上图不均匀的结果。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-AccessibilityService 辅助类实现系统监听" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/14/AccessibilityService 辅助类实现系统监听/" class="article-date">
-  	<time datetime="2016-11-13T16:00:00.000Z" itemprop="datePublished">2016-11-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/14/AccessibilityService 辅助类实现系统监听/">
-        AccessibilityService
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="AccessibilityService简介"><a href="#AccessibilityService简介" class="headerlink" title="AccessibilityService简介"></a>AccessibilityService简介</h3><p>AccessibilityService运行在后台,并且能够收到由系统发出的一些事件(AccessibilityEvent,这些事件表示用户界面一系列的状态变化),比如焦点改变，收到通知，输入内容变化,按钮被点击了等等,该种服务能够请求获取当前活动窗口并查找其中的内容.换言之,界面中产生的任何变化都会产生一个时间,并由系统通知给AccessibilityService.这就像监视器监视着界面的一举一动,一旦界面发生变化,立刻发出警报.</p>
-<p>最典型的例子就是自动抢红包，就是监听的系统通知，之后处理的。</p>
-<h3 id="使用AccessibilityService"><a href="#使用AccessibilityService" class="headerlink" title="使用AccessibilityService"></a>使用AccessibilityService</h3><h4 id="新建服务类"><a href="#新建服务类" class="headerlink" title="新建服务类"></a>新建服务类</h4><p>新建SysListenerService服务，并实现关键方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SysListenerService</span> <span class="keyword">extends</span> <span class="title">AccessibilityService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAccessibilityEvent</span><span class="params">(AccessibilityEvent event)</span> </span>&#123;   &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onInterrupt</span><span class="params">()</span> </span>&#123;  &#125;  </span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>常用方法解析：</p>
-<ul>
-<li>onServiceConnected() 系统成功绑定该服务时被触发,也就是当你在设置中开启相应的服务,系统成功的绑定了该服务时会触发,通常我们可以在这里做一些初始化操作</li>
-<li>setServiceInfo(AccessibilityServiceInfo info) 设置当前服务的配置信息</li>
-<li>getSeviceInfo() 获取当前服务的配置信息</li>
-<li>onAccessibilityEvent(AccessibilityEvent event) 必须，有关AccessibilityEvent事件的回调函数.系统通过sendAccessibiliyEvent()不断的发送AccessibilityEvent到此处。我们在此处过滤发来的事件，并对特定事件进行处理。</li>
-<li>onInterrupt()  必须。这个在系统想要中断AccessibilityService返给的响应时会调用。在整个生命周期里会被调用多次。</li>
-<li>disableSelf() 禁用当前服务,也就是在服务可以通过该方法停止运行</li>
-</ul>
-<h4 id="配置AndroidManifest"><a href="#配置AndroidManifest" class="headerlink" title="配置AndroidManifest"></a>配置AndroidManifest</h4><ul>
-<li><p>配置<intent-filter>,其name为固定的:</intent-filter></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.accessibilityservice.AccessibilityService</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>声明BIND_ACCESSIBILITY_SERVICE权限,以便系统能够绑定该服务(4.0版本后要求)</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;service</span><br><span class="line">        android:name=<span class="string">".SysListenerService"</span></span><br><span class="line">        android:enabled=<span class="string">"true"</span></span><br><span class="line">        android:exported=<span class="string">"true"</span>    </span><br><span class="line">        android:permission=<span class="string">"android.permission.BIND_ACCESSIBILITY_SERVICE"</span>&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=<span class="string">"android.accessibilityservice.AccessibilityService"</span>/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="服务参数设置"><a href="#服务参数设置" class="headerlink" title="服务参数设置"></a>服务参数设置</h4><p>在AndroidManifest.xml声明了该服务之后,接下来就是需要对该服务进行一些参数设置了.该服务能够被配置用来接受指定类型的事件,监听指定package,检索窗口内容,获取事件类型的时间等等.目前有两种配置方法:</p>
-<ul>
-<li>方法一:4.0之后提供了可以通过<meta-data>标签进行配置</meta-data></li>
-<li>方法二:通过setServiceInfo()进行配置</li>
-</ul>
-<h5 id="通过进行配置"><a href="#通过进行配置" class="headerlink" title="通过进行配置"></a>通过<meta-data>进行配置</meta-data></h5><p>在AndroidManifest.xml生命的的service中提供一个meta-data标签,然后通过android:resource指定相应的配置文件(在res目录下创建xml文件,并在其中创建配置文件accessibility.xml)</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;service</span><br><span class="line">    android:name=<span class="string">".SysListenerService"</span></span><br><span class="line">    android:enabled=<span class="string">"true"</span></span><br><span class="line">    android:exported=<span class="string">"true"</span></span><br><span class="line">    android:permission=<span class="string">"android.permission.BIND_ACCESSIBILITY_SERVICE"</span>&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=<span class="string">"android.accessibilityservice.AccessibilityService"</span>/&gt;</span><br><span class="line">        &lt;/intent-filter&gt;</span><br><span class="line"></span><br><span class="line">    &lt;meta-data</span><br><span class="line">        android:name=<span class="string">"android.accessibilityservice"</span></span><br><span class="line">        android:resource=<span class="string">"@xml/accessibility"</span>/&gt;</span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></table></figure>
-<p>accessibility.xml的相关配置</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">accessibility-service</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:accessibilityEventTypes</span>=<span class="string">"typeNotificationStateChanged|typeWindowStateChanged|typeWindowContentChanged"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:accessibilityFeedbackType</span>=<span class="string">"feedbackGeneric"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:accessibilityFlags</span>=<span class="string">"flagDefault"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:canRetrieveWindowContent</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:notificationTimeout</span>=<span class="string">"100"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:packageNames</span>=<span class="string">"com.tencent.mm"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-<p>后面,我们在只需要仿照该配置文件根据自己的需求进行修改即可.下面我们会对这些属性进行介绍.</p>
-<p>要设置    android:canRetrieveWindowContent=”true”<br>属性，不然getRootInActiveWindow()会拿不到值和getsource()失败。</p>
-<h5 id="通过setServiceInfo-AccessibilityServiceInfo-info"><a href="#通过setServiceInfo-AccessibilityServiceInfo-info" class="headerlink" title="通过setServiceInfo(AccessibilityServiceInfo info)"></a>通过setServiceInfo(AccessibilityServiceInfo info)</h5><p>也可以通过setServiceInfo(AccessibilityServiceInfo)为其配置信息,除此之外,通过该方法可以在运行期间动态修改服务配置.需要注意,该方法只能用来配置动态属性:eventTypes,feedbackType,flags,notificaionTimeout及packageNames.</p>
-<p>通常是在onServiceConnected()进行配置,如下代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    AccessibilityServiceInfo serviceInfo = <span class="keyword">new</span> AccessibilityServiceInfo();</span><br><span class="line">    serviceInfo.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;</span><br><span class="line">    serviceInfo.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;</span><br><span class="line">    serviceInfo.packageNames = <span class="keyword">new</span> String[]&#123;<span class="string">"com.tencent.mm"</span>&#125;; </span><br><span class="line">    serviceInfo.notificationTimeout=<span class="number">100</span>;</span><br><span class="line">    setServiceInfo(serviceInfo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>现在我们对配置中的重要属性进行说明:</p>
-<ul>
-<li>accessibilityEventTypes:表示该服务对界面中的哪些变化感兴趣,即哪些事件通知,比如窗口打开,滑动,焦点变化,长按等.具体的值可以在AccessibilityEvent类中查到,如typeAllMask表示接受所有的事件通知.</li>
-<li>accessibilityFeedbackType:表示反馈方式,比如是语音播放,还是震动</li>
-<li>canRetrieveWindowContent:表示该服务能否访问活动窗口中的内容.也就是如果你希望在服务中获取窗体内容的化,则需要设置其值为true.</li>
-<li>notificationTimeout:接受事件的时间间隔,通常将其设置为100即可.</li>
-<li>packageNames:表示对该服务是用来监听哪个包的产生的事件</li>
-</ul>
-<h4 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h4><p>当我们做完以上操作,便可将app安装到手机.安装成功后,在设置-&gt;辅助功能中便可以找到我们的服务.该服务默认处在关闭状态,需要手动开启.</p>
-<h4 id="过滤事件信息"><a href="#过滤事件信息" class="headerlink" title="过滤事件信息"></a>过滤事件信息</h4><p>这里我们对AccessibilityEvent进行简单的说明:<br>当用户发生发生变化时,系统会发送一系列的AccessibilityEvent事件,比如按钮被点击时会发送TYPE_VIEW_CLICKED类型的事件.</p>
-<ul>
-<li>getRootInActiveWindow() 如果配置能够获取窗口内容,则会返回当前活动窗口的根结点</li>
-<li>getEventType()      事件类型</li>
-<li>getSource() 获取事件源对应的结点信息</li>
-<li>getClassName() 获取事件源对应类的类型,比如点击事件是有某个Button产生的,那么此时获取的就是Button的完整类名</li>
-<li>getText() 获取事件源的文本信息,比如事件是有TextView发出的,此时获取的就是TextView的text属性.如果该事件源是树结构,那么此时获取的是这个树上所有具有text属性的值的集合</li>
-<li>isEnabled() 事件源(对应的界面控件)是否处在可用状态</li>
-<li>getItemCount()如果事件源是树结构,将返回该树根节点下子节点的数量</li>
-</ul>
-<h4 id="服务的生命周期"><a href="#服务的生命周期" class="headerlink" title="服务的生命周期"></a>服务的生命周期</h4><p>要理解该中服务的生命周期只需要记住一下三点即可:</p>
-<ul>
-<li>该种服务完全由系统管理,并遵循已有的服务周期.</li>
-<li>开启一个服务只能由用户在设置中打开,而关闭则只能由用户在设置中关闭或者服务本身通过diableSelf()方法关闭(当然,现在有些第三放软件也可以强制关闭该类型服务)</li>
-<li>系统绑定该服务之后,会调用onServiceConnected()方法,这个方法可以被重写,在其中,你可以做一些初始化的操作.</li>
-</ul>
-<h4 id="检测服务是否开启"><a href="#检测服务是否开启" class="headerlink" title="检测服务是否开启"></a>检测服务是否开启</h4><p>方法一:借助服务管理器AccessibilityManager来判断,但是该方法不能检测app本身开启的服务.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">enabled</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        AccessibilityManager am = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);</span><br><span class="line">        List&lt;AccessibilityServiceInfo&gt; serviceInfos = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);</span><br><span class="line">        List&lt;AccessibilityServiceInfo&gt; installedAccessibilityServiceList = am.getInstalledAccessibilityServiceList();</span><br><span class="line">        <span class="keyword">for</span> (AccessibilityServiceInfo info : installedAccessibilityServiceList) &#123;</span><br><span class="line">            Log.d(<span class="string">"MainActivity"</span>, <span class="string">"all --&gt;"</span> + info.getId());</span><br><span class="line">            <span class="keyword">if</span> (name.equals(info.getId())) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>方法二:我们知道大部分的系统属性都在settings中进行设置,比如wifi,蓝牙状态等,而这些信息主要是存储在settings对应的的数据库中(system表和serure表),这就意味我们可以通过直接读取setting设置来判断相关服务是否开启:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">checkStealFeature1</span><span class="params">(String service)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> ok = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ok = Settings.Secure.getInt(getApplicationContext().getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Settings.SettingNotFoundException e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        TextUtils.SimpleStringSplitter ms = <span class="keyword">new</span> TextUtils.SimpleStringSplitter(<span class="string">':'</span>);</span><br><span class="line">        <span class="keyword">if</span> (ok == <span class="number">1</span>) &#123;</span><br><span class="line">            String settingValue = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);</span><br><span class="line">            <span class="keyword">if</span> (settingValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">                ms.setString(settingValue);</span><br><span class="line">                <span class="keyword">while</span> (ms.hasNext()) &#123;</span><br><span class="line">                    String accessibilityService = ms.next();</span><br><span class="line">                    <span class="keyword">if</span> (accessibilityService.equalsIgnoreCase(service)) &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
-<h4 id="一些实用案例"><a href="#一些实用案例" class="headerlink" title="一些实用案例"></a>一些实用案例</h4><p>抢红包插件：</p>
-<ul>
-<li>状态栏出现”[微信红包]”的消息提示,点击进入聊天界面</li>
-<li>点击相应的红包信息,弹出抢红包界面</li>
-<li>在抢红包界面点击”开”,打开红包</li>
-<li>在红包详情页面,查看详情,点击返回按钮返回微信聊天界面.</li>
-</ul>
-<h3 id="AccessibilityEvent类型"><a href="#AccessibilityEvent类型" class="headerlink" title="AccessibilityEvent类型"></a>AccessibilityEvent类型</h3><ul>
-<li>TYPE_VIEW_CLICKED  点击事件</li>
-<li>TYPE_VIEW_LONG_CLICKED 长按事件</li>
-<li>TYPE_VIEW_SELECTED 选中</li>
-<li>TYPE_VIEW_FOCUSED  获取焦点</li>
-<li>TYPE_VIEW_TEXT_CHANGED</li>
-<li>TYPE_WINDOW_STATE_CHANGED</li>
-<li>TYPE_NOTIFICATION_STATE_CHANGED</li>
-<li>TYPE_VIEW_HOVER_ENTER</li>
-<li>TYPE_VIEW_HOVER_EXIT</li>
-<li>TYPE_TOUCH_EXPLORATION_GESTURE_START</li>
-<li>TYPE_TOUCH_EXPLORATION_GESTURE_END</li>
-<li>TYPE_WINDOW_CONTENT_CHANGED</li>
-<li>TYPE_VIEW_SCROLLED</li>
-<li>TYPE_VIEW_TEXT_SELECTION_CHANGED</li>
-<li>TYPE_ANNOUNCEMENT</li>
-<li>TYPE_VIEW_ACCESSIBILITY_FOCUSED </li>
-<li>TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED </li>
-<li>TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY</li>
-<li>TYPE_GESTURE_DETECTION_START </li>
-<li>TYPE_GESTURE_DETECTION_END </li>
-<li>TYPE_TOUCH_INTERACTION_START </li>
-<li>TYPE_TOUCH_INTERACTION_END </li>
-<li>TYPE_WINDOWS_CHANGED </li>
-<li>TYPE_VIEW_CONTEXT_CLICKED</li>
-<li>TYPE_ASSIST_READING_CONTEXT</li>
-<li>TYPES_ALL_MASK</li>
-</ul>
-<h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><p>在使用辅助功能进行自动化跳转的过程，每个页面的delay事件是一个很头疼的问题，设置的太短自动化容易中断，太长又会影响速度，所以一个合理的延时是非常必要的。</p>
-<p>有一个方法可以大大减少页面跳转的事件，就是在开发者选项里面将页面过度动画关掉。</p>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>AccessibilityService的生命周期是由系统来管理的，开启该服务是在Android设备上的设置页面中来开启，关闭该服务也是通过在设置页面来关闭的或者是调用AccessibilityService的disableSelf()方法。通过AIDL进行进程间的通信，主要流程就是系统通过进程间通信机制把事件消息传递给AccessibilityService后调用AccessibilityService的onAccessibilityEvent()方法，在该方法中我们就可以根据事件类型做不同的业务操作了。</p>
-<p>辅助事件的响应流程：系统监控view的变化并发给特定的AccessibilityService处理。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AccessibilityEventSource</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 发送辅助事件，对参数进行校验 </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendAccessibilityEvent</span><span class="params">(<span class="keyword">int</span> eventType)</span></span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 发送辅助事件，不对参数进行校验 </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendAccessibilityEventUnchecked</span><span class="params">(AccessibilityEvent event)</span></span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>辅助功能的响应元 -&gt;view </li>
-<li>AccessibilityEventSource实现了辅助功能发送接口</li>
-<li>View的事件源码中实现了AccessibilityEventSource接口,View的onTouchEvent()的ACTION_UP分支中，经过层层判断最后调用了performClick()方法performClick()方法最后调用了sendAccessibilityEvent(事件类型)方法，该方法就是View实现AccessibilityEventSource接口中的方法，那也就是说View被点击后就会向系统发送一个事件类型为AccessibilityEvent.TYPE_VIEW_CLICKED的辅助事件，由此可猜测当点击事件发生后会向系统发送一个辅助事件消息，在系统接收到此消息就会回调注册进系统的各种AccessibilityService服务的onAccessibilityEvent()方法。sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);  </li>
-</ul>
-<p><img src="http://img.blog.csdn.net/20161028134038200?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="图片"></p>
-<p>转载 <a href="http://www.jianshu.com/p/4cd8c109cdfb" target="_blank" rel="noopener">简书:你真的理解AccessibilityService吗</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-mac wifi 暴力破解" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/11/mac wifi 暴力破解/" class="article-date">
-  	<time datetime="2016-11-10T16:00:00.000Z" itemprop="datePublished">2016-11-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/11/mac wifi 暴力破解/">
-        mac wifi暴力破解
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="破解介绍"><a href="#破解介绍" class="headerlink" title="破解介绍"></a>破解介绍</h3><p>将WiFi设置成监听模式，自后攻击掉线，抓重新登录的包，然后用字典暴力破解。</p>
-<h3 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h3><h4 id="安装MacPorts"><a href="#安装MacPorts" class="headerlink" title="安装MacPorts"></a>安装MacPorts</h4><p>MacPorts <a href="https://guide.macports.org/" target="_blank" rel="noopener">官网地址</a></p>
-<p>下载安装，并设置环境变量。</p>
-<h4 id="安装aircrack-ng"><a href="#安装aircrack-ng" class="headerlink" title="安装aircrack-ng"></a>安装aircrack-ng</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo port install aircrack-ng</span><br></pre></td></tr></table></figure>
-<p>如果提示安装xcode插件，先安装插件。</p>
-<h4 id="断开电脑所有的wifi连接"><a href="#断开电脑所有的wifi连接" class="headerlink" title="断开电脑所有的wifi连接"></a>断开电脑所有的wifi连接</h4><h4 id="查看周围的wifi"><a href="#查看周围的wifi" class="headerlink" title="查看周围的wifi"></a>查看周围的wifi</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s</span><br></pre></td></tr></table></figure>
-<h4 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport en0 sniff 6</span><br></pre></td></tr></table></figure>
-<p>en0是无线网卡设备；6是要破解wifi的CHANNEL。</p>
-<p>静等用户连接wifi，获得握手包。</p>
-<p>抓的包，保存在/tmp *.cap：</p>
-<h4 id="破解wifi密码"><a href="#破解wifi密码" class="headerlink" title="破解wifi密码"></a>破解wifi密码</h4><p>为了方便将字典和 *.cap文件放到一起。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ aircrack-ng -w text.txt airportSniffyuZPBA.cap</span><br></pre></td></tr></table></figure>
-<p>按照提示输入要破解的WIFI对应的编号即可</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Coding Dojo - 代码道场" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/10/Coding Dojo - 代码道场/" class="article-date">
-  	<time datetime="2016-11-09T16:00:00.000Z" itemprop="datePublished">2016-11-10</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/10/Coding Dojo - 代码道场/">
-        Coding Dojo 代码道场
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Coding Dojo是一个学习的过程。一些程序员（通常是15-20人）在一起编程解决一个程序问题。一边编程，一边互相学习。每个人可以从Coding Dojo中学到：解决问题的思路、编程技巧、面向对象设计、演进式设计、结对编程、测试驱动开发、持续集成等等。其实即使从别人犯的错误中，我们也能够学到很多。</p>
-<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ul>
-<li><p>Coding Dojo以及原则介绍 – 5分钟</p>
-</li>
-<li><p>问题介绍 – 10分钟</p>
-</li>
-<li><p>2个时段的结对编程 – 20分钟 × 2</p>
-</li>
-<li><p>中断（所有人一起讨论一下当前的解决方案，以及下一步方案，注意事项）- 10分钟</p>
-</li>
-<li><p>2个时段的结对编程 – 20分钟 × 2</p>
-</li>
-<li><p>反省 – 10分钟</p>
-</li>
-</ul>
-<h3 id="会议室组织方式"><a href="#会议室组织方式" class="headerlink" title="会议室组织方式"></a>会议室组织方式</h3><p>在会议室中间有两个人结对编程，一个是驾驶员(Pilot)，另一个是领航员(Co-pilot, Navigator)。周围坐的都是顾问(Advisor, Sensei)，前面是投影仪。</p>
-<h4 id="Coding-Dojo中的角色"><a href="#Coding-Dojo中的角色" class="headerlink" title="Coding Dojo中的角色"></a>Coding Dojo中的角色</h4><ul>
-<li><p>教练(coach)帮助维护秩序，引导大家</p>
-</li>
-<li><p>驾驶员(Pilot)：负责具体实现，边写代码，边要把自己的设计意图大声说出来</p>
-</li>
-<li><p>领航员(Co-pilot)：负责帮助驾驶员进行设计，负责控制设计的战略方向</p>
-</li>
-<li><p>顾问(Advisor)：坐在周围，通过投影仪观察当前的进展，可以提出问题，但是不能给出方案。驾驶员与领航员必须先回答顾问的所有问题，才能继续写代码。</p>
-</li>
-</ul>
-<h3 id="一些原则"><a href="#一些原则" class="headerlink" title="一些原则"></a>一些原则</h3><ul>
-<li><p>不要讨论太多，先写代码</p>
-</li>
-<li><p>写代码之前，先写测试</p>
-</li>
-<li><p>每个人都能从其他人身上学到东西，哪怕是错误</p>
-</li>
-<li><p>所有人参与写代码</p>
-</li>
-<li><p>如果你知道好的方案，分享给大家</p>
-</li>
-<li><p>顾问只能问问题，不能提方案，驾驶员和导航员必须回答所有问题</p>
-</li>
-</ul>
-<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><ul>
-<li><p>导航员应该更多帮助驾驶员</p>
-</li>
-<li><p>在同一个时段内导航员和驾驶员应该多切换，当然另一个方案是每次替换</p>
-</li>
-<li><p>结对的时候，替换导航员，然后让原来的驾驶员成为导航员引导下一个驾驶员</p>
-</li>
-<li><p>顾问应该保持耐心，减少对驾驶员和导航员的干扰</p>
-</li>
-<li><p>减少私下讨论</p>
-</li>
-<li><p>驾驶员应该大声把设计意图说给大家听</p>
-</li>
-<li><p>实现的Test Case应该事先明确</p>
-</li>
-<li><p>每个人应该尊重驾驶员和导航员，虚心学习</p>
-</li>
-<li><p>使用代码库</p>
-</li>
-<li><p>频繁签入代码</p>
-</li>
-<li><p>重构不够</p>
-</li>
-<li><p>每个人做驾驶员的时候使用自己的环境，使用熟悉的工具。其他人也可以学习他的技巧以及工具</p>
-</li>
-<li><p>重构的时候，跳跃太大</p>
-</li>
-<li><p>使用标准键盘</p>
-</li>
-<li><p>更多的面向对象设计</p>
-</li>
-<li><p>使用Pomodomo作为时间箱，但是使用一个Range（20分钟 +/- 五分钟）而不是一个点</p>
-</li>
-<li><p>鼓励每个人参与</p>
-</li>
-<li><p>教练确保会议秩序</p>
-</li>
-<li><p>替换结对的时候确保所有的测试通过。</p>
-</li>
-</ul>
-<p><a href="http://www.danielteng.com/2011/03/15/coding-doj/" target="_blank" rel="noopener">转载自</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-vector drawable" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/03/vector drawable/" class="article-date">
-  	<time datetime="2016-11-02T16:00:00.000Z" itemprop="datePublished">2016-11-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/03/vector drawable/">
-        Vector Drawable
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>矢量图形是计算机图形学中用点、直线或者多边形等基于数学方程的几何图元表示图像。矢量图形与使用像素表示图像的位图不同。也就是说矢量图其实是一个xml文件，文件里面涉及到一些绘制的属性。</p>
-<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
-<li>1 保存最少的信息，文件大小比位图要小，并且文件大小与物体的大小无关</li>
-<li>2 在图像处理软件中，任意放大矢量图形，不会丢失细节或影响清晰度，因为矢量图形是与分辨率无关的。无限地放大这个圆，它仍然保持平滑；用多边形表示的曲线将会显现出不是真正的曲线</li>
-</ul>
-<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
-<li>android 版本兼容问题，矢量图的使用最低支持5.0以上系统。</li>
-<li>要在低版本上使用矢量图，需要在项目中引入新的兼容库support-vector-drawable，并且appcompat-v7库的版本要在23.2.0+(写文章这会23.2.1已经发布了)。</li>
-</ul>
-<h3 id="使用矢量图"><a href="#使用矢量图" class="headerlink" title="使用矢量图"></a>使用矢量图</h3><h4 id="版本兼容"><a href="#版本兼容" class="headerlink" title="版本兼容"></a>版本兼容</h4><p>导入兼容包：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile 'com.android.support:appcompat-v7:23.2.0+'</span><br></pre></td></tr></table></figure>
-<h4 id="AS配置"><a href="#AS配置" class="headerlink" title="AS配置"></a>AS配置</h4><p>AS版本低于2.0的：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  defaultConfig &#123;</span><br><span class="line">    // 不让gradle自动生成不同屏幕分辨率的png图</span><br><span class="line">    generatedDensities = []</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  aaptOptions &#123;</span><br><span class="line">    additionalParameters "--no-version-vectors"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>AS2.0+:</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  defaultConfig &#123;</span><br><span class="line">    vectorDrawables.useSupportLibrary = true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="在drawable目录下创建矢量图文件"><a href="#在drawable目录下创建矢量图文件" class="headerlink" title="在drawable目录下创建矢量图文件"></a>在drawable目录下创建矢量图文件</h4><p>具体代码如下，但是一般不需要手动写，一般通过AI或者PS软件生产的。</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-android:width=&quot;24dp&quot;
-android:height=&quot;24dp&quot;
-android:viewportHeight=&quot;24&quot;
-android:viewportWidth=&quot;24&quot;&gt;
-&lt;path
-    android:name=&quot;toe1&quot;
-    android:fillColor=&quot;#ffffff&quot;
-    android:pathData=&quot;M 4.5 7 C 5.88071187458 7 7 8.11928812542 7 9.5 C 7 10.8807118746 5.88071187458 12 4.5 12 C 3.11928812542 12 2 10.8807118746 2 9.5 C 2 8.11928812542 3.11928812542 7 4.5 7 Z&quot; /&gt;
-&lt;path
-    android:name=&quot;toe2&quot;
-    android:fillColor=&quot;#ffffff&quot;
-    android:pathData=&quot;M 9 3 C 10.3807118746 3 11.5 4.11928812542 11.5 5.5 C 11.5 6.88071187458 10.3807118746 8 9 8 C 7.61928812542 8 6.5 6.88071187458 6.5 5.5 C 6.5 4.11928812542 7.61928812542 3 9 3 Z&quot; /&gt;
-&lt;path
-    android:name=&quot;toe3&quot;
-    android:fillColor=&quot;#ffffff&quot;
-    android:pathData=&quot;M 15 3 C 16.3807118746 3 17.5 4.11928812542 17.5 5.5 C 17.5 6.88071187458 16.3807118746 8 15 8 C 13.6192881254 8 12.5 6.88071187458 12.5 5.5 C 12.5 4.11928812542 13.6192881254 3 15 3 Z&quot; /&gt;
-&lt;path
-    android:name=&quot;toe4&quot;
-    android:fillColor=&quot;#ffffff&quot;
-    android:pathData=&quot;M 19.5 7 C 20.8807118746 7 22 8.11928812542 22 9.5 C 22 10.8807118746 20.8807118746 12 19.5 12 C 18.1192881254 12 17 10.8807118746 17 9.5 C 17 8.11928812542 18.1192881254 7 19.5 7 Z&quot; /&gt;
-&lt;path
-    android:fillColor=&quot;#ffffff&quot;
-    android:pathData=&quot;M17.34 14.86c-.87-1.02-1.6-1.89-2.48-2.91-.46-.54-1.05-1.08-1.75-1.32-.11-.04-.22-.07-.33-.09-.25-.04-.52-.04-.78-.04s-.53 0-.79 .05 c-.11 .02 -.22 .05 -.33 .09 -.7 .24 -1.28 .78 -1.75 1.32-.87 1.02-1.6 1.89-2.48 2.91-1.31 1.31-2.92 2.76-2.62 4.79 .29 1.02 1.02 2.03 2.33 2.32 .73 .15 3.06-.44 5.54-.44h.18c2.48 0 4.81 .58 5.54 .44 1.31-.29 2.04-1.31 2.33-2.32 .31 -2.04-1.3-3.49-2.61-4.8z&quot; /&gt;
-&lt;/vector&gt;
-</code></pre><h4 id="只能用于AppCompatImageView或者AppCompatImageButton或其子类，而且必须在app-srcCompat标签中使用。"><a href="#只能用于AppCompatImageView或者AppCompatImageButton或其子类，而且必须在app-srcCompat标签中使用。" class="headerlink" title="只能用于AppCompatImageView或者AppCompatImageButton或其子类，而且必须在app:srcCompat标签中使用。"></a>只能用于AppCompatImageView或者AppCompatImageButton或其子类，而且必须在app:srcCompat标签中使用。</h4><h4 id="资源使用"><a href="#资源使用" class="headerlink" title="资源使用"></a>资源使用</h4><p>在xml配置文件里面:</p>
-<pre><code>&lt;android.support.v7.widget.AppCompatImageView
-    android:layout_width=&quot;100dp&quot;
-    android:layout_height=&quot;100dp&quot;
-    app:srcCompat=&quot;@drawable/vector_icon&quot;
-    android:layout_centerVertical=&quot;true&quot;
-    android:layout_centerHorizontal=&quot;true&quot;
-    android:id=&quot;@+id/imageView&quot; /&gt;
-</code></pre><h3 id="生成svg图片"><a href="#生成svg图片" class="headerlink" title="生成svg图片"></a>生成svg图片</h3><p>通过AI和PS都可以生成svg图片（要装插件）。</p>
-<h4 id="在线PNG转SVG"><a href="#在线PNG转SVG" class="headerlink" title="在线PNG转SVG"></a>在线PNG转SVG</h4><p>需要注册登录才可以下载转换后格式的文件：</p>
-<p><a href="http://vectormagic.com/online/how_it_works" target="_blank" rel="noopener">地址</a></p>
-<h4 id="SVG压缩"><a href="#SVG压缩" class="headerlink" title="SVG压缩"></a>SVG压缩</h4><p>记得将SVG文件进行压缩</p>
-<p><a href="https://jakearchibald.github.io/svgomg/?utm_source=next.36kr.com" target="_blank" rel="noopener">在线</a></p>
-<h4 id="在AS中导入图片"><a href="#在AS中导入图片" class="headerlink" title="在AS中导入图片"></a>在AS中导入图片</h4><p>File -&gt; New -&gt; Vector Asset -&gt; Local SVG files</p>
 
       
     </div>
