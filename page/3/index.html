@@ -162,6 +162,76 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android 组件化-生命周期" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/30/Android 组件化-生命周期/" class="article-date">
+  	<time datetime="2017-08-29T16:00:00.000Z" itemprop="datePublished">2017-08-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/30/Android 组件化-生命周期/">
+        Android 组件化-生命周期
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Lifecycle"><a href="#Lifecycle" class="headerlink" title="Lifecycle"></a>Lifecycle</h3><p>Lifecycle是一个持有某组件生命周期状态的类，并允许其他对象观察这一状态。</p>
+<p>Lifecycle使用两个枚举类型来跟踪相关联组件的生命周期状态。</p>
+<ul>
+<li>Event（事件）:生命周期事件由框架和Lifecycle类分发。这些事件映射到Activity和Fragment的回调。</li>
+<li>State（状态）：由Lifecycle对象所跟踪组件的当前状态。</li>
+</ul>
+<p><img src="https://developer.android.com/images/topic/libraries/architecture/lifecycle-states.png" alt="tupian"></p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><h4 id="打开项目的build添加："><a href="#打开项目的build添加：" class="headerlink" title="打开项目的build添加："></a>打开项目的build添加：</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">allprojects &#123;</span><br><span class="line">    repositories &#123;</span><br><span class="line">        jcenter()</span><br><span class="line">        maven &#123; url 'https://maven.google.com' &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="app-build"><a href="#app-build" class="headerlink" title="app build"></a>app build</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">compile "android.arch.lifecycle:runtime:1.0.0-alpha9"</span><br><span class="line">compile "android.arch.lifecycle:extensions:1.0.0-alpha9"</span><br><span class="line">annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha9"</span><br></pre></td></tr></table></figure>
+<ul>
+<li>注意还只是测试版本，不太稳定，请慎重使用。</li>
+</ul>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>一个可以显示组件生命周期状态的类通过添加注解到其方法中来实现：</p>
+<p>aLifecycleOwner是一个实现LifecycleOwner接口的activity或者fragment。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyObserver</span> <span class="keyword">implements</span> <span class="title">LifecycleObserver</span> </span>&#123;</span><br><span class="line">    <span class="meta">@OnLifecycleEvent</span>(Lifecycle.Event.ON_RESUME)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@OnLifecycleEvent</span>(Lifecycle.Event.ON_PAUSE)</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">aLifecycleOwner.getLifecycle().addObserver(<span class="keyword">new</span> MyObserver());</span><br></pre></td></tr></table></figure>
+<p>由于架构组件当前处在非正式版中，我们无法从一个稳定的组件中添加一个不稳定的API，因此Fragment和AppCompatActivity类暂时无法实现这些接口。目前可以使用LifecycleActivity和LifecycleFragment，当Lifecycles稳定以后，Fragment和AppCompatActivity将实现LifecycleOwner；LifecycleActivity和LifecycleFragment将会被弃用。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> <span class="keyword">implements</span> <span class="title">LifecycleRegistryOwner</span> </span>&#123;</span><br><span class="line">    LifecycleRegistry lifecycleRegistry = <span class="keyword">new</span> LifecycleRegistry(<span class="keyword">this</span>);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LifecycleRegistry <span class="title">getLifecycle</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> lifecycleRegistry;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-多线程数据锁" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -921,108 +991,6 @@
 <li>看涨期权空头</li>
 </ul>
 <h4 id="标的资产"><a href="#标的资产" class="headerlink" title="标的资产"></a>标的资产</h4><p>股票/货币/指数/期货期权</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-独立思考" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/05/26/独立思考/" class="article-date">
-  	<time datetime="2017-05-25T16:00:00.000Z" itemprop="datePublished">2017-05-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/26/独立思考/">
-        独立思考
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>学习批判性思维，会使你认清很多常人无法辨识的陷阱，也可以加强你的辩论能力。但是要切记，学习批判性思维不是为了赢，而是为了更好接近真理或者追求真理。</p>
-<h4 id="SWOT分析"><a href="#SWOT分析" class="headerlink" title="SWOT分析"></a>SWOT分析</h4><ul>
-<li>Strength （优势）—— 内部的有利因素</li>
-<li>Weakness （劣势）—— 内部的不利因素</li>
-<li>Opportunity（机会）—— 外部的有利因素</li>
-<li>Threat （威胁）—— 外部的不利因素</li>
-</ul>
-<p>图片来自网络</p>
-<p><img src="http://photocdn.sohu.com/20150708/mp21797287_1436323836502_5.jpeg" alt=""></p>
-<h4 id="问题策略"><a href="#问题策略" class="headerlink" title="问题策略"></a>问题策略</h4><p>问题 : 想跳槽，找不到满意的工作。<br>对策 : 找心仪的公司的朋友内推，将简历发送到招聘网站，准备好面试复习。</p>
-<h4 id="大部分人思考模式成长的四个过程"><a href="#大部分人思考模式成长的四个过程" class="headerlink" title="大部分人思考模式成长的四个过程"></a>大部分人思考模式成长的四个过程</h4><ul>
-<li>1 轻信思维(依赖)</li>
-<li>2 盲从思维(从众)</li>
-<li>3 愤青思维(逆反)</li>
-<li>4 理性思维(成熟)</li>
-</ul>
-<h4 id="抬杠，辩论不是批判性思维是偏激。一个人的辩论如果不是为了达到某个目的或者真相，只是为了赢，那无论赢多少次也不会成为一个理性的批判性思考者"><a href="#抬杠，辩论不是批判性思维是偏激。一个人的辩论如果不是为了达到某个目的或者真相，只是为了赢，那无论赢多少次也不会成为一个理性的批判性思考者" class="headerlink" title="抬杠，辩论不是批判性思维是偏激。一个人的辩论如果不是为了达到某个目的或者真相，只是为了赢，那无论赢多少次也不会成为一个理性的批判性思考者"></a>抬杠，辩论不是批判性思维是偏激。一个人的辩论如果不是为了达到某个目的或者真相，只是为了赢，那无论赢多少次也不会成为一个理性的批判性思考者</h4><h4 id="自己各阶段事件表"><a href="#自己各阶段事件表" class="headerlink" title="自己各阶段事件表"></a>自己各阶段事件表</h4><p>轻信阶段：18岁之前<br>盲从阶段：22岁之前<br>愤青阶段：26岁之前<br>理性阶段：正在修炼中</p>
-<h4 id="思考动作流"><a href="#思考动作流" class="headerlink" title="思考动作流"></a>思考动作流</h4><ul>
-<li>1 现在发生了什么，这是真的吗？(记录事实)</li>
-<li>2 这真的是与我相关的事吗?(确定影响范围)</li>
-<li>3 说服自己与某件事有关或无关是否自欺欺人?(摆脱情感判断)</li>
-<li>4 我需要集中尽力来完成这件事吗?(判断事情的紧急度)</li>
-<li>5 失败的后果严重吗?(判断事情的重要度)</li>
-<li>6 我该如何准备?(构思具体对策，可展开多种不同方法)</li>
-<li>7 我如何做才能做得更好?(对自己的对策进行评估)</li>
-</ul>
-<h4 id="优质思考者特征"><a href="#优质思考者特征" class="headerlink" title="优质思考者特征"></a>优质思考者特征</h4><ul>
-<li>1 能找到关进问题和困难，并能清晰准确的表达这些问题。</li>
-<li>2 能快速收集大量信息，并用简练的语言表达这些信息。</li>
-<li>3 能提出有效的解决方案，并有标准检验是否有效。</li>
-<li>4 能在遇到复杂问题时，和他人有效的交换信息。</li>
-<li>5 能在遇到阻碍的时候，找到可替代的解决方案，放弃现有选择。</li>
-</ul>
-<h4 id="搜索能力"><a href="#搜索能力" class="headerlink" title="搜索能力"></a>搜索能力</h4><ul>
-<li>1 能够利用互联网快速筛选出自己需要的信息的能力。</li>
-<li>2 利用互联网快速辨别信息真伪。</li>
-<li>3 保护自己隐私的能力。</li>
-</ul>
-<h4 id="表达问题"><a href="#表达问题" class="headerlink" title="表达问题"></a>表达问题</h4><ul>
-<li>1 我要表达的观点是什么？</li>
-<li>2 有哪些资料，数据可以支撑我的观点？</li>
-<li>3 这些资料和数据有足够的说服力吗？</li>
-<li>4 有哪些资料和数据可以削弱我的观点？</li>
-<li>5 有哪些概念和定义需要澄清？</li>
-<li>6 我该用什么样的呈现方式表达自己？</li>
-<li>7 我呈现的逻辑有误吗？</li>
-<li>8 什么样的语气更加合适？会不会太绝对？</li>
-</ul>
 
       
     </div>

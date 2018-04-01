@@ -162,6 +162,139 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-lint" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/30/lint/" class="article-date">
+  	<time datetime="2016-08-29T16:00:00.000Z" itemprop="datePublished">2016-08-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/30/lint/">
+        Android 代码静态检查-lint
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Android Lint是一个静态代码分析工具，它能够对你的Android项目中潜在的bug、可优化的代码、安全性、性能、可用性、可访问性、国际化等进行检查。</p>
+<h3 id="Lint规则"><a href="#Lint规则" class="headerlink" title="Lint规则"></a>Lint规则</h3><p>Android Lint内置了很多lint规则，到现在为止是220项检查，总共可以分为以下几类：</p>
+<ul>
+<li>Correctness 正确性</li>
+<li>Security 安全性</li>
+<li>Performance 性能</li>
+<li>Usability 可用性</li>
+<li>Accessibility 可访问性</li>
+<li>Internationalization 国际化</li>
+</ul>
+<p>你可以为lint检查配置不同的level：</p>
+<ul>
+<li>全局（对整个project）</li>
+<li>每个project module</li>
+<li>每个production module</li>
+<li>每个test module</li>
+<li>每个open files</li>
+<li>每个class hierarchy</li>
+<li>每个Version Control System (VCS) scopes</li>
+</ul>
+<h3 id="自定义Lint实现"><a href="#自定义Lint实现" class="headerlink" title="自定义Lint实现"></a>自定义Lint实现</h3><p>自定义lint是一个纯java项目，以jar的形式输出。有了包含lint规则的jar后，有两种使用方案：</p>
+<p>方案一：把此jar拷贝到 ~/.android/lint/ 目录中（文件名任意）。此时，这些lint规则针对所有项目生效。</p>
+<p>方案二：继续创建一个Android library项目，用来输出包含lint.jar的aar；然后，让目标项目依赖此aar即可使自定义lint规则生效。</p>
+<p>由于方案一是全局生效的策略，无法单独针对目标项目，用处不大。在工程实践中，我们主要使用方案二。</p>
+<p>自定义lint规则是以jar形式存在的，主要通过继承两种类来实现扩展lint功能：</p>
+<ul>
+<li><p>1 新建java工程.</p>
+</li>
+<li><p>2 自定义lint规则需要继承一些特定的类，所以需要在build.gradle中添加依赖:<br>compile ‘com.android.tools.lint:lint-api:24.3.1’<br>compile ‘com.android.tools.lint:lint-checks:24.3.1’</p>
+</li>
+<li><p>3 ①继承IssueRegistry：这是自定义Lint规则的主类或者叫注册类，有且仅有一个，用来注册这个自定义Lint项目中有哪些自定义的issue<br>（issue就是需要lint检查出来并报告给用户的各种问题）需要被检测。</p>
+<p>②继承Detector并选择Detector中合适的XXXScanner接口来实现：在这里根据自身业务需求，实现各种自定义探测器（Detector),<br>并定义各种issue，根据自身需求的不同这样的类可以有一个或多个。</p>
+</li>
+<li><p>4  对于自定义lint生成的jar，我们必须在它的清单文件中指明它的主类。这里我们通过配置ljflintrules的build.gradle文件来完成这项工作.<br> jar {</p>
+<pre><code>manifest {
+    attributes(&apos;Lint-Registry&apos;: &apos;com.ljf.lintrules.MyIssueRegistry&apos;)
+}
+</code></pre><p> }</p>
+</li>
+<li><p>5 控制台中通过命令./gradlew ljflintrules:assemble来执行编译任务，就可以输出我们需要的jar文件了。<br>你可以在ljflintrules工程目录的build/libs/下找到xxx.jar。</p>
+</li>
+<li><p>6 新建一个Android Library项目，命名为ljflintrule_aar，用来输出aar，步骤如下：<br>在build.gradle的根节点加入以下内容：<br>/*</p>
+<ul>
+<li>rules for including “lint.jar” in aar<br>*/<br>configurations {<br> lintJarImport<br>}</li>
+</ul>
+<p>dependencies {</p>
+<pre><code>lintJarImport project(path: &quot;:ljflintrules&quot;, configuration: &quot;lintJarOutput&quot;)
+</code></pre><p>}</p>
+<p>task copyLintJar(type: Copy) {</p>
+<pre><code>from (configurations.lintJarImport) {
+    rename {
+        String fileName -&gt;
+            &apos;lint.jar&apos;
+    }
+}
+into &apos;build/intermediates/lint/&apos;
+</code></pre><p>}</p>
+<p>project.afterEvaluate {</p>
+<pre><code>def compileLintTask = project.tasks.find { it.name == &apos;compileLint&apos; }
+compileLintTask.dependsOn(copyLintJar)
+</code></pre><p>}</p>
+</li>
+<li><p>7 在用户app中使用我们的自定义lint。<br>在用户自己的应用程序module中（我们这里就使用app module），打开app的build.gradle文件，在dependencies中加入以下依赖：<br>compile project(‘:ljflintrule_aar’)</p>
+</li>
+<li><p>8 运行 ./gradlew lint来执行代码检查</p>
+</li>
+<li><p>9 运行完成后会在项目app/build/outputs/下生成两个文件,之后分析结果即可。<br>/Users/xxx/xx/MyLint/app/build/outputs/lint-results-debug.html<br>/Users/xxx/xx/MyLint/app/build/outputs/lint-results-debug.xml</p>
+</li>
+</ul>
+<h3 id="运行系统lint"><a href="#运行系统lint" class="headerlink" title="运行系统lint"></a>运行系统lint</h3><p>Analyze - &gt; inspect code</p>
+<h4 id="检查特定规则的lint"><a href="#检查特定规则的lint" class="headerlink" title="检查特定规则的lint"></a>检查特定规则的lint</h4><p>比如查找没用到的资源：</p>
+<p>Analyze - &gt; run inspection by name 输入 unused resource</p>
+<h4 id="常用规则检查"><a href="#常用规则检查" class="headerlink" title="常用规则检查"></a>常用规则检查</h4><ul>
+<li>1 Error from Custom Lint Check 错误规则检查</li>
+<li>2 Layout performance problems 布局问题</li>
+<li>3 Unused resources 未使用的冗余资源</li>
+<li>4 Warning from Custom Lint Check 错误规则检查</li>
+<li>5 module 右键 Refactor -&gt; Remove Unused Resources</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-性能分析" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -472,113 +605,6 @@ public static float change(float a)
 
 
   
-    <article id="post-recycleview" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/23/recycleview/" class="article-date">
-  	<time datetime="2016-08-22T16:00:00.000Z" itemprop="datePublished">2016-08-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/23/recycleview/">
-        Android RecycleView
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>RecycleView相信大家都不会陌生，基本上每个项目里面都会用到。主要做一些展示工作的view，例如资讯，XX单等等。今天主要谈谈，在项目中我遇到的一些问题以及解决方案。</p>
-<h3 id="RecycleView-和-ListView的对比"><a href="#RecycleView-和-ListView的对比" class="headerlink" title="RecycleView 和 ListView的对比"></a>RecycleView 和 ListView的对比</h3><p>可以说RecycleView是ListView的升级版本。</p>
-<ul>
-<li>1 更灵活的定制功能，可以自定义动画，view的格式，间隙样式等等。</li>
-<li>2 更合理的代码规格，在adapter里面强制viewholder使用。</li>
-</ul>
-<h3 id="RecycleView使用"><a href="#RecycleView使用" class="headerlink" title="RecycleView使用"></a>RecycleView使用</h3><h4 id="基本功能-刷新加载"><a href="#基本功能-刷新加载" class="headerlink" title="基本功能-刷新加载"></a>基本功能-刷新加载</h4><p>网络上上拉刷新下拉加载的第三方的库很多，实现起来也是大同小异。但是在使用中多多少少有些瑕疵，如果用时间还是建议自己写一个，改起来也方便些。</p>
-<p>现在比较主流的事项方式是使用google官方的下拉刷新库，然后自定义上拉加载效果。</p>
-<h4 id="容错处理"><a href="#容错处理" class="headerlink" title="容错处理"></a>容错处理</h4><p>所谓的容错处理，就是当接收不到数据时候显示什么？数据为零时候显示什么？以及，点击刷新功能。</p>
-<p><a href="https://github.com/Drnkn/Android-ProgressSwitcher">推荐库</a></p>
-<p><a href="https://github.com/sirencode/RecycleViewLib">使用demo</a></p>
-<h4 id="瀑布流使用注意"><a href="#瀑布流使用注意" class="headerlink" title="瀑布流使用注意"></a>瀑布流使用注意</h4><p>在使用瀑布流的时候一般会出现对象变动，滑动时变动参差不齐的情况：</p>
-<pre><code>// 防止item位置互换
-layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-
-//防止滑到第一行不对齐
-recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-            InformationsFragment.this.layoutManager.invalidateSpanAssignments();
-            int[] position =
-                    InformationsFragment.this.layoutManager.findFirstVisibleItemPositions(null);
-            int visible = position[0] &gt; LINE_COUNT - 1 ? View.VISIBLE : View.GONE;
-            goTop.setVisibility(visible);
-        }
-    });
-</code></pre><h3 id="多类型Item加载"><a href="#多类型Item加载" class="headerlink" title="多类型Item加载"></a>多类型Item加载</h3><p>封装自定义数据类型：</p>
-<pre><code> public class MultipleItemTypeData {
-
-private RecycleItemTypeData recycleItemTypeData;
-
-private String data;
-
-public MultipleItemTypeData(RecycleItemTypeData itemType, String data) {
-    this.recycleItemTypeData = itemType;
-    this.data = data;
-}
-}
-</code></pre><p>类型绑定：</p>
-<pre><code>public class RecycleItemTypeData {
-
-//recycleview item的类型
-private int itemType;
-
-//recycleview item当前类型对应的res资源
-private int typeRes;
-
-public RecycleItemTypeData(int itemType, int typeRes) {
-    this.itemType = itemType;
-    this.typeRes = typeRes;
-}
-}
-</code></pre>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-gradle same dependencies" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -727,11 +753,11 @@ if (type == &apos;compile&apos;) {
 
 
   
-    <article id="post-monkey" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-recycleview" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/22/monkey/" class="article-date">
-  	<time datetime="2016-08-21T16:00:00.000Z" itemprop="datePublished">2016-08-22</time>
+      <a href="/2016/08/23/recycleview/" class="article-date">
+  	<time datetime="2016-08-22T16:00:00.000Z" itemprop="datePublished">2016-08-23</time>
 </a>
     </div>
   
@@ -744,8 +770,8 @@ if (type == &apos;compile&apos;) {
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/22/monkey/">
-        Android Mokey压力测试
+      <a class="article-title" href="/2016/08/23/recycleview/">
+        Android RecycleView
         
       </a>
     </h1>
@@ -756,83 +782,60 @@ if (type == &apos;compile&apos;) {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。</p>
-<h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ol>
-<li>Monky测试使用的事件流数据流是随机的，不能自定义。</li>
-<li>测试的对象仅为应用程序包，有一定的局限性。</li>
-<li>运行Monkey时，对本次测试对象，事件数量，类型，频率等进行设置。可输入命令行或运行小脚本。</li>
-</ol>
-<h3 id="monkey事件"><a href="#monkey事件" class="headerlink" title="monkey事件"></a>monkey事件</h3><ul>
-<li>触摸事件，参数 –pct-touch</li>
-<li>手势事件 –pct-motion</li>
-<li>二指缩放 –pct-pinchzoom</li>
-<li>轨迹事件 –pct-trackball</li>
-<li>屏幕旋转 –pct-rotation</li>
-<li>导航键 –pct-majornav</li>
-<li>系统按键 –pct-syskeys</li>
-<li>启动activity –pct-appswitch</li>
-<li>键盘事件 –pct-flip</li>
-</ul>
-<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
-<li>-v 表示反馈信息级别 越大返回信息越多越详细。-v-vhe-v-v-v三个级别。</li>
-<li>-throttle 两个事件之间的事件间隔</li>
-<li>–pct-xxx &lt;百分比&gt;</li>
-<li>-p &lt;包名&gt; 一个或多个，monkey只允许在指定包名里面运行</li>
-<li>–ignore-crashes 发生crash不停止</li>
-<li>–ignore-timeouts anr不停止</li>
-<li>-s 伪随机数生成器，-s值相同执行的事件相同(便于问题复现)。</li>
-</ul>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>开启：（参数详解）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell monkey -v -p com.you.packet --throttle 300 120000 &gt; monkey_log.txt</span><br></pre></td></tr></table></figure>
+        <p>RecycleView相信大家都不会陌生，基本上每个项目里面都会用到。主要做一些展示工作的view，例如资讯，XX单等等。今天主要谈谈，在项目中我遇到的一些问题以及解决方案。</p>
+<h3 id="RecycleView-和-ListView的对比"><a href="#RecycleView-和-ListView的对比" class="headerlink" title="RecycleView 和 ListView的对比"></a>RecycleView 和 ListView的对比</h3><p>可以说RecycleView是ListView的升级版本。</p>
 <ul>
-<li>－V:logcat级别（最高－VVV）</li>
-<li>-p:后加测试对象包名，一个或多个</li>
-<li>-throttle 300:Monkey每个事件间的间隔</li>
-<li>120000:事件总次数</li>
-<li>monkey_log.txt:本地日志名</li>
+<li>1 更灵活的定制功能，可以自定义动画，view的格式，间隙样式等等。</li>
+<li>2 更合理的代码规格，在adapter里面强制viewholder使用。</li>
 </ul>
-<h3 id="停止monkey"><a href="#停止monkey" class="headerlink" title="停止monkey"></a>停止monkey</h3><ul>
-<li>获取monekey(com.android.commands.monkey)的进程ID</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell ps | grep monkey</span><br></pre></td></tr></table></figure>
-<ul>
-<li>杀死monkey进程</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell <span class="built_in">kill</span> 30898</span><br></pre></td></tr></table></figure>
-<h3 id="monkey-自定义脚本"><a href="#monkey-自定义脚本" class="headerlink" title="monkey 自定义脚本"></a>monkey 自定义脚本</h3><p>常规的monkey是测试执行随机的事件流的，但如果想执行特定场景，这个时候就要执行自定义脚本了。</p>
-<h4 id="monkey脚本常见API"><a href="#monkey脚本常见API" class="headerlink" title="monkey脚本常见API"></a>monkey脚本常见API</h4><ul>
-<li>LanchActivity(Pkg_name,cl_name) 启动被测试的某个activity，Pkg_name:包名，cl_name:Activity名</li>
-<li>Tap(x, y, tapDuration): 模拟一次手指单击事件。参数：x,y为控件坐标，tapDuration为点击的持续时间，此参数可省略。</li>
-<li>DispatchPress(keyName): 按键。参数： keycode。 详细的Android Keycode列表：<a href="http://blog.csdn.net/feizhixuan46789/article/details/16801429" target="_blank" rel="noopener">Android Keycode列表</a>。</li>
-<li>RotateScreen(rotationDegree, persist): 旋转屏幕。 参数：rotationDegree为旋转角度， e.g. 1代表90度；persist表示旋转之后是否固定，0表示旋转后恢复，非0则表示固定不变。</li>
-<li>DispatchFlip(true/false): 打开或者关闭软键盘。</li>
-<li>Drag(xStart, yStart, xEnd, yEnd, stepCount):  用于模拟一个拖拽操作。</li>
-<li>PinchZoom(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End, stepCount): 模拟缩放手势。</li>
-<li>UserWait(sleepTime): 休眠一段时间</li>
-<li>DeviceWakeUp(): 唤醒屏幕。</li>
-<li>PowerLog(power_log_type, test_case_status): 模拟电池电量信息。</li>
-<li>WriteLog(): 将电池信息写入sd卡。</li>
-<li>RunCmd(cmd): 运行shell命令。</li>
-<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFlags)：向指定位置，发送单个手势。</li>
-<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFilags) ：发送按键消息。</li>
-<li>LaunchInstrumentation(test_name,runner_name): 运行一个instrumentation测试用例。</li>
-<li>DispatchTrackball: 模拟发送轨迹球事件。</li>
-<li>ProfileWait: 等待5秒。</li>
-<li>StartCaptureFramerate():  获取帧率。</li>
-<li>EndCaptureFramerate(input): 结束获取帧率。</li>
-</ul>
-<h4 id="脚本demo"><a href="#脚本demo" class="headerlink" title="脚本demo"></a>脚本demo</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#头文件信息  </span></span><br><span class="line"><span class="built_in">type</span>=raw events  </span><br><span class="line">count=10  </span><br><span class="line">speed=1.0  </span><br><span class="line">start data &gt;&gt;  </span><br><span class="line"><span class="comment">#具体的脚本内容  </span></span><br><span class="line">LaunchActivity(com.example.package,com.example.ui.SplashActivity)  </span><br><span class="line">Tap(972,1818)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,607)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">DispatchString(1234567)  </span><br><span class="line">Tap(636,859)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(388,895)  </span><br><span class="line">UserWait(1000)  </span><br><span class="line">DispatchString(123456)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,1104)</span><br></pre></td></tr></table></figure>
-<h4 id="执行脚本"><a href="#执行脚本" class="headerlink" title="执行脚本"></a>执行脚本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ adb push monkey.script /sdcard/ </span><br><span class="line">$ adb shell  </span><br><span class="line">$ shell@pisces:/ $ monkey -f /sdcard/monkey.script -v 1</span><br></pre></td></tr></table></figure>
-<h4 id="日志分别存储"><a href="#日志分别存储" class="headerlink" title="日志分别存储"></a>日志分别存储</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Monkey [option] &lt;count&gt; 1&gt;/sdcard/monkey.txt 2&gt;/sdcard/error.txt</span><br></pre></td></tr></table></figure>
-<h3 id="monlkey的基本原理"><a href="#monlkey的基本原理" class="headerlink" title="monlkey的基本原理"></a>monlkey的基本原理</h3><p>monkey的代码核心模块主要包括主控，监控，事件源和事件四部分。</p>
-<ul>
-<li>主控模块：主控模块即com.android.commands.monkey.Monkey类,是入口函数所在的类，主要负责参数解析和赋值，初始化运行环境，执行runMonkeyCucles()方法针对不同的事件源开始获取并执行不同的事件。</li>
-<li>监控模块：监控部分包括异常监控和网络监控两部分。异常监控通过ActivityWatch类来实现，注意监控Activity的crash和ANR事件。网络监控通过MonkeyNetworkmonitor类来实现，主要用于统计运行期间移动网络和WiFi网络的链接时长。</li>
-<li>事件源模块：代表不同的事件来源。</li>
-<li>事件模块：事件代表了各种用户操作类型。</li>
-</ul>
-<h3 id="monkey-扩展"><a href="#monkey-扩展" class="headerlink" title="monkey 扩展"></a>monkey 扩展</h3><p>monkey本身的功能有限，比如不能截屏和网络重新连接等，为了更好的测试，有时候我们要添加一些功能。</p>
+<h3 id="RecycleView使用"><a href="#RecycleView使用" class="headerlink" title="RecycleView使用"></a>RecycleView使用</h3><h4 id="基本功能-刷新加载"><a href="#基本功能-刷新加载" class="headerlink" title="基本功能-刷新加载"></a>基本功能-刷新加载</h4><p>网络上上拉刷新下拉加载的第三方的库很多，实现起来也是大同小异。但是在使用中多多少少有些瑕疵，如果用时间还是建议自己写一个，改起来也方便些。</p>
+<p>现在比较主流的事项方式是使用google官方的下拉刷新库，然后自定义上拉加载效果。</p>
+<h4 id="容错处理"><a href="#容错处理" class="headerlink" title="容错处理"></a>容错处理</h4><p>所谓的容错处理，就是当接收不到数据时候显示什么？数据为零时候显示什么？以及，点击刷新功能。</p>
+<p><a href="https://github.com/Drnkn/Android-ProgressSwitcher">推荐库</a></p>
+<p><a href="https://github.com/sirencode/RecycleViewLib">使用demo</a></p>
+<h4 id="瀑布流使用注意"><a href="#瀑布流使用注意" class="headerlink" title="瀑布流使用注意"></a>瀑布流使用注意</h4><p>在使用瀑布流的时候一般会出现对象变动，滑动时变动参差不齐的情况：</p>
+<pre><code>// 防止item位置互换
+layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
 
+//防止滑到第一行不对齐
+recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            InformationsFragment.this.layoutManager.invalidateSpanAssignments();
+            int[] position =
+                    InformationsFragment.this.layoutManager.findFirstVisibleItemPositions(null);
+            int visible = position[0] &gt; LINE_COUNT - 1 ? View.VISIBLE : View.GONE;
+            goTop.setVisibility(visible);
+        }
+    });
+</code></pre><h3 id="多类型Item加载"><a href="#多类型Item加载" class="headerlink" title="多类型Item加载"></a>多类型Item加载</h3><p>封装自定义数据类型：</p>
+<pre><code> public class MultipleItemTypeData {
+
+private RecycleItemTypeData recycleItemTypeData;
+
+private String data;
+
+public MultipleItemTypeData(RecycleItemTypeData itemType, String data) {
+    this.recycleItemTypeData = itemType;
+    this.data = data;
+}
+}
+</code></pre><p>类型绑定：</p>
+<pre><code>public class RecycleItemTypeData {
+
+//recycleview item的类型
+private int itemType;
+
+//recycleview item当前类型对应的res资源
+private int typeRes;
+
+public RecycleItemTypeData(int itemType, int typeRes) {
+    this.itemType = itemType;
+    this.typeRes = typeRes;
+}
+}
+</code></pre>
       
     </div>
     
@@ -966,6 +969,136 @@ protected void lazyLoad() {
 
 }
 </code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-monkey" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/22/monkey/" class="article-date">
+  	<time datetime="2016-08-21T16:00:00.000Z" itemprop="datePublished">2016-08-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/22/monkey/">
+        Android Mokey压力测试
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。</p>
+<h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ol>
+<li>Monky测试使用的事件流数据流是随机的，不能自定义。</li>
+<li>测试的对象仅为应用程序包，有一定的局限性。</li>
+<li>运行Monkey时，对本次测试对象，事件数量，类型，频率等进行设置。可输入命令行或运行小脚本。</li>
+</ol>
+<h3 id="monkey事件"><a href="#monkey事件" class="headerlink" title="monkey事件"></a>monkey事件</h3><ul>
+<li>触摸事件，参数 –pct-touch</li>
+<li>手势事件 –pct-motion</li>
+<li>二指缩放 –pct-pinchzoom</li>
+<li>轨迹事件 –pct-trackball</li>
+<li>屏幕旋转 –pct-rotation</li>
+<li>导航键 –pct-majornav</li>
+<li>系统按键 –pct-syskeys</li>
+<li>启动activity –pct-appswitch</li>
+<li>键盘事件 –pct-flip</li>
+</ul>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li>-v 表示反馈信息级别 越大返回信息越多越详细。-v-vhe-v-v-v三个级别。</li>
+<li>-throttle 两个事件之间的事件间隔</li>
+<li>–pct-xxx &lt;百分比&gt;</li>
+<li>-p &lt;包名&gt; 一个或多个，monkey只允许在指定包名里面运行</li>
+<li>–ignore-crashes 发生crash不停止</li>
+<li>–ignore-timeouts anr不停止</li>
+<li>-s 伪随机数生成器，-s值相同执行的事件相同(便于问题复现)。</li>
+</ul>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>开启：（参数详解）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell monkey -v -p com.you.packet --throttle 300 120000 &gt; monkey_log.txt</span><br></pre></td></tr></table></figure>
+<ul>
+<li>－V:logcat级别（最高－VVV）</li>
+<li>-p:后加测试对象包名，一个或多个</li>
+<li>-throttle 300:Monkey每个事件间的间隔</li>
+<li>120000:事件总次数</li>
+<li>monkey_log.txt:本地日志名</li>
+</ul>
+<h3 id="停止monkey"><a href="#停止monkey" class="headerlink" title="停止monkey"></a>停止monkey</h3><ul>
+<li>获取monekey(com.android.commands.monkey)的进程ID</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell ps | grep monkey</span><br></pre></td></tr></table></figure>
+<ul>
+<li>杀死monkey进程</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell <span class="built_in">kill</span> 30898</span><br></pre></td></tr></table></figure>
+<h3 id="monkey-自定义脚本"><a href="#monkey-自定义脚本" class="headerlink" title="monkey 自定义脚本"></a>monkey 自定义脚本</h3><p>常规的monkey是测试执行随机的事件流的，但如果想执行特定场景，这个时候就要执行自定义脚本了。</p>
+<h4 id="monkey脚本常见API"><a href="#monkey脚本常见API" class="headerlink" title="monkey脚本常见API"></a>monkey脚本常见API</h4><ul>
+<li>LanchActivity(Pkg_name,cl_name) 启动被测试的某个activity，Pkg_name:包名，cl_name:Activity名</li>
+<li>Tap(x, y, tapDuration): 模拟一次手指单击事件。参数：x,y为控件坐标，tapDuration为点击的持续时间，此参数可省略。</li>
+<li>DispatchPress(keyName): 按键。参数： keycode。 详细的Android Keycode列表：<a href="http://blog.csdn.net/feizhixuan46789/article/details/16801429" target="_blank" rel="noopener">Android Keycode列表</a>。</li>
+<li>RotateScreen(rotationDegree, persist): 旋转屏幕。 参数：rotationDegree为旋转角度， e.g. 1代表90度；persist表示旋转之后是否固定，0表示旋转后恢复，非0则表示固定不变。</li>
+<li>DispatchFlip(true/false): 打开或者关闭软键盘。</li>
+<li>Drag(xStart, yStart, xEnd, yEnd, stepCount):  用于模拟一个拖拽操作。</li>
+<li>PinchZoom(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End, stepCount): 模拟缩放手势。</li>
+<li>UserWait(sleepTime): 休眠一段时间</li>
+<li>DeviceWakeUp(): 唤醒屏幕。</li>
+<li>PowerLog(power_log_type, test_case_status): 模拟电池电量信息。</li>
+<li>WriteLog(): 将电池信息写入sd卡。</li>
+<li>RunCmd(cmd): 运行shell命令。</li>
+<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFlags)：向指定位置，发送单个手势。</li>
+<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFilags) ：发送按键消息。</li>
+<li>LaunchInstrumentation(test_name,runner_name): 运行一个instrumentation测试用例。</li>
+<li>DispatchTrackball: 模拟发送轨迹球事件。</li>
+<li>ProfileWait: 等待5秒。</li>
+<li>StartCaptureFramerate():  获取帧率。</li>
+<li>EndCaptureFramerate(input): 结束获取帧率。</li>
+</ul>
+<h4 id="脚本demo"><a href="#脚本demo" class="headerlink" title="脚本demo"></a>脚本demo</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#头文件信息  </span></span><br><span class="line"><span class="built_in">type</span>=raw events  </span><br><span class="line">count=10  </span><br><span class="line">speed=1.0  </span><br><span class="line">start data &gt;&gt;  </span><br><span class="line"><span class="comment">#具体的脚本内容  </span></span><br><span class="line">LaunchActivity(com.example.package,com.example.ui.SplashActivity)  </span><br><span class="line">Tap(972,1818)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,607)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">DispatchString(1234567)  </span><br><span class="line">Tap(636,859)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(388,895)  </span><br><span class="line">UserWait(1000)  </span><br><span class="line">DispatchString(123456)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,1104)</span><br></pre></td></tr></table></figure>
+<h4 id="执行脚本"><a href="#执行脚本" class="headerlink" title="执行脚本"></a>执行脚本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ adb push monkey.script /sdcard/ </span><br><span class="line">$ adb shell  </span><br><span class="line">$ shell@pisces:/ $ monkey -f /sdcard/monkey.script -v 1</span><br></pre></td></tr></table></figure>
+<h4 id="日志分别存储"><a href="#日志分别存储" class="headerlink" title="日志分别存储"></a>日志分别存储</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Monkey [option] &lt;count&gt; 1&gt;/sdcard/monkey.txt 2&gt;/sdcard/error.txt</span><br></pre></td></tr></table></figure>
+<h3 id="monlkey的基本原理"><a href="#monlkey的基本原理" class="headerlink" title="monlkey的基本原理"></a>monlkey的基本原理</h3><p>monkey的代码核心模块主要包括主控，监控，事件源和事件四部分。</p>
+<ul>
+<li>主控模块：主控模块即com.android.commands.monkey.Monkey类,是入口函数所在的类，主要负责参数解析和赋值，初始化运行环境，执行runMonkeyCucles()方法针对不同的事件源开始获取并执行不同的事件。</li>
+<li>监控模块：监控部分包括异常监控和网络监控两部分。异常监控通过ActivityWatch类来实现，注意监控Activity的crash和ANR事件。网络监控通过MonkeyNetworkmonitor类来实现，主要用于统计运行期间移动网络和WiFi网络的链接时长。</li>
+<li>事件源模块：代表不同的事件来源。</li>
+<li>事件模块：事件代表了各种用户操作类型。</li>
+</ul>
+<h3 id="monkey-扩展"><a href="#monkey-扩展" class="headerlink" title="monkey 扩展"></a>monkey 扩展</h3><p>monkey本身的功能有限，比如不能截屏和网络重新连接等，为了更好的测试，有时候我们要添加一些功能。</p>
+
       
     </div>
     
@@ -1251,278 +1384,6 @@ final class JavaScriptInterface {
 <li>3 其实你要不限制大小，生成这个文件还是蛮大的，我跑过一个两百多兆的，分析工具直接卡死了。</li>
 <li>4 另外在执行start-&gt;stop之间的代码的时候会很卡，这个是正常现象，毕竟在疯狂采集信息。</li>
 <li>5 尽量小，例如一次只分析几个函数，避免ANR产生，如果还是出现了，那我只能建议你等了。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-react-native" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/19/react-native/" class="article-date">
-  	<time datetime="2016-08-18T16:00:00.000Z" itemprop="datePublished">2016-08-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/19/react-native/">
-        react-native android使用入门
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Facebook 在2015.9.15发布了 React Native for Android，把JavaScript 开发技术扩展到了Android平台。React Native 让开发者使用 JavaScript 和 React 编写应用，利用相同的核心代码就可以创建 基于Web，iOS 和 Android 平台的原生应用。</p>
-<p>与 WebView 不同，React Native 运行的界面，最终会被解释映射为原生的 View，可以直接使用布局边界或者 Hierarchy Viewer 看出层级（js 文件会打包为一个bundle，位于assets下面，RN引擎会加载并进行解释映射）。</p>
-<p>本文将浅析Android React的架构及相关基础知识。</p>
-<h4 id="环境搭建（mac）"><a href="#环境搭建（mac）" class="headerlink" title="环境搭建（mac）"></a>环境搭建（mac）</h4><p>1.安装Homebrew (osx的包管理工具):</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></span><br></pre></td></tr></table></figure>
-<p>2.安装node.js :</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install node</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chown -R $(whoami) /usr/<span class="built_in">local</span>/share/systemtap</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew link node</span><br></pre></td></tr></table></figure>
-<p>3.安装watchman :</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install watchman</span><br></pre></td></tr></table></figure>
-<p>4.安装flow :</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install flow</span><br></pre></td></tr></table></figure>
-<p>5.设置npm淘宝镜像: (也可参考<a href="http://npm.taobao.org/" target="_blank" rel="noopener">http://npm.taobao.org/</a>)</p>
-<ul>
-<li>1 创建 .npmrc 文件(在用户主目录下)</li>
-<li>2 加入以下配置信息:<br>registry = <a href="http://registry.npm.taobao.org" target="_blank" rel="noopener">http://registry.npm.taobao.org</a></li>
-</ul>
-<p>6.安装React-Native :</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g react-native-cli</span><br></pre></td></tr></table></figure>
-<p>7.创建React-Native项目HelloWorld:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$  react-native init HelloWorld</span><br></pre></td></tr></table></figure>
-<p>8.运行Android应用</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> AwesomeProject</span><br><span class="line">$ react-native run-android</span><br></pre></td></tr></table></figure>
-<p>9.版本查看</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ react-native --version</span><br></pre></td></tr></table></figure>
-<p>10.真机测试</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb reverse tcp:8081 tcp:8081（5.0以上）</span><br></pre></td></tr></table></figure>
-<p>11.react-native 升级以及版本管理</p>
-<p>  npm install</p>
-<p>  1 查询react-native的npm包得最新版本:</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm info react-native</span><br></pre></td></tr></table></figure>
-<p>  2 安装react-native的指定版本(可以是升级或者降级):</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save react-native@0.22.2</span><br></pre></td></tr></table></figure>
-<p>  3 更新项目配置:</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ react-native upgrade</span><br></pre></td></tr></table></figure>
-<p>12.离线调试</p>
-<ul>
-<li>1 离线文件下载地址:<a href="http://localhost:8081/index.android.bundle?platform=android" target="_blank" rel="noopener">http://localhost:8081/index.android.bundle?platform=android</a></li>
-<li>2 将代码拷贝到Android的assets目录的index.android.bundle.js文件下</li>
-</ul>
-<h4 id="RN实现原理"><a href="#RN实现原理" class="headerlink" title="RN实现原理"></a>RN实现原理</h4><p>RN需要一个JS的运行环境， 在IOS上直接使用内置的javascriptcore， 在Android 则使用webkit.org官方开源的jsc.so。 此外还集成了其他开源组件，如fresco图片组件，okhttp网络组件等。</p>
-<p>RN 会把应用的JS代码（包括依赖的framework）编译成一个js文件（一般命名为index.android.bundle),RN的整体框架目标就是为了解释运行这个js 脚本文件，如果是js 扩展的API， 则直接通过bridge调用native方法; 如果是UI界面， 则映射到virtual DOM这个虚拟的JS数据结构中，通过bridge 传递到native ， 然后根据数据属性设置各个对应的真实native的View。 bridge是一种JS 和 JAVA代码通信的机制， 用bridge函数传入对方module 和 method即可得到异步回调的结果。</p>
-<p>对于 Android 开发者来说， RN是一个普通的安卓程序加上一堆事件响应， 事件来源主要是JS的命令。主要有二个线程，UI main thread, JS thread。 UI thread创建一个APP的事件循环后，就挂在looper等待事件 , 事件驱动各自的对象执行命令。 JS thread 运行的脚本相当于底层数据采集器， 不断上传数据，转化成UI 事件， 通过bridge转发到UI thread, 从而改变真实的View。 后面再深一层发现， UI main thread 跟 JS thread更像是CS 模型，JS thread更像服务端， UI main thread是客户端， UI main thread 不断询问JS thread并且请求数据，如果数据有变，则更新UI界面。</p>
-<h4 id="代码流程"><a href="#代码流程" class="headerlink" title="代码流程"></a>代码流程</h4><h4 id="js开发者角度"><a href="#js开发者角度" class="headerlink" title="js开发者角度"></a>js开发者角度</h4><p>对于JS开发者来说， 整个RN APP就只有一个JS文件， 而开发者需要编写的有主要是四个部分：</p>
-<p>1 require 所有依赖到的组件， 相当于java中的import 或者 c++ 中的include。</p>
-<p>2 var AwesomeProject = React.createClass 创建APP， 并且在render函数中返回UI界面结构（采用JSX ), 实际经过编译， 都会变成JS 代码， 比如 变成 React.createElement(View,{style:{flex:1}},</p>
-<p>3 var styles = StyleSheet.create({， 创建CSS 样式，实际上会直接当做参数直接反馈到上面的React.createElement</p>
-<p>4 AppRegistry.registerComponent(‘AwesomeProject’, () =&gt; AwesomeProject); 以上三个更像是参数，这个才是JS 程序的入口。即把当前APP的对象注册到AppRegistry组件中， AppRegistry组件是js module。<br>接着就等待Native事件驱动渲染JS端定义的APP组件。</p>
-<h4 id="android开发者角度"><a href="#android开发者角度" class="headerlink" title="android开发者角度"></a>android开发者角度</h4><p>对于Android 开发者， 普通安卓程序入口是Activity.onCreate()方法 ， 主要有三个对象</p>
-<p>1 ReactRootView, Android 标准的FrameLayout对象，另外一个功能是提供react 世界的入口，函数startReactApplication实际调用attachMeasuredRootView触发react世界的初始化。</p>
-<p>2 MyReactPackage， 配置当前APP 需要加载的模块，RN 的JS框架会在初始化阶段就会把native的模块按照配置加载到JS数据结构中（MessageQueue), 从而才能在JS 层即可直接判断native是否支持某个模块。支持三种类型模块配置， native module(实际就是不需要操作View结构的API), view managers(实际是映射到virtual DOM中的View组件)， JS module 。</p>
-<p>3 ReactInstanceManager， 构建React世界的运行环境，发送事件到JS世界， 驱动整个React世界运转。 通过builder可以创建不同的React环境， 比如内置js 路径， 开发环境dev的js名字，是否支持调试等。doInBackground会加载指定的JS文件, onPostExecute会调用runApplication接口运行JS APP。</p>
-<h4 id="通信机制"><a href="#通信机制" class="headerlink" title="通信机制"></a>通信机制</h4><p>RN框架最主要的就是实现了一套JAVA和 JS通信的方案，该方案可以做到比较简便的互调对方的接口。一般的JS运行环境是直接扩展JS接口，然后JS通过扩展接口发送信息到主线程。但RN的通信的实现机制是单向调用，Native线程定期向JS线程拉取数据， 然后转成JS的调用预期，最后转交给Native对应的调用模块。这样最终同样也可以达到Java和 JS 定义的Module互相调用的目的。</p>
-<h4 id="自定义原生模块"><a href="#自定义原生模块" class="headerlink" title="自定义原生模块"></a>自定义原生模块</h4><p>1 首先编写一个自定义模块的类，该类需要继承ReactContextBaseJavaModule, 并需要实现getName()方法返回一个模块名称，在本实例中，该自定义模块将实现Android的Toast功能，所以定义了一个show()方法，并加上了ReactMethod注解，这个注解可以将show(String msg, int duration)中的Java参数类型映射成Js中对应的数据类型，具体映射关系如下:</p>
-<pre><code>Boolean -&gt; Bool
-Integer -&gt; Number
-Double -&gt; Number
-Float -&gt; Number
-String -&gt; String
-Callback -&gt; function
-ReadableMap -&gt; Object
-ReadableArray -&gt; Array
-</code></pre><h4 id="以Toast为例："><a href="#以Toast为例：" class="headerlink" title="以Toast为例："></a>以Toast为例：</h4><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>public class ToastAndroidModule extends    ReactContextBaseJavaModule {
-
-private static final String DURATION_SHORT_KEY = &quot;SHORT&quot;;
-private static final String DURATION_LONG_KEY = &quot;LONG&quot;;
-
-public ToastAndroidModule(ReactApplicationContext reactContext) {
-    super(reactContext);
-}
-
-/**
- * 定义模块名称
- * @return
- */
-@Override
-public String getName() {
-    return &quot;MyToastAndroid&quot;;
-}
-
-/**
- * 可以设置一些常量，能够在js层调用，本例中在JS代码中调用如&quot;MyToastAndroid.LONG&quot;
- * @return
- */
-@Nullable
-@Override
-public Map&lt;String, Object&gt; getConstants() {
-    final Map&lt;String, Object&gt; constants = new HashMap&lt;&gt;(2);
-    constants.put(DURATION_SHORT_KEY, Toast.LENGTH_SHORT);
-    constants.put(DURATION_LONG_KEY, Toast.LENGTH_LONG);
-    return constants;
-}
-
-/**
- * 自定义方法，通过ReactMethod注解可以把一些Java常量类型映射成js类型
- * @param msg
- * @param duration
- */
-@ReactMethod
-public void show(String msg, int duration) {
-    Toast.makeText(getReactApplicationContext(), msg, duration).show();
-}
-}
-</code></pre><h4 id="注册模块"><a href="#注册模块" class="headerlink" title="注册模块"></a>注册模块</h4><p>在目前0.20版本上，我们自定义原生模块(NativeModule)是需要注册才能生效的，所以编写好模块之后需要重新打包安装到手机上。</p>
-<h4 id="编写Package"><a href="#编写Package" class="headerlink" title="编写Package"></a>编写Package</h4><p>注册模块首先可以先写个自定义的Package，顾名思义，就是一个可以包含你自己写的模块的一个包，然后把包在MainActivity(本例中的类)中注册下，通过已有工程引入React组件的可以根据实际情况修改，也不难。<br>本例中新建一个MyPackage类，通过实现ReactPackage的三个接口来完成模块的绑定，其中createNativeModules方法是我们本例需要用到的，其他两个之后再说，要注意三个方法均不能返回null类型，不需要用到的请传入一个空集合！</p>
-<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><pre><code>public class MyPackage implements ReactPackage {
-@Override
-public List&lt;NativeModule&gt; createNativeModules(ReactApplicationContext reactContext) {
-    List&lt;NativeModule&gt; modules = new ArrayList&lt;&gt;(1);
-    // 将我们自定义模块添加一个集合中，这样React组件就会在合适的时机将我们引用的模块加载进去，这样后面才能愉快地玩耍~
-    modules.add(new ToastAndroidModule(reactContext));
-    return modules;
-}
-
-@Override
-public List&lt;Class&lt;? extends JavaScriptModule&gt;&gt; createJSModules() {
-    //现在不需要用到，不要传null，否则报错
-    return Collections.emptyList();
-}
-
-@Override
-public List&lt;ViewManager&gt; createViewManagers(ReactApplicationContext reactContext) {
-    //现在不需要用到，不要传null，否则报错
-    return Collections.emptyList();
-}
-}
-</code></pre><h4 id="注册Package"><a href="#注册Package" class="headerlink" title="注册Package"></a>注册Package</h4><p>写好Package之后，就可以愉快将Package加入到MainActivity(本例)类里，方法很简单，直接贴部分源代码</p>
-<h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><pre><code>public class MainActivity extends ReactActivity {
-
-/**
- * Returns the name of the main component registered from JavaScript.
- * This is used to schedule rendering of the component.
- */
-@Override
-protected String getMainComponentName() {
-    return &quot;AwesomeProject&quot;;
-}
-
-/**
- * Returns whether dev mode should be enabled.
- * This enables e.g. the dev menu.
- */
-@Override
-protected boolean getUseDeveloperSupport() {
-    return BuildConfig.DEBUG;
-}
-
-/**
- * A list of packages used by the app. If the app uses additional views
- * or modules besides the default ones, add more packages here.
- */
-@Override
-protected List&lt;ReactPackage&gt; getPackages() {
-    return Arrays.&lt;ReactPackage&gt;asList(
-            new MainReactPackage(),
-            //加入我们自己写的Package
-            new MyPackage()
-    );
-}
-}
-</code></pre><h4 id="JS调用"><a href="#JS调用" class="headerlink" title="JS调用"></a>JS调用</h4><h4 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h4><pre><code>import React, {
-AppRegistry,
-Component,
-StyleSheet,
-Text,
-View,
-NativeModules
-} from &apos;react-native&apos;;
-
-class AwesomeProject extends Component {
-constructor(props) {
-    super(props);
-}
-
-componentDidMount() {
-    var MyToastAndroid = NativeModules.MyToastAndroid;
-    MyToastAndroid.show(&apos;This is from MyToastAndroid Native Module&apos;, MyToastAndroid.LONG)
-}
-
-render() {
-    return (
-        &lt;View style={styles.container}&gt;
-            &lt;Text&gt;
-                NativeModule Test by BogerChan
-            &lt;/Text&gt;
-        &lt;/View&gt;
-    );
-}
-};
-var styles = StyleSheet.create({
-container: {
-    flex: 1,
-    flexDirection: &apos;row&apos;,
-    justifyContent: &apos;center&apos;,
-    alignItems: &apos;center&apos;,
-    backgroundColor: &apos;#F5FCFF&apos;,
-},
-});
-AppRegistry.registerComponent(&apos;AwesomeProject&apos;, () =&gt; AwesomeProject);
-</code></pre><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
-<li>1 体验 web 开发的便捷，不再需要编译，重新加载一下 js 就行了</li>
-<li>2 可以直接使用 Chrome 或者 Nuclide 调试</li>
-<li>3 Android / iOS 两端可以共享很大一部分代码（RN 还在进行 Windows, MacOS, Node-webkit 等平台的支持）</li>
-<li>4 热更新，JS bundle 下发一下新的就行了（当然也有一定局限性，如果是 hybrid，则 native 的 RN module 部分不能更新）</li>
-</ul>
-<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
-<li>1 前端开发不会原生做不了 React Native（除非你能真只用自带的那些东西），而且理解那些 RN 提供的组件也会很头晕（需要同时了解 Android 和 iOS）。</li>
-<li>2 原生开发需要一定成本的学习实践才能掌握 React Native。毕竟 ES6 不像过去的 JS 那么傻瓜式了。</li>
-<li>3 React Native 目前仍然处于快速迭代开发的阶段，你永远也不知道下个版本自己升级需要修改多少原来的代码。</li>
-<li>4 React Native 的资料较少，尤其是国内的，更尤其是 hybrid 开发的（GitHub 上的开源项目大多是纯 RN 的）。</li>
-</ul>
-<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ul>
-<li>因为bridge,  JS和 JAVA是异步互通，如果实现复杂多API的逻辑，可能会导致部分效率损耗在多线程通信。JS 异步的编程方式多多少少带来一些不便。</li>
-<li>因为bridge,  可能某些场景做不到及时响应。比如帧动画的实时控制。</li>
-<li>Android版本刚推出不完善，并且目前RN版本还在不停的更新中， 可能存在暗坑。</li>
-<li>加入JS引擎， 内存的控制比较麻烦，会比普通native增加不少。</li>
 </ul>
 
       
