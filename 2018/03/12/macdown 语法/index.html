@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>事件总线 | Diablo</title>
+  <title>macdown 语法 | Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。 介绍事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。 通常我们在activity,service，fragment之间通信时，一般有以下几种方案：  1 广播，使用起来比较麻烦。 2 回调，增加了代码之间的耦合。  事件总线框架, 它简化了Activity、Frag">
+  <meta name="description" content="macdown 语法标题注：# 后面保持空格 123456# h1 ## h2 ### h3 #### h4 ##### h5 ###### h6 表格   姓名 job age     申永鹤 IT 25    代码1hello world 图片123![](图片 &amp;apos;描述&amp;apos;)// 带链接的图片[![](图片 &amp;apos;百度&amp;apos;)](http://www.baidu.">
 <meta property="og:type" content="article">
-<meta property="og:title" content="事件总线">
-<meta property="og:url" content="https://github.com/sirencode/2016/09/01/事件总线/index.html">
+<meta property="og:title" content="macdown 语法">
+<meta property="og:url" content="https://github.com/sirencode/2018/03/12/macdown 语法/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。 介绍事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。 通常我们在activity,service，fragment之间通信时，一般有以下几种方案：  1 广播，使用起来比较麻烦。 2 回调，增加了代码之间的耦合。  事件总线框架, 它简化了Activity、Frag">
-<meta property="og:updated_time" content="2016-09-01T03:21:11.000Z">
+<meta property="og:description" content="macdown 语法标题注：# 后面保持空格 123456# h1 ## h2 ### h3 #### h4 ##### h5 ###### h6 表格   姓名 job age     申永鹤 IT 25    代码1hello world 图片123![](图片 &amp;apos;描述&amp;apos;)// 带链接的图片[![](图片 &amp;apos;百度&amp;apos;)](http://www.baidu.">
+<meta property="og:updated_time" content="2018-03-12T09:29:32.650Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="事件总线">
-<meta name="twitter:description" content="比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。 介绍事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。 通常我们在activity,service，fragment之间通信时，一般有以下几种方案：  1 广播，使用起来比较麻烦。 2 回调，增加了代码之间的耦合。  事件总线框架, 它简化了Activity、Frag">
+<meta name="twitter:title" content="macdown 语法">
+<meta name="twitter:description" content="macdown 语法标题注：# 后面保持空格 123456# h1 ## h2 ### h3 #### h4 ##### h5 ###### h6 表格   姓名 job age     申永鹤 IT 25    代码1hello world 图片123![](图片 &amp;apos;描述&amp;apos;)// 带链接的图片[![](图片 &amp;apos;百度&amp;apos;)](http://www.baidu.">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -164,11 +164,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-事件总线" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-macdown 语法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/09/01/事件总线/" class="article-date">
-  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
+      <a href="/2018/03/12/macdown 语法/" class="article-date">
+  	<time datetime="2018-03-11T16:00:00.000Z" itemprop="datePublished">2018-03-12</time>
 </a>
     </div>
   
@@ -181,7 +181,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      事件总线
+      macdown 语法
       
     </h1>
   
@@ -199,34 +199,33 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。</p>
-<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。</p>
-<p>通常我们在activity,service，fragment之间通信时，一般有以下几种方案：</p>
-<ul>
-<li>1 广播，使用起来比较麻烦。</li>
-<li>2 回调，增加了代码之间的耦合。</li>
-</ul>
-<p>事件总线框架, 它简化了Activity、Fragment、Service等组件之间的交互，很大程度上降低了它们之间的耦合，使得我们的代码更加简洁，耦合性更低，提升我们的代码质量。</p>
-<h3 id="主流事件总线的对比"><a href="#主流事件总线的对比" class="headerlink" title="主流事件总线的对比"></a>主流事件总线的对比</h3><p>1 otto框架，通过反射机制来实现的方法查找，并且是运行时的反射，效率较低，速度较慢。</p>
-<p>2 eventbus框架（3.0以上版本），也是通过反射机制实现，但是编译的时候生成新的class，对运行速度影响不大，效率较高。</p>
-<p>3 rxbus,自己结合rxjava实现的框架，简单实用，但是要考虑多种场景的处理情况，编写起来有很大的工作量。</p>
-<h3 id="EventBus使用"><a href="#EventBus使用" class="headerlink" title="EventBus使用"></a>EventBus使用</h3><p>1 添加依赖</p>
-<pre><code>compile &apos;org.greenrobot:eventbus:3.0.0&apos;
-</code></pre><p>2 定义event</p>
-<pre><code>public class MessageEvent { /* Additional fields if needed */ }
-</code></pre><p>3 发送者：</p>
-<pre><code>eventBus.post(event);
-</code></pre><p>4 接收者：</p>
-<pre><code>//注册
-eventBus.register(this);
-
-//接收方法
-@Subscribe  
-public void onEvent(AnyEventType event) {/* Do something */};
-
-//解除注册
-eventBus.unregister(this);
-</code></pre><p>5 确保在事件发送前注册，并处理接收方法。</p>
+        <h1 id="macdown-语法"><a href="#macdown-语法" class="headerlink" title="macdown 语法"></a>macdown 语法</h1><h2 id="标题"><a href="#标题" class="headerlink" title="标题"></a>标题</h2><p>注：# 后面保持空格</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># h1 </span><br><span class="line">## h2 </span><br><span class="line">### h3 </span><br><span class="line">#### h4 </span><br><span class="line">##### h5 </span><br><span class="line">###### h6</span><br></pre></td></tr></table></figure>
+<h2 id="表格"><a href="#表格" class="headerlink" title="表格"></a>表格</h2><table>
+<thead>
+<tr>
+<th style="text-align:center">姓名</th>
+<th style="text-align:left">job</th>
+<th style="text-align:right">age</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">申永鹤</td>
+<td style="text-align:left">IT</td>
+<td style="text-align:right">25</td>
+</tr>
+</tbody>
+</table>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hello world</span><br></pre></td></tr></table></figure>
+<h2 id="图片"><a href="#图片" class="headerlink" title="图片"></a>图片</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">![](图片 &apos;描述&apos;)</span><br><span class="line">// 带链接的图片</span><br><span class="line">[![](图片 &apos;百度&apos;)](http://www.baidu.com)</span><br></pre></td></tr></table></figure>
+<h2 id="序表"><a href="#序表" class="headerlink" title="序表"></a>序表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">* one</span><br><span class="line">* two</span><br><span class="line">* three</span><br><span class="line">//有序</span><br><span class="line">1. one</span><br><span class="line">2. two</span><br><span class="line">3. three</span><br></pre></td></tr></table></figure>
+<h2 id="文字跳转"><a href="#文字跳转" class="headerlink" title="文字跳转"></a>文字跳转</h2><p><a href="https://www.baidu.com" target="_blank" rel="noopener">baidu</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[文字](跳转链接)</span><br></pre></td></tr></table></figure>
+<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[1]: http://google.com/        &quot;Google&quot;</span><br></pre></td></tr></table></figure>
+<h2 id="下划线"><a href="#下划线" class="headerlink" title="下划线"></a>下划线</h2><hr>
+<p>===</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//在空白行下方添加三条“-”横线</span><br><span class="line">---</span><br><span class="line">//虚线空白行三个===</span><br><span class="line">===</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -236,18 +235,18 @@ eventBus.unregister(this);
     
 <nav id="article-nav">
   
-    <a href="/2016/09/01/infer/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/03/14/刷机Root/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">&lt;</strong>
       <div class="article-nav-title">
         
-          内存泄漏检查工具-infer
+          刷机Root
         
       </div>
     </a>
   
   
-    <a href="/2016/08/31/LeakCanary/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">内存泄漏检查工具-LeakCanary</div>
+    <a href="/2018/03/05/Android View 的事件传递力/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android View 的事件传递力</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -257,7 +256,7 @@ eventBus.unregister(this);
 </article>
 
 
-<div class="ds-share share" data-thread-key="事件总线" data-title="事件总线" data-url="https://github.com/sirencode/2016/09/01/事件总线/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="事件总线">
+<div class="ds-share share" data-thread-key="macdown 语法" data-title="macdown 语法" data-url="https://github.com/sirencode/2018/03/12/macdown 语法/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="macdown 语法">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
