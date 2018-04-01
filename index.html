@@ -372,6 +372,75 @@
 
 
   
+    <article id="post-Broadcast" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/10/Broadcast/" class="article-date">
+  	<time datetime="2018-03-09T16:00:00.000Z" itemprop="datePublished">2018-03-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/10/Broadcast/">
+        Broadcast
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Broadcast"><a href="#Broadcast" class="headerlink" title="Broadcast"></a>Broadcast</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Android中的广播使用了观察者模式，基于消息的发布/订阅事件模型。广播发送者和广播接收者分别属于观察者模式中的消息发布和订阅两端，AMS属于中间的处理中心。广播发送者和广播接收者的执行是异步的，发出去的广播不会关心有无接收者接收，也不确定接收者到底是何时才能接收到。显然，整体流程与EventBus非常类似。 </p>
+<h2 id="本地广播LocalBroadcastManager"><a href="#本地广播LocalBroadcastManager" class="headerlink" title="本地广播LocalBroadcastManager"></a>本地广播LocalBroadcastManager</h2><p>LocalBroadcastManager是Android Support包提供了一个工具，是用来在同一个应用内的不同组件间发送Broadcast的。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>LocalBroadcastManager的构造函数(初始化Handler为主线程的Handler)可以看出，该对象是进程唯一的，且在进程的主线程中处理消息。 </p>
+<h3 id="registerReceiver"><a href="#registerReceiver" class="headerlink" title="registerReceiver"></a>registerReceiver</h3><p>LocalBroadcastManager在本地维护了BroadcastReceiver、IntentFilter和Action之间的关系。 </p>
+<h3 id="unregisterReceiver"><a href="#unregisterReceiver" class="headerlink" title="unregisterReceiver"></a>unregisterReceiver</h3><p>清除数据结构中，Action与当前BroadcastReceiver之间的关系</p>
+<h3 id="sendBroadcast"><a href="#sendBroadcast" class="headerlink" title="sendBroadcast"></a>sendBroadcast</h3><p>简单来讲就是根据Intent的信息，匹配出对应的BroadcastReceiver，然后用BroadcastReceiver构造BroadcastRecord对象，并发送消息，触发主线程进行处理。</p>
+<h3 id="sendBroadcastSync"><a href="#sendBroadcastSync" class="headerlink" title="sendBroadcastSync"></a>sendBroadcastSync</h3><p>一旦调用了sendBroadcastSync接口发送广播，那么该广播被处理后（有匹配的BroadcastReceiver时），sendBroadcastSync接口才会返回。<br>具体分为两种情况：<br>1、主线程正在调用executePendingBroadcasts时，其它线程调用sendBroadcastSync接口，那么新的ReceiverRecord将被加入到mPendingBroadcasts中。由于executePendingBroadcasts中的while循环，那么mPendingBroadcasts变为非空后，其中的信息有可能再次被主线程处理，即BroadcastReceiver的onReceive函数被主线程调用。<br>2、主线程没有调用executePendingBroadcasts时，其它线程线程调用sendBroadcastSync接口， 那么executePendingBroadcasts将在其它线程中运行。此时，BroadcastReceiver的onReceive函数将被其它线程调用。</p>
+<h3 id="处理广播"><a href="#处理广播" class="headerlink" title="处理广播"></a>处理广播</h3><p>主线程收到MSG_EXEC_PENDING_BROADCASTS后，将调用executePendingBroadcasts函数进行处理：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">executePendingBroadcasts</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//注意此处为true</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            BroadcastRecord[] brs = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">synchronized</span> (mReceivers) &#123;</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> N = mPendingBroadcasts.size();</span><br><span class="line">                <span class="keyword">if</span> (N &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//保存要处理的BroadcastRecord</span></span><br><span class="line">                brs = <span class="keyword">new</span> BroadcastRecord[N];</span><br><span class="line">                mPendingBroadcasts.toArray(brs);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//清空mPendingBroadcasts</span></span><br><span class="line">                <span class="comment">//因此，再下次while循环结束前</span></span><br><span class="line">                <span class="comment">//若没有新数据加入到mPendingBroadcasts，就会退出循环</span></span><br><span class="line">                <span class="comment">//如果在下面的for循环过程中，其它线程再次调用sendBroadcast</span></span><br><span class="line">                <span class="comment">//并将数据加入到mPendingBroadcasts中，那么while循环将继续处理</span></span><br><span class="line">                mPendingBroadcasts.clear();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;brs.length; i++) &#123;</span><br><span class="line">                BroadcastRecord br = brs[i];</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;br.receivers.size(); j++) &#123;</span><br><span class="line">                    <span class="comment">//回调BroadcastReceiver的onReceive函数</span></span><br><span class="line">                    <span class="comment">//从这里可以看出，无论在什么线程利用LocalBroadcastManager注册BroadcastReceiver</span></span><br><span class="line">                    <span class="comment">//BroadcastReceiver的onReceive函数均在主线程被回调</span></span><br><span class="line">                    <span class="comment">//这与普通广播的处理相似</span></span><br><span class="line">                    br.receivers.get(j).receiver.onReceive(mAppContext, br.intent);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>Handler实现了应用内通信。Handler实现的应用内代码间的通信，他持有BroadcastReceiver的对象，直接调用onReceive方法，安全效率高。</p>
+<h3 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h3><ol>
+<li>发送的广播只会在自己App内传播，不会泄露给其他App，确保隐私数据不会泄露</li>
+<li>其他App也无法向你的App发送该广播，不用担心其他App会来搞破坏</li>
+<li>比系统全局广播更加高效</li>
+</ol>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android View 的事件传递力" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -504,6 +573,65 @@
 
 
   
+    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
+  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
+        Android 底层网络实现
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
+<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
+<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
+<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
+<p>OkHttp底层也是通过socket实现。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android 动画原理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -553,65 +681,6 @@
 <h2 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h2><p>原理：使用了Choreographer机制</p>
 <p>简单的说，Chreographer是组织上层进行处理绘制的控制类，它会在每次vsync信号来临时，执行与绘制相关的过程．</p>
 <p>Animator的过程发生在绘制之前（甚至是布局之前）.</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
-  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
-        Android 底层网络实现
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
-<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
-<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
-<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
-<p>OkHttp底层也是通过socket实现。</p>
 
       
     </div>
@@ -733,80 +802,6 @@
 <h2 id="虚拟机栈，本地栈"><a href="#虚拟机栈，本地栈" class="headerlink" title="虚拟机栈，本地栈"></a>虚拟机栈，本地栈</h2><h3 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h3><p>虚拟机栈是Java方法执行的内存模型。每个方法执行都会创建一个栈帧的东西，用来存储局部变量表，操作数栈，动态链接，方法出口等信息，每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈道出栈的过程。</p>
 <h3 id="本地栈"><a href="#本地栈" class="headerlink" title="本地栈"></a>本地栈</h3><p>本地栈使用到的本地系统方法服务。</p>
 <h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器(每个线程都有私有的程序计数器)是记录当前线程执行到什么地方了。多线程调度的时候，占用cup知道执行到哪里了。另外程序计数器是Java虚拟机规范中唯一一个没有规定任何内存错误的地方。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Protobuf" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/23/Protobuf/" class="article-date">
-  	<time datetime="2018-02-22T16:00:00.000Z" itemprop="datePublished">2018-02-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/23/Protobuf/">
-        Protobuf
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Protobuf"><a href="#Protobuf" class="headerlink" title="Protobuf"></a>Protobuf</h1><p>Google Protocol Buffer(简称 Protobuf)是一种轻便高效的结构化数据存储格式，平台无关、语言无关、可扩展，可用于通讯协议和数据存储等领域。</p>
-<h2 id="编码实现"><a href="#编码实现" class="headerlink" title="编码实现"></a>编码实现</h2><p>protobuf之所以小且快，就是因为使用变长的编码规则，只保存有用的信息，节省了大量空间。</p>
-<p>1 Base-128变长编码：每个字节使用低7位表示数字，除了最后一个字节，其他字节的最高位都设置为1；采用Little-Endian字节序。</p>
-<p>2 ZigZag编码：Base-128变长编码会去掉整数前面那些没用的0，只保留低位的有效位，然而负数的补码表示有很多的1，所以protobuf先用ZigZag编码将所有的数值映射为无符号数，然后使用Base-128编码，ZigZag的编码规则如下：</p>
- <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> (n &lt;&lt; <span class="number">1</span>) ^ (n &gt;&gt; <span class="number">31</span>) or (n &lt;&lt; <span class="number">1</span>) ^ (n &gt;&gt; <span class="number">63</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://github.com/google/protobuf">github</a></p>
-<p>1 下载源码</p>
-<p>2 cd到源码目录</p>
-<p>3 执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ make check</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Filename: addressbook.proto</span></span><br><span class="line"></span><br><span class="line">syntax=<span class="string">"proto2"</span>;</span><br><span class="line"><span class="keyword">package</span> addressbook;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"src/help.proto"</span>;      <span class="comment">//举例用，编译时去掉</span></span><br><span class="line"></span><br><span class="line">message Person &#123;</span><br><span class="line">    required string name = <span class="number">1</span>;</span><br><span class="line">    required int32 id = <span class="number">2</span>;</span><br><span class="line">    optional string email = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> PhoneType &#123;</span><br><span class="line">        MOBILE = <span class="number">0</span>;</span><br><span class="line">        HOME = <span class="number">1</span>;</span><br><span class="line">        WORK = <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    message PhoneNumber &#123;</span><br><span class="line">        required string number = <span class="number">1</span>;</span><br><span class="line">        optional PhoneType type = <span class="number">2</span> [<span class="keyword">default</span> = HOME];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    repeated PhoneNumber phone = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message AddressBook &#123;</span><br><span class="line">    repeated Person person_info = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>syntax=”proto2”; 表明使用protobuf的编译器版本为v2，目前最新的版本为v3 </li>
-<li>package addressbook; 声明了一个包名，用来防止不同的消息类型命名冲突，类似于 namespace </li>
-<li>message 是Protobuf中的结构化数据，类似于C++中的类，可以在其中定义需要处理的数据 </li>
-</ul>
-<h3 id="protobuf类型"><a href="#protobuf类型" class="headerlink" title="protobuf类型"></a>protobuf类型</h3><p><img src="http://oc4zuck5v.bkt.clouddn.com/pb.png" alt="pb图"></p>
-<h3 id="protobuf字段修饰符"><a href="#protobuf字段修饰符" class="headerlink" title="protobuf字段修饰符"></a>protobuf字段修饰符</h3><p>required：该值是必须要设置的；<br>optional：该字段可以有0个或1个值（不超过1个）；<br>repeated：该字段可以重复任意多次（包括0次），类似于C++中的list；</p>
-<h2 id="proto文件转换"><a href="#proto文件转换" class="headerlink" title="proto文件转换"></a>proto文件转换</h2><p>protoc是proto文件的编译器，目前可以将proto文件编译成C++、Java、Python三种代码文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//java</span><br><span class="line">$ protoc --java_out=./java/ ./proto/helloworld.proto</span><br><span class="line">//go</span><br><span class="line">$ protoc --go_out=./go/ ./proto/helloworld.proto</span><br><span class="line">//c++</span><br><span class="line">protoc -I=<span class="variable">$SRC_DIR</span> --cpp_out=<span class="variable">$DST_DIR</span> /path/to/file.proto</span><br></pre></td></tr></table></figure>
 
       
     </div>
