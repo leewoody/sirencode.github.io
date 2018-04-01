@@ -9,16 +9,16 @@
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Android 动画原理Tween动画 Animation原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。 1 startAnimation(animation);123456public void startAnimation(Animation animation) &amp;#123;    animation.setStartTime(Animation.START">
+  <meta name="description" content="Android 动画原理Animation 与 TransformAnimation：在给定了初始状态，结束状态，启动时间和持续时间后，Animation可以计算动画目标在任意时刻的变换（Transfirmation）,这是Animation唯一的用途。Animation考虑的是时间线效果的实现。 Transfirmation：描述了一个变换。它包含两个分量：透明度和一个二维的变换矩阵（可以在二维">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android 动画原理">
 <meta property="og:url" content="https://github.com/sirencode/2018/02/27/Android 动画原理/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="Android 动画原理Tween动画 Animation原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。 1 startAnimation(animation);123456public void startAnimation(Animation animation) &amp;#123;    animation.setStartTime(Animation.START">
-<meta property="og:updated_time" content="2018-02-27T04:44:26.840Z">
+<meta property="og:description" content="Android 动画原理Animation 与 TransformAnimation：在给定了初始状态，结束状态，启动时间和持续时间后，Animation可以计算动画目标在任意时刻的变换（Transfirmation）,这是Animation唯一的用途。Animation考虑的是时间线效果的实现。 Transfirmation：描述了一个变换。它包含两个分量：透明度和一个二维的变换矩阵（可以在二维">
+<meta property="og:updated_time" content="2018-04-01T07:39:58.567Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android 动画原理">
-<meta name="twitter:description" content="Android 动画原理Tween动画 Animation原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。 1 startAnimation(animation);123456public void startAnimation(Animation animation) &amp;#123;    animation.setStartTime(Animation.START">
+<meta name="twitter:description" content="Android 动画原理Animation 与 TransformAnimation：在给定了初始状态，结束状态，启动时间和持续时间后，Animation可以计算动画目标在任意时刻的变换（Transfirmation）,这是Animation唯一的用途。Animation考虑的是时间线效果的实现。 Transfirmation：描述了一个变换。它包含两个分量：透明度和一个二维的变换矩阵（可以在二维">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -199,7 +199,10 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Android-动画原理"><a href="#Android-动画原理" class="headerlink" title="Android 动画原理"></a>Android 动画原理</h1><h2 id="Tween动画-Animation"><a href="#Tween动画-Animation" class="headerlink" title="Tween动画 Animation"></a>Tween动画 Animation</h2><p>原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。</p>
+        <h1 id="Android-动画原理"><a href="#Android-动画原理" class="headerlink" title="Android 动画原理"></a>Android 动画原理</h1><h2 id="Animation-与-Transform"><a href="#Animation-与-Transform" class="headerlink" title="Animation 与 Transform"></a>Animation 与 Transform</h2><p>Animation：在给定了初始状态，结束状态，启动时间和持续时间后，Animation可以计算动画目标在任意时刻的变换（Transfirmation）,这是Animation唯一的用途。Animation考虑的是时间线效果的实现。</p>
+<p>Transfirmation：描述了一个变换。它包含两个分量：透明度和一个二维的变换矩阵（可以在二维空间中对变换目标实现平移旋转缩放,矩阵相乘可以组合实现各自的变换）。</p>
+<h2 id="动画的驱动器Choreographer"><a href="#动画的驱动器Choreographer" class="headerlink" title="动画的驱动器Choreographer"></a>动画的驱动器Choreographer</h2><p>在Animation start()的时候会创建一个Choreographer（线程唯一的）来实现动画的绘制工作。Choreographer发送一个runnable以处理一帧动画。在处理动画时，使用Animation getTransfirmation函数获取动画对象所需要进行的变换，然后根据变换对动画对象进行渲染。之后重复画下一帧直至动画结束。</p>
+<h2 id="Tween动画-Animation"><a href="#Tween动画-Animation" class="headerlink" title="Tween动画 Animation"></a>Tween动画 Animation</h2><p>原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。</p>
 <h3 id="1-startAnimation-animation"><a href="#1-startAnimation-animation" class="headerlink" title="1 startAnimation(animation);"></a>1 startAnimation(animation);</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startAnimation</span><span class="params">(Animation animation)</span> </span>&#123;</span><br><span class="line">    animation.setStartTime(Animation.START_ON_FIRST_FRAME);</span><br><span class="line">    setAnimation(animation);</span><br><span class="line">    invalidateParentCaches();</span><br><span class="line">    invalidate(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="2-invalidate请求View树进行重绘"><a href="#2-invalidate请求View树进行重绘" class="headerlink" title="2 invalidate请求View树进行重绘"></a>2 invalidate请求View树进行重绘</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidate</span><span class="params">(<span class="keyword">boolean</span> invalidateCache)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这里的mLeft，mRight都是相当于父View来讲的。所以这里的参数就是当前View所在的区域。</span></span><br><span class="line">    invalidateInternal(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, invalidateCache, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidateInternal</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b, <span class="keyword">boolean</span> invalidateCache,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">boolean</span> fullInvalidate)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//不需要绘制的情况（View不可见&amp;&amp;没有动画等）</span></span><br><span class="line">    <span class="keyword">if</span> (skipInvalidate()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">if</span>(condition<span class="comment">/*满足需要绘制的条件*/</span>)&#123;</span><br><span class="line">        <span class="keyword">final</span> AttachInfo ai = mAttachInfo;</span><br><span class="line">        <span class="keyword">final</span> ViewParent p = mParent;</span><br><span class="line">        <span class="keyword">if</span> (p != <span class="keyword">null</span> &amp;&amp; ai != <span class="keyword">null</span> &amp;&amp; l &lt; r &amp;&amp; t &lt; b) &#123;</span><br><span class="line">            <span class="keyword">final</span> Rect damage = ai.mTmpInvalRect;</span><br><span class="line">            damage.set(l, t, r, b);</span><br><span class="line">            p.invalidateChild(<span class="keyword">this</span>, damage);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="3-调用子view的draw方法"><a href="#3-调用子view的draw方法" class="headerlink" title="3 调用子view的draw方法"></a>3 调用子view的draw方法</h3><p>Animation 实现了下面方法设置Transformation动画信息。</p>
@@ -228,18 +231,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2018/02/27/Android 底层网络实现/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/02/28/Gradle 依赖方式/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">&lt;</strong>
       <div class="article-nav-title">
         
-          Android 底层网络实现
+          Gradle 依赖方式
         
       </div>
     </a>
   
   
-    <a href="/2018/02/26/子模块访问app模块/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">子模块访问app模块</div>
+    <a href="/2018/02/27/Android 底层网络实现/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 底层网络实现</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   

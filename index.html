@@ -573,6 +573,83 @@
 
 
   
+    <article id="post-Android 动画原理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/27/Android 动画原理/" class="article-date">
+  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/27/Android 动画原理/">
+        Android 动画原理
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-动画原理"><a href="#Android-动画原理" class="headerlink" title="Android 动画原理"></a>Android 动画原理</h1><h2 id="Animation-与-Transform"><a href="#Animation-与-Transform" class="headerlink" title="Animation 与 Transform"></a>Animation 与 Transform</h2><p>Animation：在给定了初始状态，结束状态，启动时间和持续时间后，Animation可以计算动画目标在任意时刻的变换（Transfirmation）,这是Animation唯一的用途。Animation考虑的是时间线效果的实现。</p>
+<p>Transfirmation：描述了一个变换。它包含两个分量：透明度和一个二维的变换矩阵（可以在二维空间中对变换目标实现平移旋转缩放,矩阵相乘可以组合实现各自的变换）。</p>
+<h2 id="动画的驱动器Choreographer"><a href="#动画的驱动器Choreographer" class="headerlink" title="动画的驱动器Choreographer"></a>动画的驱动器Choreographer</h2><p>在Animation start()的时候会创建一个Choreographer（线程唯一的）来实现动画的绘制工作。Choreographer发送一个runnable以处理一帧动画。在处理动画时，使用Animation getTransfirmation函数获取动画对象所需要进行的变换，然后根据变换对动画对象进行渲染。之后重复画下一帧直至动画结束。</p>
+<h2 id="Tween动画-Animation"><a href="#Tween动画-Animation" class="headerlink" title="Tween动画 Animation"></a>Tween动画 Animation</h2><p>原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。</p>
+<h3 id="1-startAnimation-animation"><a href="#1-startAnimation-animation" class="headerlink" title="1 startAnimation(animation);"></a>1 startAnimation(animation);</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startAnimation</span><span class="params">(Animation animation)</span> </span>&#123;</span><br><span class="line">    animation.setStartTime(Animation.START_ON_FIRST_FRAME);</span><br><span class="line">    setAnimation(animation);</span><br><span class="line">    invalidateParentCaches();</span><br><span class="line">    invalidate(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-invalidate请求View树进行重绘"><a href="#2-invalidate请求View树进行重绘" class="headerlink" title="2 invalidate请求View树进行重绘"></a>2 invalidate请求View树进行重绘</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidate</span><span class="params">(<span class="keyword">boolean</span> invalidateCache)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这里的mLeft，mRight都是相当于父View来讲的。所以这里的参数就是当前View所在的区域。</span></span><br><span class="line">    invalidateInternal(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, invalidateCache, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidateInternal</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b, <span class="keyword">boolean</span> invalidateCache,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">boolean</span> fullInvalidate)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//不需要绘制的情况（View不可见&amp;&amp;没有动画等）</span></span><br><span class="line">    <span class="keyword">if</span> (skipInvalidate()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">if</span>(condition<span class="comment">/*满足需要绘制的条件*/</span>)&#123;</span><br><span class="line">        <span class="keyword">final</span> AttachInfo ai = mAttachInfo;</span><br><span class="line">        <span class="keyword">final</span> ViewParent p = mParent;</span><br><span class="line">        <span class="keyword">if</span> (p != <span class="keyword">null</span> &amp;&amp; ai != <span class="keyword">null</span> &amp;&amp; l &lt; r &amp;&amp; t &lt; b) &#123;</span><br><span class="line">            <span class="keyword">final</span> Rect damage = ai.mTmpInvalRect;</span><br><span class="line">            damage.set(l, t, r, b);</span><br><span class="line">            p.invalidateChild(<span class="keyword">this</span>, damage);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-调用子view的draw方法"><a href="#3-调用子view的draw方法" class="headerlink" title="3 调用子view的draw方法"></a>3 调用子view的draw方法</h3><p>Animation 实现了下面方法设置Transformation动画信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数是 interpolatedTime 它代表插值后的时间，第二个参数是Transformation类的实例</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">applyTransformation</span><span class="params">(<span class="keyword">float</span> interpolatedTime, Transformation t)</span></span></span><br></pre></td></tr></table></figure>
+<p>view getAnimation()获取动画信息，getTransformation获取Transformation；</p>
+<p>Transformation是一个实体类，它主要的内容是透明度和一个矩阵，动画的变化，就隐藏在Transformation之中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">draw</span><span class="params">(Canvas canvas, ViewGroup parent, <span class="keyword">long</span> drawingTime)</span></span></span><br></pre></td></tr></table></figure>
+<p>draw中applyLegacyAnimation方法是用来获取变换的，其中有两个部分需要注意：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a.getTransformation(drawingTime, invalidationTransform, <span class="number">1f</span>);</span><br><span class="line">a.getInvalidateRegion(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, region,</span><br><span class="line">    invalidationTransform);</span><br></pre></td></tr></table></figure>
+<p>第一个就是获取变换，第二个是获取绘制无效区域。<br>其实这个无效区域是绘制后的无效区域，因为很有可能需要下次绘制(保证动画连续性)。</p>
+<p>动画的绘制：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (transformToApply != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (concatMatrix) &#123;</span><br><span class="line">        <span class="keyword">if</span> (drawingWithRenderNode) &#123;</span><br><span class="line">            renderNode.setAnimationMatrix(transformToApply.getMatrix());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            canvas.translate(-transX, -transY);</span><br><span class="line">            canvas.concat(transformToApply.getMatrix());</span><br><span class="line">            canvas.translate(transX, transY);</span><br><span class="line">        &#125;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> transformAlpha = transformToApply.getAlpha();</span><br><span class="line">    <span class="keyword">if</span> (transformAlpha &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        alpha *= transformAlpha;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分别从硬件加速和软件绘制上　对canvas进行矩阵变换．</p>
+<h2 id="帧动画"><a href="#帧动画" class="headerlink" title="帧动画"></a>帧动画</h2><p>原理：使用了Choreographer机制.</p>
+<p>Android系统从4.1(API 16)开始加入Choreographer这个类来控制同步处理输入(Input)、动画(Animation)、绘制(Draw)三个UI操作。收到VSync信号后，顺序执行3个操作，然后等待下一个信号，再次顺序执行3个操作。</p>
+<p>AnimationDrawable继承了DrawableContainer，因为DrawableContainer是一个drawable的容器，可以保存多个图片<br>同时，实现了Runnable接口，重写了run方法,根据源码中的start方法，它调用了setFrame方法，方法内部最重要的调用就是调用了<br> scheduleSelf(this, SystemClock.uptimeMillis() + mAnimationState.mDurations[frame]);callback调用view的scheduleDrawable方法而这个方法最终会调用Choreographer.subtractFrameDelay(delay));</p>
+<h2 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h2><p>原理：使用了Choreographer机制</p>
+<p>简单的说，Chreographer是组织上层进行处理绘制的控制类，它会在每次vsync信号来临时，执行与绘制相关的过程．</p>
+<p>Animator的过程发生在绘制之前（甚至是布局之前）.</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -607,80 +684,6 @@
 <h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
 <h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
 <p>OkHttp底层也是通过socket实现。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 动画原理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/27/Android 动画原理/" class="article-date">
-  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/Android 动画原理/">
-        Android 动画原理
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-动画原理"><a href="#Android-动画原理" class="headerlink" title="Android 动画原理"></a>Android 动画原理</h1><h2 id="Tween动画-Animation"><a href="#Tween动画-Animation" class="headerlink" title="Tween动画 Animation"></a>Tween动画 Animation</h2><p>原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。</p>
-<h3 id="1-startAnimation-animation"><a href="#1-startAnimation-animation" class="headerlink" title="1 startAnimation(animation);"></a>1 startAnimation(animation);</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startAnimation</span><span class="params">(Animation animation)</span> </span>&#123;</span><br><span class="line">    animation.setStartTime(Animation.START_ON_FIRST_FRAME);</span><br><span class="line">    setAnimation(animation);</span><br><span class="line">    invalidateParentCaches();</span><br><span class="line">    invalidate(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-invalidate请求View树进行重绘"><a href="#2-invalidate请求View树进行重绘" class="headerlink" title="2 invalidate请求View树进行重绘"></a>2 invalidate请求View树进行重绘</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidate</span><span class="params">(<span class="keyword">boolean</span> invalidateCache)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这里的mLeft，mRight都是相当于父View来讲的。所以这里的参数就是当前View所在的区域。</span></span><br><span class="line">    invalidateInternal(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, invalidateCache, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidateInternal</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b, <span class="keyword">boolean</span> invalidateCache,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">boolean</span> fullInvalidate)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//不需要绘制的情况（View不可见&amp;&amp;没有动画等）</span></span><br><span class="line">    <span class="keyword">if</span> (skipInvalidate()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">if</span>(condition<span class="comment">/*满足需要绘制的条件*/</span>)&#123;</span><br><span class="line">        <span class="keyword">final</span> AttachInfo ai = mAttachInfo;</span><br><span class="line">        <span class="keyword">final</span> ViewParent p = mParent;</span><br><span class="line">        <span class="keyword">if</span> (p != <span class="keyword">null</span> &amp;&amp; ai != <span class="keyword">null</span> &amp;&amp; l &lt; r &amp;&amp; t &lt; b) &#123;</span><br><span class="line">            <span class="keyword">final</span> Rect damage = ai.mTmpInvalRect;</span><br><span class="line">            damage.set(l, t, r, b);</span><br><span class="line">            p.invalidateChild(<span class="keyword">this</span>, damage);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3-调用子view的draw方法"><a href="#3-调用子view的draw方法" class="headerlink" title="3 调用子view的draw方法"></a>3 调用子view的draw方法</h3><p>Animation 实现了下面方法设置Transformation动画信息。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数是 interpolatedTime 它代表插值后的时间，第二个参数是Transformation类的实例</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">applyTransformation</span><span class="params">(<span class="keyword">float</span> interpolatedTime, Transformation t)</span></span></span><br></pre></td></tr></table></figure>
-<p>view getAnimation()获取动画信息，getTransformation获取Transformation；</p>
-<p>Transformation是一个实体类，它主要的内容是透明度和一个矩阵，动画的变化，就隐藏在Transformation之中。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">draw</span><span class="params">(Canvas canvas, ViewGroup parent, <span class="keyword">long</span> drawingTime)</span></span></span><br></pre></td></tr></table></figure>
-<p>draw中applyLegacyAnimation方法是用来获取变换的，其中有两个部分需要注意：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a.getTransformation(drawingTime, invalidationTransform, <span class="number">1f</span>);</span><br><span class="line">a.getInvalidateRegion(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, region,</span><br><span class="line">    invalidationTransform);</span><br></pre></td></tr></table></figure>
-<p>第一个就是获取变换，第二个是获取绘制无效区域。<br>其实这个无效区域是绘制后的无效区域，因为很有可能需要下次绘制(保证动画连续性)。</p>
-<p>动画的绘制：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (transformToApply != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (concatMatrix) &#123;</span><br><span class="line">        <span class="keyword">if</span> (drawingWithRenderNode) &#123;</span><br><span class="line">            renderNode.setAnimationMatrix(transformToApply.getMatrix());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            canvas.translate(-transX, -transY);</span><br><span class="line">            canvas.concat(transformToApply.getMatrix());</span><br><span class="line">            canvas.translate(transX, transY);</span><br><span class="line">        &#125;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> transformAlpha = transformToApply.getAlpha();</span><br><span class="line">    <span class="keyword">if</span> (transformAlpha &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        alpha *= transformAlpha;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>分别从硬件加速和软件绘制上　对canvas进行矩阵变换．</p>
-<h2 id="帧动画"><a href="#帧动画" class="headerlink" title="帧动画"></a>帧动画</h2><p>原理：使用了Choreographer机制.</p>
-<p>Android系统从4.1(API 16)开始加入Choreographer这个类来控制同步处理输入(Input)、动画(Animation)、绘制(Draw)三个UI操作。收到VSync信号后，顺序执行3个操作，然后等待下一个信号，再次顺序执行3个操作。</p>
-<p>AnimationDrawable继承了DrawableContainer，因为DrawableContainer是一个drawable的容器，可以保存多个图片<br>同时，实现了Runnable接口，重写了run方法,根据源码中的start方法，它调用了setFrame方法，方法内部最重要的调用就是调用了<br> scheduleSelf(this, SystemClock.uptimeMillis() + mAnimationState.mDurations[frame]);callback调用view的scheduleDrawable方法而这个方法最终会调用Choreographer.subtractFrameDelay(delay));</p>
-<h2 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h2><p>原理：使用了Choreographer机制</p>
-<p>简单的说，Chreographer是组织上层进行处理绘制的控制类，它会在每次vsync信号来临时，执行与绘制相关的过程．</p>
-<p>Animator的过程发生在绘制之前（甚至是布局之前）.</p>
 
       
     </div>
