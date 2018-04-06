@@ -162,6 +162,85 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-gradle 常用配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/17/gradle 常用配置/" class="article-date">
+  	<time datetime="2016-10-16T16:00:00.000Z" itemprop="datePublished">2016-10-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/17/gradle 常用配置/">
+        Gradle 常用配置
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Gradle简介"><a href="#Gradle简介" class="headerlink" title="Gradle简介"></a>Gradle简介</h3><p>Gradle 是 Android 现在主流的编译工具，虽然在Gradle 出现之前和之后都有对应更快的编译工具出现，但是 Gradle 的优势就在于它是亲儿子，Gradle 确实比较慢，这和它的编译过程有关，但是现在的Gradle 编译速度已经有了成倍提高。除此之外，相对其他编译工具，最重要的，他和 Android Studio 的关系非常紧密，可以说对于一些简单的程序我们几乎不需要任何代码上的配置只使用 Android Studio 就可以完成编译和运行。</p>
+<h3 id="Gradle-编译周期"><a href="#Gradle-编译周期" class="headerlink" title="Gradle 编译周期"></a>Gradle 编译周期</h3><p>在编译过程中， Gradle 会根据 build 相关文件，聚合所有的project和task，执行task 中的 action。因为 build.gradle文件中的task非常多，先执行哪个后执行那个需要一种逻辑来保证。这种逻辑就是依赖逻辑，几乎所有的Task 都需要依赖其他 task 来执行，没有被依赖的task 会首先被执行。所以到最后所有的 Task 会构成一个 有向无环图（DAG Directed Acyclic Graph）的数据结构。</p>
+<h3 id="Gradle-文件结构"><a href="#Gradle-文件结构" class="headerlink" title="Gradle 文件结构"></a>Gradle 文件结构</h3><ul>
+<li>setting.gradle:这个 setting 文件定义了哪些module 应该被加入到编译过程，对于单个module 的项目可以不用需要这个文件，但是对于 multimodule 的项目我们就需要这个文件，否则gradle 不知道要加载哪些项目。这个文件的代码在初始化阶段就会被执行。</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">include ':app', </span><br><span class="line">        ':mymoudlename'//需要编译的模块</span><br></pre></td></tr></table></figure>
+<ul>
+<li>顶层的build.gradle:顶层的build.gradle文件的配置最终会被应用到所有项目中。</li>
+<li>模块中的build.gradle:当前模块的相关配置信息。</li>
+<li>gradle/wrapper/gradle-wrapper:gradlw wrapper 包含一些脚本文件和针对不同系统下面的运行文件。wrapper 有版本区分，但是并不需要你手动去下载，当你运行脚本的时候，如果本地没有会自动下载对应版本文件。</li>
+</ul>
+<h4 id="Gradle-配置项解析"><a href="#Gradle-配置项解析" class="headerlink" title="Gradle 配置项解析"></a>Gradle 配置项解析</h4><h5 id="buildscript"><a href="#buildscript" class="headerlink" title="buildscript"></a>buildscript</h5><p>buildscript：定义了 Android 编译工具的类路径。repositories中,jCenter是一个著名的 Maven 仓库。<br>repositories<br>repositories 就是代码仓库，这个相信大家都知道，我们平时的添加的一些 dependency 就是从这里下载的，Gradle 支持三种类型的仓库：Maven,Ivy和一些静态文件或者文件夹。在编译的执行阶段，gradle 将会从仓库中取出对应需要的依赖文件，当然，gradle 本地也会有自己的缓存，不会每次都去取这些依赖。</p>
+<h5 id="allprojects"><a href="#allprojects" class="headerlink" title="allprojects"></a>allprojects</h5><p>allprojects:中定义的属性会被应用到所有 moudle 中，但是为了保证每个项目的独立性，我们一般不会在这里面操作太多共有的东西。</p>
+<h5 id="apply-plugin"><a href="#apply-plugin" class="headerlink" title="apply plugin"></a>apply plugin</h5><p>apply plugin:代码中应用了Android 程序的gradle插件，作为Android 的应用程序，这一步是必须的，因为plugin中提供了Android 编译、测试、打包等等的所有task。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: 'com.android.application'</span><br><span class="line">//Application: 对应 com.android.application. 编译的结果是一个 apk</span><br><span class="line">//Android Library: 对应 com.android.library. 编译结果为 aar</span><br><span class="line">//JavaLibrary: 对应的 java. 编译结果为 jar</span><br></pre></td></tr></table></figure>
+<h5 id="android"><a href="#android" class="headerlink" title="android"></a>android</h5><p>android:这是编译文件中最大的代码块，关于android 的所有特殊配置都在这里，这就是又我们前面的声明的 plugin 提供的。</p>
+<h5 id="defaultConfig"><a href="#defaultConfig" class="headerlink" title="defaultConfig"></a>defaultConfig</h5><p>defaultConfig就是程序的默认配置，注意，如果在AndroidMainfest.xml里面定义了与这里相同的属性，会以这里的为主。多模块程序开发时，建议将这些默认配置信息抽离出来成公共的地方，将项目依赖关系和默认配置信息放到一个配置信息，config.gradle文件里。</p>
+<h5 id="buildTypes"><a href="#buildTypes" class="headerlink" title="buildTypes"></a>buildTypes</h5><p>buildTypes:定义了编译类型，针对每个类型我们可以有不同的编译配置，不同的编译配置对应的有不同的编译命令。默认的有debug、release 的类型。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">buildTypes &#123;</span><br><span class="line">        def BOOLEAN = "boolean"</span><br><span class="line">        def TRUE = "true"</span><br><span class="line">        def FALSE = "false"</span><br><span class="line">        def ENV_DEBUG = "ENV_DEBUG"</span><br><span class="line">        def ENABLE_LOG = "ENABLE_LOG"</span><br><span class="line">        def PERFORMANCE_DEBUG = "PERFORMANCE_DEBUG"</span><br><span class="line">        release &#123;</span><br><span class="line">            buildConfigField BOOLEAN, ENV_DEBUG, TRUE</span><br><span class="line">            buildConfigField BOOLEAN, ENABLE_LOG, TRUE</span><br><span class="line">            buildConfigField BOOLEAN, PERFORMANCE_DEBUG,FALSE</span><br><span class="line">            minifyEnabled false</span><br><span class="line">            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'</span><br><span class="line">            signingConfig signingConfigs.config</span><br><span class="line">        &#125;</span><br><span class="line">        releasePro &#123;</span><br><span class="line">            buildConfigField BOOLEAN, ENV_DEBUG, FALSE</span><br><span class="line">            buildConfigField BOOLEAN, ENABLE_LOG, FALSE</span><br><span class="line">            buildConfigField BOOLEAN, PERFORMANCE_DEBUG,FALSE</span><br><span class="line">            minifyEnabled true</span><br><span class="line">            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'</span><br><span class="line">            signingConfig signingConfigs.config</span><br><span class="line">        &#125;</span><br><span class="line">        debug &#123;</span><br><span class="line">            buildConfigField BOOLEAN, ENV_DEBUG, TRUE</span><br><span class="line">            buildConfigField BOOLEAN, ENABLE_LOG, TRUE</span><br><span class="line">            buildConfigField BOOLEAN, PERFORMANCE_DEBUG,TRUE</span><br><span class="line">        &#125;</span><br><span class="line">        debugPro &#123;</span><br><span class="line">            buildConfigField BOOLEAN, ENV_DEBUG, TRUE</span><br><span class="line">            buildConfigField BOOLEAN, ENABLE_LOG, TRUE</span><br><span class="line">            buildConfigField BOOLEAN, PERFORMANCE_DEBUG,FALSE</span><br><span class="line">            minifyEnabled true</span><br><span class="line">            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'</span><br><span class="line">            signingConfig signingConfigs.config</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="dependencies"><a href="#dependencies" class="headerlink" title="dependencies"></a>dependencies</h5><p>dependencies:是属于gradle 的依赖配置。它定义了当前项目需要依赖的其他库。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    dependencies &#123;</span><br><span class="line">    compile 'com.netflix.rxjava:rxjava-core:0.19.+'</span><br><span class="line">    compile project(':myMoudleName')</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="signingConfigs"><a href="#signingConfigs" class="headerlink" title="signingConfigs"></a>signingConfigs</h5><p>signingConfigs 签名的配置信息，注意这里不要把密码直接打上，要放到全局变量的形式，建立一个不加入版本控制系统的gradle.properties文件。KEYSTORE_PASSWORD=password123<br>KEY_PASSWORD=password789</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">signingConfigs &#123;</span><br><span class="line">    release &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            storeFile file("myapp.keystore")</span><br><span class="line">            storePassword KEYSTORE_PASSWORD</span><br><span class="line">            keyAlias "thekey"</span><br><span class="line">            keyPassword KEY_PASSWORD</span><br><span class="line">        &#125;</span><br><span class="line">        catch (ex) &#123;</span><br><span class="line">            throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="多渠道打包productFlavors"><a href="#多渠道打包productFlavors" class="headerlink" title="多渠道打包productFlavors"></a>多渠道打包productFlavors</h5><p>在项目的build文件的android结构下配置：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">productFlavors &#123;</span><br><span class="line">        dev &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "dev"]</span><br><span class="line">        &#125;</span><br><span class="line">        official &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "official"]</span><br><span class="line">        &#125;</span><br><span class="line">        xiaomi &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "xiaomi"]</span><br><span class="line">        &#125;</span><br><span class="line">        wandoujia &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "wandoujia"]</span><br><span class="line">        &#125;</span><br><span class="line">        "360" &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "360"]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-android imageview加载" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1347,88 +1426,6 @@ protected void onDestroy() {
 
 
   
-    <article id="post-事件总线" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/09/01/事件总线/" class="article-date">
-  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/01/事件总线/">
-        事件总线
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。</p>
-<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。</p>
-<p>通常我们在activity,service，fragment之间通信时，一般有以下几种方案：</p>
-<ul>
-<li>1 广播，使用起来比较麻烦。</li>
-<li>2 回调，增加了代码之间的耦合。</li>
-</ul>
-<p>事件总线框架, 它简化了Activity、Fragment、Service等组件之间的交互，很大程度上降低了它们之间的耦合，使得我们的代码更加简洁，耦合性更低，提升我们的代码质量。</p>
-<h3 id="主流事件总线的对比"><a href="#主流事件总线的对比" class="headerlink" title="主流事件总线的对比"></a>主流事件总线的对比</h3><p>1 otto框架，通过反射机制来实现的方法查找，并且是运行时的反射，效率较低，速度较慢。</p>
-<p>2 eventbus框架（3.0以上版本），也是通过反射机制实现，但是编译的时候生成新的class，对运行速度影响不大，效率较高。</p>
-<p>3 rxbus,自己结合rxjava实现的框架，简单实用，但是要考虑多种场景的处理情况，编写起来有很大的工作量。</p>
-<h3 id="EventBus使用"><a href="#EventBus使用" class="headerlink" title="EventBus使用"></a>EventBus使用</h3><p>1 添加依赖</p>
-<pre><code>compile &apos;org.greenrobot:eventbus:3.0.0&apos;
-</code></pre><p>2 定义event</p>
-<pre><code>public class MessageEvent { /* Additional fields if needed */ }
-</code></pre><p>3 发送者：</p>
-<pre><code>eventBus.post(event);
-</code></pre><p>4 接收者：</p>
-<pre><code>//注册
-eventBus.register(this);
-
-//接收方法
-@Subscribe  
-public void onEvent(AnyEventType event) {/* Do something */};
-
-//解除注册
-eventBus.unregister(this);
-</code></pre><p>5 确保在事件发送前注册，并处理接收方法。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-infer" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1490,7 +1487,7 @@ eventBus.unregister(this);
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
     </nav>
   
 </div>

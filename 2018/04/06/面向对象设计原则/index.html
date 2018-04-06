@@ -3,24 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Binder 进程间通信 | Diablo</title>
+  <title>面向对象设计原则 | Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
+  <meta name="description" content="面向对象设计原则一切都是为了软件可维护可扩展可重用。    设计原则名称 定  义     单一职责原则 一个类只负责一个功能领域中的相应职责   开闭原则 软件实体应对扩展开放，而对修改关闭   里氏代换原则 所有引用基类对象的地方能够透明地使用其子类的对象   依赖倒转原则 抽象不应该依赖于细节，细节应该依赖于抽象   接口隔离原则 使用多个专门的接口，而不使用单一的总接口   合成复用原则">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Binder 进程间通信">
-<meta property="og:url" content="https://github.com/sirencode/2016/07/06/binder/index.html">
+<meta property="og:title" content="面向对象设计原则">
+<meta property="og:url" content="https://github.com/sirencode/2018/04/06/面向对象设计原则/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
-<meta property="og:image" content="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif">
-<meta property="og:updated_time" content="2017-07-06T08:16:57.000Z">
+<meta property="og:description" content="面向对象设计原则一切都是为了软件可维护可扩展可重用。    设计原则名称 定  义     单一职责原则 一个类只负责一个功能领域中的相应职责   开闭原则 软件实体应对扩展开放，而对修改关闭   里氏代换原则 所有引用基类对象的地方能够透明地使用其子类的对象   依赖倒转原则 抽象不应该依赖于细节，细节应该依赖于抽象   接口隔离原则 使用多个专门的接口，而不使用单一的总接口   合成复用原则">
+<meta property="og:updated_time" content="2018-04-06T07:38:48.860Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Binder 进程间通信">
-<meta name="twitter:description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
-<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif">
+<meta name="twitter:title" content="面向对象设计原则">
+<meta name="twitter:description" content="面向对象设计原则一切都是为了软件可维护可扩展可重用。    设计原则名称 定  义     单一职责原则 一个类只负责一个功能领域中的相应职责   开闭原则 软件实体应对扩展开放，而对修改关闭   里氏代换原则 所有引用基类对象的地方能够透明地使用其子类的对象   依赖倒转原则 抽象不应该依赖于细节，细节应该依赖于抽象   接口隔离原则 使用多个专门的接口，而不使用单一的总接口   合成复用原则">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -166,11 +164,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-binder" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-面向对象设计原则" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/06/binder/" class="article-date">
-  	<time datetime="2016-07-05T16:00:00.000Z" itemprop="datePublished">2016-07-06</time>
+      <a href="/2018/04/06/面向对象设计原则/" class="article-date">
+  	<time datetime="2018-04-05T16:00:00.000Z" itemprop="datePublished">2018-04-06</time>
 </a>
     </div>
   
@@ -183,7 +181,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Binder 进程间通信
+      面向对象设计原则
       
     </h1>
   
@@ -201,41 +199,48 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。</p>
-<p>关系图：</p>
-<p><img src="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif" alt="ipc"></p>
-<h3 id="角色介绍"><a href="#角色介绍" class="headerlink" title="角色介绍"></a>角色介绍</h3><ol>
-<li><p>Client、Server和Service Manager实现在用户空间中，Binder驱动程序实现在内核空间中</p>
-</li>
-<li><p>Binder驱动程序和Service Manager在Android平台中已经实现，开发者只需要在用户空间实现自己的Client和Server</p>
-</li>
-<li><p>Binder驱动程序提供设备文件/dev/binder与用户空间交互，Client、Server和Service Manager通过open和ioctl文件操作函数与Binder驱动程序进行通信</p>
-</li>
-<li><p>Client和Server之间的进程间通信通过Binder驱动程序间接实现</p>
-</li>
-<li><p>Service Manager是一个守护进程，用来管理Server，并向Client提供查询Server接口的能力</p>
-</li>
-</ol>
-<h4 id="Service-Manager"><a href="#Service-Manager" class="headerlink" title="Service Manager"></a>Service Manager</h4><p>Service Manager是成为Android进程间通信（IPC）机制Binder守护进程的过程是这样的：</p>
-<ul>
-<li><ol>
-<li>打开/dev/binder文件：open(“/dev/binder”, O_RDWR);</li>
-</ol>
-</li>
-<li><ol>
-<li>建立128K内存映射：mmap(NULL, mapsize, PROT_READ, MAP_PRIVATE, bs-&gt;fd, 0);</li>
-</ol>
-</li>
-<li><ol>
-<li>通知Binder驱动程序它是守护进程：binder_become_context_manager(bs);</li>
-</ol>
-</li>
-<li><ol>
-<li>进入循环等待请求的到来：binder_loop(bs, svcmgr_handler);</li>
-</ol>
-</li>
-</ul>
-<h4 id="client-service-获取service-manager接口"><a href="#client-service-获取service-manager接口" class="headerlink" title="client service 获取service manager接口"></a>client service 获取service manager接口</h4><p>我们知道，Service Manager在Binder机制中既充当守护进程的角色，同时它也充当着Server角色，然而它又与一般的Server不一样。对于普通的Server来说，Client如果想要获得Server的远程接口，那么必须通过Service Manager远程接口提供的getService接口来获得，这本身就是一个使用Binder机制来进行进程间通信的过程。而对于Service Manager这个Server来说，Client如果想要获得Service Manager远程接口，却不必通过进程间通信机制来获得，因为Service Manager远程接口是一个特殊的Binder引用，它的引用句柄一定是0。</p>
+        <h1 id="面向对象设计原则"><a href="#面向对象设计原则" class="headerlink" title="面向对象设计原则"></a>面向对象设计原则</h1><p>一切都是为了软件可维护可扩展可重用。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">设计原则名称</th>
+<th style="text-align:left">定  义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">单一职责原则</td>
+<td style="text-align:left">一个类只负责一个功能领域中的相应职责</td>
+</tr>
+<tr>
+<td style="text-align:left">开闭原则</td>
+<td style="text-align:left">软件实体应对扩展开放，而对修改关闭</td>
+</tr>
+<tr>
+<td style="text-align:left">里氏代换原则</td>
+<td style="text-align:left">所有引用基类对象的地方能够透明地使用其子类的对象</td>
+</tr>
+<tr>
+<td style="text-align:left">依赖倒转原则</td>
+<td style="text-align:left">抽象不应该依赖于细节，细节应该依赖于抽象</td>
+</tr>
+<tr>
+<td style="text-align:left">接口隔离原则</td>
+<td style="text-align:left">使用多个专门的接口，而不使用单一的总接口</td>
+</tr>
+<tr>
+<td style="text-align:left">合成复用原则</td>
+<td style="text-align:left">尽量使用对象组合，而不是继承来达到复用的目的</td>
+</tr>
+<tr>
+<td style="text-align:left">迪米特法则</td>
+<td style="text-align:left">一个软件实体应当尽可能少地与其他实体发生相互作用</td>
+</tr>
+</tbody>
+</table>
+<h2 id="依赖倒转原则"><a href="#依赖倒转原则" class="headerlink" title="依赖倒转原则"></a>依赖倒转原则</h2><p>抽象不应该依赖于细节，细节应当依赖于抽象。换言之，要针对接口编程，而不是针对实现编程。</p>
+<p>依赖倒转原则要求我们在程序代码中传递参数时或在关联关系中，尽量引用层次高的抽象层类，即使用接口和抽象类进行变量类型声明、参数类型声明、方法返回类型声明，以及数据类型的转换等，而不要用具体类来做这些事情。 </p>
+<p>在实现依赖倒转原则时，我们需要针对抽象层编程，而将具体类的对象通过依赖注入(DependencyInjection, DI)的方式注入到其他对象中，依赖注入是指当一个对象要与其他对象发生依赖关系时，通过抽象来注入所依赖的对象。常用的注入方式有三种，分别是：构造注入，设值注入（Setter注入）和接口注入。构造注入是指通过构造函数来传入具体类的对象，设值注入是指通过Setter方法来传入具体类的对象，而接口注入是指通过在接口中声明的业务方法来传入具体类的对象。这些方法在定义时使用的是抽象类型，在运行时再传入具体类型的对象，由子类对象来覆盖父类对象。 </p>
 
       
     </div>
@@ -245,18 +250,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/08/17/build_blog/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">&lt;</strong>
-      <div class="article-nav-title">
-        
-          Mac上 Github 博客搭建
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/06/01/搜索技巧/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">搜索技巧</div>
+    <a href="/2018/04/03/IntentService HandlerThread/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">IntentService HandlerThread</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -266,7 +262,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="binder" data-title="Binder 进程间通信" data-url="https://github.com/sirencode/2016/07/06/binder/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Binder 进程间通信">
+<div class="ds-share share" data-thread-key="面向对象设计原则" data-title="面向对象设计原则" data-url="https://github.com/sirencode/2018/04/06/面向对象设计原则/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="面向对象设计原则">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
