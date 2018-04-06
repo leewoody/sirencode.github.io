@@ -162,6 +162,72 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-无线 adb连接" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/20/无线 adb连接/" class="article-date">
+  	<time datetime="2016-10-19T16:00:00.000Z" itemprop="datePublished">2016-10-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/20/无线 adb连接/">
+        Android 无线adb连接
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="打开手机的xxxx端口"><a href="#打开手机的xxxx端口" class="headerlink" title="打开手机的xxxx端口"></a>打开手机的xxxx端口</h4><ul>
+<li>确保手机开启了usb调试</li>
+<li>用usb线把手机和电脑连接起来</li>
+<li>执行命令：</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb tcpip 5555</span><br></pre></td></tr></table></figure>
+<h4 id="找到手机的IP地址"><a href="#找到手机的IP地址" class="headerlink" title="找到手机的IP地址"></a>找到手机的IP地址</h4><p>一般在 设置-关于手机-状态信息-IP地址可以找到。<br>比如，我这里看到手机的IP地址是192.168.1.242</p>
+<h4 id="通过IP地址和端口连接手机"><a href="#通过IP地址和端口连接手机" class="headerlink" title="通过IP地址和端口连接手机"></a>通过IP地址和端口连接手机</h4><p>执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb connect 192.168.1.242:xxxx</span><br></pre></td></tr></table></figure>
+<p>如果提示 connected to 192.168.1.242:xxxx 表示连接成功</p>
+<p>如果提示 unable to connect to 192.168.1.242:xxxx Operation timed out 可能你的IP地址输错了;或者adb服务不可用;或者手机跟电脑没有正确地处在一个局域网中；或者链接被代理Block了等等等…</p>
+<p>如果提示 unable to connect to 192.168.1.242:xxxx Connection refused 可能你手机的5555端口没有正确打开；或者有防火墙拦截等…</p>
+<h4 id="安装-adb-wifi插件"><a href="#安装-adb-wifi插件" class="headerlink" title="安装 adb wifi插件"></a>安装 adb wifi插件</h4>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-清空Android studio配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1271,191 +1337,6 @@ app:wnkv_deleteWidth=&quot;22dp&quot; /&gt;
 <p>输入后样式</p>
 <p><img src="http://oc4zuck5v.bkt.clouddn.com/pass.png" alt="图片"></p>
 
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-UI块化处理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/09/02/UI块化处理/" class="article-date">
-  	<time datetime="2016-09-01T16:00:00.000Z" itemprop="datePublished">2016-09-02</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/02/UI块化处理/">
-        Android UI-块化处理
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Android-UI-模块化实现"><a href="#Android-UI-模块化实现" class="headerlink" title="Android UI 模块化实现"></a>Android UI 模块化实现</h3><p>在比较复杂的页面里面，会根据不同的业务逻辑将ui分为不同的块。当我们初始化的时候会很混乱，而且很容易和其他ui块的子View混淆，为了使各个ui块更加清晰，我们将UI块化。</p>
-<p>首先，这里的UI模块化是指布局碎片fragment文件里面的ui的模块化，并不是说叫大家不做ui布局的fragment的碎片化。我们这么做的主要目的是为了实现在最小碎片化上面在做一些模块化处理，当然这要根据fragment的ui的复杂程度而定，只有当ui很复杂的时候才会这么做。</p>
-<h4 id="尽量不要使用activity和fragment"><a href="#尽量不要使用activity和fragment" class="headerlink" title="尽量不要使用activity和fragment"></a>尽量不要使用activity和fragment</h4><p>将独立的ui模块抽离出来，实现自定义control，将模块化的View封装在control里面，并将所有的view相关操作抽离，以及对生命周期的管理。</p>
-<h4 id="1-主UI实现，main布局文件"><a href="#1-主UI实现，main布局文件" class="headerlink" title="1 主UI实现，main布局文件"></a>1 主UI实现，main布局文件</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-android:layout_height=&quot;match_parent&quot;
-android:layout_width=&quot;match_parent&quot;
-android:orientation=&quot;vertical&quot;&gt;
-&lt;LinearLayout
-    android:gravity=&quot;center&quot;
-    android:id=&quot;@+id/block1&quot;
-    android:layout_height=&quot;0dp&quot;
-    android:layout_weight=&quot;1&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:orientation=&quot;vertical&quot; /&gt;
-
-&lt;LinearLayout
-    android:id=&quot;@+id/block2&quot;
-    android:layout_height=&quot;0dp&quot;
-    android:layout_weight=&quot;1&quot;
-    android:layout_width=&quot;match_parent&quot;
-    android:orientation=&quot;vertical&quot; /&gt;
-&lt;/LinearLayout&gt;
-</code></pre><h4 id="2-各个块UI实现，block布局"><a href="#2-各个块UI实现，block布局" class="headerlink" title="2 各个块UI实现，block布局"></a>2 各个块UI实现，block布局</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-android:layout_height=&quot;match_parent&quot;
-android:layout_width=&quot;match_parent&quot;&gt;
-
-&lt;TextView
-    android:gravity=&quot;center&quot;
-    android:id=&quot;@+id/textView&quot;
-    android:layout_alignParentEnd=&quot;true&quot;
-    android:layout_alignParentLeft=&quot;true&quot;
-    android:layout_alignParentRight=&quot;true&quot;
-    android:layout_alignParentStart=&quot;true&quot;
-    android:layout_alignParentTop=&quot;true&quot;
-    android:layout_height=&quot;wrap_content&quot;
-    android:layout_width=&quot;wrap_content&quot;
-    android:text=&quot;This is block1!&quot;
-    android:textAppearance=&quot;?android:attr/textAppearanceMedium&quot; /&gt;
-&lt;Button
-    android:id=&quot;@+id/button1&quot;
-    android:layout_alignParentLeft=&quot;true&quot;
-    android:layout_alignParentStart=&quot;true&quot;
-    android:layout_below=&quot;@+id/textView&quot;
-    android:layout_height=&quot;wrap_content&quot;
-    android:layout_width=&quot;wrap_content&quot;
-    android:text=&quot;button1&quot; /&gt;
-&lt;Button
-    android:id=&quot;@+id/button2&quot;
-    android:layout_alignParentEnd=&quot;true&quot;
-    android:layout_alignParentRight=&quot;true&quot;
-    android:layout_below=&quot;@+id/textView&quot;
-    android:layout_height=&quot;wrap_content&quot;
-    android:layout_width=&quot;wrap_content&quot;
-    android:text=&quot;button2&quot; /&gt;
-&lt;/RelativeLayout&gt;
-</code></pre><h4 id="3-模块逻辑处理"><a href="#3-模块逻辑处理" class="headerlink" title="3 模块逻辑处理"></a>3 模块逻辑处理</h4><pre><code>public class FirstContenController implements View.OnClickListener {
-
-private Activity activity;
-private View base;
-
-public FirstContenController(Activity activity,View base){
-    this.activity = activity;
-    this.base = base;
-    initViews();
-}
-
-private void  initViews(){
-    Button firstBtn = (Button) base.findViewById(R.id.button1);
-    firstBtn.setOnClickListener(this);
-    Button secondBtn = (Button) base.findViewById(R.id.button2);
-    secondBtn.setOnClickListener(this);
-}
-
-@Override
-public void onClick(View view) {
-    Toast.makeText(activity, &quot;first block first button&quot;, Toast.LENGTH_SHORT).show();
-}
-
-//释放资源
-public void release(){
-
-}
-}
-</code></pre><h4 id="4-逻辑处理"><a href="#4-逻辑处理" class="headerlink" title="4 逻辑处理"></a>4 逻辑处理</h4><pre><code>public class MainActivity extends Activity {
-
-//第一块UI区域
-private LinearLayout firstLay;
-//第二块UI区域
-private LinearLayout secondLay;
-
-private FirstContenController firstContenController;
-
-private SecondContentController secondContentController;
-
-@Override
-protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    setContentView(R.layout.activity_main);
-    initBlock();
-}
-
-/**
- * 初始化UI块
- */
-private void initBlock() {
-    firstLay = (LinearLayout) findViewById(R.id.block1);
-    secondLay = (LinearLayout) findViewById(R.id.block2);
-    LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
-    View firstBlock = inflater.inflate(R.layout.block1, null);
-    View secondBlock = inflater.inflate(R.layout.block2, null);
-    firstLay.addView(firstBlock);
-    secondLay.addView(secondBlock);
-
-    firstContenController = new FirstContenController(MainActivity.this, firstBlock);
-    secondContentController = new SecondContentController(MainActivity.this, firstBlock);
-}
-
-@Override
-protected void onDestroy() {
-    super.onDestroy();
-    if (firstContenController != null) {
-        firstContenController.release();
-    }
-
-    if (secondContentController != null) {
-        secondContentController.release();
-    }
-}
-}
-</code></pre>
       
     </div>
     
