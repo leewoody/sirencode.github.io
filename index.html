@@ -224,6 +224,71 @@
 
 
   
+    <article id="post-Android Binder" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/19/Android Binder/" class="article-date">
+  	<time datetime="2018-03-18T16:00:00.000Z" itemprop="datePublished">2018-03-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/19/Android Binder/">
+        Android 动画原理
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-Binder"><a href="#Android-Binder" class="headerlink" title="Android Binder"></a>Android Binder</h1><h2 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h2><p>Binder的是一个基于C/S框架的一个底层的协议，用来实现进程间的通信。进程间的通信实际上是在native层来实现的。 </p>
+<p>Binder在Java层和Native层都有实现，Java层的通过JNI来调用Native层的binder，相当于native层的镜像。 </p>
+<h2 id="IBinder"><a href="#IBinder" class="headerlink" title="IBinder"></a>IBinder</h2><p>FLAG_ONEWAY：发送请求之后不用阻塞等待结果。 </p>
+<p>Binder类和BinderProxy类分别实现了IBinder接口。其中Binder类作为服务端的Bn的代表，而BinderProxy作为客户端Bp的代表。 </p>
+<p>做了线程安全处理，binder最大的线程为15. </p>
+<h2 id="整体的通信流程"><a href="#整体的通信流程" class="headerlink" title="整体的通信流程"></a>整体的通信流程</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-28%20%E4%B8%8A%E5%8D%8810.08.37.png" alt=""></p>
+<ul>
+<li>1 SM添加服务service，实际添加到Parcel的并不是service本身，而是javaBBinder对象。Java层的binder对象直接指向javaBBinder对象。</li>
+<li>2 对代表客户端的BinderProxy来说，Java层的BinderProxy在Native层对应一个BinderProxy对象。凡是从Java层发出的请求，首先从Java层的BinderProxy传递到native层的BpBinder,继而由BpBinder将请求发送到Binder驱动。</li>
+<li>3 对代表服务端的Service来说，Java层的Binder在native层有一个javaBBinder对象。而javaBBinder仅起到中转作用，即把来自客户端的请求从native层传递到java层。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-刷机Root" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -635,65 +700,6 @@
 
 
   
-    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
-  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
-        Android 底层网络实现
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
-<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
-<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
-<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
-<p>OkHttp底层也是通过socket实现。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-Android 动画原理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -771,11 +777,11 @@
 
 
   
-    <article id="post-子模块访问app模块" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/02/26/子模块访问app模块/" class="article-date">
-  	<time datetime="2018-02-25T16:00:00.000Z" itemprop="datePublished">2018-02-26</time>
+      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
+  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
 </a>
     </div>
   
@@ -788,8 +794,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/26/子模块访问app模块/">
-        子模块访问app模块
+      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
+        Android 底层网络实现
         
       </a>
     </h1>
@@ -800,10 +806,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="子模块访问app模块"><a href="#子模块访问app模块" class="headerlink" title="子模块访问app模块"></a>子模块访问app模块</h1><h2 id="第一步子模块定义接口"><a href="#第一步子模块定义接口" class="headerlink" title="第一步子模块定义接口"></a>第一步子模块定义接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TradeModuleBridge</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">goOpenAccount</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="第二步-接口管理类"><a href="#第二步-接口管理类" class="headerlink" title="第二步 接口管理类"></a>第二步 接口管理类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TradeBridgeHolder</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TradeModuleBridge <span class="title">getBridge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bridge;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setBridge</span><span class="params">(TradeModuleBridge bridge)</span> </span>&#123;</span><br><span class="line">        TradeBridgeHolder.bridge = bridge;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> TradeModuleBridge bridge;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="第三步-在app的application里面初始化"><a href="#第三步-在app的application里面初始化" class="headerlink" title="第三步 在app的application里面初始化"></a>第三步 在app的application里面初始化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initTradeBridge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    TradeBridgeHolder.setBridge(<span class="keyword">new</span> TradeModuleBridge() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">goOpenAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            startActivity(WebViewActivity.buildAccountIntent(FuturesApplication.from()));</span><br><span class="line">            StatisticsAgent.onEV(EventIDS.ME_OPEN_ACCOUNT);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="第四步-使用"><a href="#第四步-使用" class="headerlink" title="第四步 使用"></a>第四步 使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TradeBridgeHolder.getBridge().goOpenAccount();</span><br></pre></td></tr></table></figure>
+        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
+<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
+<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
+<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
+<p>OkHttp底层也是通过socket实现。</p>
 
       
     </div>

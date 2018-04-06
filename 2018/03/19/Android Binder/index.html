@@ -3,22 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>内存泄漏检查工具-infer | Diablo</title>
+  <title>Android 动画原理 | Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。 使用1 环境安装见官网 2 android 项目分析 infer -- ./gradlew build 在两次分析之间运行 g">
+  <meta name="description" content="Android BinderBinderBinder的是一个基于C/S框架的一个底层的协议，用来实现进程间的通信。进程间的通信实际上是在native层来实现的。  Binder在Java层和Native层都有实现，Java层的通过JNI来调用Native层的binder，相当于native层的镜像。  IBinderFLAG_ONEWAY：发送请求之后不用阻塞等待结果。  Binder类和Bind">
 <meta property="og:type" content="article">
-<meta property="og:title" content="内存泄漏检查工具-infer">
-<meta property="og:url" content="https://github.com/sirencode/2016/09/01/infer/index.html">
+<meta property="og:title" content="Android 动画原理">
+<meta property="og:url" content="https://github.com/sirencode/2018/03/19/Android Binder/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。 使用1 环境安装见官网 2 android 项目分析 infer -- ./gradlew build 在两次分析之间运行 g">
-<meta property="og:updated_time" content="2016-09-01T02:33:19.000Z">
+<meta property="og:description" content="Android BinderBinderBinder的是一个基于C/S框架的一个底层的协议，用来实现进程间的通信。进程间的通信实际上是在native层来实现的。  Binder在Java层和Native层都有实现，Java层的通过JNI来调用Native层的binder，相当于native层的镜像。  IBinderFLAG_ONEWAY：发送请求之后不用阻塞等待结果。  Binder类和Bind">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-28%20%E4%B8%8A%E5%8D%8810.08.37.png">
+<meta property="og:updated_time" content="2018-04-06T06:43:29.872Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="内存泄漏检查工具-infer">
-<meta name="twitter:description" content="infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。 使用1 环境安装见官网 2 android 项目分析 infer -- ./gradlew build 在两次分析之间运行 g">
+<meta name="twitter:title" content="Android 动画原理">
+<meta name="twitter:description" content="Android BinderBinderBinder的是一个基于C/S框架的一个底层的协议，用来实现进程间的通信。进程间的通信实际上是在native层来实现的。  Binder在Java层和Native层都有实现，Java层的通过JNI来调用Native层的binder，相当于native层的镜像。  IBinderFLAG_ONEWAY：发送请求之后不用阻塞等待结果。  Binder类和Bind">
+<meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-28%20%E4%B8%8A%E5%8D%8810.08.37.png">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -164,11 +166,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-infer" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android Binder" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/09/01/infer/" class="article-date">
-  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
+      <a href="/2018/03/19/Android Binder/" class="article-date">
+  	<time datetime="2018-03-18T16:00:00.000Z" itemprop="datePublished">2018-03-19</time>
 </a>
     </div>
   
@@ -181,7 +183,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      内存泄漏检查工具-infer
+      Android 动画原理
       
     </h1>
   
@@ -199,11 +201,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p> infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。</p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 环境安装见<a href="http://infer.liaohuqiu.net/docs/getting-started.html" target="_blank" rel="noopener">官网</a></p>
-<p>2 android 项目分析</p>
-<pre><code>infer -- ./gradlew build
-</code></pre><p>在两次分析之间运行 gradlew clean</p>
+        <h1 id="Android-Binder"><a href="#Android-Binder" class="headerlink" title="Android Binder"></a>Android Binder</h1><h2 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h2><p>Binder的是一个基于C/S框架的一个底层的协议，用来实现进程间的通信。进程间的通信实际上是在native层来实现的。 </p>
+<p>Binder在Java层和Native层都有实现，Java层的通过JNI来调用Native层的binder，相当于native层的镜像。 </p>
+<h2 id="IBinder"><a href="#IBinder" class="headerlink" title="IBinder"></a>IBinder</h2><p>FLAG_ONEWAY：发送请求之后不用阻塞等待结果。 </p>
+<p>Binder类和BinderProxy类分别实现了IBinder接口。其中Binder类作为服务端的Bn的代表，而BinderProxy作为客户端Bp的代表。 </p>
+<p>做了线程安全处理，binder最大的线程为15. </p>
+<h2 id="整体的通信流程"><a href="#整体的通信流程" class="headerlink" title="整体的通信流程"></a>整体的通信流程</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-28%20%E4%B8%8A%E5%8D%8810.08.37.png" alt=""></p>
+<ul>
+<li>1 SM添加服务service，实际添加到Parcel的并不是service本身，而是javaBBinder对象。Java层的binder对象直接指向javaBBinder对象。</li>
+<li>2 对代表客户端的BinderProxy来说，Java层的BinderProxy在Native层对应一个BinderProxy对象。凡是从Java层发出的请求，首先从Java层的BinderProxy传递到native层的BpBinder,继而由BpBinder将请求发送到Binder驱动。</li>
+<li>3 对代表服务端的Service来说，Java层的Binder在native层有一个javaBBinder对象。而javaBBinder仅起到中转作用，即把来自客户端的请求从native层传递到java层。</li>
+</ul>
 
       
     </div>
@@ -213,18 +221,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/09/01/事件总线/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/04/03/IntentService HandlerThread/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">&lt;</strong>
       <div class="article-nav-title">
         
-          事件总线
+          IntentService HandlerThread
         
       </div>
     </a>
   
   
-    <a href="/2016/08/31/LeakCanary/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">内存泄漏检查工具-LeakCanary</div>
+    <a href="/2018/03/14/刷机Root/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">刷机Root</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -234,7 +242,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="infer" data-title="内存泄漏检查工具-infer" data-url="https://github.com/sirencode/2016/09/01/infer/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="内存泄漏检查工具-infer">
+<div class="ds-share share" data-thread-key="Android Binder" data-title="Android 动画原理" data-url="https://github.com/sirencode/2018/03/19/Android Binder/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 动画原理">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
