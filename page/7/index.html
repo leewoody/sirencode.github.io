@@ -162,6 +162,97 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-子线程绘制UI" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/18/子线程绘制UI/" class="article-date">
+  	<time datetime="2016-11-17T16:00:00.000Z" itemprop="datePublished">2016-11-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/18/子线程绘制UI/">
+        子线程绘制UI
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>UI绘制是一个比较耗时的操作，特别当页面相对比较复杂或者有一些很大的资源的时候，比如大图什么的。所以我们希望可以把一些相对不重要的部分延迟显示，不要阻塞了用户的操作，或者阻塞了关键UI的显然导致掉帧卡顿。实现思路，我们借助SurfaceView的特性来实现UI绘制和显示的分离从而避免卡顿现象。</p>
+<h3 id="SurfaceView和View对比"><a href="#SurfaceView和View对比" class="headerlink" title="SurfaceView和View对比"></a>SurfaceView和View对比</h3><ul>
+<li>View适用于主动更新的情况，而SurfaceView主要适用于被动更新，例如频繁的刷新。</li>
+<li>View在主线程中对画面进行刷新，而SurfaceView通常通过一个子线程来进行页面的刷新。</li>
+<li>View在绘制时没有使用双缓冲机制，而SurfaceView在底层实现机制中就已经实现了双缓冲机制</li>
+<li>SurfaceView允许你在非ui线程中去绘制。</li>
+<li>SurfaceView的帧率可以操作60FPS</li>
+<li>在要求实时性比较高的游戏开发中，显然，view的ondraw是满足不了你的，这时候只能是用SurfaceView。</li>
+<li>SurfaceView的刷新处于主动，有利于频繁的更新画面。</li>
+<li>SurfaceView的绘制在子线程进行，避免了UI线程的阻塞。</li>
+<li>SurfaceView在底层实现了一个双缓冲机制，效率大大提升</li>
+</ul>
+<h3 id="双缓冲机制"><a href="#双缓冲机制" class="headerlink" title="双缓冲机制"></a>双缓冲机制</h3><p>双缓冲可以理解为有两个线程轮番去解析视频流的帧图像，当一个线程解析完帧图像后，把图像渲染到界面中，同时另一线程开始解析下一帧图像，使得两个线程轮番配合去解析视频流，以达到流畅播放的效果。</p>
+<h3 id="SurfaceView使用"><a href="#SurfaceView使用" class="headerlink" title="SurfaceView使用"></a>SurfaceView使用</h3><p>其实SurfaceView也是继承自View,只不过实现了双缓冲的机制。</p>
+<ul>
+<li>1、首先这个自定义的SurfaceView类必须继承SurfaceView实现SurfaceHolder.Callback接口。</li>
+<li>2、实现SurfaceHolder.Callback中的三个SurfaceView生命周期，分别为：</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">surfaceDestroyed</span><span class="params">(SurfaceHolder holder)</span>：当SurfaceHolder被销毁的时候回调。</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">surfaceCreated</span><span class="params">(SurfaceHolder holder)</span>：当SurfaceHolder被创建的时候回调。</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">surfaceChange</span><span class="params">(SurfaceHolder holder)</span>：当SurfaceHolder的尺寸发生变化的时候被回调。</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li>3、在surfaceCreated方法里开启一个子线程。</li>
+<li>4、在这个子线程中开启一个由Flag控制的While循环，用于不断地绘制。</li>
+<li>5、在循环中通过SurfaceHolder对象的lockCanvas方法获得一个Canvas对象用于绘制。</li>
+<li>6、每次绘制完成通过SurfaceHolder对象unlockCanvasAndPost方法传入Canvas对象完成更新。</li>
+<li>7、最后要在surfaceDestroyed方法中去改变while循环的Flag为false，结束子线程的绘制。</li>
+</ul>
+<h3 id="特性"><a href="#特性" class="headerlink" title="特性"></a>特性</h3><p>SurfaceView内部实现了双缓冲的机制，但是实现这个功能是非常消耗系统内存的。因为移动设备的局限性，Android在设计的时候规定，SurfaceView如果为用户可见的时候，创建SurfaceView的SurfaceHolder用于显示视频流解析的帧图片，如果发现SurfaceView变为用户不可见的时候，则立即销毁SurfaceView的SurfaceHolder，以达到节约系统资源的目的。</p>
+<ul>
+<li>不适合频繁显示隐藏的控件。</li>
+<li>由于双缓存机制的原因，使用SurfaceView会比较耗内存。</li>
+</ul>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><ul>
+<li>一些频繁刷新的view。</li>
+<li>一些复杂的，绘制一次很耗时并且会造成卡顿的view。</li>
+<li>大的背景图，广告图，gif播放。。。</li>
+<li>对于一些游戏画面，或者摄像头预览、视频播放</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-性能优化-UI" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -286,6 +377,76 @@
 
 
   
+    <article id="post-APK大小分析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/15/APK大小分析/" class="article-date">
+  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/15/APK大小分析/">
+        APK大小分析
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h3><p>AS -&gt; Build -&gt; AnalyzeApk(AS2.2之后)</p>
+<h3 id="APK组成部分"><a href="#APK组成部分" class="headerlink" title="APK组成部分"></a>APK组成部分</h3><ul>
+<li>asserts</li>
+<li>lib</li>
+<li>res</li>
+<li>dex</li>
+<li>META-INF</li>
+<li>androidManifest</li>
+</ul>
+<h4 id="asserts"><a href="#asserts" class="headerlink" title="asserts"></a>asserts</h4><p>assets目录可以存放一些配置文件或资源文件，比如webview的本地html，react native的jsbundle等，微信的整个assets占用了13.4M。如果你的应用对本地资源要求很少的话，这个文件应该不会太大。</p>
+<h4 id="lib"><a href="#lib" class="headerlink" title="lib"></a>lib</h4><p>lib目录下会有各种so文件，分析器会检查出项目自己的so和各种库的so。微博和微信一样只支持了arm一个平台，淘宝支持了arm和x86两个平台。</p>
+<h4 id="resources-arsc"><a href="#resources-arsc" class="headerlink" title="resources.arsc"></a>resources.arsc</h4><p>这个文件是编译后的二进制资源文件，里面是id-name-value的一个map。因为微信做了资源的混淆，所以这里可以看到资源名称都是不可读的。</p>
+<h4 id="META-INF"><a href="#META-INF" class="headerlink" title="META-INF"></a>META-INF</h4><p>META-INF目录下存放的是签名信息，用来保证apk包的完整性和系统的安全性，帮助用户避免安装来历不明的盗版apk。</p>
+<h4 id="res"><a href="#res" class="headerlink" title="res"></a>res</h4><p>res目录存放的是资源文件。包括图片、字符串。raw文件夹下面是音频文件，各种xml文件等等。因为微信做了资源混淆，图片名字都不可读了。</p>
+<h4 id="dex"><a href="#dex" class="headerlink" title="dex"></a>dex</h4><p>dex文件是java代码打包后的字节码，一个dex文件最多只支持65536个方法，这也是为什么微信有了三个dex文件的原因。</p>
+<p>因为dex分包是不均匀的，你可以理解为装箱，一个箱子的大小是固定的，但你代码的量是不确定的，微信把前两个箱子装满了，最后还剩了2m多的代码，这些代码也占用了一个箱子，最终产生了上图不均匀的结果。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-图片OOM问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -374,76 +535,6 @@
 </ul>
 <h4 id="生成Bitmap所占大小-size"><a href="#生成Bitmap所占大小-size" class="headerlink" title="生成Bitmap所占大小(size)"></a>生成Bitmap所占大小(size)</h4><p>公式: 宽 <em> 高 </em> 每个像素所占字节</p>
 <p>size = width <em> height </em> bytes(格式1,2,3,4)*放大缩小倍数</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-APK大小分析" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/15/APK大小分析/" class="article-date">
-  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/15/APK大小分析/">
-        APK大小分析
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h3><p>AS -&gt; Build -&gt; AnalyzeApk(AS2.2之后)</p>
-<h3 id="APK组成部分"><a href="#APK组成部分" class="headerlink" title="APK组成部分"></a>APK组成部分</h3><ul>
-<li>asserts</li>
-<li>lib</li>
-<li>res</li>
-<li>dex</li>
-<li>META-INF</li>
-<li>androidManifest</li>
-</ul>
-<h4 id="asserts"><a href="#asserts" class="headerlink" title="asserts"></a>asserts</h4><p>assets目录可以存放一些配置文件或资源文件，比如webview的本地html，react native的jsbundle等，微信的整个assets占用了13.4M。如果你的应用对本地资源要求很少的话，这个文件应该不会太大。</p>
-<h4 id="lib"><a href="#lib" class="headerlink" title="lib"></a>lib</h4><p>lib目录下会有各种so文件，分析器会检查出项目自己的so和各种库的so。微博和微信一样只支持了arm一个平台，淘宝支持了arm和x86两个平台。</p>
-<h4 id="resources-arsc"><a href="#resources-arsc" class="headerlink" title="resources.arsc"></a>resources.arsc</h4><p>这个文件是编译后的二进制资源文件，里面是id-name-value的一个map。因为微信做了资源的混淆，所以这里可以看到资源名称都是不可读的。</p>
-<h4 id="META-INF"><a href="#META-INF" class="headerlink" title="META-INF"></a>META-INF</h4><p>META-INF目录下存放的是签名信息，用来保证apk包的完整性和系统的安全性，帮助用户避免安装来历不明的盗版apk。</p>
-<h4 id="res"><a href="#res" class="headerlink" title="res"></a>res</h4><p>res目录存放的是资源文件。包括图片、字符串。raw文件夹下面是音频文件，各种xml文件等等。因为微信做了资源混淆，图片名字都不可读了。</p>
-<h4 id="dex"><a href="#dex" class="headerlink" title="dex"></a>dex</h4><p>dex文件是java代码打包后的字节码，一个dex文件最多只支持65536个方法，这也是为什么微信有了三个dex文件的原因。</p>
-<p>因为dex分包是不均匀的，你可以理解为装箱，一个箱子的大小是固定的，但你代码的量是不确定的，微信把前两个箱子装满了，最后还剩了2m多的代码，这些代码也占用了一个箱子，最终产生了上图不均匀的结果。</p>
 
       
     </div>
@@ -1093,60 +1184,6 @@ android:viewportWidth=&quot;24&quot;&gt;
 <p>如果提示 unable to connect to 192.168.1.242:xxxx Operation timed out 可能你的IP地址输错了;或者adb服务不可用;或者手机跟电脑没有正确地处在一个局域网中；或者链接被代理Block了等等等…</p>
 <p>如果提示 unable to connect to 192.168.1.242:xxxx Connection refused 可能你手机的5555端口没有正确打开；或者有防火墙拦截等…</p>
 <h4 id="安装-adb-wifi插件"><a href="#安装-adb-wifi插件" class="headerlink" title="安装 adb wifi插件"></a>安装 adb wifi插件</h4>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-清空Android studio配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/10/19/清空Android studio配置/" class="article-date">
-  	<time datetime="2016-10-18T16:00:00.000Z" itemprop="datePublished">2016-10-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/19/清空Android studio配置/">
-        清空Android studio配置
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rm -Rf /Applications/Android\ Studio.app</span><br><span class="line">rm -Rf ~/Library/Preferences/AndroidStudio*</span><br><span class="line">rm ~/Library/Preferences/com.google.android.studio.plist</span><br><span class="line">rm -Rf ~/Library/Application\ Support/AndroidStudio*</span><br><span class="line">rm -Rf ~/Library/Logs/AndroidStudio*</span><br><span class="line">rm -Rf ~/Library/Caches/AndroidStudio*</span><br><span class="line">rm -Rf .AndroidStudio*</span><br></pre></td></tr></table></figure>
       
     </div>
     
