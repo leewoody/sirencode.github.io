@@ -1591,10 +1591,10 @@
 
 
   
-    <article id="post-AOP编程" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-AS资源文件自动分类" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2017/02/10/AOP编程/" class="article-date">
+      <a href="/2017/02/10/AS资源文件自动分类/" class="article-date">
   	<time datetime="2017-02-09T16:00:00.000Z" itemprop="datePublished">2017-02-10</time>
 </a>
     </div>
@@ -1608,8 +1608,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/10/AOP编程/">
-        AOP编程
+      <a class="article-title" href="/2017/02/10/AS资源文件自动分类/">
+        AS资源文件自动分类
         
       </a>
     </h1>
@@ -1620,51 +1620,15 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="AOP"><a href="#AOP" class="headerlink" title="AOP"></a>AOP</h3><p>AOP为Aspect Oriented Programming的缩写，意为：面向切面编程，通过预编译方式和运行期动态代理实现程序功能的统一维护的一种技术。AOP是OOP的延续，是软件开发中的一个热点，是函数式编程的一种衍生范型。利用AOP可以对业务逻辑的各个部分进行隔离，从而使得业务逻辑各部分之间的耦合度降低，提高程序的可重用性，同时提高了开发的效率。</p>
-<p>它是一种关注点分离的技术。我们软件开发时经常提一个词叫做“业务逻辑”或者“业务功能”，我们的代码主要就是实现某种特定的业务逻辑。但是我们往往不能专注于业务逻辑，比如我们写业务逻辑代码的同时，还要写事务管理、缓存、日志等等通用化的功能，而且每个业务功能都要和这些业务功能混在一起，非常非常地痛苦。为了将业务功能的关注点和通用化功能的关注点分离开来，就出现了AOP技术。</p>
-<p>AOP技术主要是通过注解的方式添加到对应的逻辑方法上的。</p>
-<h3 id="注解"><a href="#注解" class="headerlink" title="注解"></a>注解</h3><p>注解是一种元数据, 可以添加到java代码中. 类、方法、变量、参数、包都可以被注解，注解对注解的代码没有直接影响。</p>
-<h4 id="元注解"><a href="#元注解" class="headerlink" title="元注解"></a>元注解</h4><p>元注解就是用来定义注解的注解.其作用就是定义注解的作用范围, 使用在什么元素上等等，元注解共有四种@Retention, @Target, @Inherited, @Documented。</p>
-<h5 id="Retention"><a href="#Retention" class="headerlink" title="@Retention"></a>@Retention</h5><p>@Retention 保留的范围，默认值为CLASS. 可选值有三种</p>
+        <p>资源文件中过多的图片文件或者布局文件，在开发中去查找对应的文件变得非常麻烦。所以将资源文件进行按文件夹分类变得非常重要，基本每个开发人员都为此烦恼过。</p>
+<p>其实，最早的实现方式是，在对应资源文件下建立自定义文件夹，之后配置软连接的方式实现的。</p>
+<p>不过，最近大神开源了一款虚拟高效的自动归类的一个AS插件，可以在不修改项目任何代码的情况下对资源文件进行分类。</p>
+<p><a href="https://github.com/dmytrodanylyk/folding-plugin/releases">folding-plugin</a>下载</p>
+<h3 id="导入插件"><a href="#导入插件" class="headerlink" title="导入插件"></a>导入插件</h3><p>导入AS【File-&gt;Settings-Plugins,选择自定义插件，导入.jar文件】，导入完成，重启studio</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>右键对应资源文件夹-&gt;group/ungroup</p>
 <ul>
-<li>SOURCE, 只在源码中可用</li>
-<li>CLASS, 在源码和字节码中可用</li>
-<li>RUNTIME, 在源码,字节码,运行时均可用</li>
+<li>这些分组都是虚拟的，在Android视图下无效国，project等皆有效。</li>
 </ul>
-<h5 id="Target"><a href="#Target" class="headerlink" title="@Target"></a>@Target</h5><p>@Target 可以用来修饰哪些程序元素，如 TYPE, METHOD, CONSTRUCTOR, FIELD, PARAMETER等，未标注则表示可修饰所有</p>
-<h5 id="Inherited"><a href="#Inherited" class="headerlink" title="@Inherited"></a>@Inherited</h5><p>@Inherited 是否可以被继承，默认为false</p>
-<h5 id="Documented"><a href="#Documented" class="headerlink" title="@Documented"></a>@Documented</h5><p>@Documented 是否会保存到 Javadoc 文档中</p>
-<h4 id="AspectJ介绍"><a href="#AspectJ介绍" class="headerlink" title="AspectJ介绍"></a>AspectJ介绍</h4><p>AOP虽然是方法论，但就好像OOP中的Java一样，一些先行者也开发了一套语言来支持AOP。目前用得比较火的就是AspectJ了，它是一种几乎和Java完全一样的语言，而且完全兼容Java。当然，除了使用AspectJ特殊的语言外，AspectJ还支持原生的Java，只要加上对应的AspectJ注解就好。</p>
-<h5 id="AspectJ语法"><a href="#AspectJ语法" class="headerlink" title="AspectJ语法"></a>AspectJ语法</h5><h6 id="Join-Points介绍"><a href="#Join-Points介绍" class="headerlink" title="Join Points介绍"></a>Join Points介绍</h6><p>Join Points（以后简称JPoints）是AspectJ中最关键的一个概念。什么是JPoints呢？JPoints就是程序运行时的一些执行点。</p>
-<ul>
-<li>一个函数的调用可以是一个JPoint。比如Log.e()这个函数。e的执行可以是一个JPoint，而调用e的函数也可以认为是一个JPoint。</li>
-<li>设置一个变量，或者读取一个变量，也可以是一个JPoint。比如Demo类中有一个debug的boolean变量。设置它的地方或者读取它的地方都可以看做是JPoints。</li>
-<li>for循环可以看做是JPoint。</li>
-</ul>
-<p>理论上说，一个程序中很多地方都可以被看做是JPoint，但是AspectJ中，只有如下所示的几种执行点被认为是JPoints：</p>
-<ul>
-<li><p>method call<br>函数调用<br>比如调用Log.e()，这是一处JPoint</p>
-</li>
-<li><p>method execution<br>函数执行<br>比如Log.e()的执行内部，是一处JPoint。注意它和method call的区别。method call是调用某个函数的地方。而execution是某个函数执行的内部。</p>
-</li>
-<li><p>constructor call<br>构造函数调用<br>和method call类似</p>
-</li>
-<li><p>constructor execution<br>构造函数执行<br>和method execution类似</p>
-</li>
-<li><p>field get/set<br>获取/设置某个变量<br>比如读取DemoActivity.debug成员</p>
-</li>
-<li><p>static initialization<br>类初始化<br>比如类的static{}</p>
-</li>
-<li><p>handler<br>异常处理<br>比如try catch(xxx)中，对应catch内的执行</p>
-</li>
-</ul>
-<h5 id="Pointcuts介绍"><a href="#Pointcuts介绍" class="headerlink" title="Pointcuts介绍"></a>Pointcuts介绍</h5><p>Pointcuts的目标是提供一种方法使得开发者能够选择自己感兴趣的JoinPoints。</p>
-<p>pointcuts中最常用的选择条件</p>
-<ul>
-<li>execution(MethodSignature)</li>
-<li>call(MethodSignature)</li>
-</ul>
-<p>一个Method Signature的完整表达式为：@注解 访问权限 返回值的类型 包名.函数名(参数) </p>
 
       
     </div>
