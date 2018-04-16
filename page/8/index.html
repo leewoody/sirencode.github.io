@@ -162,6 +162,119 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-图片OOM问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/15/图片OOM问题/" class="article-date">
+  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/15/图片OOM问题/">
+        图片OOM问题
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="OOM"><a href="#OOM" class="headerlink" title="OOM"></a>OOM</h3><p>大家在项目开发中多多少少会遇到一些OOM的问题，内存是个大问题。</p>
+<h3 id="手机内存解析"><a href="#手机内存解析" class="headerlink" title="手机内存解析"></a>手机内存解析</h3><p>Android是一个多任务系统, 为了保证多任务的运行, Android给每个App可使用的Heap大小设定了一个限定值.</p>
+<p>这个值是系统设置的prop值, 系统编译时内置的, 保存在system/build.prop中. 一般国内的手机厂商都会做修改, 根据手机配置不同而不同, 可以通过如下命令查看:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell</span><br><span class="line">$ cat /system/build.prop</span><br></pre></td></tr></table></figure>
+<p>也可以直接使用getprop查看单项prop:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell getprop dalvik.vm.heapsize</span><br><span class="line">512m</span><br></pre></td></tr></table></figure>
+<p>heap size相关的prop如下:</p>
+<ul>
+<li>dalvik.vm.heapstartsize=8m</li>
+<li>dalvik.vm.heapgrowthlimit=192m</li>
+<li>dalvik.vm.heapsize=512m</li>
+<li>dalvik.vm.heaptargetutilization=0.75</li>
+<li>dalvik.vm.heapminfree=2m</li>
+<li>dalvik.vm.heapmaxfree=8m</li>
+</ul>
+<h4 id="dalvik-vm-heapstartsize"><a href="#dalvik-vm-heapstartsize" class="headerlink" title="dalvik.vm.heapstartsize"></a>dalvik.vm.heapstartsize</h4><p>App启动后, 系统分配给它的Heap初始大小. 随着App使用可增加.</p>
+<h4 id="dalvik-vm-heapgrowthlimit"><a href="#dalvik-vm-heapgrowthlimit" class="headerlink" title="dalvik.vm.heapgrowthlimit"></a>dalvik.vm.heapgrowthlimit</h4><p>默认情况下, App可使用的Heap的最大值, 超过这个值就会产生OOM.</p>
+<h4 id="dalvik-vm-heapsize"><a href="#dalvik-vm-heapsize" class="headerlink" title="dalvik.vm.heapsize"></a>dalvik.vm.heapsize</h4><p>如果App的manifest文件中配置了largeHeap属性, 如下.则App可使用的Heap的最大值为此项设定值.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:largeHeap</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="dalvik-vm-heaptargetutilization"><a href="#dalvik-vm-heaptargetutilization" class="headerlink" title="dalvik.vm.heaptargetutilization"></a>dalvik.vm.heaptargetutilization</h4><p>当前理想的堆内存利用率. GC后, Dalvik的Heap内存会进行相应的调整, 调整到当前存活的对象的大小和 / Heap大小 接近这个选项的值, 即这里的0.75. 注意, 这只是一个参考值.</p>
+<h4 id="dalvik-vm-heapminfree"><a href="#dalvik-vm-heapminfree" class="headerlink" title="dalvik.vm.heapminfree"></a>dalvik.vm.heapminfree</h4><p>单次Heap内存调整的最小值.</p>
+<h4 id="dalvik-vm-heapmaxfree"><a href="#dalvik-vm-heapmaxfree" class="headerlink" title="dalvik.vm.heapmaxfree"></a>dalvik.vm.heapmaxfree</h4><p>单次Heap内存调整的最大值.</p>
+<h3 id="图片内存问题"><a href="#图片内存问题" class="headerlink" title="图片内存问题"></a>图片内存问题</h3><h4 id="本地图片内存问题"><a href="#本地图片内存问题" class="headerlink" title="本地图片内存问题"></a>本地图片内存问题</h4><p>本地图片一定要将对应分辨率的图片放到对应的目录下，当图片放置在不同drawable文件夹中，且只有这一张图片时，运行设备会根据自身的屏幕密度，对图片进行放缩，放缩比例符合前面图上的规则，不同目录下的对应放大倍数(drawable默认1X)：</p>
+<ul>
+<li>mdpi     1X </li>
+<li>hdpi     1.5X</li>
+<li>xhdpi    2X</li>
+<li>xxhdpi   3X</li>
+<li><p>xxxhdpi  4x</p>
+</li>
+<li><p>density     1    1.5 2    3    3.5     4</p>
+</li>
+<li><p>densityDpi    160    240    320    480    560    640</p>
+</li>
+<li><p>在使用离线图片时首先注意，切对应比例的图并将图片放到对应的比例文件目录下，防止将大比例的图片放到小比例的目录下导致图片被指数放大导致OOM，或者将小比例图片放到大比例文件夹下导致图片失真。</p>
+</li>
+<li>图片的大小根据实际情况来，显示200*200的图不要使用比比例大的图片，用了也要做压缩，防止内存泄漏。</li>
+</ul>
+<h4 id="网络图片内存问题"><a href="#网络图片内存问题" class="headerlink" title="网络图片内存问题"></a>网络图片内存问题</h4><p>网络图片也会导致内存泄漏，后端可能为了兼容更多客户端，配置的图片的尺寸和质量会很高，我们如果直接把网上下载的图片拿来直接用可能会导致OOM，因此网络下载的图片也要根据具体显示的view的大小来对图片进行压缩。</p>
+<h4 id="图片压缩的问题"><a href="#图片压缩的问题" class="headerlink" title="图片压缩的问题"></a>图片压缩的问题</h4><p>图片压缩是按照大小来实现质量压缩。</p>
+<h4 id="不要将Button的背景设置为selector"><a href="#不要将Button的背景设置为selector" class="headerlink" title="不要将Button的背景设置为selector"></a>不要将Button的背景设置为selector</h4><p>在布局文件和代码中，都可以为Button设置background为selector，这样方便实现按钮的正反选效果，但实际跟踪发现，如果是将Button的背景设置为selector，在初始化Button的时候会将正反选图片都加载在内存中（具体可以查看Android源码，在类Drawable.java的createFromXmlInner方法中对图片进行解析，最终调用Drawable的inflate方法），相当于一个按钮占用了两张相同大小图片所使用的内存，如果一个界面上按钮很多或者是按钮很大，光是按钮占用的内存就会很大，可以通过在布局文件中给按钮只设置正常状态下的背景图片，然后在代码中监听按钮的点击状态，当按下按钮时为按钮设置反选效果的图片，抬起时重新设置为正常状态下的背景</p>
+<h4 id="尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable"><a href="#尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable" class="headerlink" title="尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable"></a>尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable</h4><p>AnimationDrawable也是一个耗内存大户，图片帧数越多耗内存越大，具体可以查看AnimationDrawable的源码，在AnimationDrawable实例化的时候，Drawable的createFromXmlInner方法会调用AnimationDrawable的inflate方法，该方法里面有一个while循环去一次性将所有帧都读取出来，也就是在初始化的时候就将所有的帧读在内存中了，有多少张图片，它就要消耗对应大小的内存。</p>
+<h4 id="尽量使用vector-drawable"><a href="#尽量使用vector-drawable" class="headerlink" title="尽量使用vector drawable"></a>尽量使用vector drawable</h4><h4 id="在服务器段配置相对较小的webp格式"><a href="#在服务器段配置相对较小的webp格式" class="headerlink" title="在服务器段配置相对较小的webp格式"></a>在服务器段配置相对较小的webp格式</h4><h4 id="其他方式优化"><a href="#其他方式优化" class="headerlink" title="其他方式优化"></a>其他方式优化</h4><ul>
+<li>尽量将Activity中的小图片和背景合并，一张小图片既浪费布局的时间，又平白地增加了内存占用；</li>
+<li>对于在需要时才显示的图片或者布局，可以使用ViewStub标签，通过sdk/tools目录下的hierarchyviewer.bat查看布局文件会发现，使用viewstub标签的组件几乎不消耗布局的时间，在代码中当需要显示时再去实例化有助于提高Activity的布局效率和节省Activity消耗的内存。</li>
+<li>尽量不要在Activity的主题中为Activity设置默认的背景图片，这样会导致Activity占用的内存翻倍：</li>
+</ul>
+<h3 id="Bitmap-相关"><a href="#Bitmap-相关" class="headerlink" title="Bitmap 相关"></a>Bitmap 相关</h3><h4 id="不同格式的图片每像素所占字节数"><a href="#不同格式的图片每像素所占字节数" class="headerlink" title="不同格式的图片每像素所占字节数"></a>不同格式的图片每像素所占字节数</h4><ul>
+<li><p>Alpha_8: 1个字节</p>
+</li>
+<li><p>RGB_565: 2个字节</p>
+</li>
+<li><p>ARGB_4444: 2个字节</p>
+</li>
+<li><p>ARGB_8888: 4个字节</p>
+</li>
+</ul>
+<h4 id="生成Bitmap所占大小-size"><a href="#生成Bitmap所占大小-size" class="headerlink" title="生成Bitmap所占大小(size)"></a>生成Bitmap所占大小(size)</h4><p>公式: 宽 <em> 高 </em> 每个像素所占字节</p>
+<p>size = width <em> height </em> bytes(格式1,2,3,4)*放大缩小倍数</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-APK大小分析" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -988,148 +1101,6 @@ android:viewportWidth=&quot;24&quot;&gt;
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">signingConfigs &#123;</span><br><span class="line">    release &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            storeFile file("myapp.keystore")</span><br><span class="line">            storePassword KEYSTORE_PASSWORD</span><br><span class="line">            keyAlias "thekey"</span><br><span class="line">            keyPassword KEY_PASSWORD</span><br><span class="line">        &#125;</span><br><span class="line">        catch (ex) &#123;</span><br><span class="line">            throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h5 id="多渠道打包productFlavors"><a href="#多渠道打包productFlavors" class="headerlink" title="多渠道打包productFlavors"></a>多渠道打包productFlavors</h5><p>在项目的build文件的android结构下配置：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">productFlavors &#123;</span><br><span class="line">        dev &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "dev"]</span><br><span class="line">        &#125;</span><br><span class="line">        official &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "official"]</span><br><span class="line">        &#125;</span><br><span class="line">        xiaomi &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "xiaomi"]</span><br><span class="line">        &#125;</span><br><span class="line">        wandoujia &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "wandoujia"]</span><br><span class="line">        &#125;</span><br><span class="line">        "360" &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "360"]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-android imageview加载" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/10/11/android imageview加载/" class="article-date">
-  	<time datetime="2016-10-10T16:00:00.000Z" itemprop="datePublished">2016-10-11</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/11/android imageview加载/">
-        Android imageview加载实现
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>显示图片，作为APP开发中必不可少的一部分，也是问题大户。加载图片时主要分为两种，一种是加载网络图片另一种就是加载本地图片。在图片的加载中，我们为了快速的显示图片，肯定会用到缓存机制，为了避免大图出现OOM，还要对图片进行压缩。今天我们从各个角度分析一下在项目中，图片使用时会遇到的一些坑。</p>
-<h3 id="图片加载"><a href="#图片加载" class="headerlink" title="图片加载"></a>图片加载</h3><h4 id="离线图片加载"><a href="#离线图片加载" class="headerlink" title="离线图片加载"></a>离线图片加载</h4><p>加载资源目录下的文件：<br>BitmapFactory.decodeResource(Resources, resId, options);</p>
-<p>加载其他目录下的文件：<br>BitmapFactory.decodeFile(path, options);</p>
-<h4 id="在线图片加载"><a href="#在线图片加载" class="headerlink" title="在线图片加载"></a>在线图片加载</h4><h5 id="首先要下载图片资源"><a href="#首先要下载图片资源" class="headerlink" title="首先要下载图片资源"></a>首先要下载图片资源</h5><pre><code>/**
- * 获取网络图片
- * @param imageurl 图片网络地址
- * @return Bitmap 返回位图
- */
-public Bitmap GetImageInputStream(String imageurl){
-    URL url;
-    HttpURLConnection connection=null;
-    Bitmap bitmap=null;
-    try {
-        url = new URL(imageurl);
-        connection=(HttpURLConnection)url.openConnection();
-        connection.setConnectTimeout(10000); //超时设置
-        connection.setDoInput(true);
-        connection.setUseCaches(false); //设置不使用缓存
-        InputStream inputStream=connection.getInputStream();
-        bitmap= BitmapFactory.decodeStream(inputStream);
-        inputStream.close();
-    } catch (Exception e) {
-        e.printStackTrace();
-    }
-    return bitmap;
-}
-</code></pre><p>加载图片要放到子线程里面处理，所以再获取到图片后就要回调设置imageview的图片。</p>
-<p>使用线程下载资源的时候记得开启一个线程池管理线程资源。(建议一核开三个线程，但是你的APP除了下载还需要做其他事情所以我建议线程池个数 = 核数*3/2)。</p>
-<h3 id="图片压缩"><a href="#图片压缩" class="headerlink" title="图片压缩"></a>图片压缩</h3><p>为什么要压缩图片？</p>
-<p>因为在加载大图的时候可能出现oom异常，在这里需要注意的是，把本地资源图片放到正确的文件夹下，否则可能导致图片所占内存急剧指数倍曾加。</p>
-<p>图片的压缩分为两种，一种叫做质量压缩，一种叫做大小压缩。<br>质量压缩是比较好的一种选择，因为质量压缩可以避免将大的bitmap放到内存中去处理，避免是内存吃紧。</p>
-<h5 id="质量压缩实现"><a href="#质量压缩实现" class="headerlink" title="质量压缩实现"></a>质量压缩实现</h5><p>质量压缩的原理就是重新计算比例并设置bitmap的BitmapFactory.Options。</p>
-<h5 id="压缩比例的获取"><a href="#压缩比例的获取" class="headerlink" title="压缩比例的获取"></a>压缩比例的获取</h5><p>在图片处理的时候，我们大部分都是对图片的质量进行压缩，这也是我们所有需要的，你可能会好奇那为什么不直接把图片的扩大也做了。主要原因是，我们在app里面使用的大部分图片资源是矢量图，而矢量图的特点就是在压缩的时候不会失真，但是在扩大的时候就会失真，导致图片模糊。</p>
-<p>在计算图片的压缩比例前，我们要知道资源bitmap的宽高以及目标imageview的宽高，之后用bitmap的宽高去除imageview的宽高，获取两个值中较大的一个作为压缩比例。</p>
-<p>注意：在获取bitmap的宽高时，为了不把这个大的bitmap添加到内存中，options.inJustDecodeBounds = true; // 设置成了true,不占用内存，只获取bitmap宽高</p>
-<pre><code>/**
- * @description 计算图片的压缩比率
- *
- * @param options 参数
- * @param reqWidth 目标的宽度
- * @param reqHeight 目标的高度
- * @return
- */
-private static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
-    // 源图片的高度和宽度
-    final int height = options.outHeight;
-    final int width = options.outWidth;
-    int inSampleSize = 1;
-    if (height &gt; reqHeight || width &gt; reqWidth) {
-        // 计算出实际宽高和目标宽高的比率
-        final int halfHeight = height / 2;
-        final int halfWidth = width / 2;
-        while ((halfHeight / inSampleSize) &gt; reqHeight &amp;&amp; (halfWidth / inSampleSize) &gt; reqWidth) {
-            inSampleSize *= 2;
-        }
-    }
-    return inSampleSize;
-}
-</code></pre><p>在获取到压缩比例后：</p>
-<pre><code>options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight); // 调用上面定义的方法计算inSampleSize值
-// 使用获取到的inSampleSize值再次解析图片
-options.inJustDecodeBounds = false;
-Bitmap src = BitmapFactory.decodeResource(res, resId, options); // 载入一个稍大的缩略图
-</code></pre><h3 id="图片缓存处理"><a href="#图片缓存处理" class="headerlink" title="图片缓存处理"></a>图片缓存处理</h3><h4 id="软缓存"><a href="#软缓存" class="headerlink" title="软缓存"></a>软缓存</h4><p>软缓存，就是内存缓存，Lru算法实现：</p>
-<pre><code> // 获取最大可用内存
-private static long maxMemory = Runtime.getRuntime().maxMemory();
-//设置内存缓存大小
-private static int cacheSize = (int) (maxMemory / 4);
-public static LruCache&lt;String, Bitmap&gt; MEMORYLRUCACHE= new LruCache&lt;String, Bitmap&gt;(cacheSize)
-{
-
-    @Override
-    protected int sizeOf(String key, Bitmap value)
-    {
-        // 在每次存入缓存的时候调用
-        return value.getByteCount();
-    }
-};
-</code></pre><h4 id="磁盘缓存"><a href="#磁盘缓存" class="headerlink" title="磁盘缓存"></a>磁盘缓存</h4><p><a href="https://github.com/JakeWharton/DiskLruCache">DiskLruCache</a></p>
-<h3 id="自定义图片请求框架实现"><a href="#自定义图片请求框架实现" class="headerlink" title="自定义图片请求框架实现"></a>自定义图片请求框架实现</h3><ul>
-<li>1 下载图片前先去内存缓存中读取，读取不到再去磁盘缓存中读取，再没有再去网络上加载图片。</li>
-<li>2 网络加载图片，计算压缩比例，并压缩bitmap,然后将bitmap放到内存缓存中和磁盘缓存中，设置图片。</li>
-</ul>
-<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
-<li>合理的线程池大小(核数*3/2)。</li>
-<li>合理的内存缓存大小(1/8)。</li>
-<li>合理的磁盘缓存大小(15M)。</li>
-</ul>
 
       
     </div>

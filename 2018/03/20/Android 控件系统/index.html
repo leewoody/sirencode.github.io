@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 控件系统 | Diablo</title>
+
+  <!-- keywords -->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android 控件系统控件系统的组成控件系统可分为：继承自View的一系列控件与WindowManger两部分。  WindowMangerviewgroup也实现了viewmanager。  WindowManger是一个继承自viewmanager的接口，viewmanager定义了三个函数，用于添加删除一个控件以及更新控件的布局。同时添加了getDefaultDisplay()用于得知这个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 控件系统">
+<meta property="og:url" content="https://github.com/sirencode/2018/03/20/Android 控件系统/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="Android 控件系统控件系统的组成控件系统可分为：继承自View的一系列控件与WindowManger两部分。  WindowMangerviewgroup也实现了viewmanager。  WindowManger是一个继承自viewmanager的接口，viewmanager定义了三个函数，用于添加删除一个控件以及更新控件的布局。同时添加了getDefaultDisplay()用于得知这个">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-29%20%E4%B8%8B%E5%8D%889.58.41.png">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-29%20%E4%B8%8B%E5%8D%8810.18.25.png">
+<meta property="og:updated_time" content="2018-04-16T10:13:17.594Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 控件系统">
+<meta name="twitter:description" content="Android 控件系统控件系统的组成控件系统可分为：继承自View的一系列控件与WindowManger两部分。  WindowMangerviewgroup也实现了viewmanager。  WindowManger是一个继承自viewmanager的接口，viewmanager定义了三个函数，用于添加删除一个控件以及更新控件的布局。同时添加了getDefaultDisplay()用于得知这个">
+<meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-29%20%E4%B8%8B%E5%8D%889.58.41.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Android 控件系统" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/20/Android 控件系统/" class="article-date">
+  	<time datetime="2018-03-19T16:00:00.000Z" itemprop="datePublished">2018-03-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 控件系统
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-控件系统"><a href="#Android-控件系统" class="headerlink" title="Android 控件系统"></a>Android 控件系统</h1><h2 id="控件系统的组成"><a href="#控件系统的组成" class="headerlink" title="控件系统的组成"></a>控件系统的组成</h2><p>控件系统可分为：继承自View的一系列控件与WindowManger两部分。 </p>
+<h2 id="WindowManger"><a href="#WindowManger" class="headerlink" title="WindowManger"></a>WindowManger</h2><p>viewgroup也实现了viewmanager。 </p>
+<p>WindowManger是一个继承自viewmanager的接口，viewmanager定义了三个函数，用于添加删除一个控件以及更新控件的布局。同时添加了getDefaultDisplay()用于得知这个WindowManger的实例添加到哪个屏幕上。而removeViewImmediate则要求WindowManger必须在这个调用返回前完成所有的销毁工作。 </p>
+<p>WMI:WindowManger的实现者，有两个实例，Display,Window </p>
+<p>WindowManagerGlobal:他是WindowManger的最终实现者，它维护了当前进程中所有已经添加到系统中的窗口信息，一个进程中仅有一个WindowManagerGlobal实例。</p>
+<ul>
+<li>1 context.getSystemService(Context.WINDOW_SERVICE)来获取一个WM实例。这个实例真实类型是WMI，WNI一旦被创建就确定了通过它所创建的窗口属于哪块屏幕，哪个父窗口。</li>
+<li>2 WMI保存窗口所属的屏幕以及窗口信息。</li>
+<li>3 WMG在一个进程中只有一个实例。在三个数组中统一管理这个进程中所有的窗口信息。这些信息包括控件、布局参数、以及ViewRootImpl。</li>
+<li>4 WMG将窗口的创建、销毁与布局更新等任务交给ViewRootImpl完成。</li>
+</ul>
+<h2 id="ViewRootImpl"><a href="#ViewRootImpl" class="headerlink" title="ViewRootImpl"></a>ViewRootImpl</h2><p>ViewRootImpl实现了ViewParent接口，作为整个控件树的根部，控件的测量、布局、绘制以及输入事件的派发处理都由ViewRootImpl触发。它是WindowManagerGlobal的实现者，需要与WMS交互以调整窗口的位置大小，以及对来自WMS的事件(如窗口尺寸改变)的处理。 </p>
+<h2 id="控件树的绘制"><a href="#控件树的绘制" class="headerlink" title="控件树的绘制"></a>控件树的绘制</h2><p>对软件Canvas来说，其绘制目标是一个建立在surface之上的位图bitmap。而硬件Canvas的绘制目标有两种：一种是HardwareLayer，可以理解为一个GL Texture，或者简单地认为它是一个硬件加速下的位图(bitmap)。而另一种绘制目标则比较特别，被称为DisplayList。与Bitmap及HardwareLayer不同，DisplayList不是一块Buffer，而是一个指令序列。DisplayList会将Canvas的绘制指令编译并优化为硬件绘制指令，并且可以在需要时将这些指令回放到一个HardwareLayer上，而不需要重新使用Canvas进行绘制。 </p>
+<p>为了保证绘制的效率，控件树仅对需要重绘的区域进行绘制。这部分区域称为“脏区域”。当一个控件的内容发生变化需要重绘时，它会通过View.invalidate方法将其需要重绘的区域沿着控件树提交给ViewRootImpl,并保存在ViewRootImpl的mDirty成员中，最后通过scheduleTraversals引发一次遍历，进而重绘，ViewRootImpl只重绘mDirty区域。<br>绘制：VRI performTraversals -&gt; performDraw 。首先通过draw方法执行实际的绘制工作，然后向WMS通知绘制已经完成。<br>ViewRootImpl.draw方法中产生了硬件加速绘制与软件绘制两个分支。  </p>
+<h3 id="drawSoftware"><a href="#drawSoftware" class="headerlink" title="drawSoftware:"></a>drawSoftware:</h3><ul>
+<li>1 通过Surface.lockCanvas获取一个用于绘制的canvas.</li>
+<li>2 多canvas进行变换以实现滚动效果.</li>
+<li>3 通过view.draw将根控件绘制在canvas上</li>
+<li>4 通过Surface.unlockCanvasAndPost显示绘制后的内容</li>
+</ul>
+<p>view.draw:首先绘制背景，绘制控件自身，绘制子控件，如必要绘制滚动条 </p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-29%20%E4%B8%8B%E5%8D%889.58.41.png" alt=""></p>
+<h3 id="硬件加速绘制-HardwareRender-draw"><a href="#硬件加速绘制-HardwareRender-draw" class="headerlink" title="硬件加速绘制 HardwareRender.draw"></a>硬件加速绘制 HardwareRender.draw</h3><p>软件绘制是通过view.draw以递归的方式将整个控件树用给定的canvas直接绘制在surface上。硬件加速绘制则先通过view.getDisplayList获取根控件的DisplayList，然后再将这个DisplayList绘制在surface上。DisplayList包含了已编译过的用于绘制整个控件树的绘制指令。软件是直接绘制，硬件加速通过DisplayList间接绘制。 </p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-29%20%E4%B8%8B%E5%8D%8810.18.25.png" alt=""></p>
+<h3 id="绘图缓存"><a href="#绘图缓存" class="headerlink" title="绘图缓存"></a>绘图缓存</h3><p>绘图缓存时指一个Bitmap回一个HardwareLayer,它保存了控件及其子控件的一个快照。当控件的父控件需要重绘它时，可以考虑将其绘图缓存绘制canvas上，而不是执行其完整的绘制流程。</p>
+<p>绘图缓存有两种类型，即软件缓存(Bitmap)和硬件缓存(HardwareLayer). </p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/03/IntentService HandlerThread/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          IntentService HandlerThread
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/03/17/Android Binder/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android Binder</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="Android 控件系统" data-title="Android 控件系统" data-url="https://github.com/sirencode/2018/03/20/Android 控件系统/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 控件系统">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>
