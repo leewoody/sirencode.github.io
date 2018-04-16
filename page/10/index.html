@@ -162,11 +162,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-gradle same dependencies" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-lazy_load" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/23/gradle same dependencies/" class="article-date">
-  	<time datetime="2016-08-22T16:00:00.000Z" itemprop="datePublished">2016-08-23</time>
+      <a href="/2016/08/22/lazy_load/" class="article-date">
+  	<time datetime="2016-08-21T16:00:00.000Z" itemprop="datePublished">2016-08-22</time>
 </a>
     </div>
   
@@ -179,8 +179,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/23/gradle same dependencies/">
-        Android 多模块相同依赖问题
+      <a class="article-title" href="/2016/08/22/lazy_load/">
+        Android 性能优化-懒加载
         
       </a>
     </h1>
@@ -191,99 +191,84 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。</p>
-<h3 id="相同依赖带来的问题"><a href="#相同依赖带来的问题" class="headerlink" title="相同依赖带来的问题"></a>相同依赖带来的问题</h3><ul>
-<li>1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。</li>
-<li>2 版本混乱，相同的依赖版本可能不同，这样就带了了代码上的冗余，并且可能带来错误。</li>
-<li>3 相同的依赖不仅仅来自于不同的模块，有可能是不同的依赖库引用了相同的依赖，总之为了避免不必要的麻烦，我们还是在使用前检查一下吧。</li>
+        <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。</p>
+<h3 id="懒加载的使用"><a href="#懒加载的使用" class="headerlink" title="懒加载的使用"></a>懒加载的使用</h3><p>在android开发中我们用到了很多懒加载的例子。<br>如：</p>
+<ul>
+<li>1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示真正的图片。</li>
+<li>2 app初始化的时候，app开始前我们必不可少的要设置一些第三方的初始化工作，而这些初始化工作在主线程里面也相对耗时，所以可以将这些初始化工作放到子线程里面实现。</li>
+<li>3 view的懒加载，还有一种比较耗时的操作就是view的绘制过程，一个复杂的fragment的绘制也是一个很耗时的操作，为了尽量不丢帧，我们也可以做一个fragment的懒加载。</li>
 </ul>
-<h3 id="抽离相同依赖"><a href="#抽离相同依赖" class="headerlink" title="抽离相同依赖"></a>抽离相同依赖</h3><h4 id="在项目根目录新建-gradle整理文件"><a href="#在项目根目录新建-gradle整理文件" class="headerlink" title="在项目根目录新建.gradle整理文件"></a>在项目根目录新建.gradle整理文件</h4><p>1 我们新建名为config.gradle的文件：</p>
-<p>代码如下：</p>
-<pre><code>//全局变量名称
-ext {
-// Android
-android = [
-  compileSdkVersion: 24,
-  buildToolsVersion: &apos;24.0.1&apos;,
-  applicationId    : &apos;com.baidao.ytxmobile&apos;,
-  minSdkVersion    : 14,
-  targetSdkVersion : 24
-]
-
-// AllDependencies
-allDependencies = [
-  support_recyclerview : &apos;com.android.support:recyclerview-v7:24.0.0&apos;,
-  support : &apos;com.android.support:appcompat-v7:24.1.1&apos;,
-  progress_switcher : &apos;com.github.drnkn:progress-switcher:1.1.3@aar&apos;
-]
-//app模块的依赖关系
-appDps = [
-  support_recyclerview : &quot;compile&quot;,
-  support : &apos;compile&apos;,
-  progress_switcher : &apos;compile&apos;
-]
-
-//RefreshLoadLayout模块的依赖关系
-RefreshLoadLayoutDps = [
-  support_recyclerview : &quot;compile&quot;,
-]
-
-dependenciesMethod = { dps, closure -&gt;
-dps.each { entry -&gt;
-  def value = entry.value
-  if (value instanceof List) {
-    value.each { result -&gt;
-      closure result, allDependencies.get(entry.key), entry.key
+<h3 id="初始化的懒加载实现"><a href="#初始化的懒加载实现" class="headerlink" title="初始化的懒加载实现"></a>初始化的懒加载实现</h3><p>1 我们将application 和 activity oncreate()里面比较费时的操作抽取出来。</p>
+<p>2 将这些费时的操作放到一个子线程里面执行，并在初始化的时候启动初始化的子线程。</p>
+<p>3 有一个问题就是什么时候去使用这些需要初始化的东西，因为做了异步处理，我们不能知道什么时候初始化完成了。解决方法不一，最简单的办法就是设置全局变量，在使用前判断一下。在项目中我们一般都会对第三方的SDK封装一下，在封装的时候判断一下是否初始化就可以了。</p>
+<p>初始化:</p>
+<pre><code> protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    LazyThread lazyThread = new LazyThread();
+    lazyThread.start();
+}
+</code></pre><p>封装费时的初始化工作：</p>
+<pre><code>class LazyThread extends Thread{
+    @Override
+    public void run() {
+        //做一些费时的初始化工作
+        //完成后回调,或者设置全局变量
     }
-  } else {
-    closure value, allDependencies.get(entry.key), entry.key
-  }
-}
+} 
+</code></pre><p>这样就完成了初始化的懒加载，记得将application里面的初始化工作也做一下懒加载。</p>
+<h3 id="View的懒加载实现"><a href="#View的懒加载实现" class="headerlink" title="View的懒加载实现"></a>View的懒加载实现</h3><p>这个其实我们一直都在使用，比如我们要异步的去请求一张图片并显示出来，但是这个是需要一段时间才能请求到的。为了使等待时间不那么尴尬，我们设置一个默认图，等到请求到结果后再替换掉。</p>
+<h4 id="为什么做view的懒加载"><a href="#为什么做view的懒加载" class="headerlink" title="为什么做view的懒加载"></a>为什么做view的懒加载</h4><p>我们在做应用开发的时候，一个Activity里面可能会以viewpager（或其他容器）与多个Fragment来组合使用，而如果每个fragment都需要去加载数据，或从本地加载，或从网络加载，那么在这个activity刚创建的时候就变成需要初始化大量资源。为了减少初次加载的时间，我们要实现显示对应的fragment的时候再去初始化对应工作。</p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>Fragment里的setUserVisibleHint这个方法用于告诉系统，这个Fragment的UI是否是可见的。所以我们只需要继承Fragment并重写该方法，即可实现在fragment可见时才进行数据加载操作，即Fragment的懒加载。</p>
+<p>自定义lazyfragment:</p>
+<pre><code>public abstract class LazyFragment extends Fragment {
+protected boolean isVisible;
+/**
+ * 在这里实现Fragment数据的缓加载.
+ * @param isVisibleToUser
+ */
+@Override
+public void setUserVisibleHint(boolean isVisibleToUser) {
+    super.setUserVisibleHint(isVisibleToUser);
+    if(getUserVisibleHint()) {
+        isVisible = true;
+        onVisible();
+    } else {
+        isVisible = false;
+        onInvisible();
+    }
 }
 
+protected void onVisible(){
+    lazyLoad();
 }
-</code></pre><p>2 添加config.gradle文件的使用</p>
-<p>打开项目根目录下的build.gradle文件，并添加如下代码。</p>
-<pre><code>apply from: &quot;config.gradle&quot;
-</code></pre><p>3 在我们的模块中使用，相关依赖和相关属性</p>
-<p>打开我们模块对应的build.gradle文件。</p>
-<p>使用全局属性：</p>
-<pre><code>def globalConfiguration = rootProject.ext
 
-android {
-compileSdkVersion globalConfiguration.android.compileSdkVersion
-buildToolsVersion globalConfiguration.android.buildToolsVersion
+protected abstract void lazyLoad();
 
-defaultConfig {
-minSdkVersion globalConfiguration.android.minSdkVersion
-targetSdkVersion globalConfiguration.android.targetSdkVersion
-applicationId &quot;diablo.lib.list.com&quot;
-versionCode 1
-versionName &quot;1.0&quot;
+protected void onInvisible(){}
 }
-buildTypes {
-release {
-  minifyEnabled false
-  proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
+</code></pre><p> 实现：</p>
+<pre><code> public class OpenResultFragment extends LazyFragment{
+// 标志位，标志已经初始化完成。
+private boolean isPrepared;
+
+@Override
+public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    Log.d(LOG_TAG, &quot;onCreateView&quot;);
+    View view = inflater.inflate(R.layout.fragment_open_result, container, false);
+    //XXX初始化view的各控件
+isPrepared = true;
+    lazyLoad();
+    return view;
 }
+
+@Override
+protected void lazyLoad() {
+    if(!isPrepared || !isVisible) {
+        return;
+    }
+    //填充各控件的数据
 }
-}
-</code></pre><p>在dependencies{}中添加相关依赖：</p>
-<pre><code>//appDps为在config文件中定义的模块名称
-rootProject.dependenciesMethod rootProject.ext.appDps, { type, library, key -&gt;
-if (type == &apos;compile&apos;) {
-  compile library
-} else if (type == &apos;debugCompile&apos;) {
-  debugCompile library
-} else if (type == &apos;testCompile&apos;) {
-  testCompile library
-} else if (type == &apos;apt&apos;) {
-  apt library
-} else if (type == &apos;debuggableReleaseCompile&apos;) {
-  debuggableReleaseCompile library
-} else if (type == &apos;debugProCompile&apos;) {
-  debugProCompile library
-}
+
 }
 </code></pre>
       
@@ -440,139 +425,6 @@ if (type == &apos;compile&apos;) {
 
 
   
-    <article id="post-lazy_load" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/22/lazy_load/" class="article-date">
-  	<time datetime="2016-08-21T16:00:00.000Z" itemprop="datePublished">2016-08-22</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/22/lazy_load/">
-        Android 性能优化-懒加载
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。</p>
-<h3 id="懒加载的使用"><a href="#懒加载的使用" class="headerlink" title="懒加载的使用"></a>懒加载的使用</h3><p>在android开发中我们用到了很多懒加载的例子。<br>如：</p>
-<ul>
-<li>1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示真正的图片。</li>
-<li>2 app初始化的时候，app开始前我们必不可少的要设置一些第三方的初始化工作，而这些初始化工作在主线程里面也相对耗时，所以可以将这些初始化工作放到子线程里面实现。</li>
-<li>3 view的懒加载，还有一种比较耗时的操作就是view的绘制过程，一个复杂的fragment的绘制也是一个很耗时的操作，为了尽量不丢帧，我们也可以做一个fragment的懒加载。</li>
-</ul>
-<h3 id="初始化的懒加载实现"><a href="#初始化的懒加载实现" class="headerlink" title="初始化的懒加载实现"></a>初始化的懒加载实现</h3><p>1 我们将application 和 activity oncreate()里面比较费时的操作抽取出来。</p>
-<p>2 将这些费时的操作放到一个子线程里面执行，并在初始化的时候启动初始化的子线程。</p>
-<p>3 有一个问题就是什么时候去使用这些需要初始化的东西，因为做了异步处理，我们不能知道什么时候初始化完成了。解决方法不一，最简单的办法就是设置全局变量，在使用前判断一下。在项目中我们一般都会对第三方的SDK封装一下，在封装的时候判断一下是否初始化就可以了。</p>
-<p>初始化:</p>
-<pre><code> protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    LazyThread lazyThread = new LazyThread();
-    lazyThread.start();
-}
-</code></pre><p>封装费时的初始化工作：</p>
-<pre><code>class LazyThread extends Thread{
-    @Override
-    public void run() {
-        //做一些费时的初始化工作
-        //完成后回调,或者设置全局变量
-    }
-} 
-</code></pre><p>这样就完成了初始化的懒加载，记得将application里面的初始化工作也做一下懒加载。</p>
-<h3 id="View的懒加载实现"><a href="#View的懒加载实现" class="headerlink" title="View的懒加载实现"></a>View的懒加载实现</h3><p>这个其实我们一直都在使用，比如我们要异步的去请求一张图片并显示出来，但是这个是需要一段时间才能请求到的。为了使等待时间不那么尴尬，我们设置一个默认图，等到请求到结果后再替换掉。</p>
-<h4 id="为什么做view的懒加载"><a href="#为什么做view的懒加载" class="headerlink" title="为什么做view的懒加载"></a>为什么做view的懒加载</h4><p>我们在做应用开发的时候，一个Activity里面可能会以viewpager（或其他容器）与多个Fragment来组合使用，而如果每个fragment都需要去加载数据，或从本地加载，或从网络加载，那么在这个activity刚创建的时候就变成需要初始化大量资源。为了减少初次加载的时间，我们要实现显示对应的fragment的时候再去初始化对应工作。</p>
-<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>Fragment里的setUserVisibleHint这个方法用于告诉系统，这个Fragment的UI是否是可见的。所以我们只需要继承Fragment并重写该方法，即可实现在fragment可见时才进行数据加载操作，即Fragment的懒加载。</p>
-<p>自定义lazyfragment:</p>
-<pre><code>public abstract class LazyFragment extends Fragment {
-protected boolean isVisible;
-/**
- * 在这里实现Fragment数据的缓加载.
- * @param isVisibleToUser
- */
-@Override
-public void setUserVisibleHint(boolean isVisibleToUser) {
-    super.setUserVisibleHint(isVisibleToUser);
-    if(getUserVisibleHint()) {
-        isVisible = true;
-        onVisible();
-    } else {
-        isVisible = false;
-        onInvisible();
-    }
-}
-
-protected void onVisible(){
-    lazyLoad();
-}
-
-protected abstract void lazyLoad();
-
-protected void onInvisible(){}
-}
-</code></pre><p> 实现：</p>
-<pre><code> public class OpenResultFragment extends LazyFragment{
-// 标志位，标志已经初始化完成。
-private boolean isPrepared;
-
-@Override
-public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    Log.d(LOG_TAG, &quot;onCreateView&quot;);
-    View view = inflater.inflate(R.layout.fragment_open_result, container, false);
-    //XXX初始化view的各控件
-isPrepared = true;
-    lazyLoad();
-    return view;
-}
-
-@Override
-protected void lazyLoad() {
-    if(!isPrepared || !isVisible) {
-        return;
-    }
-    //填充各控件的数据
-}
-
-}
-</code></pre>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-h5-webview" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -705,81 +557,6 @@ final class JavaScriptInterface {
 
 
   
-    <article id="post-traceView" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/20/traceView/" class="article-date">
-  	<time datetime="2016-08-19T16:00:00.000Z" itemprop="datePublished">2016-08-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/20/traceView/">
-        Android 性能优化-traceview
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。</p>
-<h3 id="TraceView的使用"><a href="#TraceView的使用" class="headerlink" title="TraceView的使用"></a>TraceView的使用</h3><h4 id="1-使用编译器自带的工具操作"><a href="#1-使用编译器自带的工具操作" class="headerlink" title="1.使用编译器自带的工具操作"></a>1.使用编译器自带的工具操作</h4><p>最简单的方式就是直接打开DDMS，选择一个进程，然后按上面的“Start Method Profiling”按钮，等红色小点变成黑色以后就表示TraceView已经开始工作了。然后我就可以滑动一下列表（现在手机上的操作肯定会很卡，因为Android系统在检测Dalvik虚拟机中每个Java方法的调用，这是我猜测的）。操作最好不要超过5s，因为最好是进行小范围的性能测试。然后再按一下刚才按的按钮，等一会就会出现结果图，然后就可以开始分析了。</p>
-<ul>
-<li>坑，用系统自带的工具分析使用起来是很简单，但是系统自带的工具的find查找功能不好用，这就尴尬了，这么多方法，找瞎了，所以我果断放弃了。</li>
-</ul>
-<h4 id="2-自己在代码里面实现"><a href="#2-自己在代码里面实现" class="headerlink" title="2.自己在代码里面实现"></a>2.自己在代码里面实现</h4><h5 id="开始分析："><a href="#开始分析：" class="headerlink" title="开始分析："></a>开始分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.startMethodTracing(<span class="string">"xxx"</span>,size);</span><br></pre></td></tr></table></figure>
-<h5 id="结束分析："><a href="#结束分析：" class="headerlink" title="结束分析："></a>结束分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.stopMethodTracing();</span><br></pre></td></tr></table></figure>
-<h5 id="别忘了加上读写sd卡权限："><a href="#别忘了加上读写sd卡权限：" class="headerlink" title="别忘了加上读写sd卡权限："></a>别忘了加上读写sd卡权限：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br><span class="line">  &lt;uses-permission android:name=<span class="string">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span>/&gt;</span><br></pre></td></tr></table></figure>
-<p>至此性能分析的代发就完成了，之后打开APP运行即可，运行到stop之后就会在sd卡里面生成对应的xxx.trace文件。</p>
-<h5 id="导出traceview文件"><a href="#导出traceview文件" class="headerlink" title="导出traceview文件"></a>导出traceview文件</h5><p>  xxx.trace文件在sdcard根目录</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb pull sdcard/xxx.trace</span><br></pre></td></tr></table></figure>
-<h5 id="打开trace文件"><a href="#打开trace文件" class="headerlink" title="打开trace文件"></a>打开trace文件</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ traceview /Users/yonghe.shen/Desktop/my.trace</span><br></pre></td></tr></table></figure>
-<h5 id="筛选我们的应用相关的分析"><a href="#筛选我们的应用相关的分析" class="headerlink" title="筛选我们的应用相关的分析"></a>筛选我们的应用相关的分析</h5><p>find 输入包名，回车即可从上到下查看（DDMS中的find不好用）。</p>
-<h5 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h5><p><img src="http://oc4zuck5v.bkt.clouddn.com/traceview_par.png" alt="图片"></p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
-<li>1注意设置trace文件的大小，默认大小8M,太大的分析工具会崩掉,太小又分析的不全面，那到底选择多大合适呐，我认为50M以下吧。</li>
-<li>2 另外我建议分段分析，这样文件也不大，分析的也比较全面。</li>
-<li>3 其实你要不限制大小，生成这个文件还是蛮大的，我跑过一个两百多兆的，分析工具直接卡死了。</li>
-<li>4 另外在执行start-&gt;stop之间的代码的时候会很卡，这个是正常现象，毕竟在疯狂采集信息。</li>
-<li>5 尽量小，例如一次只分析几个函数，避免ANR产生，如果还是出现了，那我只能建议你等了。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-check_code_style" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -835,6 +612,81 @@ final class JavaScriptInterface {
 <li>混合检查（包活一些有用的比如非必须的System.out和printstackTrace）</li>
 </ul>
 <p>我现在用的是基于华为的<a href="https://gist.github.com/ownwell/c32878440216f1866842" target="_blank" rel="noopener">CheckStyle:</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-traceView" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/20/traceView/" class="article-date">
+  	<time datetime="2016-08-19T16:00:00.000Z" itemprop="datePublished">2016-08-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/20/traceView/">
+        Android 性能优化-traceview
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。</p>
+<h3 id="TraceView的使用"><a href="#TraceView的使用" class="headerlink" title="TraceView的使用"></a>TraceView的使用</h3><h4 id="1-使用编译器自带的工具操作"><a href="#1-使用编译器自带的工具操作" class="headerlink" title="1.使用编译器自带的工具操作"></a>1.使用编译器自带的工具操作</h4><p>最简单的方式就是直接打开DDMS，选择一个进程，然后按上面的“Start Method Profiling”按钮，等红色小点变成黑色以后就表示TraceView已经开始工作了。然后我就可以滑动一下列表（现在手机上的操作肯定会很卡，因为Android系统在检测Dalvik虚拟机中每个Java方法的调用，这是我猜测的）。操作最好不要超过5s，因为最好是进行小范围的性能测试。然后再按一下刚才按的按钮，等一会就会出现结果图，然后就可以开始分析了。</p>
+<ul>
+<li>坑，用系统自带的工具分析使用起来是很简单，但是系统自带的工具的find查找功能不好用，这就尴尬了，这么多方法，找瞎了，所以我果断放弃了。</li>
+</ul>
+<h4 id="2-自己在代码里面实现"><a href="#2-自己在代码里面实现" class="headerlink" title="2.自己在代码里面实现"></a>2.自己在代码里面实现</h4><h5 id="开始分析："><a href="#开始分析：" class="headerlink" title="开始分析："></a>开始分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.startMethodTracing(<span class="string">"xxx"</span>,size);</span><br></pre></td></tr></table></figure>
+<h5 id="结束分析："><a href="#结束分析：" class="headerlink" title="结束分析："></a>结束分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.stopMethodTracing();</span><br></pre></td></tr></table></figure>
+<h5 id="别忘了加上读写sd卡权限："><a href="#别忘了加上读写sd卡权限：" class="headerlink" title="别忘了加上读写sd卡权限："></a>别忘了加上读写sd卡权限：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br><span class="line">  &lt;uses-permission android:name=<span class="string">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>至此性能分析的代发就完成了，之后打开APP运行即可，运行到stop之后就会在sd卡里面生成对应的xxx.trace文件。</p>
+<h5 id="导出traceview文件"><a href="#导出traceview文件" class="headerlink" title="导出traceview文件"></a>导出traceview文件</h5><p>  xxx.trace文件在sdcard根目录</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb pull sdcard/xxx.trace</span><br></pre></td></tr></table></figure>
+<h5 id="打开trace文件"><a href="#打开trace文件" class="headerlink" title="打开trace文件"></a>打开trace文件</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ traceview /Users/yonghe.shen/Desktop/my.trace</span><br></pre></td></tr></table></figure>
+<h5 id="筛选我们的应用相关的分析"><a href="#筛选我们的应用相关的分析" class="headerlink" title="筛选我们的应用相关的分析"></a>筛选我们的应用相关的分析</h5><p>find 输入包名，回车即可从上到下查看（DDMS中的find不好用）。</p>
+<h5 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h5><p><img src="http://oc4zuck5v.bkt.clouddn.com/traceview_par.png" alt="图片"></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>1注意设置trace文件的大小，默认大小8M,太大的分析工具会崩掉,太小又分析的不全面，那到底选择多大合适呐，我认为50M以下吧。</li>
+<li>2 另外我建议分段分析，这样文件也不大，分析的也比较全面。</li>
+<li>3 其实你要不限制大小，生成这个文件还是蛮大的，我跑过一个两百多兆的，分析工具直接卡死了。</li>
+<li>4 另外在执行start-&gt;stop之间的代码的时候会很卡，这个是正常现象，毕竟在疯狂采集信息。</li>
+<li>5 尽量小，例如一次只分析几个函数，避免ANR产生，如果还是出现了，那我只能建议你等了。</li>
+</ul>
 
       
     </div>
@@ -1307,6 +1159,136 @@ if (requestCode == REQUEST_CODE) {
 
 
   
+    <article id="post-build_blog" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/17/build_blog/" class="article-date">
+  	<time datetime="2016-08-16T16:00:00.000Z" itemprop="datePublished">2016-08-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/17/build_blog/">
+        Mac上 Github 博客搭建
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>文章来自[他人博客]（<a href="http://www.jianshu.com/p/13e64c9e2295）" target="_blank" rel="noopener">http://www.jianshu.com/p/13e64c9e2295）</a></p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><h3 id="1-安装-node"><a href="#1-安装-node" class="headerlink" title="1 安装 node"></a>1 安装 node</h3><p>用来生成静态页面。移步<a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js官网</a>，下载v5.5.0 Stable 一路安装即可。</p>
+<h3 id="2-安装-Git"><a href="#2-安装-Git" class="headerlink" title="2 安装 Git"></a>2 安装 Git</h3><p>作用：把本地的hexo内容提交到github上去. </p>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Git</a></p>
+<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><p>当Node.js和Git都安装好后就可以正式安装Hexo了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g hexo</span><br></pre></td></tr></table></figure>
+<p>输入管理员密码（Mac登录密码）即开始安装 (sudo:linux系统管理指令  -g:全局安装)</p>
+<pre><code>注意坑一：[Hexo官网](https://hexo.io/docs)上的安装命令是$ npm install -g hexo-cli，安装时不要忘记前面加上sudo，否则会因为权限问题报错。
+</code></pre><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>终端cd到一个你选定的目录，执行hexo init命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init blog</span><br></pre></td></tr></table></figure>
+<p>blog是你建立的文件夹名称。cd到blog文件夹下，执行如下命令，安装npm：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<p>执行如下命令，开启hexo服务器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
+<p>此时，浏览器中打开网址<a href="http://localhost:4000查看本地效果" target="_blank" rel="noopener">http://localhost:4000查看本地效果</a></p>
+<p>本地设置好后，接下来开始关联Github。</p>
+<h2 id="关联Github"><a href="#关联Github" class="headerlink" title="关联Github"></a>关联Github</h2><h3 id="1-创建仓库"><a href="#1-创建仓库" class="headerlink" title="1 创建仓库"></a>1 创建仓库</h3><p>登录你的Github帐号，新建仓库，名为用户名.github.io固定写法，如sirencode</p>
+<p>本地的blog文件夹下内容为：</p>
+<pre><code>_config.yml  
+db.json 
+node_modules 
+package.json
+scaffolds
+source
+themes
+</code></pre><p>终端cd到blog文件夹下，vim打开_config.yml，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim _config.yml</span><br></pre></td></tr></table></figure>
+<p>打开后往下滑到最后，修改成下边的样子：</p>
+<pre><code>deploy:
+  type: git
+  repository: https://github.com/sirencode/sirencode.github.io.git
+  branch: master
+</code></pre><p>你需要将repository后sirencode换成你自己的用户名hexo 3.1.1版本后type:值为git。</p>
+<pre><code>注意坑二：在配置所有的_config.yml文件时（包括theme中的），在所有的冒号:后边都要加一个空格，否则执行hexo命令会报错，切记 切记
+</code></pre><p>在blog文件夹目录下执行生成静态页面命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate        或者：hexo g</span><br></pre></td></tr></table></figure>
+<pre><code>此时若出现如下报错：
+ERROR Local hexo not found in ~/blog
+ERROR Try runing: &apos;npm install hexo --save&apos;
+则执行命令：
+npm install hexo --save
+若无报错，自行忽略此步骤。
+</code></pre><p>再执行配置命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy            或者：hexo d</span><br></pre></td></tr></table></figure>
+<pre><code>注意坑三：若执行命令hexo deploy仍然报错：无法连接git或找不到git，则执行如下命令来安装hexo-deployer-git：
+ $ npm install hexo-deployer-git --save
+</code></pre><p> 再次执行hexo generate和hexo deploy命令。</p>
+<p> 若你未关联Github，则执行hexo deploy命令时终端会提示你输入Github的用户名和密码，即</p>
+<pre><code>Username for &apos;https://github.com&apos;:
+Password for &apos;https://github.com&apos;:
+</code></pre><p>hexo deploy命令执行成功后，浏览器中打开网址<a href="http://sirencode.github.io（将sirencode换成你的用户名）能看到和打开http://localhost:4000时一样的页面。" target="_blank" rel="noopener">http://sirencode.github.io（将sirencode换成你的用户名）能看到和打开http://localhost:4000时一样的页面。</a></p>
+<p>为避免每次输入Github用户名和密码的麻烦，添加ssh key到Github</p>
+<p>####1 检查SSH keys是否存在Github<br>执行如下命令，检查SSH keys是否存在。如果有文件id_rsa.pub或id_dsa.pub，则直接进入步骤3将SSH key添加到Github中，否则进入下一步生成SSH key。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al ~/.ssh</span><br></pre></td></tr></table></figure>
+<p>####2 生成新的ssh key<br>执行如下命令生成public/private rsa key pair，注意将<a href="mailto:your_email@example.com" target="_blank" rel="noopener">your_email@example.com</a>换成你自己注册Github的邮箱地址。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></span><br></pre></td></tr></table></figure>
+<p>默认会在相应路径下（~/.ssh/id_rsa.pub）生成id_rsa和id_rsa.pub两个文件。</p>
+<p>####3 将ssh key添加到Github中<br>Find前往文件夹~/.ssh/id_rsa.pub打开id_rsa.pub文件，里面的信息即为SSH key，将这些信息复制到Github的Add SSH key页面即可。</p>
+<p>进入Github –&gt; Settings –&gt; SSH keys –&gt; add SSH key:</p>
+<p>Title里任意添一个标题，将复制的内容粘贴到Key里，点击下方Add key绿色按钮即可。</p>
+<h3 id="2-发布文章"><a href="#2-发布文章" class="headerlink" title="2 发布文章"></a>2 发布文章</h3><p>终端cd到blog文件夹下，执行如下命令新建文章：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"postName"</span></span><br></pre></td></tr></table></figure>
+<p>名为postName.md的文件会建在目录/blog/source/_posts下。你当然可以用vim来编辑文章。我在用Mou编辑器，支持预览，虽然其预览主题并非我喜欢，如果你有好用的markdown编辑器请推荐给我，感激不尽！</p>
+<p>文章编辑完成后，终端cd到blog文件夹下，执行如下命令来发布：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate             //生成静态页面</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy            //将文章部署到Github</span><br></pre></td></tr></table></figure>
+<p>文章的发布环节已经完成，就是编辑，（clean）generate,deploy循环。</p>
+<h3 id="3-安装Theme博客模板"><a href="#3-安装Theme博客模板" class="headerlink" title="3 安装Theme博客模板"></a>3 安装Theme博客模板</h3><p>你可以到<a href="https://hexo.io/themes/" target="_blank" rel="noopener">Hexo官网主题页</a>去搜寻自己喜欢的theme。这里以<a href="https://github.com/iissnan/hexo-theme-next">hexo-theme-next</a>为例</p>
+<p>终端cd到 blog 目录下执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+<p>将blog目录下_config.yml里theme的名称landscape修改为next</p>
+<p>终端cd到blog目录下执行如下命令(每次部署文章的步骤)：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean     //清除缓存文件 (db.json) 和已生成的静态文件 (public)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g             //生成缓存和静态文件</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d             //重新部署到服务器</span><br></pre></td></tr></table></figure>
+<p>至于更改theme内容，比如名称，描述，头像等去修改blog/_config.yml文件和blog/themes/next/_config.yml文件中对应的属性名称即可， 不要忘记冒号:后加空格。 <a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">NexT</a> 使用文档里有极详细的介绍。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-rxjava" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1496,10 +1478,10 @@ public void call(Integer number) {
 
 
   
-    <article id="post-build_blog" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android Binder" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/17/build_blog/" class="article-date">
+      <a href="/2016/08/17/Android Binder/" class="article-date">
   	<time datetime="2016-08-16T16:00:00.000Z" itemprop="datePublished">2016-08-17</time>
 </a>
     </div>
@@ -1513,8 +1495,8 @@ public void call(Integer number) {
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/17/build_blog/">
-        Mac上 Github 博客搭建
+      <a class="article-title" href="/2016/08/17/Android Binder/">
+        Android Binder
         
       </a>
     </h1>
@@ -1525,82 +1507,33 @@ public void call(Integer number) {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>文章来自[他人博客]（<a href="http://www.jianshu.com/p/13e64c9e2295）" target="_blank" rel="noopener">http://www.jianshu.com/p/13e64c9e2295）</a></p>
-<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><h3 id="1-安装-node"><a href="#1-安装-node" class="headerlink" title="1 安装 node"></a>1 安装 node</h3><p>用来生成静态页面。移步<a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js官网</a>，下载v5.5.0 Stable 一路安装即可。</p>
-<h3 id="2-安装-Git"><a href="#2-安装-Git" class="headerlink" title="2 安装 Git"></a>2 安装 Git</h3><p>作用：把本地的hexo内容提交到github上去. </p>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Git</a></p>
-<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><p>当Node.js和Git都安装好后就可以正式安装Hexo了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g hexo</span><br></pre></td></tr></table></figure>
-<p>输入管理员密码（Mac登录密码）即开始安装 (sudo:linux系统管理指令  -g:全局安装)</p>
-<pre><code>注意坑一：[Hexo官网](https://hexo.io/docs)上的安装命令是$ npm install -g hexo-cli，安装时不要忘记前面加上sudo，否则会因为权限问题报错。
-</code></pre><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>终端cd到一个你选定的目录，执行hexo init命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init blog</span><br></pre></td></tr></table></figure>
-<p>blog是你建立的文件夹名称。cd到blog文件夹下，执行如下命令，安装npm：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
-<p>执行如下命令，开启hexo服务器：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
-<p>此时，浏览器中打开网址<a href="http://localhost:4000查看本地效果" target="_blank" rel="noopener">http://localhost:4000查看本地效果</a></p>
-<p>本地设置好后，接下来开始关联Github。</p>
-<h2 id="关联Github"><a href="#关联Github" class="headerlink" title="关联Github"></a>关联Github</h2><h3 id="1-创建仓库"><a href="#1-创建仓库" class="headerlink" title="1 创建仓库"></a>1 创建仓库</h3><p>登录你的Github帐号，新建仓库，名为用户名.github.io固定写法，如sirencode</p>
-<p>本地的blog文件夹下内容为：</p>
-<pre><code>_config.yml  
-db.json 
-node_modules 
-package.json
-scaffolds
-source
-themes
-</code></pre><p>终端cd到blog文件夹下，vim打开_config.yml，命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim _config.yml</span><br></pre></td></tr></table></figure>
-<p>打开后往下滑到最后，修改成下边的样子：</p>
-<pre><code>deploy:
-  type: git
-  repository: https://github.com/sirencode/sirencode.github.io.git
-  branch: master
-</code></pre><p>你需要将repository后sirencode换成你自己的用户名hexo 3.1.1版本后type:值为git。</p>
-<pre><code>注意坑二：在配置所有的_config.yml文件时（包括theme中的），在所有的冒号:后边都要加一个空格，否则执行hexo命令会报错，切记 切记
-</code></pre><p>在blog文件夹目录下执行生成静态页面命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate        或者：hexo g</span><br></pre></td></tr></table></figure>
-<pre><code>此时若出现如下报错：
-ERROR Local hexo not found in ~/blog
-ERROR Try runing: &apos;npm install hexo --save&apos;
-则执行命令：
-npm install hexo --save
-若无报错，自行忽略此步骤。
-</code></pre><p>再执行配置命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy            或者：hexo d</span><br></pre></td></tr></table></figure>
-<pre><code>注意坑三：若执行命令hexo deploy仍然报错：无法连接git或找不到git，则执行如下命令来安装hexo-deployer-git：
- $ npm install hexo-deployer-git --save
-</code></pre><p> 再次执行hexo generate和hexo deploy命令。</p>
-<p> 若你未关联Github，则执行hexo deploy命令时终端会提示你输入Github的用户名和密码，即</p>
-<pre><code>Username for &apos;https://github.com&apos;:
-Password for &apos;https://github.com&apos;:
-</code></pre><p>hexo deploy命令执行成功后，浏览器中打开网址<a href="http://sirencode.github.io（将sirencode换成你的用户名）能看到和打开http://localhost:4000时一样的页面。" target="_blank" rel="noopener">http://sirencode.github.io（将sirencode换成你的用户名）能看到和打开http://localhost:4000时一样的页面。</a></p>
-<p>为避免每次输入Github用户名和密码的麻烦，添加ssh key到Github</p>
-<p>####1 检查SSH keys是否存在Github<br>执行如下命令，检查SSH keys是否存在。如果有文件id_rsa.pub或id_dsa.pub，则直接进入步骤3将SSH key添加到Github中，否则进入下一步生成SSH key。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al ~/.ssh</span><br></pre></td></tr></table></figure>
-<p>####2 生成新的ssh key<br>执行如下命令生成public/private rsa key pair，注意将<a href="mailto:your_email@example.com" target="_blank" rel="noopener">your_email@example.com</a>换成你自己注册Github的邮箱地址。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></span><br></pre></td></tr></table></figure>
-<p>默认会在相应路径下（~/.ssh/id_rsa.pub）生成id_rsa和id_rsa.pub两个文件。</p>
-<p>####3 将ssh key添加到Github中<br>Find前往文件夹~/.ssh/id_rsa.pub打开id_rsa.pub文件，里面的信息即为SSH key，将这些信息复制到Github的Add SSH key页面即可。</p>
-<p>进入Github –&gt; Settings –&gt; SSH keys –&gt; add SSH key:</p>
-<p>Title里任意添一个标题，将复制的内容粘贴到Key里，点击下方Add key绿色按钮即可。</p>
-<h3 id="2-发布文章"><a href="#2-发布文章" class="headerlink" title="2 发布文章"></a>2 发布文章</h3><p>终端cd到blog文件夹下，执行如下命令新建文章：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"postName"</span></span><br></pre></td></tr></table></figure>
-<p>名为postName.md的文件会建在目录/blog/source/_posts下。你当然可以用vim来编辑文章。我在用Mou编辑器，支持预览，虽然其预览主题并非我喜欢，如果你有好用的markdown编辑器请推荐给我，感激不尽！</p>
-<p>文章编辑完成后，终端cd到blog文件夹下，执行如下命令来发布：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate             //生成静态页面</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy            //将文章部署到Github</span><br></pre></td></tr></table></figure>
-<p>文章的发布环节已经完成，就是编辑，（clean）generate,deploy循环。</p>
-<h3 id="3-安装Theme博客模板"><a href="#3-安装Theme博客模板" class="headerlink" title="3 安装Theme博客模板"></a>3 安装Theme博客模板</h3><p>你可以到<a href="https://hexo.io/themes/" target="_blank" rel="noopener">Hexo官网主题页</a>去搜寻自己喜欢的theme。这里以<a href="https://github.com/iissnan/hexo-theme-next">hexo-theme-next</a>为例</p>
-<p>终端cd到 blog 目录下执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
-<p>将blog目录下_config.yml里theme的名称landscape修改为next</p>
-<p>终端cd到blog目录下执行如下命令(每次部署文章的步骤)：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean     //清除缓存文件 (db.json) 和已生成的静态文件 (public)</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g             //生成缓存和静态文件</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d             //重新部署到服务器</span><br></pre></td></tr></table></figure>
-<p>至于更改theme内容，比如名称，描述，头像等去修改blog/_config.yml文件和blog/themes/next/_config.yml文件中对应的属性名称即可， 不要忘记冒号:后加空格。 <a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">NexT</a> 使用文档里有极详细的介绍。</p>
+        <h1 id="Android-Binder"><a href="#Android-Binder" class="headerlink" title="Android Binder"></a>Android Binder</h1><h2 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h2><p>Binder的是一个基于C/S框架的一个底层的协议，用来实现进程间的通信。进程间的通信实际上是在native层来实现的。</p>
+<p>Binder在Java层和Native层都有实现，Java层的通过JNI来调用Native层的binder，相当于native层的镜像。   </p>
+<h2 id="IBinder"><a href="#IBinder" class="headerlink" title="IBinder"></a>IBinder</h2><p>FLAG_ONEWAY：发送请求之后不用阻塞等待结果。<br>Binder类和BinderProxy类分别实现了IBinder接口。其中Binder类作为服务端的Bn的代表，而BinderProxy作为客户端Bp的代表。<br>做了线程安全处理，binder最大的线程为16.   </p>
+<h2 id="Binder-架构"><a href="#Binder-架构" class="headerlink" title="Binder 架构"></a>Binder 架构</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/20170411180827946.jpeg" alt=""> </p>
+<ul>
+<li>Binder 通信采用 C/S 架构，从组件视角来说，包含 Client、 Server、 ServiceManager 以及 Binder 驱动，其中 ServiceManager 用于管理系统中的各种服务。  </li>
+<li>Binder 在 framework 层进行了封装，通过 JNI 技术调用 Native（C/C++）层的 Binder 架构。  </li>
+<li>Binder 在 Native 层以 ioctl 的方式与 Binder 驱动通讯。  </li>
+</ul>
+<h2 id="ServiceManager-注册服务"><a href="#ServiceManager-注册服务" class="headerlink" title="ServiceManager 注册服务"></a>ServiceManager 注册服务</h2><p> <img src="http://oc4zuck5v.bkt.clouddn.com/20170411181047406.jpeg" alt=""> </p>
+<ul>
+<li>1 注册 XXXService 服务端，我们通过 ServiceManager 的 addService() 方法来注册服务。 </li>
+<li>2 首先 ServiceManager 向 Binder 驱动发送 BC_TRANSACTION 命令（ioctl 的命令，BC 可以理解为 binder client 客户端发过来的请求命令）携带 ADD_SERVICE_TRANSACTION 命令，同时注册服务的线程进入等待状态 waitForResponse()。 Binder 驱动收到请求命令向 ServiceManager 的 todo 队列里面添加一条注册服务的事务。事务的任务就是创建服务端进程 binder_node 信息并插入到 binder_procs 链表中。  </li>
+<li>3 事务处理完之后发送 BR_TRANSACTION 命令，ServiceManager 收到命令后向 svcinfo 列表中添加已经注册的服务。最后发送 BR_REPLY 命令唤醒等待的线程，通知注册成功。  </li>
+</ul>
+<h2 id="获取服务"><a href="#获取服务" class="headerlink" title="获取服务"></a>获取服务</h2><ul>
+<li>1 获取服务的过程与注册类似，相反的过程。通过 ServiceManager 的 getService() 方法来获取服务。  </li>
+<li>2 首先 ServiceManager 向 Binder 驱动发送 BC_TRANSACTION 命令携带 CHECK_SERVICE_TRANSACTION 命令，同时获取服务的线程进入等待状态 waitForResponse()。  </li>
+<li>3 Binder 驱动收到请求命令向 ServiceManager 的发送 BC_TRANSACTION 查询已注册的服务，查询到直接响应 BR_REPLY 唤醒等待的线程。若查询不到将与 binder_procs 链表中的服务进行一次通讯再响应。  </li>
+</ul>
+<h2 id="用户空间与内核通信"><a href="#用户空间与内核通信" class="headerlink" title="用户空间与内核通信"></a>用户空间与内核通信</h2><p> <img src="http://oc4zuck5v.bkt.clouddn.com/20170411181022355.jpeg" alt=""><br> 对于底层Binder驱动，通过 binder_procs 链表记录所有创建的 binder_proc 结构体，binder 驱动层的每一个 binder_proc 结构体都与用户空间的一个用于 binder 通信的进程一一对应，且每个进程有且只有一个 ProcessState 对象，这是通过单例模式来保证的。在每个进程中可以有很多个线程，每个线程对应一个 IPCThreadState 对象，IPCThreadState 对象也是单例模式，即一个线程对应一个 IPCThreadState 对象，在 Binder 驱动层也有与之相对应的结构，那就是 Binder_thread 结构体。在 binder_proc 结构体中通过成员变量 rb_root threads，来记录当前进程内所有的 binder_thread。<br> Binder 线程池：每个 Server 进程在启动时创建一个 binder 线程池，并向其中注册一个 Binder 线程；之后 Server 进程也可以向 binder 线程池注册新的线程，或者 Binder 驱动在探测到没有空闲 binder 线程时主动向 Server 进程注册新的的 binder 线程。对于一个 Server 进程有一个最大 Binder 线程数限制，默认为16个 binder 线程，例如 Android 的 system_server 进程就存在16个线程。对于所有 Client 端进程的 binder 请求都是交由 Server 端进程的 binder 线程来处理的。 </p>
+<h2 id="整体的通信流程"><a href="#整体的通信流程" class="headerlink" title="整体的通信流程"></a>整体的通信流程</h2><p> 我们在使用 Binder 时基本都是调用 framework 层封装好的方法，AIDL 就是 framework 层提供的傻瓜式是使用方式。假设服务已经注册完，我们来看看客户端怎么执行服务端的方法。<br> 首先我们通过 ServiceManager 获取到服务端的 BinderProxy 代理对象，通过调用 BinderProxy 将参数，方法标识（例如：TRANSACTION_test，AIDL中自动生成）传给 ServiceManager，同时客户端线程进入等待状态。<br> ServiceManager 将用户空间的参数等请求数据复制到内核空间，并向服务端插入一条执行执行方法的事务。事务执行完通知 ServiceManager 将执行结果从内核空间复制到用户空间，并唤醒等待的线程，响应结果，通讯结束。<br>  <img src="http://oc4zuck5v.bkt.clouddn.com/20170411180851093.jpeg" alt=""> </p>
+<ul>
+<li>1 首先需要注册服务端，只有注册了服务端，客户端才有通讯的目标，服务端通过 ServiceManager 注册服务，注册的过程就是向 Binder 驱动的全局链表 binder_procs 中插入服务端的信息（binder_proc 结构体，每个 binder_proc 结构体中都有 todo 任务队列），然后向 ServiceManager 的 svcinfo 列表中缓存一下注册的服务。  </li>
+<li>2 有了服务端，客户端就可以跟服务端通讯了，通讯之前需要先获取到服务，拿到服务的代理，也可以理解为引用。获取服务端的方式就是通过 ServiceManager 向 svcinfo 列表中查询一下返回服务端的代理，svcinfo 列表就是所有已注册服务的通讯录，保存了所有注册的服务信息。  </li>
+<li>3 有了服务端的引用我们就可以向服务端发送请求了，通过 BinderProxy 将我们的请求参数发送给 ServiceManager，通过共享内存的方式使用内核方法 copy_from_user() 将我们的参数先拷贝到内核空间，这时我们的客户端进入等待状态，然后 Binder 驱动向服务端的 todo 队列里面插入一条事务，执行完之后把执行结果通过 copy_to_user() 将内核的结果拷贝到用户空间（这里只是执行了拷贝命令，并没有拷贝数据，binder只进行一次拷贝），唤醒等待的客户端并把结果响应回来，这样就完成了一次通讯。  </li>
+</ul>
 
       
     </div>
