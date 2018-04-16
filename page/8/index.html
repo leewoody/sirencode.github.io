@@ -162,6 +162,116 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-vector drawable" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/03/vector drawable/" class="article-date">
+  	<time datetime="2016-11-02T16:00:00.000Z" itemprop="datePublished">2016-11-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/03/vector drawable/">
+        Vector Drawable
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>矢量图形是计算机图形学中用点、直线或者多边形等基于数学方程的几何图元表示图像。矢量图形与使用像素表示图像的位图不同。也就是说矢量图其实是一个xml文件，文件里面涉及到一些绘制的属性。</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>1 保存最少的信息，文件大小比位图要小，并且文件大小与物体的大小无关</li>
+<li>2 在图像处理软件中，任意放大矢量图形，不会丢失细节或影响清晰度，因为矢量图形是与分辨率无关的。无限地放大这个圆，它仍然保持平滑；用多边形表示的曲线将会显现出不是真正的曲线</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>android 版本兼容问题，矢量图的使用最低支持5.0以上系统。</li>
+<li>要在低版本上使用矢量图，需要在项目中引入新的兼容库support-vector-drawable，并且appcompat-v7库的版本要在23.2.0+(写文章这会23.2.1已经发布了)。</li>
+</ul>
+<h3 id="使用矢量图"><a href="#使用矢量图" class="headerlink" title="使用矢量图"></a>使用矢量图</h3><h4 id="版本兼容"><a href="#版本兼容" class="headerlink" title="版本兼容"></a>版本兼容</h4><p>导入兼容包：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile 'com.android.support:appcompat-v7:23.2.0+'</span><br></pre></td></tr></table></figure>
+<h4 id="AS配置"><a href="#AS配置" class="headerlink" title="AS配置"></a>AS配置</h4><p>AS版本低于2.0的：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  defaultConfig &#123;</span><br><span class="line">    // 不让gradle自动生成不同屏幕分辨率的png图</span><br><span class="line">    generatedDensities = []</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  aaptOptions &#123;</span><br><span class="line">    additionalParameters "--no-version-vectors"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>AS2.0+:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  defaultConfig &#123;</span><br><span class="line">    vectorDrawables.useSupportLibrary = true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="在drawable目录下创建矢量图文件"><a href="#在drawable目录下创建矢量图文件" class="headerlink" title="在drawable目录下创建矢量图文件"></a>在drawable目录下创建矢量图文件</h4><p>具体代码如下，但是一般不需要手动写，一般通过AI或者PS软件生产的。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+android:width=&quot;24dp&quot;
+android:height=&quot;24dp&quot;
+android:viewportHeight=&quot;24&quot;
+android:viewportWidth=&quot;24&quot;&gt;
+&lt;path
+    android:name=&quot;toe1&quot;
+    android:fillColor=&quot;#ffffff&quot;
+    android:pathData=&quot;M 4.5 7 C 5.88071187458 7 7 8.11928812542 7 9.5 C 7 10.8807118746 5.88071187458 12 4.5 12 C 3.11928812542 12 2 10.8807118746 2 9.5 C 2 8.11928812542 3.11928812542 7 4.5 7 Z&quot; /&gt;
+&lt;path
+    android:name=&quot;toe2&quot;
+    android:fillColor=&quot;#ffffff&quot;
+    android:pathData=&quot;M 9 3 C 10.3807118746 3 11.5 4.11928812542 11.5 5.5 C 11.5 6.88071187458 10.3807118746 8 9 8 C 7.61928812542 8 6.5 6.88071187458 6.5 5.5 C 6.5 4.11928812542 7.61928812542 3 9 3 Z&quot; /&gt;
+&lt;path
+    android:name=&quot;toe3&quot;
+    android:fillColor=&quot;#ffffff&quot;
+    android:pathData=&quot;M 15 3 C 16.3807118746 3 17.5 4.11928812542 17.5 5.5 C 17.5 6.88071187458 16.3807118746 8 15 8 C 13.6192881254 8 12.5 6.88071187458 12.5 5.5 C 12.5 4.11928812542 13.6192881254 3 15 3 Z&quot; /&gt;
+&lt;path
+    android:name=&quot;toe4&quot;
+    android:fillColor=&quot;#ffffff&quot;
+    android:pathData=&quot;M 19.5 7 C 20.8807118746 7 22 8.11928812542 22 9.5 C 22 10.8807118746 20.8807118746 12 19.5 12 C 18.1192881254 12 17 10.8807118746 17 9.5 C 17 8.11928812542 18.1192881254 7 19.5 7 Z&quot; /&gt;
+&lt;path
+    android:fillColor=&quot;#ffffff&quot;
+    android:pathData=&quot;M17.34 14.86c-.87-1.02-1.6-1.89-2.48-2.91-.46-.54-1.05-1.08-1.75-1.32-.11-.04-.22-.07-.33-.09-.25-.04-.52-.04-.78-.04s-.53 0-.79 .05 c-.11 .02 -.22 .05 -.33 .09 -.7 .24 -1.28 .78 -1.75 1.32-.87 1.02-1.6 1.89-2.48 2.91-1.31 1.31-2.92 2.76-2.62 4.79 .29 1.02 1.02 2.03 2.33 2.32 .73 .15 3.06-.44 5.54-.44h.18c2.48 0 4.81 .58 5.54 .44 1.31-.29 2.04-1.31 2.33-2.32 .31 -2.04-1.3-3.49-2.61-4.8z&quot; /&gt;
+&lt;/vector&gt;
+</code></pre><h4 id="只能用于AppCompatImageView或者AppCompatImageButton或其子类，而且必须在app-srcCompat标签中使用。"><a href="#只能用于AppCompatImageView或者AppCompatImageButton或其子类，而且必须在app-srcCompat标签中使用。" class="headerlink" title="只能用于AppCompatImageView或者AppCompatImageButton或其子类，而且必须在app:srcCompat标签中使用。"></a>只能用于AppCompatImageView或者AppCompatImageButton或其子类，而且必须在app:srcCompat标签中使用。</h4><h4 id="资源使用"><a href="#资源使用" class="headerlink" title="资源使用"></a>资源使用</h4><p>在xml配置文件里面:</p>
+<pre><code>&lt;android.support.v7.widget.AppCompatImageView
+    android:layout_width=&quot;100dp&quot;
+    android:layout_height=&quot;100dp&quot;
+    app:srcCompat=&quot;@drawable/vector_icon&quot;
+    android:layout_centerVertical=&quot;true&quot;
+    android:layout_centerHorizontal=&quot;true&quot;
+    android:id=&quot;@+id/imageView&quot; /&gt;
+</code></pre><h3 id="生成svg图片"><a href="#生成svg图片" class="headerlink" title="生成svg图片"></a>生成svg图片</h3><p>通过AI和PS都可以生成svg图片（要装插件）。</p>
+<h4 id="在线PNG转SVG"><a href="#在线PNG转SVG" class="headerlink" title="在线PNG转SVG"></a>在线PNG转SVG</h4><p>需要注册登录才可以下载转换后格式的文件：</p>
+<p><a href="http://vectormagic.com/online/how_it_works" target="_blank" rel="noopener">地址</a></p>
+<h4 id="SVG压缩"><a href="#SVG压缩" class="headerlink" title="SVG压缩"></a>SVG压缩</h4><p>记得将SVG文件进行压缩</p>
+<p><a href="https://jakearchibald.github.io/svgomg/?utm_source=next.36kr.com" target="_blank" rel="noopener">在线</a></p>
+<h4 id="在AS中导入图片"><a href="#在AS中导入图片" class="headerlink" title="在AS中导入图片"></a>在AS中导入图片</h4><p>File -&gt; New -&gt; Vector Asset -&gt; Local SVG files</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-性能优化 - 代码层问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -608,6 +718,93 @@ public static LruCache&lt;String, Bitmap&gt; MEMORYLRUCACHE= new LruCache&lt;Str
 
 
   
+    <article id="post-Android 内部存储 外部存储" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/04/Android 内部存储 外部存储/" class="article-date">
+  	<time datetime="2016-10-03T16:00:00.000Z" itemprop="datePublished">2016-10-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/04/Android 内部存储 外部存储/">
+        Android 内部存储 外部存储
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-内部存储-外部存储"><a href="#Android-内部存储-外部存储" class="headerlink" title="Android 内部存储 外部存储"></a>Android 内部存储 外部存储</h1><p>最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把内置存储（机身存储）当做内部存储，而把扩展的SD卡当做是外部存储。这么认为确实没错，因为在4.4（API19）以前的手机上确实是这样的，手机自身带的存储卡就是内部存储，而扩展的SD卡就是外部存储。但是从4.4的系统开始，很多的中高端机器都将自己的机身存储扩展到了8G以上，比如有的人的手机是16G的，有的人的手机是32G的，但是这个16G，32G是内部存储吗，不是的！！！，它们依然是外部存储，也就是说4.4系统及以上的手机将机身存储存储（手机自身带的存储叫做机身存储）在概念上分成了”内部存储internal” 和”外部存储external” 两部分。既然16G，32G是外部存储，那有人又有疑惑了，那4.4系统及以上的手机要是插了SD卡呢，SD卡又是什么呢，如果SD卡也是外部存储的话，那怎么区分机身存储的外部存储跟SD卡的外部存储呢？对，SD卡也是外部存储，那怎么区分呢，在4.4以后的系统中，API提供了这样一个方法来遍历手机的外部存储路径：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">File[] files;</span><br><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">    files = getExternalFilesDirs(Environment.MEDIA_MOUNTED);</span><br><span class="line">    <span class="keyword">for</span>(File file:files)&#123;</span><br><span class="line">        Log.e(<span class="string">"main"</span>,file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你的手机插了SD卡的话，那么它打印的路径就有两条了，例如我的华为荣耀7插了SD卡，它的结果如下：<br>/storage/emulated/0/Android/data/packname/files/mounted<br>/storage/B3E4-1711/Android/data/packname/files/mounted<br>其中/storage/emulated/0目录就是机身存储的外部存储路径,而/storage/B3E4-1711/就是SD卡的路径 </p>
+<h2 id="内存-RAM"><a href="#内存-RAM" class="headerlink" title="内存 RAM"></a>内存 RAM</h2><p>物理位置是位于手机内部的随机存储器上，就是俗称的RAM。就是计算机上对内存储器的理解。</p>
+<h2 id="内部存储内部ROM"><a href="#内部存储内部ROM" class="headerlink" title="内部存储内部ROM"></a>内部存储内部ROM</h2><p>/data文件夹就是我们常说的内部存储。</p>
+<h3 id="data-app"><a href="#data-app" class="headerlink" title="data/app"></a>data/app</h3><p>app文件夹里存放着我们所有安装的app的apk文件，其实，当我们调试一个app的时候，可以看到控制台输出的内容，有一项是uploading …..就是上传我们的apk到这个文件夹，上传成功之后才开始安装。</p>
+<h3 id="data-data"><a href="#data-data" class="headerlink" title="data/data"></a>data/data</h3><p>如果打开过data文件，应该都知道这些文件夹是干什么用的，我们在使用sharedPreferenced的时候，将数据持久化存储于本地，其实就是存在这个文件中的xml文件里，我们App里边的数据库文件就存储于databases文件夹中，还有我们的普通数据存储在files中，缓存文件存储在cache文件夹中，存储在这里的文件我们都称之为内部存储。</p>
+<h3 id="常用目录"><a href="#常用目录" class="headerlink" title="常用目录"></a>常用目录</h3><ul>
+<li>内部存储的cache目录:/data/data/packageName/cache<br>-&gt; context.getCacheDir（）</li>
+<li>内部存储的files目录:/data/data/packageName/files -&gt; context.getFilesDir();</li>
+<li>内部存储的data目录:/data - &gt; Environment.getDataDirectory();</li>
+<li>data/data/包名/shared_prefs -&gt; sp</li>
+<li>data/data/包名/databases    -&gt; db</li>
+</ul>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>不需要权限</li>
+<li>百分百会有</li>
+<li>存在这里的文件只有你自己的app可以访问。</li>
+<li>当app卸载的时候，系统会删除对应app的所有信息。</li>
+</ul>
+<h2 id="外部存储外部ROM和SDCard"><a href="#外部存储外部ROM和SDCard" class="headerlink" title="外部存储外部ROM和SDCard"></a>外部存储外部ROM和SDCard</h2><p>外部存储一般就是我们上面看到的storage文件夹，当然也有可能是mnt文件夹，这个不同厂家有可能不一样。一般来说，在storage文件夹中有一个sdcard文件夹，这个文件夹中的文件又分为两类，一类是公有目录，还有一类是私有目录，其中的公有目录有九大类，比如DCIM、DOWNLOAD等这种系统为我们创建的文件夹，私有目录就是Android这个文件夹，这个文件夹打开之后里边有一个data文件夹，打开这个data文件夹，里边有许多包名组成的文件夹。</p>
+<p>外部存储可以有多个，在4.4前，外挂的sdcard是外部存储。4.4后，有一部分手机的本身内存已经超过8G，这时候系统会把机身内存分为两个部分，一部分是内部存储，一部分是外部存储，如果这时候再外挂sdcard就会产生两个外部存储的部分。</p>
+<h3 id="常用目录-1"><a href="#常用目录-1" class="headerlink" title="常用目录"></a>常用目录</h3><ul>
+<li>外部存储的cache目录:/storage/sdcard0/Android/data/packageName/cache -&gt; context.getExternalCacheDir()</li>
+<li>外部存储的files目录:/storage/sdcard0/Android/data/packageName/files-&gt; context.getExternalFilesDir()</li>
+<li>外部存储的sdcard的根目录:/storage/sdcard0/ -&gt; Environemnt.getExternalStorageDirectory()</li>
+</ul>
+<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>需要权限</li>
+<li>可能不存在外部存储，可装卸载。</li>
+<li>所有人都可以访问，不安全。</li>
+<li>app卸载的时候，系统会删除存在getExternalFilesDir()-{路径为:/mnt/sdcard/Android/data/&lt; package name &gt;/files/…}目录的内容。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-android 动画" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -740,93 +937,6 @@ animationDrawable.start();
 <h3 id="实际问题"><a href="#实际问题" class="headerlink" title="实际问题"></a>实际问题</h3><h4 id="View-不断更新动画状态问题，每次启动动画，都会从最初位置开始。"><a href="#View-不断更新动画状态问题，每次启动动画，都会从最初位置开始。" class="headerlink" title="View 不断更新动画状态问题，每次启动动画，都会从最初位置开始。"></a>View 不断更新动画状态问题，每次启动动画，都会从最初位置开始。</h4><p>我遇到的实际问题是这样的，显示一个转盘，转盘上面有一个小指针需要一直旋转，当ui一个变量变化时，根据这个变量的变化幅度动态调整指针的转速。遇到的问题是每次更新时，动画都会从原始位置开始执行。</p>
 <p>最后解决办法如下，记录下结束时的位置，我开始以为，这个结束位置应该记录在objectanimitor里面，但是一直都找不到对应的值，最后我发发现这个值记录在对应的view里面了…….</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startSmallZZAnimation</span><span class="params">(<span class="keyword">int</span> duration)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (repeat != <span class="keyword">null</span> &amp;&amp; repeat.isRunning()) &#123;</span><br><span class="line">            smallAngle = smallZP.getRotation();</span><br><span class="line">            repeat.cancel();</span><br><span class="line">            smallZP.clearAnimation();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            repeat = ObjectAnimator.ofFloat(smallZP, <span class="string">"rotation"</span>, currentAngle, currentAngle + <span class="number">360</span>);</span><br><span class="line">            repeat.setDuration(duration);</span><br><span class="line">            repeat.setRepeatCount(<span class="number">30000</span> / duration);</span><br><span class="line">            repeat.setInterpolator(<span class="keyword">new</span> LinearInterpolator());</span><br><span class="line">            repeat.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 内部存储 外部存储" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/10/04/Android 内部存储 外部存储/" class="article-date">
-  	<time datetime="2016-10-03T16:00:00.000Z" itemprop="datePublished">2016-10-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/04/Android 内部存储 外部存储/">
-        Android 内部存储 外部存储
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-内部存储-外部存储"><a href="#Android-内部存储-外部存储" class="headerlink" title="Android 内部存储 外部存储"></a>Android 内部存储 外部存储</h1><p>最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把内置存储（机身存储）当做内部存储，而把扩展的SD卡当做是外部存储。这么认为确实没错，因为在4.4（API19）以前的手机上确实是这样的，手机自身带的存储卡就是内部存储，而扩展的SD卡就是外部存储。但是从4.4的系统开始，很多的中高端机器都将自己的机身存储扩展到了8G以上，比如有的人的手机是16G的，有的人的手机是32G的，但是这个16G，32G是内部存储吗，不是的！！！，它们依然是外部存储，也就是说4.4系统及以上的手机将机身存储存储（手机自身带的存储叫做机身存储）在概念上分成了”内部存储internal” 和”外部存储external” 两部分。既然16G，32G是外部存储，那有人又有疑惑了，那4.4系统及以上的手机要是插了SD卡呢，SD卡又是什么呢，如果SD卡也是外部存储的话，那怎么区分机身存储的外部存储跟SD卡的外部存储呢？对，SD卡也是外部存储，那怎么区分呢，在4.4以后的系统中，API提供了这样一个方法来遍历手机的外部存储路径：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">File[] files;</span><br><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">    files = getExternalFilesDirs(Environment.MEDIA_MOUNTED);</span><br><span class="line">    <span class="keyword">for</span>(File file:files)&#123;</span><br><span class="line">        Log.e(<span class="string">"main"</span>,file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如果你的手机插了SD卡的话，那么它打印的路径就有两条了，例如我的华为荣耀7插了SD卡，它的结果如下：<br>/storage/emulated/0/Android/data/packname/files/mounted<br>/storage/B3E4-1711/Android/data/packname/files/mounted<br>其中/storage/emulated/0目录就是机身存储的外部存储路径,而/storage/B3E4-1711/就是SD卡的路径 </p>
-<h2 id="内存-RAM"><a href="#内存-RAM" class="headerlink" title="内存 RAM"></a>内存 RAM</h2><p>物理位置是位于手机内部的随机存储器上，就是俗称的RAM。就是计算机上对内存储器的理解。</p>
-<h2 id="内部存储内部ROM"><a href="#内部存储内部ROM" class="headerlink" title="内部存储内部ROM"></a>内部存储内部ROM</h2><p>/data文件夹就是我们常说的内部存储。</p>
-<h3 id="data-app"><a href="#data-app" class="headerlink" title="data/app"></a>data/app</h3><p>app文件夹里存放着我们所有安装的app的apk文件，其实，当我们调试一个app的时候，可以看到控制台输出的内容，有一项是uploading …..就是上传我们的apk到这个文件夹，上传成功之后才开始安装。</p>
-<h3 id="data-data"><a href="#data-data" class="headerlink" title="data/data"></a>data/data</h3><p>如果打开过data文件，应该都知道这些文件夹是干什么用的，我们在使用sharedPreferenced的时候，将数据持久化存储于本地，其实就是存在这个文件中的xml文件里，我们App里边的数据库文件就存储于databases文件夹中，还有我们的普通数据存储在files中，缓存文件存储在cache文件夹中，存储在这里的文件我们都称之为内部存储。</p>
-<h3 id="常用目录"><a href="#常用目录" class="headerlink" title="常用目录"></a>常用目录</h3><ul>
-<li>内部存储的cache目录:/data/data/packageName/cache<br>-&gt; context.getCacheDir（）</li>
-<li>内部存储的files目录:/data/data/packageName/files -&gt; context.getFilesDir();</li>
-<li>内部存储的data目录:/data - &gt; Environment.getDataDirectory();</li>
-<li>data/data/包名/shared_prefs -&gt; sp</li>
-<li>data/data/包名/databases    -&gt; db</li>
-</ul>
-<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
-<li>不需要权限</li>
-<li>百分百会有</li>
-<li>存在这里的文件只有你自己的app可以访问。</li>
-<li>当app卸载的时候，系统会删除对应app的所有信息。</li>
-</ul>
-<h2 id="外部存储外部ROM和SDCard"><a href="#外部存储外部ROM和SDCard" class="headerlink" title="外部存储外部ROM和SDCard"></a>外部存储外部ROM和SDCard</h2><p>外部存储一般就是我们上面看到的storage文件夹，当然也有可能是mnt文件夹，这个不同厂家有可能不一样。一般来说，在storage文件夹中有一个sdcard文件夹，这个文件夹中的文件又分为两类，一类是公有目录，还有一类是私有目录，其中的公有目录有九大类，比如DCIM、DOWNLOAD等这种系统为我们创建的文件夹，私有目录就是Android这个文件夹，这个文件夹打开之后里边有一个data文件夹，打开这个data文件夹，里边有许多包名组成的文件夹。</p>
-<p>外部存储可以有多个，在4.4前，外挂的sdcard是外部存储。4.4后，有一部分手机的本身内存已经超过8G，这时候系统会把机身内存分为两个部分，一部分是内部存储，一部分是外部存储，如果这时候再外挂sdcard就会产生两个外部存储的部分。</p>
-<h3 id="常用目录-1"><a href="#常用目录-1" class="headerlink" title="常用目录"></a>常用目录</h3><ul>
-<li>外部存储的cache目录:/storage/sdcard0/Android/data/packageName/cache -&gt; context.getExternalCacheDir()</li>
-<li>外部存储的files目录:/storage/sdcard0/Android/data/packageName/files-&gt; context.getExternalFilesDir()</li>
-<li>外部存储的sdcard的根目录:/storage/sdcard0/ -&gt; Environemnt.getExternalStorageDirectory()</li>
-</ul>
-<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><ul>
-<li>需要权限</li>
-<li>可能不存在外部存储，可装卸载。</li>
-<li>所有人都可以访问，不安全。</li>
-<li>app卸载的时候，系统会删除存在getExternalFilesDir()-{路径为:/mnt/sdcard/Android/data/&lt; package name &gt;/files/…}目录的内容。</li>
-</ul>
 
       
     </div>
@@ -1184,112 +1294,6 @@ MOVE:
 <li>5.当某个子View返回true时，会中止Down事件的分发，同时在ViewGroup中记录该子View。接下去的Move和Up事件将由该子View直接进行处理。由于子View是保存在ViewGroup中的，多层ViewGroup的节点结构时，上级ViewGroup保存的会是真实处理事件的View所在的ViewGroup对象:如ViewGroup0-ViewGroup1-TextView的结构中，TextView返回了true，它将被保存在ViewGroup1中，而ViewGroup1也会返回true，被保存在ViewGroup0中。当Move和UP事件来时，会先从ViewGroup0传递至ViewGroup1，再由ViewGroup1传递至TextView。</li>
 <li>6.当ViewGroup中所有子View都不捕获Down事件时，将触发ViewGroup自身的onTouch事件。触发的方式是调用super.dispatchTouchEvent函数，即父类View的dispatchTouchEvent方法。在所有子View都不处理的情况下，触发Acitivity的onTouchEvent方法。</li>
 <li>7.onInterceptTouchEvent有两个作用：1.拦截Down事件的分发。2.中止Up和Move事件向目标View传递，使得目标View所在的ViewGroup捕获Up和Move事件。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-UI懒加载" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/09/19/UI懒加载/" class="article-date">
-  	<time datetime="2016-09-18T16:00:00.000Z" itemprop="datePublished">2016-09-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/19/UI懒加载/">
-        Android UI懒加载-ViewStub
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="ViewStub-使用"><a href="#ViewStub-使用" class="headerlink" title="ViewStub 使用"></a>ViewStub 使用</h3><p>1 xml声明</p>
-<pre><code>&lt;ViewStub
-   android:id=&quot;@+id/firstBlock&quot;
-   android:inflatedId=&quot;@+id/firstLy&quot;
-   android:layout=&quot;@layout/first_ly&quot;
-   android:layout_height=&quot;0dp&quot;
-   android:layout_weight=&quot;1&quot;
-   android:layout_width=&quot;match_parent&quot; /&gt;
-</code></pre><p>2 firstStub.inflate()或者firstStub.setVisibility(View.VISIBLE)加载Ui</p>
-<p>2 inflatedId为指定layout根元素的id。</p>
-<h3 id="UI懒加载实现"><a href="#UI懒加载实现" class="headerlink" title="UI懒加载实现"></a>UI懒加载实现</h3><h4 id="1把布局按模块分成不同模块的viewstub"><a href="#1把布局按模块分成不同模块的viewstub" class="headerlink" title="1把布局按模块分成不同模块的viewstub"></a>1把布局按模块分成不同模块的viewstub</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-android:layout_height=&quot;match_parent&quot;
-android:layout_width=&quot;match_parent&quot;
-android:orientation=&quot;vertical&quot;&gt;
-&lt;ViewStub
-    android:background=&quot;#ff0000&quot;
-    android:id=&quot;@+id/firstBlock&quot;
-    android:inflatedId=&quot;@+id/firstLy&quot;
-    android:layout=&quot;@layout/first_ly&quot;
-    android:layout_height=&quot;0dp&quot;
-    android:layout_weight=&quot;1&quot;
-    android:layout_width=&quot;match_parent&quot; /&gt;
-
-&lt;ViewStub
-    android:id=&quot;@+id/secondBlock&quot;
-    android:inflatedId=&quot;@+id/secondLy&quot;
-    android:layout=&quot;@layout/second_ly&quot;
-    android:layout_height=&quot;0dp&quot;
-    android:layout_weight=&quot;1&quot;
-    android:layout_width=&quot;match_parent&quot; /&gt;
-
-&lt;ViewStub
-    android:id=&quot;@+id/thirdBlock&quot;
-    android:inflatedId=&quot;@+id/thirdLy&quot;
-    android:layout=&quot;@layout/third_ly&quot;
-    android:layout_height=&quot;0dp&quot;
-    android:layout_weight=&quot;1&quot;
-    android:layout_width=&quot;match_parent&quot; /&gt;
-&lt;/LinearLayout&gt;
-</code></pre><h4 id="懒加载逻辑处理"><a href="#懒加载逻辑处理" class="headerlink" title="懒加载逻辑处理"></a>懒加载逻辑处理</h4><p>先init ViewStub</p>
-<pre><code>private void initStub(View base) {
-    firstStub = (ViewStub) base.findViewById(R.id.firstBlock);
-    secondStub = (ViewStub) base.findViewById(R.id.secondBlock);
-    thirdStub = (ViewStub) base.findViewById(R.id.thirdBlock);
-}
-</code></pre><p>在合适的时候inflate或者View.VISIBLE</p>
-<p>合适的时候：</p>
-<ul>
-<li>需要网络加载的在数据加载完成的回调里面执行。</li>
-<li>不需要网络加载的，</li>
 </ul>
 
       

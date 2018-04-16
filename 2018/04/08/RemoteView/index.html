@@ -3,24 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Binder 进程间通信 | Diablo</title>
+  <title>RemoteView | Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
+  <meta name="description" content="RemoteViewRemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。 场景1.通知栏2.桌面小部件 123//当前packgeNameRemoteViews remoteView = new RemoteViews(context.getPackageName()">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Binder 进程间通信">
-<meta property="og:url" content="https://github.com/sirencode/2016/07/06/binder/index.html">
+<meta property="og:title" content="RemoteView">
+<meta property="og:url" content="https://github.com/sirencode/2018/04/08/RemoteView/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
-<meta property="og:image" content="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif">
-<meta property="og:updated_time" content="2017-07-06T08:16:57.000Z">
+<meta property="og:description" content="RemoteViewRemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。 场景1.通知栏2.桌面小部件 123//当前packgeNameRemoteViews remoteView = new RemoteViews(context.getPackageName()">
+<meta property="og:updated_time" content="2018-04-16T10:04:20.441Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Binder 进程间通信">
-<meta name="twitter:description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
-<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif">
+<meta name="twitter:title" content="RemoteView">
+<meta name="twitter:description" content="RemoteViewRemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。 场景1.通知栏2.桌面小部件 123//当前packgeNameRemoteViews remoteView = new RemoteViews(context.getPackageName()">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -166,11 +164,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-binder" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-RemoteView" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/06/binder/" class="article-date">
-  	<time datetime="2016-07-05T16:00:00.000Z" itemprop="datePublished">2016-07-06</time>
+      <a href="/2018/04/08/RemoteView/" class="article-date">
+  	<time datetime="2018-04-07T16:00:00.000Z" itemprop="datePublished">2018-04-08</time>
 </a>
     </div>
   
@@ -183,7 +181,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Binder 进程间通信
+      RemoteView
       
     </h1>
   
@@ -201,41 +199,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。</p>
-<p>关系图：</p>
-<p><img src="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif" alt="ipc"></p>
-<h3 id="角色介绍"><a href="#角色介绍" class="headerlink" title="角色介绍"></a>角色介绍</h3><ol>
-<li><p>Client、Server和Service Manager实现在用户空间中，Binder驱动程序实现在内核空间中</p>
-</li>
-<li><p>Binder驱动程序和Service Manager在Android平台中已经实现，开发者只需要在用户空间实现自己的Client和Server</p>
-</li>
-<li><p>Binder驱动程序提供设备文件/dev/binder与用户空间交互，Client、Server和Service Manager通过open和ioctl文件操作函数与Binder驱动程序进行通信</p>
-</li>
-<li><p>Client和Server之间的进程间通信通过Binder驱动程序间接实现</p>
-</li>
-<li><p>Service Manager是一个守护进程，用来管理Server，并向Client提供查询Server接口的能力</p>
-</li>
-</ol>
-<h4 id="Service-Manager"><a href="#Service-Manager" class="headerlink" title="Service Manager"></a>Service Manager</h4><p>Service Manager是成为Android进程间通信（IPC）机制Binder守护进程的过程是这样的：</p>
-<ul>
-<li><ol>
-<li>打开/dev/binder文件：open(“/dev/binder”, O_RDWR);</li>
-</ol>
-</li>
-<li><ol>
-<li>建立128K内存映射：mmap(NULL, mapsize, PROT_READ, MAP_PRIVATE, bs-&gt;fd, 0);</li>
-</ol>
-</li>
-<li><ol>
-<li>通知Binder驱动程序它是守护进程：binder_become_context_manager(bs);</li>
-</ol>
-</li>
-<li><ol>
-<li>进入循环等待请求的到来：binder_loop(bs, svcmgr_handler);</li>
-</ol>
-</li>
+        <h1 id="RemoteView"><a href="#RemoteView" class="headerlink" title="RemoteView"></a>RemoteView</h1><p>RemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>1.通知栏<br>2.桌面小部件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当前packgeName</span></span><br><span class="line">RemoteViews remoteView = <span class="keyword">new</span> RemoteViews(context.getPackageName(),R.layout.appwidget);</span><br><span class="line">remoteView.setImageViewBitmap(R.id.imageView1,rotateBitmap(context,srcBitmap,degree));</span><br></pre></td></tr></table></figure>
+<h3 id="支持类型"><a href="#支持类型" class="headerlink" title="支持类型"></a>支持类型</h3><p>Layout：FrameLayout,LInearLayout,RelativeLayout,GridLayout</p>
+<p>View：AnalogClock,Button,Chornometer,ImageButton,ImageView,ProgressBar,TextView,ViewFlipper,ListView,GridView,StackView,AdapterViewFlipper,ViewStub</p>
+<h2 id="RemoteViews内部机制"><a href="#RemoteViews内部机制" class="headerlink" title="RemoteViews内部机制"></a>RemoteViews内部机制</h2><ul>
+<li>1 RemoteViews的构造方法 public RemoteViews(String packageName, int layoutId)，第一个参数是当前应用的包名，第二个参数是待加载的布局文件。</li>
+<li>2 RemoteViews提供了一系列的set方法完成view的设置，这是通过反射完成的调用的。</li>
+<li>3 通知和小部件分别由NotificationManager和AppWidgetManager管理，而它们通过Binder分别和SystemServer进程中的NotificationManagerService和AppWidgetManagerService进行通信。所以，布局文件实际上是两个Service加载的，运行在SystemServer进程中。</li>
+<li>4 RemoteViews实现了Parcelable接口，它会通过Binder传递到SystemServer进程，系统会根据RemoteViews中的包名信息获取到应用中的资源，从而完成布局文件的加载。</li>
+<li>5 系统将view操作封装成Action对象，Action同样实现了Parcelable接口，通过Binder传递到SystemServer进程。远程进程通过RemoteViews的apply方法来进行view的更新操作，RemoteViews的apply方法内部则会去遍历所有的action对象并调用它们的apply方法来进行view的更新操作。</li>
+<li>6 RemoteViews的apply和reapply方法的区别：apply方法会加载布局并更新界面，而reapply方法则只会更新界面。</li>
 </ul>
-<h4 id="client-service-获取service-manager接口"><a href="#client-service-获取service-manager接口" class="headerlink" title="client service 获取service manager接口"></a>client service 获取service manager接口</h4><p>我们知道，Service Manager在Binder机制中既充当守护进程的角色，同时它也充当着Server角色，然而它又与一般的Server不一样。对于普通的Server来说，Client如果想要获得Server的远程接口，那么必须通过Service Manager远程接口提供的getService接口来获得，这本身就是一个使用Binder机制来进行进程间通信的过程。而对于Service Manager这个Server来说，Client如果想要获得Service Manager远程接口，却不必通过进程间通信机制来获得，因为Service Manager远程接口是一个特殊的Binder引用，它的引用句柄一定是0。</p>
 
       
     </div>
@@ -245,18 +221,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/08/17/rxjava/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/04/09/Android Android 共享内存/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">&lt;</strong>
       <div class="article-nav-title">
         
-          RxJava RxAndroid
+          Android 共享内存
         
       </div>
     </a>
   
   
-    <a href="/2016/06/01/工作/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">工作</div>
+    <a href="/2018/04/06/设计模式-工厂模式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">设计模式-工厂模式</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -266,7 +242,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="binder" data-title="Binder 进程间通信" data-url="https://github.com/sirencode/2016/07/06/binder/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Binder 进程间通信">
+<div class="ds-share share" data-thread-key="RemoteView" data-title="RemoteView" data-url="https://github.com/sirencode/2018/04/08/RemoteView/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="RemoteView">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
