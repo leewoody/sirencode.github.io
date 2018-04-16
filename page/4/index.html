@@ -162,6 +162,66 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-MAT" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/25/MAT/" class="article-date">
+  	<time datetime="2017-08-24T16:00:00.000Z" itemprop="datePublished">2017-08-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/25/MAT/">
+        内存检查MAT
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://www.eclipse.org/mat/" target="_blank" rel="noopener">下载</a></p>
+<h3 id="mac-打不开问题"><a href="#mac-打不开问题" class="headerlink" title="mac 打不开问题"></a>mac 打不开问题</h3><p>mat -&gt; Contents -&gt; Eclipse -&gt; MemoryAnalyzer.ini</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-startup</span><br><span class="line">../Eclipse/plugins/org.eclipse.equinox.launcher_1.3.100.v20150511-1540.jar</span><br><span class="line">####添加行</span><br><span class="line">-data</span><br><span class="line">/Users/Diablo/log</span><br><span class="line">####</span><br><span class="line">--launcher.library</span><br><span class="line">../Eclipse/plugins/org.eclipse.equinox.launcher.cocoa.macosx.x86_64_1.1.300.v20150602-1417</span><br><span class="line">-vmargs</span><br><span class="line">-Xmx1024m</span><br><span class="line">-Dorg.eclipse.swt.internal.carbon.smallFonts</span><br><span class="line">-XstartOnFirstThread</span><br></pre></td></tr></table></figure>
+<h3 id="AS-生成-hprof文件"><a href="#AS-生成-hprof文件" class="headerlink" title="AS 生成 .hprof文件"></a>AS 生成 .hprof文件</h3><p>AS -&gt; DDMS -&gt; 点击Update Heap按钮(装有一半绿色液体的圆柱体）开始进行追踪 -&gt; 点击Dump HPROP File按钮结束追踪，生成并保存hprof文件 </p>
+<h3 id="将AS生成的-hprof文件转换格式"><a href="#将AS生成的-hprof文件转换格式" class="headerlink" title="将AS生成的.hprof文件转换格式"></a>将AS生成的.hprof文件转换格式</h3><p>cd到sdk目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hprof-conv /Users/Diablo/Desktop/ 1.hprof 2.hprof</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-多线程数据锁" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -964,87 +1024,6 @@
 <li>8 什么样的语气更加合适？会不会太绝对？</li>
 </ul>
 
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-自控力" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/05/23/自控力/" class="article-date">
-  	<time datetime="2017-05-22T16:00:00.000Z" itemprop="datePublished">2017-05-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/05/23/自控力/">
-        自控力
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="第一章-我要做，我不要，我想要-什么事意志力？为什么意志力至关重要？"><a href="#第一章-我要做，我不要，我想要-什么事意志力？为什么意志力至关重要？" class="headerlink" title="第一章 我要做，我不要，我想要:什么事意志力？为什么意志力至关重要？"></a>第一章 我要做，我不要，我想要:什么事意志力？为什么意志力至关重要？</h3><p>意志力就是驾驭”我要做，我不要，我想要”这三种力量。</p>
-<h4 id="认清两个自我"><a href="#认清两个自我" class="headerlink" title="认清两个自我"></a>认清两个自我</h4><p>冲动的自己和控制的自己的竞争。</p>
-<h4 id="训练大脑，增强意志力"><a href="#训练大脑，增强意志力" class="headerlink" title="训练大脑，增强意志力"></a>训练大脑，增强意志力</h4><h4 id="冥想：专心呼吸法"><a href="#冥想：专心呼吸法" class="headerlink" title="冥想：专心呼吸法"></a>冥想：专心呼吸法</h4><ul>
-<li>1 原地不动，安静坐好。(冥想时一定不能烦躁)</li>
-<li>2 注意你的呼吸。(吸气时在脑海里默念吸，呼气时在脑海里默念呼，走神时，及时调整)</li>
-<li>3 感受呼吸，弄清楚自己是怎么走神的。(几分钟后不在默念，去感受空气从鼻子进入在呼出，感觉胸部的起伏)</li>
-<li>4 开始时每天坚持5分钟，熟练后可增至10-15分钟。</li>
-<li>5 冥想不是让你什么都不想，而是让你不要太分心。</li>
-</ul>
-<h3 id="第二章-意志力的本能-人生来就能抵制奶酪和蛋糕的诱惑"><a href="#第二章-意志力的本能-人生来就能抵制奶酪和蛋糕的诱惑" class="headerlink" title="第二章 意志力的本能:人生来就能抵制奶酪和蛋糕的诱惑"></a>第二章 意志力的本能:人生来就能抵制奶酪和蛋糕的诱惑</h3><h4 id="通过呼吸实现自控"><a href="#通过呼吸实现自控" class="headerlink" title="通过呼吸实现自控"></a>通过呼吸实现自控</h4><p>将呼吸频率降到每分钟4-6次，也就是每次呼吸用10-15秒。每天20分钟锻炼。</p>
-<h4 id="锻炼提高生理上的意志力储备"><a href="#锻炼提高生理上的意志力储备" class="headerlink" title="锻炼提高生理上的意志力储备"></a>锻炼提高生理上的意志力储备</h4><h4 id="足够睡眠"><a href="#足够睡眠" class="headerlink" title="足够睡眠"></a>足够睡眠</h4><h4 id="自控力太强的代价"><a href="#自控力太强的代价" class="headerlink" title="自控力太强的代价"></a>自控力太强的代价</h4><p>长时间的自控就像压力一样，会削弱免疫系统。</p>
-<h4 id="恢复意志力"><a href="#恢复意志力" class="headerlink" title="恢复意志力"></a>恢复意志力</h4><ul>
-<li>放松：躺下，枕头垫着膝盖，腿稍微抬起。</li>
-</ul>
-<h3 id="第三章累到无力抵抗-为什么自控力和肌肉一样有极限？"><a href="#第三章累到无力抵抗-为什么自控力和肌肉一样有极限？" class="headerlink" title="第三章累到无力抵抗:为什么自控力和肌肉一样有极限？"></a>第三章累到无力抵抗:为什么自控力和肌肉一样有极限？</h3><p>自控力的消失，24小时没吸烟的人可能大吃一顿冰淇淋，节食的人可能背着配偶偷情。我们只有一定量的意志力，一旦你将它消耗殆尽，你在诱惑面前就会毫无防备力。</p>
-<h4 id="自控力就像肌肉一样有极限"><a href="#自控力就像肌肉一样有极限" class="headerlink" title="自控力就像肌肉一样有极限"></a>自控力就像肌肉一样有极限</h4><p>它被使用后会渐渐疲惫，需要时间来恢复。很多你认为不需要意志力的事情，都要依靠这种有限的能量甚至要消耗能量。</p>
-<h4 id="意志力波动"><a href="#意志力波动" class="headerlink" title="意志力波动"></a>意志力波动</h4><p>自控力从早上到晚上会逐渐减弱。</p>
-<ul>
-<li>把重要的事情放在第一位(最早处理)。</li>
-</ul>
-<h4 id="意志力实验-锻炼意志力"><a href="#意志力实验-锻炼意志力" class="headerlink" title="意志力实验:锻炼意志力"></a>意志力实验:锻炼意志力</h4><ul>
-<li>增强”我不要”的力量：不要随便发誓，坐下的时候不要翘脚，用不常用的手进行日常活动，比如吃饭和开门。</li>
-<li>增强”我想要”的力量：每天都做一些平时不常做的事。</li>
-<li>增强自我监控的能力:认真记录一件你平常不关注的事。</li>
-</ul>
-<p>发现你的”我想要”的力量，发现自己最重要的”我想要”的力量，也就是你脆弱的时候给你动力的东西。</p>
-<h4 id="只要你愿意，你就有意志力"><a href="#只要你愿意，你就有意志力" class="headerlink" title="只要你愿意，你就有意志力"></a>只要你愿意，你就有意志力</h4><h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>自控力就像肌肉一样有极限，自控力用得太多会疲倦，但坚持训练能增强自控力。</p>
-<h3 id="第四章-容忍罪恶-为何善行之后会有恶性？"><a href="#第四章-容忍罪恶-为何善行之后会有恶性？" class="headerlink" title="第四章 容忍罪恶:为何善行之后会有恶性？"></a>第四章 容忍罪恶:为何善行之后会有恶性？</h3>
       
     </div>
     

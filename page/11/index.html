@@ -162,11 +162,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-build_blog" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-android 6.0 permission" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/17/build_blog/" class="article-date">
-  	<time datetime="2016-08-16T16:00:00.000Z" itemprop="datePublished">2016-08-17</time>
+      <a href="/2016/08/18/android 6.0 permission/" class="article-date">
+  	<time datetime="2016-08-17T16:00:00.000Z" itemprop="datePublished">2016-08-18</time>
 </a>
     </div>
   
@@ -179,8 +179,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/17/build_blog/">
-        Mac上 Github 博客搭建
+      <a class="article-title" href="/2016/08/18/android 6.0 permission/">
+        Android 6.0权限处理
         
       </a>
     </h1>
@@ -191,82 +191,127 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>文章来自[他人博客]（<a href="http://www.jianshu.com/p/13e64c9e2295）" target="_blank" rel="noopener">http://www.jianshu.com/p/13e64c9e2295）</a></p>
-<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><h3 id="1-安装-node"><a href="#1-安装-node" class="headerlink" title="1 安装 node"></a>1 安装 node</h3><p>用来生成静态页面。移步<a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js官网</a>，下载v5.5.0 Stable 一路安装即可。</p>
-<h3 id="2-安装-Git"><a href="#2-安装-Git" class="headerlink" title="2 安装 Git"></a>2 安装 Git</h3><p>作用：把本地的hexo内容提交到github上去. </p>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Git</a></p>
-<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><p>当Node.js和Git都安装好后就可以正式安装Hexo了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g hexo</span><br></pre></td></tr></table></figure>
-<p>输入管理员密码（Mac登录密码）即开始安装 (sudo:linux系统管理指令  -g:全局安装)</p>
-<pre><code>注意坑一：[Hexo官网](https://hexo.io/docs)上的安装命令是$ npm install -g hexo-cli，安装时不要忘记前面加上sudo，否则会因为权限问题报错。
-</code></pre><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>终端cd到一个你选定的目录，执行hexo init命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init blog</span><br></pre></td></tr></table></figure>
-<p>blog是你建立的文件夹名称。cd到blog文件夹下，执行如下命令，安装npm：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
-<p>执行如下命令，开启hexo服务器：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
-<p>此时，浏览器中打开网址<a href="http://localhost:4000查看本地效果" target="_blank" rel="noopener">http://localhost:4000查看本地效果</a></p>
-<p>本地设置好后，接下来开始关联Github。</p>
-<h2 id="关联Github"><a href="#关联Github" class="headerlink" title="关联Github"></a>关联Github</h2><h3 id="1-创建仓库"><a href="#1-创建仓库" class="headerlink" title="1 创建仓库"></a>1 创建仓库</h3><p>登录你的Github帐号，新建仓库，名为用户名.github.io固定写法，如sirencode</p>
-<p>本地的blog文件夹下内容为：</p>
-<pre><code>_config.yml  
-db.json 
-node_modules 
-package.json
-scaffolds
-source
-themes
-</code></pre><p>终端cd到blog文件夹下，vim打开_config.yml，命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim _config.yml</span><br></pre></td></tr></table></figure>
-<p>打开后往下滑到最后，修改成下边的样子：</p>
-<pre><code>deploy:
-  type: git
-  repository: https://github.com/sirencode/sirencode.github.io.git
-  branch: master
-</code></pre><p>你需要将repository后sirencode换成你自己的用户名hexo 3.1.1版本后type:值为git。</p>
-<pre><code>注意坑二：在配置所有的_config.yml文件时（包括theme中的），在所有的冒号:后边都要加一个空格，否则执行hexo命令会报错，切记 切记
-</code></pre><p>在blog文件夹目录下执行生成静态页面命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate        或者：hexo g</span><br></pre></td></tr></table></figure>
-<pre><code>此时若出现如下报错：
-ERROR Local hexo not found in ~/blog
-ERROR Try runing: &apos;npm install hexo --save&apos;
-则执行命令：
-npm install hexo --save
-若无报错，自行忽略此步骤。
-</code></pre><p>再执行配置命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy            或者：hexo d</span><br></pre></td></tr></table></figure>
-<pre><code>注意坑三：若执行命令hexo deploy仍然报错：无法连接git或找不到git，则执行如下命令来安装hexo-deployer-git：
- $ npm install hexo-deployer-git --save
-</code></pre><p> 再次执行hexo generate和hexo deploy命令。</p>
-<p> 若你未关联Github，则执行hexo deploy命令时终端会提示你输入Github的用户名和密码，即</p>
-<pre><code>Username for &apos;https://github.com&apos;:
-Password for &apos;https://github.com&apos;:
-</code></pre><p>hexo deploy命令执行成功后，浏览器中打开网址<a href="http://sirencode.github.io（将sirencode换成你的用户名）能看到和打开http://localhost:4000时一样的页面。" target="_blank" rel="noopener">http://sirencode.github.io（将sirencode换成你的用户名）能看到和打开http://localhost:4000时一样的页面。</a></p>
-<p>为避免每次输入Github用户名和密码的麻烦，添加ssh key到Github</p>
-<p>####1 检查SSH keys是否存在Github<br>执行如下命令，检查SSH keys是否存在。如果有文件id_rsa.pub或id_dsa.pub，则直接进入步骤3将SSH key添加到Github中，否则进入下一步生成SSH key。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al ~/.ssh</span><br></pre></td></tr></table></figure>
-<p>####2 生成新的ssh key<br>执行如下命令生成public/private rsa key pair，注意将<a href="mailto:your_email@example.com" target="_blank" rel="noopener">your_email@example.com</a>换成你自己注册Github的邮箱地址。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></span><br></pre></td></tr></table></figure>
-<p>默认会在相应路径下（~/.ssh/id_rsa.pub）生成id_rsa和id_rsa.pub两个文件。</p>
-<p>####3 将ssh key添加到Github中<br>Find前往文件夹~/.ssh/id_rsa.pub打开id_rsa.pub文件，里面的信息即为SSH key，将这些信息复制到Github的Add SSH key页面即可。</p>
-<p>进入Github –&gt; Settings –&gt; SSH keys –&gt; add SSH key:</p>
-<p>Title里任意添一个标题，将复制的内容粘贴到Key里，点击下方Add key绿色按钮即可。</p>
-<h3 id="2-发布文章"><a href="#2-发布文章" class="headerlink" title="2 发布文章"></a>2 发布文章</h3><p>终端cd到blog文件夹下，执行如下命令新建文章：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"postName"</span></span><br></pre></td></tr></table></figure>
-<p>名为postName.md的文件会建在目录/blog/source/_posts下。你当然可以用vim来编辑文章。我在用Mou编辑器，支持预览，虽然其预览主题并非我喜欢，如果你有好用的markdown编辑器请推荐给我，感激不尽！</p>
-<p>文章编辑完成后，终端cd到blog文件夹下，执行如下命令来发布：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate             //生成静态页面</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy            //将文章部署到Github</span><br></pre></td></tr></table></figure>
-<p>文章的发布环节已经完成，就是编辑，（clean）generate,deploy循环。</p>
-<h3 id="3-安装Theme博客模板"><a href="#3-安装Theme博客模板" class="headerlink" title="3 安装Theme博客模板"></a>3 安装Theme博客模板</h3><p>你可以到<a href="https://hexo.io/themes/" target="_blank" rel="noopener">Hexo官网主题页</a>去搜寻自己喜欢的theme。这里以<a href="https://github.com/iissnan/hexo-theme-next">hexo-theme-next</a>为例</p>
-<p>终端cd到 blog 目录下执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
-<p>将blog目录下_config.yml里theme的名称landscape修改为next</p>
-<p>终端cd到blog目录下执行如下命令(每次部署文章的步骤)：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean     //清除缓存文件 (db.json) 和已生成的静态文件 (public)</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g             //生成缓存和静态文件</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d             //重新部署到服务器</span><br></pre></td></tr></table></figure>
-<p>至于更改theme内容，比如名称，描述，头像等去修改blog/_config.yml文件和blog/themes/next/_config.yml文件中对应的属性名称即可， 不要忘记冒号:后加空格。 <a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">NexT</a> 使用文档里有极详细的介绍。</p>
+        <pre><code>6.0的改动较大的集中在了权限这一块，和以往不同，最新的权限（高危和特殊）是必须动态的申请才可以使用的，如果不动态申请直接使用会导致程序崩溃掉。
+</code></pre><p>现在开源的写的比较好的有以下两个框架：</p>
+<p><a href="https://github.com/tbruyelle/RxPermissions">RxPermissions</a>：主要可以实现通过链式的方式调用。</p>
+<p><a href="https://github.com/googlesamples/easypermissions">easypermissions</a>:这是google官方的一个例子，考虑的相对全面。</p>
+<p>以上两个框架虽然写的都很好，但是在项目的使用中还会遇到很多实质性的问题需要解决，下面我们就根据在项目中的具体使用来分析一下。</p>
+<h2 id="6-0权限介绍"><a href="#6-0权限介绍" class="headerlink" title="6.0权限介绍"></a>6.0权限介绍</h2><h3 id="1-一般权限，声明即可使用，无需做特殊处理。"><a href="#1-一般权限，声明即可使用，无需做特殊处理。" class="headerlink" title="1 一般权限，声明即可使用，无需做特殊处理。"></a>1 一般权限，声明即可使用，无需做特殊处理。</h3><p>一般权限的使用和6.0前使用方式相同，在Manifest声明一下即可使用。<br>一般权限列表：</p>
+<pre><code>ACCESS_LOCATION_EXTRA_COMMANDS
+ACCESS_NETWORK_STATE
+ACCESS_NOTIFICATION_POLICY
+ACCESS_WIFI_STATE
+BLUETOOTH
+BLUETOOTH_ADMIN
+BROADCAST_STICKY
+CHANGE_NETWORK_STATE
+CHANGE_WIFI_MULTICAST_STATE
+CHANGE_WIFI_STATE
+DISABLE_KEYGUARD
+EXPAND_STATUS_BAR
+GET_PACKAGE_SIZE
+INSTALL_SHORTCUT
+INTERNET
+KILL_BACKGROUND_PROCESSES
+MODIFY_AUDIO_SETTINGS
+NFC
+READ_SYNC_SETTINGS
+READ_SYNC_STATS
+RECEIVE_BOOT_COMPLETED
+REORDER_TASKS
+REQUEST_INSTALL_PACKAGES
+SET_ALARM
+SET_TIME_ZONE
+SET_WALLPAPER
+SET_WALLPAPER_HINTS
+TRANSMIT_IR
+UNINSTALL_SHORTCUT
+USE_FINGERPRINT
+VIBRATE
+WAKE_LOCK
+WRITE_SYNC_SETTINGS
+</code></pre><h3 id="2-危险权限，也成运行时权限，需要动态的在使用时授权，如果未授权直接使用会导致崩溃。"><a href="#2-危险权限，也成运行时权限，需要动态的在使用时授权，如果未授权直接使用会导致崩溃。" class="headerlink" title="2 危险权限，也成运行时权限，需要动态的在使用时授权，如果未授权直接使用会导致崩溃。"></a>2 危险权限，也成运行时权限，需要动态的在使用时授权，如果未授权直接使用会导致崩溃。</h3><p>危险权限，在6.0中又被称之为运行时权限，顾名思义就是要在使用的时候动态的申请相关的权限。</p>
+<h4 id="危险权限的使用过程"><a href="#危险权限的使用过程" class="headerlink" title="危险权限的使用过程"></a>危险权限的使用过程</h4><p>首先要在Manifest里面声明。（此处有坑，如果不声明你动态去申请的时候，直接返回失败，我在测试的时候犯过这个错误，排查了好久）</p>
+<p>有使用相关权限前先判断当前API是否大于等于6.0，如果大于就走动态授权的流程，不然直接使用相关权限。</p>
+<p>如果在6.0以上，去判断对应权限是否已经授权了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED</span><br></pre></td></tr></table></figure>
+<p>如果未授权，先去走授权的流程</p>
+<p>判断未授权的权限是否被勾选为不在提示，一旦相关权限被拒绝一次，下一次再弹出授权的窗口时就会带上不再提示的复选框，这个是系统级别的无法修改，而用户要是勾选了不再提示的按钮，下次我们再发起动态权限申请流程，就不会弹出提示框授权。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">activity.shouldShowRequestPermissionRationale(permission)</span><br></pre></td></tr></table></figure>
+<p>如果被勾选了不再提示，我们就要跳到对应APP的详细信息页面，去叫用户手动的授权。</p>
+<p>如果只是单纯的未授权但是没有勾选不再提示的权限，那我们就发起权限申请的流程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">activity.requestPermissions(permissions)</span><br></pre></td></tr></table></figure>
+<p>之后会通过activity.onRequestPermissionsResult进行回调处理。</p>
+<h4 id="坑点"><a href="#坑点" class="headerlink" title="坑点"></a>坑点</h4><pre><code>坑一：
+我们这里把危险权限的使用分为两种情况
+第一种被称为主动调用：举个例子就像我们点击相机按钮去打开相机这种调用，这种调用是可控的，走授权流程后再点击一下就生效了，也是不叫常用的授权方式。
+
+第二种被称为被动调用：例如初始化的时候要用到deviceId这个参数，而这个参数是需要读取手机状态&quot;危险权限&quot;的，所以就要动态去申请，但是这个参数是在我们的APP初始化的时候要调用的，没有点击事件，我们称这种情况为被动调用。被动调用的缺点就是，我们发起权限后不知道什么时候授权情况如何，之后重新调用相关方法。因此在这种情况的时候就要产品给出合理的选择了，如果未授权相关功能，我们的APP是放弃相关功能而继续运行还是直接强制他授权才能使用（不授权就一直提示，直到授权成功才继续运行）。
+
+坑二：
+我们项目中的运行时权限一般分为我们自己写的功能使用到相关权限，还有就是第三方的SDK使用到了运行时权限。自己使用权限的地方我们可以自己去控制什么时候申请权限以及权限申请的使用流程控制。第三方的东西控制起来就相对麻烦的多了，比如数据埋点的友盟talkingdata等的试用地方极多，控制起来就相对麻烦的多了。
+我的建议是，将第三方的sdk进行封装使用，这样我们就可以控制对应参数的传入时机以及容错处理了。
+
+坑三：缓存一些读值型的数据，如deviceId。因为这种被动式的授权模式有一个缺点就是当我们的APP切到后台后，用户手动的把权限关掉了的情况下（这用户得有多二逼啊），会崩溃的。因为这些权限是被动权限初始化后就自动使用的。
+建议就是读值型的，全局缓存，每次初始化的时候更新，非读值型的，初始化后，每次使用的时候还是要做授权判断。
+坑四：
+尽量把需要运行是权限的东西放到activity或者fragment里面处理，因为申请授权的流程只能在有UI的情况进行。当然有一些情况必须要在Application里面初始化，因为APP可能通过推送直接跳过这个初始化的activity跳到直接使用的页面。
+解决办法就是，授权放到四次启动的ui里面，第一次的初始化也放到这个UI里面处理。然后在application里面判断是否授权，已授权就初始化，未授权做好处理。
+</code></pre><h4 id="运行时权限列表"><a href="#运行时权限列表" class="headerlink" title="运行时权限列表"></a>运行时权限列表</h4><pre><code>Permission Group    Permissions
+
+CALENDAR
+                    READ_CALENDAR
+                    WRITE_CALENDAR
+CAMERA
+                    CAMERA
+CONTACTS
+                    READ_CONTACTS
+                    WRITE_CONTACTS
+                    GET_ACCOUNTS
+LOCATION
+                    ACCESS_FINE_LOCATION
+                    ACCESS_COARSE_LOCATION
+MICROPHONE
+                    RECORD_AUDIO
+PHONE
+                    READ_PHONE_STATE
+                    CALL_PHONE
+                    READ_CALL_LOG
+                    WRITE_CALL_LOG
+                    ADD_VOICEMAIL
+                    USE_SIP
+                    PROCESS_OUTGOING_CALLS
+SENSORS
+                    BODY_SENSORS
+SMS
+                    SEND_SMS
+                    RECEIVE_SMS
+                    READ_SMS
+                    RECEIVE_WAP_PUSH
+                    RECEIVE_MMS
+STORAGE
+                    READ_EXTERNAL_STORAGE
+                    WRITE_EXTERNAL_STORAGE
+</code></pre><h3 id="3-特殊权限"><a href="#3-特殊权限" class="headerlink" title="3 特殊权限"></a>3 特殊权限</h3><pre><code>SYSTEM_ALERT_WINDOW，设置悬浮窗，进行一些黑科技
+WRITE_SETTINGS 修改系统设置
+</code></pre><h4 id="权限使用"><a href="#权限使用" class="headerlink" title="权限使用"></a>权限使用</h4><pre><code>private static final int REQUEST_CODE = 1;
+private  void requestAlertWindowPermission() {
+Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+intent.setData(Uri.parse(&quot;package:&quot; + getPackageName()));
+startActivityForResult(intent, REQUEST_CODE);
+}
+
+@Override
+ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+super.onActivityResult(requestCode, resultCode, data);
+if (requestCode == REQUEST_CODE) {
+    if (Settings.canDrawOverlays(this)) {
+      Log.i(LOGTAG, &quot;onActivityResult granted&quot;);
+    }
+}
+}
+</code></pre><h3 id="做好缓冲工作"><a href="#做好缓冲工作" class="headerlink" title="做好缓冲工作"></a>做好缓冲工作</h3><p>我们的APP中难免会有一些权限不授权就无法使用的情况，例如我们要读deviceId,但是这个权限所在组是打电话的权限组，也就是会提示要打电话的权限，这样很多用户可能直接就拒绝了。为了避免这种情况发生，我们做一个缓冲，也就是先弹出我们自己定义的比较和谐的提示，同意后在弹出系统生硬的提示，这样一来可以很多程度上避免用户的流失。</p>
+<p>###结语<br>适配是一个烦人的过程，会有各种各样的问题，我在这里列出了一些我自己遇到的问题及解决方案，希望对大家有所帮助，另外如果你遇到了一些我没有提到的问题希望帮我补充，大家互相完善，最后希望对你们有所帮助。</p>
 
       
     </div>
@@ -456,6 +501,136 @@ public void call(Integer number) {
 });
 </code></pre></li>
 </ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-build_blog" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/17/build_blog/" class="article-date">
+  	<time datetime="2016-08-16T16:00:00.000Z" itemprop="datePublished">2016-08-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/17/build_blog/">
+        Mac上 Github 博客搭建
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>文章来自[他人博客]（<a href="http://www.jianshu.com/p/13e64c9e2295）" target="_blank" rel="noopener">http://www.jianshu.com/p/13e64c9e2295）</a></p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><h3 id="1-安装-node"><a href="#1-安装-node" class="headerlink" title="1 安装 node"></a>1 安装 node</h3><p>用来生成静态页面。移步<a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js官网</a>，下载v5.5.0 Stable 一路安装即可。</p>
+<h3 id="2-安装-Git"><a href="#2-安装-Git" class="headerlink" title="2 安装 Git"></a>2 安装 Git</h3><p>作用：把本地的hexo内容提交到github上去. </p>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Git</a></p>
+<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><p>当Node.js和Git都安装好后就可以正式安装Hexo了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g hexo</span><br></pre></td></tr></table></figure>
+<p>输入管理员密码（Mac登录密码）即开始安装 (sudo:linux系统管理指令  -g:全局安装)</p>
+<pre><code>注意坑一：[Hexo官网](https://hexo.io/docs)上的安装命令是$ npm install -g hexo-cli，安装时不要忘记前面加上sudo，否则会因为权限问题报错。
+</code></pre><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>终端cd到一个你选定的目录，执行hexo init命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init blog</span><br></pre></td></tr></table></figure>
+<p>blog是你建立的文件夹名称。cd到blog文件夹下，执行如下命令，安装npm：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<p>执行如下命令，开启hexo服务器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
+<p>此时，浏览器中打开网址<a href="http://localhost:4000查看本地效果" target="_blank" rel="noopener">http://localhost:4000查看本地效果</a></p>
+<p>本地设置好后，接下来开始关联Github。</p>
+<h2 id="关联Github"><a href="#关联Github" class="headerlink" title="关联Github"></a>关联Github</h2><h3 id="1-创建仓库"><a href="#1-创建仓库" class="headerlink" title="1 创建仓库"></a>1 创建仓库</h3><p>登录你的Github帐号，新建仓库，名为用户名.github.io固定写法，如sirencode</p>
+<p>本地的blog文件夹下内容为：</p>
+<pre><code>_config.yml  
+db.json 
+node_modules 
+package.json
+scaffolds
+source
+themes
+</code></pre><p>终端cd到blog文件夹下，vim打开_config.yml，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim _config.yml</span><br></pre></td></tr></table></figure>
+<p>打开后往下滑到最后，修改成下边的样子：</p>
+<pre><code>deploy:
+  type: git
+  repository: https://github.com/sirencode/sirencode.github.io.git
+  branch: master
+</code></pre><p>你需要将repository后sirencode换成你自己的用户名hexo 3.1.1版本后type:值为git。</p>
+<pre><code>注意坑二：在配置所有的_config.yml文件时（包括theme中的），在所有的冒号:后边都要加一个空格，否则执行hexo命令会报错，切记 切记
+</code></pre><p>在blog文件夹目录下执行生成静态页面命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate        或者：hexo g</span><br></pre></td></tr></table></figure>
+<pre><code>此时若出现如下报错：
+ERROR Local hexo not found in ~/blog
+ERROR Try runing: &apos;npm install hexo --save&apos;
+则执行命令：
+npm install hexo --save
+若无报错，自行忽略此步骤。
+</code></pre><p>再执行配置命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy            或者：hexo d</span><br></pre></td></tr></table></figure>
+<pre><code>注意坑三：若执行命令hexo deploy仍然报错：无法连接git或找不到git，则执行如下命令来安装hexo-deployer-git：
+ $ npm install hexo-deployer-git --save
+</code></pre><p> 再次执行hexo generate和hexo deploy命令。</p>
+<p> 若你未关联Github，则执行hexo deploy命令时终端会提示你输入Github的用户名和密码，即</p>
+<pre><code>Username for &apos;https://github.com&apos;:
+Password for &apos;https://github.com&apos;:
+</code></pre><p>hexo deploy命令执行成功后，浏览器中打开网址<a href="http://sirencode.github.io（将sirencode换成你的用户名）能看到和打开http://localhost:4000时一样的页面。" target="_blank" rel="noopener">http://sirencode.github.io（将sirencode换成你的用户名）能看到和打开http://localhost:4000时一样的页面。</a></p>
+<p>为避免每次输入Github用户名和密码的麻烦，添加ssh key到Github</p>
+<p>####1 检查SSH keys是否存在Github<br>执行如下命令，检查SSH keys是否存在。如果有文件id_rsa.pub或id_dsa.pub，则直接进入步骤3将SSH key添加到Github中，否则进入下一步生成SSH key。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al ~/.ssh</span><br></pre></td></tr></table></figure>
+<p>####2 生成新的ssh key<br>执行如下命令生成public/private rsa key pair，注意将<a href="mailto:your_email@example.com" target="_blank" rel="noopener">your_email@example.com</a>换成你自己注册Github的邮箱地址。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></span><br></pre></td></tr></table></figure>
+<p>默认会在相应路径下（~/.ssh/id_rsa.pub）生成id_rsa和id_rsa.pub两个文件。</p>
+<p>####3 将ssh key添加到Github中<br>Find前往文件夹~/.ssh/id_rsa.pub打开id_rsa.pub文件，里面的信息即为SSH key，将这些信息复制到Github的Add SSH key页面即可。</p>
+<p>进入Github –&gt; Settings –&gt; SSH keys –&gt; add SSH key:</p>
+<p>Title里任意添一个标题，将复制的内容粘贴到Key里，点击下方Add key绿色按钮即可。</p>
+<h3 id="2-发布文章"><a href="#2-发布文章" class="headerlink" title="2 发布文章"></a>2 发布文章</h3><p>终端cd到blog文件夹下，执行如下命令新建文章：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"postName"</span></span><br></pre></td></tr></table></figure>
+<p>名为postName.md的文件会建在目录/blog/source/_posts下。你当然可以用vim来编辑文章。我在用Mou编辑器，支持预览，虽然其预览主题并非我喜欢，如果你有好用的markdown编辑器请推荐给我，感激不尽！</p>
+<p>文章编辑完成后，终端cd到blog文件夹下，执行如下命令来发布：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate             //生成静态页面</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy            //将文章部署到Github</span><br></pre></td></tr></table></figure>
+<p>文章的发布环节已经完成，就是编辑，（clean）generate,deploy循环。</p>
+<h3 id="3-安装Theme博客模板"><a href="#3-安装Theme博客模板" class="headerlink" title="3 安装Theme博客模板"></a>3 安装Theme博客模板</h3><p>你可以到<a href="https://hexo.io/themes/" target="_blank" rel="noopener">Hexo官网主题页</a>去搜寻自己喜欢的theme。这里以<a href="https://github.com/iissnan/hexo-theme-next">hexo-theme-next</a>为例</p>
+<p>终端cd到 blog 目录下执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+<p>将blog目录下_config.yml里theme的名称landscape修改为next</p>
+<p>终端cd到blog目录下执行如下命令(每次部署文章的步骤)：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean     //清除缓存文件 (db.json) 和已生成的静态文件 (public)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g             //生成缓存和静态文件</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d             //重新部署到服务器</span><br></pre></td></tr></table></figure>
+<p>至于更改theme内容，比如名称，描述，头像等去修改blog/_config.yml文件和blog/themes/next/_config.yml文件中对应的属性名称即可， 不要忘记冒号:后加空格。 <a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">NexT</a> 使用文档里有极详细的介绍。</p>
 
       
     </div>
