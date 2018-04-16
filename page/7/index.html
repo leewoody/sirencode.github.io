@@ -162,6 +162,197 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-7.0适配问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/11/7.0适配问题/" class="article-date">
+  	<time datetime="2016-12-10T16:00:00.000Z" itemprop="datePublished">2016-12-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/11/7.0适配问题/">
+        Android7.0变更以及适配问题
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Android 7.0 除了提供诸多新特性和功能外，还对系统和 API 行为做出了各种变更。本文重点介绍您应该了解并在开发应用时加以考虑的一些主要变更。</p>
+<h3 id="电池和内存"><a href="#电池和内存" class="headerlink" title="电池和内存"></a>电池和内存</h3><p>Android 7.0 包括旨在延长设备电池寿命和减少 RAM 使用的系统行为变更。这些变更可能会影响应用访问系统资源，以及应用通过特定隐式 intent 与其他应用交互的方式。</p>
+<h4 id="低电耗模式"><a href="#低电耗模式" class="headerlink" title="低电耗模式"></a>低电耗模式</h4><p>Android 6.0（API 级别 23）引入了低电耗模式，当用户设备未插接电源、处于静止状态且屏幕关闭时，该模式会推迟 CPU 和网络活动，从而延长电池寿命。而 Android 7.0 则通过在设备未插接电源且屏幕关闭状态下、但不一定要处于静止状态（例如用户外出时把手持式设备装在口袋里）时应用部分 CPU 和网络限制，进一步增强了低电耗模式。</p>
+<p>当设备处于充电状态且屏幕已关闭一定时间后，设备会进入低电耗模式并应用第一部分限制：</p>
+<ul>
+<li>关闭应用网络访问、推迟作业和同步。</li>
+</ul>
+<p>如果进入低电耗模式后设备处于静止状态达到一定时间:</p>
+<ul>
+<li>系统则会对 PowerManager.WakeLock、AlarmManager 闹铃、GPS 和 WLAN 扫描应用余下的低电耗模式限制。</li>
+</ul>
+<font color="#0099ff" size="2" face="黑体">无论是应用部分还是全部低电耗模式限制，系统都会唤醒设备以提供简短的维护时间窗口，在此窗口期间，应用程序可以访问网络并执行任何被推迟的作业/同步(9分钟)。</font>
+
+<ul>
+<li>从6.0的推迟访问到7.0的限制访问，这个时候我们要做好低功耗模式下的处理。</li>
+</ul>
+<h4 id="低电耗模式限制"><a href="#低电耗模式限制" class="headerlink" title="低电耗模式限制"></a>低电耗模式限制</h4><p>在低电耗模式下，您的应用会受到以下限制：</p>
+<ul>
+<li>暂停访问网络。</li>
+<li>系统将忽略 wake locks。</li>
+<li>标准 AlarmManager 闹铃（包括 setExact() 和 setWindow()）  推迟到下一维护时段。</li>
+<li>如果您需要设置在低电耗模式下触发的闹铃，请使用 * setAndAllowWhileIdle() 或 setExactAndAllowWhileIdle()。<br>一般情况下，使用 setAlarmClock() 设置的闹铃将继续触发 — 但系统会在这些闹铃触发之前不久退出低电耗模式。</li>
+<li>系统不执行 Wi-Fi 扫描。</li>
+<li>系统不允许运行同步适配器。</li>
+<li>系统不允许运行 JobScheduler。</li>
+<li>低电耗模式检查清单<br>如果可能，请使用 GCM 进行下游消息传递。</li>
+<li>如果您的用户必须立即查看通知，请务必使用 GCM 高优先级消息。</li>
+<li>在初始消息负载中提供足够的信息，这样随后就无需访问网络。</li>
+<li>使用 setAndAllowWhileIdle() 和 setExactAndAllowWhileIdle() 设置关键闹铃。</li>
+</ul>
+<h3 id="后台优化"><a href="#后台优化" class="headerlink" title="后台优化"></a>后台优化</h3><p>Android 7.0 移除了三项隐式广播，以帮助优化内存使用和电量消耗。此项变更很有必要，因为隐式广播会在后台频繁启动已注册侦听这些广播的应用。删除这些广播可以显著提升设备性能和用户体验。</p>
+<p>移动设备会经历频繁的连接变更，例如在 WLAN 和移动数据之间切换时。目前，可以通过在应用清单中注册一个接收器来侦听隐式 CONNECTIVITY_ACTION 广播，让应用能够监控这些变更。由于很多应用会注册接收此广播，因此单次网络切换即会导致所有应用被唤醒并同时处理此广播。</p>
+<p>同理，在之前版本的 Android 中，应用可以注册接收来自其他应用（例如相机）的隐式 ACTION_NEW_PICTURE 和 ACTION_NEW_VIDEO 广播。当用户使用相机应用拍摄照片时，这些应用即会被唤醒以处理广播。</p>
+<p>为缓解这些问题，Android 7.0 应用了以下优化措施：</p>
+<p>面向 Android 7.0 开发的应用不会收到 CONNECTIVITY_ACTION 广播，即使它们已有清单条目来请求接受这些事件的通知。在前台运行的应用如果使用 BroadcastReceiver 请求接收通知，则仍可以在主线程中侦听 CONNECTIVITY_CHANGE。<br>应用无法发送或接收 ACTION_NEW_PICTURE 或 ACTION_NEW_VIDEO 广播。此项优化会影响所有应用，而不仅仅是面向 Android 7.0 的应用。<br>如果您的应用使用任何 intent，您仍需要尽快移除它们的依赖关系，以正确适配 Android 7.0 设备。Android 框架提供多个解决方案来缓解对这些隐式广播的需求。例如，JobScheduler API 提供了一个稳健可靠的机制来安排满足指定条件（例如连入无限流量网络）时所执行的网络操作。您甚至可以使用 JobScheduler 来适应内容提供程序变化。</p>
+<ul>
+<li>移除了三项隐式广播，网络变化，照相和录视频。网络变化在前台可以监听，其他两项完全删除，删除的两项面向所有API。</li>
+</ul>
+<h3 id="权限变更"><a href="#权限变更" class="headerlink" title="权限变更"></a>权限变更</h3><h4 id="系统权限更改"><a href="#系统权限更改" class="headerlink" title="系统权限更改"></a>系统权限更改</h4><p>为了提高私有文件的安全性，面向 Android 7.0 或更高版本的应用私有目录被限制访问　(0700)。此设置可防止私有文件的元数据泄漏，如它们的大小或存在性。此权限更改有多重副作用：</p>
+<ul>
+<li>私有文件的文件权限不应再由所有者放宽，为使用 MODE_WORLD_READABLE 和/或 MODE_WORLD_WRITEABLE 而进行的此类尝试将触发 SecurityException。（用来控制其他应用是否有权限读写该文件权限受限）</li>
+</ul>
+<p>注：迄今为止，这种限制尚不能完全执行。应用仍可能使用原生 API 或 File API 来修改它们的私有目录权限。但是，我们强烈反对放宽私有目录的权限。</p>
+<ul>
+<li><p>传递软件包网域外的 file:// URI 可能给接收器留下无法访问的路径。因此，尝试传递 file:// URI 会触发 FileUriExposedException。分享私有文件内容的推荐方法是使用 FileProvider。</p>
+</li>
+<li><p>DownloadManager 不再按文件名分享私人存储的文件。旧版应用在访问 COLUMN_LOCAL_FILENAME 时可能出现无法访问的路径。面向 Android 7.0 或更高版本的应用在尝试访问 COLUMN_LOCAL_FILENAME 时会触发 SecurityException。通过使用 DownloadManager.Request.setDestinationInExternalFilesDir() 或 DownloadManager.Request.setDestinationInExternalPublicDir() 将下载位置设置为公共位置的旧版应用仍可以访问 COLUMN_LOCAL_FILENAME 中的路径，但是我们强烈反对使用这种方法。对于由 DownloadManager 公开的文件，首选的访问方式是使用ContentResolver.openFileDescriptor()。</p>
+</li>
+</ul>
+<h4 id="在应用间共享文件"><a href="#在应用间共享文件" class="headerlink" title="在应用间共享文件"></a>在应用间共享文件</h4><p>对于面向 Android 7.0 的应用，Android 框架执行的 StrictMode API 政策禁止在您的应用外部公开 file:// URI。如果一项包含文件 URI 的 intent 离开您的应用，则应用出现故障，并出现 FileUriExposedException 异常。</p>
+<p>要在应用间共享文件，您应发送一项 content:// URI，并授予 URI 临时访问权限。进行此授权的最简单方式是使用 FileProvider 类。</p>
+<h3 id="无障碍改进"><a href="#无障碍改进" class="headerlink" title="无障碍改进"></a>无障碍改进</h3><h4 id="屏幕缩放"><a href="#屏幕缩放" class="headerlink" title="屏幕缩放"></a>屏幕缩放</h4><p>Android 7.0 支持用户设置显示尺寸，以放大或缩小屏幕上的所有元素，从而提升设备对视力不佳用户的可访问性。用户无法将屏幕缩放至低于最小屏幕宽度 sw320dp，该宽度是 Nexus 4 的宽度，也是常规中等大小手机的宽度。</p>
+<ul>
+<li><p>当设备密度发生更改时，系统会以如下方式通知正在运行的应用：</p>
+</li>
+<li><p>如果是面向 API 级别 23 或更低版本系统的应用，系统会自动终止其所有后台进程。这意味着如果用户切换离开此类应用，转而打开 Settings 屏幕并更改 Display size 设置，则系统会像处理内存不足的情况一样终止该应用。如果应用具有任何前台进程，则系统会如处理运行时更改中所述将配置变更通知给这些进程，就像对待设备屏幕方向变更一样。</p>
+</li>
+<li>如果是面向 Android 7.0 的应用，则其所有进程（前台和后台）都会收到有关配置变更的通知，如处理运行时更改中所述。<br>大多数应用并不需要进行任何更改即可支持此功能，不过前提是这些应用遵循 Android 最佳做法。具体要检查的事项：</li>
+<li>在屏幕宽度为 sw320dp 的设备上测试您的应用，并确保其充分运行。</li>
+<li>当设备配置发生变更时，更新任何与密度相关的缓存信息，例如缓存位图或从网络加载的资源。当应用从暂停状态恢复运行时，检查配置变更。<br>注：如果您要缓存与配置相关的数据，则最好也包括相关元数据，例如该数据对应的屏幕尺寸或像素密度。保存这些元数据便于您在配置变更后决定是否需要刷新缓存数据。</li>
+<li>避免用像素单位指定尺寸，因为像素不会随屏幕密度缩放。应改为使用与密度无关像素 (dp) 单位指定尺寸。</li>
+</ul>
+<h3 id="NDK-应用链接至平台库"><a href="#NDK-应用链接至平台库" class="headerlink" title="NDK 应用链接至平台库"></a>NDK 应用链接至平台库</h3><p>从 Android 7.0 开始，系统将阻止应用动态链接非公开 NDK 库，这种库可能会导致您的应用崩溃。此行为变更旨在为跨平台更新和不同设备提供统一的应用体验。即使您的代码可能不会链接私有库，但您的应用中的第三方静态库可能会这么做。因此，所有开发者都应进行相应检查，确保他们的应用不会在运行 Android 7.0 的设备上崩溃。如果您的应用使用原生代码，则只能使用公开 NDK API。</p>
+<p>您的应用可通过以下三种方式尝试访问私有平台 API：</p>
+<ul>
+<li>您的应用直接访问私有平台库。您应更新您的应用以添加该应用的库副本，或使用公开 NDK API。</li>
+<li>您的应用使用一个可访问私有平台库的第三方库。即使您确定您的应用不会直接访问私有库，您仍应针对此情景测试您的应用。</li>
+<li>您的应用引用一个其 APK 中未包含的库。例如，如果您尝试使用您自己的 OpenSSL 副本，但忘记将它与应用的 APK 进行捆绑，则可能会出现此情况。正常情况下，此应用可在包含 libcrypto.so 的 Android 平台版本上运行。不过，此应用在不包含此库的新版 Android（例如，Android 6.0 和更高的版本）上会崩溃。为修复此问题，请确保您的 APK 捆绑您的所有非 NDK 库。</li>
+<li><p>应用不应使用 NDK 中未包含的原生库，因为这些库可能会发生更改或在不同 Android 版本之间的可用性不同。例如，从 OpenSSL 切换至 BoringSSL 即属于此类更改。此外，由于不属于 NDK 中的平台库没有兼容性要求，因此不同的设备可能提供不同级别的兼容性。</p>
+</li>
+<li><p>为降低此限制可能对当前发布的应用的影响，面向 API 级别 23 或更低级别的应用在 Android N 上可暂时访问颇为常用的一组库，例如 libandroid_runtime.so、libcutils.so、libcrypto.so 和 libssl.so。如果您的应用加载其中某个库，logcat 会生成一个警告，并在目标设备上显示一个 Toast 来通知您。如果您看到这些警告，您应更新您的应用以添加该应用自己的库副本，或仅使用公开 NDK API。将来发布的 Android 平台可能会完全限制对私有库的使用，并导致您的应用崩溃。</p>
+</li>
+<li><p>所有应用在调用既非公开又不可暂时访问的 API 时都会生成一个运行时错误。结果就是 System.loadLibrary 和 dlopen(3) 同时返回 NULL，并可能导致您的应用崩溃。您应检查应用代码以移除对私有平台 API 的使用，并使用预览版设备或模拟器全面测试应用。如果您不确定您的应用是否使用私有库，您可以检查 logcat 以识别运行时错误。</p>
+</li>
+<li><p>下表描述的是根据应用使用的私有原生库及其目标 API 级别 (android:targetSdkVersion)，应用预期显示的行为。</p>
+</li>
+</ul>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202016-12-11%20%E4%B8%8B%E5%8D%882.02.33.png" alt="图片"></p>
+<h3 id="Android-for-Work"><a href="#Android-for-Work" class="headerlink" title="Android for Work"></a>Android for Work</h3><p>Android 7.0 包含一些针对面向 Android for Work 的应用的变更，包括对证书安装、密码重置、二级用户管理、设备标识符访问权限的变更。如果您是要针对 Android for Work 环境开发应用，则应仔细检查这些变更并相应地修改您的应用。</p>
+<ul>
+<li><p>您必须先安装授权证书安装程序，然后 DPC 才能对其进行设置。对于面向 N SDK 的配置文件和设备所有者应用，您应在设备规范控制器 (DPC) 调用 DevicePolicyManager.setCertInstallerPackage() 之前安装授权证书安装程序。如果尚未安装此安装程序，则系统会引发 IllegalArgumentException。</p>
+</li>
+<li><p>针对设备管理员的重置密码限制现在也适用于配置文件所有者。设备管理员无法再使用 DevicePolicyManager.resetPassword() 来清除或更改已经设置的密码。设备管理员仍可以设置密码，但只能在设备没有密码、PIN 码或图案时这样做。</p>
+</li>
+<li><p>即使设置了限制，设备所有者和配置文件所有者仍可以管理帐户。而且，即使具有 DISALLOW_MODIFY_ACCOUNTS 用户限制，设备所有者和配置文件所有者仍可调用 Account Management API。</p>
+</li>
+<li><p>设备所有者可以更轻松地管理二级用户。当设备在设备所有者模式下运行时，系统将自动设置 DISALLOW_ADD_USER 限制。这样可以防止用户创建非托管二级用户。此外，CreateUser() 和 createAndInitializeUser() 方法已弃用，取而代之的是 DevicePolicyManager.createAndManageUser() 方法。</p>
+</li>
+<li><p>设备所有者可以访问设备标识符。设备所有者可以使用 DevicePolicyManagewr.getWifiMacAddress() 访问设备的 WLAN MAC 地址。如果设备上从未启用 WLAN，则此方法将返回一个 null 值。</p>
+</li>
+<li><p>工作模式设置控制工作应用访问。当工作模式关闭时，系统启动器通过使工作应用显示为灰色来指示它们不可用。启用工作模式会再次恢复正常行为。</p>
+</li>
+<li><p>从 Settings UI 安装包含客户端证书链和对应的私钥的 PKCS #12 文件时，系统不再将该证书链中的 CA 证书安装到受信任的凭据存储空间。当应用稍后尝试检索客户端证书链时，这不会影响 KeyChain.getCertificateChain() 的结果。如果需要，使用 .crt 或 .cer 文件扩展名的 DER 编码格式通过 Settings UI 单独将 CA 证书安装到受信任的凭据存储空间。</p>
+</li>
+<li><p>从 Android 7.0 开始，可针对每个用户管理指纹登记和存储空间。如果配置文件所有者的设备规范客户端 (DPC) 面向 Android N 设备上的 Android N 之前的版本，则用户仍可以在该设备上设置指纹，但工作应用不能访问设备指纹。当 DPC 面向 Android N 和更高版本时，用户可以通过转到 Settings &gt; Security &gt; Work profile security 专门为托管配置文件设置指纹。</p>
+</li>
+<li><p>DevicePolicyManager.getStorageEncryptionStatus() 返回新的加密状态 ENCRYPTION_STATUS_ACTIVE_PER_USER，以表明加密处于活动状态，且加密密钥与用户关联。仅当 DPC 面向 API 级别 24 和更高级别时才会返回新的状态。对于面向更早的 API 级别的应用，即使加密密钥是用户或配置文件特有的，系统也会返回 ENCRYPTION_STATUS_ACTIVE。</p>
+</li>
+<li><p>在 Android 7.0 中，如果设备通过单独的工作挑战安装了托管配置文件，则原本通常会影响整个设备的多个方法将会改变其行为方式。这些方法将仅应用于托管配置文件，而不是影响整个设备。（此类方法的完整列表位于 DevicePolicyManager.getParentProfileInstance() 文档中。）例如，DevicePolicyManager.lockNow() 只锁定托管配置文件，而不是锁定整个设备。对于上述每个方法，您可以通过对 DevicePolicyManager 的父实例调用该方法来获取以前的行为；您可以通过调用 DevicePolicyManager.getParentProfileInstance() 获取此父项。例如，如果您调用父实例的 lockNow() 方法，则整个设备将被锁定。</p>
+</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><p>如果一个应用在 Android 7.0 上运行，但却是针对更低 API 级别开发的，那么在用户更改显示尺寸时，系统将终止此应用进程。应用必须能够妥善处理此情景。否则，当用户从最近使用记录中恢复运行应用时，应用将会出现崩溃现象。<br>您应测试应用以确保不会发生此行为。要进行此测试，您可以通过 DDMS 手动终止应用，以造成相同的崩溃现象。<br>在密度发生更改时，系统不会自动终止面向 N 及更高版本的应用；不过，这些应用仍可能对配置变更做出不良响应。</p>
+</li>
+<li><p>Android 7.0 上的应用应能够妥善处理配置变更，并且在后续启动时不会出现崩溃现象。您可以通过更改字体大小 (Setting &gt;Display &gt; Font size) 并随后从最近使用记录中恢复运行应用，来验证应用行为。</p>
+</li>
+<li><p>由于之前的 Android 版本中的一项错误，系统未能将对主线程上的一个 TCP 套接字的写入操作举报为违反严格模式。Android 7.0 修复了此错误。呈现出这种行为的应用现在会引发 android.os.NetworkOnMainThreadException。一般情况下，我们不建议在主线程上执行网络操作，因为这些操作通常会出现可能导致 ANR 和卡顿的高尾延迟。</p>
+</li>
+<li><p>Debug.startMethodTracing() 方法系列现在默认在您的共享存储空间上的软件包特定目录中存储输出，而非 SD 卡根目录。这意味着应用不再需要请求 WRITE_EXTERNAL_STORAGE 权限来使用这些 API 。</p>
+</li>
+<li><p>许多平台 API 现在开始检查在 Binder 事务间发送的大负载，系统现在会将 TransactionTooLargeExceptions 作为 RuntimeExceptions 再次引发，而不再只是默默记录或抑制它们。一个常见例子是在 Activity.onSaveInstanceState() 上存储过多数据，导致 ActivityThread.StopInfo 在您的应用面向 Android 7.0 时引发 RuntimeException。</p>
+</li>
+<li><p>如果应用向 View 发布 Runnable 任务，并且 View 未附加到窗口，系统会用 View 为 Runnable 任务排队；在 View 附加到窗口之前，不会执行 Runnable 任务。此行为会修复以下错误：</p>
+<pre><code>如果一项应用是从并非预期窗口 UI 线程的其他线程发布到 View，则 Runnable 可能会因此运行错误的线程。
+
+如果 Runnable 任务是从并非环路线程的其他线程发布，则应用可能会曝光 Runnable 任务。
+</code></pre></li>
+<li><p>如果 Android 7.0 上一项有 DELETE_PACKAGES 权限的应用尝试删除一个软件包，但另一项应用已经安装了这个软件包，则系统需要用户进行确认。在这种情况下，应用在调用 PackageInstaller.uninstall() 时预计的返回状态应为 STATUS_PENDING_USER_ACTION。</p>
+</li>
+<li><p>名为 Crypto 的 JCA 提供程序已弃用，因为它仅有的 SHA1PRNG 算法为弱加密。应用无法再使用 SHA1PRNG（不安全地）派生密钥，因为不再提供此提供程序。如需了解详细信息，请参阅博文 Android N 中已弃用“Crypto”安全提供程序</p>
+</li>
+</ul>
+<h3 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h3><h4 id="打开系统相机或者图片裁剪崩溃"><a href="#打开系统相机或者图片裁剪崩溃" class="headerlink" title="打开系统相机或者图片裁剪崩溃"></a>打开系统相机或者图片裁剪崩溃</h4><p>问题就出现在Uri uri = Uri.parse(“file://“+ path),Uri.fromFile(file); 按照Android N的要求，若要在应用间共享文件，您应发送一项 content://URI，并授予 URI 临时访问权限。</p>
+<p>FileProvider 的使用:</p>
+<h5 id="注册provider"><a href="#注册provider" class="headerlink" title="注册provider"></a>注册provider</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">provider</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:name</span>=<span class="string">"android.support.v4.content.FileProvider"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:authorities</span>=<span class="string">"cn.lovexiaoai.myapp.fileprovider"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:grantUriPermissions</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">              <span class="attr">android:exported</span>=<span class="string">"false"</span>&gt;</span></span><br><span class="line">              <span class="tag">&lt;<span class="name">meta-data</span></span></span><br><span class="line"><span class="tag">                  <span class="attr">android:name</span>=<span class="string">"android.support.FILE_PROVIDER_PATHS"</span></span></span><br><span class="line"><span class="tag">                  <span class="attr">android:resource</span>=<span class="string">"@xml/filepaths"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">provider</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="资源文件下创建相应的xml文件（如上：则创建filepaths-xml）"><a href="#资源文件下创建相应的xml文件（如上：则创建filepaths-xml）" class="headerlink" title="资源文件下创建相应的xml文件（如上：则创建filepaths.xml）"></a>资源文件下创建相应的xml文件（如上：则创建filepaths.xml）</h5><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">paths</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">external-path</span> <span class="attr">path</span>=<span class="string">"images"</span> <span class="attr">name</span>=<span class="string">"camera_photos"</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">paths</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<ul>
+<li><p><files-path>代表的根目录： Context.getFilesDir()</files-path></p>
+</li>
+<li><p><external-path>代表的根目录: Environment.getExternalStorageDirectory()</external-path></p>
+</li>
+<li><p><cache-path>代表的根目录: getCacheDir()</cache-path></p>
+</li>
+</ul>
+<h5 id="使用FileProcider"><a href="#使用FileProcider" class="headerlink" title="使用FileProcider"></a>使用FileProcider</h5><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Uri photoURI = FileProvider.getUriForFile(context, <span class="string">"cn.lovexiaoai.myapp.fileprovider"</span>, file);</span><br><span class="line">intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION); <span class="comment">//一定要加上权限申请，添加这一句表示对目标应用临时授权该Uri所代表的文件</span></span><br></pre></td></tr></table></figure>
+<h5 id="定义多个provider问题"><a href="#定义多个provider问题" class="headerlink" title="定义多个provider问题"></a>定义多个provider问题</h5><p>Studio uggestion: add ‘tools:replace=”android: authorities”  </p>
+<p>在provider里面添加tools:replace=”android: authorities” 属性即可。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-子线程绘制UI" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -377,6 +568,76 @@
 
 
   
+    <article id="post-APK大小分析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/15/APK大小分析/" class="article-date">
+  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/15/APK大小分析/">
+        APK大小分析
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h3><p>AS -&gt; Build -&gt; AnalyzeApk(AS2.2之后)</p>
+<h3 id="APK组成部分"><a href="#APK组成部分" class="headerlink" title="APK组成部分"></a>APK组成部分</h3><ul>
+<li>asserts</li>
+<li>lib</li>
+<li>res</li>
+<li>dex</li>
+<li>META-INF</li>
+<li>androidManifest</li>
+</ul>
+<h4 id="asserts"><a href="#asserts" class="headerlink" title="asserts"></a>asserts</h4><p>assets目录可以存放一些配置文件或资源文件，比如webview的本地html，react native的jsbundle等，微信的整个assets占用了13.4M。如果你的应用对本地资源要求很少的话，这个文件应该不会太大。</p>
+<h4 id="lib"><a href="#lib" class="headerlink" title="lib"></a>lib</h4><p>lib目录下会有各种so文件，分析器会检查出项目自己的so和各种库的so。微博和微信一样只支持了arm一个平台，淘宝支持了arm和x86两个平台。</p>
+<h4 id="resources-arsc"><a href="#resources-arsc" class="headerlink" title="resources.arsc"></a>resources.arsc</h4><p>这个文件是编译后的二进制资源文件，里面是id-name-value的一个map。因为微信做了资源的混淆，所以这里可以看到资源名称都是不可读的。</p>
+<h4 id="META-INF"><a href="#META-INF" class="headerlink" title="META-INF"></a>META-INF</h4><p>META-INF目录下存放的是签名信息，用来保证apk包的完整性和系统的安全性，帮助用户避免安装来历不明的盗版apk。</p>
+<h4 id="res"><a href="#res" class="headerlink" title="res"></a>res</h4><p>res目录存放的是资源文件。包括图片、字符串。raw文件夹下面是音频文件，各种xml文件等等。因为微信做了资源混淆，图片名字都不可读了。</p>
+<h4 id="dex"><a href="#dex" class="headerlink" title="dex"></a>dex</h4><p>dex文件是java代码打包后的字节码，一个dex文件最多只支持65536个方法，这也是为什么微信有了三个dex文件的原因。</p>
+<p>因为dex分包是不均匀的，你可以理解为装箱，一个箱子的大小是固定的，但你代码的量是不确定的，微信把前两个箱子装满了，最后还剩了2m多的代码，这些代码也占用了一个箱子，最终产生了上图不均匀的结果。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-图片OOM问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -465,76 +726,6 @@
 </ul>
 <h4 id="生成Bitmap所占大小-size"><a href="#生成Bitmap所占大小-size" class="headerlink" title="生成Bitmap所占大小(size)"></a>生成Bitmap所占大小(size)</h4><p>公式: 宽 <em> 高 </em> 每个像素所占字节</p>
 <p>size = width <em> height </em> bytes(格式1,2,3,4)*放大缩小倍数</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-APK大小分析" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/15/APK大小分析/" class="article-date">
-  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/15/APK大小分析/">
-        APK大小分析
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h3><p>AS -&gt; Build -&gt; AnalyzeApk(AS2.2之后)</p>
-<h3 id="APK组成部分"><a href="#APK组成部分" class="headerlink" title="APK组成部分"></a>APK组成部分</h3><ul>
-<li>asserts</li>
-<li>lib</li>
-<li>res</li>
-<li>dex</li>
-<li>META-INF</li>
-<li>androidManifest</li>
-</ul>
-<h4 id="asserts"><a href="#asserts" class="headerlink" title="asserts"></a>asserts</h4><p>assets目录可以存放一些配置文件或资源文件，比如webview的本地html，react native的jsbundle等，微信的整个assets占用了13.4M。如果你的应用对本地资源要求很少的话，这个文件应该不会太大。</p>
-<h4 id="lib"><a href="#lib" class="headerlink" title="lib"></a>lib</h4><p>lib目录下会有各种so文件，分析器会检查出项目自己的so和各种库的so。微博和微信一样只支持了arm一个平台，淘宝支持了arm和x86两个平台。</p>
-<h4 id="resources-arsc"><a href="#resources-arsc" class="headerlink" title="resources.arsc"></a>resources.arsc</h4><p>这个文件是编译后的二进制资源文件，里面是id-name-value的一个map。因为微信做了资源的混淆，所以这里可以看到资源名称都是不可读的。</p>
-<h4 id="META-INF"><a href="#META-INF" class="headerlink" title="META-INF"></a>META-INF</h4><p>META-INF目录下存放的是签名信息，用来保证apk包的完整性和系统的安全性，帮助用户避免安装来历不明的盗版apk。</p>
-<h4 id="res"><a href="#res" class="headerlink" title="res"></a>res</h4><p>res目录存放的是资源文件。包括图片、字符串。raw文件夹下面是音频文件，各种xml文件等等。因为微信做了资源混淆，图片名字都不可读了。</p>
-<h4 id="dex"><a href="#dex" class="headerlink" title="dex"></a>dex</h4><p>dex文件是java代码打包后的字节码，一个dex文件最多只支持65536个方法，这也是为什么微信有了三个dex文件的原因。</p>
-<p>因为dex分包是不均匀的，你可以理解为装箱，一个箱子的大小是固定的，但你代码的量是不确定的，微信把前两个箱子装满了，最后还剩了2m多的代码，这些代码也占用了一个箱子，最终产生了上图不均匀的结果。</p>
 
       
     </div>
@@ -1118,72 +1309,6 @@ android:viewportWidth=&quot;24&quot;&gt;
 <li>使用查表的方法代替复杂的条件计算</li>
 </ul>
 
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-无线 adb连接" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/10/20/无线 adb连接/" class="article-date">
-  	<time datetime="2016-10-19T16:00:00.000Z" itemprop="datePublished">2016-10-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/20/无线 adb连接/">
-        Android 无线adb连接
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h4 id="打开手机的xxxx端口"><a href="#打开手机的xxxx端口" class="headerlink" title="打开手机的xxxx端口"></a>打开手机的xxxx端口</h4><ul>
-<li>确保手机开启了usb调试</li>
-<li>用usb线把手机和电脑连接起来</li>
-<li>执行命令：</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb tcpip 5555</span><br></pre></td></tr></table></figure>
-<h4 id="找到手机的IP地址"><a href="#找到手机的IP地址" class="headerlink" title="找到手机的IP地址"></a>找到手机的IP地址</h4><p>一般在 设置-关于手机-状态信息-IP地址可以找到。<br>比如，我这里看到手机的IP地址是192.168.1.242</p>
-<h4 id="通过IP地址和端口连接手机"><a href="#通过IP地址和端口连接手机" class="headerlink" title="通过IP地址和端口连接手机"></a>通过IP地址和端口连接手机</h4><p>执行命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb connect 192.168.1.242:xxxx</span><br></pre></td></tr></table></figure>
-<p>如果提示 connected to 192.168.1.242:xxxx 表示连接成功</p>
-<p>如果提示 unable to connect to 192.168.1.242:xxxx Operation timed out 可能你的IP地址输错了;或者adb服务不可用;或者手机跟电脑没有正确地处在一个局域网中；或者链接被代理Block了等等等…</p>
-<p>如果提示 unable to connect to 192.168.1.242:xxxx Connection refused 可能你手机的5555端口没有正确打开；或者有防火墙拦截等…</p>
-<h4 id="安装-adb-wifi插件"><a href="#安装-adb-wifi插件" class="headerlink" title="安装 adb wifi插件"></a>安装 adb wifi插件</h4>
       
     </div>
     
