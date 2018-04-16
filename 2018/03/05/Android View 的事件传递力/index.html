@@ -16,7 +16,9 @@
 <meta property="og:site_name" content="Diablo">
 <meta property="og:description" content="Android View 的事件传递事件分类  activity和view没有事件拦截的原因：Activity 作为原始的事件分发者，如果 Activity 拦截了事件会导致整个屏幕都无法响应事件，这肯定不是我们想要的效果。View最为事件传递的最末端，要么消费掉事件，要么不处理进行回传，根本没必要进行事件拦截。 dispatchTouchEventtrue:当前事件被消费，时间分发结束，后续事件">
 <meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/android_view.png">
-<meta property="og:updated_time" content="2018-03-05T07:32:59.215Z">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/944365-aea821bbb613c195.png">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/944365-faaf73d0f3eb870f.png">
+<meta property="og:updated_time" content="2018-04-16T09:31:17.425Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android View 的事件传递力">
 <meta name="twitter:description" content="Android View 的事件传递事件分类  activity和view没有事件拦截的原因：Activity 作为原始的事件分发者，如果 Activity 拦截了事件会导致整个屏幕都无法响应事件，这肯定不是我们想要的效果。View最为事件传递的最末端，要么消费掉事件，要么不处理进行回传，根本没必要进行事件拦截。 dispatchTouchEventtrue:当前事件被消费，时间分发结束，后续事件">
@@ -214,7 +216,8 @@
 <h2 id="事件分发的流程"><a href="#事件分发的流程" class="headerlink" title="事件分发的流程"></a>事件分发的流程</h2><p>将点击事件（MotionEvent）传递到某个具体的View &amp; 处理的整个过程，事件传递的过程 = 分发过程。</p>
 <p>Activity －&gt; PhoneWindow －&gt; DecorView －&gt; ViewGroup －&gt; … －&gt; View</p>
 <p>如果没有任何View消费掉事件，那么这个事件会按照反方向回传，最终传回给Activity。</p>
-<h2 id="点击后的流程跟踪"><a href="#点击后的流程跟踪" class="headerlink" title="点击后的流程跟踪"></a>点击后的流程跟踪</h2><p>先从activity开始分发，如果dispatchTouchEvent返回false就顺着分发顺序一致往下分发，当分发到viewgroup的时候，当dispatchTouchEvent返回false是，下一步会判断onInterceptTouchEvent是否为true，如果为ture就不会将事件分发给子view，当前的viewgroup将消费事件。当viewgroup的分发事件为true且拦截事件为false时才会将事件分发给子view。当事件传遍整个分发链路且无人处理时，将反向查看对应的onTouchEvent<br>是否为true,如果为true就可以对这个事件进行处理。</p>
+<h2 id="点击后的流程跟踪"><a href="#点击后的流程跟踪" class="headerlink" title="点击后的流程跟踪"></a>点击后的流程跟踪</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/944365-aea821bbb613c195.png" alt=""></p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/944365-faaf73d0f3eb870f.png" alt=""></p>
 
       
     </div>

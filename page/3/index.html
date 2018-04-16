@@ -1024,6 +1024,66 @@
 
 
   
+    <article id="post-MAT" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/25/MAT/" class="article-date">
+  	<time datetime="2017-08-24T16:00:00.000Z" itemprop="datePublished">2017-08-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/25/MAT/">
+        内存检查MAT
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://www.eclipse.org/mat/" target="_blank" rel="noopener">下载</a></p>
+<h3 id="mac-打不开问题"><a href="#mac-打不开问题" class="headerlink" title="mac 打不开问题"></a>mac 打不开问题</h3><p>mat -&gt; Contents -&gt; Eclipse -&gt; MemoryAnalyzer.ini</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-startup</span><br><span class="line">../Eclipse/plugins/org.eclipse.equinox.launcher_1.3.100.v20150511-1540.jar</span><br><span class="line">####添加行</span><br><span class="line">-data</span><br><span class="line">/Users/Diablo/log</span><br><span class="line">####</span><br><span class="line">--launcher.library</span><br><span class="line">../Eclipse/plugins/org.eclipse.equinox.launcher.cocoa.macosx.x86_64_1.1.300.v20150602-1417</span><br><span class="line">-vmargs</span><br><span class="line">-Xmx1024m</span><br><span class="line">-Dorg.eclipse.swt.internal.carbon.smallFonts</span><br><span class="line">-XstartOnFirstThread</span><br></pre></td></tr></table></figure>
+<h3 id="AS-生成-hprof文件"><a href="#AS-生成-hprof文件" class="headerlink" title="AS 生成 .hprof文件"></a>AS 生成 .hprof文件</h3><p>AS -&gt; DDMS -&gt; 点击Update Heap按钮(装有一半绿色液体的圆柱体）开始进行追踪 -&gt; 点击Dump HPROP File按钮结束追踪，生成并保存hprof文件 </p>
+<h3 id="将AS生成的-hprof文件转换格式"><a href="#将AS生成的-hprof文件转换格式" class="headerlink" title="将AS生成的.hprof文件转换格式"></a>将AS生成的.hprof文件转换格式</h3><p>cd到sdk目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hprof-conv /Users/Diablo/Desktop/ 1.hprof 2.hprof</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-多线程数据锁" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1072,66 +1132,6 @@
 <p>可见性，是指线程之间的可见性，一个线程修改的状态对另一个线程是可见的。</p>
 <p>保证了不同线程对这个变量进行操作时的可见性，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。</p>
 <p>可见性只能保证每次读取的是最新的值，但是volatile没办法保证对变量的操作的原子性。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-MAT" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/08/25/MAT/" class="article-date">
-  	<time datetime="2017-08-24T16:00:00.000Z" itemprop="datePublished">2017-08-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/25/MAT/">
-        内存检查MAT
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://www.eclipse.org/mat/" target="_blank" rel="noopener">下载</a></p>
-<h3 id="mac-打不开问题"><a href="#mac-打不开问题" class="headerlink" title="mac 打不开问题"></a>mac 打不开问题</h3><p>mat -&gt; Contents -&gt; Eclipse -&gt; MemoryAnalyzer.ini</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-startup</span><br><span class="line">../Eclipse/plugins/org.eclipse.equinox.launcher_1.3.100.v20150511-1540.jar</span><br><span class="line">####添加行</span><br><span class="line">-data</span><br><span class="line">/Users/Diablo/log</span><br><span class="line">####</span><br><span class="line">--launcher.library</span><br><span class="line">../Eclipse/plugins/org.eclipse.equinox.launcher.cocoa.macosx.x86_64_1.1.300.v20150602-1417</span><br><span class="line">-vmargs</span><br><span class="line">-Xmx1024m</span><br><span class="line">-Dorg.eclipse.swt.internal.carbon.smallFonts</span><br><span class="line">-XstartOnFirstThread</span><br></pre></td></tr></table></figure>
-<h3 id="AS-生成-hprof文件"><a href="#AS-生成-hprof文件" class="headerlink" title="AS 生成 .hprof文件"></a>AS 生成 .hprof文件</h3><p>AS -&gt; DDMS -&gt; 点击Update Heap按钮(装有一半绿色液体的圆柱体）开始进行追踪 -&gt; 点击Dump HPROP File按钮结束追踪，生成并保存hprof文件 </p>
-<h3 id="将AS生成的-hprof文件转换格式"><a href="#将AS生成的-hprof文件转换格式" class="headerlink" title="将AS生成的.hprof文件转换格式"></a>将AS生成的.hprof文件转换格式</h3><p>cd到sdk目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hprof-conv /Users/Diablo/Desktop/ 1.hprof 2.hprof</span><br></pre></td></tr></table></figure>
 
       
     </div>

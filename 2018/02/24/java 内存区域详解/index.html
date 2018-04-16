@@ -9,17 +9,17 @@
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="java 内存区域详解 java堆占内存最大的一块区域。大部分对象存储在这个区域。 方法区Meta-Area这是堆中的一块区域，用来存储类信息，类变量，类常量，静态变量等等数据，即时编译器编译后的代码等数据。 运行时常量区：存放编译器生成的各种字面量和符号引用，这部分将在类加载后存放到方法区的运行时常量池。 123public void test() &amp;#123;    Object obj =">
+  <meta name="description" content="java 内存区域详解 java堆占内存最大的一块区域。大部分对象存储在这个区域。 Java Heap（Dalvik Heap），这部分的内存区域是由Dalvik虚拟机管理，通过Java中 new 关键字来申请一块新内存。这块区域的内存是由GC直接管理，能够自动回收内存。这块内存的大小会受到系统限制，当内存超过APP最大可用内存时会OOM Native Heap，这部分内存区域是在C++中申请的，">
 <meta property="og:type" content="article">
 <meta property="og:title" content="java 内存区域详解">
 <meta property="og:url" content="https://github.com/sirencode/2018/02/24/java 内存区域详解/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="java 内存区域详解 java堆占内存最大的一块区域。大部分对象存储在这个区域。 方法区Meta-Area这是堆中的一块区域，用来存储类信息，类变量，类常量，静态变量等等数据，即时编译器编译后的代码等数据。 运行时常量区：存放编译器生成的各种字面量和符号引用，这部分将在类加载后存放到方法区的运行时常量池。 123public void test() &amp;#123;    Object obj =">
+<meta property="og:description" content="java 内存区域详解 java堆占内存最大的一块区域。大部分对象存储在这个区域。 Java Heap（Dalvik Heap），这部分的内存区域是由Dalvik虚拟机管理，通过Java中 new 关键字来申请一块新内存。这块区域的内存是由GC直接管理，能够自动回收内存。这块内存的大小会受到系统限制，当内存超过APP最大可用内存时会OOM Native Heap，这部分内存区域是在C++中申请的，">
 <meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/java_memory.png">
-<meta property="og:updated_time" content="2018-02-24T08:42:28.135Z">
+<meta property="og:updated_time" content="2018-04-16T09:30:42.478Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="java 内存区域详解">
-<meta name="twitter:description" content="java 内存区域详解 java堆占内存最大的一块区域。大部分对象存储在这个区域。 方法区Meta-Area这是堆中的一块区域，用来存储类信息，类变量，类常量，静态变量等等数据，即时编译器编译后的代码等数据。 运行时常量区：存放编译器生成的各种字面量和符号引用，这部分将在类加载后存放到方法区的运行时常量池。 123public void test() &amp;#123;    Object obj =">
+<meta name="twitter:description" content="java 内存区域详解 java堆占内存最大的一块区域。大部分对象存储在这个区域。 Java Heap（Dalvik Heap），这部分的内存区域是由Dalvik虚拟机管理，通过Java中 new 关键字来申请一块新内存。这块区域的内存是由GC直接管理，能够自动回收内存。这块内存的大小会受到系统限制，当内存超过APP最大可用内存时会OOM Native Heap，这部分内存区域是在C++中申请的，">
 <meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/java_memory.png">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
@@ -203,6 +203,9 @@
       
         <h1 id="java-内存区域详解"><a href="#java-内存区域详解" class="headerlink" title="java 内存区域详解"></a>java 内存区域详解</h1><p><img src="http://oc4zuck5v.bkt.clouddn.com/java_memory.png" alt=""></p>
 <h2 id="java堆"><a href="#java堆" class="headerlink" title="java堆"></a>java堆</h2><p>占内存最大的一块区域。大部分对象存储在这个区域。</p>
+<p>Java Heap（Dalvik Heap），这部分的内存区域是由Dalvik虚拟机管理，通过Java中 new 关键字来申请一块新内存。这块区域的内存是由GC直接管理，能够自动回收内存。这块内存的大小会受到系统限制，当内存超过APP最大可用内存时会OOM</p>
+<p>Native Heap，这部分内存区域是在C++中申请的，它不受限于APP的最大可用内存限制，而只是受限于设备的物理可用内存限制。它的缺点在于没有自动回收机制，只能通过C++语法来释放申请的内存</p>
+<p>Ashmem（Android匿名共享内存），这部分内存类似于Native内存区，但是它是受Android系统底层管理的，当Android系统内存不足时，会回收Ashmem区域中状态是 unpin 的对象内存块，如果不希望对象被回收，可以通过 pin 来保护一个对象</p>
 <h2 id="方法区Meta-Area"><a href="#方法区Meta-Area" class="headerlink" title="方法区Meta-Area"></a>方法区Meta-Area</h2><p>这是堆中的一块区域，用来存储类信息，类变量，类常量，静态变量等等数据，即时编译器编译后的代码等数据。</p>
 <p>运行时常量区：存放编译器生成的各种字面量和符号引用，这部分将在类加载后存放到方法区的运行时常量池。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
