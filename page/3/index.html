@@ -162,6 +162,65 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
+  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
+        Android 底层网络实现
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
+<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
+<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
+<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
+<p>OkHttp底层也是通过socket实现。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-子模块访问app模块" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1502,80 +1561,9 @@
 
 
   
-    <article id="post-Timing Wheel 定时轮算法" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/25/Timing Wheel 定时轮算法/" class="article-date">
-  	<time datetime="2017-10-24T16:00:00.000Z" itemprop="datePublished">2017-10-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/25/Timing Wheel 定时轮算法/">
-        Timing Wheel 定时轮算法
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>我们在做一款期货交易的app，网络部分使用的socket长连接。由于我们的网关服务器性能有限，因此需要在用户不频繁操作的时候，把用户断开。</p>
-<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>每个用户只要5分钟不请求长连接相关接口，我们就自动将用户断开，从而保证我们服务器的负载能力。</p>
-<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>最简单的实现方式就是使用timer定时器，但是由于timer定时器的性能消耗较大，当有成千上万个连接时，性能消耗是我们无法忍受的。因此我们使用了timing wheel算法，这个算法既保证了功能的实现，又保证了性能。</p>
-<h3 id="Timing-Wheel-原理"><a href="#Timing-Wheel-原理" class="headerlink" title="Timing Wheel 原理"></a>Timing Wheel 原理</h3><p><img src="http://img.my.csdn.net/uploads/201209/29/1348926970_9123.png" alt=""></p>
-<p>首先要定义三个变量：ticksPerWheel（一轮的tick数），tickDuration（一个tick的持续时间）<br>以及 timeUnit（时间单位），例如 当ticksPerWheel=60，tickDuration=1，timeUnit=秒，这就和现实中的始终的秒针走动完全类似了。</p>
-<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>按照我们的需求来实现：</p>
-<ul>
-<li>timeUnit = 1s</li>
-<li>ticksPerWheel = 5*60</li>
-<li><p>tickDuration = 5分钟</p>
-</li>
-<li><p>1 定义一个线程每秒跳动一下指针</p>
-</li>
-<li>2 定义一个map key = 刻度(0-299),value = List&lt;用户&gt;</li>
-<li>3 每当用户请求接口的时候，就将用户加入当前时间-1秒的那个list里面</li>
-<li>4 每当转到对应的刻度就去取一下当前刻度里面的用户列表，并逐一将用户断开连接。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
   
 </div>

@@ -162,6 +162,120 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-SOLID原则" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/02/08/SOLID原则/" class="article-date">
+  	<time datetime="2017-02-07T16:00:00.000Z" itemprop="datePublished">2017-02-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/08/SOLID原则/">
+        SOLID原则
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>S.O.L.I.D是面向对象设计和编程(OOD&amp;OOP)中几个重要编码原则(Programming Priciple)的首字母缩写。</p>
+<ul>
+<li>SRP    （The Single Responsibility Principle）    单一责任原则</li>
+<li>OCP    （The Open Closed Principle）    开放封闭原则</li>
+<li>LSP    （The Liskov Substitution Principle）    里氏替换原则</li>
+<li>ISP    （The Interface Segregation Principle）    接口分离原则</li>
+<li>DIP    （The Dependency Inversion Principle）    依赖倒置原则</li>
+</ul>
+<h4 id="单一责任原则（SRP）"><a href="#单一责任原则（SRP）" class="headerlink" title="单一责任原则（SRP）"></a>单一责任原则（SRP）</h4><p>当需要修改某个类的时候原因有且只有一个。换句话说就是让一个类只做一种类型责任，当这个类需要承当其他类型的责任的时候，就需要分解这个类。 类被修改的几率很大，因此应该专注于单一的功能。如果你把多个功能放在同一个类中，功能之间就形成了关联，改变其中一个功能，有可能中止另一个功能，这时就需要新一轮的测试来避免可能出现的问题，非常耗时耗力。</p>
+<p>示例：<br>新建一个Rectangle类，该类包含两个方法，一个用于把矩形绘制在屏幕上，一个方法用于计算矩形的面积。如图</p>
+<p><img src="http://img.my.csdn.net/uploads/201204/16/1334585669_3041.jpg" alt="图片"></p>
+<p>Rectangle类违反了SRP原则。Rectangle类具有两个职责，如果其中一个改变，会影响到两个应用程序的变化。</p>
+<p>一个好的设计是把两个职责分离出来放在两个不同的类中，这样任何一个变化都不会影响到其他的应用程序。</p>
+<h4 id="开放封闭原则（OCP）"><a href="#开放封闭原则（OCP）" class="headerlink" title="开放封闭原则（OCP）"></a>开放封闭原则（OCP）</h4><p>软件实体应该是可扩展，而不可修改的。也就是说，对扩展是开放的，而对修改是封闭的。这个原则是诸多面向对象编程原则中最抽象、最难理解的一个。</p>
+<ul>
+<li>(1)通过增加代码来扩展功能，而不是修改已经存在的代码。</li>
+<li>(2)若客户模块和服务模块遵循同一个接口来设计，则客户模块可以不关心服务模块的类型，服务模块可以方便扩展服务(代码)。</li>
+<li>(3)OCP支持替换的服务，而不用修改客户模块。</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">sendByEmail</span><span class="params">(String addr, String title, String content)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">sendBySMS</span><span class="params">(String addr, String content)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 在其它地方调用上述方法发送信息</span></span><br><span class="line">sendByEmail(addr, title, content);</span><br><span class="line"></span><br><span class="line">sendBySMS(addr, content);</span><br></pre></td></tr></table></figure>
+<p>如果现在又多了一种发送信息的方式，比如可以通过QQ发送信息，那么不仅需要增加一个方法sendByQQ()，还需要在调用它的地方进行修改，违反了OCP原则，更好的方式是</p>
+<p>抽象出一个Send接口，里面有个send()方法，然后让SendByEmail和SendBySMS去实现它既可。这样即使多了一个通过QQ发送的请求，那么只要再添加一个SendByQQ实现类实现Send接口既可。这样就不需要修改已有的接口定义和已实现类，很好的遵循了OCP原则。</p>
+<h4 id="里氏替换原则（LSP）"><a href="#里氏替换原则（LSP）" class="headerlink" title="里氏替换原则（LSP）"></a>里氏替换原则（LSP）</h4><p>当一个子类的实例应该能够替换任何其超类的实例时，它们之间才具有is-A关系</p>
+<p>客户模块不应关心服务模块的是如何工作的；同样的接口模块之间，可以在不知道服务模块代码的情况下，进行替换。即接口或父类出现的地方，实现接口的类或子类可以代入。</p>
+<ol>
+<li><p>子类可以实现父类的抽象方法，但不能覆盖父类的非抽象方法。</p>
+</li>
+<li><p>子类中可以增加自己特有的方法。</p>
+</li>
+<li><p>当子类的方法重载父类的方法时，方法的前置条件（即方法的形参）要比父类方法的输入参数更宽松。</p>
+</li>
+<li><p>当子类的方法实现父类的抽象方法时，方法的后置条件（即方法的返回值）要比父类更严格。</p>
+</li>
+</ol>
+<h4 id="接口分离原则（ISP）"><a href="#接口分离原则（ISP）" class="headerlink" title="接口分离原则（ISP）"></a>接口分离原则（ISP）</h4><p>不能强迫用户去依赖那些他们不使用的接口。换句话说，使用多个专门的接口比使用单一的总接口总要好。</p>
+<p>客户模块不应该依赖大的接口，应该裁减为小的接口给客户模块使用，以减少依赖性。如Java中一个类实现多个接口，不同的接口给不同的客户模块使用，而不是提供给客户模块一个大的接口。</p>
+<p>示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span></span>;      <span class="comment">// 吃</span></span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">()</span></span>;    <span class="comment">// 睡</span></span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">crawl</span><span class="params">()</span></span>;     <span class="comment">// 爬</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>;      <span class="comment">// 跑</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Snake</span> <span class="keyword">implements</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">crawl</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rabit</span> <span class="keyword">implements</span> <span class="title">Animal</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">eat</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sleep</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">crawl</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上面的例子，Snake并没有run的行为而Rabbit并没有crawl的行为，而这里它们却必须实现这样不必要的方法，更好的方法是crawl()和run()单独作为一个接口，这需要根据实际情况进行调整，反正不要把什么功能都放在一个大的接口里，而这些功能并不是每个继承该接口的类都所必须的。</p>
+<h4 id="依赖注入或倒置原则（DIP）"><a href="#依赖注入或倒置原则（DIP）" class="headerlink" title="依赖注入或倒置原则（DIP）"></a>依赖注入或倒置原则（DIP）</h4><ol>
+<li>高层模块不应该依赖于低层模块，二者都应该依赖于抽象 </li>
+<li>抽象不应该依赖于细节，细节应该依赖于抽象</li>
+</ol>
+<p>这个设计原则的亮点在于任何被DI框架注入的类很容易用mock对象进行测试和维护，因为对象创建代码集中在框架中，客户端代码也不混乱。有很多方式可以实现依赖倒置，比如像AspectJ等的AOP（Aspect Oriented programming）框架使用的字节码技术，或Spring框架使用的代理等。</p>
+<p>(1).高层模块不要依赖低层模块；</p>
+<p>(2).高层和低层模块都要依赖于抽象；</p>
+<p>(3).抽象不要依赖于具体实现； </p>
+<p>(4).具体实现要依赖于抽象；</p>
+<p>(5).抽象和接口使模块之间的依赖分离。</p>
+<p>1.低层模块尽量都要有抽象类或接口，或者两者都有。</p>
+<p>2.变量的声明类型尽量是抽象类或接口。</p>
+<p>3.使用继承时遵循里氏替换原则。</p>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>一个对象只承担一种责任，所有服务接口只通过它来执行这种任务。</li>
+<li>程序实体，比如类和对象，向扩展行为开放，向修改行为关闭。</li>
+<li>子类应该可以用来替代它所继承的类。</li>
+<li>一个类对另一个类的依赖应该限制在最小化的接口上。</li>
+<li>依赖抽象层(接口)，而不是具体类。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-函数执行时间监控-hugo" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -962,133 +1076,9 @@
 
 
   
-    <article id="post-性能优化-UI" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/17/性能优化-UI/" class="article-date">
-  	<time datetime="2016-11-16T16:00:00.000Z" itemprop="datePublished">2016-11-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/17/性能优化-UI/">
-        性能优化-UI
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在日常的开发时，复杂的页面里面就会出现UI绘制卡顿现象，也就是掉帧。</p>
-<h3 id="UI卡顿掉帧"><a href="#UI卡顿掉帧" class="headerlink" title="UI卡顿掉帧"></a>UI卡顿掉帧</h3><p>大多数手机的屏幕刷新频率是60hz，如果在1000/60=16.67ms内没有办法把这一帧的任务执行完毕，就会发生丢帧的现象。丢帧越多，用户感受到的卡顿情况就越严重。</p>
-<p>每一次UI的绘制在16ms内才可以做到无卡顿现象，而复杂的UI以及不恰当的处理可能导致，一次绘制的时间超过16ms,也就出现了卡顿现象。</p>
-<h3 id="UI绘制"><a href="#UI绘制" class="headerlink" title="UI绘制"></a>UI绘制</h3><p>渲染操作通常依赖于两个核心组件：CPU与GPU。CPU负责包括Measure，Layout，Record，Execute的计算操作，GPU负责Rasterization(栅格化)操作。CPU通常存在的问题的原因是存在非必需的视图组件，它不仅仅会带来重复的计算操作，而且还会占用额外的GPU资源。</p>
-<h4 id="Android-UI-and-the-GPU"><a href="#Android-UI-and-the-GPU" class="headerlink" title="Android UI and the GPU"></a>Android UI and the GPU</h4><p>Resterization栅格化是绘制那些Button，Shape，Path，String，Bitmap等组件最基础的操作。它把那些组件拆分到不同的像素上进行显示。这是一个很费时的操作，GPU的引入就是为了加快栅格化的操作。</p>
-<p>CPU负责把UI组件计算成Polygons，Texture纹理，然后交给GPU进行栅格化渲染。</p>
-<p>然而每次从CPU转移到GPU是一件很麻烦的事情，所幸的是OpenGL ES可以把那些需要渲染的纹理Hold在GPU Memory里面，在下次需要渲染的时候直接进行操作。所以如果你更新了GPU所hold住的纹理内容，那么之前保存的状态就丢失了。</p>
-<p>在Android里面那些由主题所提供的资源，例如Bitmaps，Drawables都是一起打包到统一的Texture纹理当中，然后再传递到GPU里面，这意味着每次你需要使用这些资源的时候，都是直接从纹理里面进行获取渲染的。当然随着UI组件的越来越丰富，有了更多演变的形态。例如显示图片的时候，需要先经过CPU的计算加载到内存中，然后传递给GPU进行渲染。文字的显示比较复杂，需要先经过CPU换算成纹理，然后交给GPU进行渲染，返回到CPU绘制单个字符的时候，再重新引用经过GPU渲染的内容。动画则存在一个更加复杂的操作流程。</p>
-<p>为了能够使得App流畅，我们需要在每帧16ms以内处理完所有的CPU与GPU的计算，绘制，渲染等等操作。</p>
-<h4 id="Overdraw"><a href="#Overdraw" class="headerlink" title="Overdraw"></a>Overdraw</h4><p>Overdraw(过度绘制)描述的是屏幕上的某个像素在同一帧的时间内被绘制了多次。在多层次重叠的UI结构里面，如果不可见的UI也在做绘制的操作，会导致某些像素区域被绘制了多次。这样就会浪费大量的CPU以及GPU资源。</p>
-<p>调试Overdraw</p>
-<p><img src="http://hukai.me/images/overdraw_options_view.png" alt="图片"></p>
-<p>蓝色，淡绿，淡红，深红代表了4种不同程度的Overdraw情况，我们的目标就是尽量减少红色Overdraw，看到更多的蓝色区域。</p>
-<h4 id="Hierarchy-Viewer-Walkthrough"><a href="#Hierarchy-Viewer-Walkthrough" class="headerlink" title="Hierarchy Viewer: Walkthrough"></a>Hierarchy Viewer: Walkthrough</h4><p>Hierarchy Viewer可以很直接的呈现布局的层次关系，视图组件的各种属性。 我们可以通过红，黄，绿三种不同的颜色来区分布局的Measure，Layout，Executive的相对性能表现如何。</p>
-<h3 id="做好UI页面的容错处理"><a href="#做好UI页面的容错处理" class="headerlink" title="做好UI页面的容错处理"></a>做好UI页面的容错处理</h3><p>通常一个界面会包括：内容，空数据，异常错误，加载，网络错误等5种状态view，所以我们就设置这5种View的切换</p>
-<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><ul>
-<li>移除Window默认的Background</li>
-<li>移除XML布局文件中非必需的Background</li>
-<li>按需显示占位背景图片</li>
-<li>尽量不要嵌套使用RelativeLayout.</li>
-<li>尽量不要在嵌套的LinearLayout中都使用weight属性.</li>
-<li>Layout的选择, 以尽量减少View树的层级为主.</li>
-<li>去除不必要的父布局.</li>
-<li>善用TextView的Drawable减少布局层级.<pre><code>tv_location.setCompoundDrawables(addr, null, null, null);
-    tv_location.setCompoundDrawablePadding(ContextUtil.dp2px(this, 5));
-</code></pre></li>
-<li>如果H Viewer查看层级超过5层, 你就需要考虑优化下布局了~</li>
-<li>能用一个View搞定的，别用两个</li>
-<li>使用Spannable减少textview个数</li>
-<li>用LinearLayout自带的分割线(android:divider=”@drawable/divider” android:showDividers=”middle”)</li>
-</ul>
-<h3 id="布局优化"><a href="#布局优化" class="headerlink" title="布局优化"></a>布局优化</h3><h4 id="重用布局include"><a href="#重用布局include" class="headerlink" title="重用布局include"></a>重用布局include</h4><h4 id="减少布局层次merge"><a href="#减少布局层次merge" class="headerlink" title="减少布局层次merge"></a>减少布局层次merge</h4><ul>
-<li><p>布局顶结点是FrameLayout且不需要设置background或padding等属性，可以用merge代替，因为Activity内容视图的parent view就是个FrameLayout，所以可以用merge消除只剩一个。</p>
-</li>
-<li><p>某布局作为子布局被其他布局include时，使用merge当作该布局的顶节点，这样在被引入时顶结点会自动被忽略，而将其子节点全部合并到主布局中。</p>
-</li>
-</ul>
-<h3 id="网络图片优化"><a href="#网络图片优化" class="headerlink" title="网络图片优化"></a>网络图片优化</h3><h4 id="支持根据URL加参数来获取指定质量和尺寸的图片"><a href="#支持根据URL加参数来获取指定质量和尺寸的图片" class="headerlink" title="支持根据URL加参数来获取指定质量和尺寸的图片"></a>支持根据URL加参数来获取指定质量和尺寸的图片</h4><h4 id="根据网络情况来取不同质量的图片-50-是缩略图，75-低质量，100-高质量"><a href="#根据网络情况来取不同质量的图片-50-是缩略图，75-低质量，100-高质量" class="headerlink" title="根据网络情况来取不同质量的图片(50%是缩略图，75%低质量，100%高质量)"></a>根据网络情况来取不同质量的图片(50%是缩略图，75%低质量，100%高质量)</h4><p>七牛的格式：<br><a href="http://oc4zuck5v.bkt.clouddn.com/iti3gcwpqe2jpg.jpg?imageView2/0/w/200/h/200/q/100" target="_blank" rel="noopener">http://oc4zuck5v.bkt.clouddn.com/iti3gcwpqe2jpg.jpg?imageView2/0/w/200/h/200/q/100</a></p>
-<p>url:<a href="http://oc4zuck5v.bkt.clouddn.com/iti3gcwpqe2jpg.jpg" target="_blank" rel="noopener">http://oc4zuck5v.bkt.clouddn.com/iti3gcwpqe2jpg.jpg</a></p>
-<p>格式：imageView2/<mode>/w/<longedge><br>                 /h/<shortedge><br>                 /format/<format><br>                 /interlace/<interlace><br>                 /q/<quality><br>                 /ignore-error/<ignoreerror></ignoreerror></quality></interlace></format></shortedge></longedge></mode></p>
-<h4 id="mode"><a href="#mode" class="headerlink" title="mode"></a>mode</h4><ul>
-<li>0 等比缩放，不裁剪，如果只指定 w 参数则表示限定长边（短边自适应），只指定 h 参数则表示限定短边（长边自适应）。</li>
-<li>1 等比缩放，居中裁剪，转后的缩略图通常恰好是 <width>x<height> 的大小（有一个边缩放的时候会因为超出矩形框而被裁剪掉多余部分）。如果只指定 w 参数或只指定 h 参数，代表限定为长宽相等的正方图。</height></width></li>
-<li>2 等比缩放，不裁剪，如果只指定 w 参数则表示限定宽（长自适应），只指定 h 参数则表示限定长（宽自适应）。它和模式0类似，区别只是限定宽和高，不是限定长边和短边。从应用场景来说，模式0适合移动设备上做缩略图，模式2适合PC上做缩略图。</li>
-<li>3 等比缩放，不裁剪，如果只指定 w 参数或只指定 h 参数，代表长宽限定为同样的值。你可以理解为模式1是模式3的结果再做居中裁剪得到的。</li>
-<li>4 等比缩放，不裁剪。如果只指定 w 参数或只指定 h 参数，表示长边短边限定为同样的值。这个模式很适合在手持设备做图片的全屏查看（把这里的长边短边分别设为手机屏幕的分辨率即可），生成的图片尺寸刚好充满整个屏幕（某一个边可能会超出屏幕）。</li>
-<li>5 等比缩放，居中裁剪。如果只指定 w 参数或只指定 h 参数，表示长边短边限定为同样的值。同上模式4，但超出限定的矩形部分会被裁剪。</li>
-</ul>
-<h4 id="format"><a href="#format" class="headerlink" title="format"></a>format</h4><p>新图的输出格式<br>取值范围：jpg，gif，png，webp等，默认为原图格式。<br>参考支持转换的图片格式。</p>
-<h4 id="interlace"><a href="#interlace" class="headerlink" title="interlace"></a>interlace</h4><p>是否支持渐进显示<br>取值范围：1 支持渐进显示，0不支持渐进显示(默认为0)。<br>适用目标格式：jpg<br>效果：网速慢时，图片显示由模糊到清晰。</p>
-<h4 id="q-Quality"><a href="#q-Quality" class="headerlink" title="/q/Quality"></a>/q/Quality</h4><p>新图的图片质量<br>取值范围是[1, 100]，默认75。<br>七牛会根据原图质量算出一个修正值，取修正值和指定值中的小值。<br>注意：</p>
-<ul>
-<li>如果图片的质量值本身大于90，会根据指定值进行处理，此时修正值会失效。</li>
-<li>指定值后面可以增加 !，表示强制使用指定值，如100!。</li>
-<li>支持图片类型：jpg。</li>
-</ul>
-<p>Quality修正值算法：min[90, 原图quality*sqrt(原图长宽乘积/结果图片长宽乘积)]</p>
-<h4 id="ignoreError"><a href="#ignoreError" class="headerlink" title="ignoreError"></a>ignoreError</h4><p>可选<br>取值：1</p>
-<ul>
-<li>未设置此参数时，正常返回处理结果。</li>
-<li>设置了此参数时，若图像处理的结果失败，则返回原图。</li>
-<li>设置了此参数时，若图像处理的结果成功，则正常返回处理结果。</li>
-</ul>
-<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><ul>
-<li>可以仅指定w参数或h参数。</li>
-<li>新图的宽/高/长边/短边，不会比原图大，即本接口总是缩小图片。</li>
-<li>所有模式都可以只指定w参数或只指定h参数，并获得合理结果。在w、h为限定最大值时，未指定某参数等价于将该参数设置为无穷大（自适应）；在w、h为限定最小值时，未指定参数等于给定的参数，也就限定的矩形是正方形。</li>
-<li>处理后的图片w和h参数不能超过9999像素，总像素不得超过24999999（2500w-1）像素。</li>
-<li>处理前的图片w和h参数不能超过3万像素，总像素不能超过2亿像素。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
     </nav>
   
 </div>

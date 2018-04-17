@@ -162,6 +162,77 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Timing Wheel 定时轮算法" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/25/Timing Wheel 定时轮算法/" class="article-date">
+  	<time datetime="2017-10-24T16:00:00.000Z" itemprop="datePublished">2017-10-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/25/Timing Wheel 定时轮算法/">
+        Timing Wheel 定时轮算法
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>我们在做一款期货交易的app，网络部分使用的socket长连接。由于我们的网关服务器性能有限，因此需要在用户不频繁操作的时候，把用户断开。</p>
+<h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>每个用户只要5分钟不请求长连接相关接口，我们就自动将用户断开，从而保证我们服务器的负载能力。</p>
+<h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>最简单的实现方式就是使用timer定时器，但是由于timer定时器的性能消耗较大，当有成千上万个连接时，性能消耗是我们无法忍受的。因此我们使用了timing wheel算法，这个算法既保证了功能的实现，又保证了性能。</p>
+<h3 id="Timing-Wheel-原理"><a href="#Timing-Wheel-原理" class="headerlink" title="Timing Wheel 原理"></a>Timing Wheel 原理</h3><p><img src="http://img.my.csdn.net/uploads/201209/29/1348926970_9123.png" alt=""></p>
+<p>首先要定义三个变量：ticksPerWheel（一轮的tick数），tickDuration（一个tick的持续时间）<br>以及 timeUnit（时间单位），例如 当ticksPerWheel=60，tickDuration=1，timeUnit=秒，这就和现实中的始终的秒针走动完全类似了。</p>
+<h3 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h3><p>按照我们的需求来实现：</p>
+<ul>
+<li>timeUnit = 1s</li>
+<li>ticksPerWheel = 5*60</li>
+<li><p>tickDuration = 5分钟</p>
+</li>
+<li><p>1 定义一个线程每秒跳动一下指针</p>
+</li>
+<li>2 定义一个map key = 刻度(0-299),value = List&lt;用户&gt;</li>
+<li>3 每当用户请求接口的时候，就将用户加入当前时间-1秒的那个list里面</li>
+<li>4 每当转到对应的刻度就去取一下当前刻度里面的用户列表，并逐一将用户断开连接。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-ConstraintLayout" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -448,66 +519,6 @@
 
 
   
-    <article id="post-MAT" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/08/25/MAT/" class="article-date">
-  	<time datetime="2017-08-24T16:00:00.000Z" itemprop="datePublished">2017-08-25</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/25/MAT/">
-        内存检查MAT
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://www.eclipse.org/mat/" target="_blank" rel="noopener">下载</a></p>
-<h3 id="mac-打不开问题"><a href="#mac-打不开问题" class="headerlink" title="mac 打不开问题"></a>mac 打不开问题</h3><p>mat -&gt; Contents -&gt; Eclipse -&gt; MemoryAnalyzer.ini</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-startup</span><br><span class="line">../Eclipse/plugins/org.eclipse.equinox.launcher_1.3.100.v20150511-1540.jar</span><br><span class="line">####添加行</span><br><span class="line">-data</span><br><span class="line">/Users/Diablo/log</span><br><span class="line">####</span><br><span class="line">--launcher.library</span><br><span class="line">../Eclipse/plugins/org.eclipse.equinox.launcher.cocoa.macosx.x86_64_1.1.300.v20150602-1417</span><br><span class="line">-vmargs</span><br><span class="line">-Xmx1024m</span><br><span class="line">-Dorg.eclipse.swt.internal.carbon.smallFonts</span><br><span class="line">-XstartOnFirstThread</span><br></pre></td></tr></table></figure>
-<h3 id="AS-生成-hprof文件"><a href="#AS-生成-hprof文件" class="headerlink" title="AS 生成 .hprof文件"></a>AS 生成 .hprof文件</h3><p>AS -&gt; DDMS -&gt; 点击Update Heap按钮(装有一半绿色液体的圆柱体）开始进行追踪 -&gt; 点击Dump HPROP File按钮结束追踪，生成并保存hprof文件 </p>
-<h3 id="将AS生成的-hprof文件转换格式"><a href="#将AS生成的-hprof文件转换格式" class="headerlink" title="将AS生成的.hprof文件转换格式"></a>将AS生成的.hprof文件转换格式</h3><p>cd到sdk目录</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hprof-conv /Users/Diablo/Desktop/ 1.hprof 2.hprof</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-多线程数据锁" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -556,6 +567,66 @@
 <p>可见性，是指线程之间的可见性，一个线程修改的状态对另一个线程是可见的。</p>
 <p>保证了不同线程对这个变量进行操作时的可见性，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。</p>
 <p>可见性只能保证每次读取的是最新的值，但是volatile没办法保证对变量的操作的原子性。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-MAT" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/08/25/MAT/" class="article-date">
+  	<time datetime="2017-08-24T16:00:00.000Z" itemprop="datePublished">2017-08-25</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/08/25/MAT/">
+        内存检查MAT
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="http://www.eclipse.org/mat/" target="_blank" rel="noopener">下载</a></p>
+<h3 id="mac-打不开问题"><a href="#mac-打不开问题" class="headerlink" title="mac 打不开问题"></a>mac 打不开问题</h3><p>mat -&gt; Contents -&gt; Eclipse -&gt; MemoryAnalyzer.ini</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">-startup</span><br><span class="line">../Eclipse/plugins/org.eclipse.equinox.launcher_1.3.100.v20150511-1540.jar</span><br><span class="line">####添加行</span><br><span class="line">-data</span><br><span class="line">/Users/Diablo/log</span><br><span class="line">####</span><br><span class="line">--launcher.library</span><br><span class="line">../Eclipse/plugins/org.eclipse.equinox.launcher.cocoa.macosx.x86_64_1.1.300.v20150602-1417</span><br><span class="line">-vmargs</span><br><span class="line">-Xmx1024m</span><br><span class="line">-Dorg.eclipse.swt.internal.carbon.smallFonts</span><br><span class="line">-XstartOnFirstThread</span><br></pre></td></tr></table></figure>
+<h3 id="AS-生成-hprof文件"><a href="#AS-生成-hprof文件" class="headerlink" title="AS 生成 .hprof文件"></a>AS 生成 .hprof文件</h3><p>AS -&gt; DDMS -&gt; 点击Update Heap按钮(装有一半绿色液体的圆柱体）开始进行追踪 -&gt; 点击Dump HPROP File按钮结束追踪，生成并保存hprof文件 </p>
+<h3 id="将AS生成的-hprof文件转换格式"><a href="#将AS生成的-hprof文件转换格式" class="headerlink" title="将AS生成的.hprof文件转换格式"></a>将AS生成的.hprof文件转换格式</h3><p>cd到sdk目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hprof-conv /Users/Diablo/Desktop/ 1.hprof 2.hprof</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -789,132 +860,9 @@
 
 
   
-    <article id="post-网络传输" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/06/12/网络传输/" class="article-date">
-  	<time datetime="2017-06-11T16:00:00.000Z" itemprop="datePublished">2017-06-12</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/12/网络传输/">
-        网络传输
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>网络传输五层模型：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/206855-efc1c8d2c47ac859.png?imageView2/2/w/1240/q/100" alt=""></p>
-<h4 id="层与协议"><a href="#层与协议" class="headerlink" title="层与协议"></a>层与协议</h4><p>每一层都是为了完成一种功能。为了实现这些功能，就需要大家都遵守共同的规则。大家都遵守的规则，就叫做”协议”（protocol）。</p>
-<h4 id="实体层-物理层"><a href="#实体层-物理层" class="headerlink" title="实体层/物理层"></a>实体层/物理层</h4><p>实体层就是把电脑连接起来的物理手段(可以用光缆、电缆、双绞线、无线电波等方式)。它主要规定了网络的一些电气特性，作用是负责传送0和1的电信号。</p>
-<h4 id="链接层-链路层"><a href="#链接层-链路层" class="headerlink" title="链接层/链路层"></a>链接层/链路层</h4><p>单纯的0和1没有任何意义，必须规定解读方式：多少个电信号算一组？每个信号位有何意义？这就是”链接层”的功能，它在”实体层”的上方，确定了0和1的分组方式。</p>
-<h5 id="以太网协议"><a href="#以太网协议" class="headerlink" title="以太网协议"></a>以太网协议</h5><p>早期的时候，每家公司都有自己的电信号分组方式。逐渐地，一种叫做”以太网”（Ethernet）的协议，占据了主导地位。以太网规定，一组电信号构成一个数据包，叫做”帧”（Frame）。每一帧分成两个部分：标头（Head）和数据（Data）。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/206855-c57bb4ac35d430ff.png?imageView2/2/w/1240/q/100" alt=""></p>
-<p>head包含数据包的一些说明项，比如发送者、接受者、数据类型等等；data则是数据包的具体内容。head的长度，固定为18字节。data的长度，最短为46字节，最长为1500字节。因此，整个”帧”最短为64字节，最长为1518字节。如果数据很长，就必须分割成多个帧进行发送。</p>
-<h5 id="MAC地址"><a href="#MAC地址" class="headerlink" title="MAC地址"></a>MAC地址</h5><p>MAC地址是发送者和接受者是的标识。网卡的地址，就是数据包的发送地址和接收地址，这叫做MAC地址。每块网卡出厂的时候，都有一个全世界独一无二的MAC地址，长度是48个二进制位，通常用12个十六进制数表示。前6个十六进制数是厂商编号，后6个是该厂商的网卡流水号。</p>
-<h5 id="广播"><a href="#广播" class="headerlink" title="广播"></a>广播</h5><p>以太网采用了一种很”原始”的方式，它不是把数据包准确送到接收方，而是向本网络内所有计算机发送，让每台计算机自己判断，是否为接收方。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/206855-064346740c398d0a.png?imageView2/2/w/1240/q/100" alt=""></p>
-<p>1号计算机向2号计算机发送一个数据包，同一个子网络的3号、4号、5号计算机都会收到这个包。它们读取这个包的”标头”，找到接收方的MAC地址，然后与自身的MAC地址相比较，如果两者相同，就接受这个包，做进一步处理，否则就丢弃这个包。这种发送方式就叫做”广播”（broadcasting）。</p>
-<h4 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h4><p>以太网采用广播方式发送数据包，所有成员人手一”包”，不仅效率低，而且局限在发送者所在的子网络。也就是说，如果两台计算机不在同一个子网络，广播是传不过去的。这种设计是合理的，否则互联网上每一台计算机都会收到所有包，那会引起灾难。</p>
-<p>因此，必须找到一种方法，能够区分哪些MAC地址属于同一个子网络，哪些不是。如果是同一个子网络，就采用广播方式发送，否则就采用”路由”方式发送。这就导致了”网络层”的诞生。它的作用是引进一套新的地址，使得我们能够区分不同的计算机是否属于同一个子网络。这套地址就叫做”网络地址”，简称”网址”。</p>
-<p>于是，”网络层”出现以后，每台计算机有了两种地址，一种是MAC地址，另一种是网络地址。两种地址之间没有任何联系，MAC地址是绑定在网卡上的，网络地址则是管理员分配的，它们只是随机组合在一起。网络地址帮助我们确定计算机所在的子网络，MAC地址则将数据包送到该子网络中的目标网卡。因此，从逻辑上可以推断，必定是先处理网络地址，然后再处理MAC地址。</p>
-<h5 id="IP协议"><a href="#IP协议" class="headerlink" title="IP协议"></a>IP协议</h5><p>规定网络地址的协议，叫做IP协议。它所定义的地址，就被称为IP地址。</p>
-<p>互联网上的每一台计算机，都会分配到一个IP地址。这个地址分成两个部分，前一部分代表网络，后一部分代表主机。比如，IP地址172.16.254.1，这是一个32位的地址，假定它的网络部分是前24位（172.16.254），那么主机部分就是后8位（最后的那个1）。处于同一个子网络的电脑，它们IP地址的网络部分必定是相同的，也就是说172.16.254.2应该与172.16.254.1处在同一个子网络。</p>
-<p>但是，问题在于单单从IP地址，我们无法判断网络部分。还是以172.16.254.1为例，它的网络部分，到底是前24位，还是前16位，甚至前28位，从IP地址上是看不出来的。</p>
-<p>那么，怎样才能从IP地址，判断两台计算机是否属于同一个子网络呢？这就要用到另一个参数”子网掩码”（subnet mask）。</p>
-<p>所谓”子网掩码”，就是表示子网络特征的一个参数。它在形式上等同于IP地址，也是一个32位二进制数字，它的网络部分全部为1，主机部分全部为0。比如，IP地址172.16.254.1，如果已知网络部分是前24位，主机部分是后8位，那么子网络掩码就是11111111.11111111.11111111.00000000，写成十进制就是255.255.255.0。</p>
-<p>知道”子网掩码”，我们就能判断，任意两个IP地址是否处在同一个子网络。方法是将两个IP地址与子网掩码分别进行AND运算（两个数位都为1，运算结果为1，否则为0），然后比较结果是否相同，如果是的话，就表明它们在同一个子网络中，否则就不是。</p>
-<p>比如，已知IP地址172.16.254.1和172.16.254.233的子网掩码都是255.255.255.0，请问它们是否在同一个子网络？两者与子网掩码分别进行AND运算，结果都是172.16.254.0，因此它们在同一个子网络。</p>
-<p>总结一下，IP协议的作用主要有两个，一个是为每一台计算机分配IP地址，另一个是确定哪些地址在同一个子网络。</p>
-<h5 id="IP数据包"><a href="#IP数据包" class="headerlink" title="IP数据包"></a>IP数据包</h5><p>IP数据包直接放进以太网数据包的”数据”部分.IP数据包的”标头”部分的长度为20到60字节，整个数据包的总长度最大为65,535字节。因此，理论上，一个IP数据包的”数据”部分，最长为65,515字节。前面说过，以太网数据包的”数据”部分，最长只有1500字节。因此，如果IP数据包超过了1500字节，它就需要分割成几个以太网数据包，分开发送了。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/206855-622e82567f43612f.png?imageView2/2/w/1240/q/100" alt=""></p>
-<h5 id="ARP协议"><a href="#ARP协议" class="headerlink" title="ARP协议"></a>ARP协议</h5><p>因为IP数据包是放在以太网数据包里发送的，所以我们必须同时知道两个地址，一个是对方的MAC地址，另一个是对方的IP地址。通常情况下，对方的IP地址是已知的（后文会解释），但是我们不知道它的MAC地址。</p>
-<p>所以，我们需要一种机制，能够从IP地址得到MAC地址。</p>
-<p>这里又可以分成两种情况。第一种情况，如果两台主机不在同一个子网络，那么事实上没有办法得到对方的MAC地址，只能把数据包传送到两个子网络连接处的”网关”（gateway），让网关去处理。</p>
-<p>第二种情况，如果两台主机在同一个子网络，那么我们可以用ARP协议，得到对方的MAC地址。ARP协议也是发出一个数据包（包含在以太网数据包中），其中包含它所要查询主机的IP地址，在对方的MAC地址这一栏，填的是FF:FF:FF:FF:FF:FF，表示这是一个”广播”地址。它所在子网络的每一台主机，都会收到这个数据包，从中取出IP地址，与自身的IP地址进行比较。如果两者相同，都做出回复，向对方报告自己的MAC地址，否则就丢弃这个包。</p>
-<p>总之，有了ARP协议之后，我们就可以得到同一个子网络内的主机MAC地址，可以把数据包发送到任意一台主机之上了。</p>
-<h4 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h4><p>有了MAC地址和IP地址，我们已经可以在互联网上任意两台主机上建立通信。</p>
-<p>接下来的问题是，同一台主机上有许多程序都需要用到网络，比如，你一边浏览网页，一边与朋友在线聊天。当一个数据包从互联网上发来的时候，你怎么知道，它是表示网页的内容，还是表示在线聊天的内容？</p>
-<p>也就是说，我们还需要一个参数，表示这个数据包到底供哪个程序（进程）使用。这个参数就叫做”端口”（port），它其实是每一个使用网卡的程序的编号。每个数据包都发到主机的特定端口，所以不同的程序就能取到自己所需要的数据。</p>
-<p>“端口”是0到65535之间的一个整数，正好16个二进制位。0到1023的端口被系统占用，用户只能选用大于1023的端口。不管是浏览网页还是在线聊天，应用程序会随机选用一个端口，然后与服务器的相应端口联系。</p>
-<p>“传输层”的功能，就是建立”端口到端口”的通信。相比之下，”网络层”的功能是建立”主机到主机”的通信。只要确定主机和端口，我们就能实现程序之间的交流。因此，Unix系统就把主机+端口，叫做”套接字”（socket）。有了它，就可以进行网络应用程序开发了。</p>
-<h4 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h4><p>应用程序收到”传输层”的数据，接下来就要进行解读。由于互联网是开放架构，数据来源五花八门，必须事先规定好格式，否则根本无法解读。</p>
-<p>“应用层”的作用，就是规定应用程序的数据格式。</p>
-<p>这是最高的一层，直接面对用户。它的数据就放在TCP数据包的”数据”部分。因此，现在的以太网的数据包就变成下面这样。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/206855-fe25e1016f4034b8.png?imageView2/2/w/1240/q/100" alt=""></p>
-<p>实体层(它就是把电脑连接起来的物理手段，作用是负责传送0和1的电信号)-&gt;连接层(确定了0和1的分组方式)-&gt;网络层(区分不同的计算机是否属于同一个子网络,根据ip)-&gt;传输层(就是建立”端口到端口”的通信)-&gt;应用层(规定应用程序的数据格式，www/ftp等)</p>
-<h3 id="TCP-IP"><a href="#TCP-IP" class="headerlink" title="TCP/IP"></a>TCP/IP</h3><p>TCP：传输控制协议，面向连接的的协议，稳定可靠。当客户和服务器彼此交换数据前，必须先在双方之间建立一个TCP连接，之后才能传输数据。</p>
-<p>UDP：广播式数据传输，UDP不提供可靠性，它只是把应用程序传给IP层的数据报发送出去，但是并不能保证它们能到达目的地。由于UDP在传输数据报前不用在客户和服务器之间建立一个连接，且没有超时重发等机制，故而传输速度很快。</p>
-<p>TCP/UDP区别</p>
-<p>1.TCP是面向连接的、可靠的、有序的、速度慢的协议；UDP是无连接的、不可靠的、无序的、速度快的协议。</p>
-<p>2.TCP开销比UDP大，TCP头部需要20字节，UDP头部只要8个字节。</p>
-<p>3.TCP无界有拥塞控制，TCP有界无拥塞控制。（拥塞控制主要是四种方法：慢开始、拥塞避免、快重传、快恢复==这里面有一个拥塞窗口的概念）</p>
-<h4 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h4><ul>
-<li><p>第一次握手：建立连接。客户端发送连接请求报文段，将SYN位置为1，Sequence Number为x；然后，客户端进入SYN_SEND状态，等待服务器的确认。即A发送信息给B</p>
-</li>
-<li><p>第二次握手：服务器收到客户端的SYN报文段，需要对这个SYN报文段进行确认。即B收到连接信息后向A返回确认信息</p>
-</li>
-<li><p>第三次握手：客户端收到服务器的（SYN+ACK）报文段，并向服务器发送ACK报文段。即A收到确认信息后再次向B返回确认连接信息</p>
-</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/944365-ca6e707d5bef40fd.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h4 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h4><ul>
-<li><p>第一次挥手：A发送释放信息到B；（发出去之后，A-&gt;B发送数据这条路径就断了）</p>
-</li>
-<li><p>第二次挥手：B收到A的释放信息之后，回复确认释放的信息：我同意你的释放连接请求</p>
-</li>
-<li><p>第三次挥手：B发送“请求释放连接“信息给A</p>
-</li>
-<li><p>第四次挥手：A收到B发送的信息后向B发送确认释放信息：我同意你的释放连接请求</p>
-</li>
-</ul>
-<p><img src="http://upload-images.jianshu.io/upload_images/944365-a59e6fb7b501f1e9.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
-<h3 id="Socket-与-Http-对比"><a href="#Socket-与-Http-对比" class="headerlink" title="Socket 与 Http 对比"></a>Socket 与 Http 对比</h3><p>Socket属于传输层，因为TCP/IP协议属于传输层，解决的是数据如何在网络中传输的问题，HTTP协议属于应用层，解决的是如何包装数据。</p>
-<p>Http:采用请求—响应方式。</p>
-<p>Socket：采用 服务器主动发送数据 的方式</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
   
 </div>

@@ -162,6 +162,130 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-性能优化-UI" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/17/性能优化-UI/" class="article-date">
+  	<time datetime="2016-11-16T16:00:00.000Z" itemprop="datePublished">2016-11-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/17/性能优化-UI/">
+        性能优化-UI
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在日常的开发时，复杂的页面里面就会出现UI绘制卡顿现象，也就是掉帧。</p>
+<h3 id="UI卡顿掉帧"><a href="#UI卡顿掉帧" class="headerlink" title="UI卡顿掉帧"></a>UI卡顿掉帧</h3><p>大多数手机的屏幕刷新频率是60hz，如果在1000/60=16.67ms内没有办法把这一帧的任务执行完毕，就会发生丢帧的现象。丢帧越多，用户感受到的卡顿情况就越严重。</p>
+<p>每一次UI的绘制在16ms内才可以做到无卡顿现象，而复杂的UI以及不恰当的处理可能导致，一次绘制的时间超过16ms,也就出现了卡顿现象。</p>
+<h3 id="UI绘制"><a href="#UI绘制" class="headerlink" title="UI绘制"></a>UI绘制</h3><p>渲染操作通常依赖于两个核心组件：CPU与GPU。CPU负责包括Measure，Layout，Record，Execute的计算操作，GPU负责Rasterization(栅格化)操作。CPU通常存在的问题的原因是存在非必需的视图组件，它不仅仅会带来重复的计算操作，而且还会占用额外的GPU资源。</p>
+<h4 id="Android-UI-and-the-GPU"><a href="#Android-UI-and-the-GPU" class="headerlink" title="Android UI and the GPU"></a>Android UI and the GPU</h4><p>Resterization栅格化是绘制那些Button，Shape，Path，String，Bitmap等组件最基础的操作。它把那些组件拆分到不同的像素上进行显示。这是一个很费时的操作，GPU的引入就是为了加快栅格化的操作。</p>
+<p>CPU负责把UI组件计算成Polygons，Texture纹理，然后交给GPU进行栅格化渲染。</p>
+<p>然而每次从CPU转移到GPU是一件很麻烦的事情，所幸的是OpenGL ES可以把那些需要渲染的纹理Hold在GPU Memory里面，在下次需要渲染的时候直接进行操作。所以如果你更新了GPU所hold住的纹理内容，那么之前保存的状态就丢失了。</p>
+<p>在Android里面那些由主题所提供的资源，例如Bitmaps，Drawables都是一起打包到统一的Texture纹理当中，然后再传递到GPU里面，这意味着每次你需要使用这些资源的时候，都是直接从纹理里面进行获取渲染的。当然随着UI组件的越来越丰富，有了更多演变的形态。例如显示图片的时候，需要先经过CPU的计算加载到内存中，然后传递给GPU进行渲染。文字的显示比较复杂，需要先经过CPU换算成纹理，然后交给GPU进行渲染，返回到CPU绘制单个字符的时候，再重新引用经过GPU渲染的内容。动画则存在一个更加复杂的操作流程。</p>
+<p>为了能够使得App流畅，我们需要在每帧16ms以内处理完所有的CPU与GPU的计算，绘制，渲染等等操作。</p>
+<h4 id="Overdraw"><a href="#Overdraw" class="headerlink" title="Overdraw"></a>Overdraw</h4><p>Overdraw(过度绘制)描述的是屏幕上的某个像素在同一帧的时间内被绘制了多次。在多层次重叠的UI结构里面，如果不可见的UI也在做绘制的操作，会导致某些像素区域被绘制了多次。这样就会浪费大量的CPU以及GPU资源。</p>
+<p>调试Overdraw</p>
+<p><img src="http://hukai.me/images/overdraw_options_view.png" alt="图片"></p>
+<p>蓝色，淡绿，淡红，深红代表了4种不同程度的Overdraw情况，我们的目标就是尽量减少红色Overdraw，看到更多的蓝色区域。</p>
+<h4 id="Hierarchy-Viewer-Walkthrough"><a href="#Hierarchy-Viewer-Walkthrough" class="headerlink" title="Hierarchy Viewer: Walkthrough"></a>Hierarchy Viewer: Walkthrough</h4><p>Hierarchy Viewer可以很直接的呈现布局的层次关系，视图组件的各种属性。 我们可以通过红，黄，绿三种不同的颜色来区分布局的Measure，Layout，Executive的相对性能表现如何。</p>
+<h3 id="做好UI页面的容错处理"><a href="#做好UI页面的容错处理" class="headerlink" title="做好UI页面的容错处理"></a>做好UI页面的容错处理</h3><p>通常一个界面会包括：内容，空数据，异常错误，加载，网络错误等5种状态view，所以我们就设置这5种View的切换</p>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><ul>
+<li>移除Window默认的Background</li>
+<li>移除XML布局文件中非必需的Background</li>
+<li>按需显示占位背景图片</li>
+<li>尽量不要嵌套使用RelativeLayout.</li>
+<li>尽量不要在嵌套的LinearLayout中都使用weight属性.</li>
+<li>Layout的选择, 以尽量减少View树的层级为主.</li>
+<li>去除不必要的父布局.</li>
+<li>善用TextView的Drawable减少布局层级.<pre><code>tv_location.setCompoundDrawables(addr, null, null, null);
+    tv_location.setCompoundDrawablePadding(ContextUtil.dp2px(this, 5));
+</code></pre></li>
+<li>如果H Viewer查看层级超过5层, 你就需要考虑优化下布局了~</li>
+<li>能用一个View搞定的，别用两个</li>
+<li>使用Spannable减少textview个数</li>
+<li>用LinearLayout自带的分割线(android:divider=”@drawable/divider” android:showDividers=”middle”)</li>
+</ul>
+<h3 id="布局优化"><a href="#布局优化" class="headerlink" title="布局优化"></a>布局优化</h3><h4 id="重用布局include"><a href="#重用布局include" class="headerlink" title="重用布局include"></a>重用布局include</h4><h4 id="减少布局层次merge"><a href="#减少布局层次merge" class="headerlink" title="减少布局层次merge"></a>减少布局层次merge</h4><ul>
+<li><p>布局顶结点是FrameLayout且不需要设置background或padding等属性，可以用merge代替，因为Activity内容视图的parent view就是个FrameLayout，所以可以用merge消除只剩一个。</p>
+</li>
+<li><p>某布局作为子布局被其他布局include时，使用merge当作该布局的顶节点，这样在被引入时顶结点会自动被忽略，而将其子节点全部合并到主布局中。</p>
+</li>
+</ul>
+<h3 id="网络图片优化"><a href="#网络图片优化" class="headerlink" title="网络图片优化"></a>网络图片优化</h3><h4 id="支持根据URL加参数来获取指定质量和尺寸的图片"><a href="#支持根据URL加参数来获取指定质量和尺寸的图片" class="headerlink" title="支持根据URL加参数来获取指定质量和尺寸的图片"></a>支持根据URL加参数来获取指定质量和尺寸的图片</h4><h4 id="根据网络情况来取不同质量的图片-50-是缩略图，75-低质量，100-高质量"><a href="#根据网络情况来取不同质量的图片-50-是缩略图，75-低质量，100-高质量" class="headerlink" title="根据网络情况来取不同质量的图片(50%是缩略图，75%低质量，100%高质量)"></a>根据网络情况来取不同质量的图片(50%是缩略图，75%低质量，100%高质量)</h4><p>七牛的格式：<br><a href="http://oc4zuck5v.bkt.clouddn.com/iti3gcwpqe2jpg.jpg?imageView2/0/w/200/h/200/q/100" target="_blank" rel="noopener">http://oc4zuck5v.bkt.clouddn.com/iti3gcwpqe2jpg.jpg?imageView2/0/w/200/h/200/q/100</a></p>
+<p>url:<a href="http://oc4zuck5v.bkt.clouddn.com/iti3gcwpqe2jpg.jpg" target="_blank" rel="noopener">http://oc4zuck5v.bkt.clouddn.com/iti3gcwpqe2jpg.jpg</a></p>
+<p>格式：imageView2/<mode>/w/<longedge><br>                 /h/<shortedge><br>                 /format/<format><br>                 /interlace/<interlace><br>                 /q/<quality><br>                 /ignore-error/<ignoreerror></ignoreerror></quality></interlace></format></shortedge></longedge></mode></p>
+<h4 id="mode"><a href="#mode" class="headerlink" title="mode"></a>mode</h4><ul>
+<li>0 等比缩放，不裁剪，如果只指定 w 参数则表示限定长边（短边自适应），只指定 h 参数则表示限定短边（长边自适应）。</li>
+<li>1 等比缩放，居中裁剪，转后的缩略图通常恰好是 <width>x<height> 的大小（有一个边缩放的时候会因为超出矩形框而被裁剪掉多余部分）。如果只指定 w 参数或只指定 h 参数，代表限定为长宽相等的正方图。</height></width></li>
+<li>2 等比缩放，不裁剪，如果只指定 w 参数则表示限定宽（长自适应），只指定 h 参数则表示限定长（宽自适应）。它和模式0类似，区别只是限定宽和高，不是限定长边和短边。从应用场景来说，模式0适合移动设备上做缩略图，模式2适合PC上做缩略图。</li>
+<li>3 等比缩放，不裁剪，如果只指定 w 参数或只指定 h 参数，代表长宽限定为同样的值。你可以理解为模式1是模式3的结果再做居中裁剪得到的。</li>
+<li>4 等比缩放，不裁剪。如果只指定 w 参数或只指定 h 参数，表示长边短边限定为同样的值。这个模式很适合在手持设备做图片的全屏查看（把这里的长边短边分别设为手机屏幕的分辨率即可），生成的图片尺寸刚好充满整个屏幕（某一个边可能会超出屏幕）。</li>
+<li>5 等比缩放，居中裁剪。如果只指定 w 参数或只指定 h 参数，表示长边短边限定为同样的值。同上模式4，但超出限定的矩形部分会被裁剪。</li>
+</ul>
+<h4 id="format"><a href="#format" class="headerlink" title="format"></a>format</h4><p>新图的输出格式<br>取值范围：jpg，gif，png，webp等，默认为原图格式。<br>参考支持转换的图片格式。</p>
+<h4 id="interlace"><a href="#interlace" class="headerlink" title="interlace"></a>interlace</h4><p>是否支持渐进显示<br>取值范围：1 支持渐进显示，0不支持渐进显示(默认为0)。<br>适用目标格式：jpg<br>效果：网速慢时，图片显示由模糊到清晰。</p>
+<h4 id="q-Quality"><a href="#q-Quality" class="headerlink" title="/q/Quality"></a>/q/Quality</h4><p>新图的图片质量<br>取值范围是[1, 100]，默认75。<br>七牛会根据原图质量算出一个修正值，取修正值和指定值中的小值。<br>注意：</p>
+<ul>
+<li>如果图片的质量值本身大于90，会根据指定值进行处理，此时修正值会失效。</li>
+<li>指定值后面可以增加 !，表示强制使用指定值，如100!。</li>
+<li>支持图片类型：jpg。</li>
+</ul>
+<p>Quality修正值算法：min[90, 原图quality*sqrt(原图长宽乘积/结果图片长宽乘积)]</p>
+<h4 id="ignoreError"><a href="#ignoreError" class="headerlink" title="ignoreError"></a>ignoreError</h4><p>可选<br>取值：1</p>
+<ul>
+<li>未设置此参数时，正常返回处理结果。</li>
+<li>设置了此参数时，若图像处理的结果失败，则返回原图。</li>
+<li>设置了此参数时，若图像处理的结果成功，则正常返回处理结果。</li>
+</ul>
+<h4 id="注意："><a href="#注意：" class="headerlink" title="注意："></a>注意：</h4><ul>
+<li>可以仅指定w参数或h参数。</li>
+<li>新图的宽/高/长边/短边，不会比原图大，即本接口总是缩小图片。</li>
+<li>所有模式都可以只指定w参数或只指定h参数，并获得合理结果。在w、h为限定最大值时，未指定某参数等价于将该参数设置为无穷大（自适应）；在w、h为限定最小值时，未指定参数等于给定的参数，也就限定的矩形是正方形。</li>
+<li>处理后的图片w和h参数不能超过9999像素，总像素不得超过24999999（2500w-1）像素。</li>
+<li>处理前的图片w和h参数不能超过3万像素，总像素不能超过2亿像素。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-图片OOM问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1047,88 +1171,9 @@ android:viewportWidth=&quot;24&quot;&gt;
 
 
   
-    <article id="post-gradle 常用配置" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/10/17/gradle 常用配置/" class="article-date">
-  	<time datetime="2016-10-16T16:00:00.000Z" itemprop="datePublished">2016-10-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/17/gradle 常用配置/">
-        Gradle 常用配置
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="Gradle简介"><a href="#Gradle简介" class="headerlink" title="Gradle简介"></a>Gradle简介</h3><p>Gradle 是 Android 现在主流的编译工具，虽然在Gradle 出现之前和之后都有对应更快的编译工具出现，但是 Gradle 的优势就在于它是亲儿子，Gradle 确实比较慢，这和它的编译过程有关，但是现在的Gradle 编译速度已经有了成倍提高。除此之外，相对其他编译工具，最重要的，他和 Android Studio 的关系非常紧密，可以说对于一些简单的程序我们几乎不需要任何代码上的配置只使用 Android Studio 就可以完成编译和运行。</p>
-<h3 id="Gradle-编译周期"><a href="#Gradle-编译周期" class="headerlink" title="Gradle 编译周期"></a>Gradle 编译周期</h3><p>在编译过程中， Gradle 会根据 build 相关文件，聚合所有的project和task，执行task 中的 action。因为 build.gradle文件中的task非常多，先执行哪个后执行那个需要一种逻辑来保证。这种逻辑就是依赖逻辑，几乎所有的Task 都需要依赖其他 task 来执行，没有被依赖的task 会首先被执行。所以到最后所有的 Task 会构成一个 有向无环图（DAG Directed Acyclic Graph）的数据结构。</p>
-<h3 id="Gradle-文件结构"><a href="#Gradle-文件结构" class="headerlink" title="Gradle 文件结构"></a>Gradle 文件结构</h3><ul>
-<li>setting.gradle:这个 setting 文件定义了哪些module 应该被加入到编译过程，对于单个module 的项目可以不用需要这个文件，但是对于 multimodule 的项目我们就需要这个文件，否则gradle 不知道要加载哪些项目。这个文件的代码在初始化阶段就会被执行。</li>
-</ul>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">include ':app', </span><br><span class="line">        ':mymoudlename'//需要编译的模块</span><br></pre></td></tr></table></figure>
-<ul>
-<li>顶层的build.gradle:顶层的build.gradle文件的配置最终会被应用到所有项目中。</li>
-<li>模块中的build.gradle:当前模块的相关配置信息。</li>
-<li>gradle/wrapper/gradle-wrapper:gradlw wrapper 包含一些脚本文件和针对不同系统下面的运行文件。wrapper 有版本区分，但是并不需要你手动去下载，当你运行脚本的时候，如果本地没有会自动下载对应版本文件。</li>
-</ul>
-<h4 id="Gradle-配置项解析"><a href="#Gradle-配置项解析" class="headerlink" title="Gradle 配置项解析"></a>Gradle 配置项解析</h4><h5 id="buildscript"><a href="#buildscript" class="headerlink" title="buildscript"></a>buildscript</h5><p>buildscript：定义了 Android 编译工具的类路径。repositories中,jCenter是一个著名的 Maven 仓库。<br>repositories<br>repositories 就是代码仓库，这个相信大家都知道，我们平时的添加的一些 dependency 就是从这里下载的，Gradle 支持三种类型的仓库：Maven,Ivy和一些静态文件或者文件夹。在编译的执行阶段，gradle 将会从仓库中取出对应需要的依赖文件，当然，gradle 本地也会有自己的缓存，不会每次都去取这些依赖。</p>
-<h5 id="allprojects"><a href="#allprojects" class="headerlink" title="allprojects"></a>allprojects</h5><p>allprojects:中定义的属性会被应用到所有 moudle 中，但是为了保证每个项目的独立性，我们一般不会在这里面操作太多共有的东西。</p>
-<h5 id="apply-plugin"><a href="#apply-plugin" class="headerlink" title="apply plugin"></a>apply plugin</h5><p>apply plugin:代码中应用了Android 程序的gradle插件，作为Android 的应用程序，这一步是必须的，因为plugin中提供了Android 编译、测试、打包等等的所有task。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">apply plugin: 'com.android.application'</span><br><span class="line">//Application: 对应 com.android.application. 编译的结果是一个 apk</span><br><span class="line">//Android Library: 对应 com.android.library. 编译结果为 aar</span><br><span class="line">//JavaLibrary: 对应的 java. 编译结果为 jar</span><br></pre></td></tr></table></figure>
-<h5 id="android"><a href="#android" class="headerlink" title="android"></a>android</h5><p>android:这是编译文件中最大的代码块，关于android 的所有特殊配置都在这里，这就是又我们前面的声明的 plugin 提供的。</p>
-<h5 id="defaultConfig"><a href="#defaultConfig" class="headerlink" title="defaultConfig"></a>defaultConfig</h5><p>defaultConfig就是程序的默认配置，注意，如果在AndroidMainfest.xml里面定义了与这里相同的属性，会以这里的为主。多模块程序开发时，建议将这些默认配置信息抽离出来成公共的地方，将项目依赖关系和默认配置信息放到一个配置信息，config.gradle文件里。</p>
-<h5 id="buildTypes"><a href="#buildTypes" class="headerlink" title="buildTypes"></a>buildTypes</h5><p>buildTypes:定义了编译类型，针对每个类型我们可以有不同的编译配置，不同的编译配置对应的有不同的编译命令。默认的有debug、release 的类型。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">buildTypes &#123;</span><br><span class="line">        def BOOLEAN = "boolean"</span><br><span class="line">        def TRUE = "true"</span><br><span class="line">        def FALSE = "false"</span><br><span class="line">        def ENV_DEBUG = "ENV_DEBUG"</span><br><span class="line">        def ENABLE_LOG = "ENABLE_LOG"</span><br><span class="line">        def PERFORMANCE_DEBUG = "PERFORMANCE_DEBUG"</span><br><span class="line">        release &#123;</span><br><span class="line">            buildConfigField BOOLEAN, ENV_DEBUG, TRUE</span><br><span class="line">            buildConfigField BOOLEAN, ENABLE_LOG, TRUE</span><br><span class="line">            buildConfigField BOOLEAN, PERFORMANCE_DEBUG,FALSE</span><br><span class="line">            minifyEnabled false</span><br><span class="line">            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'</span><br><span class="line">            signingConfig signingConfigs.config</span><br><span class="line">        &#125;</span><br><span class="line">        releasePro &#123;</span><br><span class="line">            buildConfigField BOOLEAN, ENV_DEBUG, FALSE</span><br><span class="line">            buildConfigField BOOLEAN, ENABLE_LOG, FALSE</span><br><span class="line">            buildConfigField BOOLEAN, PERFORMANCE_DEBUG,FALSE</span><br><span class="line">            minifyEnabled true</span><br><span class="line">            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'</span><br><span class="line">            signingConfig signingConfigs.config</span><br><span class="line">        &#125;</span><br><span class="line">        debug &#123;</span><br><span class="line">            buildConfigField BOOLEAN, ENV_DEBUG, TRUE</span><br><span class="line">            buildConfigField BOOLEAN, ENABLE_LOG, TRUE</span><br><span class="line">            buildConfigField BOOLEAN, PERFORMANCE_DEBUG,TRUE</span><br><span class="line">        &#125;</span><br><span class="line">        debugPro &#123;</span><br><span class="line">            buildConfigField BOOLEAN, ENV_DEBUG, TRUE</span><br><span class="line">            buildConfigField BOOLEAN, ENABLE_LOG, TRUE</span><br><span class="line">            buildConfigField BOOLEAN, PERFORMANCE_DEBUG,FALSE</span><br><span class="line">            minifyEnabled true</span><br><span class="line">            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'</span><br><span class="line">            signingConfig signingConfigs.config</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h5 id="dependencies"><a href="#dependencies" class="headerlink" title="dependencies"></a>dependencies</h5><p>dependencies:是属于gradle 的依赖配置。它定义了当前项目需要依赖的其他库。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">    dependencies &#123;</span><br><span class="line">    compile 'com.netflix.rxjava:rxjava-core:0.19.+'</span><br><span class="line">    compile project(':myMoudleName')</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="signingConfigs"><a href="#signingConfigs" class="headerlink" title="signingConfigs"></a>signingConfigs</h5><p>signingConfigs 签名的配置信息，注意这里不要把密码直接打上，要放到全局变量的形式，建立一个不加入版本控制系统的gradle.properties文件。KEYSTORE_PASSWORD=password123<br>KEY_PASSWORD=password789</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">signingConfigs &#123;</span><br><span class="line">    release &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            storeFile file("myapp.keystore")</span><br><span class="line">            storePassword KEYSTORE_PASSWORD</span><br><span class="line">            keyAlias "thekey"</span><br><span class="line">            keyPassword KEY_PASSWORD</span><br><span class="line">        &#125;</span><br><span class="line">        catch (ex) &#123;</span><br><span class="line">            throw new InvalidUserDataException("You should define KEYSTORE_PASSWORD and KEY_PASSWORD in gradle.properties.")</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h5 id="多渠道打包productFlavors"><a href="#多渠道打包productFlavors" class="headerlink" title="多渠道打包productFlavors"></a>多渠道打包productFlavors</h5><p>在项目的build文件的android结构下配置：</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">productFlavors &#123;</span><br><span class="line">        dev &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "dev"]</span><br><span class="line">        &#125;</span><br><span class="line">        official &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "official"]</span><br><span class="line">        &#125;</span><br><span class="line">        xiaomi &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "xiaomi"]</span><br><span class="line">        &#125;</span><br><span class="line">        wandoujia &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "wandoujia"]</span><br><span class="line">        &#125;</span><br><span class="line">        "360" &#123;</span><br><span class="line">            manifestPlaceholders = [channel: "360"]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
     </nav>
   
 </div>
