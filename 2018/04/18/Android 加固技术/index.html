@@ -3,24 +3,24 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Binder 进程间通信 | Diablo</title>
+  <title>Android 加固技术 | Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
+  <meta name="description" content="Android 加固技术为什么要加固增加反编译的难度，混淆的破解难度已经不够了，因此需要做进一步的防护工作，因此加固的方案就产生。 加固的历史第一代加固技术——混淆技术； 第二代加固技术——加壳技术； 第三代加固技术——指令抽离：即抽取 dex 文件中 DexCode 的部分结构，即虚拟机操作码。在虚拟机加载到此类的时候对 DexCode 结构进行还原。从而保证 app 能正常的运行。 第四代加固">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Binder 进程间通信">
-<meta property="og:url" content="https://github.com/sirencode/2016/07/06/binder/index.html">
+<meta property="og:title" content="Android 加固技术">
+<meta property="og:url" content="https://github.com/sirencode/2018/04/18/Android 加固技术/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
-<meta property="og:image" content="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif">
-<meta property="og:updated_time" content="2017-07-06T08:16:57.000Z">
+<meta property="og:description" content="Android 加固技术为什么要加固增加反编译的难度，混淆的破解难度已经不够了，因此需要做进一步的防护工作，因此加固的方案就产生。 加固的历史第一代加固技术——混淆技术； 第二代加固技术——加壳技术； 第三代加固技术——指令抽离：即抽取 dex 文件中 DexCode 的部分结构，即虚拟机操作码。在虚拟机加载到此类的时候对 DexCode 结构进行还原。从而保证 app 能正常的运行。 第四代加固">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/%E4%B8%8B%E8%BD%BD.png">
+<meta property="og:updated_time" content="2018-04-22T02:15:22.335Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Binder 进程间通信">
-<meta name="twitter:description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
-<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif">
+<meta name="twitter:title" content="Android 加固技术">
+<meta name="twitter:description" content="Android 加固技术为什么要加固增加反编译的难度，混淆的破解难度已经不够了，因此需要做进一步的防护工作，因此加固的方案就产生。 加固的历史第一代加固技术——混淆技术； 第二代加固技术——加壳技术； 第三代加固技术——指令抽离：即抽取 dex 文件中 DexCode 的部分结构，即虚拟机操作码。在虚拟机加载到此类的时候对 DexCode 结构进行还原。从而保证 app 能正常的运行。 第四代加固">
+<meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/%E4%B8%8B%E8%BD%BD.png">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -166,11 +166,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-binder" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android 加固技术" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/06/binder/" class="article-date">
-  	<time datetime="2016-07-05T16:00:00.000Z" itemprop="datePublished">2016-07-06</time>
+      <a href="/2018/04/18/Android 加固技术/" class="article-date">
+  	<time datetime="2018-04-17T16:00:00.000Z" itemprop="datePublished">2018-04-18</time>
 </a>
     </div>
   
@@ -183,7 +183,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Binder 进程间通信
+      Android 加固技术
       
     </h1>
   
@@ -201,41 +201,26 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。</p>
-<p>关系图：</p>
-<p><img src="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif" alt="ipc"></p>
-<h3 id="角色介绍"><a href="#角色介绍" class="headerlink" title="角色介绍"></a>角色介绍</h3><ol>
-<li><p>Client、Server和Service Manager实现在用户空间中，Binder驱动程序实现在内核空间中</p>
-</li>
-<li><p>Binder驱动程序和Service Manager在Android平台中已经实现，开发者只需要在用户空间实现自己的Client和Server</p>
-</li>
-<li><p>Binder驱动程序提供设备文件/dev/binder与用户空间交互，Client、Server和Service Manager通过open和ioctl文件操作函数与Binder驱动程序进行通信</p>
-</li>
-<li><p>Client和Server之间的进程间通信通过Binder驱动程序间接实现</p>
-</li>
-<li><p>Service Manager是一个守护进程，用来管理Server，并向Client提供查询Server接口的能力</p>
-</li>
-</ol>
-<h4 id="Service-Manager"><a href="#Service-Manager" class="headerlink" title="Service Manager"></a>Service Manager</h4><p>Service Manager是成为Android进程间通信（IPC）机制Binder守护进程的过程是这样的：</p>
+        <h1 id="Android-加固技术"><a href="#Android-加固技术" class="headerlink" title="Android 加固技术"></a>Android 加固技术</h1><h2 id="为什么要加固"><a href="#为什么要加固" class="headerlink" title="为什么要加固"></a>为什么要加固</h2><p>增加反编译的难度，混淆的破解难度已经不够了，因此需要做进一步的防护工作，因此加固的方案就产生。</p>
+<h2 id="加固的历史"><a href="#加固的历史" class="headerlink" title="加固的历史"></a>加固的历史</h2><p>第一代加固技术——混淆技术；</p>
+<p>第二代加固技术——加壳技术；</p>
+<p>第三代加固技术——指令抽离：即抽取 dex 文件中 DexCode 的部分结构，即虚拟机操作码。在虚拟机加载到此类的时候对 DexCode 结构进行还原。从而保证 app 能正常的运行。</p>
+<p>第四代加固技术——指令转换，即现在经常被应用的VMP加固技术。</p>
+<h2 id="加固的实现"><a href="#加固的实现" class="headerlink" title="加固的实现"></a>加固的实现</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>原理：将我们的源APK进行加密，解密的过程</p>
+<p>dex合并：采用的 VMP（虚拟软件保护技术）大概思路就是自定义一套虚拟机指令和对应的解释器，并将标准的指令转换成自己的指令，然后由解释器将自己的指令给对应的解释器。</p>
+<h3 id="加壳流程"><a href="#加壳流程" class="headerlink" title="加壳流程"></a>加壳流程</h3><p>三个对象：</p>
 <ul>
-<li><ol>
-<li>打开/dev/binder文件：open(“/dev/binder”, O_RDWR);</li>
-</ol>
-</li>
-<li><ol>
-<li>建立128K内存映射：mmap(NULL, mapsize, PROT_READ, MAP_PRIVATE, bs-&gt;fd, 0);</li>
-</ol>
-</li>
-<li><ol>
-<li>通知Binder驱动程序它是守护进程：binder_become_context_manager(bs);</li>
-</ol>
-</li>
-<li><ol>
-<li>进入循环等待请求的到来：binder_loop(bs, svcmgr_handler);</li>
-</ol>
-</li>
+<li>1 源APK-要加密的apk文件</li>
+<li>2 壳APK-负责对源apk解密</li>
+<li>3 加密工具-将源APK进行加密和壳Dex合并新的Dex</li>
 </ul>
-<h4 id="client-service-获取service-manager接口"><a href="#client-service-获取service-manager接口" class="headerlink" title="client service 获取service manager接口"></a>client service 获取service manager接口</h4><p>我们知道，Service Manager在Binder机制中既充当守护进程的角色，同时它也充当着Server角色，然而它又与一般的Server不一样。对于普通的Server来说，Client如果想要获得Server的远程接口，那么必须通过Service Manager远程接口提供的getService接口来获得，这本身就是一个使用Binder机制来进行进程间通信的过程。而对于Service Manager这个Server来说，Client如果想要获得Service Manager远程接口，却不必通过进程间通信机制来获得，因为Service Manager远程接口是一个特殊的Binder引用，它的引用句柄一定是0。</p>
+<p>主要步骤：</p>
+<ul>
+<li>1 加密算法加密源APK，生成加密的dex文件</li>
+<li>2 加密后的dex和壳apk进行合并生成新的dex文件</li>
+<li>3 新的dex替换壳程序的dex，得到新的apk,修改壳apk的checksum、signature 和file_size的信息，并且要附加加壳的apk的长度信息在dex文件中，以便我们进行解壳保证原来apk的正常运行。</li>
+</ul>
+<h3 id="脱壳流程"><a href="#脱壳流程" class="headerlink" title="脱壳流程"></a>脱壳流程</h3><p><img src="http://oc4zuck5v.bkt.clouddn.com/%E4%B8%8B%E8%BD%BD.png" alt=""></p>
 
       
     </div>
@@ -245,18 +230,18 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/08/17/build_blog/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2018/04/19/Android root 原理/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">&lt;</strong>
       <div class="article-nav-title">
         
-          Mac上 Github 博客搭建
+          Android root 原理
         
       </div>
     </a>
   
   
-    <a href="/2016/06/01/搜索技巧/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">搜索技巧</div>
+    <a href="/2018/04/17/java GC/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java GC</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -266,7 +251,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="binder" data-title="Binder 进程间通信" data-url="https://github.com/sirencode/2016/07/06/binder/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Binder 进程间通信">
+<div class="ds-share share" data-thread-key="Android 加固技术" data-title="Android 加固技术" data-url="https://github.com/sirencode/2018/04/18/Android 加固技术/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 加固技术">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>

@@ -162,6 +162,250 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-UI块化处理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/02/UI块化处理/" class="article-date">
+  	<time datetime="2016-09-01T16:00:00.000Z" itemprop="datePublished">2016-09-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/02/UI块化处理/">
+        Android UI-块化处理
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="Android-UI-模块化实现"><a href="#Android-UI-模块化实现" class="headerlink" title="Android UI 模块化实现"></a>Android UI 模块化实现</h3><p>在比较复杂的页面里面，会根据不同的业务逻辑将ui分为不同的块。当我们初始化的时候会很混乱，而且很容易和其他ui块的子View混淆，为了使各个ui块更加清晰，我们将UI块化。</p>
+<p>首先，这里的UI模块化是指布局碎片fragment文件里面的ui的模块化，并不是说叫大家不做ui布局的fragment的碎片化。我们这么做的主要目的是为了实现在最小碎片化上面在做一些模块化处理，当然这要根据fragment的ui的复杂程度而定，只有当ui很复杂的时候才会这么做。</p>
+<h4 id="尽量不要使用activity和fragment"><a href="#尽量不要使用activity和fragment" class="headerlink" title="尽量不要使用activity和fragment"></a>尽量不要使用activity和fragment</h4><p>将独立的ui模块抽离出来，实现自定义control，将模块化的View封装在control里面，并将所有的view相关操作抽离，以及对生命周期的管理。</p>
+<h4 id="1-主UI实现，main布局文件"><a href="#1-主UI实现，main布局文件" class="headerlink" title="1 主UI实现，main布局文件"></a>1 主UI实现，main布局文件</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+android:layout_height=&quot;match_parent&quot;
+android:layout_width=&quot;match_parent&quot;
+android:orientation=&quot;vertical&quot;&gt;
+&lt;LinearLayout
+    android:gravity=&quot;center&quot;
+    android:id=&quot;@+id/block1&quot;
+    android:layout_height=&quot;0dp&quot;
+    android:layout_weight=&quot;1&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:orientation=&quot;vertical&quot; /&gt;
+
+&lt;LinearLayout
+    android:id=&quot;@+id/block2&quot;
+    android:layout_height=&quot;0dp&quot;
+    android:layout_weight=&quot;1&quot;
+    android:layout_width=&quot;match_parent&quot;
+    android:orientation=&quot;vertical&quot; /&gt;
+&lt;/LinearLayout&gt;
+</code></pre><h4 id="2-各个块UI实现，block布局"><a href="#2-各个块UI实现，block布局" class="headerlink" title="2 各个块UI实现，block布局"></a>2 各个块UI实现，block布局</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;RelativeLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+android:layout_height=&quot;match_parent&quot;
+android:layout_width=&quot;match_parent&quot;&gt;
+
+&lt;TextView
+    android:gravity=&quot;center&quot;
+    android:id=&quot;@+id/textView&quot;
+    android:layout_alignParentEnd=&quot;true&quot;
+    android:layout_alignParentLeft=&quot;true&quot;
+    android:layout_alignParentRight=&quot;true&quot;
+    android:layout_alignParentStart=&quot;true&quot;
+    android:layout_alignParentTop=&quot;true&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:text=&quot;This is block1!&quot;
+    android:textAppearance=&quot;?android:attr/textAppearanceMedium&quot; /&gt;
+&lt;Button
+    android:id=&quot;@+id/button1&quot;
+    android:layout_alignParentLeft=&quot;true&quot;
+    android:layout_alignParentStart=&quot;true&quot;
+    android:layout_below=&quot;@+id/textView&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:text=&quot;button1&quot; /&gt;
+&lt;Button
+    android:id=&quot;@+id/button2&quot;
+    android:layout_alignParentEnd=&quot;true&quot;
+    android:layout_alignParentRight=&quot;true&quot;
+    android:layout_below=&quot;@+id/textView&quot;
+    android:layout_height=&quot;wrap_content&quot;
+    android:layout_width=&quot;wrap_content&quot;
+    android:text=&quot;button2&quot; /&gt;
+&lt;/RelativeLayout&gt;
+</code></pre><h4 id="3-模块逻辑处理"><a href="#3-模块逻辑处理" class="headerlink" title="3 模块逻辑处理"></a>3 模块逻辑处理</h4><pre><code>public class FirstContenController implements View.OnClickListener {
+
+private Activity activity;
+private View base;
+
+public FirstContenController(Activity activity,View base){
+    this.activity = activity;
+    this.base = base;
+    initViews();
+}
+
+private void  initViews(){
+    Button firstBtn = (Button) base.findViewById(R.id.button1);
+    firstBtn.setOnClickListener(this);
+    Button secondBtn = (Button) base.findViewById(R.id.button2);
+    secondBtn.setOnClickListener(this);
+}
+
+@Override
+public void onClick(View view) {
+    Toast.makeText(activity, &quot;first block first button&quot;, Toast.LENGTH_SHORT).show();
+}
+
+//释放资源
+public void release(){
+
+}
+}
+</code></pre><h4 id="4-逻辑处理"><a href="#4-逻辑处理" class="headerlink" title="4 逻辑处理"></a>4 逻辑处理</h4><pre><code>public class MainActivity extends Activity {
+
+//第一块UI区域
+private LinearLayout firstLay;
+//第二块UI区域
+private LinearLayout secondLay;
+
+private FirstContenController firstContenController;
+
+private SecondContentController secondContentController;
+
+@Override
+protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    setContentView(R.layout.activity_main);
+    initBlock();
+}
+
+/**
+ * 初始化UI块
+ */
+private void initBlock() {
+    firstLay = (LinearLayout) findViewById(R.id.block1);
+    secondLay = (LinearLayout) findViewById(R.id.block2);
+    LayoutInflater inflater = LayoutInflater.from(MainActivity.this);
+    View firstBlock = inflater.inflate(R.layout.block1, null);
+    View secondBlock = inflater.inflate(R.layout.block2, null);
+    firstLay.addView(firstBlock);
+    secondLay.addView(secondBlock);
+
+    firstContenController = new FirstContenController(MainActivity.this, firstBlock);
+    secondContentController = new SecondContentController(MainActivity.this, firstBlock);
+}
+
+@Override
+protected void onDestroy() {
+    super.onDestroy();
+    if (firstContenController != null) {
+        firstContenController.release();
+    }
+
+    if (secondContentController != null) {
+        secondContentController.release();
+    }
+}
+}
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-infer" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/01/infer/" class="article-date">
+  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/01/infer/">
+        内存泄漏检查工具-infer
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 环境安装见<a href="http://infer.liaohuqiu.net/docs/getting-started.html" target="_blank" rel="noopener">官网</a></p>
+<p>2 android 项目分析</p>
+<pre><code>infer -- ./gradlew build
+</code></pre><p>在两次分析之间运行 gradlew clean</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-事件总线" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -219,80 +463,6 @@ public void onEvent(AnyEventType event) {/* Do something */};
 //解除注册
 eventBus.unregister(this);
 </code></pre><p>5 确保在事件发送前注册，并处理接收方法。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-LeakCanary" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/31/LeakCanary/" class="article-date">
-  	<time datetime="2016-08-30T16:00:00.000Z" itemprop="datePublished">2016-08-31</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/31/LeakCanary/">
-        内存泄漏检查工具-LeakCanary
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。</p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 添加项目依赖：</p>
-<pre><code>dependencies {
-    debugCompile &apos;com.squareup.leakcanary:leakcanary-android:1.4-beta2&apos;
-    releaseCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
-    testCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
-}
-</code></pre><p>2 初始化：</p>
-<pre><code>public class YourApplication extends Application {
-
-@Override public void onCreate() {
-super.onCreate();
-LeakCanary.install(this);
-}
-}
-</code></pre><p>3 运行你的app，当检测到内存泄漏会有提示：</p>
-<p><img src="https://raw.githubusercontent.com/square/leakcanary/master/assets/screenshot.png" alt="图片"></p>
-<p>4 内存泄漏信息，将会保存在sdcard/blockcanary目录下。</p>
-<p>5 一般内存检查会出现在activity的销毁阶段。</p>
-<p>6 自己编译leakcanary源码的<a href="https://github.com/sirencode/LeakCanary">Demo</a>,可以根据自己的情况对功能进行定制。</p>
 
       
     </div>
@@ -474,6 +644,159 @@ Linearlayout ly = findViewById(R.id.panel_stub);
 
 
   
+    <article id="post-LeakCanary" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/31/LeakCanary/" class="article-date">
+  	<time datetime="2016-08-30T16:00:00.000Z" itemprop="datePublished">2016-08-31</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/31/LeakCanary/">
+        内存泄漏检查工具-LeakCanary
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 添加项目依赖：</p>
+<pre><code>dependencies {
+    debugCompile &apos;com.squareup.leakcanary:leakcanary-android:1.4-beta2&apos;
+    releaseCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
+    testCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
+}
+</code></pre><p>2 初始化：</p>
+<pre><code>public class YourApplication extends Application {
+
+@Override public void onCreate() {
+super.onCreate();
+LeakCanary.install(this);
+}
+}
+</code></pre><p>3 运行你的app，当检测到内存泄漏会有提示：</p>
+<p><img src="https://raw.githubusercontent.com/square/leakcanary/master/assets/screenshot.png" alt="图片"></p>
+<p>4 内存泄漏信息，将会保存在sdcard/blockcanary目录下。</p>
+<p>5 一般内存检查会出现在activity的销毁阶段。</p>
+<p>6 自己编译leakcanary源码的<a href="https://github.com/sirencode/LeakCanary">Demo</a>,可以根据自己的情况对功能进行定制。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-mvp" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/30/mvp/" class="article-date">
+  	<time datetime="2016-08-29T16:00:00.000Z" itemprop="datePublished">2016-08-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/30/mvp/">
+        Android 设计模式-MVP框架
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。</p>
+<h3 id="MVP介绍"><a href="#MVP介绍" class="headerlink" title="MVP介绍"></a>MVP介绍</h3><p>MVP实际是将原MVC模式下activity和fragment里面的代码抽离出来并封装到P里面，从而，降低了actvity和fragment的代码量，并解耦。</p>
+<ul>
+<li>M是指modle，model 是用户界面需要显示数据的抽象，也可以理解为从业务数据（结果）那里到用户界面的抽象（Business rule, data access, model classes）。</li>
+<li>视图这一层体现的很轻薄，负责显示数据、提供友好界面跟用户交互就行。MVP下Activity和Fragment体现在了这一层，<br>Activity一般也就做加载UI视图、设置监听再交由Presenter处理的一些工作，所以也就需要持有相应Presenter的引用。例如，Activity上滚动列表时隐藏或者显示Acionbar（Toolbar），这样的UI逻辑时也应该在这一层。另外在View上输入的数据做一些判断时，例如，EditText的输入数据，假如是简单的非空判断则可以作为View层的逻辑，而当需要对EditText的数据进行更复杂的比较时，如从数据库获取本地数据进行判断时明显需要经过Model层才能返回了，所以这些细节需要自己掂量。</li>
+<li>Presenter这一层处理着程序各种逻辑的分发，收到View层UI上的反馈命令、定时命令、系统命令等指令后分发处理逻辑交由业务层做具体的业务操作，然后将得到的 Model 给 View 显示。</li>
+</ul>
+<h4 id="获取数据-gt-改变View的流程（APP的主要流程）"><a href="#获取数据-gt-改变View的流程（APP的主要流程）" class="headerlink" title="获取数据-&gt;改变View的流程（APP的主要流程）"></a>获取数据-&gt;改变View的流程（APP的主要流程）</h4><p>步骤1：UI(Activity)实现View方法，引用Presenter<br>步骤2：Presenter调用Model，走Model具体逻辑<br>步骤3：Model逻辑实现，回调Presenter方法返回数据<br>步骤4：Presenter回调View，即回到UI，回调View方法</p>
+<h4 id="View改变-gt-业务处理"><a href="#View改变-gt-业务处理" class="headerlink" title="View改变-&gt;业务处理"></a>View改变-&gt;业务处理</h4><p>在View的改变事件——&gt;presenter -&gt; model处理，回调presenter -&gt; 根据结果显示UI</p>
+<h4 id="双向数据沟通"><a href="#双向数据沟通" class="headerlink" title="双向数据沟通"></a>双向数据沟通</h4><p>1 v变化——&gt; p -&gt; m处理<br>2 m处理后 -&gt; p -&gt; v变化</p>
+<p>或者</p>
+<p>1 m处理后 -&gt; p -&gt; v变化<br>2 v变化——&gt; p -&gt; m处理</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
+<ul>
+<li>1 数据解耦，所有的业务逻辑放到model里面，方便管理复用。</li>
+<li>2 代码的可读性好很多，方便后续修改阅读。</li>
+<li>3 代码的耦合度很低，方便其它地方复用相关模块代码。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>1 要写大量的代码，或者文件。</li>
+<li>2 使用起来没有以前方便，需要进行数据的分离处理。</li>
+</ul>
+<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><p>使用MVP时，Activity和Fragment变成了MVC模式中View层，Presenter相当于MVC模式中Controller层，处理业务逻辑。每一个Activity都有一个相应的presenter来处理数据进而获取model。</p>
+<p>由于写MVP模式要写大量的代码和文件，因此建议不需要所有的功能都用mvp实现，在逻辑的叶子节点上的功能可以不使用。另外，modle文件可以根据模块化共用一个modle,不需要每个功能都新建一个model。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-lint" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -582,85 +905,6 @@ compileLintTask.dependsOn(copyLintJar)
 <li>4 Warning from Custom Lint Check 错误规则检查</li>
 <li>5 module 右键 Refactor -&gt; Remove Unused Resources</li>
 </ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-mvp" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/30/mvp/" class="article-date">
-  	<time datetime="2016-08-29T16:00:00.000Z" itemprop="datePublished">2016-08-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/30/mvp/">
-        Android 设计模式-MVP框架
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。</p>
-<h3 id="MVP介绍"><a href="#MVP介绍" class="headerlink" title="MVP介绍"></a>MVP介绍</h3><p>MVP实际是将原MVC模式下activity和fragment里面的代码抽离出来并封装到P里面，从而，降低了actvity和fragment的代码量，并解耦。</p>
-<ul>
-<li>M是指modle，model 是用户界面需要显示数据的抽象，也可以理解为从业务数据（结果）那里到用户界面的抽象（Business rule, data access, model classes）。</li>
-<li>视图这一层体现的很轻薄，负责显示数据、提供友好界面跟用户交互就行。MVP下Activity和Fragment体现在了这一层，<br>Activity一般也就做加载UI视图、设置监听再交由Presenter处理的一些工作，所以也就需要持有相应Presenter的引用。例如，Activity上滚动列表时隐藏或者显示Acionbar（Toolbar），这样的UI逻辑时也应该在这一层。另外在View上输入的数据做一些判断时，例如，EditText的输入数据，假如是简单的非空判断则可以作为View层的逻辑，而当需要对EditText的数据进行更复杂的比较时，如从数据库获取本地数据进行判断时明显需要经过Model层才能返回了，所以这些细节需要自己掂量。</li>
-<li>Presenter这一层处理着程序各种逻辑的分发，收到View层UI上的反馈命令、定时命令、系统命令等指令后分发处理逻辑交由业务层做具体的业务操作，然后将得到的 Model 给 View 显示。</li>
-</ul>
-<h4 id="获取数据-gt-改变View的流程（APP的主要流程）"><a href="#获取数据-gt-改变View的流程（APP的主要流程）" class="headerlink" title="获取数据-&gt;改变View的流程（APP的主要流程）"></a>获取数据-&gt;改变View的流程（APP的主要流程）</h4><p>步骤1：UI(Activity)实现View方法，引用Presenter<br>步骤2：Presenter调用Model，走Model具体逻辑<br>步骤3：Model逻辑实现，回调Presenter方法返回数据<br>步骤4：Presenter回调View，即回到UI，回调View方法</p>
-<h4 id="View改变-gt-业务处理"><a href="#View改变-gt-业务处理" class="headerlink" title="View改变-&gt;业务处理"></a>View改变-&gt;业务处理</h4><p>在View的改变事件——&gt;presenter -&gt; model处理，回调presenter -&gt; 根据结果显示UI</p>
-<h4 id="双向数据沟通"><a href="#双向数据沟通" class="headerlink" title="双向数据沟通"></a>双向数据沟通</h4><p>1 v变化——&gt; p -&gt; m处理<br>2 m处理后 -&gt; p -&gt; v变化</p>
-<p>或者</p>
-<p>1 m处理后 -&gt; p -&gt; v变化<br>2 v变化——&gt; p -&gt; m处理</p>
-<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
-<ul>
-<li>1 数据解耦，所有的业务逻辑放到model里面，方便管理复用。</li>
-<li>2 代码的可读性好很多，方便后续修改阅读。</li>
-<li>3 代码的耦合度很低，方便其它地方复用相关模块代码。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>1 要写大量的代码，或者文件。</li>
-<li>2 使用起来没有以前方便，需要进行数据的分离处理。</li>
-</ul>
-<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><p>使用MVP时，Activity和Fragment变成了MVC模式中View层，Presenter相当于MVC模式中Controller层，处理业务逻辑。每一个Activity都有一个相应的presenter来处理数据进而获取model。</p>
-<p>由于写MVP模式要写大量的代码和文件，因此建议不需要所有的功能都用mvp实现，在逻辑的叶子节点上的功能可以不使用。另外，modle文件可以根据模块化共用一个modle,不需要每个功能都新建一个model。</p>
 
       
     </div>
@@ -996,154 +1240,6 @@ public static float change(float a)
 
 
   
-    <article id="post-gradle same dependencies" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/23/gradle same dependencies/" class="article-date">
-  	<time datetime="2016-08-22T16:00:00.000Z" itemprop="datePublished">2016-08-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/23/gradle same dependencies/">
-        Android 多模块相同依赖问题
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。</p>
-<h3 id="相同依赖带来的问题"><a href="#相同依赖带来的问题" class="headerlink" title="相同依赖带来的问题"></a>相同依赖带来的问题</h3><ul>
-<li>1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。</li>
-<li>2 版本混乱，相同的依赖版本可能不同，这样就带了了代码上的冗余，并且可能带来错误。</li>
-<li>3 相同的依赖不仅仅来自于不同的模块，有可能是不同的依赖库引用了相同的依赖，总之为了避免不必要的麻烦，我们还是在使用前检查一下吧。</li>
-</ul>
-<h3 id="抽离相同依赖"><a href="#抽离相同依赖" class="headerlink" title="抽离相同依赖"></a>抽离相同依赖</h3><h4 id="在项目根目录新建-gradle整理文件"><a href="#在项目根目录新建-gradle整理文件" class="headerlink" title="在项目根目录新建.gradle整理文件"></a>在项目根目录新建.gradle整理文件</h4><p>1 我们新建名为config.gradle的文件：</p>
-<p>代码如下：</p>
-<pre><code>//全局变量名称
-ext {
-// Android
-android = [
-  compileSdkVersion: 24,
-  buildToolsVersion: &apos;24.0.1&apos;,
-  applicationId    : &apos;com.baidao.ytxmobile&apos;,
-  minSdkVersion    : 14,
-  targetSdkVersion : 24
-]
-
-// AllDependencies
-allDependencies = [
-  support_recyclerview : &apos;com.android.support:recyclerview-v7:24.0.0&apos;,
-  support : &apos;com.android.support:appcompat-v7:24.1.1&apos;,
-  progress_switcher : &apos;com.github.drnkn:progress-switcher:1.1.3@aar&apos;
-]
-//app模块的依赖关系
-appDps = [
-  support_recyclerview : &quot;compile&quot;,
-  support : &apos;compile&apos;,
-  progress_switcher : &apos;compile&apos;
-]
-
-//RefreshLoadLayout模块的依赖关系
-RefreshLoadLayoutDps = [
-  support_recyclerview : &quot;compile&quot;,
-]
-
-dependenciesMethod = { dps, closure -&gt;
-dps.each { entry -&gt;
-  def value = entry.value
-  if (value instanceof List) {
-    value.each { result -&gt;
-      closure result, allDependencies.get(entry.key), entry.key
-    }
-  } else {
-    closure value, allDependencies.get(entry.key), entry.key
-  }
-}
-}
-
-}
-</code></pre><p>2 添加config.gradle文件的使用</p>
-<p>打开项目根目录下的build.gradle文件，并添加如下代码。</p>
-<pre><code>apply from: &quot;config.gradle&quot;
-</code></pre><p>3 在我们的模块中使用，相关依赖和相关属性</p>
-<p>打开我们模块对应的build.gradle文件。</p>
-<p>使用全局属性：</p>
-<pre><code>def globalConfiguration = rootProject.ext
-
-android {
-compileSdkVersion globalConfiguration.android.compileSdkVersion
-buildToolsVersion globalConfiguration.android.buildToolsVersion
-
-defaultConfig {
-minSdkVersion globalConfiguration.android.minSdkVersion
-targetSdkVersion globalConfiguration.android.targetSdkVersion
-applicationId &quot;diablo.lib.list.com&quot;
-versionCode 1
-versionName &quot;1.0&quot;
-}
-buildTypes {
-release {
-  minifyEnabled false
-  proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
-}
-}
-}
-</code></pre><p>在dependencies{}中添加相关依赖：</p>
-<pre><code>//appDps为在config文件中定义的模块名称
-rootProject.dependenciesMethod rootProject.ext.appDps, { type, library, key -&gt;
-if (type == &apos;compile&apos;) {
-  compile library
-} else if (type == &apos;debugCompile&apos;) {
-  debugCompile library
-} else if (type == &apos;testCompile&apos;) {
-  testCompile library
-} else if (type == &apos;apt&apos;) {
-  apt library
-} else if (type == &apos;debuggableReleaseCompile&apos;) {
-  debuggableReleaseCompile library
-} else if (type == &apos;debugProCompile&apos;) {
-  debugProCompile library
-}
-}
-</code></pre>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-recycleview" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1225,139 +1321,6 @@ public RecycleItemTypeData(int itemType, int typeRes) {
     this.itemType = itemType;
     this.typeRes = typeRes;
 }
-}
-</code></pre>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-lazy_load" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/22/lazy_load/" class="article-date">
-  	<time datetime="2016-08-21T16:00:00.000Z" itemprop="datePublished">2016-08-22</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/22/lazy_load/">
-        Android 性能优化-懒加载
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。</p>
-<h3 id="懒加载的使用"><a href="#懒加载的使用" class="headerlink" title="懒加载的使用"></a>懒加载的使用</h3><p>在android开发中我们用到了很多懒加载的例子。<br>如：</p>
-<ul>
-<li>1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示真正的图片。</li>
-<li>2 app初始化的时候，app开始前我们必不可少的要设置一些第三方的初始化工作，而这些初始化工作在主线程里面也相对耗时，所以可以将这些初始化工作放到子线程里面实现。</li>
-<li>3 view的懒加载，还有一种比较耗时的操作就是view的绘制过程，一个复杂的fragment的绘制也是一个很耗时的操作，为了尽量不丢帧，我们也可以做一个fragment的懒加载。</li>
-</ul>
-<h3 id="初始化的懒加载实现"><a href="#初始化的懒加载实现" class="headerlink" title="初始化的懒加载实现"></a>初始化的懒加载实现</h3><p>1 我们将application 和 activity oncreate()里面比较费时的操作抽取出来。</p>
-<p>2 将这些费时的操作放到一个子线程里面执行，并在初始化的时候启动初始化的子线程。</p>
-<p>3 有一个问题就是什么时候去使用这些需要初始化的东西，因为做了异步处理，我们不能知道什么时候初始化完成了。解决方法不一，最简单的办法就是设置全局变量，在使用前判断一下。在项目中我们一般都会对第三方的SDK封装一下，在封装的时候判断一下是否初始化就可以了。</p>
-<p>初始化:</p>
-<pre><code> protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-    LazyThread lazyThread = new LazyThread();
-    lazyThread.start();
-}
-</code></pre><p>封装费时的初始化工作：</p>
-<pre><code>class LazyThread extends Thread{
-    @Override
-    public void run() {
-        //做一些费时的初始化工作
-        //完成后回调,或者设置全局变量
-    }
-} 
-</code></pre><p>这样就完成了初始化的懒加载，记得将application里面的初始化工作也做一下懒加载。</p>
-<h3 id="View的懒加载实现"><a href="#View的懒加载实现" class="headerlink" title="View的懒加载实现"></a>View的懒加载实现</h3><p>这个其实我们一直都在使用，比如我们要异步的去请求一张图片并显示出来，但是这个是需要一段时间才能请求到的。为了使等待时间不那么尴尬，我们设置一个默认图，等到请求到结果后再替换掉。</p>
-<h4 id="为什么做view的懒加载"><a href="#为什么做view的懒加载" class="headerlink" title="为什么做view的懒加载"></a>为什么做view的懒加载</h4><p>我们在做应用开发的时候，一个Activity里面可能会以viewpager（或其他容器）与多个Fragment来组合使用，而如果每个fragment都需要去加载数据，或从本地加载，或从网络加载，那么在这个activity刚创建的时候就变成需要初始化大量资源。为了减少初次加载的时间，我们要实现显示对应的fragment的时候再去初始化对应工作。</p>
-<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>Fragment里的setUserVisibleHint这个方法用于告诉系统，这个Fragment的UI是否是可见的。所以我们只需要继承Fragment并重写该方法，即可实现在fragment可见时才进行数据加载操作，即Fragment的懒加载。</p>
-<p>自定义lazyfragment:</p>
-<pre><code>public abstract class LazyFragment extends Fragment {
-protected boolean isVisible;
-/**
- * 在这里实现Fragment数据的缓加载.
- * @param isVisibleToUser
- */
-@Override
-public void setUserVisibleHint(boolean isVisibleToUser) {
-    super.setUserVisibleHint(isVisibleToUser);
-    if(getUserVisibleHint()) {
-        isVisible = true;
-        onVisible();
-    } else {
-        isVisible = false;
-        onInvisible();
-    }
-}
-
-protected void onVisible(){
-    lazyLoad();
-}
-
-protected abstract void lazyLoad();
-
-protected void onInvisible(){}
-}
-</code></pre><p> 实现：</p>
-<pre><code> public class OpenResultFragment extends LazyFragment{
-// 标志位，标志已经初始化完成。
-private boolean isPrepared;
-
-@Override
-public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    Log.d(LOG_TAG, &quot;onCreateView&quot;);
-    View view = inflater.inflate(R.layout.fragment_open_result, container, false);
-    //XXX初始化view的各控件
-isPrepared = true;
-    lazyLoad();
-    return view;
-}
-
-@Override
-protected void lazyLoad() {
-    if(!isPrepared || !isVisible) {
-        return;
-    }
-    //填充各控件的数据
-}
-
 }
 </code></pre>
       

@@ -3,24 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Binder 进程间通信 | Diablo</title>
+  <title>Android root 原理 | Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
+  <meta name="description" content="Android root 原理因为Amdroid的内核是Linux的，所以Android的root和linux的获取root权限是一回事。 Linux获取root权限 1 执行su或sudo命令切换用户 2 输入管理员密码，获取root权限  Android root首先Android系统不希望用户获取root权限，做一些破坏系统完整性的事情，所以大部分厂商发布的系统中都不会包含su这个程序。另外">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Binder 进程间通信">
-<meta property="og:url" content="https://github.com/sirencode/2016/07/06/binder/index.html">
+<meta property="og:title" content="Android root 原理">
+<meta property="og:url" content="https://github.com/sirencode/2018/04/19/Android root 原理/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
-<meta property="og:image" content="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif">
-<meta property="og:updated_time" content="2017-07-06T08:16:57.000Z">
+<meta property="og:description" content="Android root 原理因为Amdroid的内核是Linux的，所以Android的root和linux的获取root权限是一回事。 Linux获取root权限 1 执行su或sudo命令切换用户 2 输入管理员密码，获取root权限  Android root首先Android系统不希望用户获取root权限，做一些破坏系统完整性的事情，所以大部分厂商发布的系统中都不会包含su这个程序。另外">
+<meta property="og:updated_time" content="2018-04-22T02:13:59.382Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Binder 进程间通信">
-<meta name="twitter:description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
-<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif">
+<meta name="twitter:title" content="Android root 原理">
+<meta name="twitter:description" content="Android root 原理因为Amdroid的内核是Linux的，所以Android的root和linux的获取root权限是一回事。 Linux获取root权限 1 执行su或sudo命令切换用户 2 输入管理员密码，获取root权限  Android root首先Android系统不希望用户获取root权限，做一些破坏系统完整性的事情，所以大部分厂商发布的系统中都不会包含su这个程序。另外">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -166,11 +164,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-binder" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Android root 原理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/06/binder/" class="article-date">
-  	<time datetime="2016-07-05T16:00:00.000Z" itemprop="datePublished">2016-07-06</time>
+      <a href="/2018/04/19/Android root 原理/" class="article-date">
+  	<time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished">2018-04-19</time>
 </a>
     </div>
   
@@ -183,7 +181,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Binder 进程间通信
+      Android root 原理
       
     </h1>
   
@@ -201,41 +199,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。</p>
-<p>关系图：</p>
-<p><img src="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif" alt="ipc"></p>
-<h3 id="角色介绍"><a href="#角色介绍" class="headerlink" title="角色介绍"></a>角色介绍</h3><ol>
-<li><p>Client、Server和Service Manager实现在用户空间中，Binder驱动程序实现在内核空间中</p>
-</li>
-<li><p>Binder驱动程序和Service Manager在Android平台中已经实现，开发者只需要在用户空间实现自己的Client和Server</p>
-</li>
-<li><p>Binder驱动程序提供设备文件/dev/binder与用户空间交互，Client、Server和Service Manager通过open和ioctl文件操作函数与Binder驱动程序进行通信</p>
-</li>
-<li><p>Client和Server之间的进程间通信通过Binder驱动程序间接实现</p>
-</li>
-<li><p>Service Manager是一个守护进程，用来管理Server，并向Client提供查询Server接口的能力</p>
-</li>
-</ol>
-<h4 id="Service-Manager"><a href="#Service-Manager" class="headerlink" title="Service Manager"></a>Service Manager</h4><p>Service Manager是成为Android进程间通信（IPC）机制Binder守护进程的过程是这样的：</p>
-<ul>
-<li><ol>
-<li>打开/dev/binder文件：open(“/dev/binder”, O_RDWR);</li>
-</ol>
-</li>
-<li><ol>
-<li>建立128K内存映射：mmap(NULL, mapsize, PROT_READ, MAP_PRIVATE, bs-&gt;fd, 0);</li>
-</ol>
-</li>
-<li><ol>
-<li>通知Binder驱动程序它是守护进程：binder_become_context_manager(bs);</li>
-</ol>
-</li>
-<li><ol>
-<li>进入循环等待请求的到来：binder_loop(bs, svcmgr_handler);</li>
-</ol>
-</li>
+        <h1 id="Android-root-原理"><a href="#Android-root-原理" class="headerlink" title="Android root 原理"></a>Android root 原理</h1><p>因为Amdroid的内核是Linux的，所以Android的root和linux的获取root权限是一回事。</p>
+<h2 id="Linux获取root权限"><a href="#Linux获取root权限" class="headerlink" title="Linux获取root权限"></a>Linux获取root权限</h2><ul>
+<li>1 执行su或sudo命令切换用户</li>
+<li>2 输入管理员密码，获取root权限</li>
 </ul>
-<h4 id="client-service-获取service-manager接口"><a href="#client-service-获取service-manager接口" class="headerlink" title="client service 获取service manager接口"></a>client service 获取service manager接口</h4><p>我们知道，Service Manager在Binder机制中既充当守护进程的角色，同时它也充当着Server角色，然而它又与一般的Server不一样。对于普通的Server来说，Client如果想要获得Server的远程接口，那么必须通过Service Manager远程接口提供的getService接口来获得，这本身就是一个使用Binder机制来进行进程间通信的过程。而对于Service Manager这个Server来说，Client如果想要获得Service Manager远程接口，却不必通过进程间通信机制来获得，因为Service Manager远程接口是一个特殊的Binder引用，它的引用句柄一定是0。</p>
+<h2 id="Android-root"><a href="#Android-root" class="headerlink" title="Android root"></a>Android root</h2><p>首先Android系统不希望用户获取root权限，做一些破坏系统完整性的事情，所以大部分厂商发布的系统中都不会包含su这个程序。另外Android里的su不是靠验证密码的，而是看你原来的权限是什么。意思就是如果你是root，那你可以通过su切换到别的用户。</p>
+<ul>
+<li>拷贝su文件到/system/xbin或/system/bin系统分区。</li>
+<li>设置su文件所有者为root用户。</li>
+<li>设置su文件的setUID权限，便于自己的进程执行su命令获取root权限。</li>
+</ul>
+<p>大体流程：</p>
+<p>用过Linux的人都知道r代表该文件可读，w代表可写，x代表可执行，-就代表没有该权限，s代表当任何一个用户执行该文件的时候都拥有文件所有者的权限，这文件的所有者是root，简单点说就是不管谁执行这个文件，他执行的时候都是以root身份执行的。</p>
+<p>×××（所有者）×××（组用户）×××（其他用户：<br>第一个rwx代表文件所有者的权限，第二个rwx代表和所有者同组人的权限，第三个rwx代表其他用户对该文件的权限。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp /data/tmp/su /system/bin/</span><br><span class="line">copy su 到/system/分区chown root:root su</span><br><span class="line"><span class="comment">#su的所有者置成root</span></span><br><span class="line">chmod 4775 /system/bin/su        </span><br><span class="line"><span class="comment">#把su置成-rwsr-xr-x</span></span><br></pre></td></tr></table></figure>
+<p>执行上面的命令也是需要root权限的，一个办法就是找一个本身已经有root权限的进程(系统进程漏洞)来启动我上面的两行代码，那我这两行代码一启动就是root权限，就可以顺利执行了。</p>
 
       
     </div>
@@ -245,18 +224,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/08/17/build_blog/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">&lt;</strong>
-      <div class="article-nav-title">
-        
-          Mac上 Github 博客搭建
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/06/01/搜索技巧/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">搜索技巧</div>
+    <a href="/2018/04/18/Android 加固技术/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 加固技术</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -266,7 +236,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="binder" data-title="Binder 进程间通信" data-url="https://github.com/sirencode/2016/07/06/binder/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Binder 进程间通信">
+<div class="ds-share share" data-thread-key="Android root 原理" data-title="Android root 原理" data-url="https://github.com/sirencode/2018/04/19/Android root 原理/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android root 原理">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>

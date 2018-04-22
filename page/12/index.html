@@ -162,6 +162,95 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-binder" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/07/06/binder/" class="article-date">
+  	<time datetime="2016-07-05T16:00:00.000Z" itemprop="datePublished">2016-07-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/06/binder/">
+        Binder 进程间通信
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。</p>
+<p>关系图：</p>
+<p><img src="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif" alt="ipc"></p>
+<h3 id="角色介绍"><a href="#角色介绍" class="headerlink" title="角色介绍"></a>角色介绍</h3><ol>
+<li><p>Client、Server和Service Manager实现在用户空间中，Binder驱动程序实现在内核空间中</p>
+</li>
+<li><p>Binder驱动程序和Service Manager在Android平台中已经实现，开发者只需要在用户空间实现自己的Client和Server</p>
+</li>
+<li><p>Binder驱动程序提供设备文件/dev/binder与用户空间交互，Client、Server和Service Manager通过open和ioctl文件操作函数与Binder驱动程序进行通信</p>
+</li>
+<li><p>Client和Server之间的进程间通信通过Binder驱动程序间接实现</p>
+</li>
+<li><p>Service Manager是一个守护进程，用来管理Server，并向Client提供查询Server接口的能力</p>
+</li>
+</ol>
+<h4 id="Service-Manager"><a href="#Service-Manager" class="headerlink" title="Service Manager"></a>Service Manager</h4><p>Service Manager是成为Android进程间通信（IPC）机制Binder守护进程的过程是这样的：</p>
+<ul>
+<li><ol>
+<li>打开/dev/binder文件：open(“/dev/binder”, O_RDWR);</li>
+</ol>
+</li>
+<li><ol>
+<li>建立128K内存映射：mmap(NULL, mapsize, PROT_READ, MAP_PRIVATE, bs-&gt;fd, 0);</li>
+</ol>
+</li>
+<li><ol>
+<li>通知Binder驱动程序它是守护进程：binder_become_context_manager(bs);</li>
+</ol>
+</li>
+<li><ol>
+<li>进入循环等待请求的到来：binder_loop(bs, svcmgr_handler);</li>
+</ol>
+</li>
+</ul>
+<h4 id="client-service-获取service-manager接口"><a href="#client-service-获取service-manager接口" class="headerlink" title="client service 获取service manager接口"></a>client service 获取service manager接口</h4><p>我们知道，Service Manager在Binder机制中既充当守护进程的角色，同时它也充当着Server角色，然而它又与一般的Server不一样。对于普通的Server来说，Client如果想要获得Server的远程接口，那么必须通过Service Manager远程接口提供的getService接口来获得，这本身就是一个使用Binder机制来进行进程间通信的过程。而对于Service Manager这个Server来说，Client如果想要获得Service Manager远程接口，却不必通过进程间通信机制来获得，因为Service Manager远程接口是一个特殊的Binder引用，它的引用句柄一定是0。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-搜索技巧" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -198,6 +287,85 @@
 <h4 id="inurl：在指定url中搜索内容"><a href="#inurl：在指定url中搜索内容" class="headerlink" title="inurl：在指定url中搜索内容"></a>inurl：在指定url中搜索内容</h4><p>这个和上面的「site」有点像。不过「site」是需要指定网站的完整网址，而「inurl」只需要指定网址的一部分就行了。</p>
 <p>格式如下：<br>yy inurl:xx<br>含义：在包含xx的url中搜索内容yy。其中，xx可以是中文。</p>
 <h4 id="模糊搜索"><a href="#模糊搜索" class="headerlink" title="模糊搜索"></a>模糊搜索</h4><p>通配符 <em> ？，</em>表示 不限制字符匹配数量， ？表示匹配单个字符，二者适用于模糊搜索</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-工作" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/06/01/工作/" class="article-date">
+  	<time datetime="2016-05-31T16:00:00.000Z" itemprop="datePublished">2016-06-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/06/01/工作/">
+        工作
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>1 UI编写，自定义view,list等等。</p>
+<p>2 逻辑编写。</p>
+<p>3 多套UI显示逻辑处理，（AB，后端区分）。</p>
+<p>4 APP性能优化，启动速度优化，内存检查，代码格式化并review，lint，子线程绘制UI，矢量图使用。</p>
+<p>5 通讯，http,socket长连接。</p>
+<p>6 MVP,ui模块化（尽量少用fragment）。</p>
+<p>7 容错，时刻记住前端要显示的就要有容错处理，一切获取到的资源都是不可靠的。</p>
+<p>8 自定义APP框架梳理，网络通信框架，数据解析框架，各种UI（轮播，引导页等），数据加载框架数据列表相关，异步图片缓存处理框架，事件总线，本地数据存储方式选择，webview相关使用，app跨进程通信处理，链式编程Rxjava,表格处理相关，直播sdk,客服SDK，环境切换,便以相关，自动升级工具，自定义log，数据采集，APP性能分析，AB测试，灰度。APP开发中的架构调整，哪里用ctivity哪里用fragment，mvp在哪里使用，目录结构，项目层次等等。</p>
+<p>9 加速编译-freeline</p>
+<p>10 coding Dojo - 代码道场</p>
+<p>11 辅助功能实现自动化操作</p>
+<p>12 TDD </p>
+<p>13 Espresso 自动化测试</p>
+<p>14 scrummaster，敏捷特训</p>
+<ul>
+<li>有问题，会议讨论一定要记录澄清(凡是留记录)。</li>
+<li>关于业务价值要有数学家思维，先去搞，结论看市场反馈。</li>
+<li>planmeeting 问题讨论时，将问题分成三个方面讨论，解决问题的业务方案-产品说了算，具体的技术实现-开发说了算，可行性问题-市场测试决定。</li>
+<li>PM决定产品走向，市场方向问题，不要将精力过多放到产品本身的讨论上来。</li>
+<li>理想团队人数7(+-)2,5-9人.(前提大家都是全栈开发)</li>
+<li>早会不是形式，是用来解决问题的，没问题不需要参加。</li>
+<li>接口的设计是由使用者决定的，一般前端决定。</li>
+<li>版本回收，做好强制升级，不能一直兼容很老的版本。</li>
+<li>产品前期不要将一些极端化的问题讨论进来，这样需求会一直讨论个没完没了，等问题出现再去解决。</li>
+</ul>
 
       
     </div>
