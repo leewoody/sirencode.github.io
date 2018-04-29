@@ -162,10 +162,10 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-设计模式-单例" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-面向对象设计原则" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/04/06/设计模式-单例/" class="article-date">
+      <a href="/2018/04/06/面向对象设计原则/" class="article-date">
   	<time datetime="2018-04-05T16:00:00.000Z" itemprop="datePublished">2018-04-06</time>
 </a>
     </div>
@@ -179,8 +179,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/06/设计模式-单例/">
-        设计模式-单例
+      <a class="article-title" href="/2018/04/06/面向对象设计原则/">
+        面向对象设计原则
         
       </a>
     </h1>
@@ -191,13 +191,48 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="设计模式-单例"><a href="#设计模式-单例" class="headerlink" title="设计模式-单例"></a>设计模式-单例</h1><p>单例-确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例，这个类称为单例类，它提供全局访问的方法。单例模式是一种对象创建型模式。</p>
-<h2 id="单例的实现"><a href="#单例的实现" class="headerlink" title="单例的实现"></a>单例的实现</h2><p>单例的实现需要考虑线程安全，以及懒初始化等问题。</p>
-<h3 id="饿汉式单例类"><a href="#饿汉式单例类" class="headerlink" title="饿汉式单例类"></a>饿汉式单例类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EagerSingleton</span> </span>&#123;   </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> EagerSingleton instance = <span class="keyword">new</span> EagerSingleton();   </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">EagerSingleton</span><span class="params">()</span> </span>&#123; &#125;   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> EagerSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> instance;   </span><br><span class="line">	    &#125;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="懒汉式加线程锁"><a href="#懒汉式加线程锁" class="headerlink" title="懒汉式加线程锁"></a>懒汉式加线程锁</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">LazySingleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> LazySingleton instance = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">LazySingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//第一重判断  </span></span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//锁定代码块  </span></span><br><span class="line">            <span class="keyword">synchronized</span> (LazySingleton.class) &#123;</span><br><span class="line">                <span class="comment">//第二重判断  </span></span><br><span class="line">                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> LazySingleton(); <span class="comment">//创建单例实例  </span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="更好的实现方式-静态内部类"><a href="#更好的实现方式-静态内部类" class="headerlink" title="更好的实现方式-静态内部类"></a>更好的实现方式-静态内部类</h3><p>饿汉式单例类不能实现延迟加载，不管将来用不用始终占据内存；懒汉式单例类线程安全控制烦琐，而且性能受影响。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">HolderClass</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> HolderClass.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>由于静态单例对象没有作为Singleton的成员变量直接实例化，因此类加载时不会实例化Singleton，第一次调用getInstance()时将加载内部类HolderClass，在该内部类中定义了一个static类型的变量instance，此时会首先初始化这个成员变量，由Java虚拟机来保证其线程安全性，确保该成员变量只能初始化一次。由于getInstance()方法没有任何线程锁定，因此其性能不会造成任何影响。</p>
+        <h1 id="面向对象设计原则"><a href="#面向对象设计原则" class="headerlink" title="面向对象设计原则"></a>面向对象设计原则</h1><p>一切都是为了软件可维护可扩展可重用。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">设计原则名称</th>
+<th style="text-align:left">定  义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">单一职责原则</td>
+<td style="text-align:left">一个类只负责一个功能领域中的相应职责</td>
+</tr>
+<tr>
+<td style="text-align:left">开闭原则</td>
+<td style="text-align:left">软件实体应对扩展开放，而对修改关闭</td>
+</tr>
+<tr>
+<td style="text-align:left">里氏代换原则</td>
+<td style="text-align:left">所有引用基类对象的地方能够透明地使用其子类的对象</td>
+</tr>
+<tr>
+<td style="text-align:left">依赖倒转原则</td>
+<td style="text-align:left">抽象不应该依赖于细节，细节应该依赖于抽象</td>
+</tr>
+<tr>
+<td style="text-align:left">接口隔离原则</td>
+<td style="text-align:left">使用多个专门的接口，而不使用单一的总接口</td>
+</tr>
+<tr>
+<td style="text-align:left">合成复用原则</td>
+<td style="text-align:left">尽量使用对象组合，而不是继承来达到复用的目的</td>
+</tr>
+<tr>
+<td style="text-align:left">迪米特法则</td>
+<td style="text-align:left">一个软件实体应当尽可能少地与其他实体发生相互作用</td>
+</tr>
+</tbody>
+</table>
+<h2 id="依赖倒转原则"><a href="#依赖倒转原则" class="headerlink" title="依赖倒转原则"></a>依赖倒转原则</h2><p>抽象不应该依赖于细节，细节应当依赖于抽象。换言之，要针对接口编程，而不是针对实现编程。</p>
+<p>依赖倒转原则要求我们在程序代码中传递参数时或在关联关系中，尽量引用层次高的抽象层类，即使用接口和抽象类进行变量类型声明、参数类型声明、方法返回类型声明，以及数据类型的转换等，而不要用具体类来做这些事情。 </p>
+<p>在实现依赖倒转原则时，我们需要针对抽象层编程，而将具体类的对象通过依赖注入(DependencyInjection, DI)的方式注入到其他对象中，依赖注入是指当一个对象要与其他对象发生依赖关系时，通过抽象来注入所依赖的对象。常用的注入方式有三种，分别是：构造注入，设值注入（Setter注入）和接口注入。构造注入是指通过构造函数来传入具体类的对象，设值注入是指通过Setter方法来传入具体类的对象，而接口注入是指通过在接口中声明的业务方法来传入具体类的对象。这些方法在定义时使用的是抽象类型，在运行时再传入具体类型的对象，由子类对象来覆盖父类对象。 </p>
 
       
     </div>
@@ -267,6 +302,67 @@
 <h3 id="抽象工厂模式-1"><a href="#抽象工厂模式-1" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h3><p>优点：一个具体工厂类在一个应用中仅出现一次——即在它初始化的时候。这使得改变一个应用的具体工厂变得很容易。它只需改变具体的工厂即可使用不同的产品配置，这是因为一个抽象工厂创建了一个完整的产品系列，所以整个产品系列会立刻改变。它有利于产品的一致性。</p>
 <p>缺点：抽象工厂模式在于难于应付“新对象”的需求变动。难以支持新种类的产品。难以扩展抽象工厂以生产新种类的产品。</p>
 <p>场景：一个系统不应当依赖于产品类实例如何被创建、组合和表达的细节，这对于所有形态的工厂模式都是重要的。这个系统有多于一个的产品族，而系统只消费其中某一产品族。同属于同一个产品族的产品是在一起使用的，这一约束必须在系统的设计中体现出来。系统提供一个产品类的库，所有的产品以同样的接口出现，从而使客户端不依赖于实现。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-设计模式-单例" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/06/设计模式-单例/" class="article-date">
+  	<time datetime="2018-04-05T16:00:00.000Z" itemprop="datePublished">2018-04-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/06/设计模式-单例/">
+        设计模式-单例
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="设计模式-单例"><a href="#设计模式-单例" class="headerlink" title="设计模式-单例"></a>设计模式-单例</h1><p>单例-确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例，这个类称为单例类，它提供全局访问的方法。单例模式是一种对象创建型模式。</p>
+<h2 id="单例的实现"><a href="#单例的实现" class="headerlink" title="单例的实现"></a>单例的实现</h2><p>单例的实现需要考虑线程安全，以及懒初始化等问题。</p>
+<h3 id="饿汉式单例类"><a href="#饿汉式单例类" class="headerlink" title="饿汉式单例类"></a>饿汉式单例类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EagerSingleton</span> </span>&#123;   </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> EagerSingleton instance = <span class="keyword">new</span> EagerSingleton();   </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">EagerSingleton</span><span class="params">()</span> </span>&#123; &#125;   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> EagerSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> instance;   </span><br><span class="line">	    &#125;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="懒汉式加线程锁"><a href="#懒汉式加线程锁" class="headerlink" title="懒汉式加线程锁"></a>懒汉式加线程锁</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">LazySingleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> LazySingleton instance = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">LazySingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//第一重判断  </span></span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//锁定代码块  </span></span><br><span class="line">            <span class="keyword">synchronized</span> (LazySingleton.class) &#123;</span><br><span class="line">                <span class="comment">//第二重判断  </span></span><br><span class="line">                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> LazySingleton(); <span class="comment">//创建单例实例  </span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="更好的实现方式-静态内部类"><a href="#更好的实现方式-静态内部类" class="headerlink" title="更好的实现方式-静态内部类"></a>更好的实现方式-静态内部类</h3><p>饿汉式单例类不能实现延迟加载，不管将来用不用始终占据内存；懒汉式单例类线程安全控制烦琐，而且性能受影响。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">HolderClass</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> HolderClass.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于静态单例对象没有作为Singleton的成员变量直接实例化，因此类加载时不会实例化Singleton，第一次调用getInstance()时将加载内部类HolderClass，在该内部类中定义了一个static类型的变量instance，此时会首先初始化这个成员变量，由Java虚拟机来保证其线程安全性，确保该成员变量只能初始化一次。由于getInstance()方法没有任何线程锁定，因此其性能不会造成任何影响。</p>
 
       
     </div>
@@ -769,75 +865,6 @@
 <li>其他App也无法向你的App发送该广播，不用担心其他App会来搞破坏</li>
 <li>比系统全局广播更加高效</li>
 </ol>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android View 的事件传递力" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/05/Android View 的事件传递力/" class="article-date">
-  	<time datetime="2018-03-04T16:00:00.000Z" itemprop="datePublished">2018-03-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/05/Android View 的事件传递力/">
-        Android View 的事件传递力
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-View-的事件传递"><a href="#Android-View-的事件传递" class="headerlink" title="Android View 的事件传递"></a>Android View 的事件传递</h1><h2 id="事件分类"><a href="#事件分类" class="headerlink" title="事件分类"></a>事件分类</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/android_view.png" alt=""> </p>
-<p>activity和view没有事件拦截的原因：Activity 作为原始的事件分发者，如果 Activity 拦截了事件会导致整个屏幕都无法响应事件，这肯定不是我们想要的效果。View最为事件传递的最末端，要么消费掉事件，要么不处理进行回传，根本没必要进行事件拦截。</p>
-<h2 id="dispatchTouchEvent"><a href="#dispatchTouchEvent" class="headerlink" title="dispatchTouchEvent"></a>dispatchTouchEvent</h2><p>true:当前事件被消费，时间分发结束，后续事件继续分发到该view。</p>
-<p>false:当前事件不会被处理，继续分发或将消息回传到activity的onTouchEvent。</p>
-<h2 id="onInterceptTouchEvent"><a href="#onInterceptTouchEvent" class="headerlink" title="onInterceptTouchEvent"></a>onInterceptTouchEvent</h2><p>true:当前事件被拦截，停止向下传递事件，执行自己的onTouchEvent。</p>
-<p>false:事件继续分发，当前view依然可以接受此事件的其它事件。</p>
-<h2 id="onTouchEvent"><a href="#onTouchEvent" class="headerlink" title="onTouchEvent"></a>onTouchEvent</h2><p>在dispatchTouchEvent方法中调用，用来处理点击事件，返回结果表示是否消耗当前事件，如果不消耗，则在同一个事件序列当中，当前View无法再次接收到事件。</p>
-<p>如果 View 没有对 ACTION_DOWN 进行消费，之后的其他事件不会传递过来。OnTouchListener 优先于 onTouchEvent()对事件进行消费。</p>
-<p>true:时间分发结束，逐层返回true结果，后续事件序列让其处理。</p>
-<p>false:逐层调用上层的onTouchEvent()事件，当前事件不在接受此事件的其它事件。</p>
-<h2 id="事件分发的流程"><a href="#事件分发的流程" class="headerlink" title="事件分发的流程"></a>事件分发的流程</h2><p>将点击事件（MotionEvent）传递到某个具体的View &amp; 处理的整个过程，事件传递的过程 = 分发过程。</p>
-<p>Activity －&gt; PhoneWindow －&gt; DecorView －&gt; ViewGroup －&gt; … －&gt; View</p>
-<p>如果没有任何View消费掉事件，那么这个事件会按照反方向回传，最终传回给Activity。</p>
-<h2 id="点击后的流程跟踪"><a href="#点击后的流程跟踪" class="headerlink" title="点击后的流程跟踪"></a>点击后的流程跟踪</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/944365-aea821bbb613c195.png" alt=""></p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/944365-faaf73d0f3eb870f.png" alt=""></p>
 
       
     </div>

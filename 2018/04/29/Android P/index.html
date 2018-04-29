@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android P | Diablo</title>
+
+  <!-- keywords -->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android PP 中的变更基于RTT的室内定位技术原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。 这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定设计到WiFi穿墙后的信号衰减问题，而且不同的室内结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android P">
+<meta property="og:url" content="https://github.com/sirencode/2018/04/29/Android P/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="Android PP 中的变更基于RTT的室内定位技术原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。 这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定设计到WiFi穿墙后的信号衰减问题，而且不同的室内结构">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/emulator-devoptions-cutout_2x.png">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/timg.png">
+<meta property="og:updated_time" content="2018-04-29T08:19:57.507Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android P">
+<meta name="twitter:description" content="Android PP 中的变更基于RTT的室内定位技术原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。 这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定设计到WiFi穿墙后的信号衰减问题，而且不同的室内结构">
+<meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/emulator-devoptions-cutout_2x.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Android P" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/29/Android P/" class="article-date">
+  	<time datetime="2018-04-28T16:00:00.000Z" itemprop="datePublished">2018-04-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android P
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-P"><a href="#Android-P" class="headerlink" title="Android P"></a>Android P</h1><h2 id="P-中的变更"><a href="#P-中的变更" class="headerlink" title="P 中的变更"></a>P 中的变更</h2><h3 id="基于RTT的室内定位技术"><a href="#基于RTT的室内定位技术" class="headerlink" title="基于RTT的室内定位技术"></a>基于RTT的室内定位技术</h3><p>原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。</p>
+<p>这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定设计到WiFi穿墙后的信号衰减问题，而且不同的室内结构的墙体的多少材质厚度都不同，很难有统一的算法来实现对这块的弥补，这也是后来爱立信公司放弃这块技术的主要原因。我看了一下Google这次推出这个技术，也没有相对对这个问题完善的解决方案，想来也是先推出来占个坑，后续优化吧。</p>
+<p>前景：我认为室内定位的前景还是非常好的，而且RTT技术是AP无感的，安全也可以保证。</p>
+<h3 id="屏幕缺口支持"><a href="#屏幕缺口支持" class="headerlink" title="屏幕缺口支持"></a>屏幕缺口支持</h3><p>Android P 支持最新的全面屏以及为摄像头和扬声器预留空间的凹口屏幕。幸运的是，选择凹口屏幕的大小。</p>
+<p>为了更多的屏占比，对齐刘海的支持，给你们看一下预览图，随意感受下。(我实在欣赏不来)</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/emulator-devoptions-cutout_2x.png" alt=""></p>
+<p>辣眼睛</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/timg.png" alt=""></p>
+<h3 id="通知"><a href="#通知" class="headerlink" title="通知"></a>通知</h3><p>Android P 引入了多个通知增强功能：</p>
+<ul>
+<li>1 支持图像：现在，Android P 可在手机的“短信通知”中显示图像。 您可以使用短信中的 setData() 来显示图像。</li>
+<li>2 简化了针对对话参与者的支持：全新的 Notification.Person 类可用于识别参与对话的人员，包括他们的头像和 URI。 现在，许多其他 API（如 addMessage()）均可利用 Person 类，而不是 CharSequence。(Message)</li>
+<li>3 将回复另存为草稿。</li>
+<li>4 确定对话是否为群组对话。</li>
+<li>5 允许为操作提供语义含义，如标记为已读、删除、回复等。</li>
+<li>6 SmartReply：Android P 支持您的短信应用中提供的建议回复。 使用 RemoteInput.setChoices() 为用户提供一组标准回复。</li>
+<li>7 渠道设置、广播和请勿打扰</li>
+</ul>
+<h3 id="多摄像头支持和摄像头更新"><a href="#多摄像头支持和摄像头更新" class="headerlink" title="多摄像头支持和摄像头更新"></a>多摄像头支持和摄像头更新</h3><p>在运行 Android P 的设备上，您可以通过两个或更多物理摄像头来同时访问多个视频流。</p>
+<p>在受支持的设备上，Android P 还支持外置 USB/UVC 摄像头。</p>
+<h3 id="适用于位图和可绘制对象的-ImageDecoder"><a href="#适用于位图和可绘制对象的-ImageDecoder" class="headerlink" title="适用于位图和可绘制对象的 ImageDecoder"></a>适用于位图和可绘制对象的 ImageDecoder</h3><p>Android P 引入 ImageDecoder ，以提供现代化的图像解码方法。 您应使用 ImageDecoder 来解码图像，而不是使用 BitmapFactory 和 BitmapFactory.Options API。</p>
+<ul>
+<li>要将解码的图像缩放到精确尺寸，请以目标尺寸为参数，调用 setResize()。 您也可以使用样图尺寸来缩放图像。 </li>
+</ul>
+<p>对于开发者来说这个是重点，算是非常重大的改动。重点就在这个精准，以前对bitmap做质量压缩的时候参数只接受整数倍的。我举个例子，现在有张图，需要安质量压缩为原来的1.5分之一，也就是缩放1.5倍，也就是质量压缩2.25倍，但如果只接受整数倍的话你要么缩放四倍，要么不缩放，这就蛋疼了。</p>
+<h3 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h3><p>Android P 引入了一个新的 AnimatedImageDrawable 类，用于绘制和显示 GIF 和 WebP 动画图像。</p>
+<h3 id="Neural-Networks-API-1-1"><a href="#Neural-Networks-API-1-1" class="headerlink" title="Neural Networks API 1.1"></a>Neural Networks API 1.1</h3><p>Android 8.1（API 级别 27）中引入了 Neural Networks API 以加快 Android 设备上机器学习的速度。 Android P 扩展并改进了该 API，从而增加了对 Pad、BatchToSpaceND、SpaceToBatchND、Transpose、Strided Slice、Mean、Div、Sub 和 Squeeze 九个新运算的支持。</p>
+<h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><h3 id="新增的-APK-密钥轮转"><a href="#新增的-APK-密钥轮转" class="headerlink" title="新增的 APK 密钥轮转"></a>新增的 APK 密钥轮转</h3><p>Android P 添加了对 APK Signature Scheme v3 的支持。该架构提供的选择可以在其签名块中为每个签名证书加入一条轮转证据记录。 应用可以通过将 APK 文件过去的签名证书链接到现在签署应用时使用的证书，使用新签名证书来签署应用。</p>
+<h3 id="传输层安全协议-TLS-实现变更"><a href="#传输层安全协议-TLS-实现变更" class="headerlink" title="传输层安全协议 (TLS) 实现变更"></a>传输层安全协议 (TLS) 实现变更</h3><h3 id="对-ChaCha20-流式传输加密的支持"><a href="#对-ChaCha20-流式传输加密的支持" class="headerlink" title="对 ChaCha20 流式传输加密的支持"></a>对 ChaCha20 流式传输加密的支持</h3><h3 id="统一的指纹身份验证对话框"><a href="#统一的指纹身份验证对话框" class="headerlink" title="统一的指纹身份验证对话框"></a>统一的指纹身份验证对话框</h3><p>可以选择使用，也可以不用。</p>
+<h3 id="高可信度用户确认"><a href="#高可信度用户确认" class="headerlink" title="高可信度用户确认"></a>高可信度用户确认</h3><p>发布时安装有 Android P 的受支持设备赋予您使用 Protected Confirmation API 的能力。 借助这个新增的 API，应用可以利用 ConfirmationDialog 的实例向用户显示提示，请他们批准一个简短的声明。 应用可以通过这个声明再次确认，用户确实想完成一项敏感事务，例如付款。</p>
+<h3 id="硬件安全性模块"><a href="#硬件安全性模块" class="headerlink" title="硬件安全性模块"></a>硬件安全性模块</h3><p>Android P 的受支持设备可拥有 StrongBox Keymaster，这个 Keymaster HAL 的实现位于一个硬件安全性模块内。 该模块包含自己的 CPU、安全存储空间、真实随机数生成器以及抵御软件包篡改和未经授权线刷应用的附加机制。 检查存储在 StrongBox Keymaster 中的密钥时，系统会通过可信执行环境 (TEE) 证实密钥的完整性。</p>
+<h3 id="保护对密钥库进行的密钥导入"><a href="#保护对密钥库进行的密钥导入" class="headerlink" title="保护对密钥库进行的密钥导入"></a>保护对密钥库进行的密钥导入</h3><p>Android P 增加了密钥加密的安全性，添加了利用新增的 ASN.1 编码密钥格式将已加密密钥安全导入密钥库的功能。 Keymaster 随后会在密钥库中将密钥解密，因此密钥的内容永远不会以明文形式出现在设备的主机内存中。</p>
+<h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><p>为避免无意的旋转，我们新增了一个模式，哪怕设备位置发生变化，也会固定在当前屏幕方向上。 必要时用户可以通过按系统栏上的一个新增按钮手动触发旋转。</p>
+<h2 id="兼容性问题"><a href="#兼容性问题" class="headerlink" title="兼容性问题"></a>兼容性问题</h2><h3 id="对于非-SDK-接口的限制"><a href="#对于非-SDK-接口的限制" class="headerlink" title="对于非 SDK 接口的限制"></a>对于非 SDK 接口的限制</h3><p>Android P 引入了针对非 SDK 接口的使用限制，无论是直接使用还是通过反射或 JNI 间接使用。 无论应用是引用非 SDK 接口还是尝试使用反射或 JNI 获取其句柄，均适用这些限制。 </p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/04/19/Android root 原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android root 原理</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="Android P" data-title="Android P" data-url="https://github.com/sirencode/2018/04/29/Android P/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android P">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>
