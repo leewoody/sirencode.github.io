@@ -9,18 +9,18 @@
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Android PP 中的变更基于RTT的室内定位技术原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。 这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定设计到WiFi穿墙后的信号衰减问题，而且不同的室内结构">
+  <meta name="description" content="Android PP 中的变更基于RTT的室内定位技术原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。 这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定涉及到WiFi穿墙后的信号衰减问题，而且不同的室内结构">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Android P">
 <meta property="og:url" content="https://github.com/sirencode/2018/04/29/Android P/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="Android PP 中的变更基于RTT的室内定位技术原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。 这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定设计到WiFi穿墙后的信号衰减问题，而且不同的室内结构">
+<meta property="og:description" content="Android PP 中的变更基于RTT的室内定位技术原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。 这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定涉及到WiFi穿墙后的信号衰减问题，而且不同的室内结构">
 <meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/emulator-devoptions-cutout_2x.png">
 <meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/timg.png">
-<meta property="og:updated_time" content="2018-04-29T08:19:57.507Z">
+<meta property="og:updated_time" content="2018-04-29T08:22:21.837Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Android P">
-<meta name="twitter:description" content="Android PP 中的变更基于RTT的室内定位技术原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。 这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定设计到WiFi穿墙后的信号衰减问题，而且不同的室内结构">
+<meta name="twitter:description" content="Android PP 中的变更基于RTT的室内定位技术原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。 这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定涉及到WiFi穿墙后的信号衰减问题，而且不同的室内结构">
 <meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/emulator-devoptions-cutout_2x.png">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
@@ -203,7 +203,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="Android-P"><a href="#Android-P" class="headerlink" title="Android P"></a>Android P</h1><h2 id="P-中的变更"><a href="#P-中的变更" class="headerlink" title="P 中的变更"></a>P 中的变更</h2><h3 id="基于RTT的室内定位技术"><a href="#基于RTT的室内定位技术" class="headerlink" title="基于RTT的室内定位技术"></a>基于RTT的室内定位技术</h3><p>原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。</p>
-<p>这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定设计到WiFi穿墙后的信号衰减问题，而且不同的室内结构的墙体的多少材质厚度都不同，很难有统一的算法来实现对这块的弥补，这也是后来爱立信公司放弃这块技术的主要原因。我看了一下Google这次推出这个技术，也没有相对对这个问题完善的解决方案，想来也是先推出来占个坑，后续优化吧。</p>
+<p>这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定涉及到WiFi穿墙后的信号衰减问题，而且不同的室内结构的墙体的多少材质厚度都不同，很难有统一的算法来实现对这块的弥补，这也是后来爱立信公司放弃这块技术的主要原因。我看了一下Google这次推出这个技术，也没有相对对这个问题完善的解决方案，想来也是先推出来占个坑，后续优化吧。</p>
 <p>前景：我认为室内定位的前景还是非常好的，而且RTT技术是AP无感的，安全也可以保证。</p>
 <h3 id="屏幕缺口支持"><a href="#屏幕缺口支持" class="headerlink" title="屏幕缺口支持"></a>屏幕缺口支持</h3><p>Android P 支持最新的全面屏以及为摄像头和扬声器预留空间的凹口屏幕。幸运的是，选择凹口屏幕的大小。</p>
 <p>为了更多的屏占比，对齐刘海的支持，给你们看一下预览图，随意感受下。(我实在欣赏不来)</p>
