@@ -162,6 +162,116 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-vector drawable" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/03/vector drawable/" class="article-date">
+  	<time datetime="2016-11-02T16:00:00.000Z" itemprop="datePublished">2016-11-03</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/03/vector drawable/">
+        Vector Drawable
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>矢量图形是计算机图形学中用点、直线或者多边形等基于数学方程的几何图元表示图像。矢量图形与使用像素表示图像的位图不同。也就是说矢量图其实是一个xml文件，文件里面涉及到一些绘制的属性。</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>1 保存最少的信息，文件大小比位图要小，并且文件大小与物体的大小无关</li>
+<li>2 在图像处理软件中，任意放大矢量图形，不会丢失细节或影响清晰度，因为矢量图形是与分辨率无关的。无限地放大这个圆，它仍然保持平滑；用多边形表示的曲线将会显现出不是真正的曲线</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>android 版本兼容问题，矢量图的使用最低支持5.0以上系统。</li>
+<li>要在低版本上使用矢量图，需要在项目中引入新的兼容库support-vector-drawable，并且appcompat-v7库的版本要在23.2.0+(写文章这会23.2.1已经发布了)。</li>
+</ul>
+<h3 id="使用矢量图"><a href="#使用矢量图" class="headerlink" title="使用矢量图"></a>使用矢量图</h3><h4 id="版本兼容"><a href="#版本兼容" class="headerlink" title="版本兼容"></a>版本兼容</h4><p>导入兼容包：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">compile 'com.android.support:appcompat-v7:23.2.0+'</span><br></pre></td></tr></table></figure>
+<h4 id="AS配置"><a href="#AS配置" class="headerlink" title="AS配置"></a>AS配置</h4><p>AS版本低于2.0的：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  defaultConfig &#123;</span><br><span class="line">    // 不让gradle自动生成不同屏幕分辨率的png图</span><br><span class="line">    generatedDensities = []</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  aaptOptions &#123;</span><br><span class="line">    additionalParameters "--no-version-vectors"</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>AS2.0+:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">android &#123;</span><br><span class="line">  defaultConfig &#123;</span><br><span class="line">    vectorDrawables.useSupportLibrary = true</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="在drawable目录下创建矢量图文件"><a href="#在drawable目录下创建矢量图文件" class="headerlink" title="在drawable目录下创建矢量图文件"></a>在drawable目录下创建矢量图文件</h4><p>具体代码如下，但是一般不需要手动写，一般通过AI或者PS软件生产的。</p>
+<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;vector xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+android:width=&quot;24dp&quot;
+android:height=&quot;24dp&quot;
+android:viewportHeight=&quot;24&quot;
+android:viewportWidth=&quot;24&quot;&gt;
+&lt;path
+    android:name=&quot;toe1&quot;
+    android:fillColor=&quot;#ffffff&quot;
+    android:pathData=&quot;M 4.5 7 C 5.88071187458 7 7 8.11928812542 7 9.5 C 7 10.8807118746 5.88071187458 12 4.5 12 C 3.11928812542 12 2 10.8807118746 2 9.5 C 2 8.11928812542 3.11928812542 7 4.5 7 Z&quot; /&gt;
+&lt;path
+    android:name=&quot;toe2&quot;
+    android:fillColor=&quot;#ffffff&quot;
+    android:pathData=&quot;M 9 3 C 10.3807118746 3 11.5 4.11928812542 11.5 5.5 C 11.5 6.88071187458 10.3807118746 8 9 8 C 7.61928812542 8 6.5 6.88071187458 6.5 5.5 C 6.5 4.11928812542 7.61928812542 3 9 3 Z&quot; /&gt;
+&lt;path
+    android:name=&quot;toe3&quot;
+    android:fillColor=&quot;#ffffff&quot;
+    android:pathData=&quot;M 15 3 C 16.3807118746 3 17.5 4.11928812542 17.5 5.5 C 17.5 6.88071187458 16.3807118746 8 15 8 C 13.6192881254 8 12.5 6.88071187458 12.5 5.5 C 12.5 4.11928812542 13.6192881254 3 15 3 Z&quot; /&gt;
+&lt;path
+    android:name=&quot;toe4&quot;
+    android:fillColor=&quot;#ffffff&quot;
+    android:pathData=&quot;M 19.5 7 C 20.8807118746 7 22 8.11928812542 22 9.5 C 22 10.8807118746 20.8807118746 12 19.5 12 C 18.1192881254 12 17 10.8807118746 17 9.5 C 17 8.11928812542 18.1192881254 7 19.5 7 Z&quot; /&gt;
+&lt;path
+    android:fillColor=&quot;#ffffff&quot;
+    android:pathData=&quot;M17.34 14.86c-.87-1.02-1.6-1.89-2.48-2.91-.46-.54-1.05-1.08-1.75-1.32-.11-.04-.22-.07-.33-.09-.25-.04-.52-.04-.78-.04s-.53 0-.79 .05 c-.11 .02 -.22 .05 -.33 .09 -.7 .24 -1.28 .78 -1.75 1.32-.87 1.02-1.6 1.89-2.48 2.91-1.31 1.31-2.92 2.76-2.62 4.79 .29 1.02 1.02 2.03 2.33 2.32 .73 .15 3.06-.44 5.54-.44h.18c2.48 0 4.81 .58 5.54 .44 1.31-.29 2.04-1.31 2.33-2.32 .31 -2.04-1.3-3.49-2.61-4.8z&quot; /&gt;
+&lt;/vector&gt;
+</code></pre><h4 id="只能用于AppCompatImageView或者AppCompatImageButton或其子类，而且必须在app-srcCompat标签中使用。"><a href="#只能用于AppCompatImageView或者AppCompatImageButton或其子类，而且必须在app-srcCompat标签中使用。" class="headerlink" title="只能用于AppCompatImageView或者AppCompatImageButton或其子类，而且必须在app:srcCompat标签中使用。"></a>只能用于AppCompatImageView或者AppCompatImageButton或其子类，而且必须在app:srcCompat标签中使用。</h4><h4 id="资源使用"><a href="#资源使用" class="headerlink" title="资源使用"></a>资源使用</h4><p>在xml配置文件里面:</p>
+<pre><code>&lt;android.support.v7.widget.AppCompatImageView
+    android:layout_width=&quot;100dp&quot;
+    android:layout_height=&quot;100dp&quot;
+    app:srcCompat=&quot;@drawable/vector_icon&quot;
+    android:layout_centerVertical=&quot;true&quot;
+    android:layout_centerHorizontal=&quot;true&quot;
+    android:id=&quot;@+id/imageView&quot; /&gt;
+</code></pre><h3 id="生成svg图片"><a href="#生成svg图片" class="headerlink" title="生成svg图片"></a>生成svg图片</h3><p>通过AI和PS都可以生成svg图片（要装插件）。</p>
+<h4 id="在线PNG转SVG"><a href="#在线PNG转SVG" class="headerlink" title="在线PNG转SVG"></a>在线PNG转SVG</h4><p>需要注册登录才可以下载转换后格式的文件：</p>
+<p><a href="http://vectormagic.com/online/how_it_works" target="_blank" rel="noopener">地址</a></p>
+<h4 id="SVG压缩"><a href="#SVG压缩" class="headerlink" title="SVG压缩"></a>SVG压缩</h4><p>记得将SVG文件进行压缩</p>
+<p><a href="https://jakearchibald.github.io/svgomg/?utm_source=next.36kr.com" target="_blank" rel="noopener">在线</a></p>
+<h4 id="在AS中导入图片"><a href="#在AS中导入图片" class="headerlink" title="在AS中导入图片"></a>在AS中导入图片</h4><p>File -&gt; New -&gt; Vector Asset -&gt; Local SVG files</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-性能优化 - 代码层问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1184,112 +1294,6 @@ MOVE:
 <li>5.当某个子View返回true时，会中止Down事件的分发，同时在ViewGroup中记录该子View。接下去的Move和Up事件将由该子View直接进行处理。由于子View是保存在ViewGroup中的，多层ViewGroup的节点结构时，上级ViewGroup保存的会是真实处理事件的View所在的ViewGroup对象:如ViewGroup0-ViewGroup1-TextView的结构中，TextView返回了true，它将被保存在ViewGroup1中，而ViewGroup1也会返回true，被保存在ViewGroup0中。当Move和UP事件来时，会先从ViewGroup0传递至ViewGroup1，再由ViewGroup1传递至TextView。</li>
 <li>6.当ViewGroup中所有子View都不捕获Down事件时，将触发ViewGroup自身的onTouch事件。触发的方式是调用super.dispatchTouchEvent函数，即父类View的dispatchTouchEvent方法。在所有子View都不处理的情况下，触发Acitivity的onTouchEvent方法。</li>
 <li>7.onInterceptTouchEvent有两个作用：1.拦截Down事件的分发。2.中止Up和Move事件向目标View传递，使得目标View所在的ViewGroup捕获Up和Move事件。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-UI懒加载" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/09/19/UI懒加载/" class="article-date">
-  	<time datetime="2016-09-18T16:00:00.000Z" itemprop="datePublished">2016-09-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/19/UI懒加载/">
-        Android UI懒加载-ViewStub
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="ViewStub-使用"><a href="#ViewStub-使用" class="headerlink" title="ViewStub 使用"></a>ViewStub 使用</h3><p>1 xml声明</p>
-<pre><code>&lt;ViewStub
-   android:id=&quot;@+id/firstBlock&quot;
-   android:inflatedId=&quot;@+id/firstLy&quot;
-   android:layout=&quot;@layout/first_ly&quot;
-   android:layout_height=&quot;0dp&quot;
-   android:layout_weight=&quot;1&quot;
-   android:layout_width=&quot;match_parent&quot; /&gt;
-</code></pre><p>2 firstStub.inflate()或者firstStub.setVisibility(View.VISIBLE)加载Ui</p>
-<p>2 inflatedId为指定layout根元素的id。</p>
-<h3 id="UI懒加载实现"><a href="#UI懒加载实现" class="headerlink" title="UI懒加载实现"></a>UI懒加载实现</h3><h4 id="1把布局按模块分成不同模块的viewstub"><a href="#1把布局按模块分成不同模块的viewstub" class="headerlink" title="1把布局按模块分成不同模块的viewstub"></a>1把布局按模块分成不同模块的viewstub</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
-&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
-android:layout_height=&quot;match_parent&quot;
-android:layout_width=&quot;match_parent&quot;
-android:orientation=&quot;vertical&quot;&gt;
-&lt;ViewStub
-    android:background=&quot;#ff0000&quot;
-    android:id=&quot;@+id/firstBlock&quot;
-    android:inflatedId=&quot;@+id/firstLy&quot;
-    android:layout=&quot;@layout/first_ly&quot;
-    android:layout_height=&quot;0dp&quot;
-    android:layout_weight=&quot;1&quot;
-    android:layout_width=&quot;match_parent&quot; /&gt;
-
-&lt;ViewStub
-    android:id=&quot;@+id/secondBlock&quot;
-    android:inflatedId=&quot;@+id/secondLy&quot;
-    android:layout=&quot;@layout/second_ly&quot;
-    android:layout_height=&quot;0dp&quot;
-    android:layout_weight=&quot;1&quot;
-    android:layout_width=&quot;match_parent&quot; /&gt;
-
-&lt;ViewStub
-    android:id=&quot;@+id/thirdBlock&quot;
-    android:inflatedId=&quot;@+id/thirdLy&quot;
-    android:layout=&quot;@layout/third_ly&quot;
-    android:layout_height=&quot;0dp&quot;
-    android:layout_weight=&quot;1&quot;
-    android:layout_width=&quot;match_parent&quot; /&gt;
-&lt;/LinearLayout&gt;
-</code></pre><h4 id="懒加载逻辑处理"><a href="#懒加载逻辑处理" class="headerlink" title="懒加载逻辑处理"></a>懒加载逻辑处理</h4><p>先init ViewStub</p>
-<pre><code>private void initStub(View base) {
-    firstStub = (ViewStub) base.findViewById(R.id.firstBlock);
-    secondStub = (ViewStub) base.findViewById(R.id.secondBlock);
-    thirdStub = (ViewStub) base.findViewById(R.id.thirdBlock);
-}
-</code></pre><p>在合适的时候inflate或者View.VISIBLE</p>
-<p>合适的时候：</p>
-<ul>
-<li>需要网络加载的在数据加载完成的回调里面执行。</li>
-<li>不需要网络加载的，</li>
 </ul>
 
       

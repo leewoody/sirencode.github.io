@@ -162,6 +162,75 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Broadcast" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/10/Broadcast/" class="article-date">
+  	<time datetime="2018-03-09T16:00:00.000Z" itemprop="datePublished">2018-03-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/10/Broadcast/">
+        Broadcast
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Broadcast"><a href="#Broadcast" class="headerlink" title="Broadcast"></a>Broadcast</h1><h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>Android中的广播使用了观察者模式，基于消息的发布/订阅事件模型。广播发送者和广播接收者分别属于观察者模式中的消息发布和订阅两端，AMS属于中间的处理中心。广播发送者和广播接收者的执行是异步的，发出去的广播不会关心有无接收者接收，也不确定接收者到底是何时才能接收到。显然，整体流程与EventBus非常类似。 </p>
+<h2 id="本地广播LocalBroadcastManager"><a href="#本地广播LocalBroadcastManager" class="headerlink" title="本地广播LocalBroadcastManager"></a>本地广播LocalBroadcastManager</h2><p>LocalBroadcastManager是Android Support包提供了一个工具，是用来在同一个应用内的不同组件间发送Broadcast的。</p>
+<h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>LocalBroadcastManager的构造函数(初始化Handler为主线程的Handler)可以看出，该对象是进程唯一的，且在进程的主线程中处理消息。 </p>
+<h3 id="registerReceiver"><a href="#registerReceiver" class="headerlink" title="registerReceiver"></a>registerReceiver</h3><p>LocalBroadcastManager在本地维护了BroadcastReceiver、IntentFilter和Action之间的关系。 </p>
+<h3 id="unregisterReceiver"><a href="#unregisterReceiver" class="headerlink" title="unregisterReceiver"></a>unregisterReceiver</h3><p>清除数据结构中，Action与当前BroadcastReceiver之间的关系</p>
+<h3 id="sendBroadcast"><a href="#sendBroadcast" class="headerlink" title="sendBroadcast"></a>sendBroadcast</h3><p>简单来讲就是根据Intent的信息，匹配出对应的BroadcastReceiver，然后用BroadcastReceiver构造BroadcastRecord对象，并发送消息，触发主线程进行处理。</p>
+<h3 id="sendBroadcastSync"><a href="#sendBroadcastSync" class="headerlink" title="sendBroadcastSync"></a>sendBroadcastSync</h3><p>一旦调用了sendBroadcastSync接口发送广播，那么该广播被处理后（有匹配的BroadcastReceiver时），sendBroadcastSync接口才会返回。<br>具体分为两种情况：<br>1、主线程正在调用executePendingBroadcasts时，其它线程调用sendBroadcastSync接口，那么新的ReceiverRecord将被加入到mPendingBroadcasts中。由于executePendingBroadcasts中的while循环，那么mPendingBroadcasts变为非空后，其中的信息有可能再次被主线程处理，即BroadcastReceiver的onReceive函数被主线程调用。<br>2、主线程没有调用executePendingBroadcasts时，其它线程线程调用sendBroadcastSync接口， 那么executePendingBroadcasts将在其它线程中运行。此时，BroadcastReceiver的onReceive函数将被其它线程调用。</p>
+<h3 id="处理广播"><a href="#处理广播" class="headerlink" title="处理广播"></a>处理广播</h3><p>主线程收到MSG_EXEC_PENDING_BROADCASTS后，将调用executePendingBroadcasts函数进行处理：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">executePendingBroadcasts</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//注意此处为true</span></span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            BroadcastRecord[] brs = <span class="keyword">null</span>;</span><br><span class="line">            <span class="keyword">synchronized</span> (mReceivers) &#123;</span><br><span class="line">                <span class="keyword">final</span> <span class="keyword">int</span> N = mPendingBroadcasts.size();</span><br><span class="line">                <span class="keyword">if</span> (N &lt;= <span class="number">0</span>) &#123;</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//保存要处理的BroadcastRecord</span></span><br><span class="line">                brs = <span class="keyword">new</span> BroadcastRecord[N];</span><br><span class="line">                mPendingBroadcasts.toArray(brs);</span><br><span class="line"></span><br><span class="line">                <span class="comment">//清空mPendingBroadcasts</span></span><br><span class="line">                <span class="comment">//因此，再下次while循环结束前</span></span><br><span class="line">                <span class="comment">//若没有新数据加入到mPendingBroadcasts，就会退出循环</span></span><br><span class="line">                <span class="comment">//如果在下面的for循环过程中，其它线程再次调用sendBroadcast</span></span><br><span class="line">                <span class="comment">//并将数据加入到mPendingBroadcasts中，那么while循环将继续处理</span></span><br><span class="line">                mPendingBroadcasts.clear();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i=<span class="number">0</span>; i&lt;brs.length; i++) &#123;</span><br><span class="line">                BroadcastRecord br = brs[i];</span><br><span class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> j=<span class="number">0</span>; j&lt;br.receivers.size(); j++) &#123;</span><br><span class="line">                    <span class="comment">//回调BroadcastReceiver的onReceive函数</span></span><br><span class="line">                    <span class="comment">//从这里可以看出，无论在什么线程利用LocalBroadcastManager注册BroadcastReceiver</span></span><br><span class="line">                    <span class="comment">//BroadcastReceiver的onReceive函数均在主线程被回调</span></span><br><span class="line">                    <span class="comment">//这与普通广播的处理相似</span></span><br><span class="line">                    br.receivers.get(j).receiver.onReceive(mAppContext, br.intent);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>Handler实现了应用内通信。Handler实现的应用内代码间的通信，他持有BroadcastReceiver的对象，直接调用onReceive方法，安全效率高。</p>
+<h3 id="好处"><a href="#好处" class="headerlink" title="好处"></a>好处</h3><ol>
+<li>发送的广播只会在自己App内传播，不会泄露给其他App，确保隐私数据不会泄露</li>
+<li>其他App也无法向你的App发送该广播，不用担心其他App会来搞破坏</li>
+<li>比系统全局广播更加高效</li>
+</ol>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android View 的事件传递力" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -295,6 +364,65 @@
 
 
   
+    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
+  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
+        Android 底层网络实现
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
+<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
+<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
+<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
+<p>OkHttp底层也是通过socket实现。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android 动画原理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -347,65 +475,6 @@
 <h2 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h2><p>原理：使用了Choreographer机制</p>
 <p>简单的说，Chreographer是组织上层进行处理绘制的控制类，它会在每次vsync信号来临时，执行与绘制相关的过程．</p>
 <p>Animator的过程发生在绘制之前（甚至是布局之前）.</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
-  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
-        Android 底层网络实现
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
-<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
-<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
-<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
-<p>OkHttp底层也是通过socket实现。</p>
 
       
     </div>
@@ -973,89 +1042,6 @@
 <li>（1） 核心线程corePoolSize &gt; 任务队列workQueue &gt; 最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务。 </li>
 <li>（2）当池中的线程数大于corePoolSize的时候，多余的线程会等待keepAliveTime长的时间，如果无请求可处理就自行销毁。</li>
 </ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Gradle 详解" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/22/Gradle 详解/" class="article-date">
-  	<time datetime="2018-01-21T16:00:00.000Z" itemprop="datePublished">2018-01-22</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/22/Gradle 详解/">
-        Gradle 详解
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Gradle-详解"><a href="#Gradle-详解" class="headerlink" title="Gradle 详解"></a>Gradle 详解</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Gradle是一个基于Apache Ant和Apache Maven概念的项目自动化建构工具。它使用一种基于Groovy的特定领域语言来声明项目设置，而不是传统的XML。</p>
-<p>Android工程通过gradle文件管理各项配置，gradle文件利用DSL（Domain Specific Language）语言描述配置，并使用Groovy语言处理编译逻辑。</p>
-<p>Gradle 和 Android 插件独立于 Android Studio 运行。这意味着，可以在 Android Studio 内、使用计算机上的命令行工具或在未安装 Android Studio 的计算机（例如持续性集成服务器）上构建 Android 应用。如果您不使用 Android Studio，可以学习如何从命令行构建和运行您的应用。无论您是从命令行、在远程计算机上还是使用 Android Studio 构建项目，构建的输出都相同。</p>
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p>Gradle中，每一个待编译的工程都叫一个Project。每一个Project在构建的时候都包含一系列的Task。比如一个Android APK的编译可能包含：Java源码编译Task、资源编译Task、JNI编译Task、lint检查Task、打包生成APK的Task、签名Task等。</p>
-<p>Gradle 工作主要包含三个阶段：</p>
-<ul>
-<li>首先是初始化阶段。对我们前面的multi-project build而言，就是执行settings.gradle，确定项目project(每个模块都是一个project)对象的个数。</li>
-<li>Configration阶段的目标是解析每个project中的build.gradle。比如multi-project build例子中，解析每个子目录中的build.gradle。在这两个阶段之间，我们可以加一些定制化的Hook。这当然是通过API来添加的。Configuration阶段完了后，整个build的project以及内部的Task关系就确定了。一个Project包含很多Task，每个Task之间有依赖关系。Configuration会建立一个有向图来描述Task之间的依赖关系。所以，我们可以添加一个HOOK，即当Task关系图建立好后，执行一些操作。</li>
-<li>最后一个阶段就是执行任务了。</li>
-</ul>
-<p>简言之，Gradle有一个初始化流程，这个时候settings.gradle会执行。 在配置阶段，每个Project都会被解析，其内部的任务也会被添加到一个有向图里，用于解决执行过程中的依赖关系。然后才是执行阶段。你在gradle xxx中指定什么任务，gradle就会将这个xxx任务链上的所有任务全部按依赖顺序执行一遍！</p>
-<h2 id="打包流程"><a href="#打包流程" class="headerlink" title="打包流程"></a>打包流程</h2><h3 id="编译–-gt-DEX–-gt-打包–-gt-签名和对齐"><a href="#编译–-gt-DEX–-gt-打包–-gt-签名和对齐" class="headerlink" title="编译–&gt;DEX–&gt;打包–&gt;签名和对齐"></a>编译–&gt;DEX–&gt;打包–&gt;签名和对齐</h3><p><img src="https://upload-images.jianshu.io/upload_images/2839011-58310b412bae9a01.png?imageMogr2/auto-orient/" alt=""></p>
-<ul>
-<li>1 Java编译器对工程本身的java代码进行编译，这些java代码有三个来源：app的源代码，由资源文件生成的R文件(aapt工具)，以及有aidl文件生成的java接口文件(aidl工具)。产出为.class文件。</li>
-<li>2 .class文件和依赖的三方库文件通过dex工具生成Delvik虚拟机可执行的.dex文件，可能有一个或多个，包含了所有的class信息，包括项目自身的class和依赖的class。产出为.dex文件。</li>
-<li>3 apkbuilder工具将.dex文件和编译后的资源文件生成未经签名对齐的apk文件。这里编译后的资源文件包括两部分，一是由aapt编译产生的编译后的资源文件，二是依赖的三方库里的资源文件。产出为未经签名的.apk文件。</li>
-<li>4 分别由Jarsigner和zipalign对apk文件进行签名和对齐，生成最终的apk文件。</li>
-</ul>
-<p>老官网：<br><img src="http://loody.me/images/android_build.png" alt=""></p>
-<ul>
-<li>1 通过aapt打包res资源文件，生成R.java、resources.arsc和res文件（二进制 &amp; 非二进制如res/raw和pic保持原样）</li>
-<li>2 处理.aidl文件，生成对应的Java接口文件</li>
-<li>3 通过Java Compiler编译R.java、Java接口文件、Java源文件，生成.class文件</li>
-<li>4 通过dex命令，将.class文件和第三方库中的.class文件处理生成classes.dex</li>
-<li>5 通过apkbuilder工具，将aapt生成的resources.arsc和res文件、assets文件和classes.dex一起打包生成apk</li>
-<li>6 通过Jarsigner工具，对上面的apk进行debug或release签名</li>
-<li>7 通过zipalign工具，将签名后的apk进行对齐处理。</li>
-</ul>
-<p><img src="http://loody.me/images/android_build_detail.png" alt=""></p>
 
       
     </div>
