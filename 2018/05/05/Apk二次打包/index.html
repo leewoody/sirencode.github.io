@@ -3,24 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Binder 进程间通信 | Diablo</title>
+  <title>Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
+  <meta name="description" content="title: Apk二次打包date: 2018-05-05  Apk二次打包首先反编译获得smali文件1$ apktool d demo.apk 找到要注入的方法并添加smali方法调用 添加方法记得修改被注入方法的寄存器个数  修改后的smali进行打包1$ apktool b demo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Binder 进程间通信">
-<meta property="og:url" content="https://github.com/sirencode/2016/07/06/binder/index.html">
+<meta property="og:title" content="Diablo">
+<meta property="og:url" content="https://github.com/sirencode/2018/05/05/Apk二次打包/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
-<meta property="og:image" content="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif">
-<meta property="og:updated_time" content="2017-07-06T08:16:57.000Z">
+<meta property="og:description" content="title: Apk二次打包date: 2018-05-05  Apk二次打包首先反编译获得smali文件1$ apktool d demo.apk 找到要注入的方法并添加smali方法调用 添加方法记得修改被注入方法的寄存器个数  修改后的smali进行打包1$ apktool b demo">
+<meta property="og:updated_time" content="2018-05-05T12:17:36.233Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Binder 进程间通信">
-<meta name="twitter:description" content="Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。 关系图：  角色介绍 Client、Server和">
-<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif">
+<meta name="twitter:title" content="Diablo">
+<meta name="twitter:description" content="title: Apk二次打包date: 2018-05-05  Apk二次打包首先反编译获得smali文件1$ apktool d demo.apk 找到要注入的方法并添加smali方法调用 添加方法记得修改被注入方法的寄存器个数  修改后的smali进行打包1$ apktool b demo">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -166,11 +164,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-binder" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-Apk二次打包" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/07/06/binder/" class="article-date">
-  	<time datetime="2016-07-05T16:00:00.000Z" itemprop="datePublished">2016-07-06</time>
+      <a href="/2018/05/05/Apk二次打包/" class="article-date">
+  	<time datetime="2018-05-05T11:43:10.565Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
   
@@ -179,64 +177,15 @@
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Binder 进程间通信
-      
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-        
-
-        
-        <div class="clearfix"></div>
-      </div>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。</p>
-<p>关系图：</p>
-<p><img src="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif" alt="ipc"></p>
-<h3 id="角色介绍"><a href="#角色介绍" class="headerlink" title="角色介绍"></a>角色介绍</h3><ol>
-<li><p>Client、Server和Service Manager实现在用户空间中，Binder驱动程序实现在内核空间中</p>
-</li>
-<li><p>Binder驱动程序和Service Manager在Android平台中已经实现，开发者只需要在用户空间实现自己的Client和Server</p>
-</li>
-<li><p>Binder驱动程序提供设备文件/dev/binder与用户空间交互，Client、Server和Service Manager通过open和ioctl文件操作函数与Binder驱动程序进行通信</p>
-</li>
-<li><p>Client和Server之间的进程间通信通过Binder驱动程序间接实现</p>
-</li>
-<li><p>Service Manager是一个守护进程，用来管理Server，并向Client提供查询Server接口的能力</p>
-</li>
-</ol>
-<h4 id="Service-Manager"><a href="#Service-Manager" class="headerlink" title="Service Manager"></a>Service Manager</h4><p>Service Manager是成为Android进程间通信（IPC）机制Binder守护进程的过程是这样的：</p>
-<ul>
-<li><ol>
-<li>打开/dev/binder文件：open(“/dev/binder”, O_RDWR);</li>
-</ol>
-</li>
-<li><ol>
-<li>建立128K内存映射：mmap(NULL, mapsize, PROT_READ, MAP_PRIVATE, bs-&gt;fd, 0);</li>
-</ol>
-</li>
-<li><ol>
-<li>通知Binder驱动程序它是守护进程：binder_become_context_manager(bs);</li>
-</ol>
-</li>
-<li><ol>
-<li>进入循环等待请求的到来：binder_loop(bs, svcmgr_handler);</li>
-</ol>
-</li>
+        <p>title: Apk二次打包<br>date: 2018-05-05</p>
+<hr>
+<h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
+<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
+<li>添加方法记得修改被注入方法的寄存器个数</li>
 </ul>
-<h4 id="client-service-获取service-manager接口"><a href="#client-service-获取service-manager接口" class="headerlink" title="client service 获取service manager接口"></a>client service 获取service manager接口</h4><p>我们知道，Service Manager在Binder机制中既充当守护进程的角色，同时它也充当着Server角色，然而它又与一般的Server不一样。对于普通的Server来说，Client如果想要获得Server的远程接口，那么必须通过Service Manager远程接口提供的getService接口来获得，这本身就是一个使用Binder机制来进行进程间通信的过程。而对于Service Manager这个Server来说，Client如果想要获得Service Manager远程接口，却不必通过进程间通信机制来获得，因为Service Manager远程接口是一个特殊的Binder引用，它的引用句柄一定是0。</p>
-
+<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -245,18 +194,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/08/17/rxjava/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">&lt;</strong>
-      <div class="article-nav-title">
-        
-          RxJava RxAndroid
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/06/01/工作/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">工作</div>
+    <a href="/2018/05/05/逆向-small语法/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">逆向-small语法</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -266,7 +206,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="binder" data-title="Binder 进程间通信" data-url="https://github.com/sirencode/2016/07/06/binder/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Binder 进程间通信">
+<div class="ds-share share" data-thread-key="Apk二次打包" data-title="" data-url="https://github.com/sirencode/2018/05/05/Apk二次打包/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
