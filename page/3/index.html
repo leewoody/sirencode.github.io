@@ -162,6 +162,71 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-刷机Root" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/14/刷机Root/" class="article-date">
+  	<time datetime="2018-03-13T16:00:00.000Z" itemprop="datePublished">2018-03-14</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/14/刷机Root/">
+        刷机Root
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="刷机Root"><a href="#刷机Root" class="headerlink" title="刷机Root"></a>刷机Root</h1><h2 id="刷机"><a href="#刷机" class="headerlink" title="刷机"></a>刷机</h2><p><a href="https://developers.google.com/android/images" target="_blank" rel="noopener">傻瓜刷机</a></p>
+<h2 id="root"><a href="#root" class="headerlink" title="root"></a>root</h2><h3 id="刷recovery"><a href="#刷recovery" class="headerlink" title="刷recovery"></a>刷recovery</h3><ul>
+<li>1 <a href="https://twrp.me/" target="_blank" rel="noopener">TWRP</a>选择合适的recovery下载</li>
+<li>2 adb reboot bootloader</li>
+<li>3 fastboot oem unlock</li>
+<li>4 fastboot flash recovery twrp.img</li>
+<li>5 fastboot reboot  twrp.img</li>
+</ul>
+<h3 id="root-zip包下载"><a href="#root-zip包下载" class="headerlink" title="root zip包下载"></a>root zip包下载</h3><p><a href="http://www.supersu.com/" target="_blank" rel="noopener">SuperSU</a><br><a href="https://forum.xda-developers.com/apps/magisk/official-magisk-v7-universal-systemless-t3473445" target="_blank" rel="noopener">Magisk</a></p>
+<p>root工具二选一，值得一提的是8.0以上的需要用Magisk才能root。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb push xx.zip /sdcard/</span><br><span class="line">进入recovery -&gt; install -&gt; zip</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Looper 死循环问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -509,65 +574,6 @@
 
 
   
-    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
-  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
-        Android 底层网络实现
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
-<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
-<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
-<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
-<p>OkHttp底层也是通过socket实现。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-Android 动画原理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -620,6 +626,65 @@
 <h2 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h2><p>原理：使用了Choreographer机制</p>
 <p>简单的说，Chreographer是组织上层进行处理绘制的控制类，它会在每次vsync信号来临时，执行与绘制相关的过程．</p>
 <p>Animator的过程发生在绘制之前（甚至是布局之前）.</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
+  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
+        Android 底层网络实现
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
+<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
+<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
+<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
+<p>OkHttp底层也是通过socket实现。</p>
 
       
     </div>
@@ -744,80 +809,6 @@
 <h2 id="虚拟机栈，本地栈"><a href="#虚拟机栈，本地栈" class="headerlink" title="虚拟机栈，本地栈"></a>虚拟机栈，本地栈</h2><h3 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h3><p>虚拟机栈是Java方法执行的内存模型。每个方法执行都会创建一个栈帧的东西，用来存储局部变量表，操作数栈，动态链接，方法出口等信息，每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈道出栈的过程。</p>
 <h3 id="本地栈"><a href="#本地栈" class="headerlink" title="本地栈"></a>本地栈</h3><p>本地栈使用到的本地系统方法服务。</p>
 <h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器(每个线程都有私有的程序计数器)是记录当前线程执行到什么地方了。多线程调度的时候，占用cup知道执行到哪里了。另外程序计数器是Java虚拟机规范中唯一一个没有规定任何内存错误的地方。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Protobuf" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/23/Protobuf/" class="article-date">
-  	<time datetime="2018-02-22T16:00:00.000Z" itemprop="datePublished">2018-02-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/23/Protobuf/">
-        Protobuf
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Protobuf"><a href="#Protobuf" class="headerlink" title="Protobuf"></a>Protobuf</h1><p>Google Protocol Buffer(简称 Protobuf)是一种轻便高效的结构化数据存储格式，平台无关、语言无关、可扩展，可用于通讯协议和数据存储等领域。</p>
-<h2 id="编码实现"><a href="#编码实现" class="headerlink" title="编码实现"></a>编码实现</h2><p>protobuf之所以小且快，就是因为使用变长的编码规则，只保存有用的信息，节省了大量空间。</p>
-<p>1 Base-128变长编码：每个字节使用低7位表示数字，除了最后一个字节，其他字节的最高位都设置为1；采用Little-Endian字节序。</p>
-<p>2 ZigZag编码：Base-128变长编码会去掉整数前面那些没用的0，只保留低位的有效位，然而负数的补码表示有很多的1，所以protobuf先用ZigZag编码将所有的数值映射为无符号数，然后使用Base-128编码，ZigZag的编码规则如下：</p>
- <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> (n &lt;&lt; <span class="number">1</span>) ^ (n &gt;&gt; <span class="number">31</span>) or (n &lt;&lt; <span class="number">1</span>) ^ (n &gt;&gt; <span class="number">63</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://github.com/google/protobuf">github</a></p>
-<p>1 下载源码</p>
-<p>2 cd到源码目录</p>
-<p>3 执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ make check</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Filename: addressbook.proto</span></span><br><span class="line"></span><br><span class="line">syntax=<span class="string">"proto2"</span>;</span><br><span class="line"><span class="keyword">package</span> addressbook;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"src/help.proto"</span>;      <span class="comment">//举例用，编译时去掉</span></span><br><span class="line"></span><br><span class="line">message Person &#123;</span><br><span class="line">    required string name = <span class="number">1</span>;</span><br><span class="line">    required int32 id = <span class="number">2</span>;</span><br><span class="line">    optional string email = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> PhoneType &#123;</span><br><span class="line">        MOBILE = <span class="number">0</span>;</span><br><span class="line">        HOME = <span class="number">1</span>;</span><br><span class="line">        WORK = <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    message PhoneNumber &#123;</span><br><span class="line">        required string number = <span class="number">1</span>;</span><br><span class="line">        optional PhoneType type = <span class="number">2</span> [<span class="keyword">default</span> = HOME];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    repeated PhoneNumber phone = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message AddressBook &#123;</span><br><span class="line">    repeated Person person_info = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>syntax=”proto2”; 表明使用protobuf的编译器版本为v2，目前最新的版本为v3 </li>
-<li>package addressbook; 声明了一个包名，用来防止不同的消息类型命名冲突，类似于 namespace </li>
-<li>message 是Protobuf中的结构化数据，类似于C++中的类，可以在其中定义需要处理的数据 </li>
-</ul>
-<h3 id="protobuf类型"><a href="#protobuf类型" class="headerlink" title="protobuf类型"></a>protobuf类型</h3><p><img src="http://oc4zuck5v.bkt.clouddn.com/pb.png" alt="pb图"></p>
-<h3 id="protobuf字段修饰符"><a href="#protobuf字段修饰符" class="headerlink" title="protobuf字段修饰符"></a>protobuf字段修饰符</h3><p>required：该值是必须要设置的；<br>optional：该字段可以有0个或1个值（不超过1个）；<br>repeated：该字段可以重复任意多次（包括0次），类似于C++中的list；</p>
-<h2 id="proto文件转换"><a href="#proto文件转换" class="headerlink" title="proto文件转换"></a>proto文件转换</h2><p>protoc是proto文件的编译器，目前可以将proto文件编译成C++、Java、Python三种代码文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//java</span><br><span class="line">$ protoc --java_out=./java/ ./proto/helloworld.proto</span><br><span class="line">//go</span><br><span class="line">$ protoc --go_out=./go/ ./proto/helloworld.proto</span><br><span class="line">//c++</span><br><span class="line">protoc -I=<span class="variable">$SRC_DIR</span> --cpp_out=<span class="variable">$DST_DIR</span> /path/to/file.proto</span><br></pre></td></tr></table></figure>
 
       
     </div>
