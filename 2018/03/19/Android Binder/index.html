@@ -3,26 +3,26 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Diablo</title>
+  <title>Android Binder | Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: Android Binderdate: 2018-03-19   Android BinderBinder从框架的角度来讲，Binder的是一个基于C/S框架的一个协议，协议在java层和native层分别实现了一套接口，最终的目的就是把请求传递给Binder驱动(打开binder设备，读请求写回复)。  Binder在Java层和Native层都有实现，Java层的通过JNI来调用">
+  <meta name="description" content="Android BinderBinder从框架的角度来讲，Binder的是一个基于C/S框架的一个协议，协议在java层和native层分别实现了一套接口，最终的目的就是把请求传递给Binder驱动(打开binder设备，读请求写回复)。  Binder在Java层和Native层都有实现，Java层的通过JNI来调用Native层的binder，相当于native层的镜像。 IBinderFLA">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Diablo">
-<meta property="og:url" content="https://github.com/sirencode/2018/06/06/Android Binder/index.html">
+<meta property="og:title" content="Android Binder">
+<meta property="og:url" content="https://github.com/sirencode/2018/03/19/Android Binder/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="title: Android Binderdate: 2018-03-19   Android BinderBinder从框架的角度来讲，Binder的是一个基于C/S框架的一个协议，协议在java层和native层分别实现了一套接口，最终的目的就是把请求传递给Binder驱动(打开binder设备，读请求写回复)。  Binder在Java层和Native层都有实现，Java层的通过JNI来调用">
+<meta property="og:description" content="Android BinderBinder从框架的角度来讲，Binder的是一个基于C/S框架的一个协议，协议在java层和native层分别实现了一套接口，最终的目的就是把请求传递给Binder驱动(打开binder设备，读请求写回复)。  Binder在Java层和Native层都有实现，Java层的通过JNI来调用Native层的binder，相当于native层的镜像。 IBinderFLA">
 <meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/20170411180827946.jpeg">
 <meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/20170411181047406.jpeg">
 <meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/20170411181022355.jpeg">
 <meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/20170411180851093.jpeg">
-<meta property="og:updated_time" content="2018-06-06T09:40:55.340Z">
+<meta property="og:updated_time" content="2018-06-06T09:43:26.348Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Diablo">
-<meta name="twitter:description" content="title: Android Binderdate: 2018-03-19   Android BinderBinder从框架的角度来讲，Binder的是一个基于C/S框架的一个协议，协议在java层和native层分别实现了一套接口，最终的目的就是把请求传递给Binder驱动(打开binder设备，读请求写回复)。  Binder在Java层和Native层都有实现，Java层的通过JNI来调用">
+<meta name="twitter:title" content="Android Binder">
+<meta name="twitter:description" content="Android BinderBinder从框架的角度来讲，Binder的是一个基于C/S框架的一个协议，协议在java层和native层分别实现了一套接口，最终的目的就是把请求传递给Binder驱动(打开binder设备，读请求写回复)。  Binder在Java层和Native层都有实现，Java层的通过JNI来调用Native层的binder，相当于native层的镜像。 IBinderFLA">
 <meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/20170411180827946.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
@@ -172,8 +172,8 @@
       <div class="body-wrap"><article id="post-Android Binder" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/06/06/Android Binder/" class="article-date">
-  	<time datetime="2018-06-06T07:12:22.819Z" itemprop="datePublished">2018-06-06</time>
+      <a href="/2018/03/19/Android Binder/" class="article-date">
+  	<time datetime="2018-03-18T16:00:00.000Z" itemprop="datePublished">2018-03-19</time>
 </a>
     </div>
   
@@ -182,11 +182,29 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android Binder
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>title: Android Binder<br>date: 2018-03-19 </p>
-<hr>
-<h1 id="Android-Binder"><a href="#Android-Binder" class="headerlink" title="Android Binder"></a>Android Binder</h1><h2 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h2><p>从框架的角度来讲，Binder的是一个基于C/S框架的一个协议，协议在java层和native层分别实现了一套接口，最终的目的就是把请求传递给Binder驱动(打开binder设备，读请求写回复)。 </p>
+        <h1 id="Android-Binder"><a href="#Android-Binder" class="headerlink" title="Android Binder"></a>Android Binder</h1><h2 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h2><p>从框架的角度来讲，Binder的是一个基于C/S框架的一个协议，协议在java层和native层分别实现了一套接口，最终的目的就是把请求传递给Binder驱动(打开binder设备，读请求写回复)。 </p>
 <p>Binder在Java层和Native层都有实现，Java层的通过JNI来调用Native层的binder，相当于native层的镜像。</p>
 <h2 id="IBinder"><a href="#IBinder" class="headerlink" title="IBinder"></a>IBinder</h2><p>FLAG_ONEWAY：发送请求之后不用阻塞等待结果。<br>Binder类和BinderProxy类分别实现了IBinder接口。其中Binder类作为服务端的Bn的代表，而BinderProxy作为客户端Bp的代表。<br>做了线程安全处理，binder最大的线程为16.  </p>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>service注册：自定义service-&gt;androidruntime 注册service到SM(AM将service信息传到SM)-&gt;SM通过ioclt打开binder,并在binder中注册一个binder_procs(代表对应的service)。<br>IPC调用的实现：SM获取远程服务的代理-&gt;通过代理将对应的指令发送给binder中对应的binder_procs -&gt; 对应的binder_procs会维护一个消息队列来接收来自客户端的命令以及结果返回操作。  </p>
@@ -258,9 +276,18 @@
     
 <nav id="article-nav">
   
+    <a href="/2018/03/20/Android 控件系统/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Android 控件系统
+        
+      </div>
+    </a>
   
-    <a href="/2018/05/24/正则表达式/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">正则表达式</div>
+  
+    <a href="/2018/03/14/刷机Root/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">刷机Root</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -270,7 +297,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="Android Binder" data-title="" data-url="https://github.com/sirencode/2018/06/06/Android Binder/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="">
+<div class="ds-share share" data-thread-key="Android Binder" data-title="Android Binder" data-url="https://github.com/sirencode/2018/03/19/Android Binder/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android Binder">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
