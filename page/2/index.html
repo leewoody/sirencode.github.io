@@ -243,6 +243,89 @@
 
 
   
+    <article id="post-Android Android 共享内存" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/09/Android Android 共享内存/" class="article-date">
+  	<time datetime="2018-04-08T16:00:00.000Z" itemprop="datePublished">2018-04-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/09/Android Android 共享内存/">
+        Android 共享内存
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-匿名共享内存"><a href="#Android-匿名共享内存" class="headerlink" title="Android 匿名共享内存"></a>Android 匿名共享内存</h1><p>Android可以使用Linux的一切IPC通信方式，包括共享内存，不过Android主要使用的方式是匿名共享内存Ashmem（Anonymous Shared Memory），跟原生的不太一样，比如它在自己的驱动中添加了互斥锁，另外通过fd的传递来实现共享内存的传递。</p>
+<h2 id="Android进程数据传递"><a href="#Android进程数据传递" class="headerlink" title="Android进程数据传递"></a>Android进程数据传递</h2><ul>
+<li>binder机制(TransactionTooLargeException 每个进程的内存是 1M)</li>
+<li>mmap</li>
+<li>匿名共享内存Ashmem</li>
+</ul>
+<p>当两个进程需要共享数据时，我们通常可以通过两种方式来实现。第一种方式是在进程间拷贝共享数据，即将共享数据在进程间传输；第二种方式是将共享数据放在一个公共的地方，然后每一个进程都到这个公共的地方去访问共享数据。如果进程间需要共享的数据很大，那么显然第二种共享方式的效率更高。</p>
+<h2 id="Android-mmap内存映射"><a href="#Android-mmap内存映射" class="headerlink" title="Android  mmap内存映射"></a>Android  mmap内存映射</h2><p>mmap是一种内存映射文件的方法，即将一个文件或者其它对象映射到进程的地址空间，实现文件磁盘地址和进程虚拟地址空间中一段虚拟地址的一一对映关系。实现这样的映射关系后，进程就可以采用指针的方式读写操作这一段内存，而系统会自动回写脏页面到对应的文件磁盘上，即完成了对文件的操作而不必再调用read,write等系统调用函数。相反，内核空间对这段区域的修改也直接反映用户空间，从而可以实现不同进程间的文件共享。</p>
+<h3 id="mmap原理"><a href="#mmap原理" class="headerlink" title="mmap原理"></a>mmap原理</h3><ul>
+<li>1 进程启动映射过程，并在虚拟地址空间中为映射创建虚拟映射区域。</li>
+<li>2 调用内核空间的系统调用函数mmap（不同于用户空间函数），实现文件物理地址和进程虚拟地址的一一映射关系。</li>
+<li>3 进程发起对这片映射空间的访问，引发缺页异常，实现文件内容到物理内存（主存）的拷贝。</li>
+</ul>
+<p>注：前两个阶段仅在于创建虚拟区间并完成地址映射，但是并没有将任何文件数据的拷贝至主存。真正的文件读取是当进程发起读或写操作时。</p>
+<h3 id="mmap优点"><a href="#mmap优点" class="headerlink" title="mmap优点"></a>mmap优点</h3><ul>
+<li>1 对文件的读取操作跨过了页缓存，减少了数据的拷贝次数，用内存读写取代I/O读写，提高了文件读取效率。</li>
+<li>2 实现了用户空间和内核空间的高效交互方式。两空间的各自修改操作可以直接反映在映射的区域内，从而被对方空间及时捕捉。</li>
+<li>3 提供进程间共享内存及相互通信的方式。不管是父子进程还是无亲缘关系的进程，都可以将自身用户空间映射到同一个文件或匿名映射到同一片区域。从而通过各自对映射区域的改动，达到进程间通信和进程间共享的目的。 同时，如果进程A和进程B都映射了区域C，当A第一次读取C时通过缺页从磁盘复制文件页到内存中；但当B再读C的相同页面时，虽然也会产生缺页异常，但是不再需要从磁盘中复制文件过来，而可直接使用已经保存在内存中的文件数据。</li>
+<li>4 可用于实现高效的大规模数据传输。内存空间不足，是制约大数据操作的一个方面，解决方案往往是借助硬盘空间协助操作，补充内存的不足。但是进一步会造成大量的文件I/O操作，极大影响效率。这个问题可以通过mmap映射很好的解决。换句话说，但凡是需要用磁盘空间代替内存的时候，mmap都可以发挥其功效。</li>
+</ul>
+<h3 id="mmap-在-android中应用"><a href="#mmap-在-android中应用" class="headerlink" title="mmap 在 android中应用"></a>mmap 在 android中应用</h3><p>mmap的一大应用就是将内核空间的一段内存映射到各个应用程序的各自的应用地址空间中，然后各个应用程序都可以访问这段内存空间，这就是所谓的内存共享实现进程间的信息的交互。</p>
+<h2 id="ashmem匿名共享内存"><a href="#ashmem匿名共享内存" class="headerlink" title="ashmem匿名共享内存"></a>ashmem匿名共享内存</h2><p>Android 的Ashmem是一种共享内存的机制，它基于mmap系统调用，不同进程可以将同一段物理内存映射到各自的虚拟地址控制，从而实现共享。其优势是通过内核驱动提供了辅助内核的内存回收算法机制(pin/unpin)。</p>
+<p>Android的匿名共享内存（Ashmem）机制基于Linux内核的共享内存，但是Ashmem与cache shrinker关联起来，增加了内存回收算法的注册接口，因此Linux内存管理系统将不再使用内存区域加以回收。Ashmem以内核驱动的形式实现，在文件系统中创建/dev/ashmem设备文件。如果进程A与进程B需要共享内存，进程A可通过open打开该文件，用ioctl命令ASHMEM_SET_NAME和ASHMEM_SET_SIZE设置共享内存的名称和大小。mmap使用handle获得共享的内存区域；进程B使用同样的handle，由mmap获得同一块内存。handle在进程间的传递可通过Binder等方式实现。</p>
+<h3 id="MemoryFile"><a href="#MemoryFile" class="headerlink" title="MemoryFile"></a>MemoryFile</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">IMemoryAidlInterface</span> </span>&#123;</span><br><span class="line">        <span class="function">ParcelFileDescriptor <span class="title">getParcelFileDescriptor</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MemoryFetchService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Nullable</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> MemoryFetchStub();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MemoryFetchStub</span> <span class="keyword">extends</span> <span class="title">IMemoryAidlInterface</span>.<span class="title">Stub</span> </span>&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> ParcelFileDescriptor <span class="title">getParcelFileDescriptor</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">                MemoryFile memoryFile = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    memoryFile = <span class="keyword">new</span> MemoryFile(<span class="string">"test_memory"</span>, <span class="number">1024</span>);</span><br><span class="line">                    memoryFile.getOutputStream().write(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;);</span><br><span class="line">                    Method method = MemoryFile.class.getDeclaredMethod(<span class="string">"getFileDescriptor"</span>);</span><br><span class="line">                    FileDescriptor des = (FileDescriptor) method.invoke(memoryFile);</span><br><span class="line">                    <span class="keyword">return</span> ParcelFileDescriptor.dup(des);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Intent intent = <span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>, MemoryFetchService.class);</span><br><span class="line"></span><br><span class="line">    bindService(intent, <span class="keyword">new</span> ServiceConnection() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span> <span class="params">(ComponentName name, IBinder service)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">byte</span>[] content = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">10</span>];</span><br><span class="line">            IMemoryAidlInterface iMemoryAidlInterface</span><br><span class="line">                    = IMemoryAidlInterface.Stub.asInterface(service);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                ParcelFileDescriptor parcelFileDescriptor = iMemoryAidlInterface.getParcelFileDescriptor();</span><br><span class="line">                FileDescriptor descriptor = parcelFileDescriptor.getFileDescriptor();</span><br><span class="line">                FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(descriptor);</span><br><span class="line">                fileInputStream.read(content);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span> <span class="params">(ComponentName name)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,Service.BIND_AUTO_CREATE);</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">MemoryFile是应用层使用匿名共享内存的方法,关键点就是文件描述符（FileDescriptor）的传递，文件描述符是Linux系统中访问与更新文件的主要方式。</span><br><span class="line"></span><br><span class="line">### MemoryFile实现共享内存的分配与传递</span><br><span class="line"></span><br><span class="line">Java层的构造函数调用<span class="keyword">native</span>层的android_os_MemoryFile_open,首先是通过native_open调用ashmem_create_region创建共享内存</span><br><span class="line"></span><br><span class="line">```c++</span><br><span class="line">    <span class="function"><span class="keyword">static</span> jobject <span class="title">android_os_MemoryFile_open</span><span class="params">(JNIEnv* env, jobject clazz, jstring name, jint length)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* namestr = (name ? env-&gt;GetStringUTFChars(name, NULL) : NULL);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> result = ashmem_create_region(namestr, length);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (name)</span><br><span class="line">            env-&gt;ReleaseStringUTFChars(name, namestr);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (result &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            jniThrowException(env, <span class="string">"java/io/IOException"</span>, <span class="string">"ashmem_create_region failed"</span>);</span><br><span class="line">            <span class="keyword">return</span> NULL;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> jniCreateFileDescriptor(env, result);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>接着通过native_mmap调用mmap将共享内存映射到当前进程空间，之后Java层就能利用FileDescriptor，像访问文件一样访问共享内存。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> jint <span class="title">android_os_MemoryFile_mmap</span><span class="params">(JNIEnv* env, jobject clazz, jobject fileDescriptor,</span></span></span><br><span class="line"><span class="function"><span class="params">                                       jint length, jint prot)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> fd = jniGetFDFromFileDescriptor(env, fileDescriptor);</span><br><span class="line">&lt;!--系统调用mmap，分配内存--&gt;</span><br><span class="line">        jint result = (jint)mmap(<span class="literal">NULL</span>, length, prot, MAP_SHARED, fd, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (!result)</span><br><span class="line">        jniThrowException(env, <span class="string">"java/io/IOException"</span>, <span class="string">"mmap failed"</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="Android进程共享内存的传递-fd文件描述符的传递"><a href="#Android进程共享内存的传递-fd文件描述符的传递" class="headerlink" title="Android进程共享内存的传递-fd文件描述符的传递"></a>Android进程共享内存的传递-fd文件描述符的传递</h3><p>原生Linux共享内存是通过传递已知的key来处理的，但是Android中不存在这种机制，Android是怎么处理的呢？那就是通过Binder传递文件描述符来处理，Android的Binder对于fd的传递也做了适配，原理其实就是在内核层为要传递的目标进程转换fd，因为在linux中fd只是对本进程是有效、且唯一，进程A打开一个文件得到一个fd，不能直接为进程B使用，因为B中那个fd可能压根无效、或者对应其他文件，不过，虽然同一个文件可以有多个文件描述符，但是文件只有一个，在内核层也只会对应一个inode节点与file对象，这也是内核层可以传递fd的基础，Binder驱动通过当前进程的fd找到对应的文件，然后为目标进程新建fd，并传递给目标进程，核心就是把进程A中的fd转化成进程B中的fd。</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/1460468-880df908d284fa9e.jpg" alt=""></p>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>匿名共享内存不会占用Dalvik Heap与Native Heap，不会导致OOM，这是优点，同时也是缺点，因为如果肆意使用，会导致系统资源不足，性能下降。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-RemoteView" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -810,86 +893,6 @@
 <h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><p>IntentService只能通过start方法启动，因为binder方法返回的null。就不会调用Intent的分发工作。 </p>
 <h2 id="HandlerThread"><a href="#HandlerThread" class="headerlink" title="HandlerThread"></a>HandlerThread</h2><p>HandlerThread只是内部封装了自己的looper的一个Thread。<br>1 首先在启动线程的时候创建一个looper，并绑定到当前线程。<br>2 getlooper是阻塞的，方式线程未启动就调用。 </p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HandlerThread</span> <span class="keyword">extends</span> <span class="title">Thread</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> mPriority;</span><br><span class="line">    <span class="keyword">int</span> mTid = -<span class="number">1</span>;</span><br><span class="line">    Looper mLooper;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">HandlerThread</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>(name);</span><br><span class="line">        mPriority = Process.THREAD_PRIORITY_DEFAULT;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onLooperPrepared</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        mTid = Process.myTid();</span><br><span class="line">        Looper.prepare();</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">            mLooper = Looper.myLooper();</span><br><span class="line">            notifyAll();</span><br><span class="line">        &#125;</span><br><span class="line">        Process.setThreadPriority(mPriority);</span><br><span class="line">        onLooperPrepared();</span><br><span class="line">        Looper.loop();</span><br><span class="line">        mTid = -<span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Looper <span class="title">getLooper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//如果线程不是存活的，则直接返回null</span></span><br><span class="line">        <span class="keyword">if</span> (!isAlive()) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If the thread has been started, wait until the looper has been created.</span></span><br><span class="line">        <span class="comment">//如果线程已经启动，但是Looper还未创建的话，就等待，知道Looper创建成功</span></span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">while</span> (isAlive() &amp;&amp; mLooper == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    wait();</span><br><span class="line">                &#125; <span class="keyword">catch</span> (InterruptedException e) &#123;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> mLooper;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 控件系统" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/20/Android 控件系统/" class="article-date">
-  	<time datetime="2018-03-19T16:00:00.000Z" itemprop="datePublished">2018-03-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/20/Android 控件系统/">
-        Android 控件系统
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-控件系统"><a href="#Android-控件系统" class="headerlink" title="Android 控件系统"></a>Android 控件系统</h1><h2 id="控件系统的组成"><a href="#控件系统的组成" class="headerlink" title="控件系统的组成"></a>控件系统的组成</h2><p>控件系统可分为：继承自View的一系列控件与WindowManger两部分。 </p>
-<h2 id="WindowManger"><a href="#WindowManger" class="headerlink" title="WindowManger"></a>WindowManger</h2><p>viewgroup也实现了viewmanager。 </p>
-<p>WindowManger是一个继承自viewmanager的接口，viewmanager定义了三个函数，用于添加删除一个控件以及更新控件的布局。同时添加了getDefaultDisplay()用于得知这个WindowManger的实例添加到哪个屏幕上。而removeViewImmediate则要求WindowManger必须在这个调用返回前完成所有的销毁工作。 </p>
-<p>WMI:WindowManger的实现者，有两个实例，Display,Window </p>
-<p>WindowManagerGlobal:他是WindowManger的最终实现者，它维护了当前进程中所有已经添加到系统中的窗口信息，一个进程中仅有一个WindowManagerGlobal实例。</p>
-<ul>
-<li>1 context.getSystemService(Context.WINDOW_SERVICE)来获取一个WM实例。这个实例真实类型是WMI，WNI一旦被创建就确定了通过它所创建的窗口属于哪块屏幕，哪个父窗口。</li>
-<li>2 WMI保存窗口所属的屏幕以及窗口信息。</li>
-<li>3 WMG在一个进程中只有一个实例。在三个数组中统一管理这个进程中所有的窗口信息。这些信息包括控件、布局参数、以及ViewRootImpl。</li>
-<li>4 WMG将窗口的创建、销毁与布局更新等任务交给ViewRootImpl完成。</li>
-</ul>
-<h2 id="ViewRootImpl"><a href="#ViewRootImpl" class="headerlink" title="ViewRootImpl"></a>ViewRootImpl</h2><p>ViewRootImpl实现了ViewParent接口，作为整个控件树的根部，控件的测量、布局、绘制以及输入事件的派发处理都由ViewRootImpl触发。它是WindowManagerGlobal的实现者，需要与WMS交互以调整窗口的位置大小，以及对来自WMS的事件(如窗口尺寸改变)的处理。 </p>
-<h2 id="控件树的绘制"><a href="#控件树的绘制" class="headerlink" title="控件树的绘制"></a>控件树的绘制</h2><p>对软件Canvas来说，其绘制目标是一个建立在surface之上的位图bitmap。而硬件Canvas的绘制目标有两种：一种是HardwareLayer，可以理解为一个GL Texture，或者简单地认为它是一个硬件加速下的位图(bitmap)。而另一种绘制目标则比较特别，被称为DisplayList。与Bitmap及HardwareLayer不同，DisplayList不是一块Buffer，而是一个指令序列。DisplayList会将Canvas的绘制指令编译并优化为硬件绘制指令，并且可以在需要时将这些指令回放到一个HardwareLayer上，而不需要重新使用Canvas进行绘制。 </p>
-<p>为了保证绘制的效率，控件树仅对需要重绘的区域进行绘制。这部分区域称为“脏区域”。当一个控件的内容发生变化需要重绘时，它会通过View.invalidate方法将其需要重绘的区域沿着控件树提交给ViewRootImpl,并保存在ViewRootImpl的mDirty成员中，最后通过scheduleTraversals引发一次遍历，进而重绘，ViewRootImpl只重绘mDirty区域。<br>绘制：VRI performTraversals -&gt; performDraw 。首先通过draw方法执行实际的绘制工作，然后向WMS通知绘制已经完成。<br>ViewRootImpl.draw方法中产生了硬件加速绘制与软件绘制两个分支。  </p>
-<h3 id="drawSoftware"><a href="#drawSoftware" class="headerlink" title="drawSoftware:"></a>drawSoftware:</h3><ul>
-<li>1 通过Surface.lockCanvas获取一个用于绘制的canvas.</li>
-<li>2 多canvas进行变换以实现滚动效果.</li>
-<li>3 通过view.draw将根控件绘制在canvas上</li>
-<li>4 通过Surface.unlockCanvasAndPost显示绘制后的内容</li>
-</ul>
-<p>view.draw:首先绘制背景，绘制控件自身，绘制子控件，如必要绘制滚动条 </p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-29%20%E4%B8%8B%E5%8D%889.58.41.png" alt=""></p>
-<h3 id="硬件加速绘制-HardwareRender-draw"><a href="#硬件加速绘制-HardwareRender-draw" class="headerlink" title="硬件加速绘制 HardwareRender.draw"></a>硬件加速绘制 HardwareRender.draw</h3><p>软件绘制是通过view.draw以递归的方式将整个控件树用给定的canvas直接绘制在surface上。硬件加速绘制则先通过view.getDisplayList获取根控件的DisplayList，然后再将这个DisplayList绘制在surface上。DisplayList包含了已编译过的用于绘制整个控件树的绘制指令。软件是直接绘制，硬件加速通过DisplayList间接绘制。 </p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-29%20%E4%B8%8B%E5%8D%8810.18.25.png" alt=""></p>
-<h3 id="绘图缓存"><a href="#绘图缓存" class="headerlink" title="绘图缓存"></a>绘图缓存</h3><p>绘图缓存时指一个Bitmap回一个HardwareLayer,它保存了控件及其子控件的一个快照。当控件的父控件需要重绘它时，可以考虑将其绘图缓存绘制canvas上，而不是执行其完整的绘制流程。</p>
-<p>绘图缓存有两种类型，即软件缓存(Bitmap)和硬件缓存(HardwareLayer). </p>
 
       
     </div>

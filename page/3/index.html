@@ -162,6 +162,86 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android 控件系统" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/20/Android 控件系统/" class="article-date">
+  	<time datetime="2018-03-19T16:00:00.000Z" itemprop="datePublished">2018-03-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/20/Android 控件系统/">
+        Android 控件系统
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-控件系统"><a href="#Android-控件系统" class="headerlink" title="Android 控件系统"></a>Android 控件系统</h1><h2 id="控件系统的组成"><a href="#控件系统的组成" class="headerlink" title="控件系统的组成"></a>控件系统的组成</h2><p>控件系统可分为：继承自View的一系列控件与WindowManger两部分。 </p>
+<h2 id="WindowManger"><a href="#WindowManger" class="headerlink" title="WindowManger"></a>WindowManger</h2><p>viewgroup也实现了viewmanager。 </p>
+<p>WindowManger是一个继承自viewmanager的接口，viewmanager定义了三个函数，用于添加删除一个控件以及更新控件的布局。同时添加了getDefaultDisplay()用于得知这个WindowManger的实例添加到哪个屏幕上。而removeViewImmediate则要求WindowManger必须在这个调用返回前完成所有的销毁工作。 </p>
+<p>WMI:WindowManger的实现者，有两个实例，Display,Window </p>
+<p>WindowManagerGlobal:他是WindowManger的最终实现者，它维护了当前进程中所有已经添加到系统中的窗口信息，一个进程中仅有一个WindowManagerGlobal实例。</p>
+<ul>
+<li>1 context.getSystemService(Context.WINDOW_SERVICE)来获取一个WM实例。这个实例真实类型是WMI，WNI一旦被创建就确定了通过它所创建的窗口属于哪块屏幕，哪个父窗口。</li>
+<li>2 WMI保存窗口所属的屏幕以及窗口信息。</li>
+<li>3 WMG在一个进程中只有一个实例。在三个数组中统一管理这个进程中所有的窗口信息。这些信息包括控件、布局参数、以及ViewRootImpl。</li>
+<li>4 WMG将窗口的创建、销毁与布局更新等任务交给ViewRootImpl完成。</li>
+</ul>
+<h2 id="ViewRootImpl"><a href="#ViewRootImpl" class="headerlink" title="ViewRootImpl"></a>ViewRootImpl</h2><p>ViewRootImpl实现了ViewParent接口，作为整个控件树的根部，控件的测量、布局、绘制以及输入事件的派发处理都由ViewRootImpl触发。它是WindowManagerGlobal的实现者，需要与WMS交互以调整窗口的位置大小，以及对来自WMS的事件(如窗口尺寸改变)的处理。 </p>
+<h2 id="控件树的绘制"><a href="#控件树的绘制" class="headerlink" title="控件树的绘制"></a>控件树的绘制</h2><p>对软件Canvas来说，其绘制目标是一个建立在surface之上的位图bitmap。而硬件Canvas的绘制目标有两种：一种是HardwareLayer，可以理解为一个GL Texture，或者简单地认为它是一个硬件加速下的位图(bitmap)。而另一种绘制目标则比较特别，被称为DisplayList。与Bitmap及HardwareLayer不同，DisplayList不是一块Buffer，而是一个指令序列。DisplayList会将Canvas的绘制指令编译并优化为硬件绘制指令，并且可以在需要时将这些指令回放到一个HardwareLayer上，而不需要重新使用Canvas进行绘制。 </p>
+<p>为了保证绘制的效率，控件树仅对需要重绘的区域进行绘制。这部分区域称为“脏区域”。当一个控件的内容发生变化需要重绘时，它会通过View.invalidate方法将其需要重绘的区域沿着控件树提交给ViewRootImpl,并保存在ViewRootImpl的mDirty成员中，最后通过scheduleTraversals引发一次遍历，进而重绘，ViewRootImpl只重绘mDirty区域。<br>绘制：VRI performTraversals -&gt; performDraw 。首先通过draw方法执行实际的绘制工作，然后向WMS通知绘制已经完成。<br>ViewRootImpl.draw方法中产生了硬件加速绘制与软件绘制两个分支。  </p>
+<h3 id="drawSoftware"><a href="#drawSoftware" class="headerlink" title="drawSoftware:"></a>drawSoftware:</h3><ul>
+<li>1 通过Surface.lockCanvas获取一个用于绘制的canvas.</li>
+<li>2 多canvas进行变换以实现滚动效果.</li>
+<li>3 通过view.draw将根控件绘制在canvas上</li>
+<li>4 通过Surface.unlockCanvasAndPost显示绘制后的内容</li>
+</ul>
+<p>view.draw:首先绘制背景，绘制控件自身，绘制子控件，如必要绘制滚动条 </p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-29%20%E4%B8%8B%E5%8D%889.58.41.png" alt=""></p>
+<h3 id="硬件加速绘制-HardwareRender-draw"><a href="#硬件加速绘制-HardwareRender-draw" class="headerlink" title="硬件加速绘制 HardwareRender.draw"></a>硬件加速绘制 HardwareRender.draw</h3><p>软件绘制是通过view.draw以递归的方式将整个控件树用给定的canvas直接绘制在surface上。硬件加速绘制则先通过view.getDisplayList获取根控件的DisplayList，然后再将这个DisplayList绘制在surface上。DisplayList包含了已编译过的用于绘制整个控件树的绘制指令。软件是直接绘制，硬件加速通过DisplayList间接绘制。 </p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-03-29%20%E4%B8%8B%E5%8D%8810.18.25.png" alt=""></p>
+<h3 id="绘图缓存"><a href="#绘图缓存" class="headerlink" title="绘图缓存"></a>绘图缓存</h3><p>绘图缓存时指一个Bitmap回一个HardwareLayer,它保存了控件及其子控件的一个快照。当控件的父控件需要重绘它时，可以考虑将其绘图缓存绘制canvas上，而不是执行其完整的绘制流程。</p>
+<p>绘图缓存有两种类型，即软件缓存(Bitmap)和硬件缓存(HardwareLayer). </p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android Binder" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -802,64 +882,6 @@
 <h2 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h2><p>原理：使用了Choreographer机制</p>
 <p>简单的说，Chreographer是组织上层进行处理绘制的控制类，它会在每次vsync信号来临时，执行与绘制相关的过程．</p>
 <p>Animator的过程发生在绘制之前（甚至是布局之前）.</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-子模块访问app模块" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/26/子模块访问app模块/" class="article-date">
-  	<time datetime="2018-02-25T16:00:00.000Z" itemprop="datePublished">2018-02-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/26/子模块访问app模块/">
-        子模块访问app模块
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="子模块访问app模块"><a href="#子模块访问app模块" class="headerlink" title="子模块访问app模块"></a>子模块访问app模块</h1><h2 id="第一步子模块定义接口"><a href="#第一步子模块定义接口" class="headerlink" title="第一步子模块定义接口"></a>第一步子模块定义接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TradeModuleBridge</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">goOpenAccount</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="第二步-接口管理类"><a href="#第二步-接口管理类" class="headerlink" title="第二步 接口管理类"></a>第二步 接口管理类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TradeBridgeHolder</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TradeModuleBridge <span class="title">getBridge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bridge;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setBridge</span><span class="params">(TradeModuleBridge bridge)</span> </span>&#123;</span><br><span class="line">        TradeBridgeHolder.bridge = bridge;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> TradeModuleBridge bridge;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="第三步-在app的application里面初始化"><a href="#第三步-在app的application里面初始化" class="headerlink" title="第三步 在app的application里面初始化"></a>第三步 在app的application里面初始化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initTradeBridge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    TradeBridgeHolder.setBridge(<span class="keyword">new</span> TradeModuleBridge() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">goOpenAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            startActivity(WebViewActivity.buildAccountIntent(FuturesApplication.from()));</span><br><span class="line">            StatisticsAgent.onEV(EventIDS.ME_OPEN_ACCOUNT);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="第四步-使用"><a href="#第四步-使用" class="headerlink" title="第四步 使用"></a>第四步 使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TradeBridgeHolder.getBridge().goOpenAccount();</span><br></pre></td></tr></table></figure>
 
       
     </div>
