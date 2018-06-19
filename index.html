@@ -242,6 +242,183 @@
 
 
   
+    <article id="post-Android 输入系统" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/11/Android 输入系统/" class="article-date">
+  	<time datetime="2018-06-10T16:00:00.000Z" itemprop="datePublished">2018-06-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/11/Android 输入系统/">
+        Android 输入系统
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-输入系统"><a href="#Android-输入系统" class="headerlink" title="Android 输入系统"></a>Android 输入系统</h1><h2 id="输入系统的框架"><a href="#输入系统的框架" class="headerlink" title="输入系统的框架"></a>输入系统的框架</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/android_input.png" alt=""></p>
+<ul>
+<li>Linux内核-接受输入设备的中断，并将原始事件的数据写入设备节点中。</li>
+<li>设备节点，作为内核与IMS的桥梁，它将原始事件的数据暴露给用户空间，以便IMS可以从中读取事件。</li>
+<li>IMS,一个Android系统服务，它分为Java层和native层两部分。java层负责与WMS通信，而native层则是InputReader和InputDispatcher两个输入系统关键组件的运行容器。</li>
+<li>EventHub,直接访问所有设备节点。通过getEvents()的函数将所有输入系统相关的待处理的底层事件返回给使用者。包括设备节点的增删。</li>
+<li>InputReader，它运行于一个独立的线程中，负责管理输入设备的列表于配置，以及进行输入事件的加工处理。它通过其他线程循环不断地通过getEvents函数从EventHub中将事件取出并进行处理。对于设备节点的增删事件，它会更新输入设备列表与配置。对于原始输入事件，InputReader对其进行翻译，组装，封装为包含更多信息，更具可读性的输入事件，然后交给InputDispatcher进行派发。</li>
+<li>InputReaderPolicy,它为InputReader的事件加工处理提供一些策略配置，例如键盘布局信息等。</li>
+<li>InputDispatcher，它运行于独立线程中，InputDispatcher中保管了来自WMS的所有窗口的信息，其收到来自InputReader的输入事件后，会在其保管的窗口中寻找合适的窗口，并将事件派发给他们。</li>
+<li>InputDispatcherPolicy，它为InputDispatcher的派发过程提供策略控制。例如截取某些特定的输入事件用作特殊用途，或者阻止将某些事件派发给目标窗口。一个典型的例子就是Home键被InputDispatcherPolicy截取到PhoneWindowManager中进行处理，并阻止窗口收到Home键的事件。</li>
+<li>WMS, 当新建窗口时，WMS为新窗口和IMS创建了事件传递所用的通道。另外WMS还将所有窗口的信息，包括窗口的可点击区域，焦点窗口等信息，实时的更新到IMS的InputDispatcher中，使得InputDispatcher可以正确地将事件派发到指定窗口。</li>
+<li>ViewRootImpl，对某些窗口，如壁纸窗口，surfaceview窗口来说，窗口就是输入事件派发的终点。而对其他activity，对话框等使用了Android控件系统的窗口来说，输入事件的终点是view。ViewRootImpl将窗口所接收的输入事件沿着控件数将事件派发给感兴趣的控件。</li>
+</ul>
+<h3 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h3><p>输入设备和输入事件</p>
+<p>输入设备：触摸屏，键盘以及外接设备。当输入设备可用的时，Linux就会在/dev/input/ 下创建对应的名为event0~n，当输入设备不可用时，则会将对应的节点删除。用户空间可以通过ioctl的方式从这些设备节点中获取其对应的输入涉笔的类型，厂商，描述等信息。</p>
+<h4 id="getevent-与-sendevent"><a href="#getevent-与-sendevent" class="headerlink" title="getevent 与 sendevent"></a>getevent 与 sendevent</h4><p>Android 系统提供了getevent和setevent两个工具共开发者从设备节点中直接读取输入事件或写入事件。</p>
+<p>原始事件的四项基本元素：</p>
+<ul>
+<li>时间戳</li>
+<li>类型</li>
+<li>代码</li>
+<li>值</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell getevent[-选项] [device_path]</span><br><span class="line">$ adb shell sendevent &lt;节点路径&gt; &lt;类型&gt; &lt;代码&gt; &lt;值&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="模拟输入事件"><a href="#模拟输入事件" class="headerlink" title="模拟输入事件"></a>模拟输入事件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell input keyevent XX</span><br></pre></td></tr></table></figure>
+<pre><code>•    0 --&gt;  &quot;KEYCODE_UNKNOWN&quot;
+•    1 --&gt;  &quot;KEYCODE_MENU&quot;
+•    2 --&gt;  &quot;KEYCODE_SOFT_RIGHT&quot;
+•    3 --&gt;  &quot;KEYCODE_HOME&quot;
+•    4 --&gt;  &quot;KEYCODE_BACK&quot;
+•    5 --&gt;  &quot;KEYCODE_CALL&quot;
+•    6 --&gt;  &quot;KEYCODE_ENDCALL&quot;
+•    7 --&gt;  &quot;KEYCODE_0&quot;
+•    8 --&gt;  &quot;KEYCODE_1&quot;
+•    9 --&gt;  &quot;KEYCODE_2&quot;
+•    10 --&gt;  &quot;KEYCODE_3&quot;
+•    11 --&gt;  &quot;KEYCODE_4&quot;
+•    12 --&gt;  &quot;KEYCODE_5&quot;
+•    13 --&gt;  &quot;KEYCODE_6&quot;
+•    14 --&gt;  &quot;KEYCODE_7&quot;
+•    15 --&gt;  &quot;KEYCODE_8&quot;
+•    16 --&gt;  &quot;KEYCODE_9&quot;
+•    17 --&gt;  &quot;KEYCODE_STAR&quot;
+•    18 --&gt;  &quot;KEYCODE_POUND&quot;
+•    19 --&gt;  &quot;KEYCODE_DPAD_UP&quot;
+•    20 --&gt;  &quot;KEYCODE_DPAD_DOWN&quot;
+•    21 --&gt;  &quot;KEYCODE_DPAD_LEFT&quot;
+•    22 --&gt;  &quot;KEYCODE_DPAD_RIGHT&quot;
+•    23 --&gt;  &quot;KEYCODE_DPAD_CENTER&quot;
+•    24 --&gt;  &quot;KEYCODE_VOLUME_UP&quot;
+•    25 --&gt;  &quot;KEYCODE_VOLUME_DOWN&quot;
+•    26 --&gt;  &quot;KEYCODE_POWER&quot;
+•    27 --&gt;  &quot;KEYCODE_CAMERA&quot;
+•    28 --&gt;  &quot;KEYCODE_CLEAR&quot;
+•    29 --&gt;  &quot;KEYCODE_A&quot;
+•    30 --&gt;  &quot;KEYCODE_B&quot;
+•    31 --&gt;  &quot;KEYCODE_C&quot;
+•    32 --&gt;  &quot;KEYCODE_D&quot;
+•    33 --&gt;  &quot;KEYCODE_E&quot;
+•    34 --&gt;  &quot;KEYCODE_F&quot;
+•    35 --&gt;  &quot;KEYCODE_G&quot;
+•    36 --&gt;  &quot;KEYCODE_H&quot;
+•    37 --&gt;  &quot;KEYCODE_I&quot;
+•    38 --&gt;  &quot;KEYCODE_J&quot;
+•    39 --&gt;  &quot;KEYCODE_K&quot;
+•    40 --&gt;  &quot;KEYCODE_L&quot;
+•    41 --&gt;  &quot;KEYCODE_M&quot;
+•    42 --&gt;  &quot;KEYCODE_N&quot;
+•    43 --&gt;  &quot;KEYCODE_O&quot;
+•    44 --&gt;  &quot;KEYCODE_P&quot;
+•    45 --&gt;  &quot;KEYCODE_Q&quot;
+•    46 --&gt;  &quot;KEYCODE_R&quot;
+•    47 --&gt;  &quot;KEYCODE_S&quot;
+•    48 --&gt;  &quot;KEYCODE_T&quot;
+•    49 --&gt;  &quot;KEYCODE_U&quot;
+•    50 --&gt;  &quot;KEYCODE_V&quot;
+•    51 --&gt;  &quot;KEYCODE_W&quot;
+•    52 --&gt;  &quot;KEYCODE_X&quot;
+•    53 --&gt;  &quot;KEYCODE_Y&quot;
+•    54 --&gt;  &quot;KEYCODE_Z&quot;
+•    55 --&gt;  &quot;KEYCODE_COMMA&quot;
+•    56 --&gt;  &quot;KEYCODE_PERIOD&quot;
+•    57 --&gt;  &quot;KEYCODE_ALT_LEFT&quot;
+•    58 --&gt;  &quot;KEYCODE_ALT_RIGHT&quot;
+•    59 --&gt;  &quot;KEYCODE_SHIFT_LEFT&quot;
+•    60 --&gt;  &quot;KEYCODE_SHIFT_RIGHT&quot;
+•    61 --&gt;  &quot;KEYCODE_TAB&quot;
+•    62 --&gt;  &quot;KEYCODE_SPACE&quot;
+•    63 --&gt;  &quot;KEYCODE_SYM&quot;
+•    64 --&gt;  &quot;KEYCODE_EXPLORER&quot;
+•    65 --&gt;  &quot;KEYCODE_ENVELOPE&quot;
+•    66 --&gt;  &quot;KEYCODE_ENTER&quot;
+•    67 --&gt;  &quot;KEYCODE_DEL&quot;
+•    68 --&gt;  &quot;KEYCODE_GRAVE&quot;
+•    69 --&gt;  &quot;KEYCODE_MINUS&quot;
+•    70 --&gt;  &quot;KEYCODE_EQUALS&quot;
+•    71 --&gt;  &quot;KEYCODE_LEFT_BRACKET&quot;
+•    72 --&gt;  &quot;KEYCODE_RIGHT_BRACKET&quot;
+•    73 --&gt;  &quot;KEYCODE_BACKSLASH&quot;
+•    74 --&gt;  &quot;KEYCODE_SEMICOLON&quot;
+•    75 --&gt;  &quot;KEYCODE_APOSTROPHE&quot;
+•    76 --&gt;  &quot;KEYCODE_SLASH&quot;
+•    77 --&gt;  &quot;KEYCODE_AT&quot;
+•    78 --&gt;  &quot;KEYCODE_NUM&quot;
+•    79 --&gt;  &quot;KEYCODE_HEADSETHOOK&quot;
+•    80 --&gt;  &quot;KEYCODE_FOCUS&quot;
+•    81 --&gt;  &quot;KEYCODE_PLUS&quot;
+•    82 --&gt;  &quot;KEYCODE_MENU&quot;
+•    83 --&gt;  &quot;KEYCODE_NOTIFICATION&quot;
+•    84 --&gt;  &quot;KEYCODE_SEARCH&quot;
+•    85 --&gt;  &quot;TAG_LAST_KEYCODE&quot;
+</code></pre><h2 id="Android输入系统的工作原理"><a href="#Android输入系统的工作原理" class="headerlink" title="Android输入系统的工作原理"></a>Android输入系统的工作原理</h2><p>就是监控/dev/input/下所有设备节点，当某个节点有数据可读时，将数据读出并进行一系列的翻译加工，然后在所有的窗口中寻找合适的事件接受者，并派发给它。</p>
+<h2 id="INotify-与-Epoll"><a href="#INotify-与-Epoll" class="headerlink" title="INotify 与 Epoll"></a>INotify 与 Epoll</h2><h3 id="INotify"><a href="#INotify" class="headerlink" title="INotify"></a>INotify</h3><p>INotify是linux提供的一种文件系统变化通知机制。INotify机制有两个对象，分别为inotif对象和watch对象。watch监听文件的删除创建读写等，inotify对象是通过主动轮询读取的。</p>
+<h3 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h3><p>Epoll可以使用一次等待监听多个描述符的可读/可写状态。等待返回时携带了可读的描述符或自定义的数据，使用者据此读取所需的数据后可以再次进入等待。因此不需要为每个描述符创建独立的线程进行阻塞读取，避免了资源浪费同时获得更快的响应速度。</p>
+<p>使用:</p>
+<ul>
+<li>通过epoll_create()创建一个epoll对象</li>
+<li>为需要监听的描述符填充epoll_events结构体,并使用epoll_ctl()注册到epoll对象中。</li>
+<li>epoll_wait等待事件发生</li>
+<li>epoll_wait返回epoll_events结构体数组判断事件的类型与来源并进行处理。</li>
+<li>epoll_wait等待新事件</li>
+</ul>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>当有新的设备可用的时候，现在/dev/input下，当input下新增或者删除设备的时候，INotify会通知到EventHub去读取对应的设备信息，并将对应的信息发送给对应的window。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -375,6 +552,65 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方式一</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> ObservableField&lt;String&gt; firstName = <span class="keyword">new</span> ObservableField&lt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> ObservableField&lt;String&gt; lastName = <span class="keyword">new</span> ObservableField&lt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> ObservableInt age = <span class="keyword">new</span> ObservableInt();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//方式二</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">BaseObservable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String firstName;</span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bindable</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getFirstName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.firstName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bindable</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getLastName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.lastName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFirstName</span><span class="params">(String firstName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.firstName = firstName;</span><br><span class="line">        notifyPropertyChanged(BR.firstName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLastName</span><span class="params">(String lastName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.lastName = lastName;</span><br><span class="line">        notifyPropertyChanged(BR.lastName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="4-生成activitybinding实例并绑定"><a href="#4-生成activitybinding实例并绑定" class="headerlink" title="4 生成activitybinding实例并绑定"></a>4 生成activitybinding实例并绑定</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">   <span class="comment">//获取bind并设置data</span></span><br><span class="line">   MainActivityBinding binding = DataBindingUtil.setContentView(<span class="keyword">this</span>, R.layout.activity_main);</span><br><span class="line">   User user = <span class="keyword">new</span> User(<span class="string">"Test"</span>, <span class="string">"User"</span>);</span><br><span class="line">   binding.setUser(user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="当数据发生变化时"><a href="#当数据发生变化时" class="headerlink" title="当数据发生变化时"></a>当数据发生变化时</h3><p>会以消息队列的方式发送给对应的activitybinding实例去更新对应的view的值，并进行重新绑定。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-Apk二次打包" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/Apk二次打包/" class="article-date">
+  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/05/Apk二次打包/">
+        Apk二次打包
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
+<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
+<li>添加方法记得修改被注入方法的寄存器个数</li>
+</ul>
+<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -539,65 +775,6 @@
 <li>v3        p1        the second parameter register   第二个参数寄存器</li>
 <li>v4        p2        the third parameter register   第三个参数寄存器</li>
 </ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Apk二次打包" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/Apk二次打包/" class="article-date">
-  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/Apk二次打包/">
-        Apk二次打包
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
-<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
-<li>添加方法记得修改被注入方法的寄存器个数</li>
-</ul>
-<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -855,117 +1032,9 @@
 
 
   
-    <article id="post-java GC" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/17/java GC/" class="article-date">
-  	<time datetime="2018-04-16T16:00:00.000Z" itemprop="datePublished">2018-04-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/17/java GC/">
-        java GC
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="java-GC"><a href="#java-GC" class="headerlink" title="java GC"></a>java GC</h1><p>Java程序不用像C++程序在程序中自行处理内存的回收释放。这是因为Java在JVM虚拟机上增加了垃圾回收(GC)机制，用以在合适的时间触发垃圾回收，将不需要的内存空间回收释放，避免无限制的内存增长导致的OOM。</p>
-<p>由于Java堆是Java中最大的一块内存区域，主要用来存储各种类的实例对象，GC主要回收的也是Java堆中的内存。</p>
-<h2 id="堆中新生代和老年代两块区域"><a href="#堆中新生代和老年代两块区域" class="headerlink" title="堆中新生代和老年代两块区域"></a>堆中新生代和老年代两块区域</h2><p>新生代和老年代所占的内存比例默认是1:2(JDK1.6,该值可以通过参数 –XX:NewRatio 来指定)。</p>
-<p>还有一个持久代，用于存放静态文件（class类、方法）和常量等。持久代对垃圾回收没有显著影响，但是有些应用可能动态生成或者调用一些class，例如Hibernate 等，在这种时候需要设置一个比较大的持久代空间来存放这些运行过程中新增的类。对永久代的回收主要回收两部分内容：废弃常量和无用的类。永久代空间在Java SE8特性中已经被移除。取而代之的是元空间（MetaSpace）。</p>
-<h2 id="GC-触发"><a href="#GC-触发" class="headerlink" title="GC 触发"></a>GC 触发</h2><ul>
-<li>1 对象优先分配到新生代的Eden区，当不够空间的时候进行一次Minor GC，清理频率很高。</li>
-<li>2 Full GC发生在老年代，当不够空间的时候进行一次Full GC，伴随着也会进行一次Minor GC。</li>
-<li>3 进行Minor GC时，会判断每次变成晋升到老年代的对象平均值是否大于老年代剩余空间，如果大于，则进行一次Full GC，如果小于就会去判断HandlePromotionFailure设置是否允许担保失败，如果允许，则进行Minor GC，不允许则改为Full GC。</li>
-</ul>
-<h2 id="堆内存的GC特点"><a href="#堆内存的GC特点" class="headerlink" title="堆内存的GC特点"></a>堆内存的GC特点</h2><ul>
-<li>1 对象优先在Eden分配。</li>
-<li>2 大对象直接进入老年代。</li>
-<li>3 长期存活的对象将进入老年代。</li>
-</ul>
-<h2 id="新生代"><a href="#新生代" class="headerlink" title="新生代"></a>新生代</h2><p>新生代又分为：Eden、From Survivor、To Survivor三个区域。Eden : from : to = 8 : 1 : 1(可以通过参数 –XX:SurvivorRatio 来设定).</p>
-<p>JVM 每次只会使用 Eden 和其中的一块 Survivor 区域来为对象服务，所以无论什么时候，总是有一块 Survivor 区域是空闲着的。因此，新生代实际可用的内存空间为 9/10 ( 即90% )的新生代空间。</p>
-<h2 id="老年代"><a href="#老年代" class="headerlink" title="老年代"></a>老年代</h2><h2 id="GC分类"><a href="#GC分类" class="headerlink" title="GC分类"></a>GC分类</h2><p>GC 分为两种：Minor GC、Full GC ( 或称为 Major GC )。</p>
-<h2 id="Minor-GC"><a href="#Minor-GC" class="headerlink" title="Minor GC"></a>Minor GC</h2><p>Minor GC是发生在新生代中的垃圾收集动作，所采用的是复制算法。</p>
-<p>复制算法的思想是将内存分成大小相等的两块区域(survivor0,survivor1)，每次使用其中的一块。当这一块的内存用完了，就将还存活的对象复制到另一块区域上，然后对该块进行内存回收。</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-04-17%20%E4%B8%8B%E5%8D%889.31.06.png" alt=""></p>
-<p>对象诞生在Eden中的一块区域-&gt;一次GC后,将Eden中还存活的对象放到from区域，并清理Eden区域，如果存货对象年龄+1，就这样每次GC一次就将存活的对象拷贝到frome区域，如果from区满了，就将from并将对应对象的年龄+1，当加到15(默认)，这些对象就会成为老年代。</p>
-<p>但这也不是一定的，对于一些较大的对象 ( 即需要分配一块较大的连续内存空间 ) 则是直接进入到老年代。</p>
-<h2 id="Full-GC"><a href="#Full-GC" class="headerlink" title="Full GC"></a>Full GC</h2><p>Full GC 是发生在老年代的垃圾收集动作，所采用的是标记-清除算法，标记-整理算法。</p>
-<h3 id="标记"><a href="#标记" class="headerlink" title="标记"></a>标记</h3><p>将不可达对象，null或者没有引用的对象标记。</p>
-<h3 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h3><p>在标记阶段将标记出需要回收的对象空间，然后在下一个阶段清除阶段里面，将这些标记出来的对象空间回收掉。这种算法有两个主要问题：一个是标记和清除的效率不高，另一个问题是在清理之后会产生大量不连续的内存碎片，这样会导致在分配大对象时候无法找到足够的连续内存而触发另一次垃圾收集动作。</p>
-<h3 id="标记整理"><a href="#标记整理" class="headerlink" title="标记整理"></a>标记整理</h3><p>标记-整理(Mark-Compact)算法有效预防了标记-清除算法中可能产生过多内存碎片的问题。在标记需要回收的对象以后，它会将所有存活的对象空间挪到一起，然后再执行清理。</p>
-<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p>并行（Parallel）：指多条垃圾收集线程并行工作，但此时用户线程仍然处于等待状态。</p>
-<p>并发（Concurrent）：指用户线程与垃圾收集线程同时执行（但不一定是并行的，可能会交替执行），用户程序在继续运行。而垃圾收集程序运行在另一个CPU上。</p>
-<p>吞吐量 = 运行用户代码时间 /（运行用户代码时间 + 垃圾收集时间）。</p>
-<h3 id="新生代收集器"><a href="#新生代收集器" class="headerlink" title="新生代收集器"></a>新生代收集器</h3><ul>
-<li>1 Serial收集器：最老的一个单线程收集器，更重要的是它在进行垃圾收集时，必须暂停其他所有的工作线程，直至Serial收集器收集结束为止（“Stop The World”）。</li>
-<li>2 ParNew 收集器：ParNew收集器就是Serial收集器的多线程版本</li>
-<li>3 Parallel Scavenge 收集器：Parallel Scavenge收集器的目标是达到一个可控制的吞吐量，停顿时间越短就越适合需要与用户交互的程序，良好的响应速度能提升用户体验</li>
-</ul>
-<h3 id="老年代收集器"><a href="#老年代收集器" class="headerlink" title="老年代收集器"></a>老年代收集器</h3><ul>
-<li>1 Serial Old 是 Serial收集器的老年代版本，它同样是一个单线程收集器。</li>
-<li>2 Parallel Old收集器：Parallel Old收集器是Parallel Scavenge收集器的老年代版本。</li>
-<li>3 CMS收集器：CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时间为目标的收集器，它非常符合那些集中在互联网站或者B/S系统的服务端上的Java应用，这些应用都非常重视服务的响应速度。</li>
-</ul>
-<h2 id="JVM-Dalvik-ART"><a href="#JVM-Dalvik-ART" class="headerlink" title="JVM Dalvik ART"></a>JVM Dalvik ART</h2><h3 id="Dalvik"><a href="#Dalvik" class="headerlink" title="Dalvik"></a>Dalvik</h3><p>Dalvik虚拟机是Google等厂商合作开发的Android移动设备平台的核心组成部分之一。它可以支持已转换为.dex（即Dalvik Executable）格式的Java应用程序的运行，.dex格式是专为Dalvik设计的一种压缩格式，适合内存和处理器速度有限的系统。（dx 是一套工具，可以将 Java .class 转换成 .dex 格式. 一个dex档通常会有多个.class。由于dex有时必须进行最佳化，会使档案大小增加1-4倍，以ODEX结尾。） </p>
-<h4 id="DVM如何运行java"><a href="#DVM如何运行java" class="headerlink" title="DVM如何运行java"></a>DVM如何运行java</h4><ul>
-<li>1 JVM字节码由.class文件组成，每个文件一个class。</li>
-<li>2 JVM在运行的时候为每一个类装载字节码。相反的，Dalvik程序只包含一个或多个.dex文件，这个文件包含了程序中所有的类。</li>
-<li>3 Java编译器创建了JVM字节码之后，Dalvik的dx编译器删除.class文件，重新把它们编译成Dalvik字节码，然后把它们写进一个.dex文件中。　　</li>
-</ul>
-<h4 id="Dalvik与JVM区别"><a href="#Dalvik与JVM区别" class="headerlink" title="Dalvik与JVM区别"></a>Dalvik与JVM区别</h4><ul>
-<li>1 Dalvik 基于寄存器，而 JVM 基于栈。基于寄存器的虚拟机对于更大的程序来说，在它们编译的时候，花费的时间更短。</li>
-<li>2 Dalvik执行.dex格式的字节码，而JVM执行.class格式的字节码。</li>
-<li>3 Dalvik 和 Java SDK的SDK不同</li>
-<li>4 Dalvik 经过优化，允许在有限的内存中同时运行多个虚拟机的实例，并且每一个Dalvik 应用作为一个独立的Linux 进程执行。独立的进程可以防止在虚拟机崩溃的时候所有程序都被关闭。</li>
-<li>5 Dalvik虚拟机有自己的 bytecode，并非使用 java bytecode</li>
-</ul>
-<h3 id="ART"><a href="#ART" class="headerlink" title="ART"></a>ART</h3><p>Android 4.4发布了一个ART运行时，准备用来替换掉之前一直使用的Dalvik虚拟机.</p>
-<p>ART 的机制与 Dalvik 不同。在Dalvik下，应用每次运行的时候，字节码都需要通过即时编译器（just in time ，JIT）转换为机器码，这会拖慢应用的运行效率，而在ART 环境中，应用在第一次安装的时候，字节码就会预先编译成机器码，使其成为真正的本地应用。这个过程叫做预编译（AOT,Ahead-Of-Time）。这样的话，应用的启动(首次)和执行都会变得更加快速。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
   
 </div>

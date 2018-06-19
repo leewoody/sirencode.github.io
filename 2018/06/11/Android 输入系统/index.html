@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 输入系统 | Diablo</title>
+
+  <!-- keywords -->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android 输入系统输入系统的框架  Linux内核-接受输入设备的中断，并将原始事件的数据写入设备节点中。 设备节点，作为内核与IMS的桥梁，它将原始事件的数据暴露给用户空间，以便IMS可以从中读取事件。 IMS,一个Android系统服务，它分为Java层和native层两部分。java层负责与WMS通信，而native层则是InputReader和InputDispatcher两个输入系">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 输入系统">
+<meta property="og:url" content="https://github.com/sirencode/2018/06/11/Android 输入系统/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="Android 输入系统输入系统的框架  Linux内核-接受输入设备的中断，并将原始事件的数据写入设备节点中。 设备节点，作为内核与IMS的桥梁，它将原始事件的数据暴露给用户空间，以便IMS可以从中读取事件。 IMS,一个Android系统服务，它分为Java层和native层两部分。java层负责与WMS通信，而native层则是InputReader和InputDispatcher两个输入系">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/android_input.png">
+<meta property="og:updated_time" content="2018-06-19T05:51:04.531Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 输入系统">
+<meta name="twitter:description" content="Android 输入系统输入系统的框架  Linux内核-接受输入设备的中断，并将原始事件的数据写入设备节点中。 设备节点，作为内核与IMS的桥梁，它将原始事件的数据暴露给用户空间，以便IMS可以从中读取事件。 IMS,一个Android系统服务，它分为Java层和native层两部分。java层负责与WMS通信，而native层则是InputReader和InputDispatcher两个输入系">
+<meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/android_input.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Android 输入系统" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/11/Android 输入系统/" class="article-date">
+  	<time datetime="2018-06-10T16:00:00.000Z" itemprop="datePublished">2018-06-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 输入系统
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-输入系统"><a href="#Android-输入系统" class="headerlink" title="Android 输入系统"></a>Android 输入系统</h1><h2 id="输入系统的框架"><a href="#输入系统的框架" class="headerlink" title="输入系统的框架"></a>输入系统的框架</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/android_input.png" alt=""></p>
+<ul>
+<li>Linux内核-接受输入设备的中断，并将原始事件的数据写入设备节点中。</li>
+<li>设备节点，作为内核与IMS的桥梁，它将原始事件的数据暴露给用户空间，以便IMS可以从中读取事件。</li>
+<li>IMS,一个Android系统服务，它分为Java层和native层两部分。java层负责与WMS通信，而native层则是InputReader和InputDispatcher两个输入系统关键组件的运行容器。</li>
+<li>EventHub,直接访问所有设备节点。通过getEvents()的函数将所有输入系统相关的待处理的底层事件返回给使用者。包括设备节点的增删。</li>
+<li>InputReader，它运行于一个独立的线程中，负责管理输入设备的列表于配置，以及进行输入事件的加工处理。它通过其他线程循环不断地通过getEvents函数从EventHub中将事件取出并进行处理。对于设备节点的增删事件，它会更新输入设备列表与配置。对于原始输入事件，InputReader对其进行翻译，组装，封装为包含更多信息，更具可读性的输入事件，然后交给InputDispatcher进行派发。</li>
+<li>InputReaderPolicy,它为InputReader的事件加工处理提供一些策略配置，例如键盘布局信息等。</li>
+<li>InputDispatcher，它运行于独立线程中，InputDispatcher中保管了来自WMS的所有窗口的信息，其收到来自InputReader的输入事件后，会在其保管的窗口中寻找合适的窗口，并将事件派发给他们。</li>
+<li>InputDispatcherPolicy，它为InputDispatcher的派发过程提供策略控制。例如截取某些特定的输入事件用作特殊用途，或者阻止将某些事件派发给目标窗口。一个典型的例子就是Home键被InputDispatcherPolicy截取到PhoneWindowManager中进行处理，并阻止窗口收到Home键的事件。</li>
+<li>WMS, 当新建窗口时，WMS为新窗口和IMS创建了事件传递所用的通道。另外WMS还将所有窗口的信息，包括窗口的可点击区域，焦点窗口等信息，实时的更新到IMS的InputDispatcher中，使得InputDispatcher可以正确地将事件派发到指定窗口。</li>
+<li>ViewRootImpl，对某些窗口，如壁纸窗口，surfaceview窗口来说，窗口就是输入事件派发的终点。而对其他activity，对话框等使用了Android控件系统的窗口来说，输入事件的终点是view。ViewRootImpl将窗口所接收的输入事件沿着控件数将事件派发给感兴趣的控件。</li>
+</ul>
+<h3 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h3><p>输入设备和输入事件</p>
+<p>输入设备：触摸屏，键盘以及外接设备。当输入设备可用的时，Linux就会在/dev/input/ 下创建对应的名为event0~n，当输入设备不可用时，则会将对应的节点删除。用户空间可以通过ioctl的方式从这些设备节点中获取其对应的输入涉笔的类型，厂商，描述等信息。</p>
+<h4 id="getevent-与-sendevent"><a href="#getevent-与-sendevent" class="headerlink" title="getevent 与 sendevent"></a>getevent 与 sendevent</h4><p>Android 系统提供了getevent和setevent两个工具共开发者从设备节点中直接读取输入事件或写入事件。</p>
+<p>原始事件的四项基本元素：</p>
+<ul>
+<li>时间戳</li>
+<li>类型</li>
+<li>代码</li>
+<li>值</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell getevent[-选项] [device_path]</span><br><span class="line">$ adb shell sendevent &lt;节点路径&gt; &lt;类型&gt; &lt;代码&gt; &lt;值&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="模拟输入事件"><a href="#模拟输入事件" class="headerlink" title="模拟输入事件"></a>模拟输入事件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell input keyevent XX</span><br></pre></td></tr></table></figure>
+<pre><code>•    0 --&gt;  &quot;KEYCODE_UNKNOWN&quot;
+•    1 --&gt;  &quot;KEYCODE_MENU&quot;
+•    2 --&gt;  &quot;KEYCODE_SOFT_RIGHT&quot;
+•    3 --&gt;  &quot;KEYCODE_HOME&quot;
+•    4 --&gt;  &quot;KEYCODE_BACK&quot;
+•    5 --&gt;  &quot;KEYCODE_CALL&quot;
+•    6 --&gt;  &quot;KEYCODE_ENDCALL&quot;
+•    7 --&gt;  &quot;KEYCODE_0&quot;
+•    8 --&gt;  &quot;KEYCODE_1&quot;
+•    9 --&gt;  &quot;KEYCODE_2&quot;
+•    10 --&gt;  &quot;KEYCODE_3&quot;
+•    11 --&gt;  &quot;KEYCODE_4&quot;
+•    12 --&gt;  &quot;KEYCODE_5&quot;
+•    13 --&gt;  &quot;KEYCODE_6&quot;
+•    14 --&gt;  &quot;KEYCODE_7&quot;
+•    15 --&gt;  &quot;KEYCODE_8&quot;
+•    16 --&gt;  &quot;KEYCODE_9&quot;
+•    17 --&gt;  &quot;KEYCODE_STAR&quot;
+•    18 --&gt;  &quot;KEYCODE_POUND&quot;
+•    19 --&gt;  &quot;KEYCODE_DPAD_UP&quot;
+•    20 --&gt;  &quot;KEYCODE_DPAD_DOWN&quot;
+•    21 --&gt;  &quot;KEYCODE_DPAD_LEFT&quot;
+•    22 --&gt;  &quot;KEYCODE_DPAD_RIGHT&quot;
+•    23 --&gt;  &quot;KEYCODE_DPAD_CENTER&quot;
+•    24 --&gt;  &quot;KEYCODE_VOLUME_UP&quot;
+•    25 --&gt;  &quot;KEYCODE_VOLUME_DOWN&quot;
+•    26 --&gt;  &quot;KEYCODE_POWER&quot;
+•    27 --&gt;  &quot;KEYCODE_CAMERA&quot;
+•    28 --&gt;  &quot;KEYCODE_CLEAR&quot;
+•    29 --&gt;  &quot;KEYCODE_A&quot;
+•    30 --&gt;  &quot;KEYCODE_B&quot;
+•    31 --&gt;  &quot;KEYCODE_C&quot;
+•    32 --&gt;  &quot;KEYCODE_D&quot;
+•    33 --&gt;  &quot;KEYCODE_E&quot;
+•    34 --&gt;  &quot;KEYCODE_F&quot;
+•    35 --&gt;  &quot;KEYCODE_G&quot;
+•    36 --&gt;  &quot;KEYCODE_H&quot;
+•    37 --&gt;  &quot;KEYCODE_I&quot;
+•    38 --&gt;  &quot;KEYCODE_J&quot;
+•    39 --&gt;  &quot;KEYCODE_K&quot;
+•    40 --&gt;  &quot;KEYCODE_L&quot;
+•    41 --&gt;  &quot;KEYCODE_M&quot;
+•    42 --&gt;  &quot;KEYCODE_N&quot;
+•    43 --&gt;  &quot;KEYCODE_O&quot;
+•    44 --&gt;  &quot;KEYCODE_P&quot;
+•    45 --&gt;  &quot;KEYCODE_Q&quot;
+•    46 --&gt;  &quot;KEYCODE_R&quot;
+•    47 --&gt;  &quot;KEYCODE_S&quot;
+•    48 --&gt;  &quot;KEYCODE_T&quot;
+•    49 --&gt;  &quot;KEYCODE_U&quot;
+•    50 --&gt;  &quot;KEYCODE_V&quot;
+•    51 --&gt;  &quot;KEYCODE_W&quot;
+•    52 --&gt;  &quot;KEYCODE_X&quot;
+•    53 --&gt;  &quot;KEYCODE_Y&quot;
+•    54 --&gt;  &quot;KEYCODE_Z&quot;
+•    55 --&gt;  &quot;KEYCODE_COMMA&quot;
+•    56 --&gt;  &quot;KEYCODE_PERIOD&quot;
+•    57 --&gt;  &quot;KEYCODE_ALT_LEFT&quot;
+•    58 --&gt;  &quot;KEYCODE_ALT_RIGHT&quot;
+•    59 --&gt;  &quot;KEYCODE_SHIFT_LEFT&quot;
+•    60 --&gt;  &quot;KEYCODE_SHIFT_RIGHT&quot;
+•    61 --&gt;  &quot;KEYCODE_TAB&quot;
+•    62 --&gt;  &quot;KEYCODE_SPACE&quot;
+•    63 --&gt;  &quot;KEYCODE_SYM&quot;
+•    64 --&gt;  &quot;KEYCODE_EXPLORER&quot;
+•    65 --&gt;  &quot;KEYCODE_ENVELOPE&quot;
+•    66 --&gt;  &quot;KEYCODE_ENTER&quot;
+•    67 --&gt;  &quot;KEYCODE_DEL&quot;
+•    68 --&gt;  &quot;KEYCODE_GRAVE&quot;
+•    69 --&gt;  &quot;KEYCODE_MINUS&quot;
+•    70 --&gt;  &quot;KEYCODE_EQUALS&quot;
+•    71 --&gt;  &quot;KEYCODE_LEFT_BRACKET&quot;
+•    72 --&gt;  &quot;KEYCODE_RIGHT_BRACKET&quot;
+•    73 --&gt;  &quot;KEYCODE_BACKSLASH&quot;
+•    74 --&gt;  &quot;KEYCODE_SEMICOLON&quot;
+•    75 --&gt;  &quot;KEYCODE_APOSTROPHE&quot;
+•    76 --&gt;  &quot;KEYCODE_SLASH&quot;
+•    77 --&gt;  &quot;KEYCODE_AT&quot;
+•    78 --&gt;  &quot;KEYCODE_NUM&quot;
+•    79 --&gt;  &quot;KEYCODE_HEADSETHOOK&quot;
+•    80 --&gt;  &quot;KEYCODE_FOCUS&quot;
+•    81 --&gt;  &quot;KEYCODE_PLUS&quot;
+•    82 --&gt;  &quot;KEYCODE_MENU&quot;
+•    83 --&gt;  &quot;KEYCODE_NOTIFICATION&quot;
+•    84 --&gt;  &quot;KEYCODE_SEARCH&quot;
+•    85 --&gt;  &quot;TAG_LAST_KEYCODE&quot;
+</code></pre><h2 id="Android输入系统的工作原理"><a href="#Android输入系统的工作原理" class="headerlink" title="Android输入系统的工作原理"></a>Android输入系统的工作原理</h2><p>就是监控/dev/input/下所有设备节点，当某个节点有数据可读时，将数据读出并进行一系列的翻译加工，然后在所有的窗口中寻找合适的事件接受者，并派发给它。</p>
+<h2 id="INotify-与-Epoll"><a href="#INotify-与-Epoll" class="headerlink" title="INotify 与 Epoll"></a>INotify 与 Epoll</h2><h3 id="INotify"><a href="#INotify" class="headerlink" title="INotify"></a>INotify</h3><p>INotify是linux提供的一种文件系统变化通知机制。INotify机制有两个对象，分别为inotif对象和watch对象。watch监听文件的删除创建读写等，inotify对象是通过主动轮询读取的。</p>
+<h3 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h3><p>Epoll可以使用一次等待监听多个描述符的可读/可写状态。等待返回时携带了可读的描述符或自定义的数据，使用者据此读取所需的数据后可以再次进入等待。因此不需要为每个描述符创建独立的线程进行阻塞读取，避免了资源浪费同时获得更快的响应速度。</p>
+<p>使用:</p>
+<ul>
+<li>通过epoll_create()创建一个epoll对象</li>
+<li>为需要监听的描述符填充epoll_events结构体,并使用epoll_ctl()注册到epoll对象中。</li>
+<li>epoll_wait等待事件发生</li>
+<li>epoll_wait返回epoll_events结构体数组判断事件的类型与来源并进行处理。</li>
+<li>epoll_wait等待新事件</li>
+</ul>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>当有新的设备可用的时候，现在/dev/input下，当input下新增或者删除设备的时候，INotify会通知到EventHub去读取对应的设备信息，并将对应的信息发送给对应的window。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/06/16/dir505 科学上网/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          dir505 科学上网
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/05/24/正则表达式/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">正则表达式</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="Android 输入系统" data-title="Android 输入系统" data-url="https://github.com/sirencode/2018/06/11/Android 输入系统/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 输入系统">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>
