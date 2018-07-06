@@ -162,6 +162,60 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-清空Android studio配置" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/19/清空Android studio配置/" class="article-date">
+  	<time datetime="2016-10-18T16:00:00.000Z" itemprop="datePublished">2016-10-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/19/清空Android studio配置/">
+        清空Android studio配置
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">rm -Rf /Applications/Android\ Studio.app</span><br><span class="line">rm -Rf ~/Library/Preferences/AndroidStudio*</span><br><span class="line">rm ~/Library/Preferences/com.google.android.studio.plist</span><br><span class="line">rm -Rf ~/Library/Application\ Support/AndroidStudio*</span><br><span class="line">rm -Rf ~/Library/Logs/AndroidStudio*</span><br><span class="line">rm -Rf ~/Library/Caches/AndroidStudio*</span><br><span class="line">rm -Rf .AndroidStudio*</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-gradle 常用配置" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1402,88 +1456,6 @@ protected void onDestroy() {
 }
 }
 </code></pre>
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-事件总线" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/09/01/事件总线/" class="article-date">
-  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/01/事件总线/">
-        事件总线
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。</p>
-<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。</p>
-<p>通常我们在activity,service，fragment之间通信时，一般有以下几种方案：</p>
-<ul>
-<li>1 广播，使用起来比较麻烦。</li>
-<li>2 回调，增加了代码之间的耦合。</li>
-</ul>
-<p>事件总线框架, 它简化了Activity、Fragment、Service等组件之间的交互，很大程度上降低了它们之间的耦合，使得我们的代码更加简洁，耦合性更低，提升我们的代码质量。</p>
-<h3 id="主流事件总线的对比"><a href="#主流事件总线的对比" class="headerlink" title="主流事件总线的对比"></a>主流事件总线的对比</h3><p>1 otto框架，通过反射机制来实现的方法查找，并且是运行时的反射，效率较低，速度较慢。</p>
-<p>2 eventbus框架（3.0以上版本），也是通过反射机制实现，但是编译的时候生成新的class，对运行速度影响不大，效率较高。</p>
-<p>3 rxbus,自己结合rxjava实现的框架，简单实用，但是要考虑多种场景的处理情况，编写起来有很大的工作量。</p>
-<h3 id="EventBus使用"><a href="#EventBus使用" class="headerlink" title="EventBus使用"></a>EventBus使用</h3><p>1 添加依赖</p>
-<pre><code>compile &apos;org.greenrobot:eventbus:3.0.0&apos;
-</code></pre><p>2 定义event</p>
-<pre><code>public class MessageEvent { /* Additional fields if needed */ }
-</code></pre><p>3 发送者：</p>
-<pre><code>eventBus.post(event);
-</code></pre><p>4 接收者：</p>
-<pre><code>//注册
-eventBus.register(this);
-
-//接收方法
-@Subscribe  
-public void onEvent(AnyEventType event) {/* Do something */};
-
-//解除注册
-eventBus.unregister(this);
-</code></pre><p>5 确保在事件发送前注册，并处理接收方法。</p>
-
       
     </div>
     

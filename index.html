@@ -162,6 +162,85 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android 模块化 " class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/06/Android 模块化 /" class="article-date">
+  	<time datetime="2018-07-05T16:00:00.000Z" itemprop="datePublished">2018-07-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/06/Android 模块化 /">
+        Android 模块化
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-模块化"><a href="#Android-模块化" class="headerlink" title="Android 模块化"></a>Android 模块化</h1><p>背景，当我们的项目的业务随着时间的推移越来越多越来越复杂，有时候只是想测试一下或者修改一下相对简单的功能，也需要等待相对漫长的编译时间，以及各种跳转依赖的处理。为了使相对独立的模块相对快速的开发，我们决定事实模块化，可以单独打包对应的模块。</p>
+<h2 id="整体的思路"><a href="#整体的思路" class="headerlink" title="整体的思路"></a>整体的思路</h2><p>主项目全量打包，包含所有的功能以及连贯的前后业务逻辑。实现模块化后的独立模块可以实现单独打包开发对应的功能。</p>
+<h2 id="模块化的流程"><a href="#模块化的流程" class="headerlink" title="模块化的流程"></a>模块化的流程</h2><p>首先模块化的目的确定了，在模块化的过程中的原则就是尽量不要修改主项目的代码。首先将模块的代码从主项目中抽离出来，并进行全功能测试以及主项目的集成测试，最后删除主项目中移除的对应的代码。</p>
+<h3 id="第一步新建独立模块的app引导"><a href="#第一步新建独立模块的app引导" class="headerlink" title="第一步新建独立模块的app引导"></a>第一步新建独立模块的app引导</h3><p>MyModuleAPP模块：我的模块的引导程序。</p>
+<p>new- &gt;android lib -&gt; build配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if(myAsApp.toBoolean()) &#123;</span><br><span class="line">    apply plugin: 'com.android.application'</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    apply plugin: 'com.android.library'</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置全局的myAsApp变量控制MyModuleAPP是作为lib还是app编译：</p>
+<p>gradle.properties:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myAsApp=true</span><br></pre></td></tr></table></figure>
+<h3 id="将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule"><a href="#将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule" class="headerlink" title="将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule"></a>将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule</h3><p>注意：</p>
+<ul>
+<li>1 在抽离相关代码的时候记得重命名抽离的资源文件，防止主项目依赖的时候资源冲突。</li>
+<li>2 尽量少使用butterknife,因为在lib依赖的时候会有很多bug。</li>
+<li>3 当将代码从app抽离出到lib，资源会从常量变为变量。</li>
+</ul>
+<h3 id="公共代码抽离"><a href="#公共代码抽离" class="headerlink" title="公共代码抽离"></a>公共代码抽离</h3><ul>
+<li>1 登录相关的代码抽离出来供所有独立模块使用。</li>
+<li>2 api相关抽离。</li>
+<li>3 公共库依赖。</li>
+</ul>
+<h3 id="数据同步"><a href="#数据同步" class="headerlink" title="数据同步"></a>数据同步</h3><ul>
+<li>1 配置文件放到公共库。</li>
+<li>2 lib访问app数据的时候时候使用<a href="https://sirencode.github.io/2018/02/26/%E5%AD%90%E6%A8%A1%E5%9D%97%E8%AE%BF%E9%97%AEapp%E6%A8%A1%E5%9D%97/" target="_blank" rel="noopener">bridge</a></li>
+<li>3 lib跳转app使用apt路由ARouter。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-dir505 科学上网" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -577,10 +656,10 @@
 
 
   
-    <article id="post-Apk二次打包" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-逆向-small语法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/Apk二次打包/" class="article-date">
+      <a href="/2018/05/05/逆向-small语法/" class="article-date">
   	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
@@ -594,8 +673,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/Apk二次打包/">
-        Apk二次打包
+      <a class="article-title" href="/2018/05/05/逆向-small语法/">
+        逆向-small语法
         
       </a>
     </h1>
@@ -606,11 +685,41 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
-<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
-<li>添加方法记得修改被注入方法的寄存器个数</li>
+        <h1 id="逆向-small语法"><a href="#逆向-small语法" class="headerlink" title="逆向-small语法"></a>逆向-small语法</h1><p>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>Dalvik的字节码中拥有两个主要的类型：基类和引用类型。引用类型是对象和数组，其他的一切都是基类。</p>
+<h3 id="基类"><a href="#基类" class="headerlink" title="基类"></a>基类</h3><p>基类对照：</p>
+<ul>
+<li>V        空类型—仅仅可以用来作为返回类型</li>
+<li>Z        Boolean 布尔型</li>
+<li>B        Byte字节型</li>
+<li>S        Short短整型（16位）</li>
+<li>C        Char字符型</li>
+<li>I        Int 整形</li>
+<li>J        long (64 bits)长整型（64位）</li>
+<li>F        Float浮点型</li>
+<li>D        double (64 bits)双精度型（64位）</li>
 </ul>
-<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>对象采用这样的形式Lpackage/name/ObjectName—开始的L表明这是一个对象类型，package/name/就是该对象，对象名是是对象的名称，并且分号表明对象名的结束。</p>
+<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>格式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.class &lt; 访问权限&gt; [ 修饰关键字] &lt; 类名&gt;  </span><br><span class="line">.<span class="keyword">super</span> &lt; 父类名&gt;  </span><br><span class="line">.source &lt;源文件名&gt;  </span><br><span class="line"><span class="comment">//</span></span><br><span class="line">.class <span class="keyword">public</span> La/b/a/a;</span><br><span class="line">.<span class="keyword">super</span> Ljava/lang/Object;</span><br><span class="line">.source <span class="string">"SourceFile"</span></span><br></pre></td></tr></table></figure>
+<h2 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># static fields  </span><br><span class="line">.field &lt; 访问权限&gt; <span class="keyword">static</span> [ 修饰关键字] &lt; 字段名&gt;:&lt; 字段类型&gt;  </span><br><span class="line"># instance fields  </span><br><span class="line">.field &lt; 访问权限&gt; [ 修饰关键字] &lt; 字段名&gt;:&lt; 字段类型&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>格式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># direct methods                //添加的注释  </span><br><span class="line">.method &lt;访问权限&gt; [ 修饰关键字] &lt; 方法原型&gt;  </span><br><span class="line">    &lt;.locals&gt;                 <span class="comment">//指定了使用的局部变量的个数  </span></span><br><span class="line"> [.parameter]                   <span class="comment">//指定了方法的参数  </span></span><br><span class="line"> [.prologue]                    <span class="comment">//指定了代码的开始处，混淆过的代码可能去掉了该指令  </span></span><br><span class="line"> [.line]                    <span class="comment">//指定了该处指令在源代码中的行号  </span></span><br><span class="line">&lt;代码体&gt;  </span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
+<p>Java虚方法你可以理解为java里所有被overriding的方法都是virtual的,所有重写的方法都是override的。虚方法的声明与直接方法相同，只是起始处的注释为“virtual methods”。</p>
+<h3 id="方法调用格式："><a href="#方法调用格式：" class="headerlink" title="方法调用格式："></a>方法调用格式：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lpackage/name/ObjectName;-&gt;MethodName(III)Z</span><br></pre></td></tr></table></figure>
+<p> Lpackage/name/ObjectName; 是一个类， MethodName明显是一个方法名，‘III’在这个例子中是三个整形参数，Z是表示返回一个布尔类型的返回值。</p>
+<p>数组：“[I = int[]   [[I = int[][]”</p>
+<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><p>寄存器总是32位可以存放任何类型的值，2个寄存器可以用来存放64位类型（长整形和双精度型）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-virtual &#123;v0, p1, p2, p3&#125;, Ljava/beans/PropertyChangeSupport;-&gt;firePropertyChange(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V</span><br></pre></td></tr></table></figure>
+<p>对于寄存器这里有两种命名方案—标准的V命名方案和对于参数寄存器的P命名方案。</p>
+<p>以p命名的第一个寄存器就是方法中的第一个参数寄存器，所以让我们回到之前的总共拥有5个寄存器其中3个参数的例子。下表中显示了为每个寄存器的标准v命名，紧接着是为参数寄存器的p命名</p>
+<ul>
+<li>v0                 the first local register       第一个本地寄存器</li>
+<li>v1                 the second local register  第二个本地寄存器</li>
+<li>v2        p0        the first parameter register   第一个参数寄存器</li>
+<li>v3        p1        the second parameter register   第二个参数寄存器</li>
+<li>v4        p2        the third parameter register   第三个参数寄存器</li>
+</ul>
 
       
     </div>
@@ -711,10 +820,10 @@
 
 
   
-    <article id="post-逆向-small语法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Apk二次打包" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/逆向-small语法/" class="article-date">
+      <a href="/2018/05/05/Apk二次打包/" class="article-date">
   	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
@@ -728,8 +837,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/逆向-small语法/">
-        逆向-small语法
+      <a class="article-title" href="/2018/05/05/Apk二次打包/">
+        Apk二次打包
         
       </a>
     </h1>
@@ -740,41 +849,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="逆向-small语法"><a href="#逆向-small语法" class="headerlink" title="逆向-small语法"></a>逆向-small语法</h1><p>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</p>
-<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>Dalvik的字节码中拥有两个主要的类型：基类和引用类型。引用类型是对象和数组，其他的一切都是基类。</p>
-<h3 id="基类"><a href="#基类" class="headerlink" title="基类"></a>基类</h3><p>基类对照：</p>
-<ul>
-<li>V        空类型—仅仅可以用来作为返回类型</li>
-<li>Z        Boolean 布尔型</li>
-<li>B        Byte字节型</li>
-<li>S        Short短整型（16位）</li>
-<li>C        Char字符型</li>
-<li>I        Int 整形</li>
-<li>J        long (64 bits)长整型（64位）</li>
-<li>F        Float浮点型</li>
-<li>D        double (64 bits)双精度型（64位）</li>
+        <h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
+<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
+<li>添加方法记得修改被注入方法的寄存器个数</li>
 </ul>
-<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>对象采用这样的形式Lpackage/name/ObjectName—开始的L表明这是一个对象类型，package/name/就是该对象，对象名是是对象的名称，并且分号表明对象名的结束。</p>
-<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>格式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.class &lt; 访问权限&gt; [ 修饰关键字] &lt; 类名&gt;  </span><br><span class="line">.<span class="keyword">super</span> &lt; 父类名&gt;  </span><br><span class="line">.source &lt;源文件名&gt;  </span><br><span class="line"><span class="comment">//</span></span><br><span class="line">.class <span class="keyword">public</span> La/b/a/a;</span><br><span class="line">.<span class="keyword">super</span> Ljava/lang/Object;</span><br><span class="line">.source <span class="string">"SourceFile"</span></span><br></pre></td></tr></table></figure>
-<h2 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># static fields  </span><br><span class="line">.field &lt; 访问权限&gt; <span class="keyword">static</span> [ 修饰关键字] &lt; 字段名&gt;:&lt; 字段类型&gt;  </span><br><span class="line"># instance fields  </span><br><span class="line">.field &lt; 访问权限&gt; [ 修饰关键字] &lt; 字段名&gt;:&lt; 字段类型&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>格式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># direct methods                //添加的注释  </span><br><span class="line">.method &lt;访问权限&gt; [ 修饰关键字] &lt; 方法原型&gt;  </span><br><span class="line">    &lt;.locals&gt;                 <span class="comment">//指定了使用的局部变量的个数  </span></span><br><span class="line"> [.parameter]                   <span class="comment">//指定了方法的参数  </span></span><br><span class="line"> [.prologue]                    <span class="comment">//指定了代码的开始处，混淆过的代码可能去掉了该指令  </span></span><br><span class="line"> [.line]                    <span class="comment">//指定了该处指令在源代码中的行号  </span></span><br><span class="line">&lt;代码体&gt;  </span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
-<p>Java虚方法你可以理解为java里所有被overriding的方法都是virtual的,所有重写的方法都是override的。虚方法的声明与直接方法相同，只是起始处的注释为“virtual methods”。</p>
-<h3 id="方法调用格式："><a href="#方法调用格式：" class="headerlink" title="方法调用格式："></a>方法调用格式：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lpackage/name/ObjectName;-&gt;MethodName(III)Z</span><br></pre></td></tr></table></figure>
-<p> Lpackage/name/ObjectName; 是一个类， MethodName明显是一个方法名，‘III’在这个例子中是三个整形参数，Z是表示返回一个布尔类型的返回值。</p>
-<p>数组：“[I = int[]   [[I = int[][]”</p>
-<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><p>寄存器总是32位可以存放任何类型的值，2个寄存器可以用来存放64位类型（长整形和双精度型）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-virtual &#123;v0, p1, p2, p3&#125;, Ljava/beans/PropertyChangeSupport;-&gt;firePropertyChange(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V</span><br></pre></td></tr></table></figure>
-<p>对于寄存器这里有两种命名方案—标准的V命名方案和对于参数寄存器的P命名方案。</p>
-<p>以p命名的第一个寄存器就是方法中的第一个参数寄存器，所以让我们回到之前的总共拥有5个寄存器其中3个参数的例子。下表中显示了为每个寄存器的标准v命名，紧接着是为参数寄存器的p命名</p>
-<ul>
-<li>v0                 the first local register       第一个本地寄存器</li>
-<li>v1                 the second local register  第二个本地寄存器</li>
-<li>v2        p0        the first parameter register   第一个参数寄存器</li>
-<li>v3        p1        the second parameter register   第二个参数寄存器</li>
-<li>v4        p2        the third parameter register   第三个参数寄存器</li>
-</ul>
+<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -933,80 +1012,6 @@
 <p>×××（所有者）×××（组用户）×××（其他用户：<br>第一个rwx代表文件所有者的权限，第二个rwx代表和所有者同组人的权限，第三个rwx代表其他用户对该文件的权限。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp /data/tmp/su /system/bin/</span><br><span class="line">copy su 到/system/分区chown root:root su</span><br><span class="line"><span class="comment">#su的所有者置成root</span></span><br><span class="line">chmod 4775 /system/bin/su        </span><br><span class="line"><span class="comment">#把su置成-rwsr-xr-x</span></span><br></pre></td></tr></table></figure>
 <p>执行上面的命令也是需要root权限的，一个办法就是找一个本身已经有root权限的进程(系统进程漏洞)来启动我上面的两行代码，那我这两行代码一启动就是root权限，就可以顺利执行了。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 加固技术" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/18/Android 加固技术/" class="article-date">
-  	<time datetime="2018-04-17T16:00:00.000Z" itemprop="datePublished">2018-04-18</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/18/Android 加固技术/">
-        Android 加固技术
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-加固技术"><a href="#Android-加固技术" class="headerlink" title="Android 加固技术"></a>Android 加固技术</h1><h2 id="为什么要加固"><a href="#为什么要加固" class="headerlink" title="为什么要加固"></a>为什么要加固</h2><p>增加反编译的难度，混淆的破解难度已经不够了，因此需要做进一步的防护工作，因此加固的方案就产生。</p>
-<h2 id="加固的历史"><a href="#加固的历史" class="headerlink" title="加固的历史"></a>加固的历史</h2><p>第一代加固技术——混淆技术；</p>
-<p>第二代加固技术——加壳技术；</p>
-<p>第三代加固技术——指令抽离：即抽取 dex 文件中 DexCode 的部分结构，即虚拟机操作码。在虚拟机加载到此类的时候对 DexCode 结构进行还原。从而保证 app 能正常的运行。</p>
-<p>第四代加固技术——指令转换，即现在经常被应用的VMP加固技术。</p>
-<h2 id="加固的实现"><a href="#加固的实现" class="headerlink" title="加固的实现"></a>加固的实现</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>原理：将我们的源APK进行加密，解密的过程</p>
-<p>dex合并：采用的 VMP（虚拟软件保护技术）大概思路就是自定义一套虚拟机指令和对应的解释器，并将标准的指令转换成自己的指令，然后由解释器将自己的指令给对应的解释器。</p>
-<h3 id="加壳流程"><a href="#加壳流程" class="headerlink" title="加壳流程"></a>加壳流程</h3><p>三个对象：</p>
-<ul>
-<li>1 源APK-要加密的apk文件</li>
-<li>2 壳APK-负责对源apk解密</li>
-<li>3 加密工具-将源APK进行加密和壳Dex合并新的Dex</li>
-</ul>
-<p>主要步骤：</p>
-<ul>
-<li>1 加密算法加密源APK，生成加密的dex文件</li>
-<li>2 加密后的dex和壳apk进行合并生成新的dex文件</li>
-<li>3 新的dex替换壳程序的dex，得到新的apk,修改壳apk的checksum、signature 和file_size的信息，并且要附加加壳的apk的长度信息在dex文件中，以便我们进行解壳保证原来apk的正常运行。</li>
-</ul>
-<h3 id="脱壳流程"><a href="#脱壳流程" class="headerlink" title="脱壳流程"></a>脱壳流程</h3><p><img src="http://oc4zuck5v.bkt.clouddn.com/%E4%B8%8B%E8%BD%BD.png" alt=""></p>
 
       
     </div>
