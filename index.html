@@ -162,6 +162,72 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android 投屏" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/13/Android 投屏/" class="article-date">
+  	<time datetime="2018-07-12T16:00:00.000Z" itemprop="datePublished">2018-07-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/13/Android 投屏/">
+        Android 投屏
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-投屏"><a href="#Android-投屏" class="headerlink" title="Android 投屏"></a>Android 投屏</h1><h2 id="Vysor"><a href="#Vysor" class="headerlink" title="Vysor"></a>Vysor</h2><p><a href="https://chrome.google.com/webstore/detail/vysorcom/kdphpklacmlhmooodiekhpbepcdlaghl?utm_source=chrome-ntp-icon" target="_blank" rel="noopener">vysor</a></p>
+<p>可以通过修改配置文件的形式进行破解，但是破解后投放的影像还是有些模糊，且在一些UI细节上面存在一些瑕疵，比如有些线显示不出来。</p>
+<h2 id="Scrcpy"><a href="#Scrcpy" class="headerlink" title="Scrcpy"></a>Scrcpy</h2><p>Scrcpy本身就是免费的，且默认传输速率为8M，最高支持32M,画面相对来说非常清晰。</p>
+<h3 id="安装Scrcpy"><a href="#安装Scrcpy" class="headerlink" title="安装Scrcpy"></a>安装Scrcpy</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ brew install scrcpy</span><br><span class="line"><span class="comment"># adb</span></span><br><span class="line">$ brew cask install android-platform-tools</span><br></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><ul>
+<li>启动-scrcpy</li>
+<li>scrcpy –help ：Scrcpy 内建的帮助模式，里面也列举了 Scrcpy 的所有的附加命令。</li>
+<li>scrcpy -b Xm ：强制提升/下降 Scrcpy 的传输速率，默认速率为 8Mbps，“X” 的值小于 8 表示限制速率，大于 8 表示强制提高传输速率，速率越高代表传输的质量越高。</li>
+</ul>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>部分手机需要在开发者选项里面打开允许「模拟位置点击」</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android 模块化 " class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -656,6 +722,81 @@
 
 
   
+    <article id="post-Android 逆向工程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/Android 逆向工程/" class="article-date">
+  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/05/Android 逆向工程/">
+        Android 逆向工程
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-逆向工程"><a href="#Android-逆向工程" class="headerlink" title="Android 逆向工程"></a>Android 逆向工程</h1><h2 id="安装apktool"><a href="#安装apktool" class="headerlink" title="安装apktool"></a>安装apktool</h2><p><a href="https://ibotpeaches.github.io/Apktool/install/" target="_blank" rel="noopener">apktool官网</a></p>
+<p>安装说明</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8810.02.27.png" alt=""></p>
+<ul>
+<li>注意apktool的脚本文件不能有后缀名(sublimetext新建一个无后缀的文件之后将内容拷贝进去)</li>
+</ul>
+<h2 id="安装dex2jar"><a href="#安装dex2jar" class="headerlink" title="安装dex2jar"></a>安装dex2jar</h2><p><a href="https://github.com/pxb1988/dex2jar/releases">git下载地址</a></p>
+<p>下载zip解压待用</p>
+<h2 id="安装JD-GUI"><a href="#安装JD-GUI" class="headerlink" title="安装JD-GUI"></a>安装JD-GUI</h2><p><a href="http://jd.benow.ca/" target="_blank" rel="noopener">官网地址</a></p>
+<p>下载安装即可(mac版的请下载.jar包那个，安装包的兼容性有问题)</p>
+<h2 id="开始简单的反编译之旅"><a href="#开始简单的反编译之旅" class="headerlink" title="开始简单的反编译之旅"></a>开始简单的反编译之旅</h2><h3 id="获取xml反编译文件和smail代码"><a href="#获取xml反编译文件和smail代码" class="headerlink" title="获取xml反编译文件和smail代码"></a>获取xml反编译文件和smail代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//apk文件所在的目录</span><br><span class="line"><span class="built_in">cd</span> /User/shen/Desktop </span><br><span class="line">//获取xml反编译文件和smail代码</span><br><span class="line">apktool d demo.apk</span><br></pre></td></tr></table></figure>
+<p>等跑完，里面的资源文件就出来了，还有smail源码，你要是会读的话跟java差不多。</p>
+<p>small的语法长这样：</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.13.21.png" alt=""></p>
+<h3 id="反编译class-dex文件"><a href="#反编译class-dex文件" class="headerlink" title="反编译class.dex文件"></a>反编译class.dex文件</h3><p>将demo.apk复制一份并改后缀名为zip，然后将文件夹里的classes.dex拷贝出来，回到dex2jar 解压的目录下，将文件复制进去。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/shenyonghe/Downloads/dex-tools-2.1</span><br><span class="line">chmod +x ./* </span><br><span class="line">./d2j-dex2jar.sh classes.dex</span><br></pre></td></tr></table></figure>
+<p>这个时候文件夹下回多出一个jar文件classes-dex2jar.jar包</p>
+<p>注意有的项目会包含多个.dex文件(分包了)，因此要生成多个.jar包进行分析</p>
+<p>使用JD-GUI打开对应的classes-dex2jar.jar包</p>
+<p>打开后就是下面这个样子的阅读起来就容易多了</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.06.01.png" alt=""></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-逆向-small语法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -720,81 +861,6 @@
 <li>v3        p1        the second parameter register   第二个参数寄存器</li>
 <li>v4        p2        the third parameter register   第三个参数寄存器</li>
 </ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 逆向工程" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/Android 逆向工程/" class="article-date">
-  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/Android 逆向工程/">
-        Android 逆向工程
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-逆向工程"><a href="#Android-逆向工程" class="headerlink" title="Android 逆向工程"></a>Android 逆向工程</h1><h2 id="安装apktool"><a href="#安装apktool" class="headerlink" title="安装apktool"></a>安装apktool</h2><p><a href="https://ibotpeaches.github.io/Apktool/install/" target="_blank" rel="noopener">apktool官网</a></p>
-<p>安装说明</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8810.02.27.png" alt=""></p>
-<ul>
-<li>注意apktool的脚本文件不能有后缀名(sublimetext新建一个无后缀的文件之后将内容拷贝进去)</li>
-</ul>
-<h2 id="安装dex2jar"><a href="#安装dex2jar" class="headerlink" title="安装dex2jar"></a>安装dex2jar</h2><p><a href="https://github.com/pxb1988/dex2jar/releases">git下载地址</a></p>
-<p>下载zip解压待用</p>
-<h2 id="安装JD-GUI"><a href="#安装JD-GUI" class="headerlink" title="安装JD-GUI"></a>安装JD-GUI</h2><p><a href="http://jd.benow.ca/" target="_blank" rel="noopener">官网地址</a></p>
-<p>下载安装即可(mac版的请下载.jar包那个，安装包的兼容性有问题)</p>
-<h2 id="开始简单的反编译之旅"><a href="#开始简单的反编译之旅" class="headerlink" title="开始简单的反编译之旅"></a>开始简单的反编译之旅</h2><h3 id="获取xml反编译文件和smail代码"><a href="#获取xml反编译文件和smail代码" class="headerlink" title="获取xml反编译文件和smail代码"></a>获取xml反编译文件和smail代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//apk文件所在的目录</span><br><span class="line"><span class="built_in">cd</span> /User/shen/Desktop </span><br><span class="line">//获取xml反编译文件和smail代码</span><br><span class="line">apktool d demo.apk</span><br></pre></td></tr></table></figure>
-<p>等跑完，里面的资源文件就出来了，还有smail源码，你要是会读的话跟java差不多。</p>
-<p>small的语法长这样：</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.13.21.png" alt=""></p>
-<h3 id="反编译class-dex文件"><a href="#反编译class-dex文件" class="headerlink" title="反编译class.dex文件"></a>反编译class.dex文件</h3><p>将demo.apk复制一份并改后缀名为zip，然后将文件夹里的classes.dex拷贝出来，回到dex2jar 解压的目录下，将文件复制进去。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/shenyonghe/Downloads/dex-tools-2.1</span><br><span class="line">chmod +x ./* </span><br><span class="line">./d2j-dex2jar.sh classes.dex</span><br></pre></td></tr></table></figure>
-<p>这个时候文件夹下回多出一个jar文件classes-dex2jar.jar包</p>
-<p>注意有的项目会包含多个.dex文件(分包了)，因此要生成多个.jar包进行分析</p>
-<p>使用JD-GUI打开对应的classes-dex2jar.jar包</p>
-<p>打开后就是下面这个样子的阅读起来就容易多了</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.06.01.png" alt=""></p>
 
       
     </div>
@@ -942,76 +1008,6 @@
 <h3 id="保护对密钥库进行的密钥导入"><a href="#保护对密钥库进行的密钥导入" class="headerlink" title="保护对密钥库进行的密钥导入"></a>保护对密钥库进行的密钥导入</h3><p>Android P 增加了密钥加密的安全性，添加了利用新增的 ASN.1 编码密钥格式将已加密密钥安全导入密钥库的功能。 Keymaster 随后会在密钥库中将密钥解密，因此密钥的内容永远不会以明文形式出现在设备的主机内存中。</p>
 <h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><p>为避免无意的旋转，我们新增了一个模式，哪怕设备位置发生变化，也会固定在当前屏幕方向上。 必要时用户可以通过按系统栏上的一个新增按钮手动触发旋转。</p>
 <h2 id="兼容性问题"><a href="#兼容性问题" class="headerlink" title="兼容性问题"></a>兼容性问题</h2><h3 id="对于非-SDK-接口的限制"><a href="#对于非-SDK-接口的限制" class="headerlink" title="对于非 SDK 接口的限制"></a>对于非 SDK 接口的限制</h3><p>Android P 引入了针对非 SDK 接口的使用限制，无论是直接使用还是通过反射或 JNI 间接使用。 无论应用是引用非 SDK 接口还是尝试使用反射或 JNI 获取其句柄，均适用这些限制。 </p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android root 原理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/19/Android root 原理/" class="article-date">
-  	<time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished">2018-04-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/19/Android root 原理/">
-        Android root 原理
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-root-原理"><a href="#Android-root-原理" class="headerlink" title="Android root 原理"></a>Android root 原理</h1><p>因为Amdroid的内核是Linux的，所以Android的root和linux的获取root权限是一回事。</p>
-<h2 id="Linux获取root权限"><a href="#Linux获取root权限" class="headerlink" title="Linux获取root权限"></a>Linux获取root权限</h2><ul>
-<li>1 执行su或sudo命令切换用户</li>
-<li>2 输入管理员密码，获取root权限</li>
-</ul>
-<h2 id="Android-root"><a href="#Android-root" class="headerlink" title="Android root"></a>Android root</h2><p>首先Android系统不希望用户获取root权限，做一些破坏系统完整性的事情，所以大部分厂商发布的系统中都不会包含su这个程序。另外Android里的su不是靠验证密码的，而是看你原来的权限是什么。意思就是如果你是root，那你可以通过su切换到别的用户。</p>
-<ul>
-<li>拷贝su文件到/system/xbin或/system/bin系统分区。</li>
-<li>设置su文件所有者为root用户。</li>
-<li>设置su文件的setUID权限，便于自己的进程执行su命令获取root权限。</li>
-</ul>
-<p>大体流程：</p>
-<p>用过Linux的人都知道r代表该文件可读，w代表可写，x代表可执行，-就代表没有该权限，s代表当任何一个用户执行该文件的时候都拥有文件所有者的权限，这文件的所有者是root，简单点说就是不管谁执行这个文件，他执行的时候都是以root身份执行的。</p>
-<p>×××（所有者）×××（组用户）×××（其他用户：<br>第一个rwx代表文件所有者的权限，第二个rwx代表和所有者同组人的权限，第三个rwx代表其他用户对该文件的权限。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp /data/tmp/su /system/bin/</span><br><span class="line">copy su 到/system/分区chown root:root su</span><br><span class="line"><span class="comment">#su的所有者置成root</span></span><br><span class="line">chmod 4775 /system/bin/su        </span><br><span class="line"><span class="comment">#把su置成-rwsr-xr-x</span></span><br></pre></td></tr></table></figure>
-<p>执行上面的命令也是需要root权限的，一个办法就是找一个本身已经有root权限的进程(系统进程漏洞)来启动我上面的两行代码，那我这两行代码一启动就是root权限，就可以顺利执行了。</p>
 
       
     </div>

@@ -162,11 +162,11 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-Android 动画原理" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Gradle 依赖方式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/02/27/Android 动画原理/" class="article-date">
-  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
+      <a href="/2018/02/28/Gradle 依赖方式/" class="article-date">
+  	<time datetime="2018-02-27T16:00:00.000Z" itemprop="datePublished">2018-02-28</time>
 </a>
     </div>
   
@@ -179,8 +179,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/Android 动画原理/">
-        Android 动画原理
+      <a class="article-title" href="/2018/02/28/Gradle 依赖方式/">
+        Gradle 依赖方式
         
       </a>
     </h1>
@@ -191,29 +191,16 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Android-动画原理"><a href="#Android-动画原理" class="headerlink" title="Android 动画原理"></a>Android 动画原理</h1><h2 id="Animation-与-Transform"><a href="#Animation-与-Transform" class="headerlink" title="Animation 与 Transform"></a>Animation 与 Transform</h2><p>Animation：在给定了初始状态，结束状态，启动时间和持续时间后，Animation可以计算动画目标在任意时刻的变换（Transfirmation）,这是Animation唯一的用途。Animation考虑的是时间线效果的实现。</p>
-<p>Transfirmation：描述了一个变换。它包含两个分量：透明度和一个二维的变换矩阵（可以在二维空间中对变换目标实现平移旋转缩放,矩阵相乘可以组合实现各自的变换）。</p>
-<h2 id="动画的驱动器Choreographer"><a href="#动画的驱动器Choreographer" class="headerlink" title="动画的驱动器Choreographer"></a>动画的驱动器Choreographer</h2><p>在Animation start()的时候会创建一个Choreographer（线程唯一的）来实现动画的绘制工作。Choreographer发送一个runnable以处理一帧动画。在处理动画时，使用Animation getTransfirmation函数获取动画对象所需要进行的变换，然后根据变换对动画对象进行渲染。之后重复画下一帧直至动画结束。</p>
-<h2 id="Tween动画-Animation"><a href="#Tween动画-Animation" class="headerlink" title="Tween动画 Animation"></a>Tween动画 Animation</h2><p>原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。</p>
-<h3 id="1-startAnimation-animation"><a href="#1-startAnimation-animation" class="headerlink" title="1 startAnimation(animation);"></a>1 startAnimation(animation);</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startAnimation</span><span class="params">(Animation animation)</span> </span>&#123;</span><br><span class="line">    animation.setStartTime(Animation.START_ON_FIRST_FRAME);</span><br><span class="line">    setAnimation(animation);</span><br><span class="line">    invalidateParentCaches();</span><br><span class="line">    invalidate(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-invalidate请求View树进行重绘"><a href="#2-invalidate请求View树进行重绘" class="headerlink" title="2 invalidate请求View树进行重绘"></a>2 invalidate请求View树进行重绘</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidate</span><span class="params">(<span class="keyword">boolean</span> invalidateCache)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这里的mLeft，mRight都是相当于父View来讲的。所以这里的参数就是当前View所在的区域。</span></span><br><span class="line">    invalidateInternal(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, invalidateCache, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidateInternal</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b, <span class="keyword">boolean</span> invalidateCache,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">boolean</span> fullInvalidate)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//不需要绘制的情况（View不可见&amp;&amp;没有动画等）</span></span><br><span class="line">    <span class="keyword">if</span> (skipInvalidate()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">if</span>(condition<span class="comment">/*满足需要绘制的条件*/</span>)&#123;</span><br><span class="line">        <span class="keyword">final</span> AttachInfo ai = mAttachInfo;</span><br><span class="line">        <span class="keyword">final</span> ViewParent p = mParent;</span><br><span class="line">        <span class="keyword">if</span> (p != <span class="keyword">null</span> &amp;&amp; ai != <span class="keyword">null</span> &amp;&amp; l &lt; r &amp;&amp; t &lt; b) &#123;</span><br><span class="line">            <span class="keyword">final</span> Rect damage = ai.mTmpInvalRect;</span><br><span class="line">            damage.set(l, t, r, b);</span><br><span class="line">            p.invalidateChild(<span class="keyword">this</span>, damage);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3-调用子view的draw方法"><a href="#3-调用子view的draw方法" class="headerlink" title="3 调用子view的draw方法"></a>3 调用子view的draw方法</h3><p>Animation 实现了下面方法设置Transformation动画信息。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数是 interpolatedTime 它代表插值后的时间，第二个参数是Transformation类的实例</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">applyTransformation</span><span class="params">(<span class="keyword">float</span> interpolatedTime, Transformation t)</span></span></span><br></pre></td></tr></table></figure>
-<p>view getAnimation()获取动画信息，getTransformation获取Transformation；</p>
-<p>Transformation是一个实体类，它主要的内容是透明度和一个矩阵，动画的变化，就隐藏在Transformation之中。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">draw</span><span class="params">(Canvas canvas, ViewGroup parent, <span class="keyword">long</span> drawingTime)</span></span></span><br></pre></td></tr></table></figure>
-<p>draw中applyLegacyAnimation方法是用来获取变换的，其中有两个部分需要注意：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a.getTransformation(drawingTime, invalidationTransform, <span class="number">1f</span>);</span><br><span class="line">a.getInvalidateRegion(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, region,</span><br><span class="line">    invalidationTransform);</span><br></pre></td></tr></table></figure>
-<p>第一个就是获取变换，第二个是获取绘制无效区域。<br>其实这个无效区域是绘制后的无效区域，因为很有可能需要下次绘制(保证动画连续性)。</p>
-<p>动画的绘制：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (transformToApply != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (concatMatrix) &#123;</span><br><span class="line">        <span class="keyword">if</span> (drawingWithRenderNode) &#123;</span><br><span class="line">            renderNode.setAnimationMatrix(transformToApply.getMatrix());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            canvas.translate(-transX, -transY);</span><br><span class="line">            canvas.concat(transformToApply.getMatrix());</span><br><span class="line">            canvas.translate(transX, transY);</span><br><span class="line">        &#125;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> transformAlpha = transformToApply.getAlpha();</span><br><span class="line">    <span class="keyword">if</span> (transformAlpha &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        alpha *= transformAlpha;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>分别从硬件加速和软件绘制上　对canvas进行矩阵变换．</p>
-<h2 id="帧动画"><a href="#帧动画" class="headerlink" title="帧动画"></a>帧动画</h2><p>原理：使用了Choreographer机制.</p>
-<p>Android系统从4.1(API 16)开始加入Choreographer这个类来控制同步处理输入(Input)、动画(Animation)、绘制(Draw)三个UI操作。收到VSync信号后，顺序执行3个操作，然后等待下一个信号，再次顺序执行3个操作。</p>
-<p>AnimationDrawable继承了DrawableContainer，因为DrawableContainer是一个drawable的容器，可以保存多个图片<br>同时，实现了Runnable接口，重写了run方法,根据源码中的start方法，它调用了setFrame方法，方法内部最重要的调用就是调用了<br> scheduleSelf(this, SystemClock.uptimeMillis() + mAnimationState.mDurations[frame]);callback调用view的scheduleDrawable方法而这个方法最终会调用Choreographer.subtractFrameDelay(delay));</p>
-<h2 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h2><p>原理：使用了Choreographer机制</p>
-<p>简单的说，Chreographer是组织上层进行处理绘制的控制类，它会在每次vsync信号来临时，执行与绘制相关的过程．</p>
-<p>Animator的过程发生在绘制之前（甚至是布局之前）.</p>
+        <h1 id="Gradle-依赖方式"><a href="#Gradle-依赖方式" class="headerlink" title="Gradle 依赖方式"></a>Gradle 依赖方式</h1><h2 id="android-gradle-tools-2-X"><a href="#android-gradle-tools-2-X" class="headerlink" title="android gradle tools 2.X"></a>android gradle tools 2.X</h2><h3 id="apk"><a href="#apk" class="headerlink" title="apk"></a>apk</h3><p>只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错</p>
+<h3 id="provided"><a href="#provided" class="headerlink" title="provided"></a>provided</h3><p>Provided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。防止重复打包。</p>
+<p>V7,V4之类的不使用provided也不会导致支持包重复，依赖module编译出来的aar并不包含那些多个module（包括app module）重复使用的支持包。</p>
+<p>如果依赖module使用的style中引用了支持包（V7,V4之类的）中的主题，那么，使用provided会报错（找不到主题资源）。如果只是引用支持包中的类和接口是可以使用provided的（但意义也不大，反正也不会重复）。</p>
+<h3 id="compile"><a href="#compile" class="headerlink" title="compile"></a>compile</h3><p>compile是对所有的build type以及favlors都会参与编译并且打包到最终的apk文件中。</p>
+<h3 id="debugCompile"><a href="#debugCompile" class="headerlink" title="debugCompile"></a>debugCompile</h3><p>Debug compile 仅仅针对debug模式的编译和最终的debug apk打包。</p>
+<h3 id="releaseCompile"><a href="#releaseCompile" class="headerlink" title="releaseCompile"></a>releaseCompile</h3><p>Release compile 仅仅针对Release 模式的编译和最终的Release apk打包。</p>
+<h3 id="androidtestCompile"><a href="#androidtestCompile" class="headerlink" title="androidtestCompile"></a>androidtestCompile</h3><p>Test compile 仅仅是针对单元测试代码的编译编译以及最终打包测试apk时有效，而对正常的debug或者release apk包不起作用。</p>
+<h2 id="android-gradle-tools-3-X"><a href="#android-gradle-tools-3-X" class="headerlink" title="android gradle tools 3.X"></a>android gradle tools 3.X</h2><h3 id="runtimeOnly-apk"><a href="#runtimeOnly-apk" class="headerlink" title="runtimeOnly == apk"></a>runtimeOnly == apk</h3><h3 id="compileOnly-provided"><a href="#compileOnly-provided" class="headerlink" title="compileOnly == provided"></a>compileOnly == provided</h3><h3 id="api-compile"><a href="#api-compile" class="headerlink" title="api == compile"></a>api == compile</h3><h3 id="debugImplementation-debugCompile"><a href="#debugImplementation-debugCompile" class="headerlink" title="debugImplementation == debugCompile"></a>debugImplementation == debugCompile</h3><h3 id="releaseImplementation-releaseCompile"><a href="#releaseImplementation-releaseCompile" class="headerlink" title="releaseImplementation == releaseCompile"></a>releaseImplementation == releaseCompile</h3><h3 id="androidTestImplementation-androidtestCompile"><a href="#androidTestImplementation-androidtestCompile" class="headerlink" title="androidTestImplementation == androidtestCompile"></a>androidTestImplementation == androidtestCompile</h3><h3 id="implementation"><a href="#implementation" class="headerlink" title="implementation"></a>implementation</h3><p>implementation和compile类似，区别在于对外可见性，而且可以加快编译速度（原理在于减少不必要的重复编译过程）。</p>
+<p>只能在内部使用此模块，比如我在一个libiary中使用implementation依赖了gson库，然后我的主项目依赖了libiary，那么，我的主项目就无法访问gson库中的方法。这样的好处是编译速度会加快，推荐使用implementation的方式去依赖，如果你需要提供给外部访问，那么就使用api依赖即可</p>
 
       
     </div>
@@ -273,6 +260,83 @@
 <h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
 <h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
 <p>OkHttp底层也是通过socket实现。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-Android 动画原理" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/27/Android 动画原理/" class="article-date">
+  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/27/Android 动画原理/">
+        Android 动画原理
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-动画原理"><a href="#Android-动画原理" class="headerlink" title="Android 动画原理"></a>Android 动画原理</h1><h2 id="Animation-与-Transform"><a href="#Animation-与-Transform" class="headerlink" title="Animation 与 Transform"></a>Animation 与 Transform</h2><p>Animation：在给定了初始状态，结束状态，启动时间和持续时间后，Animation可以计算动画目标在任意时刻的变换（Transfirmation）,这是Animation唯一的用途。Animation考虑的是时间线效果的实现。</p>
+<p>Transfirmation：描述了一个变换。它包含两个分量：透明度和一个二维的变换矩阵（可以在二维空间中对变换目标实现平移旋转缩放,矩阵相乘可以组合实现各自的变换）。</p>
+<h2 id="动画的驱动器Choreographer"><a href="#动画的驱动器Choreographer" class="headerlink" title="动画的驱动器Choreographer"></a>动画的驱动器Choreographer</h2><p>在Animation start()的时候会创建一个Choreographer（线程唯一的）来实现动画的绘制工作。Choreographer发送一个runnable以处理一帧动画。在处理动画时，使用Animation getTransfirmation函数获取动画对象所需要进行的变换，然后根据变换对动画对象进行渲染。之后重复画下一帧直至动画结束。</p>
+<h2 id="Tween动画-Animation"><a href="#Tween动画-Animation" class="headerlink" title="Tween动画 Animation"></a>Tween动画 Animation</h2><p>原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。</p>
+<h3 id="1-startAnimation-animation"><a href="#1-startAnimation-animation" class="headerlink" title="1 startAnimation(animation);"></a>1 startAnimation(animation);</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startAnimation</span><span class="params">(Animation animation)</span> </span>&#123;</span><br><span class="line">    animation.setStartTime(Animation.START_ON_FIRST_FRAME);</span><br><span class="line">    setAnimation(animation);</span><br><span class="line">    invalidateParentCaches();</span><br><span class="line">    invalidate(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="2-invalidate请求View树进行重绘"><a href="#2-invalidate请求View树进行重绘" class="headerlink" title="2 invalidate请求View树进行重绘"></a>2 invalidate请求View树进行重绘</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidate</span><span class="params">(<span class="keyword">boolean</span> invalidateCache)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这里的mLeft，mRight都是相当于父View来讲的。所以这里的参数就是当前View所在的区域。</span></span><br><span class="line">    invalidateInternal(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, invalidateCache, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidateInternal</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b, <span class="keyword">boolean</span> invalidateCache,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">boolean</span> fullInvalidate)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//不需要绘制的情况（View不可见&amp;&amp;没有动画等）</span></span><br><span class="line">    <span class="keyword">if</span> (skipInvalidate()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">if</span>(condition<span class="comment">/*满足需要绘制的条件*/</span>)&#123;</span><br><span class="line">        <span class="keyword">final</span> AttachInfo ai = mAttachInfo;</span><br><span class="line">        <span class="keyword">final</span> ViewParent p = mParent;</span><br><span class="line">        <span class="keyword">if</span> (p != <span class="keyword">null</span> &amp;&amp; ai != <span class="keyword">null</span> &amp;&amp; l &lt; r &amp;&amp; t &lt; b) &#123;</span><br><span class="line">            <span class="keyword">final</span> Rect damage = ai.mTmpInvalRect;</span><br><span class="line">            damage.set(l, t, r, b);</span><br><span class="line">            p.invalidateChild(<span class="keyword">this</span>, damage);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="3-调用子view的draw方法"><a href="#3-调用子view的draw方法" class="headerlink" title="3 调用子view的draw方法"></a>3 调用子view的draw方法</h3><p>Animation 实现了下面方法设置Transformation动画信息。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数是 interpolatedTime 它代表插值后的时间，第二个参数是Transformation类的实例</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">applyTransformation</span><span class="params">(<span class="keyword">float</span> interpolatedTime, Transformation t)</span></span></span><br></pre></td></tr></table></figure>
+<p>view getAnimation()获取动画信息，getTransformation获取Transformation；</p>
+<p>Transformation是一个实体类，它主要的内容是透明度和一个矩阵，动画的变化，就隐藏在Transformation之中。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">draw</span><span class="params">(Canvas canvas, ViewGroup parent, <span class="keyword">long</span> drawingTime)</span></span></span><br></pre></td></tr></table></figure>
+<p>draw中applyLegacyAnimation方法是用来获取变换的，其中有两个部分需要注意：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a.getTransformation(drawingTime, invalidationTransform, <span class="number">1f</span>);</span><br><span class="line">a.getInvalidateRegion(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, region,</span><br><span class="line">    invalidationTransform);</span><br></pre></td></tr></table></figure>
+<p>第一个就是获取变换，第二个是获取绘制无效区域。<br>其实这个无效区域是绘制后的无效区域，因为很有可能需要下次绘制(保证动画连续性)。</p>
+<p>动画的绘制：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (transformToApply != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (concatMatrix) &#123;</span><br><span class="line">        <span class="keyword">if</span> (drawingWithRenderNode) &#123;</span><br><span class="line">            renderNode.setAnimationMatrix(transformToApply.getMatrix());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            canvas.translate(-transX, -transY);</span><br><span class="line">            canvas.concat(transformToApply.getMatrix());</span><br><span class="line">            canvas.translate(transX, transY);</span><br><span class="line">        &#125;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> transformAlpha = transformToApply.getAlpha();</span><br><span class="line">    <span class="keyword">if</span> (transformAlpha &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        alpha *= transformAlpha;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>分别从硬件加速和软件绘制上　对canvas进行矩阵变换．</p>
+<h2 id="帧动画"><a href="#帧动画" class="headerlink" title="帧动画"></a>帧动画</h2><p>原理：使用了Choreographer机制.</p>
+<p>Android系统从4.1(API 16)开始加入Choreographer这个类来控制同步处理输入(Input)、动画(Animation)、绘制(Draw)三个UI操作。收到VSync信号后，顺序执行3个操作，然后等待下一个信号，再次顺序执行3个操作。</p>
+<p>AnimationDrawable继承了DrawableContainer，因为DrawableContainer是一个drawable的容器，可以保存多个图片<br>同时，实现了Runnable接口，重写了run方法,根据源码中的start方法，它调用了setFrame方法，方法内部最重要的调用就是调用了<br> scheduleSelf(this, SystemClock.uptimeMillis() + mAnimationState.mDurations[frame]);callback调用view的scheduleDrawable方法而这个方法最终会调用Choreographer.subtractFrameDelay(delay));</p>
+<h2 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h2><p>原理：使用了Choreographer机制</p>
+<p>简单的说，Chreographer是组织上层进行处理绘制的控制类，它会在每次vsync信号来临时，执行与绘制相关的过程．</p>
+<p>Animator的过程发生在绘制之前（甚至是布局之前）.</p>
 
       
     </div>
@@ -1109,384 +1173,6 @@
 <li>实际进行演示</li>
 </ul>
 
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-麦肯锡思维" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/12/27/麦肯锡思维/" class="article-date">
-  	<time datetime="2017-12-26T16:00:00.000Z" itemprop="datePublished">2017-12-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/12/27/麦肯锡思维/">
-        麦肯锡思维
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="麦肯锡思维"><a href="#麦肯锡思维" class="headerlink" title="麦肯锡思维"></a>麦肯锡思维</h1><h2 id="第一章-“做正确的事”与”正确地做事”"><a href="#第一章-“做正确的事”与”正确地做事”" class="headerlink" title="第一章 “做正确的事”与”正确地做事”"></a>第一章 “做正确的事”与”正确地做事”</h2><p>###”做正确的事”与”正确地做事”</p>
-<ul>
-<li>麦肯锡的原则就是既要正确地做事，更要做正确的事。成功的前提是做正确的事。</li>
-<li>做正确的事是前提，不要再错误的路上走远。</li>
-<li>过去和现在都是暂时的，关键是未来的目标。</li>
-<li>当我们开始每项工作前，首先要明确我们要达到的目标，之后在确定正确的去实施。</li>
-<li>明确目标能够提示我们哪些工作重要，哪些次要，哪些要当机立断，哪些要等待时机。避免盲目忙乱的无序状态。既要有长期目标，还要有每一步的短期目标。</li>
-</ul>
-<h3 id="有效的执行力"><a href="#有效的执行力" class="headerlink" title="有效的执行力"></a>有效的执行力</h3><ul>
-<li>效率和效能，分别代表着”正确地做事”和”做正确的事”</li>
-<li>麦肯锡强调的是在进入工作状态时，首先要明确做正确的事。</li>
-<li>从管理角度来讲，一条障碍最小的曲线，也许才是两点间的最短距离。</li>
-</ul>
-<h3 id="对正确的评估"><a href="#对正确的评估" class="headerlink" title="对正确的评估"></a>对正确的评估</h3><ul>
-<li>想要做出正确的判断，只有深入挖掘和掌握事实，根据实际情况，才能把握正确的方向，发现自己的正确与否。(另外，”病人”诉说的情况并不一定是病因。)</li>
-<li>发现正确的问题，是做正确的事的第一步。</li>
-</ul>
-<h3 id="把眼光放得更远一些"><a href="#把眼光放得更远一些" class="headerlink" title="把眼光放得更远一些"></a>把眼光放得更远一些</h3><h3 id="“正确”永远在变化"><a href="#“正确”永远在变化" class="headerlink" title="“正确”永远在变化"></a>“正确”永远在变化</h3><ul>
-<li>居安思危，居危思进</li>
-</ul>
-<p>##第二章 提高效率的二八原则</p>
-<h3 id="按事情的重要程度划分先后次序"><a href="#按事情的重要程度划分先后次序" class="headerlink" title="按事情的重要程度划分先后次序"></a>按事情的重要程度划分先后次序</h3><h3 id="重要的少数和不重要的多数"><a href="#重要的少数和不重要的多数" class="headerlink" title="重要的少数和不重要的多数"></a>重要的少数和不重要的多数</h3><ul>
-<li>重要而关键的部分总是占少数，而琐碎不重要的部分总是占大多数。</li>
-<li>我们发现只要能够掌控最重要的少数因素，那么就意味着掌控了全局。</li>
-<li>当今时代早已不再是平均分配的时代，只有紧跟时代形式，抓准市场规律，把重要的少数放在首位，并投入更多的时间和精力，才能更高效地完成工作。</li>
-</ul>
-<h3 id="做事的秘诀首先是次序的排序"><a href="#做事的秘诀首先是次序的排序" class="headerlink" title="做事的秘诀首先是次序的排序"></a>做事的秘诀首先是次序的排序</h3><ul>
-<li>重要 &gt; 紧急</li>
-</ul>
-<h3 id="做事情前先要精心分好主次"><a href="#做事情前先要精心分好主次" class="headerlink" title="做事情前先要精心分好主次"></a>做事情前先要精心分好主次</h3><p>注意</p>
-<ul>
-<li>1 明确自己的长远目标</li>
-<li>2 现在我要做什么（哪些是需要我来做的，哪些需要交给别人的）</li>
-<li>3 什么样的事情给我的回报最高（把自己80%的经历放在最高回报的事情上）</li>
-<li>4 要明确做哪些事能给自己满足感(乐趣)。</li>
-</ul>
-<h3 id="时间管理的”四象限法则”"><a href="#时间管理的”四象限法则”" class="headerlink" title="时间管理的”四象限法则”"></a>时间管理的”四象限法则”</h3><ul>
-<li>第一象限：重要且紧急，紧急意味着需要立即做，重要则意味对个人或团队有重大影响。</li>
-<li>第二象限：重要不紧急(时间变通)</li>
-<li>第三象限：紧急但不重要</li>
-<li>第四象限：不重要也不紧急</li>
-<li>总结：重要但不紧急的是最重要的事情，应该在这些事情上分配更多的时间和精力。重要紧急的事情很多由重要不紧急转化来的。</li>
-</ul>
-<h3 id="放在首位的应该是重要的事情"><a href="#放在首位的应该是重要的事情" class="headerlink" title="放在首位的应该是重要的事情"></a>放在首位的应该是重要的事情</h3><p>要事第一</p>
-<ul>
-<li>为每天的工作制定一个优先表格</li>
-<li>做一个进度表，将重要的事情按顺序写下来</li>
-<li>在要求自己遵守时间的同时也要求别人遵守时间</li>
-</ul>
-<h2 id="第三章-让事实自己说话"><a href="#第三章-让事实自己说话" class="headerlink" title="第三章 让事实自己说话"></a>第三章 让事实自己说话</h2><h3 id="以事实为基础"><a href="#以事实为基础" class="headerlink" title="以事实为基础"></a>以事实为基础</h3><ul>
-<li>事实使我们用来铺就解决措施道路的基石。</li>
-<li>解决问题时的思路遵循三个规则<ul>
-<li>1 以事实为基础</li>
-<li>2 严格的结构化</li>
-<li>3 以假设作为导向</li>
-</ul>
-</li>
-</ul>
-<h3 id="不要落入主观陷阱"><a href="#不要落入主观陷阱" class="headerlink" title="不要落入主观陷阱"></a>不要落入主观陷阱</h3><ul>
-<li>方案要从实事中来再回归事实中去，不要将它往自己的框架里面加</li>
-<li>反省：<ul>
-<li>做事的时候是否实事求是，而不是根据猜测或个人的期望<ul>
-<li>2 做出判断时，是否允许他人提出意见</li>
-<li>3 是不是能采取个人不喜欢可是又有事实依据的行动</li>
-<li>4 找不到问题的根源时，是否延迟等到问题确认才去实施的</li>
-<li>5 灵感或者内心感受来做决定</li>
-<li>6 自己反感，大家都同意的意见，会不会接受</li>
-<li>7 身为负责人，能否为了公司的利益不计个人好恶</li>
-<li>8 人事问题不惨杂个人意见</li>
-<li>9 交往时，未交流就下结论</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="第四章-利用关键驱动点直达问题核心"><a href="#第四章-利用关键驱动点直达问题核心" class="headerlink" title="第四章 利用关键驱动点直达问题核心"></a>第四章 利用关键驱动点直达问题核心</h2><h3 id="识别关键驱动点"><a href="#识别关键驱动点" class="headerlink" title="识别关键驱动点"></a>识别关键驱动点</h3><ul>
-<li>要学会丢弃所有不重要的因素，只着眼于关键驱动</li>
-</ul>
-<h3 id="高效率地达到目的"><a href="#高效率地达到目的" class="headerlink" title="高效率地达到目的"></a>高效率地达到目的</h3><h3 id="日常中的关键驱动点"><a href="#日常中的关键驱动点" class="headerlink" title="日常中的关键驱动点"></a>日常中的关键驱动点</h3><ul>
-<li>把握关键驱动点<ul>
-<li>1 找准正确的方向<ul>
-<li>2 大量收集资料，运用逻辑树状图进行分析研究</li>
-<li>3 进行头脑风暴（发散思维来打破惯性思维）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="第五章-不重叠，不遗漏的MECE分析法"><a href="#第五章-不重叠，不遗漏的MECE分析法" class="headerlink" title="第五章 不重叠，不遗漏的MECE分析法"></a>第五章 不重叠，不遗漏的MECE分析法</h2><h3 id="相互独立，完全穷尽-MECE-读作”me-see”-全称mutually-exclusive-collectively-exhaustive-“相互独立，完全穷尽”"><a href="#相互独立，完全穷尽-MECE-读作”me-see”-全称mutually-exclusive-collectively-exhaustive-“相互独立，完全穷尽”" class="headerlink" title="相互独立，完全穷尽(MECE 读作”me see”,全称mutually exclusive,collectively exhaustive.-“相互独立，完全穷尽”)"></a>相互独立，完全穷尽(MECE 读作”me see”,全称mutually exclusive,collectively exhaustive.-“相互独立，完全穷尽”)</h3><ul>
-<li>相互独立可以让问题的各个方面独立呈现，避免混淆</li>
-</ul>
-<h3 id="列出你的清单"><a href="#列出你的清单" class="headerlink" title="列出你的清单"></a>列出你的清单</h3><ul>
-<li>一份完美的清单所包含的一级项目应该在2-5个之间，3个最理想。</li>
-<li>运用MECE法则注意事项：<ul>
-<li>1 做到全方位，多角度的考虑问题。(此处推荐六顶思考帽)</li>
-<li>2 尽可能多地收集事实依据</li>
-<li>3 利用图表分析问题</li>
-</ul>
-</li>
-</ul>
-<h2 id="第六章用逻辑分析法呈现严禁推理"><a href="#第六章用逻辑分析法呈现严禁推理" class="headerlink" title="第六章用逻辑分析法呈现严禁推理"></a>第六章用逻辑分析法呈现严禁推理</h2><h3 id="从树干到树枝"><a href="#从树干到树枝" class="headerlink" title="从树干到树枝"></a>从树干到树枝</h3><ul>
-<li>罗分析法：分层罗列问题的所有子问题，逐层向下扩展分析。</li>
-<li>议题树，假设树和是否树<h3 id="逻辑思维解决复杂问题"><a href="#逻辑思维解决复杂问题" class="headerlink" title="逻辑思维解决复杂问题"></a>逻辑思维解决复杂问题</h3></li>
-<li>逻辑推理过程<ul>
-<li>第一步：确认需要解决的问题(必须是具体的，其内容必须单一，不可出现组合)<ul>
-<li>第二步：分解问题（用议题树，假设树和是否树分析）</li>
-<li>第三步：提出次要问题</li>
-<li>第四步：制定详细的工作计划（将思维过程转化为可执行的工作计划）</li>
-<li>第五步：进行关键分析（脑暴关键点）</li>
-<li>第六步：综合分析调查结果，建立论证</li>
-<li>第七步：陈述整个工作过程，进行交流沟通</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="第七章循序渐进，先摘好摘的果子"><a href="#第七章循序渐进，先摘好摘的果子" class="headerlink" title="第七章循序渐进，先摘好摘的果子"></a>第七章循序渐进，先摘好摘的果子</h2><h3 id="将简单的部分作为起点，然后有步骤地向前推进，从一个真理推出另一个真理，再逐一推出更多真理，从简单到复杂，从浅显到深刻。"><a href="#将简单的部分作为起点，然后有步骤地向前推进，从一个真理推出另一个真理，再逐一推出更多真理，从简单到复杂，从浅显到深刻。" class="headerlink" title="将简单的部分作为起点，然后有步骤地向前推进，从一个真理推出另一个真理，再逐一推出更多真理，从简单到复杂，从浅显到深刻。"></a>将简单的部分作为起点，然后有步骤地向前推进，从一个真理推出另一个真理，再逐一推出更多真理，从简单到复杂，从浅显到深刻。</h3><h3 id="从选择容易的对象开始"><a href="#从选择容易的对象开始" class="headerlink" title="从选择容易的对象开始"></a>从选择容易的对象开始</h3><h3 id="用最短的时间，做更多更容易的事"><a href="#用最短的时间，做更多更容易的事" class="headerlink" title="用最短的时间，做更多更容易的事"></a>用最短的时间，做更多更容易的事</h3><ul>
-<li>一个人的能力不是指他用大量的时间去做一件出人意料的事，相反，是能在最短的时间内，做出最容易的事。<h3 id="化整为零，循序渐进"><a href="#化整为零，循序渐进" class="headerlink" title="化整为零，循序渐进"></a>化整为零，循序渐进</h3><h3 id="用心去摘好摘的果子"><a href="#用心去摘好摘的果子" class="headerlink" title="用心去摘好摘的果子"></a>用心去摘好摘的果子</h3><h3 id="奥卡姆剃刀"><a href="#奥卡姆剃刀" class="headerlink" title="奥卡姆剃刀"></a>奥卡姆剃刀</h3><ul>
-<li>我会做的事情只有两件，一件是完成简单的事情，一件是把复杂的事情变得简单。</li>
-<li>奥卡姆剃刀：如果有多个理论能够解释同一件事，那么其中最简单，最少假设的那个理论就是最可取的。</li>
-<li>如无必要，勿增实体</li>
-<li>简化的一些方法：<ul>
-<li>1 找到重点</li>
-<li>2 提高技术水平</li>
-<li>3 授权</li>
-<li>4 外包</li>
-<li>5 取消</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h2 id="第八章-一次只需要做好一件事"><a href="#第八章-一次只需要做好一件事" class="headerlink" title="第八章 一次只需要做好一件事"></a>第八章 一次只需要做好一件事</h2><h3 id="专打一个垒"><a href="#专打一个垒" class="headerlink" title="专打一个垒"></a>专打一个垒</h3><ul>
-<li>在团队中，努力做好自己分内的事，不要试图将整个团队的工作一人包办</li>
-<li>原因：<ul>
-<li>第一，你不可能把所有人的工作都一个人干完。<ul>
-<li>第二，即使你做到了一次，也会让周围的人对你产生不切实际的想法。</li>
-<li>第三，这种期望对你的压力非常大，如果你不能满足大家的期望，那你就在他们心中丧失了信誉，想再挽回就很难了。<h3 id="提高穿透力"><a href="#提高穿透力" class="headerlink" title="提高穿透力"></a>提高穿透力</h3></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>像订书器一样将精力集中到关键点，这样力更大。</li>
-<li>想要把所有事做好，就不可能把重要的事做好。</li>
-<li>在工作中不要频繁的转换工作状态，做好一件事再去做别的。</li>
-<li>一次只做一件事，提高穿透力，让自己时刻掌握主动权，几点建议<ul>
-<li>1 学会摆脱事物 - 拒绝一部分，或分配出一部分</li>
-<li>2 学会摆脱人</li>
-<li>3 学会摆脱过去 - 过去的错误不应该成为你的包袱，过去的荣誉也不是你长久的资本，摆脱那些干扰，只专注于现在。</li>
-</ul>
-</li>
-</ul>
-<h2 id="第九章筛选资料，应对信息干扰"><a href="#第九章筛选资料，应对信息干扰" class="headerlink" title="第九章筛选资料，应对信息干扰"></a>第九章筛选资料，应对信息干扰</h2><h3 id="准备一个大纸篓"><a href="#准备一个大纸篓" class="headerlink" title="准备一个大纸篓"></a>准备一个大纸篓</h3><ul>
-<li>文件资料处理意见：<ul>
-<li>有些资料需要立即处理，不要耽搁</li>
-<li>阅读后保存下来，在阅读时你会发现哪些是你需要的，将其保存。</li>
-<li>进一步阅读发现有些东西可以不用，就立即丢掉。</li>
-<li>准备一个收纳文件的地方。</li>
-</ul>
-</li>
-</ul>
-<h3 id="布里丹选择-（驴，左右两堆草，循环左好右好，饿死）"><a href="#布里丹选择-（驴，左右两堆草，循环左好右好，饿死）" class="headerlink" title="布里丹选择 （驴，左右两堆草，循环左好右好，饿死）"></a>布里丹选择 （驴，左右两堆草，循环左好右好，饿死）</h3><ul>
-<li>多个判断点，未做排序，而徘徊不定。</li>
-<li>正确的利用信息，首先要对大量的信息做筛选和排序，去粗取精，去伪存真。</li>
-</ul>
-<h3 id="数字化干扰"><a href="#数字化干扰" class="headerlink" title="数字化干扰"></a>数字化干扰</h3><ul>
-<li>过度的信息一旦使人沉溺其中，也会成为一种沉重的负担。</li>
-</ul>
-<h3 id="头脑内的战争"><a href="#头脑内的战争" class="headerlink" title="头脑内的战争"></a>头脑内的战争</h3><h3 id="设置无干扰区"><a href="#设置无干扰区" class="headerlink" title="设置无干扰区"></a>设置无干扰区</h3><ul>
-<li>在特定的时间段对所有的干扰进行屏蔽</li>
-</ul>
-<h2 id="第十章深陷迷雾时后退一步看清大局"><a href="#第十章深陷迷雾时后退一步看清大局" class="headerlink" title="第十章深陷迷雾时后退一步看清大局"></a>第十章深陷迷雾时后退一步看清大局</h2><h3 id="从选定方向开始"><a href="#从选定方向开始" class="headerlink" title="从选定方向开始"></a>从选定方向开始</h3><ul>
-<li>在开始工作之前，你首先要明确自己工作的最终目标是什么。</li>
-<li>经常检验一下自己的行进路线，避免因为太匆忙而偏离了方向或迷失了方向。<h3 id="关注”大画面”"><a href="#关注”大画面”" class="headerlink" title="关注”大画面”"></a>关注”大画面”</h3><ul>
-<li>一个人如果处于胡乱中，那么就应该主动后退一步，思考一下正在做的事情。</li>
-<li>最重要的是关注大画面，你正在做的事是否与大画面吻合。</li>
-<li>怎样才能让工作重心和注意力的中心锁定在大画面<ul>
-<li>1 简历自己希望的大画面</li>
-<li>2 写下你的目标 （贴在显眼的位置）</li>
-<li>3 学会切割目标 （庞大的目标往往看上去非常虚幻，容易消磨意志，让人心生疲倦）</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<h3 id="创新要讲究实事求是"><a href="#创新要讲究实事求是" class="headerlink" title="创新要讲究实事求是"></a>创新要讲究实事求是</h3><ul>
-<li>对于创新我们应该有一个正确的认识，它的目标是更高效地工作，更完善地发展，如果因为创新而发生停滞甚至倒退的现象，那就不是创新了。</li>
-</ul>
-<h3 id="认识你自己"><a href="#认识你自己" class="headerlink" title="认识你自己"></a>认识你自己</h3><ul>
-<li>在日常忙碌中，不要被纷繁的事情所困扰，要时刻看清自己，胸怀远大的抱负，心中想着宏伟的目标，随时调整自己的方向，调整自己的观念，这样才会获得更高的效能，实现更好的效果。</li>
-</ul>
-<h2 id="第十一章以矛盾激发思维的”头脑风暴”"><a href="#第十一章以矛盾激发思维的”头脑风暴”" class="headerlink" title="第十一章以矛盾激发思维的”头脑风暴”"></a>第十一章以矛盾激发思维的”头脑风暴”</h2><h3 id="麦肯锡团队的头脑风暴"><a href="#麦肯锡团队的头脑风暴" class="headerlink" title="麦肯锡团队的头脑风暴"></a>麦肯锡团队的头脑风暴</h3><ul>
-<li>头脑风暴就像魔方一样，它的每一个面，就是一个事实，而你每一次转动，都会有惊喜的发现，都会得到启发，都会得到答案。</li>
-</ul>
-<h3 id="头脑风暴的原则"><a href="#头脑风暴的原则" class="headerlink" title="头脑风暴的原则"></a>头脑风暴的原则</h3><ul>
-<li>目标：产生新的想法</li>
-<li>不需要老生常谈，不要因循守旧，不要人云亦云。</li>
-<li>原则：<ul>
-<li>1 特定问题的提出（预先给出问题，叫大家做足准备）</li>
-<li>2 营造宽松的氛围，不做任何评价</li>
-<li>3 对狂热和夸张的想法给予鼓励（大部分创新出自夸张的想法）</li>
-<li>4 在观点上追求数量的最大化</li>
-<li>5 在集思广益的基础上建立新的观点</li>
-<li>6 不要担心你的意见被否决</li>
-<li>7 不要忽略简单问题</li>
-<li>8 “准备好扼杀自己的婴儿”</li>
-<li>9 合理安排时间</li>
-<li>10 做好后勤服务工作 （放送时间，事物）</li>
-<li>11 用笔写下来</li>
-</ul>
-</li>
-</ul>
-<h3 id="完善头脑风暴容易出现的问题"><a href="#完善头脑风暴容易出现的问题" class="headerlink" title="完善头脑风暴容易出现的问题"></a>完善头脑风暴容易出现的问题</h3><ul>
-<li>1 头脑风暴法的削弱是由社会惰化造成的 （群体越大，个体付出越少）</li>
-<li>2 头脑风暴法中有”冒险转移”的潜在问题</li>
-<li>3 对上级的服从观点，妨碍了新观点的产生</li>
-</ul>
-<h3 id="脑暴注意事项"><a href="#脑暴注意事项" class="headerlink" title="脑暴注意事项"></a>脑暴注意事项</h3><ul>
-<li>1 领导尽量回避</li>
-<li>2 选择适宜的环境</li>
-<li>3 如何认识批评和指责</li>
-<li>4 培养创新思维方式</li>
-<li>5 要有确定的主题 - 不能偏题</li>
-<li>6 对方案最好分析</li>
-</ul>
-<h2 id="第十二章每天一个图标管理你的工作"><a href="#第十二章每天一个图标管理你的工作" class="headerlink" title="第十二章每天一个图标管理你的工作"></a>第十二章每天一个图标管理你的工作</h2><h3 id="做好一张简单的表格"><a href="#做好一张简单的表格" class="headerlink" title="做好一张简单的表格"></a>做好一张简单的表格</h3><ul>
-<li>记录每天最重要的事，或者一闪而过的想法观点</li>
-<li>表格的目的：使每天的工作明确</li>
-</ul>
-<h3 id="工作日志的意义"><a href="#工作日志的意义" class="headerlink" title="工作日志的意义"></a>工作日志的意义</h3><ul>
-<li>无论工作还是生活，时常做一些反思，总结一下得失，汲取一些经验教训，这对改进工作，提高生活质量都是大有益处的。</li>
-<li>每天无论如何让也要挤出一点时间，把一天的工作像过电影一样回顾一遍，既从中发现自己的成绩，也查找自己的疏漏，看有什么地方需要改进，并做好记录。</li>
-<li>好处<ul>
-<li>工作日志使你的工作作风更加严谨</li>
-<li>增强你的逻辑思维能力</li>
-<li>每天变得有意义</li>
-<li>通过总结，提高文字表达能力</li>
-<li>为后代做一个表率</li>
-</ul>
-</li>
-</ul>
-<h3 id="将每日总结作为一种习惯"><a href="#将每日总结作为一种习惯" class="headerlink" title="将每日总结作为一种习惯"></a>将每日总结作为一种习惯</h3><p>作用：</p>
-<ul>
-<li>省时，是工作总结完善</li>
-<li>提高执行力和工作主动性</li>
-<li>保证工作的衔接</li>
-<li>积累工作经验</li>
-</ul>
-<h3 id="如何记录工作日志"><a href="#如何记录工作日志" class="headerlink" title="如何记录工作日志"></a>如何记录工作日志</h3><p>注意：</p>
-<ul>
-<li>1 明确每天开始的第一件事就是制定一天的工作计划。</li>
-<li>2 制定计划要严肃认真，不要被干扰。</li>
-<li>3 计划要与工作实际相结合，必须是符合实际的，能在当天予以落实。</li>
-<li>4 计划一旦制定，就要认真执行</li>
-<li>5 总结要突出重点，不用长篇累叙</li>
-<li>6 注意阶段性总结，半个月，一个月一次。</li>
-</ul>
-<h2 id="第十三章迅速沟通的”30秒电梯法则”"><a href="#第十三章迅速沟通的”30秒电梯法则”" class="headerlink" title="第十三章迅速沟通的”30秒电梯法则”"></a>第十三章迅速沟通的”30秒电梯法则”</h2><p>###快速且清晰地表达自己的意图</p>
-<ul>
-<li>电梯法则真正的核心在于要求当事者在做简要说明时必须谈到问题的核心或站在对方立场上关注他所想看到的并进行强调，且要迅速有力地突出强调，有效地将自己的意思传达给对方，而不要受到其他相关信息的干扰。</li>
-</ul>
-<h3 id="“知、感、行”"><a href="#“知、感、行”" class="headerlink" title="“知、感、行”"></a>“知、感、行”</h3><ul>
-<li>知：你要做的第一步就是要清晰地表达自己，让对方明白你所了解的就是他想明白的事情。</li>
-<li>感：在自己表达结束后，必须让对方有想表达自个意愿的意思，当然我们不可能让他一定对我们所说的产生想法，但必须让他明白你通过自我的表达来营销的，而且以此作为自己的个人要求。</li>
-<li>行：在清楚地表达自己的观点之后，必须让对方有所行动，例如赞成你的所有观点，并且请你详细地解释你的想法和原因。</li>
-</ul>
-<h2 id="第十四章在有限的时间内达到目的的走访法则"><a href="#第十四章在有限的时间内达到目的的走访法则" class="headerlink" title="第十四章在有限的时间内达到目的的走访法则"></a>第十四章在有限的时间内达到目的的走访法则</h2><h2 id="第十五章与客户一起工作"><a href="#第十五章与客户一起工作" class="headerlink" title="第十五章与客户一起工作"></a>第十五章与客户一起工作</h2><h3 id="让客户与你站一起"><a href="#让客户与你站一起" class="headerlink" title="让客户与你站一起"></a>让客户与你站一起</h3><h3 id="与客户中的”讨债鬼”打交道"><a href="#与客户中的”讨债鬼”打交道" class="headerlink" title="与客户中的”讨债鬼”打交道"></a>与客户中的”讨债鬼”打交道</h3><ul>
-<li>一类是作用不大或者没什么用的人，其二就是有意与你作对的人，最好将这两类人都请出你的团队。<h3 id="不要让客户置身事外"><a href="#不要让客户置身事外" class="headerlink" title="不要让客户置身事外"></a>不要让客户置身事外</h3></li>
-</ul>
-<h2 id="第十六章一个人不可能煮沸整个海洋"><a href="#第十六章一个人不可能煮沸整个海洋" class="headerlink" title="第十六章一个人不可能煮沸整个海洋"></a>第十六章一个人不可能煮沸整个海洋</h2><h3 id="必要的团队精神"><a href="#必要的团队精神" class="headerlink" title="必要的团队精神"></a>必要的团队精神</h3><ul>
-<li>培养团队精神：<ul>
-<li>1 建立团队的全局观</li>
-<li>2 团队精神大于个人利益</li>
-<li>3 听取别人的意见<h3 id="正确组织团队"><a href="#正确组织团队" class="headerlink" title="正确组织团队"></a>正确组织团队</h3><h3 id="破冰游戏"><a href="#破冰游戏" class="headerlink" title="破冰游戏"></a>破冰游戏</h3></li>
-</ul>
-</li>
-<li>破冰：打破人与人之间的隔阂，消除人际交往中的猜疑和疏远。</li>
-<li>常用的破冰游戏：集体跳绳和连点游戏</li>
-</ul>
-<h3 id="在团队中保持高昂的士气"><a href="#在团队中保持高昂的士气" class="headerlink" title="在团队中保持高昂的士气"></a>在团队中保持高昂的士气</h3><ul>
-<li>麦肯锡管理者将员工分为四类：<ul>
-<li>第一类：工作能力强，工作热情高 - 重用鼓励</li>
-<li>第二类：工作能力差，工作热情高 - 培训调用</li>
-<li>第三类：工作能力强，工作热情低 - 不录用</li>
-<li>第四类：工作能力低，工作热情低 - 不留</li>
-</ul>
-</li>
-<li>保持士气原则<ul>
-<li>1 把握团队的温度：做好一件事除了掌握方法，很重要的是要让人们乐于去干，这能产生很大的动力，调动人们的积极性和创造性。</li>
-<li>2 掌握稳定的过程：要想让团队的工作顺利进行，就要事先做好周密的计划，确定目标。</li>
-<li>3 让大家明白当前工作的目的</li>
-<li>4 对团队同事的尊重</li>
-<li>5 提倡人性化管理</li>
-<li>6 遭遇困境要努力支撑下去<h3 id="团队的内部管理要畅通"><a href="#团队的内部管理要畅通" class="headerlink" title="团队的内部管理要畅通"></a>团队的内部管理要畅通</h3></li>
-<li>既要了解领导的意图也要让领导了解团队工作的进展</li>
-<li>一个有效的信息一般要具备三个条件：即简洁，完整和结构(结构：先说什么后说什么，内容排版)。<h3 id="为集体做好保密工作"><a href="#为集体做好保密工作" class="headerlink" title="为集体做好保密工作"></a>为集体做好保密工作</h3></li>
-</ul>
-</li>
-</ul>
-<h2 id="第十七章请向导引领你走出丛林"><a href="#第十七章请向导引领你走出丛林" class="headerlink" title="第十七章请向导引领你走出丛林"></a>第十七章请向导引领你走出丛林</h2><h3 id="不去重新发明轮子"><a href="#不去重新发明轮子" class="headerlink" title="不去重新发明轮子"></a>不去重新发明轮子</h3><ul>
-<li>具体做法的建议<ul>
-<li>1 运用现有资源也要考虑具体情况</li>
-<li>2 先跟随，再赶超</li>
-<li>3 找到最佳经验</li>
-</ul>
-</li>
-</ul>
-<h3 id="跟随向导走出荆棘"><a href="#跟随向导走出荆棘" class="headerlink" title="跟随向导走出荆棘"></a>跟随向导走出荆棘</h3><h3 id="找准你的导师"><a href="#找准你的导师" class="headerlink" title="找准你的导师"></a>找准你的导师</h3><ul>
-<li>导师：导师就是你所从事行业或专业里学有专长的人，对于你当前的学习和工作，他们可以提供指导，建议和帮助。</li>
-<li>戒除“我比别人聪明”的心态</li>
-</ul>
-<h2 id="第十八章从种子到果实的人才培养法则"><a href="#第十八章从种子到果实的人才培养法则" class="headerlink" title="第十八章从种子到果实的人才培养法则"></a>第十八章从种子到果实的人才培养法则</h2><h3 id="压力面试"><a href="#压力面试" class="headerlink" title="压力面试"></a>压力面试</h3><ul>
-<li>波特五力模式：进入壁垒，替代品威胁，买方议价能力，卖方议价能力以及现存竞争者之间的竞争。</li>
-<li>在压力下，不要让自己情绪失控，要以自信和冷静的态度和专业上的优势，尽量用事实说明问题，化压力为动力。</li>
-</ul>
-<h3 id="麦肯锡的与员工培训体系"><a href="#麦肯锡的与员工培训体系" class="headerlink" title="麦肯锡的与员工培训体系"></a>麦肯锡的与员工培训体系</h3><h3 id="方法比知识更重要"><a href="#方法比知识更重要" class="headerlink" title="方法比知识更重要"></a>方法比知识更重要</h3><ul>
-<li>形成独立的学习方法，要比获得知识更重要。</li>
-<li>学习能力：<ul>
-<li>1 学会问”为什么”和”怎么样”</li>
-<li>2 学会多角度思考问题</li>
-<li>3 改进你的方法<h3 id="不晋则退"><a href="#不晋则退" class="headerlink" title="不晋则退"></a>不晋则退</h3></li>
-</ul>
-</li>
-</ul>
-<h2 id="第十九章用外出清单管理琐事"><a href="#第十九章用外出清单管理琐事" class="headerlink" title="第十九章用外出清单管理琐事"></a>第十九章用外出清单管理琐事</h2>
       
     </div>
     
