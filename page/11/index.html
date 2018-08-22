@@ -347,65 +347,6 @@ protected void onDestroy() {
 
 
   
-    <article id="post-infer" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/09/01/infer/" class="article-date">
-  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/01/infer/">
-        内存泄漏检查工具-infer
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p> infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。</p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 环境安装见<a href="http://infer.liaohuqiu.net/docs/getting-started.html" target="_blank" rel="noopener">官网</a></p>
-<p>2 android 项目分析</p>
-<pre><code>infer -- ./gradlew build
-</code></pre><p>在两次分析之间运行 gradlew clean</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-事件总线" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -488,11 +429,11 @@ eventBus.unregister(this);
 
 
   
-    <article id="post-LeakCanary" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-infer" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/31/LeakCanary/" class="article-date">
-  	<time datetime="2016-08-30T16:00:00.000Z" itemprop="datePublished">2016-08-31</time>
+      <a href="/2016/09/01/infer/" class="article-date">
+  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
 </a>
     </div>
   
@@ -505,8 +446,8 @@ eventBus.unregister(this);
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/31/LeakCanary/">
-        内存泄漏检查工具-LeakCanary
+      <a class="article-title" href="/2016/09/01/infer/">
+        内存泄漏检查工具-infer
         
       </a>
     </h1>
@@ -517,26 +458,11 @@ eventBus.unregister(this);
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。</p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 添加项目依赖：</p>
-<pre><code>dependencies {
-    debugCompile &apos;com.squareup.leakcanary:leakcanary-android:1.4-beta2&apos;
-    releaseCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
-    testCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
-}
-</code></pre><p>2 初始化：</p>
-<pre><code>public class YourApplication extends Application {
-
-@Override public void onCreate() {
-super.onCreate();
-LeakCanary.install(this);
-}
-}
-</code></pre><p>3 运行你的app，当检测到内存泄漏会有提示：</p>
-<p><img src="https://raw.githubusercontent.com/square/leakcanary/master/assets/screenshot.png" alt="图片"></p>
-<p>4 内存泄漏信息，将会保存在sdcard/blockcanary目录下。</p>
-<p>5 一般内存检查会出现在activity的销毁阶段。</p>
-<p>6 自己编译leakcanary源码的<a href="https://github.com/sirencode/LeakCanary">Demo</a>,可以根据自己的情况对功能进行定制。</p>
+        <p> infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 环境安装见<a href="http://infer.liaohuqiu.net/docs/getting-started.html" target="_blank" rel="noopener">官网</a></p>
+<p>2 android 项目分析</p>
+<pre><code>infer -- ./gradlew build
+</code></pre><p>在两次分析之间运行 gradlew clean</p>
 
       
     </div>
@@ -693,6 +619,80 @@ Linearlayout ly = findViewById(R.id.panel_stub);
 </li>
 </ul>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell getprop dalvik.vm.heapsize</span><br><span class="line">512m</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-LeakCanary" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/31/LeakCanary/" class="article-date">
+  	<time datetime="2016-08-30T16:00:00.000Z" itemprop="datePublished">2016-08-31</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/31/LeakCanary/">
+        内存泄漏检查工具-LeakCanary
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 添加项目依赖：</p>
+<pre><code>dependencies {
+    debugCompile &apos;com.squareup.leakcanary:leakcanary-android:1.4-beta2&apos;
+    releaseCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
+    testCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
+}
+</code></pre><p>2 初始化：</p>
+<pre><code>public class YourApplication extends Application {
+
+@Override public void onCreate() {
+super.onCreate();
+LeakCanary.install(this);
+}
+}
+</code></pre><p>3 运行你的app，当检测到内存泄漏会有提示：</p>
+<p><img src="https://raw.githubusercontent.com/square/leakcanary/master/assets/screenshot.png" alt="图片"></p>
+<p>4 内存泄漏信息，将会保存在sdcard/blockcanary目录下。</p>
+<p>5 一般内存检查会出现在activity的销毁阶段。</p>
+<p>6 自己编译leakcanary源码的<a href="https://github.com/sirencode/LeakCanary">Demo</a>,可以根据自己的情况对功能进行定制。</p>
 
       
     </div>

@@ -666,6 +666,73 @@
 
 
   
+    <article id="post-RemoteView" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/08/RemoteView/" class="article-date">
+  	<time datetime="2018-04-07T16:00:00.000Z" itemprop="datePublished">2018-04-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/08/RemoteView/">
+        RemoteView
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="RemoteView"><a href="#RemoteView" class="headerlink" title="RemoteView"></a>RemoteView</h1><p>RemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>1.通知栏<br>2.桌面小部件</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当前packgeName</span></span><br><span class="line">RemoteViews remoteView = <span class="keyword">new</span> RemoteViews(context.getPackageName(),R.layout.appwidget);</span><br><span class="line">remoteView.setImageViewBitmap(R.id.imageView1,rotateBitmap(context,srcBitmap,degree));</span><br></pre></td></tr></table></figure>
+<h3 id="支持类型"><a href="#支持类型" class="headerlink" title="支持类型"></a>支持类型</h3><p>Layout：FrameLayout,LInearLayout,RelativeLayout,GridLayout</p>
+<p>View：AnalogClock,Button,Chornometer,ImageButton,ImageView,ProgressBar,TextView,ViewFlipper,ListView,GridView,StackView,AdapterViewFlipper,ViewStub</p>
+<h2 id="RemoteViews内部机制"><a href="#RemoteViews内部机制" class="headerlink" title="RemoteViews内部机制"></a>RemoteViews内部机制</h2><ul>
+<li>1 RemoteViews的构造方法 public RemoteViews(String packageName, int layoutId)，第一个参数是当前应用的包名，第二个参数是待加载的布局文件。</li>
+<li>2 RemoteViews提供了一系列的set方法完成view的设置，这是通过反射完成的调用的。</li>
+<li>3 通知和小部件分别由NotificationManager和AppWidgetManager管理，而它们通过Binder分别和SystemServer进程中的NotificationManagerService和AppWidgetManagerService进行通信。所以，布局文件实际上是两个Service加载的，运行在SystemServer进程中。</li>
+<li>4 RemoteViews实现了Parcelable接口，它会通过Binder传递到SystemServer进程，系统会根据RemoteViews中的包名信息获取到应用中的资源，从而完成布局文件的加载。</li>
+<li>5 系统将view操作封装成Action对象，Action同样实现了Parcelable接口，通过Binder传递到SystemServer进程。远程进程通过RemoteViews的apply方法来进行view的更新操作，RemoteViews的apply方法内部则会去遍历所有的action对象并调用它们的apply方法来进行view的更新操作。</li>
+<li>6 RemoteViews的apply和reapply方法的区别：apply方法会加载布局并更新界面，而reapply方法则只会更新界面。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-设计模式-代理模式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -877,73 +944,6 @@
 <li>1 一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两个方面封装在独立的对象中使它们可以各自独立地改变和复用。</li>
 <li>2 一个对象的改变将导致一个或多个其他对象也发生改变，而并不知道具体有多少对象将发生改变，也不知道这些对象是谁。</li>
 <li>3 需要在系统中创建一个触发链，A对象的行为将影响B对象，B对象的行为将影响C对象……，可以使用观察者模式创建一种链式触发机制。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-RemoteView" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/08/RemoteView/" class="article-date">
-  	<time datetime="2018-04-07T16:00:00.000Z" itemprop="datePublished">2018-04-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/08/RemoteView/">
-        RemoteView
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="RemoteView"><a href="#RemoteView" class="headerlink" title="RemoteView"></a>RemoteView</h1><p>RemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。</p>
-<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>1.通知栏<br>2.桌面小部件</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当前packgeName</span></span><br><span class="line">RemoteViews remoteView = <span class="keyword">new</span> RemoteViews(context.getPackageName(),R.layout.appwidget);</span><br><span class="line">remoteView.setImageViewBitmap(R.id.imageView1,rotateBitmap(context,srcBitmap,degree));</span><br></pre></td></tr></table></figure>
-<h3 id="支持类型"><a href="#支持类型" class="headerlink" title="支持类型"></a>支持类型</h3><p>Layout：FrameLayout,LInearLayout,RelativeLayout,GridLayout</p>
-<p>View：AnalogClock,Button,Chornometer,ImageButton,ImageView,ProgressBar,TextView,ViewFlipper,ListView,GridView,StackView,AdapterViewFlipper,ViewStub</p>
-<h2 id="RemoteViews内部机制"><a href="#RemoteViews内部机制" class="headerlink" title="RemoteViews内部机制"></a>RemoteViews内部机制</h2><ul>
-<li>1 RemoteViews的构造方法 public RemoteViews(String packageName, int layoutId)，第一个参数是当前应用的包名，第二个参数是待加载的布局文件。</li>
-<li>2 RemoteViews提供了一系列的set方法完成view的设置，这是通过反射完成的调用的。</li>
-<li>3 通知和小部件分别由NotificationManager和AppWidgetManager管理，而它们通过Binder分别和SystemServer进程中的NotificationManagerService和AppWidgetManagerService进行通信。所以，布局文件实际上是两个Service加载的，运行在SystemServer进程中。</li>
-<li>4 RemoteViews实现了Parcelable接口，它会通过Binder传递到SystemServer进程，系统会根据RemoteViews中的包名信息获取到应用中的资源，从而完成布局文件的加载。</li>
-<li>5 系统将view操作封装成Action对象，Action同样实现了Parcelable接口，通过Binder传递到SystemServer进程。远程进程通过RemoteViews的apply方法来进行view的更新操作，RemoteViews的apply方法内部则会去遍历所有的action对象并调用它们的apply方法来进行view的更新操作。</li>
-<li>6 RemoteViews的apply和reapply方法的区别：apply方法会加载布局并更新界面，而reapply方法则只会更新界面。</li>
 </ul>
 
       

@@ -15,7 +15,7 @@
 <meta property="og:url" content="https://github.com/sirencode/2018/03/13/Looper 死循环问题/index.html">
 <meta property="og:site_name" content="Diablo">
 <meta property="og:description" content="Looper 死循环问题Looper.loop()死循环方法主线程的死循环一直运行是不是特别消耗CPU资源阻塞是有的，但是不会卡住：线程的MessageQueue没有消息时，便阻塞在loop的queue.next()中的nativePollOnce()方法里，此时主线程会释放CPU资源进入休眠状态，直到下个消息到达或者有事务发生，通过往pipe管道写端写入数据来唤醒主线程工作。所以说，主线程大多数">
-<meta property="og:updated_time" content="2018-04-01T07:23:59.685Z">
+<meta property="og:updated_time" content="2018-04-01T07:23:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mLooper 死循环问题">
 <meta name="twitter:description" content="Looper 死循环问题Looper.loop()死循环方法主线程的死循环一直运行是不是特别消耗CPU资源阻塞是有的，但是不会卡住：线程的MessageQueue没有消息时，便阻塞在loop的queue.next()中的nativePollOnce()方法里，此时主线程会释放CPU资源进入休眠状态，直到下个消息到达或者有事务发生，通过往pipe管道写端写入数据来唤醒主线程工作。所以说，主线程大多数">

@@ -861,6 +861,65 @@
 
 
   
+    <article id="post-Apk二次打包" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/Apk二次打包/" class="article-date">
+  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/05/Apk二次打包/">
+        Apk二次打包
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
+<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
+<li>添加方法记得修改被注入方法的寄存器个数</li>
+</ul>
+<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android 逆向工程" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -911,65 +970,6 @@
 <p>使用JD-GUI打开对应的classes-dex2jar.jar包</p>
 <p>打开后就是下面这个样子的阅读起来就容易多了</p>
 <p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.06.01.png" alt=""></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Apk二次打包" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/Apk二次打包/" class="article-date">
-  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/Apk二次打包/">
-        Apk二次打包
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
-<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
-<li>添加方法记得修改被注入方法的寄存器个数</li>
-</ul>
-<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
 
       
     </div>
