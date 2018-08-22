@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>事件总线 | Diablo</title>
+  <title>LiveDataBus | Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。 介绍事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。 通常我们在activity,service，fragment之间通信时，一般有以下几种方案：  1 广播，使用起来比较麻烦。 2 回调，增加了代码之间的耦合。  事件总线框架, 它简化了Activity、Frag">
+  <meta name="description" content="LiveDataBusAndroid Architecture ComponentsAndroid Architecture Components是谷歌在Google I/O 2017发布一套帮助开发者解决Android架构设计的方案。里面包含了两大块内容：  生命周期相关的Lifecycle-aware Components 数据库解决方案Room  这是一个帮助构建稳定，易于测试和易于维护的A">
 <meta property="og:type" content="article">
-<meta property="og:title" content="事件总线">
-<meta property="og:url" content="https://github.com/sirencode/2016/09/01/事件总线/index.html">
+<meta property="og:title" content="LiveDataBus">
+<meta property="og:url" content="https://github.com/sirencode/2018/08/22/LiveDataBus/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。 介绍事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。 通常我们在activity,service，fragment之间通信时，一般有以下几种方案：  1 广播，使用起来比较麻烦。 2 回调，增加了代码之间的耦合。  事件总线框架, 它简化了Activity、Frag">
-<meta property="og:updated_time" content="2016-09-01T03:21:11.000Z">
+<meta property="og:description" content="LiveDataBusAndroid Architecture ComponentsAndroid Architecture Components是谷歌在Google I/O 2017发布一套帮助开发者解决Android架构设计的方案。里面包含了两大块内容：  生命周期相关的Lifecycle-aware Components 数据库解决方案Room  这是一个帮助构建稳定，易于测试和易于维护的A">
+<meta property="og:updated_time" content="2018-08-22T05:17:29.574Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="事件总线">
-<meta name="twitter:description" content="比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。 介绍事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。 通常我们在activity,service，fragment之间通信时，一般有以下几种方案：  1 广播，使用起来比较麻烦。 2 回调，增加了代码之间的耦合。  事件总线框架, 它简化了Activity、Frag">
+<meta name="twitter:title" content="LiveDataBus">
+<meta name="twitter:description" content="LiveDataBusAndroid Architecture ComponentsAndroid Architecture Components是谷歌在Google I/O 2017发布一套帮助开发者解决Android架构设计的方案。里面包含了两大块内容：  生命周期相关的Lifecycle-aware Components 数据库解决方案Room  这是一个帮助构建稳定，易于测试和易于维护的A">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -164,11 +164,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-事件总线" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-LiveDataBus" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/09/01/事件总线/" class="article-date">
-  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
+      <a href="/2018/08/22/LiveDataBus/" class="article-date">
+  	<time datetime="2018-08-21T16:00:00.000Z" itemprop="datePublished">2018-08-22</time>
 </a>
     </div>
   
@@ -181,7 +181,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      事件总线
+      LiveDataBus
       
     </h1>
   
@@ -199,34 +199,18 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。</p>
-<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。</p>
-<p>通常我们在activity,service，fragment之间通信时，一般有以下几种方案：</p>
-<ul>
-<li>1 广播，使用起来比较麻烦。</li>
-<li>2 回调，增加了代码之间的耦合。</li>
-</ul>
-<p>事件总线框架, 它简化了Activity、Fragment、Service等组件之间的交互，很大程度上降低了它们之间的耦合，使得我们的代码更加简洁，耦合性更低，提升我们的代码质量。</p>
-<h3 id="主流事件总线的对比"><a href="#主流事件总线的对比" class="headerlink" title="主流事件总线的对比"></a>主流事件总线的对比</h3><p>1 otto框架，通过反射机制来实现的方法查找，并且是运行时的反射，效率较低，速度较慢。</p>
-<p>2 eventbus框架（3.0以上版本），也是通过反射机制实现，但是编译的时候生成新的class，对运行速度影响不大，效率较高。</p>
-<p>3 rxbus,自己结合rxjava实现的框架，简单实用，但是要考虑多种场景的处理情况，编写起来有很大的工作量。</p>
-<h3 id="EventBus使用"><a href="#EventBus使用" class="headerlink" title="EventBus使用"></a>EventBus使用</h3><p>1 添加依赖</p>
-<pre><code>compile &apos;org.greenrobot:eventbus:3.0.0&apos;
-</code></pre><p>2 定义event</p>
-<pre><code>public class MessageEvent { /* Additional fields if needed */ }
-</code></pre><p>3 发送者：</p>
-<pre><code>eventBus.post(event);
-</code></pre><p>4 接收者：</p>
-<pre><code>//注册
-eventBus.register(this);
-
-//接收方法
-@Subscribe  
-public void onEvent(AnyEventType event) {/* Do something */};
-
-//解除注册
-eventBus.unregister(this);
-</code></pre><p>5 确保在事件发送前注册，并处理接收方法。</p>
+        <h1 id="LiveDataBus"><a href="#LiveDataBus" class="headerlink" title="LiveDataBus"></a>LiveDataBus</h1><h2 id="Android-Architecture-Components"><a href="#Android-Architecture-Components" class="headerlink" title="Android Architecture Components"></a>Android Architecture Components</h2><p>Android Architecture Components是谷歌在Google I/O 2017发布一套帮助开发者解决Android架构设计的方案。里面包含了两大块内容：</p>
+<ol>
+<li>生命周期相关的Lifecycle-aware Components</li>
+<li>数据库解决方案Room</li>
+</ol>
+<p>这是一个帮助构建稳定，易于测试和易于维护的App架构的库。</p>
+<h3 id="Lifecycle"><a href="#Lifecycle" class="headerlink" title="Lifecycle"></a>Lifecycle</h3><p>Lifecycle 是一个类，它持有关于组件（如 Activity 或 Fragment）生命周期状态的信息，并且允许其他对象观察此状态。</p>
+<h3 id="LiveData"><a href="#LiveData" class="headerlink" title="LiveData"></a>LiveData</h3><p>LiveData是一种持有可被观察数据的类。和其他可被观察的类不同的是，LiveData是有生命周期感知能力的，这意味着它可以在activities, fragments, 或者 services生命周期是活跃状态时更新这些组件。</p>
+<h3 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h3><p>ViewModel设计的目的就是存放和处理和UI相关的数据，并且这些数据不受配置变化（Configuration Changes，例如：旋转屏幕，组件被系统回收）的影响。</p>
+<h3 id="room"><a href="#room" class="headerlink" title="room"></a>room</h3><p>Room在SQLite上提供了一个方便访问的抽象层。</p>
+<h3 id="Paging-Library"><a href="#Paging-Library" class="headerlink" title="Paging Library"></a>Paging Library</h3><p>Paging Library（分页加载库）用于逐步从数据源加载信息，而不会耗费过多的设备资源或者等待太长的时间。</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>基于Livedata的实现的主要原因就是Livedata是生命周期感知的，不需要手动管理，又避免了内存泄露以及UI显示的问题。</p>
 
       
     </div>
@@ -236,18 +220,9 @@ eventBus.unregister(this);
     
 <nav id="article-nav">
   
-    <a href="/2016/09/01/infer/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">&lt;</strong>
-      <div class="article-nav-title">
-        
-          内存泄漏检查工具-infer
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/08/31/LeakCanary/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">内存泄漏检查工具-LeakCanary</div>
+    <a href="/2018/07/23/Android 控件系统/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 控件系统</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -257,7 +232,7 @@ eventBus.unregister(this);
 </article>
 
 
-<div class="ds-share share" data-thread-key="事件总线" data-title="事件总线" data-url="https://github.com/sirencode/2016/09/01/事件总线/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="事件总线">
+<div class="ds-share share" data-thread-key="LiveDataBus" data-title="LiveDataBus" data-url="https://github.com/sirencode/2018/08/22/LiveDataBus/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="LiveDataBus">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>

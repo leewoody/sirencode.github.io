@@ -162,6 +162,70 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-jrebel" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/12/16/jrebel/" class="article-date">
+  	<time datetime="2016-12-15T16:00:00.000Z" itemprop="datePublished">2016-12-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/16/jrebel/">
+        Android  jrebel
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>Jrebel 是一款 Java 程序的开发工具，它允许你的应用程序代码更新之后不用重新部署或重启。毫无疑问，支持 Android 应用程序，无须配置，使用起来超简单方便，亲测确实很快速，能极大的节省你调试的时间，<a href="https://zeroturnaround.com/" target="_blank" rel="noopener">官方地址：</a></p>
+<h3 id="安装与使用"><a href="#安装与使用" class="headerlink" title="安装与使用"></a>安装与使用</h3><p>AS:打开 Preference -&gt; Plugins -&gt; Browse Repositories ，搜索 JRebel ，直接点击安装。</p>
+<p>安装成功之后重启 AS，然后会发现在顶部工具栏会出现如下三个按钮：</p>
+<ul>
+<li>Run app with JRebel for Android</li>
+<li>Debug app with JRebel for Android</li>
+<li>Apply changes with JRebel for Android</li>
+</ul>
+<p>顾名思义，一般我们只需要第一次安装的时候使用第一个按钮运行一次，之后代码变动，只需要点击第三个按钮，你的真机或者模拟器很快就展示出来修改代码之后的效果。</p>
+<p>最后，还有一个很关键的，JRebel 是收费的，个人用户每年要 49 刀，还是蛮贵的，不过如果每天可以节省你几十分钟甚至成个小时的时间，一年下来这些时间相较这个价格来说是很合算的。但是如果你不想付费，这里也有一个方法，可以去官网用邮箱注册个账号获取体验码，可以免费体验 21 天，21 天到期之后你可以重新注册，据说官方对邮件没有验证，感兴趣的同学不妨试下。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-7.0适配问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -568,6 +632,76 @@
 
 
   
+    <article id="post-APK大小分析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/15/APK大小分析/" class="article-date">
+  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/15/APK大小分析/">
+        APK大小分析
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h3><p>AS -&gt; Build -&gt; AnalyzeApk(AS2.2之后)</p>
+<h3 id="APK组成部分"><a href="#APK组成部分" class="headerlink" title="APK组成部分"></a>APK组成部分</h3><ul>
+<li>asserts</li>
+<li>lib</li>
+<li>res</li>
+<li>dex</li>
+<li>META-INF</li>
+<li>androidManifest</li>
+</ul>
+<h4 id="asserts"><a href="#asserts" class="headerlink" title="asserts"></a>asserts</h4><p>assets目录可以存放一些配置文件或资源文件，比如webview的本地html，react native的jsbundle等，微信的整个assets占用了13.4M。如果你的应用对本地资源要求很少的话，这个文件应该不会太大。</p>
+<h4 id="lib"><a href="#lib" class="headerlink" title="lib"></a>lib</h4><p>lib目录下会有各种so文件，分析器会检查出项目自己的so和各种库的so。微博和微信一样只支持了arm一个平台，淘宝支持了arm和x86两个平台。</p>
+<h4 id="resources-arsc"><a href="#resources-arsc" class="headerlink" title="resources.arsc"></a>resources.arsc</h4><p>这个文件是编译后的二进制资源文件，里面是id-name-value的一个map。因为微信做了资源的混淆，所以这里可以看到资源名称都是不可读的。</p>
+<h4 id="META-INF"><a href="#META-INF" class="headerlink" title="META-INF"></a>META-INF</h4><p>META-INF目录下存放的是签名信息，用来保证apk包的完整性和系统的安全性，帮助用户避免安装来历不明的盗版apk。</p>
+<h4 id="res"><a href="#res" class="headerlink" title="res"></a>res</h4><p>res目录存放的是资源文件。包括图片、字符串。raw文件夹下面是音频文件，各种xml文件等等。因为微信做了资源混淆，图片名字都不可读了。</p>
+<h4 id="dex"><a href="#dex" class="headerlink" title="dex"></a>dex</h4><p>dex文件是java代码打包后的字节码，一个dex文件最多只支持65536个方法，这也是为什么微信有了三个dex文件的原因。</p>
+<p>因为dex分包是不均匀的，你可以理解为装箱，一个箱子的大小是固定的，但你代码的量是不确定的，微信把前两个箱子装满了，最后还剩了2m多的代码，这些代码也占用了一个箱子，最终产生了上图不均匀的结果。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-图片OOM问题" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -656,76 +790,6 @@
 </ul>
 <h4 id="生成Bitmap所占大小-size"><a href="#生成Bitmap所占大小-size" class="headerlink" title="生成Bitmap所占大小(size)"></a>生成Bitmap所占大小(size)</h4><p>公式: 宽 <em> 高 </em> 每个像素所占字节</p>
 <p>size = width <em> height </em> bytes(格式1,2,3,4)*放大缩小倍数</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-APK大小分析" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/15/APK大小分析/" class="article-date">
-  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/15/APK大小分析/">
-        APK大小分析
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="分析方法"><a href="#分析方法" class="headerlink" title="分析方法"></a>分析方法</h3><p>AS -&gt; Build -&gt; AnalyzeApk(AS2.2之后)</p>
-<h3 id="APK组成部分"><a href="#APK组成部分" class="headerlink" title="APK组成部分"></a>APK组成部分</h3><ul>
-<li>asserts</li>
-<li>lib</li>
-<li>res</li>
-<li>dex</li>
-<li>META-INF</li>
-<li>androidManifest</li>
-</ul>
-<h4 id="asserts"><a href="#asserts" class="headerlink" title="asserts"></a>asserts</h4><p>assets目录可以存放一些配置文件或资源文件，比如webview的本地html，react native的jsbundle等，微信的整个assets占用了13.4M。如果你的应用对本地资源要求很少的话，这个文件应该不会太大。</p>
-<h4 id="lib"><a href="#lib" class="headerlink" title="lib"></a>lib</h4><p>lib目录下会有各种so文件，分析器会检查出项目自己的so和各种库的so。微博和微信一样只支持了arm一个平台，淘宝支持了arm和x86两个平台。</p>
-<h4 id="resources-arsc"><a href="#resources-arsc" class="headerlink" title="resources.arsc"></a>resources.arsc</h4><p>这个文件是编译后的二进制资源文件，里面是id-name-value的一个map。因为微信做了资源的混淆，所以这里可以看到资源名称都是不可读的。</p>
-<h4 id="META-INF"><a href="#META-INF" class="headerlink" title="META-INF"></a>META-INF</h4><p>META-INF目录下存放的是签名信息，用来保证apk包的完整性和系统的安全性，帮助用户避免安装来历不明的盗版apk。</p>
-<h4 id="res"><a href="#res" class="headerlink" title="res"></a>res</h4><p>res目录存放的是资源文件。包括图片、字符串。raw文件夹下面是音频文件，各种xml文件等等。因为微信做了资源混淆，图片名字都不可读了。</p>
-<h4 id="dex"><a href="#dex" class="headerlink" title="dex"></a>dex</h4><p>dex文件是java代码打包后的字节码，一个dex文件最多只支持65536个方法，这也是为什么微信有了三个dex文件的原因。</p>
-<p>因为dex分包是不均匀的，你可以理解为装箱，一个箱子的大小是固定的，但你代码的量是不确定的，微信把前两个箱子装满了，最后还剩了2m多的代码，这些代码也占用了一个箱子，最终产生了上图不均匀的结果。</p>
 
       
     </div>
@@ -1203,111 +1267,6 @@ android:viewportWidth=&quot;24&quot;&gt;
 <h4 id="SVG压缩"><a href="#SVG压缩" class="headerlink" title="SVG压缩"></a>SVG压缩</h4><p>记得将SVG文件进行压缩</p>
 <p><a href="https://jakearchibald.github.io/svgomg/?utm_source=next.36kr.com" target="_blank" rel="noopener">在线</a></p>
 <h4 id="在AS中导入图片"><a href="#在AS中导入图片" class="headerlink" title="在AS中导入图片"></a>在AS中导入图片</h4><p>File -&gt; New -&gt; Vector Asset -&gt; Local SVG files</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-性能优化 - 代码层问题" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/10/27/性能优化 - 代码层问题/" class="article-date">
-  	<time datetime="2016-10-26T16:00:00.000Z" itemprop="datePublished">2016-10-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/27/性能优化 - 代码层问题/">
-        性能优化 - 代码层问题
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>用stringbuffer代替string</li>
-<li>ArrayMap 替代 HashMap</li>
-<li>ArraySet 替代 HashSet</li>
-<li>SparseArray 替代 HashMap</li>
-<li>SparseBooleanArray 替代 HashMap</li>
-<li>SparseIntArray 替代 HashMap</li>
-<li>SparseLongArray 替代 HashMap</li>
-<li>LongSparseArray 替代 HashMap</li>
-<li>避免匿名内部类</li>
-<li>单例引用问题</li>
-<li>io流，bitmap，数据库cursor等资源及时释放</li>
-<li>将类、变量、方法等等的可见性修改为最小</li>
-<li>尽量少使用fragment和activity(太重)</li>
-<li>使用Application的Context</li>
-<li>如果程序会频繁创建线程，则可以考虑使用线程池</li>
-<li>尽量用色值代替图片</li>
-<li>慎用透明度属性图片，大小和内存会极具增加</li>
-<li>避免在Android里面使用Enum(因为枚举内存大小是静态碧昂量的两倍)</li>
-<li>避免在onDraw方法里面执行对象的创建</li>
-<li>注意监听器的注销</li>
-<li>注意WebView的泄漏（独立进程）</li>
-<li>谨慎使用static对象，因为static的生命周期过长，和应用的进程保持一致，使用不当很可能导致对象泄漏，在Android中应该谨慎使用static对象</li>
-<li>常量请用static final来修饰</li>
-<li>尽量采用静态内部类，这样可以避免潜在的由于内部类而导致的内存泄漏</li>
-<li>在代码中减少反射调用</li>
-<li>谨慎使用抽象编程</li>
-<li>使用ProGuard来剔除不需要的代码</li>
-<li>慎用异常,异常对性能不利</li>
-<li>任何一个Java类，包括匿名类、内部类，都要占用大概500字节的内存空间</li>
-<li>任何一个类的实例要消耗12-16字节的内存开支，因此频繁创建实例也是会在一定程序上影响内存的</li>
-<li>LinearLayout 要比 RelativeLayout占用更小内存</li>
-<li>数据不需要序列化的不要序列化，因为数据的序列化和反序列化很费时</li>
-<li>代码混淆和资源混淆</li>
-<li>使用更小的图片格式webp</li>
-<li>将循环变量无关的计算都放到循环外</li>
-<li>外提循环内的各种条件判断：比如 if（a &gt; b &amp;&amp; b &gt; c）改为if(conditionX)，循环判断条件的计算，比如i &lt; xxxList.length 改为 i &lt; xxxListLen。</li>
-<li>交换内外循环，将次数多的循环放在最内层，将多次全循环合并（可能降低可读性）</li>
-<li>布尔逻辑优化，比如!a &amp;&amp; !b 转换为!(a || b) 会减少计算</li>
-<li>使用自增、自减表达式</li>
-<li>使用尽量简单的数据类型：使用int或long代替long long，使用定点或整数代替浮点数，使单精度代替双精度</li>
-<li>尽可能降低数组维度</li>
-<li>尽可能减少数组的引用</li>
-</ul>
-<h4 id="逻辑判断优化"><a href="#逻辑判断优化" class="headerlink" title="逻辑判断优化"></a>逻辑判断优化</h4><ul>
-<li>switch 语句按照出现频率排序，让最常用的放在最前面，减少无效判断</li>
-<li>if 语句将弱计算的条件放在前面，避免过多的计算（短路规则）</li>
-<li>逻辑判断条件转换为与0值比较</li>
-<li>使用结果缓存，而不是每次都计算结果</li>
-<li>使用查表的方法代替复杂的条件计算</li>
-</ul>
 
       
     </div>
