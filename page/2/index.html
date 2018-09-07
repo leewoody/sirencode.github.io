@@ -162,10 +162,10 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-逆向-small语法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android 逆向工程" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/逆向-small语法/" class="article-date">
+      <a href="/2018/05/05/Android 逆向工程/" class="article-date">
   	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
@@ -179,8 +179,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/逆向-small语法/">
-        逆向-small语法
+      <a class="article-title" href="/2018/05/05/Android 逆向工程/">
+        Android 逆向工程
         
       </a>
     </h1>
@@ -191,41 +191,86 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="逆向-small语法"><a href="#逆向-small语法" class="headerlink" title="逆向-small语法"></a>逆向-small语法</h1><p>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</p>
-<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>Dalvik的字节码中拥有两个主要的类型：基类和引用类型。引用类型是对象和数组，其他的一切都是基类。</p>
-<h3 id="基类"><a href="#基类" class="headerlink" title="基类"></a>基类</h3><p>基类对照：</p>
+        <h1 id="Android-逆向工程"><a href="#Android-逆向工程" class="headerlink" title="Android 逆向工程"></a>Android 逆向工程</h1><h2 id="安装apktool"><a href="#安装apktool" class="headerlink" title="安装apktool"></a>安装apktool</h2><p><a href="https://ibotpeaches.github.io/Apktool/install/" target="_blank" rel="noopener">apktool官网</a></p>
+<p>安装说明</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8810.02.27.png" alt=""></p>
 <ul>
-<li>V        空类型—仅仅可以用来作为返回类型</li>
-<li>Z        Boolean 布尔型</li>
-<li>B        Byte字节型</li>
-<li>S        Short短整型（16位）</li>
-<li>C        Char字符型</li>
-<li>I        Int 整形</li>
-<li>J        long (64 bits)长整型（64位）</li>
-<li>F        Float浮点型</li>
-<li>D        double (64 bits)双精度型（64位）</li>
+<li>注意apktool的脚本文件不能有后缀名(sublimetext新建一个无后缀的文件之后将内容拷贝进去)</li>
 </ul>
-<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>对象采用这样的形式Lpackage/name/ObjectName—开始的L表明这是一个对象类型，package/name/就是该对象，对象名是是对象的名称，并且分号表明对象名的结束。</p>
-<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>格式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.class &lt; 访问权限&gt; [ 修饰关键字] &lt; 类名&gt;  </span><br><span class="line">.<span class="keyword">super</span> &lt; 父类名&gt;  </span><br><span class="line">.source &lt;源文件名&gt;  </span><br><span class="line"><span class="comment">//</span></span><br><span class="line">.class <span class="keyword">public</span> La/b/a/a;</span><br><span class="line">.<span class="keyword">super</span> Ljava/lang/Object;</span><br><span class="line">.source <span class="string">"SourceFile"</span></span><br></pre></td></tr></table></figure>
-<h2 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># static fields  </span><br><span class="line">.field &lt; 访问权限&gt; <span class="keyword">static</span> [ 修饰关键字] &lt; 字段名&gt;:&lt; 字段类型&gt;  </span><br><span class="line"># instance fields  </span><br><span class="line">.field &lt; 访问权限&gt; [ 修饰关键字] &lt; 字段名&gt;:&lt; 字段类型&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>格式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># direct methods                //添加的注释  </span><br><span class="line">.method &lt;访问权限&gt; [ 修饰关键字] &lt; 方法原型&gt;  </span><br><span class="line">    &lt;.locals&gt;                 <span class="comment">//指定了使用的局部变量的个数  </span></span><br><span class="line"> [.parameter]                   <span class="comment">//指定了方法的参数  </span></span><br><span class="line"> [.prologue]                    <span class="comment">//指定了代码的开始处，混淆过的代码可能去掉了该指令  </span></span><br><span class="line"> [.line]                    <span class="comment">//指定了该处指令在源代码中的行号  </span></span><br><span class="line">&lt;代码体&gt;  </span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
-<p>Java虚方法你可以理解为java里所有被overriding的方法都是virtual的,所有重写的方法都是override的。虚方法的声明与直接方法相同，只是起始处的注释为“virtual methods”。</p>
-<h3 id="方法调用格式："><a href="#方法调用格式：" class="headerlink" title="方法调用格式："></a>方法调用格式：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lpackage/name/ObjectName;-&gt;MethodName(III)Z</span><br></pre></td></tr></table></figure>
-<p> Lpackage/name/ObjectName; 是一个类， MethodName明显是一个方法名，‘III’在这个例子中是三个整形参数，Z是表示返回一个布尔类型的返回值。</p>
-<p>数组：“[I = int[]   [[I = int[][]”</p>
-<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><p>寄存器总是32位可以存放任何类型的值，2个寄存器可以用来存放64位类型（长整形和双精度型）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-virtual &#123;v0, p1, p2, p3&#125;, Ljava/beans/PropertyChangeSupport;-&gt;firePropertyChange(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V</span><br></pre></td></tr></table></figure>
-<p>对于寄存器这里有两种命名方案—标准的V命名方案和对于参数寄存器的P命名方案。</p>
-<p>以p命名的第一个寄存器就是方法中的第一个参数寄存器，所以让我们回到之前的总共拥有5个寄存器其中3个参数的例子。下表中显示了为每个寄存器的标准v命名，紧接着是为参数寄存器的p命名</p>
-<ul>
-<li>v0                 the first local register       第一个本地寄存器</li>
-<li>v1                 the second local register  第二个本地寄存器</li>
-<li>v2        p0        the first parameter register   第一个参数寄存器</li>
-<li>v3        p1        the second parameter register   第二个参数寄存器</li>
-<li>v4        p2        the third parameter register   第三个参数寄存器</li>
+<h2 id="安装dex2jar"><a href="#安装dex2jar" class="headerlink" title="安装dex2jar"></a>安装dex2jar</h2><p><a href="https://github.com/pxb1988/dex2jar/releases">git下载地址</a></p>
+<p>下载zip解压待用</p>
+<h2 id="安装JD-GUI"><a href="#安装JD-GUI" class="headerlink" title="安装JD-GUI"></a>安装JD-GUI</h2><p><a href="http://jd.benow.ca/" target="_blank" rel="noopener">官网地址</a></p>
+<p>下载安装即可(mac版的请下载.jar包那个，安装包的兼容性有问题)</p>
+<h2 id="开始简单的反编译之旅"><a href="#开始简单的反编译之旅" class="headerlink" title="开始简单的反编译之旅"></a>开始简单的反编译之旅</h2><h3 id="获取xml反编译文件和smail代码"><a href="#获取xml反编译文件和smail代码" class="headerlink" title="获取xml反编译文件和smail代码"></a>获取xml反编译文件和smail代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//apk文件所在的目录</span><br><span class="line"><span class="built_in">cd</span> /User/shen/Desktop </span><br><span class="line">//获取xml反编译文件和smail代码</span><br><span class="line">apktool d demo.apk</span><br></pre></td></tr></table></figure>
+<p>等跑完，里面的资源文件就出来了，还有smail源码，你要是会读的话跟java差不多。</p>
+<p>small的语法长这样：</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.13.21.png" alt=""></p>
+<h3 id="反编译class-dex文件"><a href="#反编译class-dex文件" class="headerlink" title="反编译class.dex文件"></a>反编译class.dex文件</h3><p>将demo.apk复制一份并改后缀名为zip，然后将文件夹里的classes.dex拷贝出来，回到dex2jar 解压的目录下，将文件复制进去。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/shenyonghe/Downloads/dex-tools-2.1</span><br><span class="line">chmod +x ./* </span><br><span class="line">./d2j-dex2jar.sh classes.dex</span><br></pre></td></tr></table></figure>
+<p>这个时候文件夹下回多出一个jar文件classes-dex2jar.jar包</p>
+<p>注意有的项目会包含多个.dex文件(分包了)，因此要生成多个.jar包进行分析</p>
+<p>使用JD-GUI打开对应的classes-dex2jar.jar包</p>
+<p>打开后就是下面这个样子的阅读起来就容易多了</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.06.01.png" alt=""></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-Apk二次打包" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/Apk二次打包/" class="article-date">
+  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/05/Apk二次打包/">
+        Apk二次打包
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
+<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
+<li>添加方法记得修改被注入方法的寄存器个数</li>
 </ul>
+<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -755,6 +800,78 @@
 
 
   
+    <article id="post-设计模式-代理模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/08/设计模式-代理模式/" class="article-date">
+  	<time datetime="2018-04-07T16:00:00.000Z" itemprop="datePublished">2018-04-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/08/设计模式-代理模式/">
+        设计模式-代理模式
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="设计模式-代理模"><a href="#设计模式-代理模" class="headerlink" title="设计模式-代理模"></a>设计模式-代理模</h1><p>给某一个对象提供一个代理或占位符，并由代理对象来控制对原对象的访问。</p>
+<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><ul>
+<li>Subject（抽象主题角色）：它声明了真实主题和代理主题的共同接口，这样一来在任何使用真实主题的地方都可以使用代理主题，客户端通常需要针对抽象主题角色进行编程。</li>
+<li>Proxy（代理主题角色）：它包含了对真实主题的引用，从而可以在任何时候操作真实主题对象；在代理主题角色中提供一个与真实主题角色相同的接口，以便在任何时候都可以替代真实主题；代理主题角色还可以控制对真实主题的使用，负责在需要的时候创建和删除真实主题对象，并对真实主题对象的使用加以约束。通常，在代理主题角色中，客户端在调用所引用的真实主题操作之前或之后还需要执行其他操作，而不仅仅是单纯调用真实主题对象中的操作。</li>
+<li>RealSubject（真实主题角色）：它定义了代理角色所代表的真实对象，在真实主题角色中实现了真实的业务操作，客户端可以通过代理主题角色间接调用真实主题角色中定义的操作。</li>
+</ul>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">Request</span><span class="params">()</span></span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">RealSubject</span> <span class="keyword">implements</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Request</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="comment">//业务方法具体实现代码</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line">     <span class="keyword">private</span> RealSubject realSubject = <span class="keyword">new</span> RealSubject(); <span class="comment">//维持一个对真实主题对象的引用</span></span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PreRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         </span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Request</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         PreRequest();</span><br><span class="line">         realSubject.Request(); <span class="comment">//调用真实主题对象的方法</span></span><br><span class="line">         PostRequest();</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PostRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>优点：</p>
+<ul>
+<li>1 能够协调调用者和被调用者，在一定程度上降低了系统的耦合度。</li>
+<li>2 客户端可以针对抽象主题角色进行编程，增加和更换代理类无须修改源代码，符合开闭原则，系统具有较好的灵活性和可扩展性。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>1 由于在客户端和真实主题之间增加了代理对象，因此有些类型的代理模式可能会造成请求的处理速度变慢。</li>
+<li>2 实现代理模式需要额外的工作，而且有些代理模式的实现过程较为复杂。</li>
+</ul>
+<p>场景： 当调用者在调用真正的方法前需要做一些额外的处理工作。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-设计模式-观察者模式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -814,145 +931,6 @@
 <li>2 一个对象的改变将导致一个或多个其他对象也发生改变，而并不知道具体有多少对象将发生改变，也不知道这些对象是谁。</li>
 <li>3 需要在系统中创建一个触发链，A对象的行为将影响B对象，B对象的行为将影响C对象……，可以使用观察者模式创建一种链式触发机制。</li>
 </ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-RemoteView" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/08/RemoteView/" class="article-date">
-  	<time datetime="2018-04-07T16:00:00.000Z" itemprop="datePublished">2018-04-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/08/RemoteView/">
-        RemoteView
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="RemoteView"><a href="#RemoteView" class="headerlink" title="RemoteView"></a>RemoteView</h1><p>RemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。</p>
-<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>1.通知栏<br>2.桌面小部件</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当前packgeName</span></span><br><span class="line">RemoteViews remoteView = <span class="keyword">new</span> RemoteViews(context.getPackageName(),R.layout.appwidget);</span><br><span class="line">remoteView.setImageViewBitmap(R.id.imageView1,rotateBitmap(context,srcBitmap,degree));</span><br></pre></td></tr></table></figure>
-<h3 id="支持类型"><a href="#支持类型" class="headerlink" title="支持类型"></a>支持类型</h3><p>Layout：FrameLayout,LInearLayout,RelativeLayout,GridLayout</p>
-<p>View：AnalogClock,Button,Chornometer,ImageButton,ImageView,ProgressBar,TextView,ViewFlipper,ListView,GridView,StackView,AdapterViewFlipper,ViewStub</p>
-<h2 id="RemoteViews内部机制"><a href="#RemoteViews内部机制" class="headerlink" title="RemoteViews内部机制"></a>RemoteViews内部机制</h2><ul>
-<li>1 RemoteViews的构造方法 public RemoteViews(String packageName, int layoutId)，第一个参数是当前应用的包名，第二个参数是待加载的布局文件。</li>
-<li>2 RemoteViews提供了一系列的set方法完成view的设置，这是通过反射完成的调用的。</li>
-<li>3 通知和小部件分别由NotificationManager和AppWidgetManager管理，而它们通过Binder分别和SystemServer进程中的NotificationManagerService和AppWidgetManagerService进行通信。所以，布局文件实际上是两个Service加载的，运行在SystemServer进程中。</li>
-<li>4 RemoteViews实现了Parcelable接口，它会通过Binder传递到SystemServer进程，系统会根据RemoteViews中的包名信息获取到应用中的资源，从而完成布局文件的加载。</li>
-<li>5 系统将view操作封装成Action对象，Action同样实现了Parcelable接口，通过Binder传递到SystemServer进程。远程进程通过RemoteViews的apply方法来进行view的更新操作，RemoteViews的apply方法内部则会去遍历所有的action对象并调用它们的apply方法来进行view的更新操作。</li>
-<li>6 RemoteViews的apply和reapply方法的区别：apply方法会加载布局并更新界面，而reapply方法则只会更新界面。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-设计模式-代理模式" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/08/设计模式-代理模式/" class="article-date">
-  	<time datetime="2018-04-07T16:00:00.000Z" itemprop="datePublished">2018-04-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/08/设计模式-代理模式/">
-        设计模式-代理模式
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="设计模式-代理模"><a href="#设计模式-代理模" class="headerlink" title="设计模式-代理模"></a>设计模式-代理模</h1><p>给某一个对象提供一个代理或占位符，并由代理对象来控制对原对象的访问。</p>
-<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><ul>
-<li>Subject（抽象主题角色）：它声明了真实主题和代理主题的共同接口，这样一来在任何使用真实主题的地方都可以使用代理主题，客户端通常需要针对抽象主题角色进行编程。</li>
-<li>Proxy（代理主题角色）：它包含了对真实主题的引用，从而可以在任何时候操作真实主题对象；在代理主题角色中提供一个与真实主题角色相同的接口，以便在任何时候都可以替代真实主题；代理主题角色还可以控制对真实主题的使用，负责在需要的时候创建和删除真实主题对象，并对真实主题对象的使用加以约束。通常，在代理主题角色中，客户端在调用所引用的真实主题操作之前或之后还需要执行其他操作，而不仅仅是单纯调用真实主题对象中的操作。</li>
-<li>RealSubject（真实主题角色）：它定义了代理角色所代表的真实对象，在真实主题角色中实现了真实的业务操作，客户端可以通过代理主题角色间接调用真实主题角色中定义的操作。</li>
-</ul>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">Request</span><span class="params">()</span></span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">RealSubject</span> <span class="keyword">implements</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Request</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         <span class="comment">//业务方法具体实现代码</span></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="class"><span class="keyword">class</span> <span class="title">Proxy</span> <span class="keyword">implements</span> <span class="title">Subject</span></span>&#123;</span><br><span class="line">     <span class="keyword">private</span> RealSubject realSubject = <span class="keyword">new</span> RealSubject(); <span class="comment">//维持一个对真实主题对象的引用</span></span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PreRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         </span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">Request</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         PreRequest();</span><br><span class="line">         realSubject.Request(); <span class="comment">//调用真实主题对象的方法</span></span><br><span class="line">         PostRequest();</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">PostRequest</span><span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>优点：</p>
-<ul>
-<li>1 能够协调调用者和被调用者，在一定程度上降低了系统的耦合度。</li>
-<li>2 客户端可以针对抽象主题角色进行编程，增加和更换代理类无须修改源代码，符合开闭原则，系统具有较好的灵活性和可扩展性。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>1 由于在客户端和真实主题之间增加了代理对象，因此有些类型的代理模式可能会造成请求的处理速度变慢。</li>
-<li>2 实现代理模式需要额外的工作，而且有些代理模式的实现过程较为复杂。</li>
-</ul>
-<p>场景： 当调用者在调用真正的方法前需要做一些额外的处理工作。</p>
 
       
     </div>

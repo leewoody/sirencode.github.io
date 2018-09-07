@@ -162,6 +162,112 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-UI懒加载" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/19/UI懒加载/" class="article-date">
+  	<time datetime="2016-09-18T16:00:00.000Z" itemprop="datePublished">2016-09-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/19/UI懒加载/">
+        Android UI懒加载-ViewStub
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="ViewStub-使用"><a href="#ViewStub-使用" class="headerlink" title="ViewStub 使用"></a>ViewStub 使用</h3><p>1 xml声明</p>
+<pre><code>&lt;ViewStub
+   android:id=&quot;@+id/firstBlock&quot;
+   android:inflatedId=&quot;@+id/firstLy&quot;
+   android:layout=&quot;@layout/first_ly&quot;
+   android:layout_height=&quot;0dp&quot;
+   android:layout_weight=&quot;1&quot;
+   android:layout_width=&quot;match_parent&quot; /&gt;
+</code></pre><p>2 firstStub.inflate()或者firstStub.setVisibility(View.VISIBLE)加载Ui</p>
+<p>2 inflatedId为指定layout根元素的id。</p>
+<h3 id="UI懒加载实现"><a href="#UI懒加载实现" class="headerlink" title="UI懒加载实现"></a>UI懒加载实现</h3><h4 id="1把布局按模块分成不同模块的viewstub"><a href="#1把布局按模块分成不同模块的viewstub" class="headerlink" title="1把布局按模块分成不同模块的viewstub"></a>1把布局按模块分成不同模块的viewstub</h4><pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;LinearLayout xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;
+android:layout_height=&quot;match_parent&quot;
+android:layout_width=&quot;match_parent&quot;
+android:orientation=&quot;vertical&quot;&gt;
+&lt;ViewStub
+    android:background=&quot;#ff0000&quot;
+    android:id=&quot;@+id/firstBlock&quot;
+    android:inflatedId=&quot;@+id/firstLy&quot;
+    android:layout=&quot;@layout/first_ly&quot;
+    android:layout_height=&quot;0dp&quot;
+    android:layout_weight=&quot;1&quot;
+    android:layout_width=&quot;match_parent&quot; /&gt;
+
+&lt;ViewStub
+    android:id=&quot;@+id/secondBlock&quot;
+    android:inflatedId=&quot;@+id/secondLy&quot;
+    android:layout=&quot;@layout/second_ly&quot;
+    android:layout_height=&quot;0dp&quot;
+    android:layout_weight=&quot;1&quot;
+    android:layout_width=&quot;match_parent&quot; /&gt;
+
+&lt;ViewStub
+    android:id=&quot;@+id/thirdBlock&quot;
+    android:inflatedId=&quot;@+id/thirdLy&quot;
+    android:layout=&quot;@layout/third_ly&quot;
+    android:layout_height=&quot;0dp&quot;
+    android:layout_weight=&quot;1&quot;
+    android:layout_width=&quot;match_parent&quot; /&gt;
+&lt;/LinearLayout&gt;
+</code></pre><h4 id="懒加载逻辑处理"><a href="#懒加载逻辑处理" class="headerlink" title="懒加载逻辑处理"></a>懒加载逻辑处理</h4><p>先init ViewStub</p>
+<pre><code>private void initStub(View base) {
+    firstStub = (ViewStub) base.findViewById(R.id.firstBlock);
+    secondStub = (ViewStub) base.findViewById(R.id.secondBlock);
+    thirdStub = (ViewStub) base.findViewById(R.id.thirdBlock);
+}
+</code></pre><p>在合适的时候inflate或者View.VISIBLE</p>
+<p>合适的时候：</p>
+<ul>
+<li>需要网络加载的在数据加载完成的回调里面执行。</li>
+<li>不需要网络加载的，</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-自能搞定一键盘支付密码" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1190,181 +1296,6 @@ compileLintTask.dependsOn(copyLintJar)
 <p>在Android系统里面，我们可以通过android.os.Process.setThreadPriority(int)设置线程的优先级，参数范围从-20到24，数值越小优先级越高。Android系统还为我们提供了以下的一些预设值，我们可以通过给不同的工作线程设置不同数值的优先级来达到更细粒度的控制。大多数情况下，新创建的线程优先级会被设置为默认的0(主线程的优先级)，主线程设置为0的时候，新创建的线程还可以利用THREAD_PRIORITY_LESS_FAVORABLE或者THREAD_PRIORITY_MORE_FAVORABLE来控制线程的优先级。</p>
 <p>Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND); //设置线程优先级为后台</p>
 <p>转载自：<a href="http://mp.weixin.qq.com/s?__biz=MzIwNjQ1NzQxNA==&amp;mid=2247483802&amp;idx=1&amp;sn=baaf65910acfa1aebe20a727daeb9877&amp;scene=1&amp;srcid=0822oIn14PFsJUmUA4YaI5PQ#rd" target="_blank" rel="noopener">应用开发进阶必经之路之性能优化</a></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-screen adapter" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/24/screen adapter/" class="article-date">
-  	<time datetime="2016-08-23T16:00:00.000Z" itemprop="datePublished">2016-08-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/24/screen adapter/">
-        Android 屏幕适配-比例适配
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。</p>
-<h3 id="适配分类"><a href="#适配分类" class="headerlink" title="适配分类"></a>适配分类</h3><h4 id="完美适配-100分"><a href="#完美适配-100分" class="headerlink" title="完美适配(100分)"></a>完美适配(100分)</h4><p>这种适配方式是无差的适配方案。<br>主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dimens文件实现。</p>
-<ul>
-<li>优点：完美适配，可以最大程度上还原设计稿。</li>
-<li>缺点：费时费力，还需要多种设计稿。</li>
-</ul>
-<h4 id="主流适配-dp（80分）"><a href="#主流适配-dp（80分）" class="headerlink" title="主流适配-dp（80分）"></a>主流适配-dp（80分）</h4><p>实现方式：使用dp在主流分辨率上去布局，而主流的dp是相差不多的，因此可以做到简单的适配效果。市场上大部分的适配方案就是这么实现的。</p>
-<ul>
-<li>优点：工作量小，适配率高。</li>
-<li>缺点：适配时会跟设计稿存在偏差，需要手动调。</li>
-</ul>
-<h4 id="比例适配（90分）"><a href="#比例适配（90分）" class="headerlink" title="比例适配（90分）"></a>比例适配（90分）</h4><p>顾名思义，就是按比例去适配。因为android主流手机的高宽比介于1.65~1.77之间，而这一部分的市场占有率大约在95%以上。也就是说市场主流的手机分辨率的中心线差不多在一条线上，也就是事说，宽高比大体相同。所以比例布局是一个不错的选择。</p>
-<p>1 首先我们筛选出需要适配的主流分辨率</p>
-<ul>
-<li>(320, 480);</li>
-<li>(480, 800);</li>
-<li>(480, 854);</li>
-<li>(540, 960);</li>
-<li>(600, 1024);</li>
-<li>(720, 1184);</li>
-<li>(720, 1196);</li>
-<li>(720, 1280);</li>
-<li>(768, 1024);</li>
-<li>(800, 1280);</li>
-<li>(1080, 1776);</li>
-<li>(1080, 1812);</li>
-<li>(1080, 1920);</li>
-<li>(1440, 2560);</li>
-</ul>
-<p>2 编写工具类生成资源文件：<br>  在编写前首先要确定，我们将屏幕的宽高各分成多少分：（我们这里选择高：480份，宽：320份）</p>
-<pre><code>public class MakeXml {
-//文件路径
-private final static String rootPath = &quot;/Users/yongheshen/Desktop/values/values-{0}x{1}/&quot;;
-
-//宽的份数
-private final static float dw = 320f;
-//高的份数
-private final static float dh = 480f;
-
-private final static String WTemplate = &quot;&lt;dimen name=\&quot;x{0}\&quot;&gt;{1}px&lt;/dimen&gt;\n&quot;;
-private final static String HTemplate = &quot;&lt;dimen name=\&quot;y{0}\&quot;&gt;{1}px&lt;/dimen&gt;\n&quot;;
-
-public static void main(String[] args)
-{
-    makeString(320, 480);
-    makeString(480, 800);
-    makeString(480, 854);
-    makeString(540, 960);
-    makeString(600, 1024);
-    makeString(720, 1184);
-    makeString(720, 1196);
-    makeString(720, 1280);
-    makeString(768, 1024);
-    makeString(800, 1280);
-    makeString(1080, 1776);
-    makeString(1080, 1812);
-    makeString(1080, 1920);
-    makeString(1440, 2560);
-}
-
-public static void makeString(int w, int h)
-{
-
-    StringBuffer sb = new StringBuffer();
-    sb.append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;utf-8\&quot;?&gt;\n&quot;);
-    sb.append(&quot;&lt;resources&gt;&quot;);
-    float cellw = w / dw;
-    for (int i = 1; i &lt; dw; i++)
-    {
-        sb.append(WTemplate.replace(&quot;{0}&quot;, i + &quot;&quot;).replace(&quot;{1}&quot;,
-                change(cellw * i) + &quot;&quot;));
-    }
-    sb.append(WTemplate.replace(&quot;{0}&quot;, &quot;320&quot;).replace(&quot;{1}&quot;, w + &quot;&quot;));
-    sb.append(&quot;&lt;/resources&gt;&quot;);
-
-    StringBuffer sb2 = new StringBuffer();
-    sb2.append(&quot;&lt;?xml version=\&quot;1.0\&quot; encoding=\&quot;utf-8\&quot;?&gt;\n&quot;);
-    sb2.append(&quot;&lt;resources&gt;&quot;);
-    float cellh = h / dh;
-    for (int i = 1; i &lt; dh; i++)
-    {
-        sb2.append(HTemplate.replace(&quot;{0}&quot;, i + &quot;&quot;).replace(&quot;{1}&quot;,
-                change(cellh * i) + &quot;&quot;));
-    }
-    sb2.append(HTemplate.replace(&quot;{0}&quot;, &quot;480&quot;).replace(&quot;{1}&quot;, h + &quot;&quot;));
-    sb2.append(&quot;&lt;/resources&gt;&quot;);
-
-    String path = rootPath.replace(&quot;{0}&quot;, h + &quot;&quot;).replace(&quot;{1}&quot;, w + &quot;&quot;);
-    File rootFile = new File(path);
-    if (!rootFile.exists())
-    {
-        rootFile.mkdirs();
-    }
-    File layxFile = new File(path + &quot;lay_x.xml&quot;);
-    File layyFile = new File(path + &quot;lay_y.xml&quot;);
-    try
-    {
-        PrintWriter pw = new PrintWriter(new FileOutputStream(layxFile));
-        pw.print(sb.toString());
-        pw.close();
-        pw = new PrintWriter(new FileOutputStream(layyFile));
-        pw.print(sb2.toString());
-        pw.close();
-    } catch (FileNotFoundException e)
-    {
-        e.printStackTrace();
-    }
-
-}
-
-public static float change(float a)
-{
-    int temp = (int) (a * 100);
-    return temp / 100f;
-}
-}
-</code></pre><p>3 之后将对应的values文件拷到项目中即可</p>
-<p>4 在适配的时候使用对应的比例单位x1,y1即可分别代表了x,y的份数，和具体单位无关。</p>
-<p>5 记得写一个默认lay_x.xml，lay_y.xml文件，确保适配方案外的正常显示。</p>
-<h4 id="比例适配优化"><a href="#比例适配优化" class="headerlink" title="比例适配优化"></a>比例适配优化</h4><p>现在比较流行瀑布流的布局方式，也就是定宽，不定高。<br>这种适配方式也很简单，我们只需要使用x份的值区布局就可以实现对应的效果。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>大家可以根据不同的需求去选择不同的适配方式。<br>完美布局表较适合用户非常广，切要适配到很多版本用户类型的APP。<br>比例布局比较居中，既可以简单实现也可以复杂实现。<br>dp布局比较适合初创版本或者小用户群的APP。</p>
 
       
     </div>

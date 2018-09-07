@@ -3,26 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Android 代码规范-CheckStyle | Diablo</title>
+  <title>Android 模块化 | Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。 AndroidStudio 集成CheckStyle1.先安装CheckStyle插件安装CheckStyle—ID">
+  <meta name="description" content="Android 模块化目的将功能相对独立的模块从主项目中解耦出来，方便独立打包，降低全量编译的时间。 实现新建独立模块(MY) 1 将MY相关的功能所有代码抽离到该模块。 2 资源和源码的转移 3 替换主项目的依赖 4 回归所有功能 5 删除原项目中的对应代码  注意：从主项目转移到对应模块的时候可能会涉及一些修改，包括butterknife替换，以及资源从常量变为变量的一些处理。   解耦解耦的">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android 代码规范-CheckStyle">
-<meta property="og:url" content="https://github.com/sirencode/2016/08/20/check_code_style/index.html">
+<meta property="og:title" content="Android 模块化">
+<meta property="og:url" content="https://github.com/sirencode/2018/09/07/android 模块化/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。 AndroidStudio 集成CheckStyle1.先安装CheckStyle插件安装CheckStyle—ID">
-<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/CheckStyle%E2%80%94IDEA.jpg">
-<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/daoru_checkstyle.png">
-<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/yunxingCheck_style.jpg">
-<meta property="og:updated_time" content="2016-08-20T01:28:58.000Z">
+<meta property="og:description" content="Android 模块化目的将功能相对独立的模块从主项目中解耦出来，方便独立打包，降低全量编译的时间。 实现新建独立模块(MY) 1 将MY相关的功能所有代码抽离到该模块。 2 资源和源码的转移 3 替换主项目的依赖 4 回归所有功能 5 删除原项目中的对应代码  注意：从主项目转移到对应模块的时候可能会涉及一些修改，包括butterknife替换，以及资源从常量变为变量的一些处理。   解耦解耦的">
+<meta property="og:updated_time" content="2018-09-07T08:00:18.155Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android 代码规范-CheckStyle">
-<meta name="twitter:description" content="代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。 AndroidStudio 集成CheckStyle1.先安装CheckStyle插件安装CheckStyle—ID">
-<meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/CheckStyle%E2%80%94IDEA.jpg">
+<meta name="twitter:title" content="Android 模块化">
+<meta name="twitter:description" content="Android 模块化目的将功能相对独立的模块从主项目中解耦出来，方便独立打包，降低全量编译的时间。 实现新建独立模块(MY) 1 将MY相关的功能所有代码抽离到该模块。 2 资源和源码的转移 3 替换主项目的依赖 4 回归所有功能 5 删除原项目中的对应代码  注意：从主项目转移到对应模块的时候可能会涉及一些修改，包括butterknife替换，以及资源从常量变为变量的一些处理。   解耦解耦的">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -168,11 +164,11 @@
 		</header>				
 	</div>
 </nav>
-      <div class="body-wrap"><article id="post-check_code_style" class="article article-type-post" itemscope itemprop="blogPost">
+      <div class="body-wrap"><article id="post-android 模块化" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/20/check_code_style/" class="article-date">
-  	<time datetime="2016-08-19T16:00:00.000Z" itemprop="datePublished">2016-08-20</time>
+      <a href="/2018/09/07/android 模块化/" class="article-date">
+  	<time datetime="2018-09-06T16:00:00.000Z" itemprop="datePublished">2018-09-07</time>
 </a>
     </div>
   
@@ -185,7 +181,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      Android 代码规范-CheckStyle
+      Android 模块化
       
     </h1>
   
@@ -203,32 +199,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。</p>
-<h3 id="AndroidStudio-集成CheckStyle"><a href="#AndroidStudio-集成CheckStyle" class="headerlink" title="AndroidStudio 集成CheckStyle"></a>AndroidStudio 集成CheckStyle</h3><h4 id="1-先安装CheckStyle插件"><a href="#1-先安装CheckStyle插件" class="headerlink" title="1.先安装CheckStyle插件"></a>1.先安装CheckStyle插件</h4><p>安装CheckStyle—IDEA，重启AndroidStudio。</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/CheckStyle%E2%80%94IDEA.jpg" alt="图片"></p>
-<ul>
-<li>这里有一个坑，如果导入这个插件后，studio无法启动，并报错，请修改studio文件夹下面的info.plist里面的值为1.8<pre><code class="bash">&lt;key&gt;JVMVersion&lt;/key&gt;
-&lt;string&gt;1.8,1.8+&lt;/string&gt;
-</code></pre>
+        <h1 id="Android-模块化"><a href="#Android-模块化" class="headerlink" title="Android 模块化"></a>Android 模块化</h1><h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>将功能相对独立的模块从主项目中解耦出来，方便独立打包，降低全量编译的时间。</p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><h3 id="新建独立模块-MY"><a href="#新建独立模块-MY" class="headerlink" title="新建独立模块(MY)"></a>新建独立模块(MY)</h3><ul>
+<li>1 将MY相关的功能所有代码抽离到该模块。</li>
+<li>2 资源和源码的转移</li>
+<li>3 替换主项目的依赖</li>
+<li>4 回归所有功能</li>
+<li><p>5 删除原项目中的对应代码</p>
+</li>
+<li><p>注意：从主项目转移到对应模块的时候可能会涉及一些修改，包括butterknife替换，以及资源从常量变为变量的一些处理。</p>
 </li>
 </ul>
-<h4 id="2-导入CheckStyle"><a href="#2-导入CheckStyle" class="headerlink" title="2.导入CheckStyle"></a>2.导入CheckStyle</h4><p>AndroidStudio File-&gt;Other sttings -&gt;default settings…，在弹出的界面中按下图步骤执行6步，在第3步中Check Style配置文件在主工程android/static_code_check/checkstyle下面。</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/daoru_checkstyle.png" alt="图片"></p>
-<h4 id="3-1-运行CheckStyle"><a href="#3-1-运行CheckStyle" class="headerlink" title="3.1.    运行CheckStyle"></a>3.1.    运行CheckStyle</h4><p><img src="http://oc4zuck5v.bkt.clouddn.com/yunxingCheck_style.jpg" alt="图片"></p>
-<h3 id="CheckStyle检验的主要内容"><a href="#CheckStyle检验的主要内容" class="headerlink" title="CheckStyle检验的主要内容"></a>CheckStyle检验的主要内容</h3><ul>
-<li>Javadoc注释</li>
-<li>命名约定</li>
-<li>标题</li>
-<li>Import语句</li>
-<li>体积大小</li>
-<li>空白</li>
-<li>修饰符</li>
-<li>块</li>
-<li>代码问题</li>
-<li>类设计</li>
-<li>混合检查（包活一些有用的比如非必须的System.out和printstackTrace）</li>
+<h3 id="解耦"><a href="#解耦" class="headerlink" title="解耦"></a>解耦</h3><p>解耦的主要问题在于在子module有些必不可免的去访问主项目的一些方法。解法：</p>
+<ul>
+<li>1 第一种就是将公共的代码抽离到公共的以来模块(可能设计到很多文件的替换)</li>
+<li>2 第二种就是做一个<a href="https://sirencode.github.io/2018/02/26/%E5%AD%90%E6%A8%A1%E5%9D%97%E8%AE%BF%E9%97%AEapp%E6%A8%A1%E5%9D%97/" target="_blank" rel="noopener">bridge</a>去动态的获取主项目的一些方法。</li>
 </ul>
-<p>我现在用的是基于华为的<a href="https://gist.github.com/ownwell/c32878440216f1866842" target="_blank" rel="noopener">CheckStyle:</a></p>
+<p>两种方法各有利弊，第一种的好处再去可以在独立模块中独立运行不需要依赖主项目或其他模块的功能。而第二种方法是相对改动较少，但依赖于其他模块或者主项目的代码。</p>
+<h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><ul>
+<li>1 少用butterknife和databinding，在资源的转移的时候容易出错。</li>
+<li>2 资源转移的时候记得重命名，防止冲突。</li>
+<li>3 有些公共的数据集必去抽离到公共的依赖，不然会出现，数据类型不匹配的情况。</li>
+<li>4 跨模块ARouter的时候注意group问题。</li>
+</ul>
 
       
     </div>
@@ -238,18 +231,9 @@
     
 <nav id="article-nav">
   
-    <a href="/2016/08/20/traceView/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">&lt;</strong>
-      <div class="article-nav-title">
-        
-          Android 性能优化-traceview
-        
-      </div>
-    </a>
   
-  
-    <a href="/2016/08/19/react-native/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">react-native android使用入门</div>
+    <a href="/2018/08/22/LiveDataBus/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">LiveDataBus</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -259,7 +243,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="check_code_style" data-title="Android 代码规范-CheckStyle" data-url="https://github.com/sirencode/2016/08/20/check_code_style/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 代码规范-CheckStyle">
+<div class="ds-share share" data-thread-key="android 模块化" data-title="Android 模块化" data-url="https://github.com/sirencode/2018/09/07/android 模块化/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 模块化">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
