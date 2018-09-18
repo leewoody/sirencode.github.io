@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Android 模块化 | Diablo</title>
+  <title>Diablo</title>
 
   <!-- keywords -->
   
@@ -11,13 +11,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="Android 模块化目的将功能相对独立的模块从主项目中解耦出来，方便独立打包复用，降低编译的时间。 实现开关配置12# gradle.propertiesmyAsApp=false app lib 切换,以及多个AndroidManifest配置123456789101112131415161718192021222324# module的buildif(myAsApp.toBoolean())">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Android 模块化">
+<meta property="og:title" content="Diablo">
 <meta property="og:url" content="https://github.com/sirencode/2018/09/07/android 模块化/index.html">
 <meta property="og:site_name" content="Diablo">
 <meta property="og:description" content="Android 模块化目的将功能相对独立的模块从主项目中解耦出来，方便独立打包复用，降低编译的时间。 实现开关配置12# gradle.propertiesmyAsApp=false app lib 切换,以及多个AndroidManifest配置123456789101112131415161718192021222324# module的buildif(myAsApp.toBoolean())">
-<meta property="og:updated_time" content="2018-09-13T02:57:54.720Z">
+<meta property="og:updated_time" content="2018-09-18T04:08:59.203Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android 模块化">
+<meta name="twitter:title" content="Diablo">
 <meta name="twitter:description" content="Android 模块化目的将功能相对独立的模块从主项目中解耦出来，方便独立打包复用，降低编译的时间。 实现开关配置12# gradle.propertiesmyAsApp=false app lib 切换,以及多个AndroidManifest配置123456789101112131415161718192021222324# module的buildif(myAsApp.toBoolean())">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
@@ -177,26 +177,6 @@
       <input type="hidden" class="isFancy" />
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android 模块化
-      
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-        
-
-        
-        <div class="clearfix"></div>
-      </div>
-      
-    
     <div class="article-entry" itemprop="articleBody">
       
         <h1 id="Android-模块化"><a href="#Android-模块化" class="headerlink" title="Android 模块化"></a>Android 模块化</h1><h2 id="目的"><a href="#目的" class="headerlink" title="目的"></a>目的</h2><p>将功能相对独立的模块从主项目中解耦出来，方便独立打包复用，降低编译的时间。</p>
@@ -220,6 +200,7 @@
 <li>2 第二种就是做一个<a href="https://sirencode.github.io/2018/02/26/%E5%AD%90%E6%A8%A1%E5%9D%97%E8%AE%BF%E9%97%AEapp%E6%A8%A1%E5%9D%97/" target="_blank" rel="noopener">bridge</a>去动态的获取主项目的一些方法。</li>
 </ul>
 <p>两种方法各有利弊，第一种的好处再去可以在独立模块中独立运行不需要依赖主项目或其他模块的功能。而第二种方法是相对改动较少，但依赖于其他模块或者主项目的代码。</p>
+<h2 id="编译问题"><a href="#编译问题" class="headerlink" title="编译问题"></a>编译问题</h2><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">include ':Common'</span><br><span class="line">if (myAsApp.toBoolean()) &#123;</span><br><span class="line">    include ':MyModuleAPP'</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    .......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./gradlew :ModuleName: clean installDebug ...</span><br></pre></td></tr></table></figure>
 <h2 id="坑"><a href="#坑" class="headerlink" title="坑"></a>坑</h2><ul>
 <li>1 少用butterknife和databinding，在资源的转移的时候容易出错。</li>
@@ -256,7 +237,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="android 模块化" data-title="Android 模块化" data-url="https://github.com/sirencode/2018/09/07/android 模块化/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 模块化">
+<div class="ds-share share" data-thread-key="android 模块化" data-title="" data-url="https://github.com/sirencode/2018/09/07/android 模块化/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
