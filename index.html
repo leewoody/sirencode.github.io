@@ -162,6 +162,67 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android ProductFlavors " class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/09/18/Android ProductFlavors /" class="article-date">
+  	<time datetime="2018-09-17T16:00:00.000Z" itemprop="datePublished">2018-09-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/18/Android ProductFlavors /">
+        Android ProductFlavors
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-ProductFlavors"><a href="#Android-ProductFlavors" class="headerlink" title="Android ProductFlavors"></a>Android ProductFlavors</h1><h2 id="ProductFlavors"><a href="#ProductFlavors" class="headerlink" title="ProductFlavors"></a>ProductFlavors</h2><p>ProductFlavors通俗来说就是可以通过一份代码产出不同的App的一种实现方式。</p>
+<h3 id="代码关系"><a href="#代码关系" class="headerlink" title="代码关系"></a>代码关系</h3><p>product的继承自main的代码和资源，相同的资源product的覆盖main的。</p>
+<h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h4 id="设置维度"><a href="#设置维度" class="headerlink" title="设置维度"></a>设置维度</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">defaultConfig &#123;</span><br><span class="line">    applicationId globalConfiguration.android.applicationId</span><br><span class="line">    minSdkVersion globalConfiguration.android.minSdkVersion</span><br><span class="line">    targetSdkVersion globalConfiguration.android.targetSdkVersion</span><br><span class="line">    versionCode 1</span><br><span class="line">    versionName "1.0"</span><br><span class="line">    flavorDimensions ("versionCode")</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="变量使用"><a href="#变量使用" class="headerlink" title="变量使用"></a>变量使用</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:allowBackup</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:icon</span>=<span class="string">"$&#123;app_icon&#125;"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:label</span>=<span class="string">"$&#123;app_name&#125;"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:supportsRtl</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:theme</span>=<span class="string">"@style/AppTheme"</span>&gt;</span></span><br><span class="line"> <span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="设置productFlavors"><a href="#设置productFlavors" class="headerlink" title="设置productFlavors"></a>设置productFlavors</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">productFlavors &#123;</span><br><span class="line">    productA &#123;</span><br><span class="line">        applicationId 'com.syh.producta'</span><br><span class="line">        manifestPlaceholders = [</span><br><span class="line">                app_name : "ProductA",</span><br><span class="line">                app_icon : "@mipmap/a",</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">    productB &#123;</span><br><span class="line">        applicationId 'com.syh.productb'</span><br><span class="line">        manifestPlaceholders = [</span><br><span class="line">                app_name : "ProductB",</span><br><span class="line">                app_icon : "@mipmap/b",</span><br><span class="line">        ]</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="产品切换"><a href="#产品切换" class="headerlink" title="产品切换"></a>产品切换</h4><p>Build Variants选择即可。</p>
+<h4 id="配置不同的依赖"><a href="#配置不同的依赖" class="headerlink" title="配置不同的依赖"></a>配置不同的依赖</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    productACompile 'com.squareup.retrofit2:retrofit:2.2.0'</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-android 模块化" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -174,6 +235,20 @@
     
       <input type="hidden" class="isFancy" />
     
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/09/07/android 模块化/">
+        Android 模块化
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
     
     <div class="article-entry" itemprop="articleBody">
       
@@ -979,81 +1054,6 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方式一</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> ObservableField&lt;String&gt; firstName = <span class="keyword">new</span> ObservableField&lt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> ObservableField&lt;String&gt; lastName = <span class="keyword">new</span> ObservableField&lt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> ObservableInt age = <span class="keyword">new</span> ObservableInt();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//方式二</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">BaseObservable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String firstName;</span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bindable</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getFirstName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.firstName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bindable</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getLastName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.lastName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFirstName</span><span class="params">(String firstName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.firstName = firstName;</span><br><span class="line">        notifyPropertyChanged(BR.firstName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLastName</span><span class="params">(String lastName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.lastName = lastName;</span><br><span class="line">        notifyPropertyChanged(BR.lastName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="4-生成activitybinding实例并绑定"><a href="#4-生成activitybinding实例并绑定" class="headerlink" title="4 生成activitybinding实例并绑定"></a>4 生成activitybinding实例并绑定</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">   <span class="comment">//获取bind并设置data</span></span><br><span class="line">   MainActivityBinding binding = DataBindingUtil.setContentView(<span class="keyword">this</span>, R.layout.activity_main);</span><br><span class="line">   User user = <span class="keyword">new</span> User(<span class="string">"Test"</span>, <span class="string">"User"</span>);</span><br><span class="line">   binding.setUser(user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="当数据发生变化时"><a href="#当数据发生变化时" class="headerlink" title="当数据发生变化时"></a>当数据发生变化时</h3><p>会以消息队列的方式发送给对应的activitybinding实例去更新对应的view的值，并进行重新绑定。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 逆向工程" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/Android 逆向工程/" class="article-date">
-  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/Android 逆向工程/">
-        Android 逆向工程
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-逆向工程"><a href="#Android-逆向工程" class="headerlink" title="Android 逆向工程"></a>Android 逆向工程</h1><h2 id="安装apktool"><a href="#安装apktool" class="headerlink" title="安装apktool"></a>安装apktool</h2><p><a href="https://ibotpeaches.github.io/Apktool/install/" target="_blank" rel="noopener">apktool官网</a></p>
-<p>安装说明</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8810.02.27.png" alt=""></p>
-<ul>
-<li>注意apktool的脚本文件不能有后缀名(sublimetext新建一个无后缀的文件之后将内容拷贝进去)</li>
-</ul>
-<h2 id="安装dex2jar"><a href="#安装dex2jar" class="headerlink" title="安装dex2jar"></a>安装dex2jar</h2><p><a href="https://github.com/pxb1988/dex2jar/releases">git下载地址</a></p>
-<p>下载zip解压待用</p>
-<h2 id="安装JD-GUI"><a href="#安装JD-GUI" class="headerlink" title="安装JD-GUI"></a>安装JD-GUI</h2><p><a href="http://jd.benow.ca/" target="_blank" rel="noopener">官网地址</a></p>
-<p>下载安装即可(mac版的请下载.jar包那个，安装包的兼容性有问题)</p>
-<h2 id="开始简单的反编译之旅"><a href="#开始简单的反编译之旅" class="headerlink" title="开始简单的反编译之旅"></a>开始简单的反编译之旅</h2><h3 id="获取xml反编译文件和smail代码"><a href="#获取xml反编译文件和smail代码" class="headerlink" title="获取xml反编译文件和smail代码"></a>获取xml反编译文件和smail代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//apk文件所在的目录</span><br><span class="line"><span class="built_in">cd</span> /User/shen/Desktop </span><br><span class="line">//获取xml反编译文件和smail代码</span><br><span class="line">apktool d demo.apk</span><br></pre></td></tr></table></figure>
-<p>等跑完，里面的资源文件就出来了，还有smail源码，你要是会读的话跟java差不多。</p>
-<p>small的语法长这样：</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.13.21.png" alt=""></p>
-<h3 id="反编译class-dex文件"><a href="#反编译class-dex文件" class="headerlink" title="反编译class.dex文件"></a>反编译class.dex文件</h3><p>将demo.apk复制一份并改后缀名为zip，然后将文件夹里的classes.dex拷贝出来，回到dex2jar 解压的目录下，将文件复制进去。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/shenyonghe/Downloads/dex-tools-2.1</span><br><span class="line">chmod +x ./* </span><br><span class="line">./d2j-dex2jar.sh classes.dex</span><br></pre></td></tr></table></figure>
-<p>这个时候文件夹下回多出一个jar文件classes-dex2jar.jar包</p>
-<p>注意有的项目会包含多个.dex文件(分包了)，因此要生成多个.jar包进行分析</p>
-<p>使用JD-GUI打开对应的classes-dex2jar.jar包</p>
-<p>打开后就是下面这个样子的阅读起来就容易多了</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.06.01.png" alt=""></p>
 
       
     </div>

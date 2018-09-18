@@ -162,6 +162,256 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-自定义View" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/26/自定义View/" class="article-date">
+  	<time datetime="2016-09-25T16:00:00.000Z" itemprop="datePublished">2016-09-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/26/自定义View/">
+        Android 自定义View
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在我们实际的项目开发过程中，或多或少会遇到一些UI是无法用系统的控件可以实现的，这时我们就要考虑自己去实现这些UI,在这里我记录了一些关于自定义View的基本实以及相关方法的解析。</p>
+<h3 id="View的生命周期"><a href="#View的生命周期" class="headerlink" title="View的生命周期"></a>View的生命周期</h3><p>首先我们需要对view的各个生命周期做一些简单的了解，以及各个生命周期的主要作用。</p>
+<h4 id="主要的生命周期介绍"><a href="#主要的生命周期介绍" class="headerlink" title="主要的生命周期介绍"></a>主要的生命周期介绍</h4><ul>
+<li>1 onFinishInflate() 当View中所有的子控件均被映射成xml后触发 。</li>
+<li>2 onMeasure( int ,  int ) 确定所有子元素的大小 。</li>
+<li>3 onLayout( boolean ,  int ,  int ,  int ,  int ) 当View分配所有的子元素的大小和位置时触发 。</li>
+<li>4 onSizeChanged( int ,  int ,  int ,  int ) 当view的大小发生变化时触发  。</li>
+<li>5 onDraw(Canvas) view渲染内容的细节。  </li>
+<li>6 onKeyDown( int , KeyEvent) 有按键按下后触发  。</li>
+<li>7 onKeyUp( int , KeyEvent) 有按键按下后弹起时触发  。</li>
+<li>8 onTrackballEvent(MotionEvent) 轨迹球事件 。 </li>
+<li>9 onTouchEvent(MotionEvent) 触屏事件  。</li>
+<li>10 onFocusChanged( boolean ,  int , Rect) 当View获取或失去焦点时触发   。</li>
+<li>11 onWindowFocusChanged( boolean ) 当窗口包含的view获取或失去焦点时触发  。</li>
+<li>12 onAttachedToWindow() 当view被附着到一个窗口时触发  。</li>
+<li>13 onDetachedFromWindow() 当view离开附着的窗口时触发，Android123提示该方法和  onAttachedToWindow() 是相反的。  </li>
+<li>14 onWindowVisibilityChanged( int ) 当窗口中包含的可见的view发生变化时触发。</li>
+</ul>
+<h4 id="生命周期调用顺序"><a href="#生命周期调用顺序" class="headerlink" title="生命周期调用顺序"></a>生命周期调用顺序</h4><p>[改变可见性] –&gt; 构造View() –&gt; onFinishInflate() –&gt; onAttachedToWindow() –&gt; onMeasure() –&gt; onSizeChanged() –&gt; onLayout() –&gt; onDraw() –&gt; onDetackedFromWindow()</p>
+<h4 id="MeasureSpec"><a href="#MeasureSpec" class="headerlink" title="MeasureSpec"></a>MeasureSpec</h4><p><img src="http://upload-images.jianshu.io/upload_images/2509931-aa6e65e864d6dea0.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="图片"></p>
+<p>注：UNSPECIFIED 模式主要用于系统内部多次 Measure 的情形，一般不需关注此模式。</p>
+<h4 id="在-Activity-已启动的时候获取某个-View-的宽-高"><a href="#在-Activity-已启动的时候获取某个-View-的宽-高" class="headerlink" title="在 Activity 已启动的时候获取某个 View 的宽/高"></a>在 Activity 已启动的时候获取某个 View 的宽/高</h4><p>1 Activity/View#onWindowFocusChanged</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onWindowFocusChanged</span><span class="params">(<span class="keyword">boolean</span> hasFocus)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onWindowFocusChanged(hasFocus);</span><br><span class="line">        <span class="keyword">if</span> (!hasFocus) &#123;</span><br><span class="line">            <span class="keyword">int</span> width = view.getMeasuredWidth();</span><br><span class="line">            <span class="keyword">int</span> height = view.getMeasuredHeight();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>2 view.post(runnable)</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStart();</span><br><span class="line">        view.post(<span class="keyword">new</span> Runnable() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">run</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                <span class="keyword">int</span> width = mTextView.getMeasuredWidth();</span><br><span class="line">                <span class="keyword">int</span> height = mTextView.getMeasuredHeight();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>3 ViewTreeObserver</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStart();</span><br><span class="line"></span><br><span class="line">        ViewTreeObserver observer = view.getViewTreeObserver();</span><br><span class="line">        observer.addOnGlobalLayoutListener(<span class="keyword">new</span> ViewTreeObserver.OnGlobalLayoutListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onGlobalLayout</span><span class="params">()</span> </span>&#123;</span><br><span class="line">                view.getViewTreeObserver().removeOnGlobalLayoutListener(<span class="keyword">this</span>);</span><br><span class="line">                <span class="keyword">int</span> width = mTextView.getMeasuredWidth();</span><br><span class="line">                <span class="keyword">int</span> height = mTextView.getMeasuredHeight();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="1-初始化创建"><a href="#1-初始化创建" class="headerlink" title="1 初始化创建"></a>1 初始化创建</h5><ul>
+<li>有一种形式的构造函数会在View在代码中被创建时调用，另一种形式的构造函数会在View从layout加载出来时被调用。<br>第二种形式的构造函数会解析和应用layout文件中定义的任何属性。</li>
+<li>onFinishInflate()：该方法当View及其子View从XML文件中加载完成后会被调用。</li>
+</ul>
+<h5 id="2-三个构造方法介绍"><a href="#2-三个构造方法介绍" class="headerlink" title="2 三个构造方法介绍"></a>2 三个构造方法介绍</h5><ul>
+<li>public view（Context context）       当在代码中创建对象时会被调用。</li>
+<li>public View (Context context, AttributeSet attrs)   这个方法是通过xml文件来创建一个view对象的时候调用。很显然xml文件一般是布局文件，就是现实控件的时候调用，而布局文件中免不了会有属性的设置，如android：layout_width等，对这些属性的设置对应的处理代码也在这个方法中完成。</li>
+<li>public View (Context context, AttributeSet attrs, int defStyleAttr) 在xml布局文件中调用View,并且View标签中还有自定义属性时,这里调用的还是第二个构造函数。也就是说,系统默认只会调用View的前两个构造函数,至于第三个构造函数的调用,通常是我们自己在构造函数中主动调用的（例如,在第二个构造函数中调用第三个构造函数）。这是当前Theme中的包含的一个指向style的引用.当我们没有给自定义View设置declare-styleable资源集合时,默认从这个集合里面查找布局文件中配置属性值.传入0表示不向该defStyleAttr中查找默认值。第四个参数是一个指向Style的资源ID,但是仅在defStyleAttr为0或者defStyleAttr不为0但Theme中没有为defStyleAttr属性赋值时起作用。</li>
+</ul>
+<h5 id="3-布局"><a href="#3-布局" class="headerlink" title="3 布局"></a>3 布局</h5><ul>
+<li>onMeasure(int, int)：该方法在计算当前View及其所有子View尺寸大小需求时会被调用。再此方法中计算各个View的高宽的值，初始化一些需要的大小值。</li>
+<li>onLayout(boolean, int, int, int, int)：该方法在当前View需要为其子View分配尺寸和位置时会被调用。</li>
+<li>onSizeChanged(int, int, int, int)：该方法在当前View尺寸变化时被调用。</li>
+</ul>
+<h5 id="4-绘制"><a href="#4-绘制" class="headerlink" title="4 绘制"></a>4 绘制</h5><ul>
+<li>onDraw(android.graphics.Canvas)：该方法在当前View需要呈现其内容时被调用。</li>
+</ul>
+<h5 id="5-事件处理"><a href="#5-事件处理" class="headerlink" title="5 事件处理"></a>5 事件处理</h5><ul>
+<li>onKeyDown(int, KeyEvent)：该方法在一个物理按键事件发生时被调用。</li>
+<li>onKeyUp(int, KeyEvent)：该方法在一个物理按键弹起事件发生时被调用。</li>
+<li>onTrackballEvent(MotionEvent)：该方法在一个轨迹球运动事件发生时被调用。</li>
+<li>onTouchEvent(MotionEvent)：该方法在一个触摸屏幕运动事件发生时被调用。</li>
+</ul>
+<h5 id="6-聚焦"><a href="#6-聚焦" class="headerlink" title="6 聚焦"></a>6 聚焦</h5><ul>
+<li>onFocusChanged(boolean, int, android.graphics.Rect)：该方法在当前View获得或失去焦点时被调用。</li>
+<li>onWindowFocusChanged(boolean)：该方法在包含当前View的window获得或失去焦点时被调用。</li>
+</ul>
+<h5 id="7-附上"><a href="#7-附上" class="headerlink" title="7 附上"></a>7 附上</h5><ul>
+<li>onAttachedToWindow()：该方法在当前View被附到一个window上时被调用。</li>
+<li>onDetachedFromWindow()：该方法在当前View从一个window上分离时被调用。</li>
+<li>onVisibilityChanged(View, int)：该方法在当前View或其祖先的可见性改变时被调用。</li>
+<li>onWindowVisibilityChanged(int)：该方法在包含当前View的window可见性改变时被调用。</li>
+</ul>
+<h5 id="8-总结"><a href="#8-总结" class="headerlink" title="8 总结"></a>8 总结</h5><ul>
+<li>View默认为可见的，不是默认值时先调用onVisibilityChanged()，但是此时该View的尺寸、位置等信息都不知道。</li>
+<li>可见性改变后才是调用带有两个参数的构造函数，当然，如果该View不是在layout中定义的话，会调用一个参数的构造函数。</li>
+<li>从XMl文件中inflate完成（onFinishInflate()）。</li>
+<li>将View加到window中（View是gone的，那么View创建生命周期也就结束）。</li>
+<li>测量view的长宽（onMeasure()）。</li>
+<li>定位View 在父View中的位置（onLayout()），若View是invisible，则View的创建生命周期结束。</li>
+<li>绘制View的content（onDraw()），只有可见的View才在window中绘制。</li>
+<li>View的销毁流程和可见性没有关系。</li>
+</ul>
+<h3 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h3><h4 id="创建自定义属性文件"><a href="#创建自定义属性文件" class="headerlink" title="创建自定义属性文件"></a>创建自定义属性文件</h4><p>在res/values/attrs.xml文件下定义自定义view的属性。</p>
+<p>format取值：</p>
+<ul>
+<li>1 reference：参考某一资源ID</li>
+<li>2 color：颜色值</li>
+<li>3 boolean：布尔值</li>
+<li>4 dimension：尺寸值</li>
+<li>5 float：浮点值</li>
+<li>6 integer：整型值</li>
+<li>7 string：字符串</li>
+<li>8 fraction：百分数</li>
+<li>9 enum：枚举值</li>
+<li>10 flag：位或运算</li>
+</ul>
+<p>定义:</p>
+<pre><code>&lt;declare-styleable name=&quot;mystyle_attrs&quot;&gt;
+    &lt;attr name=&quot;string&quot; format=&quot;string&quot; /&gt;
+    &lt;attr name=&quot;color&quot; format=&quot;color&quot; /&gt;
+    &lt;attr name=&quot;boolean&quot; format=&quot;boolean&quot; /&gt;
+    &lt;attr name=&quot;dimension&quot; format=&quot;dimension&quot; /&gt;
+    &lt;attr name=&quot;float&quot; format=&quot;float&quot; /&gt;
+    &lt;attr name=&quot;integer&quot; format=&quot;integer&quot; /&gt;
+    &lt;attr name=&quot;reference&quot; format=&quot;reference&quot; /&gt;
+    &lt;attr name=&quot;fraction&quot; format=&quot;fraction&quot; /&gt;
+    &lt;attr name=&quot;enum&quot; format=&quot;enum&quot; &gt;
+    &lt;enum name=&quot;one&quot; value=&quot;1&quot; /&gt;
+    &lt;enum name=&quot;two&quot; value=&quot;2&quot; /&gt;
+    &lt;enum name=&quot;three&quot; value=&quot;3&quot; /&gt;
+    &lt;enum name=&quot;four&quot; value=&quot;4&quot; /&gt;
+    &lt;/attr&gt;
+    &lt;attr name=&quot;flag&quot; format=&quot;flag&quot; /&gt;
+&lt;/declare-styleable&gt;
+</code></pre><p>使用：</p>
+<pre><code>android:reference = &quot;@drawable/图片ID&quot; 
+android:color = &quot;#00FF00&quot;
+android:boolean = &quot;true&quot;  
+android:dimension = &quot;42dip&quot; 
+android:float = &quot;1.0&quot; 
+android:integer = &quot;12&quot; 
+android:string = &quot;hello&quot; 
+android:fraction = &quot;200%&quot;
+android:enum = &quot;one&quot;  
+</code></pre><p>取值：</p>
+<pre><code>TypedArray ta = context.obtainStyledAttributes(attrs, mAttr);
+String text = ta.getString(ATTR_ANDROID_TEXT,&quot;defult&quot;);   
+</code></pre><h3 id="拖拽工具类ViewDragHelp"><a href="#拖拽工具类ViewDragHelp" class="headerlink" title="拖拽工具类ViewDragHelp"></a>拖拽工具类ViewDragHelp</h3><ul>
+<li>1 创建viewdraghelp对象。</li>
+<li>2 将View的触摸事件关联到viewdraghelp对象。</li>
+<li>3 在ViewDragHelper.Callback中对视图做操作。</li>
+<li>4 使用ViewDragHelper.smoothSlideViewTo()方法平滑滚动。</li>
+<li>5 自定义一些交互逻辑的自由实现。</li>
+</ul>
+<h4 id="ViewDragHelp解析"><a href="#ViewDragHelp解析" class="headerlink" title="ViewDragHelp解析"></a>ViewDragHelp解析</h4><p>创建对象：</p>
+<p>mDragger = ViewDragHelper.create(this, 1.0f, new ViewDragHelper.Callback(){});</p>
+<p>ViewDragHelper中拦截和处理事件时，需要会回调CallBack中的很多方法来决定一些事，比如：哪些子View可以移动、对个移动的View的边界的控制等等。</p>
+<p>回调方法：</p>
+<ul>
+<li>1 tryCaptureView(View child, int pointerId)，返回值可以决定一个parentview中哪个子view可以拖动，返回ture则表示可以捕获该view，你可以根据传入的第一个view参数决定哪些可以捕获。</li>
+<li>2 clampViewPositionHorizontal,clampViewPositionVertical可以在该方法中对child移动的边界进行控制。即：最小&gt;=paddingleft， 最大&lt;=ViewGroup.getWidth()-paddingright-child.getWidth。</li>
+<li>3 onEdgeTouched方法会在左边缘滑动的时候被调用。</li>
+<li>4 我们在onEdgeDragStarted回调方法中，主动通过captureChildView对其进行捕获，该方法可以绕过tryCaptureView，所以我们的tryCaptureView 虽然并未返回true，但却不影响。</li>
+<li>5 重写了Callback中的onViewReleased，我们在onViewReleased中判断如果是mAutoBackView则调用settleCapturedViewAt回到初始的位置。 大家可以看到紧随其后的代码是invalidate();因为其内部使用的是mScroller.startScroll，所以别忘了需要invalidate()以及结合computeScroll方法一起。</li>
+<li>6 onViewDragStateChanged当ViewDragHelper状态发生变化时回调（IDLE,DRAGGING,SETTING[自动滚动时]）。</li>
+<li>7 onViewPositionChanged当captureview的位置发生改变时回调。</li>
+</ul>
+<p>调用顺序</p>
+<pre><code>DOWN:
+getOrderedChildIndex(findTopChildUnder)
+-&gt;onEdgeTouched
+
+MOVE:
+getOrderedChildIndex(findTopChildUnder)
+-&gt;getViewHorizontalDragRange &amp;
+  getViewVerticalDragRange(checkTouchSlop)(MOVE中可能不止一次)
+-&gt;clampViewPositionHorizontal&amp;
+  clampViewPositionVertical
+-&gt;onEdgeDragStarted
+-&gt;tryCaptureView
+-&gt;onViewCaptured
+-&gt;onViewDragStateChanged
+
+processTouchEvent:
+
+DOWN:
+getOrderedChildIndex(findTopChildUnder)
+-&gt;tryCaptureView
+-&gt;onViewCaptured
+-&gt;onViewDragStateChanged
+-&gt;onEdgeTouched
+
+MOVE:
+-&gt;STATE==DRAGGING:dragTo
+-&gt;STATE!=DRAGGING:
+    onEdgeDragStarted
+    -&gt;getOrderedChildIndex(findTopChildUnder)
+    -&gt;getViewHorizontalDragRange&amp;
+      getViewVerticalDragRange(checkTouchSlop)
+    -&gt;tryCaptureView
+    -&gt;onViewCaptured
+    -&gt;onViewDragStateChanged
+</code></pre><h3 id="View-的事件传递"><a href="#View-的事件传递" class="headerlink" title="View 的事件传递"></a>View 的事件传递</h3><h4 id="事件类型"><a href="#事件类型" class="headerlink" title="事件类型"></a>事件类型</h4><ul>
+<li>事件分发 dispatchTouchEvent(View ViewGroup)</li>
+<li>事件拦截 onInterceptTouchEvent(ViewGroup)</li>
+<li>事件处理 onTouchEvent(View ViewGroup)</li>
+<li>ViewGroup的dispatchTouchEvent是真正在执行“分发”工作，而View的dispatchTouchEvent方法，并不执行分发工作，或者说它分发的对象就是自己，决定是否把touch事件交给自己处理，而处理的方法，便是onTouchEvent事件，事实上子View的dispatchTouchEvent方法真正执行的代码是这样的 return onTouchEvent(event);</li>
+<li>不论 View 自身是否注册点击事件，只要 View 是可点击的就会消费事件</li>
+<li>事件是否被消费由返回值决定，true 表示消费，false 表示不消费，与是否使用了事件无关。</li>
+<li>ViewGroup 和 ChildView 同时注册了事件监听器(onClick等)，由 ChildView 消费。</li>
+<li>一次触摸流程中产生事件应被同一 View 消费，全部接收或者全部拒绝。</li>
+<li>如果当前正在处理的事件被上层 View 拦截，会收到一个 ACTION_CANCEL，后续事件不会再传递过来。</li>
+</ul>
+<h4 id="View的事件的调度顺序是"><a href="#View的事件的调度顺序是" class="headerlink" title="View的事件的调度顺序是"></a>View的事件的调度顺序是</h4><p>onTouchListener &gt; onTouchEvent &gt; onLongClickListener &gt; onClickListener</p>
+<ul>
+<li>1、如果ViewGroup找到了能够处理该事件的View，则直接交给子View处理，自己的onTouchEvent不会被触发；</li>
+<li>2、可以通过复写onInterceptTouchEvent(ev)方法，拦截子View的事件（即return true），把事件交给自己处理，则会执行自己对应的onTouchEvent方法</li>
+<li>3、子View可以通过调用getParent().requestDisallowInterceptTouchEvent(true);  阻止ViewGroup对其MOVE或者UP事件进行拦截；</li>
+</ul>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ul>
+<li>1.Touch事件分发中只有两个主角:ViewGroup和View。ViewGroup包含onInterceptTouchEvent、dispatchTouchEvent、onTouchEvent三个相关事件。View包含dispatchTouchEvent、onTouchEvent两个相关事件。其中ViewGroup又继承于View。</li>
+<li>2.ViewGroup和View组成了一个树状结构，根节点为Activity内部包含的一个ViwGroup。</li>
+<li>3.触摸事件由Action_Down、Action_Move、Aciton_UP组成，其中一次完整的触摸事件中，Down和Up都只有一个，Move有若干个，可以为0个。</li>
+<li>4.当Acitivty接收到Touch事件时，将遍历子View进行Down事件的分发。ViewGroup的遍历可以看成是递归的。分发的目的是为了找到真正要处理本次完整触摸事件的View，这个View会在onTouchuEvent结果返回true。</li>
+<li>5.当某个子View返回true时，会中止Down事件的分发，同时在ViewGroup中记录该子View。接下去的Move和Up事件将由该子View直接进行处理。由于子View是保存在ViewGroup中的，多层ViewGroup的节点结构时，上级ViewGroup保存的会是真实处理事件的View所在的ViewGroup对象:如ViewGroup0-ViewGroup1-TextView的结构中，TextView返回了true，它将被保存在ViewGroup1中，而ViewGroup1也会返回true，被保存在ViewGroup0中。当Move和UP事件来时，会先从ViewGroup0传递至ViewGroup1，再由ViewGroup1传递至TextView。</li>
+<li>6.当ViewGroup中所有子View都不捕获Down事件时，将触发ViewGroup自身的onTouch事件。触发的方式是调用super.dispatchTouchEvent函数，即父类View的dispatchTouchEvent方法。在所有子View都不处理的情况下，触发Acitivity的onTouchEvent方法。</li>
+<li>7.onInterceptTouchEvent有两个作用：1.拦截Down事件的分发。2.中止Up和Move事件向目标View传递，使得目标View所在的ViewGroup捕获Up和Move事件。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-UI懒加载" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -603,6 +853,88 @@ protected void onDestroy() {
 
 
   
+    <article id="post-事件总线" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/01/事件总线/" class="article-date">
+  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/01/事件总线/">
+        事件总线
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。</p>
+<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。</p>
+<p>通常我们在activity,service，fragment之间通信时，一般有以下几种方案：</p>
+<ul>
+<li>1 广播，使用起来比较麻烦。</li>
+<li>2 回调，增加了代码之间的耦合。</li>
+</ul>
+<p>事件总线框架, 它简化了Activity、Fragment、Service等组件之间的交互，很大程度上降低了它们之间的耦合，使得我们的代码更加简洁，耦合性更低，提升我们的代码质量。</p>
+<h3 id="主流事件总线的对比"><a href="#主流事件总线的对比" class="headerlink" title="主流事件总线的对比"></a>主流事件总线的对比</h3><p>1 otto框架，通过反射机制来实现的方法查找，并且是运行时的反射，效率较低，速度较慢。</p>
+<p>2 eventbus框架（3.0以上版本），也是通过反射机制实现，但是编译的时候生成新的class，对运行速度影响不大，效率较高。</p>
+<p>3 rxbus,自己结合rxjava实现的框架，简单实用，但是要考虑多种场景的处理情况，编写起来有很大的工作量。</p>
+<h3 id="EventBus使用"><a href="#EventBus使用" class="headerlink" title="EventBus使用"></a>EventBus使用</h3><p>1 添加依赖</p>
+<pre><code>compile &apos;org.greenrobot:eventbus:3.0.0&apos;
+</code></pre><p>2 定义event</p>
+<pre><code>public class MessageEvent { /* Additional fields if needed */ }
+</code></pre><p>3 发送者：</p>
+<pre><code>eventBus.post(event);
+</code></pre><p>4 接收者：</p>
+<pre><code>//注册
+eventBus.register(this);
+
+//接收方法
+@Subscribe  
+public void onEvent(AnyEventType event) {/* Do something */};
+
+//解除注册
+eventBus.unregister(this);
+</code></pre><p>5 确保在事件发送前注册，并处理接收方法。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-infer" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -662,11 +994,11 @@ protected void onDestroy() {
 
 
   
-    <article id="post-事件总线" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-LeakCanary" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/09/01/事件总线/" class="article-date">
-  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
+      <a href="/2016/08/31/LeakCanary/" class="article-date">
+  	<time datetime="2016-08-30T16:00:00.000Z" itemprop="datePublished">2016-08-31</time>
 </a>
     </div>
   
@@ -679,8 +1011,8 @@ protected void onDestroy() {
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/01/事件总线/">
-        事件总线
+      <a class="article-title" href="/2016/08/31/LeakCanary/">
+        内存泄漏检查工具-LeakCanary
         
       </a>
     </h1>
@@ -691,34 +1023,26 @@ protected void onDestroy() {
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。</p>
-<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。</p>
-<p>通常我们在activity,service，fragment之间通信时，一般有以下几种方案：</p>
-<ul>
-<li>1 广播，使用起来比较麻烦。</li>
-<li>2 回调，增加了代码之间的耦合。</li>
-</ul>
-<p>事件总线框架, 它简化了Activity、Fragment、Service等组件之间的交互，很大程度上降低了它们之间的耦合，使得我们的代码更加简洁，耦合性更低，提升我们的代码质量。</p>
-<h3 id="主流事件总线的对比"><a href="#主流事件总线的对比" class="headerlink" title="主流事件总线的对比"></a>主流事件总线的对比</h3><p>1 otto框架，通过反射机制来实现的方法查找，并且是运行时的反射，效率较低，速度较慢。</p>
-<p>2 eventbus框架（3.0以上版本），也是通过反射机制实现，但是编译的时候生成新的class，对运行速度影响不大，效率较高。</p>
-<p>3 rxbus,自己结合rxjava实现的框架，简单实用，但是要考虑多种场景的处理情况，编写起来有很大的工作量。</p>
-<h3 id="EventBus使用"><a href="#EventBus使用" class="headerlink" title="EventBus使用"></a>EventBus使用</h3><p>1 添加依赖</p>
-<pre><code>compile &apos;org.greenrobot:eventbus:3.0.0&apos;
-</code></pre><p>2 定义event</p>
-<pre><code>public class MessageEvent { /* Additional fields if needed */ }
-</code></pre><p>3 发送者：</p>
-<pre><code>eventBus.post(event);
-</code></pre><p>4 接收者：</p>
-<pre><code>//注册
-eventBus.register(this);
+        <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 添加项目依赖：</p>
+<pre><code>dependencies {
+    debugCompile &apos;com.squareup.leakcanary:leakcanary-android:1.4-beta2&apos;
+    releaseCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
+    testCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
+}
+</code></pre><p>2 初始化：</p>
+<pre><code>public class YourApplication extends Application {
 
-//接收方法
-@Subscribe  
-public void onEvent(AnyEventType event) {/* Do something */};
-
-//解除注册
-eventBus.unregister(this);
-</code></pre><p>5 确保在事件发送前注册，并处理接收方法。</p>
+@Override public void onCreate() {
+super.onCreate();
+LeakCanary.install(this);
+}
+}
+</code></pre><p>3 运行你的app，当检测到内存泄漏会有提示：</p>
+<p><img src="https://raw.githubusercontent.com/square/leakcanary/master/assets/screenshot.png" alt="图片"></p>
+<p>4 内存泄漏信息，将会保存在sdcard/blockcanary目录下。</p>
+<p>5 一般内存检查会出现在activity的销毁阶段。</p>
+<p>6 自己编译leakcanary源码的<a href="https://github.com/sirencode/LeakCanary">Demo</a>,可以根据自己的情况对功能进行定制。</p>
 
       
     </div>
@@ -900,11 +1224,11 @@ Linearlayout ly = findViewById(R.id.panel_stub);
 
 
   
-    <article id="post-LeakCanary" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-mvp" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/31/LeakCanary/" class="article-date">
-  	<time datetime="2016-08-30T16:00:00.000Z" itemprop="datePublished">2016-08-31</time>
+      <a href="/2016/08/30/mvp/" class="article-date">
+  	<time datetime="2016-08-29T16:00:00.000Z" itemprop="datePublished">2016-08-30</time>
 </a>
     </div>
   
@@ -917,8 +1241,8 @@ Linearlayout ly = findViewById(R.id.panel_stub);
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/31/LeakCanary/">
-        内存泄漏检查工具-LeakCanary
+      <a class="article-title" href="/2016/08/30/mvp/">
+        Android 设计模式-MVP框架
         
       </a>
     </h1>
@@ -929,26 +1253,31 @@ Linearlayout ly = findViewById(R.id.panel_stub);
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。</p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 添加项目依赖：</p>
-<pre><code>dependencies {
-    debugCompile &apos;com.squareup.leakcanary:leakcanary-android:1.4-beta2&apos;
-    releaseCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
-    testCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
-}
-</code></pre><p>2 初始化：</p>
-<pre><code>public class YourApplication extends Application {
-
-@Override public void onCreate() {
-super.onCreate();
-LeakCanary.install(this);
-}
-}
-</code></pre><p>3 运行你的app，当检测到内存泄漏会有提示：</p>
-<p><img src="https://raw.githubusercontent.com/square/leakcanary/master/assets/screenshot.png" alt="图片"></p>
-<p>4 内存泄漏信息，将会保存在sdcard/blockcanary目录下。</p>
-<p>5 一般内存检查会出现在activity的销毁阶段。</p>
-<p>6 自己编译leakcanary源码的<a href="https://github.com/sirencode/LeakCanary">Demo</a>,可以根据自己的情况对功能进行定制。</p>
+        <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。</p>
+<h3 id="MVP介绍"><a href="#MVP介绍" class="headerlink" title="MVP介绍"></a>MVP介绍</h3><p>MVP实际是将原MVC模式下activity和fragment里面的代码抽离出来并封装到P里面，从而，降低了actvity和fragment的代码量，并解耦。</p>
+<ul>
+<li>M是指modle，model 是用户界面需要显示数据的抽象，也可以理解为从业务数据（结果）那里到用户界面的抽象（Business rule, data access, model classes）。</li>
+<li>视图这一层体现的很轻薄，负责显示数据、提供友好界面跟用户交互就行。MVP下Activity和Fragment体现在了这一层，<br>Activity一般也就做加载UI视图、设置监听再交由Presenter处理的一些工作，所以也就需要持有相应Presenter的引用。例如，Activity上滚动列表时隐藏或者显示Acionbar（Toolbar），这样的UI逻辑时也应该在这一层。另外在View上输入的数据做一些判断时，例如，EditText的输入数据，假如是简单的非空判断则可以作为View层的逻辑，而当需要对EditText的数据进行更复杂的比较时，如从数据库获取本地数据进行判断时明显需要经过Model层才能返回了，所以这些细节需要自己掂量。</li>
+<li>Presenter这一层处理着程序各种逻辑的分发，收到View层UI上的反馈命令、定时命令、系统命令等指令后分发处理逻辑交由业务层做具体的业务操作，然后将得到的 Model 给 View 显示。</li>
+</ul>
+<h4 id="获取数据-gt-改变View的流程（APP的主要流程）"><a href="#获取数据-gt-改变View的流程（APP的主要流程）" class="headerlink" title="获取数据-&gt;改变View的流程（APP的主要流程）"></a>获取数据-&gt;改变View的流程（APP的主要流程）</h4><p>步骤1：UI(Activity)实现View方法，引用Presenter<br>步骤2：Presenter调用Model，走Model具体逻辑<br>步骤3：Model逻辑实现，回调Presenter方法返回数据<br>步骤4：Presenter回调View，即回到UI，回调View方法</p>
+<h4 id="View改变-gt-业务处理"><a href="#View改变-gt-业务处理" class="headerlink" title="View改变-&gt;业务处理"></a>View改变-&gt;业务处理</h4><p>在View的改变事件——&gt;presenter -&gt; model处理，回调presenter -&gt; 根据结果显示UI</p>
+<h4 id="双向数据沟通"><a href="#双向数据沟通" class="headerlink" title="双向数据沟通"></a>双向数据沟通</h4><p>1 v变化——&gt; p -&gt; m处理<br>2 m处理后 -&gt; p -&gt; v变化</p>
+<p>或者</p>
+<p>1 m处理后 -&gt; p -&gt; v变化<br>2 v变化——&gt; p -&gt; m处理</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
+<ul>
+<li>1 数据解耦，所有的业务逻辑放到model里面，方便管理复用。</li>
+<li>2 代码的可读性好很多，方便后续修改阅读。</li>
+<li>3 代码的耦合度很低，方便其它地方复用相关模块代码。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>1 要写大量的代码，或者文件。</li>
+<li>2 使用起来没有以前方便，需要进行数据的分离处理。</li>
+</ul>
+<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><p>使用MVP时，Activity和Fragment变成了MVC模式中View层，Presenter相当于MVC模式中Controller层，处理业务逻辑。每一个Activity都有一个相应的presenter来处理数据进而获取model。</p>
+<p>由于写MVP模式要写大量的代码和文件，因此建议不需要所有的功能都用mvp实现，在逻辑的叶子节点上的功能可以不使用。另外，modle文件可以根据模块化共用一个modle,不需要每个功能都新建一个model。</p>
 
       
     </div>
@@ -1082,220 +1411,6 @@ compileLintTask.dependsOn(copyLintJar)
 <li>4 Warning from Custom Lint Check 错误规则检查</li>
 <li>5 module 右键 Refactor -&gt; Remove Unused Resources</li>
 </ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-mvp" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/30/mvp/" class="article-date">
-  	<time datetime="2016-08-29T16:00:00.000Z" itemprop="datePublished">2016-08-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/30/mvp/">
-        Android 设计模式-MVP框架
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。</p>
-<h3 id="MVP介绍"><a href="#MVP介绍" class="headerlink" title="MVP介绍"></a>MVP介绍</h3><p>MVP实际是将原MVC模式下activity和fragment里面的代码抽离出来并封装到P里面，从而，降低了actvity和fragment的代码量，并解耦。</p>
-<ul>
-<li>M是指modle，model 是用户界面需要显示数据的抽象，也可以理解为从业务数据（结果）那里到用户界面的抽象（Business rule, data access, model classes）。</li>
-<li>视图这一层体现的很轻薄，负责显示数据、提供友好界面跟用户交互就行。MVP下Activity和Fragment体现在了这一层，<br>Activity一般也就做加载UI视图、设置监听再交由Presenter处理的一些工作，所以也就需要持有相应Presenter的引用。例如，Activity上滚动列表时隐藏或者显示Acionbar（Toolbar），这样的UI逻辑时也应该在这一层。另外在View上输入的数据做一些判断时，例如，EditText的输入数据，假如是简单的非空判断则可以作为View层的逻辑，而当需要对EditText的数据进行更复杂的比较时，如从数据库获取本地数据进行判断时明显需要经过Model层才能返回了，所以这些细节需要自己掂量。</li>
-<li>Presenter这一层处理着程序各种逻辑的分发，收到View层UI上的反馈命令、定时命令、系统命令等指令后分发处理逻辑交由业务层做具体的业务操作，然后将得到的 Model 给 View 显示。</li>
-</ul>
-<h4 id="获取数据-gt-改变View的流程（APP的主要流程）"><a href="#获取数据-gt-改变View的流程（APP的主要流程）" class="headerlink" title="获取数据-&gt;改变View的流程（APP的主要流程）"></a>获取数据-&gt;改变View的流程（APP的主要流程）</h4><p>步骤1：UI(Activity)实现View方法，引用Presenter<br>步骤2：Presenter调用Model，走Model具体逻辑<br>步骤3：Model逻辑实现，回调Presenter方法返回数据<br>步骤4：Presenter回调View，即回到UI，回调View方法</p>
-<h4 id="View改变-gt-业务处理"><a href="#View改变-gt-业务处理" class="headerlink" title="View改变-&gt;业务处理"></a>View改变-&gt;业务处理</h4><p>在View的改变事件——&gt;presenter -&gt; model处理，回调presenter -&gt; 根据结果显示UI</p>
-<h4 id="双向数据沟通"><a href="#双向数据沟通" class="headerlink" title="双向数据沟通"></a>双向数据沟通</h4><p>1 v变化——&gt; p -&gt; m处理<br>2 m处理后 -&gt; p -&gt; v变化</p>
-<p>或者</p>
-<p>1 m处理后 -&gt; p -&gt; v变化<br>2 v变化——&gt; p -&gt; m处理</p>
-<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
-<ul>
-<li>1 数据解耦，所有的业务逻辑放到model里面，方便管理复用。</li>
-<li>2 代码的可读性好很多，方便后续修改阅读。</li>
-<li>3 代码的耦合度很低，方便其它地方复用相关模块代码。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>1 要写大量的代码，或者文件。</li>
-<li>2 使用起来没有以前方便，需要进行数据的分离处理。</li>
-</ul>
-<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><p>使用MVP时，Activity和Fragment变成了MVC模式中View层，Presenter相当于MVC模式中Controller层，处理业务逻辑。每一个Activity都有一个相应的presenter来处理数据进而获取model。</p>
-<p>由于写MVP模式要写大量的代码和文件，因此建议不需要所有的功能都用mvp实现，在逻辑的叶子节点上的功能可以不使用。另外，modle文件可以根据模块化共用一个modle,不需要每个功能都新建一个model。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-性能分析" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/24/性能分析/" class="article-date">
-  	<time datetime="2016-08-23T16:00:00.000Z" itemprop="datePublished">2016-08-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/24/性能分析/">
-        Android 性能分析
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="性能分类"><a href="#性能分类" class="headerlink" title="性能分类"></a>性能分类</h3><p>  除了交互、视觉、内容方面的问题外，在用户使用过程中，给用户造成烦恼的问题都可以归结为是性能问题，比如上文中列出的这些都属于性能问题，按照影响的方面不同，可以分为如下几大类：</p>
-<ul>
-<li><p>内存问题：耗内存、OOM、程序切换到后台后占用内存无法释放（OOM会影响产品的稳定性；耗内存、内存泄露会影响整机的性能；占用内存多预示着留给其它应用的剩余内存空间小）；</p>
-</li>
-<li><p>功耗问题：发烫（耗电）；</p>
-</li>
-<li><p>流畅度问题：启动慢、页面显示需要长时间转圈加载、页面切换卡顿、黑白屏（卡慢崩会让人烦躁）；</p>
-</li>
-</ul>
-<p>  针对上面一系列的性能问题，谷歌官方提供了各种各样的工具来针对性的解决各个方面的问题，也有很多不错的第三方工具值得尝试：</p>
-<ul>
-<li><p>内存问题：提供了Android Studio的静态代码检测功能、Android Monitor；第三方内存泄露分析工具Leakcanary、MAT；</p>
-</li>
-<li><p>功耗问题：提供了GPU呈现模式、battery-historian、Android Monitor；</p>
-</li>
-<li><p>流畅度问题：提供了Android Studio的静态代码检测功能、Android Monitor、HierarchyViewer、StrictMode、过渡绘制检测工具、TraceView等；</p>
-</li>
-</ul>
-<p>   除了上面提到的这些性能优化工具外，谷歌还在Youtube上提供了一系列关于Android应用性能优化的短视频Android Performance Patterns，介绍如何优化Android各个方面的性能问题。
-   
-   </p>
-<h3 id="性能优化指标"><a href="#性能优化指标" class="headerlink" title="性能优化指标"></a>性能优化指标</h3><p>性能优化的效果仅凭感觉很难衡量，一切应该看数据说话，比如流畅度优化，刷新频率每秒越接近60帧越理想，但只要每秒钟超过24帧人眼就无法辨别了，所以仅凭感觉是无法区分优化前的30帧和优化后的40帧的区别的。为了说明做性能优化有足够的价值，就有必要通过一系列指标来说明优化前后的区别。</p>
-<p>  性能指标的定义应该具有可衡量、可比较的特点，所以每项性能指标可以是数值，也可以是一份报告，比如：</p>
-<ul>
-<li><p>流畅度：FPS，即Frams per Second，一秒内的刷新帧数，越接近60帧越好；</p>
-</li>
-<li><p>启动时间：时间，越短越好；</p>
-</li>
-<li><p>内存泄露：AS静态代码检测结果、MAT检测结果，内存泄露很难用数值定义，但可以通过将优化前后工具检测的结果对比得出结论。没有内存泄露最好；</p>
-</li>
-<li><p>内存大小：峰值，峰值越低越好；</p>
-</li>
-<li><p>功耗：单位时间内的掉电量，掉电量越少越好；</p>
-</li>
-</ul>
-<p>  从上面各项性能指标的定义可以看出，性能优化效果的评估主要是通过对比得出来的，性能如何只是相对的。只要针对同一个应用的同一项指标，优化后比优化前更优，就说明优化是有效果的。
-  </p>
-<h3 id="性能优化原则和方法"><a href="#性能优化原则和方法" class="headerlink" title="性能优化原则和方法"></a>性能优化原则和方法</h3><h4 id="优化原则"><a href="#优化原则" class="headerlink" title="优化原则"></a>优化原则</h4><ul>
-<li><p>足够多的测量：不要凭感觉去检测性能问题、评估性能优化的效果，应该保持足够多的测量，数据不会说谎。使用各种性能工具有助于快速定位问题，这比凭感觉要靠谱得多；</p>
-</li>
-<li><p>使用低配置的设备：同样的程序，在低端配置的设备中，相同的问题会暴露得更为明显；高配的设备很多时候会让你忽略掉性能问题；</p>
-</li>
-<li><p>权衡利弊：在能够保证产品稳定、按时交付的前提下去做优化，不能顾此失彼，为了性能优化导致产品迟迟不能交付；</p>
-</li>
-</ul>
-<h4 id="优化方法"><a href="#优化方法" class="headerlink" title="优化方法"></a>优化方法</h4><ul>
-<li><p>了解问题：对于性能问题来讲，这个步骤只适用于某些明显的性能问题，很多无法感知的性能问题需要通过工具定位；</p>
-</li>
-<li><p>定位问题：通过工具检测、分析，定位在什么地方存在性能问题；如果很难定位，可以采用排除法（屏蔽部分代码，看现象是否仍然存在，如果还存在，则说明被屏蔽的代码没有问题，这样逐渐缩小问题的范围）；</p>
-</li>
-<li><p>分析问题：找到问题后，分析针对这个问题该如何解决，确定解决方案；</p>
-</li>
-<li><p>解决问题：这个没什么可说的，如果是自己无法解决的问题，借助搜索引擎，你遇到过的问题很多人都遇到过，并且极有可能已经被解决了；</p>
-</li>
-<li><p>验证问题：保证每一次优化都有效，没有产生新问题，保证产品的稳定；</p>
-</li>
-</ul>
-<h3 id="优化工具"><a href="#优化工具" class="headerlink" title="优化工具"></a>优化工具</h3><ul>
-<li><p>开发者选项：GPU呈现模式分析、GPU过渡绘制、严格模式、应用无响应ANR等；</p>
-</li>
-<li><p>IDE中：Android Studio，比如静态代码检测工具、Memory Monitor、CPU Monitor、NetWork Monitor、GPU Monitor、Layout Inspector、Analyze APK等；</p>
-</li>
-<li><p>SDK中：sdk\tools，比如DDMS、HierarchyViewer、TraceView等；</p>
-</li>
-<li><p>第三方性能优化工具：MAT、Leakcanary等；</p>
-</li>
-</ul>
-<h3 id="性能优化只线程"><a href="#性能优化只线程" class="headerlink" title="性能优化只线程"></a>性能优化只线程</h3><h4 id="线程性能"><a href="#线程性能" class="headerlink" title="线程性能"></a>线程性能</h4><p>在程序开发的实践当中，为了让程序表现得更加流畅，我们肯定会需要使用到多线程来提升程序的并发执行性能。但是编写多线程并发的代码一直以来都是一个相对棘手的问题，所以想要获得更佳的程序性能，我们非常有必要掌握多线程并发编程的基础技能。</p>
-<p>众所周知，Android程序的大多数代码操作都必须执行在主线程，例如系统事件(例如设备屏幕发生旋转)，输入事件(例如用户点击滑动等)，程序回调服务，UI绘制以及闹钟事件等等。那么我们在上述事件或者方法中插入的代码也将执行在主线程。</p>
-<p>为了避免上面提到的掉帧问题，我们需要使用多线程的技术方案，把那些操作复杂的任务移动到其他线程当中执行，这样就不容易阻塞主线程的操作，也就减小了出现掉帧的可能性。</p>
-<h4 id="线程内存问题"><a href="#线程内存问题" class="headerlink" title="线程内存问题"></a>线程内存问题</h4><p>增加并发的线程数会导致内存消耗的增加，平衡好这两者的关系是非常重要的。为了解决上面的问题，我们需要谨记的原则就是：不要在任何非UI线程里面去持有UI对象的引用。系统为了确保所有的UI对象都只会被UI线程所进行创建，更新，销毁的操作，特地设计了对应的工作机制(当Activity被销毁的时候，由该Activity所触发的非UI线程都将无法对UI对象进行操作，否者就会抛出程序执行异常的错误)来防止UI对象被错误的使用。</p>
-<h4 id="AsyncTask"><a href="#AsyncTask" class="headerlink" title="AsyncTask"></a>AsyncTask</h4><p>首先，默认情况下，所有的AsyncTask任务都是被线性调度执行的，他们处在同一个任务队列当中，按顺序逐个执行。假设你按照顺序启动20个AsyncTask，一旦其中的某个AsyncTask执行时间过长，队列中的其他剩余AsyncTask都处于阻塞状态，必须等到该任务执行完毕之后才能够有机会执行下一个任务。为了解决上面提到的线性队列等待的问题，我们可以使用AsyncTask.executeOnExecutor()强制指定AsyncTask使用线程池并发调度任务。</p>
-<h4 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h4><p>使用线程池需要特别注意同时并发线程数量的控制，理论上来说，我们可以设置任意你想要的并发数量，但是这样做非常的不好。因为CPU只能同时执行固定数量的线程数，一旦同时并发的线程数量超过CPU能够同时执行的阈值，CPU就需要花费精力来判断到底哪些线程的优先级比较高，需要在不同的线程之间进行调度切换。</p>
-<p>一旦同时并发的线程数量达到一定的量级，这个时候CPU在不同线程之间进行调度的时间就可能过长，反而导致性能严重下降。另外需要关注的一点是，每开一个新的线程，都会耗费至少64K+的内存。为了能够方便的对线程数量进行控制，ThreadPoolExecutor为我们提供了初始化的并发线程数量，以及最大的并发数量进行设置。</p>
-<p>另外需要关注的一个问题是：Runtime.getRuntime().availableProcesser()方法并不可靠，他返回的值并不是真实的CPU核心数，因为CPU会在某些情况下选择对部分核心进行睡眠处理，在这种情况下，返回的数量就只能是激活的CPU核心数。</p>
-<h4 id="线程优先级"><a href="#线程优先级" class="headerlink" title="线程优先级"></a>线程优先级</h4><p>理论上来说，我们的程序可以创建出非常多的子线程一起并发执行的，可是基于CPU时间片轮转调度的机制，不可能所有的线程都可以同时被调度执行，CPU需要根据线程的优先级赋予不同的时间片。</p>
-<p>Android系统会根据当前运行的可见的程序和不可见的后台程序对线程进行归类，划分为forground的那部分线程会大致占用掉CPU的90%左右的时间片，background的那部分线程就总共只能分享到5%-10%左右的时间片。之所以设计成这样是因为forground的程序本身的优先级就更高，理应得到更多的执行时间。</p>
-<p>默认情况下，新创建的线程的优先级默认和创建它的母线程保持一致。如果主UI线程创建出了几十个工作线程，这些工作线程的优先级就默认和主线程保持一致了，为了不让新创建的工作线程和主线程抢占CPU资源，需要把这些线程的优先级进行降低处理，这样才能给帮组CPU识别主次，提高主线程所能得到的系统资源。</p>
-<p>在Android系统里面，我们可以通过android.os.Process.setThreadPriority(int)设置线程的优先级，参数范围从-20到24，数值越小优先级越高。Android系统还为我们提供了以下的一些预设值，我们可以通过给不同的工作线程设置不同数值的优先级来达到更细粒度的控制。大多数情况下，新创建的线程优先级会被设置为默认的0(主线程的优先级)，主线程设置为0的时候，新创建的线程还可以利用THREAD_PRIORITY_LESS_FAVORABLE或者THREAD_PRIORITY_MORE_FAVORABLE来控制线程的优先级。</p>
-<p>Process.setThreadPriority(Process.THREAD_PRIORITY_BACKGROUND); //设置线程优先级为后台</p>
-<p>转载自：<a href="http://mp.weixin.qq.com/s?__biz=MzIwNjQ1NzQxNA==&amp;mid=2247483802&amp;idx=1&amp;sn=baaf65910acfa1aebe20a727daeb9877&amp;scene=1&amp;srcid=0822oIn14PFsJUmUA4YaI5PQ#rd" target="_blank" rel="noopener">应用开发进阶必经之路之性能优化</a></p>
 
       
     </div>
