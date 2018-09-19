@@ -162,6 +162,73 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-mac wifi 暴力破解" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/11/mac wifi 暴力破解/" class="article-date">
+  	<time datetime="2016-11-10T16:00:00.000Z" itemprop="datePublished">2016-11-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/11/mac wifi 暴力破解/">
+        mac wifi暴力破解
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="破解介绍"><a href="#破解介绍" class="headerlink" title="破解介绍"></a>破解介绍</h3><p>将WiFi设置成监听模式，自后攻击掉线，抓重新登录的包，然后用字典暴力破解。</p>
+<h3 id="实现步骤"><a href="#实现步骤" class="headerlink" title="实现步骤"></a>实现步骤</h3><h4 id="安装MacPorts"><a href="#安装MacPorts" class="headerlink" title="安装MacPorts"></a>安装MacPorts</h4><p>MacPorts <a href="https://guide.macports.org/" target="_blank" rel="noopener">官网地址</a></p>
+<p>下载安装，并设置环境变量。</p>
+<h4 id="安装aircrack-ng"><a href="#安装aircrack-ng" class="headerlink" title="安装aircrack-ng"></a>安装aircrack-ng</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo port install aircrack-ng</span><br></pre></td></tr></table></figure>
+<p>如果提示安装xcode插件，先安装插件。</p>
+<h4 id="断开电脑所有的wifi连接"><a href="#断开电脑所有的wifi连接" class="headerlink" title="断开电脑所有的wifi连接"></a>断开电脑所有的wifi连接</h4><h4 id="查看周围的wifi"><a href="#查看周围的wifi" class="headerlink" title="查看周围的wifi"></a>查看周围的wifi</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s</span><br></pre></td></tr></table></figure>
+<h4 id="抓包"><a href="#抓包" class="headerlink" title="抓包"></a>抓包</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo /System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport en0 sniff 6</span><br></pre></td></tr></table></figure>
+<p>en0是无线网卡设备；6是要破解wifi的CHANNEL。</p>
+<p>静等用户连接wifi，获得握手包。</p>
+<p>抓的包，保存在/tmp *.cap：</p>
+<h4 id="破解wifi密码"><a href="#破解wifi密码" class="headerlink" title="破解wifi密码"></a>破解wifi密码</h4><p>为了方便将字典和 *.cap文件放到一起。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ aircrack-ng -w text.txt airportSniffyuZPBA.cap</span><br></pre></td></tr></table></figure>
+<p>按照提示输入要破解的WIFI对应的编号即可</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Coding Dojo - 代码道场" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1072,114 +1139,6 @@ animationDrawable.start();
 <h3 id="实际问题"><a href="#实际问题" class="headerlink" title="实际问题"></a>实际问题</h3><h4 id="View-不断更新动画状态问题，每次启动动画，都会从最初位置开始。"><a href="#View-不断更新动画状态问题，每次启动动画，都会从最初位置开始。" class="headerlink" title="View 不断更新动画状态问题，每次启动动画，都会从最初位置开始。"></a>View 不断更新动画状态问题，每次启动动画，都会从最初位置开始。</h4><p>我遇到的实际问题是这样的，显示一个转盘，转盘上面有一个小指针需要一直旋转，当ui一个变量变化时，根据这个变量的变化幅度动态调整指针的转速。遇到的问题是每次更新时，动画都会从原始位置开始执行。</p>
 <p>最后解决办法如下，记录下结束时的位置，我开始以为，这个结束位置应该记录在objectanimitor里面，但是一直都找不到对应的值，最后我发发现这个值记录在对应的view里面了…….</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startSmallZZAnimation</span><span class="params">(<span class="keyword">int</span> duration)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (repeat != <span class="keyword">null</span> &amp;&amp; repeat.isRunning()) &#123;</span><br><span class="line">            smallAngle = smallZP.getRotation();</span><br><span class="line">            repeat.cancel();</span><br><span class="line">            smallZP.clearAnimation();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            repeat = ObjectAnimator.ofFloat(smallZP, <span class="string">"rotation"</span>, currentAngle, currentAngle + <span class="number">360</span>);</span><br><span class="line">            repeat.setDuration(duration);</span><br><span class="line">            repeat.setRepeatCount(<span class="number">30000</span> / duration);</span><br><span class="line">            repeat.setInterpolator(<span class="keyword">new</span> LinearInterpolator());</span><br><span class="line">            repeat.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-APP启动时间优化" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/10/03/APP启动时间优化/" class="article-date">
-  	<time datetime="2016-10-02T16:00:00.000Z" itemprop="datePublished">2016-10-03</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/03/APP启动时间优化/">
-        APP 启动时间优化
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="APP启动分类"><a href="#APP启动分类" class="headerlink" title="APP启动分类"></a>APP启动分类</h3><h4 id="冷启动"><a href="#冷启动" class="headerlink" title="冷启动"></a>冷启动</h4><p>冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。</p>
-<h4 id="热启动"><a href="#热启动" class="headerlink" title="热启动"></a>热启动</h4><p>热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进程的情况下，这种启动会从已有的进程中来启动应用，这个方式叫热启动。</p>
-<h4 id="首次启动"><a href="#首次启动" class="headerlink" title="首次启动"></a>首次启动</h4><p>首次启动：首次启动严格来说也是冷启动，之所以把首次启动单独列出来，一般来说，首次启动时间会比非首次启动要久，首次启动会做一些系统初始化工作，如缓存目录的生产，数据库的建立，SharedPreference的初始化，如果存在多 dex 和插件的情况下，首次启动会有一些特殊需要处理的逻辑，而且对启动速度有很大的影响，所以首次启动的速度非常重要，毕竟影响用户对 App 的第一映像。</p>
-<h4 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h4><p>使用release包进行测试，因为debug的包要慢很多。</p>
-<h4 id="App的启动过程"><a href="#App的启动过程" class="headerlink" title="App的启动过程"></a>App的启动过程</h4><ul>
-<li>1.点击Launcher，启动程序,通知ActivityManagerService</li>
-<li>2.ActivityManagerService通知zygote进程孵化出应用进程，分配内存空间等</li>
-<li>3.执行该应用ActivityThread的main()方法</li>
-<li>4.应用程序通知ActivityManagerService它已经启动，ActivityManagerService保存一个该应用的代理对象,ActivityManagerService通过它可以控制应用进程</li>
-<li>5.ActivityManagerService通知应用进程创建入口的Activity实例，执行它的生命周期</li>
-</ul>
-<p>启动过程中Application和入口Activity的生命周期方法按如下顺序调用：</p>
-<ul>
-<li>1.Application 构造方法</li>
-<li>2.attachBaseContext()</li>
-<li>3.onCreate()</li>
-<li>4.入口Activity的对象构造</li>
-<li>5.setTheme() 设置主题等信息</li>
-<li>6.入口Activity的onCreate()</li>
-<li>7.入口Activity的onStart()</li>
-<li>8.入口Activity的onResume()</li>
-<li>9.入口Activity的onAttachToWindow()</li>
-<li>10.入口Activity的onWindowFocusChanged()</li>
-</ul>
-<h4 id="需要特别关注的三处："><a href="#需要特别关注的三处：" class="headerlink" title="需要特别关注的三处："></a>需要特别关注的三处：</h4><ul>
-<li>Activity的onCreate流程，特别是UI的布局与渲染操作，如果布局过于复杂很可能导致严重的启动性能问题。</li>
-<li>Application的onCreate流程，对于大型的APP来说，通常会在这里做大量的通用组件的初始化操作。</li>
-<li>目前有部分APP会提供自定义的启动窗口，这里可以做成品牌宣传界面或者是给用户提供一种程序已经启动的视觉效果。</li>
-</ul>
-<h4 id="启动时间统计"><a href="#启动时间统计" class="headerlink" title="启动时间统计"></a>启动时间统计</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell am start -W packagename/path.activity</span><br></pre></td></tr></table></figure>
-<ul>
-<li>WaitTime 就是总的耗时，包括前一个应用 Activity pause 的时间和新应用启动的时间；</li>
-<li>ThisTime 表示一连串启动 Activity 的最后一个 Activity 的启动耗时；</li>
-<li>TotalTime 表示新应用启动的耗时，包括新进程的启动和 Activity 的启动，但不包括前</li>
-</ul>
-<h4 id="back退出不应存在内存泄露"><a href="#back退出不应存在内存泄露" class="headerlink" title="back退出不应存在内存泄露"></a>back退出不应存在内存泄露</h4><p>简单的检查办法是在退出应用后，用命令</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell dumpsys meminfo 应用包名</span><br></pre></td></tr></table></figure>
-<p>查看 <code>Activities Views</code> 是否为零</p>
-<h3 id="启动时间优化"><a href="#启动时间优化" class="headerlink" title="启动时间优化"></a>启动时间优化</h3><ul>
-<li>1 将耗时操作从app启动生命周期方法中移除。</li>
-<li>2 耗时操作懒加载，在用的时候判断是否初始化，未初始化，在初始化后使用。</li>
-<li>3 将耗时操作放到UI加载完后去调用，即可以放到入口Activity的onWindowFocusChanged()方法中做。在调用onWindowFocusChanged时设置阈值，确保只调用一次。</li>
-<li>4 将页面的初始化工作分为两种，一种是初始化UI，另一种设置数据，这一部分放到UI加载完成后。</li>
-<li>5 检查UI布局文件尽量减少布局的层次，避免Overdraw。</li>
-<li>6 另外在相同层级的情况下使用LinearLayout(相比于RelativeLayout更高效)。</li>
-<li>7 不要频繁创建新的局部对象,因为onDraw可能会被频繁调用,会在一瞬间产生大量的临时对象,会导致占用过多内存,系统更加频繁的gc,降低执行效率。在自定义View的时候，不要，draw,layout,measure等频繁调用的生命周期里做一些不恰当的操作。</li>
-<li>8 多进程情况下，通常onCreate中包含了我们很多业务相关的初始化，更重要的这其中没有做按照进程按需初始化，即每个进程都会执行全部的初始化。</li>
-</ul>
-<h3 id="APP秒开"><a href="#APP秒开" class="headerlink" title="APP秒开"></a>APP秒开</h3><p>设置： </p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;item name="android:windowBackground"&gt;@drawable/splash_adv&lt;/item&gt;</span><br></pre></td></tr></table></figure>
-<p>问题：</p>
-<p>将引导页设置activity背景时，有一部分内容会被底部虚拟键这改掉，一般这个时候把图片设置到contentview里面</p>
-<h3 id="线程优先级"><a href="#线程优先级" class="headerlink" title="线程优先级"></a>线程优先级</h3><p>delay.setPriority(THREAD_PRIORITY_BACKGROUND);</p>
-<p>数据库及IO操作都移到工作线程，并且设置线程优先级为THREAD_PRIORITY_BACKGROUND，这样工作线程最多能获取到10%的时间片，优先保证主线程执行。</p>
 
       
     </div>
