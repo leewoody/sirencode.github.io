@@ -236,10 +236,10 @@
 
 
   
-    <article id="post-Android 逆向工程" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-逆向-small语法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/Android 逆向工程/" class="article-date">
+      <a href="/2018/05/05/逆向-small语法/" class="article-date">
   	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
@@ -253,8 +253,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/Android 逆向工程/">
-        Android 逆向工程
+      <a class="article-title" href="/2018/05/05/逆向-small语法/">
+        逆向-small语法
         
       </a>
     </h1>
@@ -265,27 +265,41 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Android-逆向工程"><a href="#Android-逆向工程" class="headerlink" title="Android 逆向工程"></a>Android 逆向工程</h1><h2 id="安装apktool"><a href="#安装apktool" class="headerlink" title="安装apktool"></a>安装apktool</h2><p><a href="https://ibotpeaches.github.io/Apktool/install/" target="_blank" rel="noopener">apktool官网</a></p>
-<p>安装说明</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8810.02.27.png" alt=""></p>
+        <h1 id="逆向-small语法"><a href="#逆向-small语法" class="headerlink" title="逆向-small语法"></a>逆向-small语法</h1><p>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</p>
+<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>Dalvik的字节码中拥有两个主要的类型：基类和引用类型。引用类型是对象和数组，其他的一切都是基类。</p>
+<h3 id="基类"><a href="#基类" class="headerlink" title="基类"></a>基类</h3><p>基类对照：</p>
 <ul>
-<li>注意apktool的脚本文件不能有后缀名(sublimetext新建一个无后缀的文件之后将内容拷贝进去)</li>
+<li>V        空类型—仅仅可以用来作为返回类型</li>
+<li>Z        Boolean 布尔型</li>
+<li>B        Byte字节型</li>
+<li>S        Short短整型（16位）</li>
+<li>C        Char字符型</li>
+<li>I        Int 整形</li>
+<li>J        long (64 bits)长整型（64位）</li>
+<li>F        Float浮点型</li>
+<li>D        double (64 bits)双精度型（64位）</li>
 </ul>
-<h2 id="安装dex2jar"><a href="#安装dex2jar" class="headerlink" title="安装dex2jar"></a>安装dex2jar</h2><p><a href="https://github.com/pxb1988/dex2jar/releases">git下载地址</a></p>
-<p>下载zip解压待用</p>
-<h2 id="安装JD-GUI"><a href="#安装JD-GUI" class="headerlink" title="安装JD-GUI"></a>安装JD-GUI</h2><p><a href="http://jd.benow.ca/" target="_blank" rel="noopener">官网地址</a></p>
-<p>下载安装即可(mac版的请下载.jar包那个，安装包的兼容性有问题)</p>
-<h2 id="开始简单的反编译之旅"><a href="#开始简单的反编译之旅" class="headerlink" title="开始简单的反编译之旅"></a>开始简单的反编译之旅</h2><h3 id="获取xml反编译文件和smail代码"><a href="#获取xml反编译文件和smail代码" class="headerlink" title="获取xml反编译文件和smail代码"></a>获取xml反编译文件和smail代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//apk文件所在的目录</span><br><span class="line"><span class="built_in">cd</span> /User/shen/Desktop </span><br><span class="line">//获取xml反编译文件和smail代码</span><br><span class="line">apktool d demo.apk</span><br></pre></td></tr></table></figure>
-<p>等跑完，里面的资源文件就出来了，还有smail源码，你要是会读的话跟java差不多。</p>
-<p>small的语法长这样：</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.13.21.png" alt=""></p>
-<h3 id="反编译class-dex文件"><a href="#反编译class-dex文件" class="headerlink" title="反编译class.dex文件"></a>反编译class.dex文件</h3><p>将demo.apk复制一份并改后缀名为zip，然后将文件夹里的classes.dex拷贝出来，回到dex2jar 解压的目录下，将文件复制进去。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/shenyonghe/Downloads/dex-tools-2.1</span><br><span class="line">chmod +x ./* </span><br><span class="line">./d2j-dex2jar.sh classes.dex</span><br></pre></td></tr></table></figure>
-<p>这个时候文件夹下回多出一个jar文件classes-dex2jar.jar包</p>
-<p>注意有的项目会包含多个.dex文件(分包了)，因此要生成多个.jar包进行分析</p>
-<p>使用JD-GUI打开对应的classes-dex2jar.jar包</p>
-<p>打开后就是下面这个样子的阅读起来就容易多了</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.06.01.png" alt=""></p>
+<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>对象采用这样的形式Lpackage/name/ObjectName—开始的L表明这是一个对象类型，package/name/就是该对象，对象名是是对象的名称，并且分号表明对象名的结束。</p>
+<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>格式</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.class &lt; 访问权限&gt; [ 修饰关键字] &lt; 类名&gt;  </span><br><span class="line">.<span class="keyword">super</span> &lt; 父类名&gt;  </span><br><span class="line">.source &lt;源文件名&gt;  </span><br><span class="line"><span class="comment">//</span></span><br><span class="line">.class <span class="keyword">public</span> La/b/a/a;</span><br><span class="line">.<span class="keyword">super</span> Ljava/lang/Object;</span><br><span class="line">.source <span class="string">"SourceFile"</span></span><br></pre></td></tr></table></figure>
+<h2 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># static fields  </span><br><span class="line">.field &lt; 访问权限&gt; <span class="keyword">static</span> [ 修饰关键字] &lt; 字段名&gt;:&lt; 字段类型&gt;  </span><br><span class="line"># instance fields  </span><br><span class="line">.field &lt; 访问权限&gt; [ 修饰关键字] &lt; 字段名&gt;:&lt; 字段类型&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>格式：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># direct methods                //添加的注释  </span><br><span class="line">.method &lt;访问权限&gt; [ 修饰关键字] &lt; 方法原型&gt;  </span><br><span class="line">    &lt;.locals&gt;                 <span class="comment">//指定了使用的局部变量的个数  </span></span><br><span class="line"> [.parameter]                   <span class="comment">//指定了方法的参数  </span></span><br><span class="line"> [.prologue]                    <span class="comment">//指定了代码的开始处，混淆过的代码可能去掉了该指令  </span></span><br><span class="line"> [.line]                    <span class="comment">//指定了该处指令在源代码中的行号  </span></span><br><span class="line">&lt;代码体&gt;  </span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
+<p>Java虚方法你可以理解为java里所有被overriding的方法都是virtual的,所有重写的方法都是override的。虚方法的声明与直接方法相同，只是起始处的注释为“virtual methods”。</p>
+<h3 id="方法调用格式："><a href="#方法调用格式：" class="headerlink" title="方法调用格式："></a>方法调用格式：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lpackage/name/ObjectName;-&gt;MethodName(III)Z</span><br></pre></td></tr></table></figure>
+<p> Lpackage/name/ObjectName; 是一个类， MethodName明显是一个方法名，‘III’在这个例子中是三个整形参数，Z是表示返回一个布尔类型的返回值。</p>
+<p>数组：“[I = int[]   [[I = int[][]”</p>
+<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><p>寄存器总是32位可以存放任何类型的值，2个寄存器可以用来存放64位类型（长整形和双精度型）</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-virtual &#123;v0, p1, p2, p3&#125;, Ljava/beans/PropertyChangeSupport;-&gt;firePropertyChange(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V</span><br></pre></td></tr></table></figure>
+<p>对于寄存器这里有两种命名方案—标准的V命名方案和对于参数寄存器的P命名方案。</p>
+<p>以p命名的第一个寄存器就是方法中的第一个参数寄存器，所以让我们回到之前的总共拥有5个寄存器其中3个参数的例子。下表中显示了为每个寄存器的标准v命名，紧接着是为参数寄存器的p命名</p>
+<ul>
+<li>v0                 the first local register       第一个本地寄存器</li>
+<li>v1                 the second local register  第二个本地寄存器</li>
+<li>v2        p0        the first parameter register   第一个参数寄存器</li>
+<li>v3        p1        the second parameter register   第二个参数寄存器</li>
+<li>v4        p2        the third parameter register   第三个参数寄存器</li>
+</ul>
 
       
     </div>
@@ -370,10 +384,10 @@
 
 
   
-    <article id="post-逆向-small语法" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-Android 逆向工程" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2018/05/05/逆向-small语法/" class="article-date">
+      <a href="/2018/05/05/Android 逆向工程/" class="article-date">
   	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
 </a>
     </div>
@@ -387,8 +401,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/逆向-small语法/">
-        逆向-small语法
+      <a class="article-title" href="/2018/05/05/Android 逆向工程/">
+        Android 逆向工程
         
       </a>
     </h1>
@@ -399,41 +413,27 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="逆向-small语法"><a href="#逆向-small语法" class="headerlink" title="逆向-small语法"></a>逆向-small语法</h1><p>Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。</p>
-<h2 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h2><p>Dalvik的字节码中拥有两个主要的类型：基类和引用类型。引用类型是对象和数组，其他的一切都是基类。</p>
-<h3 id="基类"><a href="#基类" class="headerlink" title="基类"></a>基类</h3><p>基类对照：</p>
+        <h1 id="Android-逆向工程"><a href="#Android-逆向工程" class="headerlink" title="Android 逆向工程"></a>Android 逆向工程</h1><h2 id="安装apktool"><a href="#安装apktool" class="headerlink" title="安装apktool"></a>安装apktool</h2><p><a href="https://ibotpeaches.github.io/Apktool/install/" target="_blank" rel="noopener">apktool官网</a></p>
+<p>安装说明</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8810.02.27.png" alt=""></p>
 <ul>
-<li>V        空类型—仅仅可以用来作为返回类型</li>
-<li>Z        Boolean 布尔型</li>
-<li>B        Byte字节型</li>
-<li>S        Short短整型（16位）</li>
-<li>C        Char字符型</li>
-<li>I        Int 整形</li>
-<li>J        long (64 bits)长整型（64位）</li>
-<li>F        Float浮点型</li>
-<li>D        double (64 bits)双精度型（64位）</li>
+<li>注意apktool的脚本文件不能有后缀名(sublimetext新建一个无后缀的文件之后将内容拷贝进去)</li>
 </ul>
-<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p>对象采用这样的形式Lpackage/name/ObjectName—开始的L表明这是一个对象类型，package/name/就是该对象，对象名是是对象的名称，并且分号表明对象名的结束。</p>
-<h2 id="类"><a href="#类" class="headerlink" title="类"></a>类</h2><p>格式</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">.class &lt; 访问权限&gt; [ 修饰关键字] &lt; 类名&gt;  </span><br><span class="line">.<span class="keyword">super</span> &lt; 父类名&gt;  </span><br><span class="line">.source &lt;源文件名&gt;  </span><br><span class="line"><span class="comment">//</span></span><br><span class="line">.class <span class="keyword">public</span> La/b/a/a;</span><br><span class="line">.<span class="keyword">super</span> Ljava/lang/Object;</span><br><span class="line">.source <span class="string">"SourceFile"</span></span><br></pre></td></tr></table></figure>
-<h2 id="成员变量"><a href="#成员变量" class="headerlink" title="成员变量"></a>成员变量</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># static fields  </span><br><span class="line">.field &lt; 访问权限&gt; <span class="keyword">static</span> [ 修饰关键字] &lt; 字段名&gt;:&lt; 字段类型&gt;  </span><br><span class="line"># instance fields  </span><br><span class="line">.field &lt; 访问权限&gt; [ 修饰关键字] &lt; 字段名&gt;:&lt; 字段类型&gt;</span><br></pre></td></tr></table></figure>
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>格式：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># direct methods                //添加的注释  </span><br><span class="line">.method &lt;访问权限&gt; [ 修饰关键字] &lt; 方法原型&gt;  </span><br><span class="line">    &lt;.locals&gt;                 <span class="comment">//指定了使用的局部变量的个数  </span></span><br><span class="line"> [.parameter]                   <span class="comment">//指定了方法的参数  </span></span><br><span class="line"> [.prologue]                    <span class="comment">//指定了代码的开始处，混淆过的代码可能去掉了该指令  </span></span><br><span class="line"> [.line]                    <span class="comment">//指定了该处指令在源代码中的行号  </span></span><br><span class="line">&lt;代码体&gt;  </span><br><span class="line">.end method</span><br></pre></td></tr></table></figure>
-<p>Java虚方法你可以理解为java里所有被overriding的方法都是virtual的,所有重写的方法都是override的。虚方法的声明与直接方法相同，只是起始处的注释为“virtual methods”。</p>
-<h3 id="方法调用格式："><a href="#方法调用格式：" class="headerlink" title="方法调用格式："></a>方法调用格式：</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Lpackage/name/ObjectName;-&gt;MethodName(III)Z</span><br></pre></td></tr></table></figure>
-<p> Lpackage/name/ObjectName; 是一个类， MethodName明显是一个方法名，‘III’在这个例子中是三个整形参数，Z是表示返回一个布尔类型的返回值。</p>
-<p>数组：“[I = int[]   [[I = int[][]”</p>
-<h3 id="寄存器"><a href="#寄存器" class="headerlink" title="寄存器"></a>寄存器</h3><p>寄存器总是32位可以存放任何类型的值，2个寄存器可以用来存放64位类型（长整形和双精度型）</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">invoke-virtual &#123;v0, p1, p2, p3&#125;, Ljava/beans/PropertyChangeSupport;-&gt;firePropertyChange(Ljava/lang/String;Ljava/lang/Object;Ljava/lang/Object;)V</span><br></pre></td></tr></table></figure>
-<p>对于寄存器这里有两种命名方案—标准的V命名方案和对于参数寄存器的P命名方案。</p>
-<p>以p命名的第一个寄存器就是方法中的第一个参数寄存器，所以让我们回到之前的总共拥有5个寄存器其中3个参数的例子。下表中显示了为每个寄存器的标准v命名，紧接着是为参数寄存器的p命名</p>
-<ul>
-<li>v0                 the first local register       第一个本地寄存器</li>
-<li>v1                 the second local register  第二个本地寄存器</li>
-<li>v2        p0        the first parameter register   第一个参数寄存器</li>
-<li>v3        p1        the second parameter register   第二个参数寄存器</li>
-<li>v4        p2        the third parameter register   第三个参数寄存器</li>
-</ul>
+<h2 id="安装dex2jar"><a href="#安装dex2jar" class="headerlink" title="安装dex2jar"></a>安装dex2jar</h2><p><a href="https://github.com/pxb1988/dex2jar/releases">git下载地址</a></p>
+<p>下载zip解压待用</p>
+<h2 id="安装JD-GUI"><a href="#安装JD-GUI" class="headerlink" title="安装JD-GUI"></a>安装JD-GUI</h2><p><a href="http://jd.benow.ca/" target="_blank" rel="noopener">官网地址</a></p>
+<p>下载安装即可(mac版的请下载.jar包那个，安装包的兼容性有问题)</p>
+<h2 id="开始简单的反编译之旅"><a href="#开始简单的反编译之旅" class="headerlink" title="开始简单的反编译之旅"></a>开始简单的反编译之旅</h2><h3 id="获取xml反编译文件和smail代码"><a href="#获取xml反编译文件和smail代码" class="headerlink" title="获取xml反编译文件和smail代码"></a>获取xml反编译文件和smail代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//apk文件所在的目录</span><br><span class="line"><span class="built_in">cd</span> /User/shen/Desktop </span><br><span class="line">//获取xml反编译文件和smail代码</span><br><span class="line">apktool d demo.apk</span><br></pre></td></tr></table></figure>
+<p>等跑完，里面的资源文件就出来了，还有smail源码，你要是会读的话跟java差不多。</p>
+<p>small的语法长这样：</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.13.21.png" alt=""></p>
+<h3 id="反编译class-dex文件"><a href="#反编译class-dex文件" class="headerlink" title="反编译class.dex文件"></a>反编译class.dex文件</h3><p>将demo.apk复制一份并改后缀名为zip，然后将文件夹里的classes.dex拷贝出来，回到dex2jar 解压的目录下，将文件复制进去。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/shenyonghe/Downloads/dex-tools-2.1</span><br><span class="line">chmod +x ./* </span><br><span class="line">./d2j-dex2jar.sh classes.dex</span><br></pre></td></tr></table></figure>
+<p>这个时候文件夹下回多出一个jar文件classes-dex2jar.jar包</p>
+<p>注意有的项目会包含多个.dex文件(分包了)，因此要生成多个.jar包进行分析</p>
+<p>使用JD-GUI打开对应的classes-dex2jar.jar包</p>
+<p>打开后就是下面这个样子的阅读起来就容易多了</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.06.01.png" alt=""></p>
 
       
     </div>
@@ -799,87 +799,6 @@
 
 
   
-    <article id="post-设计模式-迭代器模式" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/09/设计模式-迭代器模式/" class="article-date">
-  	<time datetime="2018-04-08T16:00:00.000Z" itemprop="datePublished">2018-04-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/09/设计模式-迭代器模式/">
-        设计模式-迭代器模式
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="设计模式-迭代器模式"><a href="#设计模式-迭代器模式" class="headerlink" title="设计模式-迭代器模式"></a>设计模式-迭代器模式</h1><p>在软件开发中，我们经常需要使用聚合对象来存储一系列数据。聚合对象拥有两个职责：一是存储数据；二是遍历数据。从依赖性来看，前者是聚合对象的基本职责；而后者既是可变化的，又是可分离的。因此，可以将遍历数据的行为从聚合对象中分离出来，封装在一个被称之为“迭代器”的对象中，由迭代器来提供遍历聚合对象内部数据的行为，这将简化聚合对象的设计，更符合“单一职责原则”的要求。</p>
-<p>迭代器模式(Iterator Pattern)：提供一种方法来访问聚合对象，而不用暴露这个对象的内部表示，其别名为游标(Cursor)。迭代器模式是一种对象行为型模式。</p>
-<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/20130815225537578.jpeg" alt=""></p>
-<ul>
-<li>Iterator（抽象迭代器）：它定义了访问和遍历元素的接口，声明了用于遍历数据元素的方法，例如：用于获取第一个元素的first()方法，用于访问下一个元素的next()方法，用于判断是否还有下一个元素的hasNext()方法，用于获取当前元素的currentItem()方法等，在具体迭代器中将实现这些方法。</li>
-<li>ConcreteIterator（具体迭代器）：它实现了抽象迭代器接口，完成对聚合对象的遍历，同时在具体迭代器中通过游标来记录在聚合对象中所处的当前位置，在具体实现时，游标通常是一个表示位置的非负整数。</li>
-<li>Aggregate（抽象聚合类）：它用于存储和管理元素对象，声明一个createIterator()方法用于创建一个迭代器对象，充当抽象迭代器工厂角色。</li>
-<li>ConcreteAggregate（具体聚合类）：它实现了在抽象聚合类中声明的createIterator()方法，该方法返回一个与该具体聚合类对应的具体迭代器ConcreteIterator实例。</li>
-</ul>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">first</span><span class="params">()</span></span>; <span class="comment">//将游标指向第一个元素</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">next</span><span class="params">()</span></span>; <span class="comment">//将游标指向下一个元素</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>; <span class="comment">//判断是否存在下一个元素</span></span><br><span class="line">    <span class="function">Object <span class="title">currentItem</span><span class="params">()</span></span>; <span class="comment">//获取游标指向的当前元素</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="comment">//维持一个对具体聚合对象的引用，以便于访问存储在聚合对象中的数据</span></span><br><span class="line">    <span class="keyword">private</span> ConcreteAggregate objects;</span><br><span class="line">    <span class="comment">//定义一个游标，用于记录当前访问位置</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> cursor;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreteIterator</span><span class="params">(ConcreteAggregate objects)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.objects=objects;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">first</span><span class="params">()</span> </span>&#123;  ......  &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">next</span><span class="params">()</span> </span>&#123;  ......  &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;  ......  &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">currentItem</span><span class="params">()</span> </span>&#123;  ......  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Aggregate</span> </span>&#123;</span><br><span class="line">    <span class="function">Iterator <span class="title">createIterator</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteAggregate</span> <span class="keyword">implements</span> <span class="title">Aggregate</span> </span>&#123;    </span><br><span class="line">......</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator <span class="title">createIterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteIterator(<span class="keyword">this</span>);</span><br><span class="line">    &#125;  </span><br><span class="line">......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>优点：</p>
-<ul>
-<li>1 它支持以不同的方式遍历一个聚合对象，在同一个聚合对象上可以定义多种遍历方式。在迭代器模式中只需要用一个不同的迭代器来替换原有迭代器即可改变遍历算法，我们也可以自己定义迭代器的子类以支持新的遍历方式。</li>
-<li>2 迭代器简化了聚合类。由于引入了迭代器，在原有的聚合对象中不需要再自行提供数据遍历等方法，这样可以简化聚合类的设计。</li>
-<li>3 在迭代器模式中，由于引入了抽象层，增加新的聚合类和迭代器类都很方便，无须修改原有代码，满足“开闭原则”的要求。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>1 由于迭代器模式将存储数据和遍历数据的职责分离，增加新的聚合类需要对应增加新的迭代器类，类的个数成对增加，这在一定程度上增加了系统的复杂性。</li>
-<li>2 抽象迭代器的设计难度较大，需要充分考虑到系统将来的扩展，例如JDK内置迭代器Iterator就无法实现逆向遍历，如果需要实现逆向遍历，只能通过其子类ListIterator等来实现，而ListIterator迭代器无法用于操作Set类型的聚合对象。在自定义迭代器时，创建一个考虑全面的抽象迭代器并不是件很容易的事情。</li>
-</ul>
-<p>场景：</p>
-<ul>
-<li>1 访问一个聚合对象的内容而无须暴露它的内部表示。将聚合对象的访问与内部数据的存储分离，使得访问聚合对象时无须了解其内部实现细节。</li>
-<li>2 需要为一个聚合对象提供多种遍历方式。</li>
-<li>3 为遍历不同的聚合结构提供一个统一的接口，在该接口的实现类中为不同的聚合结构提供不同的遍历方式，而客户端可以一致性地操作该接口。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-Android Android 共享内存" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -938,6 +857,87 @@
 <h3 id="Android进程共享内存的传递-fd文件描述符的传递"><a href="#Android进程共享内存的传递-fd文件描述符的传递" class="headerlink" title="Android进程共享内存的传递-fd文件描述符的传递"></a>Android进程共享内存的传递-fd文件描述符的传递</h3><p>原生Linux共享内存是通过传递已知的key来处理的，但是Android中不存在这种机制，Android是怎么处理的呢？那就是通过Binder传递文件描述符来处理，Android的Binder对于fd的传递也做了适配，原理其实就是在内核层为要传递的目标进程转换fd，因为在linux中fd只是对本进程是有效、且唯一，进程A打开一个文件得到一个fd，不能直接为进程B使用，因为B中那个fd可能压根无效、或者对应其他文件，不过，虽然同一个文件可以有多个文件描述符，但是文件只有一个，在内核层也只会对应一个inode节点与file对象，这也是内核层可以传递fd的基础，Binder驱动通过当前进程的fd找到对应的文件，然后为目标进程新建fd，并传递给目标进程，核心就是把进程A中的fd转化成进程B中的fd。</p>
 <p><img src="http://oc4zuck5v.bkt.clouddn.com/1460468-880df908d284fa9e.jpg" alt=""></p>
 <h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>匿名共享内存不会占用Dalvik Heap与Native Heap，不会导致OOM，这是优点，同时也是缺点，因为如果肆意使用，会导致系统资源不足，性能下降。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-设计模式-迭代器模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/09/设计模式-迭代器模式/" class="article-date">
+  	<time datetime="2018-04-08T16:00:00.000Z" itemprop="datePublished">2018-04-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/09/设计模式-迭代器模式/">
+        设计模式-迭代器模式
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="设计模式-迭代器模式"><a href="#设计模式-迭代器模式" class="headerlink" title="设计模式-迭代器模式"></a>设计模式-迭代器模式</h1><p>在软件开发中，我们经常需要使用聚合对象来存储一系列数据。聚合对象拥有两个职责：一是存储数据；二是遍历数据。从依赖性来看，前者是聚合对象的基本职责；而后者既是可变化的，又是可分离的。因此，可以将遍历数据的行为从聚合对象中分离出来，封装在一个被称之为“迭代器”的对象中，由迭代器来提供遍历聚合对象内部数据的行为，这将简化聚合对象的设计，更符合“单一职责原则”的要求。</p>
+<p>迭代器模式(Iterator Pattern)：提供一种方法来访问聚合对象，而不用暴露这个对象的内部表示，其别名为游标(Cursor)。迭代器模式是一种对象行为型模式。</p>
+<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/20130815225537578.jpeg" alt=""></p>
+<ul>
+<li>Iterator（抽象迭代器）：它定义了访问和遍历元素的接口，声明了用于遍历数据元素的方法，例如：用于获取第一个元素的first()方法，用于访问下一个元素的next()方法，用于判断是否还有下一个元素的hasNext()方法，用于获取当前元素的currentItem()方法等，在具体迭代器中将实现这些方法。</li>
+<li>ConcreteIterator（具体迭代器）：它实现了抽象迭代器接口，完成对聚合对象的遍历，同时在具体迭代器中通过游标来记录在聚合对象中所处的当前位置，在具体实现时，游标通常是一个表示位置的非负整数。</li>
+<li>Aggregate（抽象聚合类）：它用于存储和管理元素对象，声明一个createIterator()方法用于创建一个迭代器对象，充当抽象迭代器工厂角色。</li>
+<li>ConcreteAggregate（具体聚合类）：它实现了在抽象聚合类中声明的createIterator()方法，该方法返回一个与该具体聚合类对应的具体迭代器ConcreteIterator实例。</li>
+</ul>
+<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">first</span><span class="params">()</span></span>; <span class="comment">//将游标指向第一个元素</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">next</span><span class="params">()</span></span>; <span class="comment">//将游标指向下一个元素</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>; <span class="comment">//判断是否存在下一个元素</span></span><br><span class="line">    <span class="function">Object <span class="title">currentItem</span><span class="params">()</span></span>; <span class="comment">//获取游标指向的当前元素</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="comment">//维持一个对具体聚合对象的引用，以便于访问存储在聚合对象中的数据</span></span><br><span class="line">    <span class="keyword">private</span> ConcreteAggregate objects;</span><br><span class="line">    <span class="comment">//定义一个游标，用于记录当前访问位置</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> cursor;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreteIterator</span><span class="params">(ConcreteAggregate objects)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.objects=objects;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">first</span><span class="params">()</span> </span>&#123;  ......  &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">next</span><span class="params">()</span> </span>&#123;  ......  &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;  ......  &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">currentItem</span><span class="params">()</span> </span>&#123;  ......  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Aggregate</span> </span>&#123;</span><br><span class="line">    <span class="function">Iterator <span class="title">createIterator</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteAggregate</span> <span class="keyword">implements</span> <span class="title">Aggregate</span> </span>&#123;    </span><br><span class="line">......</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator <span class="title">createIterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteIterator(<span class="keyword">this</span>);</span><br><span class="line">    &#125;  </span><br><span class="line">......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>优点：</p>
+<ul>
+<li>1 它支持以不同的方式遍历一个聚合对象，在同一个聚合对象上可以定义多种遍历方式。在迭代器模式中只需要用一个不同的迭代器来替换原有迭代器即可改变遍历算法，我们也可以自己定义迭代器的子类以支持新的遍历方式。</li>
+<li>2 迭代器简化了聚合类。由于引入了迭代器，在原有的聚合对象中不需要再自行提供数据遍历等方法，这样可以简化聚合类的设计。</li>
+<li>3 在迭代器模式中，由于引入了抽象层，增加新的聚合类和迭代器类都很方便，无须修改原有代码，满足“开闭原则”的要求。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>1 由于迭代器模式将存储数据和遍历数据的职责分离，增加新的聚合类需要对应增加新的迭代器类，类的个数成对增加，这在一定程度上增加了系统的复杂性。</li>
+<li>2 抽象迭代器的设计难度较大，需要充分考虑到系统将来的扩展，例如JDK内置迭代器Iterator就无法实现逆向遍历，如果需要实现逆向遍历，只能通过其子类ListIterator等来实现，而ListIterator迭代器无法用于操作Set类型的聚合对象。在自定义迭代器时，创建一个考虑全面的抽象迭代器并不是件很容易的事情。</li>
+</ul>
+<p>场景：</p>
+<ul>
+<li>1 访问一个聚合对象的内容而无须暴露它的内部表示。将聚合对象的访问与内部数据的存储分离，使得访问聚合对象时无须了解其内部实现细节。</li>
+<li>2 需要为一个聚合对象提供多种遍历方式。</li>
+<li>3 为遍历不同的聚合结构提供一个统一的接口，在该接口的实现类中为不同的聚合结构提供不同的遍历方式，而客户端可以一致性地操作该接口。</li>
+</ul>
 
       
     </div>
