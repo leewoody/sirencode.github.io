@@ -162,6 +162,76 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android 序列化" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/10/11/Android 序列化/" class="article-date">
+  	<time datetime="2018-10-10T16:00:00.000Z" itemprop="datePublished">2018-10-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/10/11/Android 序列化/">
+        Android 序列化
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-序列化"><a href="#Android-序列化" class="headerlink" title="Android 序列化"></a>Android 序列化</h1><p>序列化可以实现Java对象的传输和存储。</p>
+<h2 id="Serializable"><a href="#Serializable" class="headerlink" title="Serializable"></a>Serializable</h2><h2 id="Parcelable"><a href="#Parcelable" class="headerlink" title="Parcelable"></a>Parcelable</h2><p>parcel的传输是暂存在Binder transaction buffe的地方，缓冲区有1M(有些手机2M)的大小限制，并且这是该进程(16个binder线程)中所有正在进行中的传输对象所公用的。</p>
+<h3 id="size大小"><a href="#size大小" class="headerlink" title="size大小"></a>size大小</h3><p>这个问题我一直是很疑惑的，最开始我是看的内存中对象的大小，但是这个是不对的，内存中对象的大小是确定的，并不是真正的byte流的大小。要想知道byte流的真正大小，需要获取到序列化构造函数的Parcel.dataSize()。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">writeToParcel</span><span class="params">(Parcel dest, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> start = dest.dataSize();</span><br><span class="line">    ------</span><br><span class="line">    DevUtil.d(<span class="string">"PropAreaAndBlock size"</span>,<span class="string">"parcel size:"</span> + (dest.dataSize()-start));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="解决限制"><a href="#解决限制" class="headerlink" title="解决限制"></a>解决限制</h3><ul>
+<li>1 限制传输数据的数量，尽量精简。</li>
+<li>2 静态变量传输(在destroy中将静态对象置空)。</li>
+<li>3 数据持久化。</li>
+<li>4 单例。</li>
+</ul>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><ul>
+<li>1 使用Serializable和parcel传输相同对象，都转换为byte[]后，parcel大概是serializable的20倍了。</li>
+<li>2 但是官方建议使用Parcel，原因是说速度是serializable的将近10倍。</li>
+<li>3 Serializable是使用I/O读写存储在硬盘上，会产生大量的临时变量，引发高频的GC，利用反射实现文件操作，使用简单，写入信息包括字段名长度等，适合做持久化。</li>
+<li>4 parcel是直接操作内存读写，只写数据，节省资源，不适合持久化，可能会变化。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Retrofit 原理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -963,90 +1033,6 @@
 <li>epoll_wait等待新事件</li>
 </ul>
 <h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>当有新的设备可用的时候，现在/dev/input下，当input下新增或者删除设备的时候，INotify会通知到EventHub去读取对应的设备信息，并将对应的信息发送给对应的window。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/24/正则表达式/" class="article-date">
-  	<time datetime="2018-05-23T16:00:00.000Z" itemprop="datePublished">2018-05-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/24/正则表达式/">
-        正则表达式
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="正则表达式"><a href="#正则表达式" class="headerlink" title="正则表达式"></a>正则表达式</h1><p>正则表达式(regular expression)描述了一种字符串匹配的模式（pattern），可以用来检查一个串是否含有某种子串、将匹配的子串替换或者从某个串中取出符合某个条件的子串等。</p>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><h3 id="号代表前面的字符必须至少出现一次"><a href="#号代表前面的字符必须至少出现一次" class="headerlink" title="+号代表前面的字符必须至少出现一次"></a>+号代表前面的字符必须至少出现一次</h3><ul>
-<li>sh+e = she,shhhe</li>
-</ul>
-<h3 id="号代表前一个字符可以出现任意次（0次、或1次、或多次）。"><a href="#号代表前一个字符可以出现任意次（0次、或1次、或多次）。" class="headerlink" title="*号代表前一个字符可以出现任意次（0次、或1次、或多次）。"></a>*号代表前一个字符可以出现任意次（0次、或1次、或多次）。</h3><ul>
-<li>shh+e = she,shhhe…</li>
-</ul>
-<h3 id="问号代表前面的字符最多只可以出现一次（0次、或1次）"><a href="#问号代表前面的字符最多只可以出现一次（0次、或1次）" class="headerlink" title="? 问号代表前面的字符最多只可以出现一次（0次、或1次）"></a>? 问号代表前面的字符最多只可以出现一次（0次、或1次）</h3><ul>
-<li>shh?e = she,shhe</li>
-</ul>
-<h3 id="将下一个字符标记为一个特殊字符"><a href="#将下一个字符标记为一个特殊字符" class="headerlink" title="\将下一个字符标记为一个特殊字符"></a>\将下一个字符标记为一个特殊字符</h3><ul>
-<li>为了逐字表达，你必须在”^.$()¦*+?{\”这些字符前加上转移字符’\’</li>
-</ul>
-<h3 id="和-一个字符串的开始和结束"><a href="#和-一个字符串的开始和结束" class="headerlink" title="^和$一个字符串的开始和结束"></a>^和$一个字符串的开始和结束</h3><ul>
-<li>^The = There…</li>
-<li>$end = the end</li>
-<li>^abc$ = abc</li>
-</ul>
-<h3 id="n"><a href="#n" class="headerlink" title="{n}"></a>{n}</h3><ul>
-<li>ab{2}：表示一个字符串有一个a跟着2个b</li>
-<li>ab{2,}：表示一个字符串有一个a跟着至少2个b</li>
-<li>ab{3,5}：表示一个字符串有一个a跟着3到5个b</li>
-</ul>
-<h3 id="或"><a href="#或" class="headerlink" title="或 |"></a>或 |</h3><ul>
-<li>(b|cd)ef = bef或cdef</li>
-</ul>
-<h3 id="可以表示任何字符"><a href="#可以表示任何字符" class="headerlink" title=".可以表示任何字符"></a>.可以表示任何字符</h3><ul>
-<li>A.=A后面跟着任意一个字符</li>
-</ul>
-<h3 id="特定字符"><a href="#特定字符" class="headerlink" title="[]特定字符"></a>[]特定字符</h3><p>[a-zA-Z]=任意字母</p>
 
       
     </div>

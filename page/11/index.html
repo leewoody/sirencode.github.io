@@ -162,6 +162,93 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android 内部存储 外部存储" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/04/Android 内部存储 外部存储/" class="article-date">
+  	<time datetime="2016-10-03T16:00:00.000Z" itemprop="datePublished">2016-10-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/04/Android 内部存储 外部存储/">
+        Android 内部存储 外部存储
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-内部存储-外部存储"><a href="#Android-内部存储-外部存储" class="headerlink" title="Android 内部存储 外部存储"></a>Android 内部存储 外部存储</h1><p>最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把内置存储（机身存储）当做内部存储，而把扩展的SD卡当做是外部存储。这么认为确实没错，因为在4.4（API19）以前的手机上确实是这样的，手机自身带的存储卡就是内部存储，而扩展的SD卡就是外部存储。但是从4.4的系统开始，很多的中高端机器都将自己的机身存储扩展到了8G以上，比如有的人的手机是16G的，有的人的手机是32G的，但是这个16G，32G是内部存储吗，不是的！！！，它们依然是外部存储，也就是说4.4系统及以上的手机将机身存储存储（手机自身带的存储叫做机身存储）在概念上分成了”内部存储internal” 和”外部存储external” 两部分。既然16G，32G是外部存储，那有人又有疑惑了，那4.4系统及以上的手机要是插了SD卡呢，SD卡又是什么呢，如果SD卡也是外部存储的话，那怎么区分机身存储的外部存储跟SD卡的外部存储呢？对，SD卡也是外部存储，那怎么区分呢，在4.4以后的系统中，API提供了这样一个方法来遍历手机的外部存储路径：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">File[] files;</span><br><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">    files = getExternalFilesDirs(Environment.MEDIA_MOUNTED);</span><br><span class="line">    <span class="keyword">for</span>(File file:files)&#123;</span><br><span class="line">        Log.e(<span class="string">"main"</span>,file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果你的手机插了SD卡的话，那么它打印的路径就有两条了，例如我的华为荣耀7插了SD卡，它的结果如下：<br>/storage/emulated/0/Android/data/packname/files/mounted<br>/storage/B3E4-1711/Android/data/packname/files/mounted<br>其中/storage/emulated/0目录就是机身存储的外部存储路径,而/storage/B3E4-1711/就是SD卡的路径 </p>
+<h2 id="内存-RAM"><a href="#内存-RAM" class="headerlink" title="内存 RAM"></a>内存 RAM</h2><p>物理位置是位于手机内部的随机存储器上，就是俗称的RAM。就是计算机上对内存储器的理解。</p>
+<h2 id="内部存储内部ROM"><a href="#内部存储内部ROM" class="headerlink" title="内部存储内部ROM"></a>内部存储内部ROM</h2><p>/data文件夹就是我们常说的内部存储。</p>
+<h3 id="data-app"><a href="#data-app" class="headerlink" title="data/app"></a>data/app</h3><p>app文件夹里存放着我们所有安装的app的apk文件，其实，当我们调试一个app的时候，可以看到控制台输出的内容，有一项是uploading …..就是上传我们的apk到这个文件夹，上传成功之后才开始安装。</p>
+<h3 id="data-data"><a href="#data-data" class="headerlink" title="data/data"></a>data/data</h3><p>如果打开过data文件，应该都知道这些文件夹是干什么用的，我们在使用sharedPreferenced的时候，将数据持久化存储于本地，其实就是存在这个文件中的xml文件里，我们App里边的数据库文件就存储于databases文件夹中，还有我们的普通数据存储在files中，缓存文件存储在cache文件夹中，存储在这里的文件我们都称之为内部存储。</p>
+<h3 id="常用目录"><a href="#常用目录" class="headerlink" title="常用目录"></a>常用目录</h3><ul>
+<li>内部存储的cache目录:/data/data/packageName/cache<br>-&gt; context.getCacheDir（）</li>
+<li>内部存储的files目录:/data/data/packageName/files -&gt; context.getFilesDir();</li>
+<li>内部存储的data目录:/data - &gt; Environment.getDataDirectory();</li>
+<li>data/data/包名/shared_prefs -&gt; sp</li>
+<li>data/data/包名/databases    -&gt; db</li>
+</ul>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>不需要权限</li>
+<li>百分百会有</li>
+<li>存在这里的文件只有你自己的app可以访问。</li>
+<li>当app卸载的时候，系统会删除对应app的所有信息。</li>
+</ul>
+<h2 id="外部存储外部ROM和SDCard"><a href="#外部存储外部ROM和SDCard" class="headerlink" title="外部存储外部ROM和SDCard"></a>外部存储外部ROM和SDCard</h2><p>外部存储一般就是我们上面看到的storage文件夹，当然也有可能是mnt文件夹，这个不同厂家有可能不一样。一般来说，在storage文件夹中有一个sdcard文件夹，这个文件夹中的文件又分为两类，一类是公有目录，还有一类是私有目录，其中的公有目录有九大类，比如DCIM、DOWNLOAD等这种系统为我们创建的文件夹，私有目录就是Android这个文件夹，这个文件夹打开之后里边有一个data文件夹，打开这个data文件夹，里边有许多包名组成的文件夹。</p>
+<p>外部存储可以有多个，在4.4前，外挂的sdcard是外部存储。4.4后，有一部分手机的本身内存已经超过8G，这时候系统会把机身内存分为两个部分，一部分是内部存储，一部分是外部存储，如果这时候再外挂sdcard就会产生两个外部存储的部分。</p>
+<h3 id="常用目录-1"><a href="#常用目录-1" class="headerlink" title="常用目录"></a>常用目录</h3><ul>
+<li>外部存储的cache目录:/storage/sdcard0/Android/data/packageName/cache -&gt; context.getExternalCacheDir()</li>
+<li>外部存储的files目录:/storage/sdcard0/Android/data/packageName/files-&gt; context.getExternalFilesDir()</li>
+<li>外部存储的sdcard的根目录:/storage/sdcard0/ -&gt; Environemnt.getExternalStorageDirectory()</li>
+</ul>
+<h3 id="特点-1"><a href="#特点-1" class="headerlink" title="特点"></a>特点</h3><ul>
+<li>需要权限</li>
+<li>可能不存在外部存储，可装卸载。</li>
+<li>所有人都可以访问，不安全。</li>
+<li>app卸载的时候，系统会删除存在getExternalFilesDir()-{路径为:/mnt/sdcard/Android/data/&lt; package name &gt;/files/…}目录的内容。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-APP启动时间优化" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1307,85 +1394,6 @@ LeakCanary.install(this);
 <p>4 内存泄漏信息，将会保存在sdcard/blockcanary目录下。</p>
 <p>5 一般内存检查会出现在activity的销毁阶段。</p>
 <p>6 自己编译leakcanary源码的<a href="https://github.com/sirencode/LeakCanary">Demo</a>,可以根据自己的情况对功能进行定制。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-mvp" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/30/mvp/" class="article-date">
-  	<time datetime="2016-08-29T16:00:00.000Z" itemprop="datePublished">2016-08-30</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/30/mvp/">
-        Android 设计模式-MVP框架
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。</p>
-<h3 id="MVP介绍"><a href="#MVP介绍" class="headerlink" title="MVP介绍"></a>MVP介绍</h3><p>MVP实际是将原MVC模式下activity和fragment里面的代码抽离出来并封装到P里面，从而，降低了actvity和fragment的代码量，并解耦。</p>
-<ul>
-<li>M是指modle，model 是用户界面需要显示数据的抽象，也可以理解为从业务数据（结果）那里到用户界面的抽象（Business rule, data access, model classes）。</li>
-<li>视图这一层体现的很轻薄，负责显示数据、提供友好界面跟用户交互就行。MVP下Activity和Fragment体现在了这一层，<br>Activity一般也就做加载UI视图、设置监听再交由Presenter处理的一些工作，所以也就需要持有相应Presenter的引用。例如，Activity上滚动列表时隐藏或者显示Acionbar（Toolbar），这样的UI逻辑时也应该在这一层。另外在View上输入的数据做一些判断时，例如，EditText的输入数据，假如是简单的非空判断则可以作为View层的逻辑，而当需要对EditText的数据进行更复杂的比较时，如从数据库获取本地数据进行判断时明显需要经过Model层才能返回了，所以这些细节需要自己掂量。</li>
-<li>Presenter这一层处理着程序各种逻辑的分发，收到View层UI上的反馈命令、定时命令、系统命令等指令后分发处理逻辑交由业务层做具体的业务操作，然后将得到的 Model 给 View 显示。</li>
-</ul>
-<h4 id="获取数据-gt-改变View的流程（APP的主要流程）"><a href="#获取数据-gt-改变View的流程（APP的主要流程）" class="headerlink" title="获取数据-&gt;改变View的流程（APP的主要流程）"></a>获取数据-&gt;改变View的流程（APP的主要流程）</h4><p>步骤1：UI(Activity)实现View方法，引用Presenter<br>步骤2：Presenter调用Model，走Model具体逻辑<br>步骤3：Model逻辑实现，回调Presenter方法返回数据<br>步骤4：Presenter回调View，即回到UI，回调View方法</p>
-<h4 id="View改变-gt-业务处理"><a href="#View改变-gt-业务处理" class="headerlink" title="View改变-&gt;业务处理"></a>View改变-&gt;业务处理</h4><p>在View的改变事件——&gt;presenter -&gt; model处理，回调presenter -&gt; 根据结果显示UI</p>
-<h4 id="双向数据沟通"><a href="#双向数据沟通" class="headerlink" title="双向数据沟通"></a>双向数据沟通</h4><p>1 v变化——&gt; p -&gt; m处理<br>2 m处理后 -&gt; p -&gt; v变化</p>
-<p>或者</p>
-<p>1 m处理后 -&gt; p -&gt; v变化<br>2 v变化——&gt; p -&gt; m处理</p>
-<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
-<ul>
-<li>1 数据解耦，所有的业务逻辑放到model里面，方便管理复用。</li>
-<li>2 代码的可读性好很多，方便后续修改阅读。</li>
-<li>3 代码的耦合度很低，方便其它地方复用相关模块代码。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>1 要写大量的代码，或者文件。</li>
-<li>2 使用起来没有以前方便，需要进行数据的分离处理。</li>
-</ul>
-<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><p>使用MVP时，Activity和Fragment变成了MVC模式中View层，Presenter相当于MVC模式中Controller层，处理业务逻辑。每一个Activity都有一个相应的presenter来处理数据进而获取model。</p>
-<p>由于写MVP模式要写大量的代码和文件，因此建议不需要所有的功能都用mvp实现，在逻辑的叶子节点上的功能可以不使用。另外，modle文件可以根据模块化共用一个modle,不需要每个功能都新建一个model。</p>
 
       
     </div>

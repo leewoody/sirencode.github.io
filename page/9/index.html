@@ -162,6 +162,90 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-shell脚本" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/01/12/shell脚本/" class="article-date">
+  	<time datetime="2017-01-11T16:00:00.000Z" itemprop="datePublished">2017-01-12</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/01/12/shell脚本/">
+        shell脚本
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h4 id="从第一行开始"><a href="#从第一行开始" class="headerlink" title="从第一行开始"></a>从第一行开始</h4><p>此行称为 shebang（就是 sharp (#) + bang (!) 的意思），会指引操作系统使用接下来指定的程序运行此文件.</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/bash</span></span><br></pre></td></tr></table></figure>
+<h3 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h3><p>Shell 变量默认全都是字符串。</p>
+<h4 id="变量赋值和引用"><a href="#变量赋值和引用" class="headerlink" title="变量赋值和引用"></a>变量赋值和引用</h4><p>Shell 编程中，使用变量无需事先声明。变量名的命名遵守大小写字母数字和下划线组成，且不能以数字开头。请注意 shell 环境中的确有以数字和特殊符号开头的变量名，但是那些东西不可以用接下来的方式赋值。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">varname=值 [var2=val2 ....]</span><br></pre></td></tr></table></figure>
+<h5 id="请注意这边等号左右不能有空格。-要取用一个变量的值，只需在变量名前面加一个"><a href="#请注意这边等号左右不能有空格。-要取用一个变量的值，只需在变量名前面加一个" class="headerlink" title="请注意这边等号左右不能有空格。 要取用一个变量的值，只需在变量名前面加一个 $"></a>请注意这边等号左右不能有空格。 要取用一个变量的值，只需在变量名前面加一个 $</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># assign</span></span><br><span class="line">a=<span class="string">"hello world"</span>  <span class="comment"># 等号两边均不能有空格存在</span></span><br><span class="line"><span class="comment"># print</span></span><br><span class="line"><span class="built_in">printf</span> <span class="string">'%s\n'</span> <span class="string">"A is: <span class="variable">$a</span>"</span></span><br></pre></td></tr></table></figure>
+<p>有时候变量名可能会和其它文字（匹配最长的符合变量名或特殊变量名要求的内容）混淆，比如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">num=2</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"this is the <span class="variable">$numnd</span>"</span>   <span class="comment"># 输出 this is the       — shell 尝试寻找 $numnd 的值</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"this is the <span class="variable">$&#123;num&#125;</span>nd"</span> <span class="comment"># 输出 this is the 2nd   — 修好了！</span></span><br><span class="line"><span class="comment"># 花括号可以隔开变量名，但是放歪了的话…</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"this is the &#123;<span class="variable">$num</span>&#125;nd"</span> <span class="comment"># 输出 this is the &#123;2&#125;nd — 切是切开了，但是…</span></span><br></pre></td></tr></table></figure>
+<h4 id="变量计算"><a href="#变量计算" class="headerlink" title="变量计算"></a>变量计算</h4><p>我们可以用很多方法达成我们的目标。首先是好孩子的方法——C 风格表达式。bash 里面可以用 (( )) 执行 C 风格的算术表达式。$(( )) 会展开成为这个 C 表达式求值的结果。以前 bash 有个 $[ ] 一样，但是别去用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var=0</span><br><span class="line">(( var += 1 )) <span class="comment"># 这是一种，现在 var 是 1</span></span><br><span class="line">(( var++ ))    <span class="comment"># 这也是一种自增，2</span></span><br><span class="line">(( var = var * var )) <span class="comment"># 怎么来乘法了！var 现在是 4。</span></span><br><span class="line"><span class="built_in">let</span> <span class="string">'var = var / 3'</span>   <span class="comment"># 还是只有 bash 才能用的拓展。除法是整数除法，向 0 舍入，1。</span></span><br><span class="line"><span class="built_in">echo</span> $((var += 2))    <span class="comment"># echo 出 3，var 现在是 3。</span></span><br><span class="line">var=$((var-1))        <span class="comment"># 展开成 var=2，var 现在是……还用说吗，2。</span></span><br></pre></td></tr></table></figure>
+<h3 id="Shell里的流程控制"><a href="#Shell里的流程控制" class="headerlink" title="Shell里的流程控制"></a>Shell里的流程控制</h3><h4 id="if语句"><a href="#if语句" class="headerlink" title="if语句"></a>if语句</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> </span><br><span class="line">  判断命令，可以有很多个，真假取最后的返回值</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  如果前述为真做什么</span><br><span class="line">[ <span class="comment"># 方括号代表可选，别真打进去了！</span></span><br><span class="line"><span class="keyword">elif</span></span><br><span class="line">  可以再来个判断，如果签名为假继续尝试这里</span><br><span class="line"><span class="keyword">then</span></span><br><span class="line">  如果前述为真做什么 ]</span><br><span class="line"><span class="keyword">else</span></span><br><span class="line">  如果全都不行做什么</span><br><span class="line"><span class="keyword">fi</span> <span class="comment"># 结束，就是倒写的 if 啦。</span></span><br></pre></td></tr></table></figure>
+<h5 id="amp-amp-和-操作符"><a href="#amp-amp-和-操作符" class="headerlink" title="&amp;&amp; 和 || 操作符"></a>&amp;&amp; 和 || 操作符</h5><h5 id="case-语句"><a href="#case-语句" class="headerlink" title="case 语句"></a>case 语句</h5><p>case表达式可以用来匹配一个给定的字符串，而不是数字（可别和C语言里的switch…case混淆）。</p>
+<p>我们利用这点写了一个名为smartzip的脚本，该脚本可以自动解压bzip2, gzip和zip 类型的压缩文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">ftype=<span class="string">"<span class="variable">$(file "$1")</span>"</span></span><br><span class="line"><span class="keyword">case</span> <span class="string">"<span class="variable">$ftype</span>"</span> <span class="keyword">in</span></span><br><span class="line"><span class="string">"<span class="variable">$1</span>: Zip archive"</span>*)</span><br><span class="line">   unzip <span class="string">"<span class="variable">$1</span>"</span> ;;</span><br><span class="line"><span class="string">"<span class="variable">$1</span>: gzip compressed"</span>*)</span><br><span class="line">   gunzip <span class="string">"<span class="variable">$1</span>"</span> ;;</span><br><span class="line"><span class="string">"<span class="variable">$1</span>: bzip2 compressed"</span>*)</span><br><span class="line">   bunzip2 <span class="string">"<span class="variable">$1</span>"</span> ;;</span><br><span class="line">*)</span><br><span class="line">   <span class="built_in">echo</span> <span class="string">"File <span class="variable">$1</span> can not be uncompressed with smartzip"</span>;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<p>你可能注意到上面使用了一个特殊变量 $1，该变量包含有传递给该脚本的第一个参数值。也就是说，当我们运行：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">smartzip articles.zip</span><br></pre></td></tr></table></figure>
+<h4 id="select-循环语句"><a href="#select-循环语句" class="headerlink" title="select 循环语句"></a>select 循环语句</h4><p>select 循环语句是bash的一种扩展应用，擅长于交互式场合。<br>用户可以从一组不同的值中进行选择</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">pocket=()</span><br><span class="line">select var <span class="keyword">in</span> 跳跳糖 糖 很多糖 企鹅糖; <span class="keyword">do</span></span><br><span class="line">  <span class="built_in">echo</span> <span class="string">"除了 <span class="variable">$var</span> 还要什么吗？"</span></span><br><span class="line">  <span class="keyword">if</span> ((RANDOM%4 == 0)); <span class="keyword">then</span></span><br><span class="line">    <span class="built_in">echo</span> <span class="string">"呀！时间不够了，快上车！"</span></span><br><span class="line">    <span class="built_in">break</span> <span class="comment"># break 还是那个 break</span></span><br><span class="line">  <span class="keyword">fi</span></span><br><span class="line">  pocket+=(<span class="string">"<span class="variable">$var</span>"</span>)</span><br><span class="line"><span class="keyword">done</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"你最后说的那个 <span class="variable">$var</span> 弄丢了……"</span></span><br><span class="line">IFS=<span class="string">'、'</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"现在口袋里只有：<span class="variable">$&#123;pocket[*]&#125;</span>。"</span></span><br><span class="line">IFS=$<span class="string">' \t\n'</span></span><br></pre></td></tr></table></figure>
+<h4 id="while-for-循环"><a href="#while-for-循环" class="headerlink" title="while/for 循环"></a>while/for 循环</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> ...; <span class="keyword">do</span></span><br><span class="line">   ....</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<p>只要测试表达式条件为真，则while循环将一直运行。关键字”break”用来跳出循环，而关键字”continue”则可以跳过一个循环的余下部分，直接跳到下一次循环中。<br>for循环会查看一个字符串列表（字符串用空格分隔），并将其赋给一个变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> var <span class="keyword">in</span> ....; <span class="keyword">do</span></span><br><span class="line">   ....</span><br><span class="line"><span class="keyword">done</span></span><br></pre></td></tr></table></figure>
+<h3 id="Shell里的一些特殊符号"><a href="#Shell里的一些特殊符号" class="headerlink" title="Shell里的一些特殊符号"></a>Shell里的一些特殊符号</h3><h4 id="引号"><a href="#引号" class="headerlink" title="引号"></a>引号</h4><p>在向程序传递任何参数之前，程序会扩展通配符和变量。这里所谓的扩展是指程序会把通配符（比如*）替换成适当的文件名，把变量替换成变量值。我们可以使用引号来防止这种扩展，先来看一个例子，假设在当前目录下有两个jpg文件：mail.jpg和tux.jpg。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> *.jpg   <span class="comment"># =&gt; mail.jpg tux.jpg</span></span><br></pre></td></tr></table></figure>
+<p>引号（单引号和双引号）可以防止通配符*的扩展：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">"*.jpg"</span>  <span class="comment"># =&gt; *.jpg</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'*.jpg'</span>  <span class="comment"># =&gt; *.jpg</span></span><br></pre></td></tr></table></figure>
+<p>其中单引号更严格一些，它可以防止任何变量扩展；而双引号可以防止通配符扩展但允许变量扩展：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="variable">$SHELL</span>   <span class="comment"># =&gt; /bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">"<span class="variable">$SHELL</span>"</span> <span class="comment"># =&gt; /bin/bash</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">'$SHELL'</span> <span class="comment"># =&gt; $SHELL</span></span><br></pre></td></tr></table></figure>
+<p>此外还有一种防止这种扩展的方法，即使用转义字符——反斜杠\：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> \*.jpg   <span class="comment"># =&gt; *.jpg</span></span><br><span class="line"><span class="built_in">echo</span> \<span class="variable">$SHELL</span>  <span class="comment"># =&gt; $SHELL</span></span><br></pre></td></tr></table></figure>
+<h3 id="Shell里的函数"><a href="#Shell里的函数" class="headerlink" title="Shell里的函数"></a>Shell里的函数</h3><p>如果你写过比较复杂的脚本，就会发现可能在几个地方使用了相同的代码，这时如果用上函数，会方便很多。函数的大致样子如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 别笑，bash 里面函数名的确可以这样……</span></span><br><span class="line"><span class="comment"># (POSIX sh 函数名倒是和变量名要求差不多)</span></span><br><span class="line">我是一个函数() &#123;</span><br><span class="line">  <span class="comment"># 函数里面 $1 $2 对应函数所接受到的第一、第二……个参数。</span></span><br><span class="line">  这里有很多命令</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-app启动速度检测" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1022,171 +1106,6 @@
 <h4 id="res"><a href="#res" class="headerlink" title="res"></a>res</h4><p>res目录存放的是资源文件。包括图片、字符串。raw文件夹下面是音频文件，各种xml文件等等。因为微信做了资源混淆，图片名字都不可读了。</p>
 <h4 id="dex"><a href="#dex" class="headerlink" title="dex"></a>dex</h4><p>dex文件是java代码打包后的字节码，一个dex文件最多只支持65536个方法，这也是为什么微信有了三个dex文件的原因。</p>
 <p>因为dex分包是不均匀的，你可以理解为装箱，一个箱子的大小是固定的，但你代码的量是不确定的，微信把前两个箱子装满了，最后还剩了2m多的代码，这些代码也占用了一个箱子，最终产生了上图不均匀的结果。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-AccessibilityService 辅助类实现系统监听" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/11/14/AccessibilityService 辅助类实现系统监听/" class="article-date">
-  	<time datetime="2016-11-13T16:00:00.000Z" itemprop="datePublished">2016-11-14</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/14/AccessibilityService 辅助类实现系统监听/">
-        AccessibilityService
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="AccessibilityService简介"><a href="#AccessibilityService简介" class="headerlink" title="AccessibilityService简介"></a>AccessibilityService简介</h3><p>AccessibilityService运行在后台,并且能够收到由系统发出的一些事件(AccessibilityEvent,这些事件表示用户界面一系列的状态变化),比如焦点改变，收到通知，输入内容变化,按钮被点击了等等,该种服务能够请求获取当前活动窗口并查找其中的内容.换言之,界面中产生的任何变化都会产生一个时间,并由系统通知给AccessibilityService.这就像监视器监视着界面的一举一动,一旦界面发生变化,立刻发出警报.</p>
-<p>最典型的例子就是自动抢红包，就是监听的系统通知，之后处理的。</p>
-<h3 id="使用AccessibilityService"><a href="#使用AccessibilityService" class="headerlink" title="使用AccessibilityService"></a>使用AccessibilityService</h3><h4 id="新建服务类"><a href="#新建服务类" class="headerlink" title="新建服务类"></a>新建服务类</h4><p>新建SysListenerService服务，并实现关键方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">SysListenerService</span> <span class="keyword">extends</span> <span class="title">AccessibilityService</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAccessibilityEvent</span><span class="params">(AccessibilityEvent event)</span> </span>&#123;   &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onInterrupt</span><span class="params">()</span> </span>&#123;  &#125;  </span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-<p>常用方法解析：</p>
-<ul>
-<li>onServiceConnected() 系统成功绑定该服务时被触发,也就是当你在设置中开启相应的服务,系统成功的绑定了该服务时会触发,通常我们可以在这里做一些初始化操作</li>
-<li>setServiceInfo(AccessibilityServiceInfo info) 设置当前服务的配置信息</li>
-<li>getSeviceInfo() 获取当前服务的配置信息</li>
-<li>onAccessibilityEvent(AccessibilityEvent event) 必须，有关AccessibilityEvent事件的回调函数.系统通过sendAccessibiliyEvent()不断的发送AccessibilityEvent到此处。我们在此处过滤发来的事件，并对特定事件进行处理。</li>
-<li>onInterrupt()  必须。这个在系统想要中断AccessibilityService返给的响应时会调用。在整个生命周期里会被调用多次。</li>
-<li>disableSelf() 禁用当前服务,也就是在服务可以通过该方法停止运行</li>
-</ul>
-<h4 id="配置AndroidManifest"><a href="#配置AndroidManifest" class="headerlink" title="配置AndroidManifest"></a>配置AndroidManifest</h4><ul>
-<li><p>配置<intent-filter>,其name为固定的:</intent-filter></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">android.accessibilityservice.AccessibilityService</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>声明BIND_ACCESSIBILITY_SERVICE权限,以便系统能够绑定该服务(4.0版本后要求)</p>
-</li>
-</ul>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;service</span><br><span class="line">        android:name=<span class="string">".SysListenerService"</span></span><br><span class="line">        android:enabled=<span class="string">"true"</span></span><br><span class="line">        android:exported=<span class="string">"true"</span>    </span><br><span class="line">        android:permission=<span class="string">"android.permission.BIND_ACCESSIBILITY_SERVICE"</span>&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=<span class="string">"android.accessibilityservice.AccessibilityService"</span>/&gt;</span><br><span class="line">    &lt;/intent-filter&gt;</span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="服务参数设置"><a href="#服务参数设置" class="headerlink" title="服务参数设置"></a>服务参数设置</h4><p>在AndroidManifest.xml声明了该服务之后,接下来就是需要对该服务进行一些参数设置了.该服务能够被配置用来接受指定类型的事件,监听指定package,检索窗口内容,获取事件类型的时间等等.目前有两种配置方法:</p>
-<ul>
-<li>方法一:4.0之后提供了可以通过<meta-data>标签进行配置</meta-data></li>
-<li>方法二:通过setServiceInfo()进行配置</li>
-</ul>
-<h5 id="通过进行配置"><a href="#通过进行配置" class="headerlink" title="通过进行配置"></a>通过<meta-data>进行配置</meta-data></h5><p>在AndroidManifest.xml生命的的service中提供一个meta-data标签,然后通过android:resource指定相应的配置文件(在res目录下创建xml文件,并在其中创建配置文件accessibility.xml)</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;service</span><br><span class="line">    android:name=<span class="string">".SysListenerService"</span></span><br><span class="line">    android:enabled=<span class="string">"true"</span></span><br><span class="line">    android:exported=<span class="string">"true"</span></span><br><span class="line">    android:permission=<span class="string">"android.permission.BIND_ACCESSIBILITY_SERVICE"</span>&gt;</span><br><span class="line">    &lt;intent-filter&gt;</span><br><span class="line">        &lt;action android:name=<span class="string">"android.accessibilityservice.AccessibilityService"</span>/&gt;</span><br><span class="line">        &lt;/intent-filter&gt;</span><br><span class="line"></span><br><span class="line">    &lt;meta-data</span><br><span class="line">        android:name=<span class="string">"android.accessibilityservice"</span></span><br><span class="line">        android:resource=<span class="string">"@xml/accessibility"</span>/&gt;</span><br><span class="line">&lt;/service&gt;</span><br></pre></td></tr></table></figure>
-<p>accessibility.xml的相关配置</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">accessibility-service</span> <span class="attr">xmlns:android</span>=<span class="string">"http://schemas.android.com/apk/res/android"</span></span></span><br><span class="line"><span class="tag"><span class="attr">android:accessibilityEventTypes</span>=<span class="string">"typeNotificationStateChanged|typeWindowStateChanged|typeWindowContentChanged"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:accessibilityFeedbackType</span>=<span class="string">"feedbackGeneric"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:accessibilityFlags</span>=<span class="string">"flagDefault"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:canRetrieveWindowContent</span>=<span class="string">"true"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:notificationTimeout</span>=<span class="string">"100"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:packageNames</span>=<span class="string">"com.tencent.mm"</span> /&gt;</span></span><br></pre></td></tr></table></figure>
-<p>后面,我们在只需要仿照该配置文件根据自己的需求进行修改即可.下面我们会对这些属性进行介绍.</p>
-<p>要设置    android:canRetrieveWindowContent=”true”<br>属性，不然getRootInActiveWindow()会拿不到值和getsource()失败。</p>
-<h5 id="通过setServiceInfo-AccessibilityServiceInfo-info"><a href="#通过setServiceInfo-AccessibilityServiceInfo-info" class="headerlink" title="通过setServiceInfo(AccessibilityServiceInfo info)"></a>通过setServiceInfo(AccessibilityServiceInfo info)</h5><p>也可以通过setServiceInfo(AccessibilityServiceInfo)为其配置信息,除此之外,通过该方法可以在运行期间动态修改服务配置.需要注意,该方法只能用来配置动态属性:eventTypes,feedbackType,flags,notificaionTimeout及packageNames.</p>
-<p>通常是在onServiceConnected()进行配置,如下代码:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    AccessibilityServiceInfo serviceInfo = <span class="keyword">new</span> AccessibilityServiceInfo();</span><br><span class="line">    serviceInfo.eventTypes = AccessibilityEvent.TYPES_ALL_MASK;</span><br><span class="line">    serviceInfo.feedbackType = AccessibilityServiceInfo.FEEDBACK_GENERIC;</span><br><span class="line">    serviceInfo.packageNames = <span class="keyword">new</span> String[]&#123;<span class="string">"com.tencent.mm"</span>&#125;; </span><br><span class="line">    serviceInfo.notificationTimeout=<span class="number">100</span>;</span><br><span class="line">    setServiceInfo(serviceInfo);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>现在我们对配置中的重要属性进行说明:</p>
-<ul>
-<li>accessibilityEventTypes:表示该服务对界面中的哪些变化感兴趣,即哪些事件通知,比如窗口打开,滑动,焦点变化,长按等.具体的值可以在AccessibilityEvent类中查到,如typeAllMask表示接受所有的事件通知.</li>
-<li>accessibilityFeedbackType:表示反馈方式,比如是语音播放,还是震动</li>
-<li>canRetrieveWindowContent:表示该服务能否访问活动窗口中的内容.也就是如果你希望在服务中获取窗体内容的化,则需要设置其值为true.</li>
-<li>notificationTimeout:接受事件的时间间隔,通常将其设置为100即可.</li>
-<li>packageNames:表示对该服务是用来监听哪个包的产生的事件</li>
-</ul>
-<h4 id="启动服务"><a href="#启动服务" class="headerlink" title="启动服务"></a>启动服务</h4><p>当我们做完以上操作,便可将app安装到手机.安装成功后,在设置-&gt;辅助功能中便可以找到我们的服务.该服务默认处在关闭状态,需要手动开启.</p>
-<h4 id="过滤事件信息"><a href="#过滤事件信息" class="headerlink" title="过滤事件信息"></a>过滤事件信息</h4><p>这里我们对AccessibilityEvent进行简单的说明:<br>当用户发生发生变化时,系统会发送一系列的AccessibilityEvent事件,比如按钮被点击时会发送TYPE_VIEW_CLICKED类型的事件.</p>
-<ul>
-<li>getRootInActiveWindow() 如果配置能够获取窗口内容,则会返回当前活动窗口的根结点</li>
-<li>getEventType()      事件类型</li>
-<li>getSource() 获取事件源对应的结点信息</li>
-<li>getClassName() 获取事件源对应类的类型,比如点击事件是有某个Button产生的,那么此时获取的就是Button的完整类名</li>
-<li>getText() 获取事件源的文本信息,比如事件是有TextView发出的,此时获取的就是TextView的text属性.如果该事件源是树结构,那么此时获取的是这个树上所有具有text属性的值的集合</li>
-<li>isEnabled() 事件源(对应的界面控件)是否处在可用状态</li>
-<li>getItemCount()如果事件源是树结构,将返回该树根节点下子节点的数量</li>
-</ul>
-<h4 id="服务的生命周期"><a href="#服务的生命周期" class="headerlink" title="服务的生命周期"></a>服务的生命周期</h4><p>要理解该中服务的生命周期只需要记住一下三点即可:</p>
-<ul>
-<li>该种服务完全由系统管理,并遵循已有的服务周期.</li>
-<li>开启一个服务只能由用户在设置中打开,而关闭则只能由用户在设置中关闭或者服务本身通过diableSelf()方法关闭(当然,现在有些第三放软件也可以强制关闭该类型服务)</li>
-<li>系统绑定该服务之后,会调用onServiceConnected()方法,这个方法可以被重写,在其中,你可以做一些初始化的操作.</li>
-</ul>
-<h4 id="检测服务是否开启"><a href="#检测服务是否开启" class="headerlink" title="检测服务是否开启"></a>检测服务是否开启</h4><p>方法一:借助服务管理器AccessibilityManager来判断,但是该方法不能检测app本身开启的服务.</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">enabled</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">        AccessibilityManager am = (AccessibilityManager) getSystemService(Context.ACCESSIBILITY_SERVICE);</span><br><span class="line">        List&lt;AccessibilityServiceInfo&gt; serviceInfos = am.getEnabledAccessibilityServiceList(AccessibilityServiceInfo.FEEDBACK_GENERIC);</span><br><span class="line">        List&lt;AccessibilityServiceInfo&gt; installedAccessibilityServiceList = am.getInstalledAccessibilityServiceList();</span><br><span class="line">        <span class="keyword">for</span> (AccessibilityServiceInfo info : installedAccessibilityServiceList) &#123;</span><br><span class="line">            Log.d(<span class="string">"MainActivity"</span>, <span class="string">"all --&gt;"</span> + info.getId());</span><br><span class="line">            <span class="keyword">if</span> (name.equals(info.getId())) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>方法二:我们知道大部分的系统属性都在settings中进行设置,比如wifi,蓝牙状态等,而这些信息主要是存储在settings对应的的数据库中(system表和serure表),这就意味我们可以通过直接读取setting设置来判断相关服务是否开启:</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">boolean</span> <span class="title">checkStealFeature1</span><span class="params">(String service)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> ok = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            ok = Settings.Secure.getInt(getApplicationContext().getContentResolver(), Settings.Secure.ACCESSIBILITY_ENABLED);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Settings.SettingNotFoundException e) &#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        TextUtils.SimpleStringSplitter ms = <span class="keyword">new</span> TextUtils.SimpleStringSplitter(<span class="string">':'</span>);</span><br><span class="line">        <span class="keyword">if</span> (ok == <span class="number">1</span>) &#123;</span><br><span class="line">            String settingValue = Settings.Secure.getString(getApplicationContext().getContentResolver(), Settings.Secure.ENABLED_ACCESSIBILITY_SERVICES);</span><br><span class="line">            <span class="keyword">if</span> (settingValue != <span class="keyword">null</span>) &#123;</span><br><span class="line">                ms.setString(settingValue);</span><br><span class="line">                <span class="keyword">while</span> (ms.hasNext()) &#123;</span><br><span class="line">                    String accessibilityService = ms.next();</span><br><span class="line">                    <span class="keyword">if</span> (accessibilityService.equalsIgnoreCase(service)) &#123;</span><br><span class="line">                        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">                    &#125;</span><br><span class="line"></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
-<h4 id="一些实用案例"><a href="#一些实用案例" class="headerlink" title="一些实用案例"></a>一些实用案例</h4><p>抢红包插件：</p>
-<ul>
-<li>状态栏出现”[微信红包]”的消息提示,点击进入聊天界面</li>
-<li>点击相应的红包信息,弹出抢红包界面</li>
-<li>在抢红包界面点击”开”,打开红包</li>
-<li>在红包详情页面,查看详情,点击返回按钮返回微信聊天界面.</li>
-</ul>
-<h3 id="AccessibilityEvent类型"><a href="#AccessibilityEvent类型" class="headerlink" title="AccessibilityEvent类型"></a>AccessibilityEvent类型</h3><ul>
-<li>TYPE_VIEW_CLICKED  点击事件</li>
-<li>TYPE_VIEW_LONG_CLICKED 长按事件</li>
-<li>TYPE_VIEW_SELECTED 选中</li>
-<li>TYPE_VIEW_FOCUSED  获取焦点</li>
-<li>TYPE_VIEW_TEXT_CHANGED</li>
-<li>TYPE_WINDOW_STATE_CHANGED</li>
-<li>TYPE_NOTIFICATION_STATE_CHANGED</li>
-<li>TYPE_VIEW_HOVER_ENTER</li>
-<li>TYPE_VIEW_HOVER_EXIT</li>
-<li>TYPE_TOUCH_EXPLORATION_GESTURE_START</li>
-<li>TYPE_TOUCH_EXPLORATION_GESTURE_END</li>
-<li>TYPE_WINDOW_CONTENT_CHANGED</li>
-<li>TYPE_VIEW_SCROLLED</li>
-<li>TYPE_VIEW_TEXT_SELECTION_CHANGED</li>
-<li>TYPE_ANNOUNCEMENT</li>
-<li>TYPE_VIEW_ACCESSIBILITY_FOCUSED </li>
-<li>TYPE_VIEW_ACCESSIBILITY_FOCUS_CLEARED </li>
-<li>TYPE_VIEW_TEXT_TRAVERSED_AT_MOVEMENT_GRANULARITY</li>
-<li>TYPE_GESTURE_DETECTION_START </li>
-<li>TYPE_GESTURE_DETECTION_END </li>
-<li>TYPE_TOUCH_INTERACTION_START </li>
-<li>TYPE_TOUCH_INTERACTION_END </li>
-<li>TYPE_WINDOWS_CHANGED </li>
-<li>TYPE_VIEW_CONTEXT_CLICKED</li>
-<li>TYPE_ASSIST_READING_CONTEXT</li>
-<li>TYPES_ALL_MASK</li>
-</ul>
-<h3 id="技巧"><a href="#技巧" class="headerlink" title="技巧"></a>技巧</h3><p>在使用辅助功能进行自动化跳转的过程，每个页面的delay事件是一个很头疼的问题，设置的太短自动化容易中断，太长又会影响速度，所以一个合理的延时是非常必要的。</p>
-<p>有一个方法可以大大减少页面跳转的事件，就是在开发者选项里面将页面过度动画关掉。</p>
-<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>AccessibilityService的生命周期是由系统来管理的，开启该服务是在Android设备上的设置页面中来开启，关闭该服务也是通过在设置页面来关闭的或者是调用AccessibilityService的disableSelf()方法。通过AIDL进行进程间的通信，主要流程就是系统通过进程间通信机制把事件消息传递给AccessibilityService后调用AccessibilityService的onAccessibilityEvent()方法，在该方法中我们就可以根据事件类型做不同的业务操作了。</p>
-<p>辅助事件的响应流程：系统监控view的变化并发给特定的AccessibilityService处理。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">AccessibilityEventSource</span> </span>&#123;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 发送辅助事件，对参数进行校验 </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendAccessibilityEvent</span><span class="params">(<span class="keyword">int</span> eventType)</span></span>;  </span><br><span class="line">  </span><br><span class="line">    <span class="comment">/** </span></span><br><span class="line"><span class="comment">     * 发送辅助事件，不对参数进行校验 </span></span><br><span class="line"><span class="comment">     */</span>  </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sendAccessibilityEventUnchecked</span><span class="params">(AccessibilityEvent event)</span></span>;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>辅助功能的响应元 -&gt;view </li>
-<li>AccessibilityEventSource实现了辅助功能发送接口</li>
-<li>View的事件源码中实现了AccessibilityEventSource接口,View的onTouchEvent()的ACTION_UP分支中，经过层层判断最后调用了performClick()方法performClick()方法最后调用了sendAccessibilityEvent(事件类型)方法，该方法就是View实现AccessibilityEventSource接口中的方法，那也就是说View被点击后就会向系统发送一个事件类型为AccessibilityEvent.TYPE_VIEW_CLICKED的辅助事件，由此可猜测当点击事件发生后会向系统发送一个辅助事件消息，在系统接收到此消息就会回调注册进系统的各种AccessibilityService服务的onAccessibilityEvent()方法。sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);  </li>
-</ul>
-<p><img src="http://img.blog.csdn.net/20161028134038200?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt="图片"></p>
-<p>转载 <a href="http://www.jianshu.com/p/4cd8c109cdfb" target="_blank" rel="noopener">简书:你真的理解AccessibilityService吗</a></p>
 
       
     </div>
