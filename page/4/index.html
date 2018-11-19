@@ -162,6 +162,123 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android Binder" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/03/19/Android Binder/" class="article-date">
+  	<time datetime="2018-03-18T16:00:00.000Z" itemprop="datePublished">2018-03-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/03/19/Android Binder/">
+        Android Binder
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-Binder"><a href="#Android-Binder" class="headerlink" title="Android Binder"></a>Android Binder</h1><h2 id="Binder"><a href="#Binder" class="headerlink" title="Binder"></a>Binder</h2><p>从框架的角度来讲，Binder的是一个基于C/S框架的一个协议，协议在java层和native层分别实现了一套接口，最终的目的就是把请求传递给Binder驱动(打开binder设备，读请求写回复)。 </p>
+<p>Binder在Java层和Native层都有实现，Java层的通过JNI来调用Native层的binder，相当于native层的镜像。</p>
+<h2 id="IBinder"><a href="#IBinder" class="headerlink" title="IBinder"></a>IBinder</h2><p>FLAG_ONEWAY：发送请求之后不用阻塞等待结果。<br>Binder类和BinderProxy类分别实现了IBinder接口。其中Binder类作为服务端的Bn的代表，而BinderProxy作为客户端Bp的代表。<br>做了线程安全处理，binder最大的线程为16.  </p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>service注册：自定义service-&gt;androidruntime 注册service到SM(AM将service信息传到SM)-&gt;SM通过ioclt打开binder,并在binder中注册一个binder_procs(代表对应的service)。<br>IPC调用的实现：SM获取远程服务的代理-&gt;通过代理将对应的指令发送给binder中对应的binder_procs -&gt; 对应的binder_procs会维护一个消息队列来接收来自客户端的命令以及结果返回操作。  </p>
+<h2 id="ioctl-设备控制接口"><a href="#ioctl-设备控制接口" class="headerlink" title="ioctl 设备控制接口"></a>ioctl 设备控制接口</h2><p>ioctl是linux为上层应用调用linux驱动程序的一个统一的接口，即可以用来向linux的驱动程序写数据也可以从linux将数据传出去，Android的HAL层就是基于ioctl实现的。  </p>
+<pre><code class="c++"><span class="keyword">int</span> (*ioctl) (struct inode *, struct file *, <span class="keyword">unsigned</span> <span class="keyword">int</span>, <span class="keyword">unsigned</span> <span class="keyword">long</span>); 
+</code></pre>
+<p>struct inode 和struct file 描述了操作的文件，unsigned int 描述了ioctl命令号，这是一个重要的参数。最后一个参数是unsigned long数据类型，描述了ioctl命令可能带有的参数，它可能是一个整数或指针数据。 </p>
+<h3 id="ioctl-命令号"><a href="#ioctl-命令号" class="headerlink" title="ioctl 命令号"></a>ioctl 命令号</h3><p>ioctl命令号是这个函数中最重要的参数，它描述的ioctl要处理的命令。Linux中使用一个32位的数据来编码ioctl命令，它包含四个部分：dir：type：nr：size。  </p>
+<ul>
+<li>dir: 代表数据传输的方向，占2位，可以是_IOC_NONE（无数据传输，0U），_IOC_WRITE（向设备写数据，1U）或_IOC_READ（从设备读数据，2U）或他们的逻辑或组合，当然只有_IOC_WRITE和_IOC_READ的逻辑或才有意义。 </li>
+<li>type: 描述了ioctl命令的类型，8位。每种设备或系统都可以指定自己的一个类型号，ioctl用这个类型来表示ioctl命令所属的设备或驱动。一般用ASCII码字符来表示，如 ‘a’。 </li>
+<li>nr: ioctl命令序号，一般8位。对于一个指定的设备驱动，可以对它的ioctl命令做一个顺序编码，一般从零开始，这个编码就是ioctl命令的序号。 </li>
+<li>size: ioctl命令的参数大小，一般14位。ioctl命令号的这个数据成员不是强制使用的，你可以不使用它，但是我们建议你指定这个数据成员，通过它我们可以检查用户空间数据的大小以避免错误的数据操作，也可以实现兼容旧版本的ioctl命令。 </li>
+<li>_IO(type,nr) </li>
+<li>_IOR(type,nr,size) </li>
+<li>_IOW(type,nr,size) </li>
+<li>_IOWR(type,nr,size) </li>
+</ul>
+<p>宏_IO用于无数据传输，宏_IOR用于从设备读数据，宏 _IOW用于向设备写数据，宏_IOWR用于同时有读写数据的IOCTL命令。 </p>
+<h3 id="ioctl的返回值"><a href="#ioctl的返回值" class="headerlink" title="ioctl的返回值"></a>ioctl的返回值</h3><p>ioctl函数的返回值是一个整数类型的值，如果命令执行成功，ioctl返回零，如果出现错误，ioctl函数应该返回一个负值。这个负值会作为errno值反馈给调用此ioctl的用户空间程序。 </p>
+<h3 id="ioctl参数"><a href="#ioctl参数" class="headerlink" title="ioctl参数"></a>ioctl参数</h3><p>如果ioctl命令参数仅仅是一个整数，那么事情很简单了，我们可以在ioctl函数中直接使用它。但如果它是一个指针数据，那么使用上就要小心了。首先要说明这个参数是有用户空间的程序传递过来的，因此这个指针指向的地址是用户空间地址，在Linux中，用户空间地址是一个虚拟地址，在内核空间是无法直接使用它的。为了解决在内核空间使用用户空间地址的数据，Linux内核提供了以下函数，它们用于在内核空间访问用户空间的数据，copy_from_user和copy_to_user。   </p>
+<pre><code class="c"><span class="keyword">unsigned</span> <span class="keyword">long</span> __<span class="function">must_check <span class="title">copy_to_user</span><span class="params">(<span class="keyword">void</span> __user *to,<span class="keyword">const</span> <span class="keyword">void</span> *from, <span class="keyword">unsigned</span> <span class="keyword">long</span> n)</span></span>
+<span class="function"><span class="keyword">unsigned</span> <span class="keyword">long</span> __must_check <span class="title">copy_from_user</span><span class="params">(<span class="keyword">void</span> *to,<span class="keyword">const</span> <span class="keyword">void</span> __user *from,<span class="keyword">unsigned</span> <span class="keyword">long</span> n)</span> </span>
+</code></pre>
+<h3 id="copy-from-user和copy-to-user"><a href="#copy-from-user和copy-to-user" class="headerlink" title="copy_from_user和copy_to_user"></a>copy_from_user和copy_to_user</h3><p>copy_from_user </p>
+<pre><code class="c"><span class="comment">//to:目标地址（内核空间） </span>
+<span class="comment">//from:源地址（用户空间） </span>
+<span class="comment">//n:将要拷贝数据的字节数 </span>
+<span class="comment">//返回：成功返回0，失败返回没有拷贝成功的数据字节数 unsigned long copy_from_user(void *to, const void *from, unsigned long n)</span>
+
+<span class="comment">//data:可以是字节、半字、字、双字类型的内核变量 </span>
+<span class="comment">//ptr:用户空间内存指针 </span>
+<span class="comment">//返回：成功返回0，失败返回非0 </span>
+<span class="function"><span class="keyword">int</span> <span class="title">get_user</span><span class="params">(data, ptr)</span></span>
+</code></pre>
+<p> copy_to_user  </p>
+<pre><code class="c"><span class="comment">//to:目标地址（用户空间） </span>
+<span class="comment">//from:源地址（内核空间） </span>
+<span class="comment">//n:将要拷贝数据的字节数 </span>
+<span class="comment">//返回：成功返回0，失败返回没有拷贝成功的数据字节数 </span>
+<span class="function"><span class="keyword">unsigned</span> <span class="keyword">long</span> <span class="title">copy_to_user</span><span class="params">(<span class="keyword">void</span> *to, <span class="keyword">const</span> <span class="keyword">void</span> *from, <span class="keyword">unsigned</span> <span class="keyword">long</span> n)</span> </span>
+<span class="function"><span class="comment">//data:可以是字节、半字、字、双字类型的内核变量 </span></span>
+<span class="function"><span class="comment">//ptr:用户空间内存指针 </span></span>
+<span class="function"><span class="comment">//返回：成功返回0，失败返回非0 </span></span>
+<span class="function"><span class="keyword">int</span> <span class="title">put_user</span><span class="params">(data, prt） </span></span>
+</code></pre>
+<p>原理：用户传入的数据指针buf，在驱动中（也就是内核空间）不能直接访问，必须使用copy_from_user将其拷贝到内核空间的一块内存，然后才能进行后续的操作（内核中不能不经过copy_from_user，直接访问用户传下来的指针buf的地址的内容）。  </p>
+<h2 id="Binder-架构"><a href="#Binder-架构" class="headerlink" title="Binder 架构"></a>Binder 架构</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/20170411180827946.jpeg" alt=""> </p>
+<ul>
+<li>Binder 通信采用 C/S 架构，从组件视角来说，包含 Client、 Server、 ServiceManager 以及 Binder 驱动，其中 ServiceManager 用于管理系统中的各种服务。 </li>
+<li>Binder 在 framework 层进行了封装，通过 JNI 技术调用 Native（C/C++）层的 Binder 架构。 </li>
+<li>Binder 在 Native 层以 ioctl 的方式与 Binder 驱动通讯。 <h2 id="ServiceManager-注册服务"><a href="#ServiceManager-注册服务" class="headerlink" title="ServiceManager 注册服务"></a>ServiceManager 注册服务</h2><img src="http://oc4zuck5v.bkt.clouddn.com/20170411181047406.jpeg" alt=""> </li>
+<li>1 注册 XXXService 服务端，我们通过 ServiceManager 的 addService() 方法来注册服务。 </li>
+<li>2 首先 ServiceManager 向 Binder 驱动发送 BC_TRANSACTION 命令（ioctl 的命令，BC 可以理解为 binder client 客户端发过来的请求命令）携带 ADD_SERVICE_TRANSACTION 命令，同时注册服务的线程进入等待状态 waitForResponse()。 Binder 驱动收到请求命令向 ServiceManager 的 todo 队列里面添加一条注册服务的事务。事务的任务就是创建服务端进程 binder_node 信息并插入到 binder_procs 链表中。 </li>
+<li>3 事务处理完之后发送 BR_TRANSACTION 命令，ServiceManager 收到命令后向 svcinfo 列表中添加已经注册的服务。最后发送 BR_REPLY 命令唤醒等待的线程，通知注册成功。 <h2 id="获取服务"><a href="#获取服务" class="headerlink" title="获取服务"></a>获取服务</h2></li>
+<li>1 获取服务的过程与注册类似，相反的过程。通过 ServiceManager 的 getService() 方法来获取服务。 </li>
+<li>2 首先 ServiceManager 向 Binder 驱动发送 BC_TRANSACTION 命令携带 CHECK_SERVICE_TRANSACTION 命令，同时获取服务的线程进入等待状态 waitForResponse()。 </li>
+<li>3 Binder 驱动收到请求命令向 ServiceManager 的发送 BC_TRANSACTION 查询已注册的服务，查询到直接响应 BR_REPLY 唤醒等待的线程。若查询不到将与 binder_procs 链表中的服务进行一次通讯再响应。 <h2 id="用户空间与内核通信"><a href="#用户空间与内核通信" class="headerlink" title="用户空间与内核通信"></a>用户空间与内核通信</h2><img src="http://oc4zuck5v.bkt.clouddn.com/20170411181022355.jpeg" alt=""><br>对于底层Binder驱动，通过 binder_procs 链表记录所有创建的 binder_proc 结构体，binder 驱动层的每一个 binder_proc 结构体都与用户空间的一个用于 binder 通信的进程一一对应，且每个进程有且只有一个 ProcessState 对象，这是通过单例模式来保证的。在每个进程中可以有很多个线程，每个线程对应一个 IPCThreadState 对象，IPCThreadState 对象也是单例模式，即一个线程对应一个 IPCThreadState 对象，在 Binder 驱动层也有与之相对应的结构，那就是 Binder_thread 结构体。在 binder_proc 结构体中通过成员变量 rb_root threads，来记录当前进程内所有的 binder_thread。<br>Binder 线程池：每个 Server 进程在启动时创建一个 binder 线程池，并向其中注册一个 Binder 线程；之后 Server 进程也可以向 binder 线程池注册新的线程，或者 Binder 驱动在探测到没有空闲 binder 线程时主动向 Server 进程注册新的的 binder 线程。对于一个 Server 进程有一个最大 Binder 线程数限制，默认为16个 binder 线程，例如 Android 的 system_server 进程就存在16个线程。对于所有 Client 端进程的 binder 请求都是交由 Server 端进程的 binder 线程来处理的。 <h2 id="整体的通信流程"><a href="#整体的通信流程" class="headerlink" title="整体的通信流程"></a>整体的通信流程</h2>我们在使用 Binder 时基本都是调用 framework 层封装好的方法，AIDL 就是 framework 层提供的傻瓜式是使用方式。假设服务已经注册完，我们来看看客户端怎么执行服务端的方法。<br>首先我们通过 ServiceManager 获取到服务端的 BinderProxy 代理对象，通过调用 BinderProxy 将参数，方法标识（例如：TRANSACTION_test，AIDL中自动生成）传给 ServiceManager，同时客户端线程进入等待状态。<br>ServiceManager 将用户空间的参数等请求数据复制到内核空间，并向服务端插入一条执行执行方法的事务。事务执行完通知 ServiceManager 将执行结果从内核空间复制到用户空间，并唤醒等待的线程，响应结果，通讯结束。<br><img src="http://oc4zuck5v.bkt.clouddn.com/20170411180851093.jpeg" alt=""> </li>
+<li>1 首先需要注册服务端，只有注册了服务端，客户端才有通讯的目标，服务端通过 ServiceManager 注册服务，注册的过程就是向 Binder 驱动的全局链表 binder_procs 中插入服务端的信息（binder_proc 结构体，每个 binder_proc 结构体中都有 todo 任务队列），然后向 ServiceManager 的 svcinfo 列表中缓存一下注册的服务。 </li>
+<li>2 有了服务端，客户端就可以跟服务端通讯了，通讯之前需要先获取到服务，拿到服务的代理，也可以理解为引用。获取服务端的方式就是通过 ServiceManager 向 svcinfo 列表中查询一下返回服务端的代理，svcinfo 列表就是所有已注册服务的通讯录，保存了所有注册的服务信息。 </li>
+<li>3 有了服务端的引用我们就可以向服务端发送请求了，通过 BinderProxy 将我们的请求参数发送给 ServiceManager，通过共享内存的方式使用内核方法 copy_from_user() 将我们的参数先拷贝到内核空间，这时我们的客户端进入等待状态，然后 Binder 驱动向服务端的 todo 队列里面插入一条事务，执行完之后把执行结果通过 copy_to_user() 将内核的结果拷贝到用户空间（这里只是执行了拷贝命令，并没有拷贝数据，binder只进行一次拷贝），唤醒等待的客户端并把结果响应回来，这样就完成了一次通讯。 </li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-刷机Root" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -574,6 +691,65 @@
 
 
   
+    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
+  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
+        Android 底层网络实现
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
+<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
+<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
+<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
+<p>OkHttp底层也是通过socket实现。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android 动画原理" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -651,65 +827,6 @@
 
 
   
-    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
-  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
-        Android 底层网络实现
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
-<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
-<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
-<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
-<p>OkHttp底层也是通过socket实现。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-子模块访问app模块" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -743,72 +860,6 @@
 <h2 id="第二步-接口管理类"><a href="#第二步-接口管理类" class="headerlink" title="第二步 接口管理类"></a>第二步 接口管理类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TradeBridgeHolder</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TradeModuleBridge <span class="title">getBridge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bridge;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setBridge</span><span class="params">(TradeModuleBridge bridge)</span> </span>&#123;</span><br><span class="line">        TradeBridgeHolder.bridge = bridge;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> TradeModuleBridge bridge;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="第三步-在app的application里面初始化"><a href="#第三步-在app的application里面初始化" class="headerlink" title="第三步 在app的application里面初始化"></a>第三步 在app的application里面初始化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initTradeBridge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    TradeBridgeHolder.setBridge(<span class="keyword">new</span> TradeModuleBridge() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">goOpenAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            startActivity(WebViewActivity.buildAccountIntent(FuturesApplication.from()));</span><br><span class="line">            StatisticsAgent.onEV(EventIDS.ME_OPEN_ACCOUNT);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="第四步-使用"><a href="#第四步-使用" class="headerlink" title="第四步 使用"></a>第四步 使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TradeBridgeHolder.getBridge().goOpenAccount();</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-java 内存区域详解" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/24/java 内存区域详解/" class="article-date">
-  	<time datetime="2018-02-23T16:00:00.000Z" itemprop="datePublished">2018-02-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/24/java 内存区域详解/">
-        java 内存区域详解
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="java-内存区域详解"><a href="#java-内存区域详解" class="headerlink" title="java 内存区域详解"></a>java 内存区域详解</h1><p><img src="http://oc4zuck5v.bkt.clouddn.com/java_memory.png" alt=""></p>
-<h2 id="java堆"><a href="#java堆" class="headerlink" title="java堆"></a>java堆</h2><p>占内存最大的一块区域。大部分对象存储在这个区域。</p>
-<p>Java Heap（Dalvik Heap），这部分的内存区域是由Dalvik虚拟机管理，通过Java中 new 关键字来申请一块新内存。这块区域的内存是由GC直接管理，能够自动回收内存。这块内存的大小会受到系统限制，当内存超过APP最大可用内存时会OOM</p>
-<p>Native Heap，这部分内存区域是在C++中申请的，它不受限于APP的最大可用内存限制，而只是受限于设备的物理可用内存限制。它的缺点在于没有自动回收机制，只能通过C++语法来释放申请的内存</p>
-<p>Ashmem（Android匿名共享内存），这部分内存类似于Native内存区，但是它是受Android系统底层管理的，当Android系统内存不足时，会回收Ashmem区域中状态是 unpin 的对象内存块，如果不希望对象被回收，可以通过 pin 来保护一个对象</p>
-<h2 id="方法区Meta-Area"><a href="#方法区Meta-Area" class="headerlink" title="方法区Meta-Area"></a>方法区Meta-Area</h2><p>这是堆中的一块区域，用来存储类信息，类变量，类常量，静态变量等等数据，即时编译器编译后的代码等数据。</p>
-<p>运行时常量区：存放编译器生成的各种字面量和符号引用，这部分将在类加载后存放到方法区的运行时常量池。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码会涉及虚拟机栈，java堆，Meta-Area三个内存区域：test()-&gt;虚拟机栈,obj存放在局部变量表中，new Object()对象存储在java heap里。</p>
-<h2 id="虚拟机栈，本地栈"><a href="#虚拟机栈，本地栈" class="headerlink" title="虚拟机栈，本地栈"></a>虚拟机栈，本地栈</h2><h3 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h3><p>虚拟机栈是Java方法执行的内存模型。每个方法执行都会创建一个栈帧的东西，用来存储局部变量表，操作数栈，动态链接，方法出口等信息，每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈道出栈的过程。</p>
-<h3 id="本地栈"><a href="#本地栈" class="headerlink" title="本地栈"></a>本地栈</h3><p>本地栈使用到的本地系统方法服务。</p>
-<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器(每个线程都有私有的程序计数器)是记录当前线程执行到什么地方了。多线程调度的时候，占用cup知道执行到哪里了。另外程序计数器是Java虚拟机规范中唯一一个没有规定任何内存错误的地方。</p>
 
       
     </div>

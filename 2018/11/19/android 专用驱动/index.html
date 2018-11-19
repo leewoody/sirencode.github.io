@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 专用驱动 | Diablo</title>
+
+  <!-- keywords -->
+  
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android 专用驱动日志系统日志种类 1 main:application(log) -&amp;gt; liblog驱动 -&amp;gt; kernel dev/log/main 2 system:系统日志(SLog)-&amp;gt; liblog -&amp;gt; kernel dev/log/system 3 radio:application(log) -&amp;gt; liblog驱动 -&amp;gt; kernel d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 专用驱动">
+<meta property="og:url" content="https://github.com/sirencode/2018/11/19/android 专用驱动/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="Android 专用驱动日志系统日志种类 1 main:application(log) -&amp;gt; liblog驱动 -&amp;gt; kernel dev/log/main 2 system:系统日志(SLog)-&amp;gt; liblog -&amp;gt; kernel dev/log/system 3 radio:application(log) -&amp;gt; liblog驱动 -&amp;gt; kernel d">
+<meta property="og:updated_time" content="2018-11-19T06:55:40.397Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 专用驱动">
+<meta name="twitter:description" content="Android 专用驱动日志系统日志种类 1 main:application(log) -&amp;gt; liblog驱动 -&amp;gt; kernel dev/log/main 2 system:系统日志(SLog)-&amp;gt; liblog -&amp;gt; kernel dev/log/system 3 radio:application(log) -&amp;gt; liblog驱动 -&amp;gt; kernel d">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-android 专用驱动" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/11/19/android 专用驱动/" class="article-date">
+  	<time datetime="2018-11-18T16:00:00.000Z" itemprop="datePublished">2018-11-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Android 专用驱动
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-专用驱动"><a href="#Android-专用驱动" class="headerlink" title="Android 专用驱动"></a>Android 专用驱动</h1><h2 id="日志系统"><a href="#日志系统" class="headerlink" title="日志系统"></a>日志系统</h2><h3 id="日志种类"><a href="#日志种类" class="headerlink" title="日志种类"></a>日志种类</h3><ul>
+<li>1 main:application(log) -&gt; liblog驱动 -&gt; kernel dev/log/main</li>
+<li>2 system:系统日志(SLog)-&gt; liblog -&gt; kernel dev/log/system</li>
+<li>3 radio:application(log) -&gt; liblog驱动 -&gt; kernel dev/log/radio</li>
+<li>4 events(记录系统问题):EventLog -&gt; liblog驱动 -&gt; kernel dev/log/events</li>
+</ul>
+<p>java提供了三个Java接口记录日志，分别为android.util.Log,android.util.Slog,android.util.Eventlog,分别用来记录应用，系统和系统问题日志。Java接口将日志通过liblog驱动将日志记录在系统的内核中(dev/log/main,system,radio,events)。radio之所以单独记录，是因为他们的日志量很大，防止覆盖其他类型日志。LogCat工具可以从内核中将日志读取出来。</p>
+<h3 id="日志格式"><a href="#日志格式" class="headerlink" title="日志格式"></a>日志格式</h3><p>main,system,radio的日志格式：priority+tag+msg的格式。日志优先级按优先级分为Verbose,Debug,Info,Warn,Error,Fatal六种。</p>
+<p>event日志格式:tag+msg。</p>
+<h2 id="匿名共享内存"><a href="#匿名共享内存" class="headerlink" title="匿名共享内存"></a>匿名共享内存</h2><p>android的内名共享内存是基于linux共享内存，都是在tmpfs文件系统上新建文件，并将其映射到不同的进程空间，从而达到共享内存的目的。android在Linux的基础上进行改造，并借助binder+fd文件面熟实现了共享内存的传递。</p>
+<p>tmpfs:内核里一个特殊的文件系统，文件的存储介质RAM(随机存储器)。共享内存实际上是共享的RAM上的一个同名文件。</p>
+<h3 id="shm与mmap区别"><a href="#shm与mmap区别" class="headerlink" title="shm与mmap区别"></a>shm与mmap区别</h3><ul>
+<li>1 mmap是在磁盘上建立一个文件，每个进程地址空间中开辟出一块空间映射。shm是将共享文件写在ram上，读写速度比磁盘快，但存储量小。</li>
+<li>2 mmap使用简单。</li>
+<li>3 shm当及其重启的时候数据会丢失，mmap则不会。</li>
+</ul>
+<h3 id="Linux共享内存"><a href="#Linux共享内存" class="headerlink" title="Linux共享内存"></a>Linux共享内存</h3><p>共享内存是通过把同一块内存分别映射到不同的进程空间中实现进程间通信。而共享内存本身不带任何互斥与同步机制，但当多个进程同时对同一内存进行读写操作时会破坏该内存的内容，所以，在实际中，同步与互斥机制需要用户来完成。因为不需要将数据从不同的进程进行拷贝，所以效率最高。通常使用信号量实现对共享内存的同步访问。</p>
+<ul>
+<li>1 需要共享的进程调用int shmget(key_t key, size_t size, int shmflg)创建共享内存</li>
+<li>2 void <em>shmat(int shm_id, const void </em>shm_addr, int shmflg); 要想访问共享内存，必须将其映射到当前进程的地址空间。</li>
+<li>3 接触映射shmdt</li>
+<li>4 删除内存shmdt。</li>
+</ul>
+<h3 id="Android匿名共享内存"><a href="#Android匿名共享内存" class="headerlink" title="Android匿名共享内存"></a>Android匿名共享内存</h3><p>匿名共享内存不会占用Dalvik Heap与Native Heap，不会导致OOM，这是优点，同时也是缺点，因为如果肆意使用，会导致系统资源不足，性能下降，另外共享存占用空间的计算，只会计算到第一个创建它的进程中，其他进程不将ashmem计算在内。匿名共享内存在linux共享内存的基础上实现了互斥锁，另外通过fd的传递来实现共享内存的传递。</p>
+<ul>
+<li>1 匿名共享内存是将文件存储在/dev/ashmem</li>
+<li>2 p1进程使用open打开/dev/ashmem,得到一块一名共享内存asma,一个文件结构体file1和一个文件描述符fd1。</li>
+<li>3 p2通过binder请求p1,p1将fd1返回给p2,由于fd1只在p1有效，因此binder驱动就会在p2中传建一个fd2并将它纸箱文件结构体file1，最后将fd2返回给p2。</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/10/11/Android 序列化/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 序列化</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="android 专用驱动" data-title="Android 专用驱动" data-url="https://github.com/sirencode/2018/11/19/android 专用驱动/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 专用驱动">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

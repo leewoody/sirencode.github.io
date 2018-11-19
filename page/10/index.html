@@ -162,6 +162,119 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-图片OOM问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/11/15/图片OOM问题/" class="article-date">
+  	<time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/15/图片OOM问题/">
+        图片OOM问题
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="OOM"><a href="#OOM" class="headerlink" title="OOM"></a>OOM</h3><p>大家在项目开发中多多少少会遇到一些OOM的问题，内存是个大问题。</p>
+<h3 id="手机内存解析"><a href="#手机内存解析" class="headerlink" title="手机内存解析"></a>手机内存解析</h3><p>Android是一个多任务系统, 为了保证多任务的运行, Android给每个App可使用的Heap大小设定了一个限定值.</p>
+<p>这个值是系统设置的prop值, 系统编译时内置的, 保存在system/build.prop中. 一般国内的手机厂商都会做修改, 根据手机配置不同而不同, 可以通过如下命令查看:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell</span><br><span class="line">$ cat /system/build.prop</span><br></pre></td></tr></table></figure>
+<p>也可以直接使用getprop查看单项prop:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell getprop dalvik.vm.heapsize</span><br><span class="line">512m</span><br></pre></td></tr></table></figure>
+<p>heap size相关的prop如下:</p>
+<ul>
+<li>dalvik.vm.heapstartsize=8m</li>
+<li>dalvik.vm.heapgrowthlimit=192m</li>
+<li>dalvik.vm.heapsize=512m</li>
+<li>dalvik.vm.heaptargetutilization=0.75</li>
+<li>dalvik.vm.heapminfree=2m</li>
+<li>dalvik.vm.heapmaxfree=8m</li>
+</ul>
+<h4 id="dalvik-vm-heapstartsize"><a href="#dalvik-vm-heapstartsize" class="headerlink" title="dalvik.vm.heapstartsize"></a>dalvik.vm.heapstartsize</h4><p>App启动后, 系统分配给它的Heap初始大小. 随着App使用可增加.</p>
+<h4 id="dalvik-vm-heapgrowthlimit"><a href="#dalvik-vm-heapgrowthlimit" class="headerlink" title="dalvik.vm.heapgrowthlimit"></a>dalvik.vm.heapgrowthlimit</h4><p>默认情况下, App可使用的Heap的最大值, 超过这个值就会产生OOM.</p>
+<h4 id="dalvik-vm-heapsize"><a href="#dalvik-vm-heapsize" class="headerlink" title="dalvik.vm.heapsize"></a>dalvik.vm.heapsize</h4><p>如果App的manifest文件中配置了largeHeap属性, 如下.则App可使用的Heap的最大值为此项设定值.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">application</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:largeHeap</span>=<span class="string">"true"</span>&gt;</span></span><br><span class="line">    ...</span><br><span class="line"><span class="tag">&lt;/<span class="name">application</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="dalvik-vm-heaptargetutilization"><a href="#dalvik-vm-heaptargetutilization" class="headerlink" title="dalvik.vm.heaptargetutilization"></a>dalvik.vm.heaptargetutilization</h4><p>当前理想的堆内存利用率. GC后, Dalvik的Heap内存会进行相应的调整, 调整到当前存活的对象的大小和 / Heap大小 接近这个选项的值, 即这里的0.75. 注意, 这只是一个参考值.</p>
+<h4 id="dalvik-vm-heapminfree"><a href="#dalvik-vm-heapminfree" class="headerlink" title="dalvik.vm.heapminfree"></a>dalvik.vm.heapminfree</h4><p>单次Heap内存调整的最小值.</p>
+<h4 id="dalvik-vm-heapmaxfree"><a href="#dalvik-vm-heapmaxfree" class="headerlink" title="dalvik.vm.heapmaxfree"></a>dalvik.vm.heapmaxfree</h4><p>单次Heap内存调整的最大值.</p>
+<h3 id="图片内存问题"><a href="#图片内存问题" class="headerlink" title="图片内存问题"></a>图片内存问题</h3><h4 id="本地图片内存问题"><a href="#本地图片内存问题" class="headerlink" title="本地图片内存问题"></a>本地图片内存问题</h4><p>本地图片一定要将对应分辨率的图片放到对应的目录下，当图片放置在不同drawable文件夹中，且只有这一张图片时，运行设备会根据自身的屏幕密度，对图片进行放缩，放缩比例符合前面图上的规则，不同目录下的对应放大倍数(drawable默认1X)：</p>
+<ul>
+<li>mdpi     1X </li>
+<li>hdpi     1.5X</li>
+<li>xhdpi    2X</li>
+<li>xxhdpi   3X</li>
+<li><p>xxxhdpi  4x</p>
+</li>
+<li><p>density     1    1.5 2    3    3.5     4</p>
+</li>
+<li><p>densityDpi    160    240    320    480    560    640</p>
+</li>
+<li><p>在使用离线图片时首先注意，切对应比例的图并将图片放到对应的比例文件目录下，防止将大比例的图片放到小比例的目录下导致图片被指数放大导致OOM，或者将小比例图片放到大比例文件夹下导致图片失真。</p>
+</li>
+<li>图片的大小根据实际情况来，显示200*200的图不要使用比比例大的图片，用了也要做压缩，防止内存泄漏。</li>
+</ul>
+<h4 id="网络图片内存问题"><a href="#网络图片内存问题" class="headerlink" title="网络图片内存问题"></a>网络图片内存问题</h4><p>网络图片也会导致内存泄漏，后端可能为了兼容更多客户端，配置的图片的尺寸和质量会很高，我们如果直接把网上下载的图片拿来直接用可能会导致OOM，因此网络下载的图片也要根据具体显示的view的大小来对图片进行压缩。</p>
+<h4 id="图片压缩的问题"><a href="#图片压缩的问题" class="headerlink" title="图片压缩的问题"></a>图片压缩的问题</h4><p>图片压缩是按照大小来实现质量压缩。</p>
+<h4 id="不要将Button的背景设置为selector"><a href="#不要将Button的背景设置为selector" class="headerlink" title="不要将Button的背景设置为selector"></a>不要将Button的背景设置为selector</h4><p>在布局文件和代码中，都可以为Button设置background为selector，这样方便实现按钮的正反选效果，但实际跟踪发现，如果是将Button的背景设置为selector，在初始化Button的时候会将正反选图片都加载在内存中（具体可以查看Android源码，在类Drawable.java的createFromXmlInner方法中对图片进行解析，最终调用Drawable的inflate方法），相当于一个按钮占用了两张相同大小图片所使用的内存，如果一个界面上按钮很多或者是按钮很大，光是按钮占用的内存就会很大，可以通过在布局文件中给按钮只设置正常状态下的背景图片，然后在代码中监听按钮的点击状态，当按下按钮时为按钮设置反选效果的图片，抬起时重新设置为正常状态下的背景</p>
+<h4 id="尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable"><a href="#尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable" class="headerlink" title="尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable"></a>尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable</h4><p>AnimationDrawable也是一个耗内存大户，图片帧数越多耗内存越大，具体可以查看AnimationDrawable的源码，在AnimationDrawable实例化的时候，Drawable的createFromXmlInner方法会调用AnimationDrawable的inflate方法，该方法里面有一个while循环去一次性将所有帧都读取出来，也就是在初始化的时候就将所有的帧读在内存中了，有多少张图片，它就要消耗对应大小的内存。</p>
+<h4 id="尽量使用vector-drawable"><a href="#尽量使用vector-drawable" class="headerlink" title="尽量使用vector drawable"></a>尽量使用vector drawable</h4><h4 id="在服务器段配置相对较小的webp格式"><a href="#在服务器段配置相对较小的webp格式" class="headerlink" title="在服务器段配置相对较小的webp格式"></a>在服务器段配置相对较小的webp格式</h4><h4 id="其他方式优化"><a href="#其他方式优化" class="headerlink" title="其他方式优化"></a>其他方式优化</h4><ul>
+<li>尽量将Activity中的小图片和背景合并，一张小图片既浪费布局的时间，又平白地增加了内存占用；</li>
+<li>对于在需要时才显示的图片或者布局，可以使用ViewStub标签，通过sdk/tools目录下的hierarchyviewer.bat查看布局文件会发现，使用viewstub标签的组件几乎不消耗布局的时间，在代码中当需要显示时再去实例化有助于提高Activity的布局效率和节省Activity消耗的内存。</li>
+<li>尽量不要在Activity的主题中为Activity设置默认的背景图片，这样会导致Activity占用的内存翻倍：</li>
+</ul>
+<h3 id="Bitmap-相关"><a href="#Bitmap-相关" class="headerlink" title="Bitmap 相关"></a>Bitmap 相关</h3><h4 id="不同格式的图片每像素所占字节数"><a href="#不同格式的图片每像素所占字节数" class="headerlink" title="不同格式的图片每像素所占字节数"></a>不同格式的图片每像素所占字节数</h4><ul>
+<li><p>Alpha_8: 1个字节</p>
+</li>
+<li><p>RGB_565: 2个字节</p>
+</li>
+<li><p>ARGB_4444: 2个字节</p>
+</li>
+<li><p>ARGB_8888: 4个字节</p>
+</li>
+</ul>
+<h4 id="生成Bitmap所占大小-size"><a href="#生成Bitmap所占大小-size" class="headerlink" title="生成Bitmap所占大小(size)"></a>生成Bitmap所占大小(size)</h4><p>公式: 宽 <em> 高 </em> 每个像素所占字节</p>
+<p>size = width <em> height </em> bytes(格式1,2,3,4)*放大缩小倍数</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-AccessibilityService 辅助类实现系统监听" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1060,163 +1173,6 @@ public static LruCache&lt;String, Bitmap&gt; MEMORYLRUCACHE= new LruCache&lt;Str
 <li>合理的内存缓存大小(1/8)。</li>
 <li>合理的磁盘缓存大小(15M)。</li>
 </ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-android 动画" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/10/04/android 动画/" class="article-date">
-  	<time datetime="2016-10-03T16:00:00.000Z" itemprop="datePublished">2016-10-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/04/android 动画/">
-        Android 动画
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在程序中使用一些动画效果可以使APP的交互变得更加生动，交互性更强，也很灵动，但是不要过分使用动画效果，因为动画的使用对于GUP和CPU的消耗是巨大的。</p>
-<h3 id="插值器"><a href="#插值器" class="headerlink" title="插值器"></a>插值器</h3><ul>
-<li>AccelerateDecelerateInterpolator 动画开始与结束的地方速率改变比较慢，在中间的时候加速。</li>
-<li>AccelerateInterpolator 动画开始的地方速率改变比较慢，然后开始加速。</li>
-<li>AnticipateInterpolator 开始的时候向后然后向前甩。</li>
-<li>LinearInterpolator 以常量速率改变</li>
-<li>DecelerateInterpolator 在动画开始的地方快然后慢</li>
-<li>AnticipateOvershootInterpolator 开始的时候向后然后向前甩一定值后返回最后的值</li>
-<li>BounceInterpolator 动画结束的时候弹起</li>
-<li>CycleInterpolator 动画循环播放特定的次数，速率改变沿着正弦曲线</li>
-<li>OvershootInterpolator 向前甩一定值后再回到原来位置</li>
-<li>PathInterpolator 新增的，就是可以定义路径坐标，然后可以按照路径坐标来跑动；注意其坐标并不是 XY，而是单方向，也就是我可以从0~1，然后弹回0.5 然后又弹到0.7 有到0.3，直到最后时间结束</li>
-</ul>
-<h3 id="帧动画"><a href="#帧动画" class="headerlink" title="帧动画"></a>帧动画</h3><p>所谓的帧动画就是指像放电影一样的动画效果，动画是由一帧一帧的图片组成的，可以设置每一帧之间的间隔和总时长来实现动画效果。比如播放GIF。</p>
-<h4 id="帧动画的实现"><a href="#帧动画的实现" class="headerlink" title="帧动画的实现"></a>帧动画的实现</h4><ul>
-<li>1 通过数据流的形式读取gif，视屏流并播放。</li>
-<li><p>2 通过xml文件配置一组图片，并设置时长循环形式。</p>
-<pre><code>&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;  
-&lt;!--   根标签为animation-list，其中oneshot代表着是否只展示一遍，设置为false会不停的循环播放动画根标签下，通过item标签对动画中的每一个图片进行声明  android:duration 表示展示所用的该图片的时间长度  --&gt;  
-&lt;animation-list  xmlns:android=&quot;http://schemas.android.com/apk/res/android&quot;  android:oneshot=&quot;true&quot;  &gt;  
-&lt;item android:drawable=&quot;@drawable/icon1&quot; android:duration=&quot;150&quot;&gt;&lt;/item&gt;  
-&lt;item android:drawable=&quot;@drawable/icon2&quot; android:duration=&quot;150&quot;&gt;&lt;/item&gt;  
-&lt;item android:drawable=&quot;@drawable/icon3&quot; android:duration=&quot;150&quot;&gt;&lt;/item&gt;  
-&lt;item android:drawable=&quot;@drawable/icon4&quot; android:duration=&quot;150&quot;&gt;&lt;/item&gt;  
-&lt;item android:drawable=&quot;@drawable/icon5&quot; android:duration=&quot;150&quot;&gt;&lt;/item&gt;  
-&lt;item android:drawable=&quot;@drawable/icon6&quot; android:duration=&quot;150&quot;&gt;&lt;/item&gt;  
-&lt;/animation-list&gt;  
-
-//播放动画
-frame_img.setBackgroundResource(R.drawable.voice);
-AnimationDrawable animationDrawable = (AnimationDrawable) frame_img.getBackground();
-animationDrawable.start();
-</code></pre></li>
-</ul>
-<h3 id="视图动画和属性动画"><a href="#视图动画和属性动画" class="headerlink" title="视图动画和属性动画"></a>视图动画和属性动画</h3><h4 id="视图动画"><a href="#视图动画" class="headerlink" title="视图动画"></a>视图动画</h4><p>视图动画提供了AlphaAnimation，RotateAnimation,TranslateAnimation,ScaleAnimation四种动画方式，并提供了AnimationSet动画集合来混合使用多中动画。随着android3.0属性动画的推出，视图动画就不再风光，相比属性动画视图动画非常大的缺陷是不具有交互性，当某个元素发生视图动画后，其响应事件的位置依然在动画前的地方，所以视图动画只能做普通的动画效果，避免交互的发生。但是它的优点也非常明显：效率比较高使用也方便。 </p>
-<h4 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h4><p>由于android3.0之前已有的动画框架Animation存在一些局限性：动画改变的只是显示，并不能响应事件。因此，在android3.0之后，谷歌就推出了新的动画框架，帮助开发者实现更加丰富的动画效果。</p>
-<h4 id="ObjectAnimator"><a href="#ObjectAnimator" class="headerlink" title="ObjectAnimator"></a>ObjectAnimator</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator mObjectAnimator=ObjectAnimator.ofFloat(view,<span class="string">"translationX"</span>,<span class="number">200</span>);</span><br><span class="line">mObjectAnimator.setDuration(<span class="number">300</span>);</span><br><span class="line">mObjectAnimator.start();</span><br></pre></td></tr></table></figure>
-<p>属性动画常用的属性值：</p>
-<ul>
-<li>translationX和translationY：这两个属性作为增量控制View对象从他的布局容器的左上角开始位置。</li>
-<li>rotation、rotationX、rotationY：这三个属性控制View对象围绕它的支点进行2D和3D旋转。PrivotX和PrivotY：控制View对象的支点位置，围绕这个支点进行旋转和缩放变换处理。默认该支点位置就是View对象的中心点。</li>
-<li>scaleX，scaleY缩放。</li>
-<li>alpha：透明度，默认是1（不透明），0代表完全透明。</li>
-<li>x和y：描述View对象在它容器中的最终位置，它是最初的做上角坐标和translationX,translationY值的累计的和。</li>
-</ul>
-<h4 id="动画的监听"><a href="#动画的监听" class="headerlink" title="动画的监听"></a>动画的监听</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator animator=ObjectAnimator.ofFloat(view,<span class="string">"alpha"</span>,<span class="number">1.5f</span>);</span><br><span class="line">        animator.addListener(<span class="keyword">new</span> Animator.AnimatorListener() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationStart</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationEnd</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationCancel</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onAnimationRepeat</span><span class="params">(Animator animation)</span> </span>&#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<h4 id="组合动画-AnimatorSet"><a href="#组合动画-AnimatorSet" class="headerlink" title="组合动画-AnimatorSet"></a>组合动画-AnimatorSet</h4><p>这个类提供了一个play()方法，如果我们向这个方法中传入一个Animator对象(ValueAnimator或ObjectAnimator)将会返回一个AnimatorSet.Builder的实例，AnimatorSet.Builder中包括以下四个方法：</p>
-<ul>
-<li>after(Animator anim) 将现有动画插入到传入的动画之后执行</li>
-<li>after(long delay) 将现有动画延迟指定毫秒后执行</li>
-<li>before(Animator anim) 将现有动画插入到传入的动画之前执行</li>
-<li>with(Animator anim) 将现有动画和传入的动画同时执行</li>
-<li>playTogether/playSequentially</li>
-</ul>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">ObjectAnimator animator1 = ObjectAnimator.ofFloat(mCustomView, <span class="string">"translationX"</span>, <span class="number">0.0f</span>, <span class="number">200.0f</span>, <span class="number">0f</span>);</span><br><span class="line">ObjectAnimator animator2 = ObjectAnimator.ofFloat(mCustomView, <span class="string">"scaleX"</span>, <span class="number">1.0f</span>, <span class="number">2.0f</span>);</span><br><span class="line">ObjectAnimator animator3 = ObjectAnimator.ofFloat(mCustomView, <span class="string">"rotationX"</span>, <span class="number">0.0f</span>, <span class="number">90.0f</span>, <span class="number">0.0F</span>);</span><br><span class="line">AnimatorSet set=<span class="keyword">new</span> AnimatorSet();</span><br><span class="line">set.setDuration(<span class="number">1000</span>);</span><br><span class="line">set.play(animator1).with(animator2).after(animator3);</span><br><span class="line">set.start();</span><br></pre></td></tr></table></figure>
-<h4 id="XML使用"><a href="#XML使用" class="headerlink" title="XML使用"></a>XML使用</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">set</span></span></span><br><span class="line"><span class="tag">  <span class="attr">android:ordering</span>=<span class="string">[</span>"<span class="attr">together</span>" | "<span class="attr">sequentially</span>"]&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">objectAnimator</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:propertyName</span>=<span class="string">"string"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:duration</span>=<span class="string">"int"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:valueFrom</span>=<span class="string">"float | int | color"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:valueTo</span>=<span class="string">"float | int | color"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:startOffset</span>=<span class="string">"int"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:repeatCount</span>=<span class="string">"int"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:repeatMode</span>=<span class="string">[</span>"<span class="attr">repeat</span>" | "<span class="attr">reverse</span>"]</span></span><br><span class="line"><span class="tag">        <span class="attr">android:valueType</span>=<span class="string">[</span>"<span class="attr">intType</span>" | "<span class="attr">floatType</span>"]/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">animator</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:duration</span>=<span class="string">"int"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:valueFrom</span>=<span class="string">"float | int | color"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:valueTo</span>=<span class="string">"float | int | color"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:startOffset</span>=<span class="string">"int"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:repeatCount</span>=<span class="string">"int"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:repeatMode</span>=<span class="string">[</span>"<span class="attr">repeat</span>" | "<span class="attr">reverse</span>"]</span></span><br><span class="line"><span class="tag">        <span class="attr">android:valueType</span>=<span class="string">[</span>"<span class="attr">intType</span>" | "<span class="attr">floatType</span>"]/&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">set</span>&gt;</span></span><br><span class="line">        ...</span><br><span class="line">    <span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">set</span>&gt;</span></span><br><span class="line"></span><br><span class="line">&lt;?xml version="1.0" encoding="utf-8"?&gt;</span><br><span class="line"><span class="tag">&lt;<span class="name">objectAnimator</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">android:duration</span>=<span class="string">"1000"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:propertyName</span>=<span class="string">"scaleX"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:valueFrom</span>=<span class="string">"1.0"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:valueTo</span>=<span class="string">"2.0"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:valueType</span>=<span class="string">"floatType"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">objectAnimator</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>java 使用</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Animator animator=AnimatorInflater.loadAnimator(<span class="keyword">this</span>,R.animator.scale);</span><br><span class="line">animator.setTarget(view);</span><br><span class="line">animator.start();</span><br></pre></td></tr></table></figure>
-<h3 id="物理动画"><a href="#物理动画" class="headerlink" title="物理动画"></a>物理动画</h3><p>Google I/O ‘17推出了许多新的特性，在动画这一块又有新的API供开发者使用，具体视频请见Android Animations Spring to Life <a href="https://www.youtube.com/watch?v=BNcODK-Ju0g" target="_blank" rel="noopener">Google I/O ‘17</a>，主要介绍了Physics-based Animations，在动画API中引入了DynamicAnimation，并介绍了它的两个子类FlingAnimation和SpringAnimation的使用，开发者可以使用新的API创建更加动态化的动画。</p>
-<p>Physics-based Animations，翻译过来就是基于物理的动画，官网上有很详细的介绍，在日常生活中当一个事物发生变化的时候，物理性的过渡或者说符合自然性的过渡，更容易让我们感知察觉，同样，更自然、不间断、有良好发展趋势的动画会给我们带来更好的用户体验。Physics-based Animations是根据物理学的基本原理构建的动画，动画由力产生，当力趋于平衡时动画处于静止。</p>
-<h4 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h4><ul>
-<li>动画由力驱动</li>
-<li>力决定了动画的加速和减速</li>
-<li>在每一帧中动画值和速度都会更新</li>
-<li>当受力达到平衡时动画停止</li>
-</ul>
-<p>物理动画可以使动画的滑动和停止更接近现实，开起来更真实顺滑，不会有跳动和速度不服逻辑的跳动。</p>
-<p>使用Physics-based Animations api创建的动画可以追踪速度，在运动过程中动态地改变动画的目标值，正确规划路线，使动画看起来更加自然。</p>
-<h4 id="build-添加依赖"><a href="#build-添加依赖" class="headerlink" title="build 添加依赖"></a>build 添加依赖</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">dependencies &#123;</span><br><span class="line">    ...</span><br><span class="line">    compile "com.android.support:support-dynamic-animation:26.0.0-beta2"</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="SpringAnimation"><a href="#SpringAnimation" class="headerlink" title="SpringAnimation"></a>SpringAnimation</h4><p>SpringAnimation弹簧动画，主要包括两个属性dampingRatio(阻尼系数)和velocity用来间接指定弹簧的初始速度。总体而言，dampingRatio 参数越小，velocity 参数越大，视图表现为剧烈的摇晃。</p>
-<p>设置动画</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> View img = findViewById(R.id.imageView);</span><br><span class="line"><span class="keyword">final</span> SpringAnimation springAnim = <span class="keyword">new</span> SpringAnimation(img, DynamicAnimation.TRANSLATION_Y, <span class="number">0</span>);</span><br><span class="line">springAnim.getSpring().setDampingRatio(DAMPING_RATIO_LOW_BOUNCY);</span><br></pre></td></tr></table></figure>
-<p>动画类型：</p>
-<ul>
-<li>ALPHA</li>
-<li>TRANSLATION_X, TRANSLATION_Y, and TRANSLATION_Z</li>
-<li>ROTATION, ROTATION_X, and ROTATION_Y</li>
-<li>SCROLL_X and SCROLL_Y</li>
-<li>SCALE_X and SCALE_Y</li>
-<li>X, Y, and Z.X is a sum of the left value and TRANSLATION_X.Y is a sum of the top value and TRANSLATION_Y.Z is a sum of the elevation value and TRANSLATION_Z.</li>
-</ul>
-<p>阻尼stiffness：</p>
-<ul>
-<li>STIFFNESS_HIGH</li>
-<li>STIFFNESS_MEDIUM</li>
-<li>STIFFNESS_LOW</li>
-<li>STIFFNESS_VERY_LOW</li>
-</ul>
-<p>damping：</p>
-<ul>
-<li>DAMPING_RATIO_HIGH_BOUNCY</li>
-<li>DAMPING_RATIO_MEDIUM_BOUNCY</li>
-<li>DAMPING_RATIO_LOW_BOUNCY</li>
-<li>DAMPING_RATIO_NO_BOUNCY</li>
-</ul>
-<p>效果如下：</p>
-<p><img src="https://developer.android.com/images/animation/physics-based-animation/medium_bounce.gif" alt=""></p>
-<h4 id="FlingAnimation"><a href="#FlingAnimation" class="headerlink" title="FlingAnimation"></a>FlingAnimation</h4><p>实现了基于初始动能并逐渐减弱的动画效果。</p>
-<p><img src="https://developer.android.com/images/topic/libraries/support-library/preview/fling-animation.gif" alt=""></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FlingAnimation fling = <span class="keyword">new</span> FlingAnimation(view, DynamicAnimation.SCROLL_X);</span><br><span class="line">fling.setStartVelocity(-velocityX)</span><br><span class="line">        .setMinValue(<span class="number">0</span>)</span><br><span class="line">        .setMaxValue(maxScroll)</span><br><span class="line">        .setFriction(<span class="number">1.1f</span>)</span><br><span class="line">        .start();</span><br></pre></td></tr></table></figure>
-<h3 id="实际问题"><a href="#实际问题" class="headerlink" title="实际问题"></a>实际问题</h3><h4 id="View-不断更新动画状态问题，每次启动动画，都会从最初位置开始。"><a href="#View-不断更新动画状态问题，每次启动动画，都会从最初位置开始。" class="headerlink" title="View 不断更新动画状态问题，每次启动动画，都会从最初位置开始。"></a>View 不断更新动画状态问题，每次启动动画，都会从最初位置开始。</h4><p>我遇到的实际问题是这样的，显示一个转盘，转盘上面有一个小指针需要一直旋转，当ui一个变量变化时，根据这个变量的变化幅度动态调整指针的转速。遇到的问题是每次更新时，动画都会从原始位置开始执行。</p>
-<p>最后解决办法如下，记录下结束时的位置，我开始以为，这个结束位置应该记录在objectanimitor里面，但是一直都找不到对应的值，最后我发发现这个值记录在对应的view里面了…….</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">startSmallZZAnimation</span><span class="params">(<span class="keyword">int</span> duration)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (repeat != <span class="keyword">null</span> &amp;&amp; repeat.isRunning()) &#123;</span><br><span class="line">            smallAngle = smallZP.getRotation();</span><br><span class="line">            repeat.cancel();</span><br><span class="line">            smallZP.clearAnimation();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            repeat = ObjectAnimator.ofFloat(smallZP, <span class="string">"rotation"</span>, currentAngle, currentAngle + <span class="number">360</span>);</span><br><span class="line">            repeat.setDuration(duration);</span><br><span class="line">            repeat.setRepeatCount(<span class="number">30000</span> / duration);</span><br><span class="line">            repeat.setInterpolator(<span class="keyword">new</span> LinearInterpolator());</span><br><span class="line">            repeat.start();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>

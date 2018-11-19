@@ -162,6 +162,183 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android 输入系统" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/11/Android 输入系统/" class="article-date">
+  	<time datetime="2018-06-10T16:00:00.000Z" itemprop="datePublished">2018-06-11</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/11/Android 输入系统/">
+        Android 输入系统
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-输入系统"><a href="#Android-输入系统" class="headerlink" title="Android 输入系统"></a>Android 输入系统</h1><h2 id="输入系统的框架"><a href="#输入系统的框架" class="headerlink" title="输入系统的框架"></a>输入系统的框架</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/android_input.png" alt=""></p>
+<ul>
+<li>Linux内核-接受输入设备的中断，并将原始事件的数据写入设备节点中。</li>
+<li>设备节点，作为内核与IMS的桥梁，它将原始事件的数据暴露给用户空间，以便IMS可以从中读取事件。</li>
+<li>IMS,一个Android系统服务，它分为Java层和native层两部分。java层负责与WMS通信，而native层则是InputReader和InputDispatcher两个输入系统关键组件的运行容器。</li>
+<li>EventHub,直接访问所有设备节点。通过getEvents()的函数将所有输入系统相关的待处理的底层事件返回给使用者。包括设备节点的增删。</li>
+<li>InputReader，它运行于一个独立的线程中，负责管理输入设备的列表于配置，以及进行输入事件的加工处理。它通过其他线程循环不断地通过getEvents函数从EventHub中将事件取出并进行处理。对于设备节点的增删事件，它会更新输入设备列表与配置。对于原始输入事件，InputReader对其进行翻译，组装，封装为包含更多信息，更具可读性的输入事件，然后交给InputDispatcher进行派发。</li>
+<li>InputReaderPolicy,它为InputReader的事件加工处理提供一些策略配置，例如键盘布局信息等。</li>
+<li>InputDispatcher，它运行于独立线程中，InputDispatcher中保管了来自WMS的所有窗口的信息，其收到来自InputReader的输入事件后，会在其保管的窗口中寻找合适的窗口，并将事件派发给他们。</li>
+<li>InputDispatcherPolicy，它为InputDispatcher的派发过程提供策略控制。例如截取某些特定的输入事件用作特殊用途，或者阻止将某些事件派发给目标窗口。一个典型的例子就是Home键被InputDispatcherPolicy截取到PhoneWindowManager中进行处理，并阻止窗口收到Home键的事件。</li>
+<li>WMS, 当新建窗口时，WMS为新窗口和IMS创建了事件传递所用的通道。另外WMS还将所有窗口的信息，包括窗口的可点击区域，焦点窗口等信息，实时的更新到IMS的InputDispatcher中，使得InputDispatcher可以正确地将事件派发到指定窗口。</li>
+<li>ViewRootImpl，对某些窗口，如壁纸窗口，surfaceview窗口来说，窗口就是输入事件派发的终点。而对其他activity，对话框等使用了Android控件系统的窗口来说，输入事件的终点是view。ViewRootImpl将窗口所接收的输入事件沿着控件数将事件派发给感兴趣的控件。</li>
+</ul>
+<h3 id="来源"><a href="#来源" class="headerlink" title="来源"></a>来源</h3><p>输入设备和输入事件</p>
+<p>输入设备：触摸屏，键盘以及外接设备。当输入设备可用的时，Linux就会在/dev/input/ 下创建对应的名为event0~n，当输入设备不可用时，则会将对应的节点删除。用户空间可以通过ioctl的方式从这些设备节点中获取其对应的输入涉笔的类型，厂商，描述等信息。</p>
+<h4 id="getevent-与-sendevent"><a href="#getevent-与-sendevent" class="headerlink" title="getevent 与 sendevent"></a>getevent 与 sendevent</h4><p>Android 系统提供了getevent和setevent两个工具共开发者从设备节点中直接读取输入事件或写入事件。</p>
+<p>原始事件的四项基本元素：</p>
+<ul>
+<li>时间戳</li>
+<li>类型</li>
+<li>代码</li>
+<li>值</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell getevent[-选项] [device_path]</span><br><span class="line">$ adb shell sendevent &lt;节点路径&gt; &lt;类型&gt; &lt;代码&gt; &lt;值&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="模拟输入事件"><a href="#模拟输入事件" class="headerlink" title="模拟输入事件"></a>模拟输入事件</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell input keyevent XX</span><br></pre></td></tr></table></figure>
+<pre><code>•    0 --&gt;  &quot;KEYCODE_UNKNOWN&quot;
+•    1 --&gt;  &quot;KEYCODE_MENU&quot;
+•    2 --&gt;  &quot;KEYCODE_SOFT_RIGHT&quot;
+•    3 --&gt;  &quot;KEYCODE_HOME&quot;
+•    4 --&gt;  &quot;KEYCODE_BACK&quot;
+•    5 --&gt;  &quot;KEYCODE_CALL&quot;
+•    6 --&gt;  &quot;KEYCODE_ENDCALL&quot;
+•    7 --&gt;  &quot;KEYCODE_0&quot;
+•    8 --&gt;  &quot;KEYCODE_1&quot;
+•    9 --&gt;  &quot;KEYCODE_2&quot;
+•    10 --&gt;  &quot;KEYCODE_3&quot;
+•    11 --&gt;  &quot;KEYCODE_4&quot;
+•    12 --&gt;  &quot;KEYCODE_5&quot;
+•    13 --&gt;  &quot;KEYCODE_6&quot;
+•    14 --&gt;  &quot;KEYCODE_7&quot;
+•    15 --&gt;  &quot;KEYCODE_8&quot;
+•    16 --&gt;  &quot;KEYCODE_9&quot;
+•    17 --&gt;  &quot;KEYCODE_STAR&quot;
+•    18 --&gt;  &quot;KEYCODE_POUND&quot;
+•    19 --&gt;  &quot;KEYCODE_DPAD_UP&quot;
+•    20 --&gt;  &quot;KEYCODE_DPAD_DOWN&quot;
+•    21 --&gt;  &quot;KEYCODE_DPAD_LEFT&quot;
+•    22 --&gt;  &quot;KEYCODE_DPAD_RIGHT&quot;
+•    23 --&gt;  &quot;KEYCODE_DPAD_CENTER&quot;
+•    24 --&gt;  &quot;KEYCODE_VOLUME_UP&quot;
+•    25 --&gt;  &quot;KEYCODE_VOLUME_DOWN&quot;
+•    26 --&gt;  &quot;KEYCODE_POWER&quot;
+•    27 --&gt;  &quot;KEYCODE_CAMERA&quot;
+•    28 --&gt;  &quot;KEYCODE_CLEAR&quot;
+•    29 --&gt;  &quot;KEYCODE_A&quot;
+•    30 --&gt;  &quot;KEYCODE_B&quot;
+•    31 --&gt;  &quot;KEYCODE_C&quot;
+•    32 --&gt;  &quot;KEYCODE_D&quot;
+•    33 --&gt;  &quot;KEYCODE_E&quot;
+•    34 --&gt;  &quot;KEYCODE_F&quot;
+•    35 --&gt;  &quot;KEYCODE_G&quot;
+•    36 --&gt;  &quot;KEYCODE_H&quot;
+•    37 --&gt;  &quot;KEYCODE_I&quot;
+•    38 --&gt;  &quot;KEYCODE_J&quot;
+•    39 --&gt;  &quot;KEYCODE_K&quot;
+•    40 --&gt;  &quot;KEYCODE_L&quot;
+•    41 --&gt;  &quot;KEYCODE_M&quot;
+•    42 --&gt;  &quot;KEYCODE_N&quot;
+•    43 --&gt;  &quot;KEYCODE_O&quot;
+•    44 --&gt;  &quot;KEYCODE_P&quot;
+•    45 --&gt;  &quot;KEYCODE_Q&quot;
+•    46 --&gt;  &quot;KEYCODE_R&quot;
+•    47 --&gt;  &quot;KEYCODE_S&quot;
+•    48 --&gt;  &quot;KEYCODE_T&quot;
+•    49 --&gt;  &quot;KEYCODE_U&quot;
+•    50 --&gt;  &quot;KEYCODE_V&quot;
+•    51 --&gt;  &quot;KEYCODE_W&quot;
+•    52 --&gt;  &quot;KEYCODE_X&quot;
+•    53 --&gt;  &quot;KEYCODE_Y&quot;
+•    54 --&gt;  &quot;KEYCODE_Z&quot;
+•    55 --&gt;  &quot;KEYCODE_COMMA&quot;
+•    56 --&gt;  &quot;KEYCODE_PERIOD&quot;
+•    57 --&gt;  &quot;KEYCODE_ALT_LEFT&quot;
+•    58 --&gt;  &quot;KEYCODE_ALT_RIGHT&quot;
+•    59 --&gt;  &quot;KEYCODE_SHIFT_LEFT&quot;
+•    60 --&gt;  &quot;KEYCODE_SHIFT_RIGHT&quot;
+•    61 --&gt;  &quot;KEYCODE_TAB&quot;
+•    62 --&gt;  &quot;KEYCODE_SPACE&quot;
+•    63 --&gt;  &quot;KEYCODE_SYM&quot;
+•    64 --&gt;  &quot;KEYCODE_EXPLORER&quot;
+•    65 --&gt;  &quot;KEYCODE_ENVELOPE&quot;
+•    66 --&gt;  &quot;KEYCODE_ENTER&quot;
+•    67 --&gt;  &quot;KEYCODE_DEL&quot;
+•    68 --&gt;  &quot;KEYCODE_GRAVE&quot;
+•    69 --&gt;  &quot;KEYCODE_MINUS&quot;
+•    70 --&gt;  &quot;KEYCODE_EQUALS&quot;
+•    71 --&gt;  &quot;KEYCODE_LEFT_BRACKET&quot;
+•    72 --&gt;  &quot;KEYCODE_RIGHT_BRACKET&quot;
+•    73 --&gt;  &quot;KEYCODE_BACKSLASH&quot;
+•    74 --&gt;  &quot;KEYCODE_SEMICOLON&quot;
+•    75 --&gt;  &quot;KEYCODE_APOSTROPHE&quot;
+•    76 --&gt;  &quot;KEYCODE_SLASH&quot;
+•    77 --&gt;  &quot;KEYCODE_AT&quot;
+•    78 --&gt;  &quot;KEYCODE_NUM&quot;
+•    79 --&gt;  &quot;KEYCODE_HEADSETHOOK&quot;
+•    80 --&gt;  &quot;KEYCODE_FOCUS&quot;
+•    81 --&gt;  &quot;KEYCODE_PLUS&quot;
+•    82 --&gt;  &quot;KEYCODE_MENU&quot;
+•    83 --&gt;  &quot;KEYCODE_NOTIFICATION&quot;
+•    84 --&gt;  &quot;KEYCODE_SEARCH&quot;
+•    85 --&gt;  &quot;TAG_LAST_KEYCODE&quot;
+</code></pre><h2 id="Android输入系统的工作原理"><a href="#Android输入系统的工作原理" class="headerlink" title="Android输入系统的工作原理"></a>Android输入系统的工作原理</h2><p>就是监控/dev/input/下所有设备节点，当某个节点有数据可读时，将数据读出并进行一系列的翻译加工，然后在所有的窗口中寻找合适的事件接受者，并派发给它。</p>
+<h2 id="INotify-与-Epoll"><a href="#INotify-与-Epoll" class="headerlink" title="INotify 与 Epoll"></a>INotify 与 Epoll</h2><h3 id="INotify"><a href="#INotify" class="headerlink" title="INotify"></a>INotify</h3><p>INotify是linux提供的一种文件系统变化通知机制。INotify机制有两个对象，分别为inotif对象和watch对象。watch监听文件的删除创建读写等，inotify对象是通过主动轮询读取的。</p>
+<h3 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h3><p>Epoll可以使用一次等待监听多个描述符的可读/可写状态。等待返回时携带了可读的描述符或自定义的数据，使用者据此读取所需的数据后可以再次进入等待。因此不需要为每个描述符创建独立的线程进行阻塞读取，避免了资源浪费同时获得更快的响应速度。</p>
+<p>使用:</p>
+<ul>
+<li>通过epoll_create()创建一个epoll对象</li>
+<li>为需要监听的描述符填充epoll_events结构体,并使用epoll_ctl()注册到epoll对象中。</li>
+<li>epoll_wait等待事件发生</li>
+<li>epoll_wait返回epoll_events结构体数组判断事件的类型与来源并进行处理。</li>
+<li>epoll_wait等待新事件</li>
+</ul>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>当有新的设备可用的时候，现在/dev/input下，当input下新增或者删除设备的时候，INotify会通知到EventHub去读取对应的设备信息，并将对应的信息发送给对应的window。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-正则表达式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -295,65 +472,6 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//方式一</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> ObservableField&lt;String&gt; firstName = <span class="keyword">new</span> ObservableField&lt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> ObservableField&lt;String&gt; lastName = <span class="keyword">new</span> ObservableField&lt;&gt;();</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">final</span> ObservableInt age = <span class="keyword">new</span> ObservableInt();</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//方式二</span></span><br><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">User</span> <span class="keyword">extends</span> <span class="title">BaseObservable</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> String firstName;</span><br><span class="line">    <span class="keyword">private</span> String lastName;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bindable</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getFirstName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.firstName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Bindable</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> String <span class="title">getLastName</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">this</span>.lastName;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFirstName</span><span class="params">(String firstName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.firstName = firstName;</span><br><span class="line">        notifyPropertyChanged(BR.firstName);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLastName</span><span class="params">(String lastName)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.lastName = lastName;</span><br><span class="line">        notifyPropertyChanged(BR.lastName);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="4-生成activitybinding实例并绑定"><a href="#4-生成activitybinding实例并绑定" class="headerlink" title="4 生成activitybinding实例并绑定"></a>4 生成activitybinding实例并绑定</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">(Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">   <span class="keyword">super</span>.onCreate(savedInstanceState);</span><br><span class="line">   <span class="comment">//获取bind并设置data</span></span><br><span class="line">   MainActivityBinding binding = DataBindingUtil.setContentView(<span class="keyword">this</span>, R.layout.activity_main);</span><br><span class="line">   User user = <span class="keyword">new</span> User(<span class="string">"Test"</span>, <span class="string">"User"</span>);</span><br><span class="line">   binding.setUser(user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="当数据发生变化时"><a href="#当数据发生变化时" class="headerlink" title="当数据发生变化时"></a>当数据发生变化时</h3><p>会以消息队列的方式发送给对应的activitybinding实例去更新对应的view的值，并进行重新绑定。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Apk二次打包" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/Apk二次打包/" class="article-date">
-  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/Apk二次打包/">
-        Apk二次打包
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
-<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
-<li>添加方法记得修改被注入方法的寄存器个数</li>
-</ul>
-<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -518,6 +636,65 @@
 <p>使用JD-GUI打开对应的classes-dex2jar.jar包</p>
 <p>打开后就是下面这个样子的阅读起来就容易多了</p>
 <p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.06.01.png" alt=""></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-Apk二次打包" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/Apk二次打包/" class="article-date">
+  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/05/Apk二次打包/">
+        Apk二次打包
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
+<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
+<li>添加方法记得修改被注入方法的寄存器个数</li>
+</ul>
+<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -858,89 +1035,6 @@
 </ul>
 <h3 id="ART"><a href="#ART" class="headerlink" title="ART"></a>ART</h3><p>Android 4.4发布了一个ART运行时，准备用来替换掉之前一直使用的Dalvik虚拟机.</p>
 <p>ART 的机制与 Dalvik 不同。在Dalvik下，应用每次运行的时候，字节码都需要通过即时编译器（just in time ，JIT）转换为机器码，这会拖慢应用的运行效率，而在ART 环境中，应用在第一次安装的时候，字节码就会预先编译成机器码，使其成为真正的本地应用。这个过程叫做预编译（AOT,Ahead-Of-Time）。这样的话，应用的启动(首次)和执行都会变得更加快速。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android Android 共享内存" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/09/Android Android 共享内存/" class="article-date">
-  	<time datetime="2018-04-08T16:00:00.000Z" itemprop="datePublished">2018-04-09</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/09/Android Android 共享内存/">
-        Android 共享内存
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-匿名共享内存"><a href="#Android-匿名共享内存" class="headerlink" title="Android 匿名共享内存"></a>Android 匿名共享内存</h1><p>Android可以使用Linux的一切IPC通信方式，包括共享内存，不过Android主要使用的方式是匿名共享内存Ashmem（Anonymous Shared Memory），跟原生的不太一样，比如它在自己的驱动中添加了互斥锁，另外通过fd的传递来实现共享内存的传递。</p>
-<h2 id="Android进程数据传递"><a href="#Android进程数据传递" class="headerlink" title="Android进程数据传递"></a>Android进程数据传递</h2><ul>
-<li>binder机制(TransactionTooLargeException 每个进程的内存是 1M)</li>
-<li>mmap</li>
-<li>匿名共享内存Ashmem</li>
-</ul>
-<p>当两个进程需要共享数据时，我们通常可以通过两种方式来实现。第一种方式是在进程间拷贝共享数据，即将共享数据在进程间传输；第二种方式是将共享数据放在一个公共的地方，然后每一个进程都到这个公共的地方去访问共享数据。如果进程间需要共享的数据很大，那么显然第二种共享方式的效率更高。</p>
-<h2 id="Android-mmap内存映射"><a href="#Android-mmap内存映射" class="headerlink" title="Android  mmap内存映射"></a>Android  mmap内存映射</h2><p>mmap是一种内存映射文件的方法，即将一个文件或者其它对象映射到进程的地址空间，实现文件磁盘地址和进程虚拟地址空间中一段虚拟地址的一一对映关系。实现这样的映射关系后，进程就可以采用指针的方式读写操作这一段内存，而系统会自动回写脏页面到对应的文件磁盘上，即完成了对文件的操作而不必再调用read,write等系统调用函数。相反，内核空间对这段区域的修改也直接反映用户空间，从而可以实现不同进程间的文件共享。</p>
-<h3 id="mmap原理"><a href="#mmap原理" class="headerlink" title="mmap原理"></a>mmap原理</h3><ul>
-<li>1 进程启动映射过程，并在虚拟地址空间中为映射创建虚拟映射区域。</li>
-<li>2 调用内核空间的系统调用函数mmap（不同于用户空间函数），实现文件物理地址和进程虚拟地址的一一映射关系。</li>
-<li>3 进程发起对这片映射空间的访问，引发缺页异常，实现文件内容到物理内存（主存）的拷贝。</li>
-</ul>
-<p>注：前两个阶段仅在于创建虚拟区间并完成地址映射，但是并没有将任何文件数据的拷贝至主存。真正的文件读取是当进程发起读或写操作时。</p>
-<h3 id="mmap优点"><a href="#mmap优点" class="headerlink" title="mmap优点"></a>mmap优点</h3><ul>
-<li>1 对文件的读取操作跨过了页缓存，减少了数据的拷贝次数，用内存读写取代I/O读写，提高了文件读取效率。</li>
-<li>2 实现了用户空间和内核空间的高效交互方式。两空间的各自修改操作可以直接反映在映射的区域内，从而被对方空间及时捕捉。</li>
-<li>3 提供进程间共享内存及相互通信的方式。不管是父子进程还是无亲缘关系的进程，都可以将自身用户空间映射到同一个文件或匿名映射到同一片区域。从而通过各自对映射区域的改动，达到进程间通信和进程间共享的目的。 同时，如果进程A和进程B都映射了区域C，当A第一次读取C时通过缺页从磁盘复制文件页到内存中；但当B再读C的相同页面时，虽然也会产生缺页异常，但是不再需要从磁盘中复制文件过来，而可直接使用已经保存在内存中的文件数据。</li>
-<li>4 可用于实现高效的大规模数据传输。内存空间不足，是制约大数据操作的一个方面，解决方案往往是借助硬盘空间协助操作，补充内存的不足。但是进一步会造成大量的文件I/O操作，极大影响效率。这个问题可以通过mmap映射很好的解决。换句话说，但凡是需要用磁盘空间代替内存的时候，mmap都可以发挥其功效。</li>
-</ul>
-<h3 id="mmap-在-android中应用"><a href="#mmap-在-android中应用" class="headerlink" title="mmap 在 android中应用"></a>mmap 在 android中应用</h3><p>mmap的一大应用就是将内核空间的一段内存映射到各个应用程序的各自的应用地址空间中，然后各个应用程序都可以访问这段内存空间，这就是所谓的内存共享实现进程间的信息的交互。</p>
-<h2 id="ashmem匿名共享内存"><a href="#ashmem匿名共享内存" class="headerlink" title="ashmem匿名共享内存"></a>ashmem匿名共享内存</h2><p>Android 的Ashmem是一种共享内存的机制，它基于mmap系统调用，不同进程可以将同一段物理内存映射到各自的虚拟地址控制，从而实现共享。其优势是通过内核驱动提供了辅助内核的内存回收算法机制(pin/unpin)。</p>
-<p>Android的匿名共享内存（Ashmem）机制基于Linux内核的共享内存，但是Ashmem与cache shrinker关联起来，增加了内存回收算法的注册接口，因此Linux内存管理系统将不再使用内存区域加以回收。Ashmem以内核驱动的形式实现，在文件系统中创建/dev/ashmem设备文件。如果进程A与进程B需要共享内存，进程A可通过open打开该文件，用ioctl命令ASHMEM_SET_NAME和ASHMEM_SET_SIZE设置共享内存的名称和大小。mmap使用handle获得共享的内存区域；进程B使用同样的handle，由mmap获得同一块内存。handle在进程间的传递可通过Binder等方式实现。</p>
-<h3 id="MemoryFile"><a href="#MemoryFile" class="headerlink" title="MemoryFile"></a>MemoryFile</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">IMemoryAidlInterface</span> </span>&#123;</span><br><span class="line">        <span class="function">ParcelFileDescriptor <span class="title">getParcelFileDescriptor</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MemoryFetchService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Nullable</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> MemoryFetchStub();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MemoryFetchStub</span> <span class="keyword">extends</span> <span class="title">IMemoryAidlInterface</span>.<span class="title">Stub</span> </span>&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> ParcelFileDescriptor <span class="title">getParcelFileDescriptor</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">                MemoryFile memoryFile = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    memoryFile = <span class="keyword">new</span> MemoryFile(<span class="string">"test_memory"</span>, <span class="number">1024</span>);</span><br><span class="line">                    memoryFile.getOutputStream().write(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;);</span><br><span class="line">                    Method method = MemoryFile.class.getDeclaredMethod(<span class="string">"getFileDescriptor"</span>);</span><br><span class="line">                    FileDescriptor des = (FileDescriptor) method.invoke(memoryFile);</span><br><span class="line">                    <span class="keyword">return</span> ParcelFileDescriptor.dup(des);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Intent intent = <span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>, MemoryFetchService.class);</span><br><span class="line"></span><br><span class="line">    bindService(intent, <span class="keyword">new</span> ServiceConnection() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span> <span class="params">(ComponentName name, IBinder service)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">byte</span>[] content = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">10</span>];</span><br><span class="line">            IMemoryAidlInterface iMemoryAidlInterface</span><br><span class="line">                    = IMemoryAidlInterface.Stub.asInterface(service);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                ParcelFileDescriptor parcelFileDescriptor = iMemoryAidlInterface.getParcelFileDescriptor();</span><br><span class="line">                FileDescriptor descriptor = parcelFileDescriptor.getFileDescriptor();</span><br><span class="line">                FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(descriptor);</span><br><span class="line">                fileInputStream.read(content);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span> <span class="params">(ComponentName name)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,Service.BIND_AUTO_CREATE);</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">MemoryFile是应用层使用匿名共享内存的方法,关键点就是文件描述符（FileDescriptor）的传递，文件描述符是Linux系统中访问与更新文件的主要方式。</span><br><span class="line"></span><br><span class="line">### MemoryFile实现共享内存的分配与传递</span><br><span class="line"></span><br><span class="line">Java层的构造函数调用<span class="keyword">native</span>层的android_os_MemoryFile_open,首先是通过native_open调用ashmem_create_region创建共享内存</span><br><span class="line"></span><br><span class="line">```c++</span><br><span class="line">    <span class="function"><span class="keyword">static</span> jobject <span class="title">android_os_MemoryFile_open</span><span class="params">(JNIEnv* env, jobject clazz, jstring name, jint length)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* namestr = (name ? env-&gt;GetStringUTFChars(name, NULL) : NULL);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> result = ashmem_create_region(namestr, length);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (name)</span><br><span class="line">            env-&gt;ReleaseStringUTFChars(name, namestr);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (result &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            jniThrowException(env, <span class="string">"java/io/IOException"</span>, <span class="string">"ashmem_create_region failed"</span>);</span><br><span class="line">            <span class="keyword">return</span> NULL;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> jniCreateFileDescriptor(env, result);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>接着通过native_mmap调用mmap将共享内存映射到当前进程空间，之后Java层就能利用FileDescriptor，像访问文件一样访问共享内存。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> jint <span class="title">android_os_MemoryFile_mmap</span><span class="params">(JNIEnv* env, jobject clazz, jobject fileDescriptor,</span></span></span><br><span class="line"><span class="function"><span class="params">                                       jint length, jint prot)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> fd = jniGetFDFromFileDescriptor(env, fileDescriptor);</span><br><span class="line">&lt;!--系统调用mmap，分配内存--&gt;</span><br><span class="line">        jint result = (jint)mmap(<span class="literal">NULL</span>, length, prot, MAP_SHARED, fd, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (!result)</span><br><span class="line">        jniThrowException(env, <span class="string">"java/io/IOException"</span>, <span class="string">"mmap failed"</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Android进程共享内存的传递-fd文件描述符的传递"><a href="#Android进程共享内存的传递-fd文件描述符的传递" class="headerlink" title="Android进程共享内存的传递-fd文件描述符的传递"></a>Android进程共享内存的传递-fd文件描述符的传递</h3><p>原生Linux共享内存是通过传递已知的key来处理的，但是Android中不存在这种机制，Android是怎么处理的呢？那就是通过Binder传递文件描述符来处理，Android的Binder对于fd的传递也做了适配，原理其实就是在内核层为要传递的目标进程转换fd，因为在linux中fd只是对本进程是有效、且唯一，进程A打开一个文件得到一个fd，不能直接为进程B使用，因为B中那个fd可能压根无效、或者对应其他文件，不过，虽然同一个文件可以有多个文件描述符，但是文件只有一个，在内核层也只会对应一个inode节点与file对象，这也是内核层可以传递fd的基础，Binder驱动通过当前进程的fd找到对应的文件，然后为目标进程新建fd，并传递给目标进程，核心就是把进程A中的fd转化成进程B中的fd。</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/1460468-880df908d284fa9e.jpg" alt=""></p>
-<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>匿名共享内存不会占用Dalvik Heap与Native Heap，不会导致OOM，这是优点，同时也是缺点，因为如果肆意使用，会导致系统资源不足，性能下降。</p>
 
       
     </div>
