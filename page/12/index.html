@@ -347,65 +347,6 @@ protected void onDestroy() {
 
 
   
-    <article id="post-infer" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/09/01/infer/" class="article-date">
-  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/01/infer/">
-        内存泄漏检查工具-infer
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p> infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。</p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 环境安装见<a href="http://infer.liaohuqiu.net/docs/getting-started.html" target="_blank" rel="noopener">官网</a></p>
-<p>2 android 项目分析</p>
-<pre><code>infer -- ./gradlew build
-</code></pre><p>在两次分析之间运行 gradlew clean</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-事件总线" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -463,6 +404,65 @@ public void onEvent(AnyEventType event) {/* Do something */};
 //解除注册
 eventBus.unregister(this);
 </code></pre><p>5 确保在事件发送前注册，并处理接收方法。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-infer" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/09/01/infer/" class="article-date">
+  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/01/infer/">
+        内存泄漏检查工具-infer
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p> infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 环境安装见<a href="http://infer.liaohuqiu.net/docs/getting-started.html" target="_blank" rel="noopener">官网</a></p>
+<p>2 android 项目分析</p>
+<pre><code>infer -- ./gradlew build
+</code></pre><p>在两次分析之间运行 gradlew clean</p>
 
       
     </div>
