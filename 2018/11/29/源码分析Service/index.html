@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Diablo</title>
+  <title>源码分析Service | Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: 源码分析Servicedate: 2018-11-29   源码分析ServiceService启动流程APP端启动： 1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startService(Intent)。 Co">
+  <meta name="description" content="源码分析ServiceService启动流程APP端启动： 1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startService(Intent)。 ContextWrapper startService:mBase是一个Con">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Diablo">
+<meta property="og:title" content="源码分析Service">
 <meta property="og:url" content="https://github.com/sirencode/2018/11/29/源码分析Service/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="title: 源码分析Servicedate: 2018-11-29   源码分析ServiceService启动流程APP端启动： 1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startService(Intent)。 Co">
-<meta property="og:updated_time" content="2018-11-29T02:40:07.750Z">
+<meta property="og:description" content="源码分析ServiceService启动流程APP端启动： 1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startService(Intent)。 ContextWrapper startService:mBase是一个Con">
+<meta property="og:updated_time" content="2018-11-29T02:44:46.739Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Diablo">
-<meta name="twitter:description" content="title: 源码分析Servicedate: 2018-11-29   源码分析ServiceService启动流程APP端启动： 1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startService(Intent)。 Co">
+<meta name="twitter:title" content="源码分析Service">
+<meta name="twitter:description" content="源码分析ServiceService启动流程APP端启动： 1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startService(Intent)。 ContextWrapper startService:mBase是一个Con">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -168,7 +168,7 @@
   
     <div class="article-meta">
       <a href="/2018/11/29/源码分析Service/" class="article-date">
-  	<time datetime="2018-11-29T02:30:26.673Z" itemprop="datePublished">2018-11-29</time>
+  	<time datetime="2018-11-28T16:00:00.000Z" itemprop="datePublished">2018-11-29</time>
 </a>
     </div>
   
@@ -177,11 +177,29 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      源码分析Service
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>title: 源码分析Service<br>date: 2018-11-29 </p>
-<hr>
-<h1 id="源码分析Service"><a href="#源码分析Service" class="headerlink" title="源码分析Service"></a>源码分析Service</h1><h2 id="Service启动流程"><a href="#Service启动流程" class="headerlink" title="Service启动流程"></a>Service启动流程</h2><p>APP端启动：</p>
+        <h1 id="源码分析Service"><a href="#源码分析Service" class="headerlink" title="源码分析Service"></a>源码分析Service</h1><h2 id="Service启动流程"><a href="#Service启动流程" class="headerlink" title="Service启动流程"></a>Service启动流程</h2><p>APP端启动：</p>
 <p>1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startService(Intent)。</p>
 <p>ContextWrapper startService:mBase是一个Context类型的成员变量，它的实际类型是ContextImpl。Context抽象类提供了ContextWrapper和ContextImpl两个子类。其中ContextImpl是Context的功能实现类，它为Service等组件提供context基础实现。但是，Android系统并不允许开发者直接使用ContextImpl，而是额外引入了一个ContextWrapper包装类（Activity、Service和Application类均直接或间接继承自该类），它负责将应用程序中与Context相关的方法调用转发给内部持有的ContextImpl引用。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@UnsupportedAppUsage</span></span><br><span class="line">Context mBase;</span><br><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ComponentName <span class="title">startService</span><span class="params">(Intent service)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> mBase.startService(service);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -216,7 +234,7 @@
   
   
     <a href="/2018/11/29/源码分析ContentProvider/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
+      <div class="article-nav-title">源码分析ContentProvider</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -226,7 +244,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="源码分析Service" data-title="" data-url="https://github.com/sirencode/2018/11/29/源码分析Service/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="">
+<div class="ds-share share" data-thread-key="源码分析Service" data-title="源码分析Service" data-url="https://github.com/sirencode/2018/11/29/源码分析Service/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="源码分析Service">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>

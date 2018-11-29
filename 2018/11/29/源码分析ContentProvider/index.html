@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Diablo</title>
+  <title>源码分析ContentProvider | Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: 源码分析ContentProviderdate: 2018-11-29   ContentProviderContentResolver的获取流程： 1 ContextWrapper.getContentResolver() 2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResolver在C">
+  <meta name="description" content="ContentProviderContentResolver的获取流程： 1 ContextWrapper.getContentResolver() 2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResolver在ContextImpl的初始化的过程创建的。ApplicationContentResolv">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Diablo">
+<meta property="og:title" content="源码分析ContentProvider">
 <meta property="og:url" content="https://github.com/sirencode/2018/11/29/源码分析ContentProvider/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="title: 源码分析ContentProviderdate: 2018-11-29   ContentProviderContentResolver的获取流程： 1 ContextWrapper.getContentResolver() 2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResolver在C">
-<meta property="og:updated_time" content="2018-11-29T02:40:01.222Z">
+<meta property="og:description" content="ContentProviderContentResolver的获取流程： 1 ContextWrapper.getContentResolver() 2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResolver在ContextImpl的初始化的过程创建的。ApplicationContentResolv">
+<meta property="og:updated_time" content="2018-11-29T02:44:23.207Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Diablo">
-<meta name="twitter:description" content="title: 源码分析ContentProviderdate: 2018-11-29   ContentProviderContentResolver的获取流程： 1 ContextWrapper.getContentResolver() 2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResolver在C">
+<meta name="twitter:title" content="源码分析ContentProvider">
+<meta name="twitter:description" content="ContentProviderContentResolver的获取流程： 1 ContextWrapper.getContentResolver() 2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResolver在ContextImpl的初始化的过程创建的。ApplicationContentResolv">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -168,7 +168,7 @@
   
     <div class="article-meta">
       <a href="/2018/11/29/源码分析ContentProvider/" class="article-date">
-  	<time datetime="2018-11-29T02:30:26.673Z" itemprop="datePublished">2018-11-29</time>
+  	<time datetime="2018-11-28T16:00:00.000Z" itemprop="datePublished">2018-11-29</time>
 </a>
     </div>
   
@@ -177,11 +177,29 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      源码分析ContentProvider
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>title: 源码分析ContentProvider<br>date: 2018-11-29 </p>
-<hr>
-<h1 id="ContentProvider"><a href="#ContentProvider" class="headerlink" title="ContentProvider"></a>ContentProvider</h1><p>ContentResolver的获取流程：</p>
+        <h1 id="ContentProvider"><a href="#ContentProvider" class="headerlink" title="ContentProvider"></a>ContentProvider</h1><p>ContentResolver的获取流程：</p>
 <p>1 ContextWrapper.getContentResolver()</p>
 <p>2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResolver在ContextImpl的初始化的过程创建的。ApplicationContentResolver继承自ContentResolver。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ContentResolver <span class="title">getContentResolver</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> mContentResolver;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">ContextImpl</span><span class="params">(...)</span></span>&#123;</span><br><span class="line">...</span><br><span class="line">mContentResolver = <span class="keyword">new</span> ApplicationContentResolver(<span class="keyword">this</span>, mainThread);</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -223,14 +241,14 @@
       <strong class="article-nav-caption">&lt;</strong>
       <div class="article-nav-title">
         
-          (no title)
+          源码分析Service
         
       </div>
     </a>
   
   
-    <a href="/2018/11/29/源码分析BroadcastReceiver/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">源码分析BroadcastReceiver</div>
+    <a href="/2018/11/29/源码分析Activity分析/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">源码分析Activity分析</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -240,7 +258,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="源码分析ContentProvider" data-title="" data-url="https://github.com/sirencode/2018/11/29/源码分析ContentProvider/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="">
+<div class="ds-share share" data-thread-key="源码分析ContentProvider" data-title="源码分析ContentProvider" data-url="https://github.com/sirencode/2018/11/29/源码分析ContentProvider/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="源码分析ContentProvider">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
