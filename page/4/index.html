@@ -162,6 +162,232 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-设计模式-单例" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/06/设计模式-单例/" class="article-date">
+  	<time datetime="2018-04-05T16:00:00.000Z" itemprop="datePublished">2018-04-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/06/设计模式-单例/">
+        设计模式-单例
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="设计模式-单例"><a href="#设计模式-单例" class="headerlink" title="设计模式-单例"></a>设计模式-单例</h1><p>单例-确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例，这个类称为单例类，它提供全局访问的方法。单例模式是一种对象创建型模式。</p>
+<h2 id="单例的实现"><a href="#单例的实现" class="headerlink" title="单例的实现"></a>单例的实现</h2><p>单例的实现需要考虑线程安全，以及懒初始化等问题。</p>
+<h3 id="饿汉式单例类"><a href="#饿汉式单例类" class="headerlink" title="饿汉式单例类"></a>饿汉式单例类</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EagerSingleton</span> </span>&#123;   </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> EagerSingleton instance = <span class="keyword">new</span> EagerSingleton();   </span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">EagerSingleton</span><span class="params">()</span> </span>&#123; &#125;   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> EagerSingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;  </span><br><span class="line">        <span class="keyword">return</span> instance;   </span><br><span class="line">	    &#125;     </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="懒汉式加线程锁"><a href="#懒汉式加线程锁" class="headerlink" title="懒汉式加线程锁"></a>懒汉式加线程锁</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">	<span class="class"><span class="keyword">class</span> <span class="title">LazySingleton</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">volatile</span> <span class="keyword">static</span> LazySingleton instance = <span class="keyword">null</span>;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">LazySingleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> LazySingleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//第一重判断  </span></span><br><span class="line">        <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">//锁定代码块  </span></span><br><span class="line">            <span class="keyword">synchronized</span> (LazySingleton.class) &#123;</span><br><span class="line">                <span class="comment">//第二重判断  </span></span><br><span class="line">                <span class="keyword">if</span> (instance == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    instance = <span class="keyword">new</span> LazySingleton(); <span class="comment">//创建单例实例  </span></span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="更好的实现方式-静态内部类"><a href="#更好的实现方式-静态内部类" class="headerlink" title="更好的实现方式-静态内部类"></a>更好的实现方式-静态内部类</h3><p>饿汉式单例类不能实现延迟加载，不管将来用不用始终占据内存；懒汉式单例类线程安全控制烦琐，而且性能受影响。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Singleton</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">private</span> <span class="title">Singleton</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">HolderClass</span> </span>&#123;</span><br><span class="line">        <span class="keyword">private</span> <span class="keyword">final</span> <span class="keyword">static</span> Singleton instance = <span class="keyword">new</span> Singleton();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Singleton <span class="title">getInstance</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> HolderClass.instance;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>由于静态单例对象没有作为Singleton的成员变量直接实例化，因此类加载时不会实例化Singleton，第一次调用getInstance()时将加载内部类HolderClass，在该内部类中定义了一个static类型的变量instance，此时会首先初始化这个成员变量，由Java虚拟机来保证其线程安全性，确保该成员变量只能初始化一次。由于getInstance()方法没有任何线程锁定，因此其性能不会造成任何影响。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-设计模式-工厂模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/06/设计模式-工厂模式/" class="article-date">
+  	<time datetime="2018-04-05T16:00:00.000Z" itemprop="datePublished">2018-04-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/06/设计模式-工厂模式/">
+        设计模式-工厂模式
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="设计模式-工厂模式"><a href="#设计模式-工厂模式" class="headerlink" title="设计模式-工厂模式"></a>设计模式-工厂模式</h1><h2 id="简单工厂模式"><a href="#简单工厂模式" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h2><p>简单工厂模式(Simple Factory Pattern)：定义一个工厂类，它可以根据参数的不同返回不同类的实例，被创建的实例通常都具有共同的父类。因为在简单工厂模式中用于创建实例的方法是静态(static)方法，因此简单工厂模式又被称为静态工厂方法(Static Factory Method)模式，它属于类创建型模式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Product</span> </span>&#123;</span><br><span class="line">    <span class="comment">//所有产品类的公共业务方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodSame</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//公共方法的实现</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//声明抽象业务方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">methodDiff</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteProduct</span> <span class="keyword">extends</span> <span class="title">Product</span> </span>&#123;</span><br><span class="line">    <span class="comment">//实现业务方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">methodDiff</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//业务方法的实现</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Factory</span> </span>&#123;</span><br><span class="line">    <span class="comment">//静态工厂方法  </span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Product <span class="title">getProduct</span><span class="params">(String arg)</span> </span>&#123;</span><br><span class="line">        Product product = <span class="keyword">null</span>;</span><br><span class="line">        <span class="keyword">if</span> (arg.equalsIgnoreCase(<span class="string">"A"</span>)) &#123;</span><br><span class="line">            product = <span class="keyword">new</span> ConcreteProductA();</span><br><span class="line">            <span class="comment">//初始化设置product  </span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> <span class="keyword">if</span> (arg.equalsIgnoreCase(<span class="string">"B"</span>)) &#123;</span><br><span class="line">            product = <span class="keyword">new</span> ConcreteProductB();</span><br><span class="line">            <span class="comment">//初始化设置product  </span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> product;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="工厂方法模式"><a href="#工厂方法模式" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h2><p>工厂方法模式(Factory Method Pattern)：定义一个用于创建对象的接口，让子类决定将哪一个类实例化。工厂方法模式让一个类的实例化延迟到其子类。工厂方法模式又简称为工厂模式(Factory Pattern)，又可称作虚拟构造器模式(Virtual Constructor Pattern)或多态工厂模式(Polymorphic Factory Pattern)。工厂方法模式是一种类创建型模式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Factory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Product <span class="title">factoryMethod</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteFactory</span> <span class="keyword">implements</span> <span class="title">Factory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Product <span class="title">factoryMethod</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProduct();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">Factory factory = <span class="keyword">new</span> ConcreteFactory(); <span class="comment">//可通过配置文件实现</span></span><br><span class="line">Product product = factory.factoryMethod();</span><br></pre></td></tr></table></figure>
+<h2 id="抽象工厂模式"><a href="#抽象工厂模式" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h2><p>抽象工厂模式(Abstract Factory Pattern)：提供一个创建一系列相关或相互依赖对象的接口，而无须指定它们具体的类。抽象工厂模式又称为Kit模式，它是一种对象创建型模式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">AbstractFactory</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> AbstractProductA <span class="title">createProductA</span><span class="params">()</span></span>; <span class="comment">//工厂方法一</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> AbstractProductB <span class="title">createProductB</span><span class="params">()</span></span>; <span class="comment">//工厂方法二</span></span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteFactory1</span> <span class="keyword">extends</span> <span class="title">AbstractFactory</span> </span>&#123;</span><br><span class="line">    <span class="comment">//工厂方法一</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AbstractProductA <span class="title">createProductA</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductA1();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//工厂方法二</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> AbstractProductB <span class="title">createProductB</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteProductB1();</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    ……</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><h3 id="简单工厂模式-1"><a href="#简单工厂模式-1" class="headerlink" title="简单工厂模式"></a>简单工厂模式</h3><p>优点：外界与具体类隔离开来，偶合性低。明确区分了各自的职责和权力，有利于整个软件体系结构的优化。</p>
+<p>缺点：因为工厂类集中了所有产品创建逻辑，一旦不能正常工作，整个系统都要受到影响。系统扩展困难，一旦添加新产品就不得不修改工厂逻辑（如果要增加一个产品，则需要修改工厂类，增加if/else分支，或者增加一个case分支），有可能造成工厂逻辑过于复杂,违背了”开放–封闭”原则(OCP). </p>
+<p>场景：工厂类负责创建的对象比较少，客户只知道传入了工厂类的参数，对于始何创建对象（逻辑）不关心。 </p>
+<h3 id="工厂方法模式-1"><a href="#工厂方法模式-1" class="headerlink" title="工厂方法模式"></a>工厂方法模式</h3><p>优点：简单工厂模式的工厂类随着产品类的增加需要增加很多方法（或代码），而工厂方法模式每个具体工厂类只完成单一任务，代码简洁。工厂方法模式完全满足OCP，即它有非常良好的扩展性。</p>
+<p>缺点：不易于维护，假如某个具体产品类需要进行一定的修改，很可能需要修改对应的工厂类。当同时需要修改多个产品类的时候，对工厂类的修改会变得相当麻烦（对号入座已经是个问题了）。 </p>
+<p>场景：当一个类不知道它所必须创建对象的类或一个类希望由子类来指定它所创建的对象时，当类将创建对象的职责委托给多个帮助子类中的某一个，并且你希望将哪一个帮助子类是代理者这一信息局部化的时候，可以使用工厂方法。  </p>
+<h3 id="抽象工厂模式-1"><a href="#抽象工厂模式-1" class="headerlink" title="抽象工厂模式"></a>抽象工厂模式</h3><p>优点：一个具体工厂类在一个应用中仅出现一次——即在它初始化的时候。这使得改变一个应用的具体工厂变得很容易。它只需改变具体的工厂即可使用不同的产品配置，这是因为一个抽象工厂创建了一个完整的产品系列，所以整个产品系列会立刻改变。它有利于产品的一致性。</p>
+<p>缺点：抽象工厂模式在于难于应付“新对象”的需求变动。难以支持新种类的产品。难以扩展抽象工厂以生产新种类的产品。</p>
+<p>场景：一个系统不应当依赖于产品类实例如何被创建、组合和表达的细节，这对于所有形态的工厂模式都是重要的。这个系统有多于一个的产品族，而系统只消费其中某一产品族。同属于同一个产品族的产品是在一起使用的，这一约束必须在系统的设计中体现出来。系统提供一个产品类的库，所有的产品以同样的接口出现，从而使客户端不依赖于实现。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-面向对象设计原则" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/06/面向对象设计原则/" class="article-date">
+  	<time datetime="2018-04-05T16:00:00.000Z" itemprop="datePublished">2018-04-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/06/面向对象设计原则/">
+        面向对象设计原则
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="面向对象设计原则"><a href="#面向对象设计原则" class="headerlink" title="面向对象设计原则"></a>面向对象设计原则</h1><p>一切都是为了软件可维护可扩展可重用。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">设计原则名称</th>
+<th style="text-align:left">定  义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">单一职责原则</td>
+<td style="text-align:left">一个类只负责一个功能领域中的相应职责</td>
+</tr>
+<tr>
+<td style="text-align:left">开闭原则</td>
+<td style="text-align:left">软件实体应对扩展开放，而对修改关闭</td>
+</tr>
+<tr>
+<td style="text-align:left">里氏代换原则</td>
+<td style="text-align:left">所有引用基类对象的地方能够透明地使用其子类的对象</td>
+</tr>
+<tr>
+<td style="text-align:left">依赖倒转原则</td>
+<td style="text-align:left">抽象不应该依赖于细节，细节应该依赖于抽象</td>
+</tr>
+<tr>
+<td style="text-align:left">接口隔离原则</td>
+<td style="text-align:left">使用多个专门的接口，而不使用单一的总接口</td>
+</tr>
+<tr>
+<td style="text-align:left">合成复用原则</td>
+<td style="text-align:left">尽量使用对象组合，而不是继承来达到复用的目的</td>
+</tr>
+<tr>
+<td style="text-align:left">迪米特法则</td>
+<td style="text-align:left">一个软件实体应当尽可能少地与其他实体发生相互作用</td>
+</tr>
+</tbody>
+</table>
+<h2 id="依赖倒转原则"><a href="#依赖倒转原则" class="headerlink" title="依赖倒转原则"></a>依赖倒转原则</h2><p>抽象不应该依赖于细节，细节应当依赖于抽象。换言之，要针对接口编程，而不是针对实现编程。</p>
+<p>依赖倒转原则要求我们在程序代码中传递参数时或在关联关系中，尽量引用层次高的抽象层类，即使用接口和抽象类进行变量类型声明、参数类型声明、方法返回类型声明，以及数据类型的转换等，而不要用具体类来做这些事情。 </p>
+<p>在实现依赖倒转原则时，我们需要针对抽象层编程，而将具体类的对象通过依赖注入(DependencyInjection, DI)的方式注入到其他对象中，依赖注入是指当一个对象要与其他对象发生依赖关系时，通过抽象来注入所依赖的对象。常用的注入方式有三种，分别是：构造注入，设值注入（Setter注入）和接口注入。构造注入是指通过构造函数来传入具体类的对象，设值注入是指通过Setter方法来传入具体类的对象，而接口注入是指通过在接口中声明的业务方法来传入具体类的对象。这些方法在定义时使用的是抽象类型，在运行时再传入具体类型的对象，由子类对象来覆盖父类对象。 </p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-IntentService HandlerThread" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -689,209 +915,9 @@
 
 
   
-    <article id="post-Gradle 依赖方式" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/28/Gradle 依赖方式/" class="article-date">
-  	<time datetime="2018-02-27T16:00:00.000Z" itemprop="datePublished">2018-02-28</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/28/Gradle 依赖方式/">
-        Gradle 依赖方式
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Gradle-依赖方式"><a href="#Gradle-依赖方式" class="headerlink" title="Gradle 依赖方式"></a>Gradle 依赖方式</h1><h2 id="android-gradle-tools-2-X"><a href="#android-gradle-tools-2-X" class="headerlink" title="android gradle tools 2.X"></a>android gradle tools 2.X</h2><h3 id="apk"><a href="#apk" class="headerlink" title="apk"></a>apk</h3><p>只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错</p>
-<h3 id="provided"><a href="#provided" class="headerlink" title="provided"></a>provided</h3><p>Provided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。防止重复打包。</p>
-<p>V7,V4之类的不使用provided也不会导致支持包重复，依赖module编译出来的aar并不包含那些多个module（包括app module）重复使用的支持包。</p>
-<p>如果依赖module使用的style中引用了支持包（V7,V4之类的）中的主题，那么，使用provided会报错（找不到主题资源）。如果只是引用支持包中的类和接口是可以使用provided的（但意义也不大，反正也不会重复）。</p>
-<h3 id="compile"><a href="#compile" class="headerlink" title="compile"></a>compile</h3><p>compile是对所有的build type以及favlors都会参与编译并且打包到最终的apk文件中。</p>
-<h3 id="debugCompile"><a href="#debugCompile" class="headerlink" title="debugCompile"></a>debugCompile</h3><p>Debug compile 仅仅针对debug模式的编译和最终的debug apk打包。</p>
-<h3 id="releaseCompile"><a href="#releaseCompile" class="headerlink" title="releaseCompile"></a>releaseCompile</h3><p>Release compile 仅仅针对Release 模式的编译和最终的Release apk打包。</p>
-<h3 id="androidtestCompile"><a href="#androidtestCompile" class="headerlink" title="androidtestCompile"></a>androidtestCompile</h3><p>Test compile 仅仅是针对单元测试代码的编译编译以及最终打包测试apk时有效，而对正常的debug或者release apk包不起作用。</p>
-<h2 id="android-gradle-tools-3-X"><a href="#android-gradle-tools-3-X" class="headerlink" title="android gradle tools 3.X"></a>android gradle tools 3.X</h2><h3 id="runtimeOnly-apk"><a href="#runtimeOnly-apk" class="headerlink" title="runtimeOnly == apk"></a>runtimeOnly == apk</h3><h3 id="compileOnly-provided"><a href="#compileOnly-provided" class="headerlink" title="compileOnly == provided"></a>compileOnly == provided</h3><h3 id="api-compile"><a href="#api-compile" class="headerlink" title="api == compile"></a>api == compile</h3><h3 id="debugImplementation-debugCompile"><a href="#debugImplementation-debugCompile" class="headerlink" title="debugImplementation == debugCompile"></a>debugImplementation == debugCompile</h3><h3 id="releaseImplementation-releaseCompile"><a href="#releaseImplementation-releaseCompile" class="headerlink" title="releaseImplementation == releaseCompile"></a>releaseImplementation == releaseCompile</h3><h3 id="androidTestImplementation-androidtestCompile"><a href="#androidTestImplementation-androidtestCompile" class="headerlink" title="androidTestImplementation == androidtestCompile"></a>androidTestImplementation == androidtestCompile</h3><h3 id="implementation"><a href="#implementation" class="headerlink" title="implementation"></a>implementation</h3><p>implementation和compile类似，区别在于对外可见性，而且可以加快编译速度（原理在于减少不必要的重复编译过程）。</p>
-<p>只能在内部使用此模块，比如我在一个libiary中使用implementation依赖了gson库，然后我的主项目依赖了libiary，那么，我的主项目就无法访问gson库中的方法。这样的好处是编译速度会加快，推荐使用implementation的方式去依赖，如果你需要提供给外部访问，那么就使用api依赖即可</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 动画原理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/27/Android 动画原理/" class="article-date">
-  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/Android 动画原理/">
-        Android 动画原理
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-动画原理"><a href="#Android-动画原理" class="headerlink" title="Android 动画原理"></a>Android 动画原理</h1><h2 id="Animation-与-Transform"><a href="#Animation-与-Transform" class="headerlink" title="Animation 与 Transform"></a>Animation 与 Transform</h2><p>Animation：在给定了初始状态，结束状态，启动时间和持续时间后，Animation可以计算动画目标在任意时刻的变换（Transfirmation）,这是Animation唯一的用途。Animation考虑的是时间线效果的实现。</p>
-<p>Transfirmation：描述了一个变换。它包含两个分量：透明度和一个二维的变换矩阵（可以在二维空间中对变换目标实现平移旋转缩放,矩阵相乘可以组合实现各自的变换）。</p>
-<h2 id="动画的驱动器Choreographer"><a href="#动画的驱动器Choreographer" class="headerlink" title="动画的驱动器Choreographer"></a>动画的驱动器Choreographer</h2><p>在Animation start()的时候会创建一个Choreographer（线程唯一的）来实现动画的绘制工作。Choreographer发送一个runnable以处理一帧动画。在处理动画时，使用Animation getTransfirmation函数获取动画对象所需要进行的变换，然后根据变换对动画对象进行渲染。之后重复画下一帧直至动画结束。</p>
-<h2 id="Tween动画-Animation"><a href="#Tween动画-Animation" class="headerlink" title="Tween动画 Animation"></a>Tween动画 Animation</h2><p>原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。</p>
-<h3 id="1-startAnimation-animation"><a href="#1-startAnimation-animation" class="headerlink" title="1 startAnimation(animation);"></a>1 startAnimation(animation);</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startAnimation</span><span class="params">(Animation animation)</span> </span>&#123;</span><br><span class="line">    animation.setStartTime(Animation.START_ON_FIRST_FRAME);</span><br><span class="line">    setAnimation(animation);</span><br><span class="line">    invalidateParentCaches();</span><br><span class="line">    invalidate(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-invalidate请求View树进行重绘"><a href="#2-invalidate请求View树进行重绘" class="headerlink" title="2 invalidate请求View树进行重绘"></a>2 invalidate请求View树进行重绘</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidate</span><span class="params">(<span class="keyword">boolean</span> invalidateCache)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这里的mLeft，mRight都是相当于父View来讲的。所以这里的参数就是当前View所在的区域。</span></span><br><span class="line">    invalidateInternal(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, invalidateCache, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidateInternal</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b, <span class="keyword">boolean</span> invalidateCache,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">boolean</span> fullInvalidate)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//不需要绘制的情况（View不可见&amp;&amp;没有动画等）</span></span><br><span class="line">    <span class="keyword">if</span> (skipInvalidate()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">if</span>(condition<span class="comment">/*满足需要绘制的条件*/</span>)&#123;</span><br><span class="line">        <span class="keyword">final</span> AttachInfo ai = mAttachInfo;</span><br><span class="line">        <span class="keyword">final</span> ViewParent p = mParent;</span><br><span class="line">        <span class="keyword">if</span> (p != <span class="keyword">null</span> &amp;&amp; ai != <span class="keyword">null</span> &amp;&amp; l &lt; r &amp;&amp; t &lt; b) &#123;</span><br><span class="line">            <span class="keyword">final</span> Rect damage = ai.mTmpInvalRect;</span><br><span class="line">            damage.set(l, t, r, b);</span><br><span class="line">            p.invalidateChild(<span class="keyword">this</span>, damage);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3-调用子view的draw方法"><a href="#3-调用子view的draw方法" class="headerlink" title="3 调用子view的draw方法"></a>3 调用子view的draw方法</h3><p>Animation 实现了下面方法设置Transformation动画信息。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数是 interpolatedTime 它代表插值后的时间，第二个参数是Transformation类的实例</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">applyTransformation</span><span class="params">(<span class="keyword">float</span> interpolatedTime, Transformation t)</span></span></span><br></pre></td></tr></table></figure>
-<p>view getAnimation()获取动画信息，getTransformation获取Transformation；</p>
-<p>Transformation是一个实体类，它主要的内容是透明度和一个矩阵，动画的变化，就隐藏在Transformation之中。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">draw</span><span class="params">(Canvas canvas, ViewGroup parent, <span class="keyword">long</span> drawingTime)</span></span></span><br></pre></td></tr></table></figure>
-<p>draw中applyLegacyAnimation方法是用来获取变换的，其中有两个部分需要注意：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a.getTransformation(drawingTime, invalidationTransform, <span class="number">1f</span>);</span><br><span class="line">a.getInvalidateRegion(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, region,</span><br><span class="line">    invalidationTransform);</span><br></pre></td></tr></table></figure>
-<p>第一个就是获取变换，第二个是获取绘制无效区域。<br>其实这个无效区域是绘制后的无效区域，因为很有可能需要下次绘制(保证动画连续性)。</p>
-<p>动画的绘制：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (transformToApply != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (concatMatrix) &#123;</span><br><span class="line">        <span class="keyword">if</span> (drawingWithRenderNode) &#123;</span><br><span class="line">            renderNode.setAnimationMatrix(transformToApply.getMatrix());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            canvas.translate(-transX, -transY);</span><br><span class="line">            canvas.concat(transformToApply.getMatrix());</span><br><span class="line">            canvas.translate(transX, transY);</span><br><span class="line">        &#125;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> transformAlpha = transformToApply.getAlpha();</span><br><span class="line">    <span class="keyword">if</span> (transformAlpha &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        alpha *= transformAlpha;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>分别从硬件加速和软件绘制上　对canvas进行矩阵变换．</p>
-<h2 id="帧动画"><a href="#帧动画" class="headerlink" title="帧动画"></a>帧动画</h2><p>原理：使用了Choreographer机制.</p>
-<p>Android系统从4.1(API 16)开始加入Choreographer这个类来控制同步处理输入(Input)、动画(Animation)、绘制(Draw)三个UI操作。收到VSync信号后，顺序执行3个操作，然后等待下一个信号，再次顺序执行3个操作。</p>
-<p>AnimationDrawable继承了DrawableContainer，因为DrawableContainer是一个drawable的容器，可以保存多个图片<br>同时，实现了Runnable接口，重写了run方法,根据源码中的start方法，它调用了setFrame方法，方法内部最重要的调用就是调用了<br> scheduleSelf(this, SystemClock.uptimeMillis() + mAnimationState.mDurations[frame]);callback调用view的scheduleDrawable方法而这个方法最终会调用Choreographer.subtractFrameDelay(delay));</p>
-<h2 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h2><p>原理：使用了Choreographer机制</p>
-<p>简单的说，Chreographer是组织上层进行处理绘制的控制类，它会在每次vsync信号来临时，执行与绘制相关的过程．</p>
-<p>Animator的过程发生在绘制之前（甚至是布局之前）.</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
-  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
-        Android 底层网络实现
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
-<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
-<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
-<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
-<p>OkHttp底层也是通过socket实现。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
   
 </div>

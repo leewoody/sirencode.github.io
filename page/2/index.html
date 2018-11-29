@@ -162,6 +162,290 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Android 控件系统" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/23/Android 控件系统/" class="article-date">
+  	<time datetime="2018-07-22T16:00:00.000Z" itemprop="datePublished">2018-07-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/23/Android 控件系统/">
+        Android 控件系统
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-控件系统"><a href="#Android-控件系统" class="headerlink" title="Android 控件系统"></a>Android 控件系统</h1><p>Android中的UI组成的一个Activity中包含了多个window,一个window包含多个View。</p>
+<h2 id="Window"><a href="#Window" class="headerlink" title="Window"></a>Window</h2><p>分类:</p>
+<ul>
+<li>应用层Window：activity-&gt;PhoneWindow 1 - 99</li>
+<li>子Window：Dialog、PopupWindow 1000-1999</li>
+<li>系统Window：Toast、System Alert SystemWindow 2000 - 2999</li>
+</ul>
+<h2 id="Surface"><a href="#Surface" class="headerlink" title="Surface"></a>Surface</h2><p>简单的说Surface对应了一块屏幕缓冲区，每个window对应一个Surface，任何View都要画在Surface的Canvas上。但是由于SurfaceView的特殊绘制的机制，SurfaceView也拥有独立的Surface，并在对应的window上留出一块透明区域，Surface的z-order为负数。</p>
+<h2 id="WindowManager"><a href="#WindowManager" class="headerlink" title="WindowManager"></a>WindowManager</h2><p>WM主要的功能就是提供简单的API使得使用者可以方便地将一个控件作为一个窗口添加到系统中。</p>
+<h3 id="WM继承VM类似ViewGroup"><a href="#WM继承VM类似ViewGroup" class="headerlink" title="WM继承VM类似ViewGroup"></a>WM继承VM类似ViewGroup</h3><p>ViewManager定义了三个函数，分别用于添加、删除一个控件，以及更新控件的布局。ViewGrop也实现了ViewManager，VG管理的是子view而WM管理的是子窗口。</p>
+<p>WM新增了两个新接口：getDefaultDisplay()得知这个WM的实例会将窗口添加到哪个屏幕上。removeViewImmediate()要求WM必须在这个调用返回前完成所有销毁工作。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><h4 id="1-初始化WM"><a href="#1-初始化WM" class="headerlink" title="1 初始化WM"></a>1 初始化WM</h4><p>WindowManagerImpl：WM的实现者，保存mDisplay和mParentWidnow两个成员变量，具体的WM接口实现交由WindowManagerGlobal完成。</p>
+<p>WindowManagerGlobal：进程单例</p>
+<p>Context.getSystemService()-&gt;获取Display对象(如果Context没保存就取系统主屏幕对应的Display)-&gt;使用Display作为参数构造一个WindowManagerImpl对象并返回</p>
+<h4 id="2-初始化WMI"><a href="#2-初始化WMI" class="headerlink" title="2 初始化WMI"></a>2 初始化WMI</h4><p>在WMI初始化的时候，初始化了mDisplay和mParentWidnow两个成员变量</p>
+<h4 id="3-WMG添加窗口"><a href="#3-WMG添加窗口" class="headerlink" title="3 WMG添加窗口"></a>3 WMG添加窗口</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addView</span><span class="params">(View view, ViewGroup.LayoutParams params,</span></span></span><br><span class="line"><span class="function"><span class="params">                    Display display, Window parentWindow)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> WindowManager.LayoutParams wparams = (WindowManager.LayoutParams) params;</span><br><span class="line">    <span class="comment">// 1 如果当前窗口需要被添加为另一个窗口的附属矿口(子窗口)，则需要让父窗口视自己的情况对当前窗口的布局参数进行一些修改</span></span><br><span class="line">    <span class="keyword">if</span> (parentWindow != <span class="keyword">null</span>) &#123;</span><br><span class="line">        parentWindow.adjustLayoutParamsForSubWindow(wparams);</span><br><span class="line">    &#125; <span class="keyword">else</span>&#123;</span><br><span class="line">        <span class="keyword">final</span> Context context = view.getContext();</span><br><span class="line">        <span class="keyword">if</span> (context != <span class="keyword">null</span></span><br><span class="line">                &amp;&amp; (context.getApplicationInfo().flags</span><br><span class="line">                &amp; ApplicationInfo.FLAG_HARDWARE_ACCELERATED) != <span class="number">0</span>) &#123;</span><br><span class="line">            wparams.flags |= WindowManager.LayoutParams.FLAG_HARDWARE_ACCELERATED;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ViewRootImpl root;</span><br><span class="line">    View panelParentView = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">synchronized</span> (mLock) &#123;</span><br><span class="line">        <span class="comment">// Start watching for system property changes.</span></span><br><span class="line">        ......</span><br><span class="line">        <span class="keyword">int</span> index = findViewLocked(view, <span class="keyword">false</span>);</span><br><span class="line">        <span class="keyword">if</span> (index &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">if</span> (mDyingViews.contains(view)) &#123;</span><br><span class="line">                <span class="comment">// Don't wait for MSG_DIE to make it's way through root's queue.</span></span><br><span class="line">                mRoots.get(index).doDie();</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"View "</span> + view</span><br><span class="line">                        + <span class="string">" has already been added to the window manager."</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">// The previous removeView() had not completed executing. Now it has.</span></span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If this is a panel window, then find the window it is being</span></span><br><span class="line">        <span class="comment">// attached to for future reference.</span></span><br><span class="line">        <span class="keyword">if</span> (wparams.type &gt;= WindowManager.LayoutParams.FIRST_SUB_WINDOW &amp;&amp;</span><br><span class="line">                wparams.type &lt;= WindowManager.LayoutParams.LAST_SUB_WINDOW) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> count = mViews.size();</span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; count; i++) &#123;</span><br><span class="line">                <span class="keyword">if</span> (mRoots.get(i).mWindow.asBinder() == wparams.token) &#123;</span><br><span class="line">                    panelParentView = mViews.get(i);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 2 创建一个ViewRootImpl对象并保存在root</span></span><br><span class="line">        root = <span class="keyword">new</span> ViewRootImpl(view.getContext(), display);</span><br><span class="line"></span><br><span class="line">        view.setLayoutParams(wparams);</span><br><span class="line">        <span class="comment">// 3 将作为窗口的控件，布局参数以及新建的ViewRootImpl以相同的索引值保存在三个数组中</span></span><br><span class="line">        mViews.add(view);</span><br><span class="line">        mRoots.add(root);</span><br><span class="line">        mParams.add(wparams);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// do this last because it fires off messages to start doing things</span></span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="comment">// 4 将作为窗口的控件设置给ViewRootImpl。这个动作将导致ViewRootImpl向WMS添加新的窗口，申请surface以及托管控件surface上的重绘动作。</span></span><br><span class="line">            root.setView(view, wparams, panelParentView);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (RuntimeException e) &#123;</span><br><span class="line">            <span class="comment">// BadTokenException or InvalidDisplayException, clean up.</span></span><br><span class="line">            <span class="keyword">if</span> (index &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">                removeViewLocked(index, <span class="keyword">true</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">throw</span> e;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-20%20%E4%B8%8B%E5%8D%881.39.53.png" alt=""></p>
+<ul>
+<li>1 父窗口修改新窗口的布局参数。LayoutParams.token和LayoutParams.mTitle.</li>
+<li>2 为新窗口创建一个ViewRootImpl对象。负责与WMS直接通信，负责管理Surface,触发控件的测量与布局和绘制，同时也是输入事件的中转站。</li>
+<li>3 控件，布局参数与ViewRootImpl三者共同组成了一个窗口。</li>
+<li>4 ViewRootImpl.setView(),将view托管给ViewRootImpl。</li>
+</ul>
+<h4 id="4-更新窗口布局"><a href="#4-更新窗口布局" class="headerlink" title="4 更新窗口布局"></a>4 更新窗口布局</h4><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">updateViewLayout</span><span class="params">(View view, ViewGroup.LayoutParams params)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (view == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"view must not be null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (!(params <span class="keyword">instanceof</span> WindowManager.LayoutParams)) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Params must be WindowManager.LayoutParams"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> WindowManager.LayoutParams wparams = (WindowManager.LayoutParams)params;</span><br><span class="line"></span><br><span class="line">    view.setLayoutParams(wparams);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">synchronized</span> (mLock) &#123;</span><br><span class="line">        <span class="comment">// 获取窗口的三个索引</span></span><br><span class="line">        <span class="keyword">int</span> index = findViewLocked(view, <span class="keyword">true</span>);</span><br><span class="line">        ViewRootImpl root = mRoots.get(index);</span><br><span class="line">        <span class="comment">// 更新布局参数</span></span><br><span class="line">        mParams.remove(index);</span><br><span class="line">        mParams.add(index, wparams);</span><br><span class="line">        <span class="comment">// 刷新布局</span></span><br><span class="line">        root.setLayoutParams(wparams, <span class="keyword">false</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="5-删除窗口"><a href="#5-删除窗口" class="headerlink" title="5 删除窗口"></a>5 删除窗口</h4><ul>
+<li>1 删除三个数组中对应的元素。</li>
+<li>2 要求ViewRootImpl从WMS中删除对应的窗口，并释放一切需要回收的资源。</li>
+</ul>
+<h2 id="ViewRootImpl"><a href="#ViewRootImpl" class="headerlink" title="ViewRootImpl"></a>ViewRootImpl</h2><p>ViewRootImpl实现了ViewParent接口，作为整个控件树根部，控制整个控件树的测量布局绘制，以及输入事件的派发。</p>
+<h3 id="1-ViewRootImpl的创建及其重要成员"><a href="#1-ViewRootImpl的创建及其重要成员" class="headerlink" title="1 ViewRootImpl的创建及其重要成员"></a>1 ViewRootImpl的创建及其重要成员</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">ViewRootImpl</span><span class="params">(Context context, Display display)</span> </span>&#123;</span><br><span class="line">    mContext = context;</span><br><span class="line">    <span class="comment">//1 从WindowManagerGlobal中获取一个IWindowSession的实例。它是ViewRoot和WMS进行通信的代理</span></span><br><span class="line">    mWindowSession = WindowManagerGlobal.getWindowSession();</span><br><span class="line">    <span class="comment">//2 保存参数display，在后面setView()调用中将会把窗口添加到这个Display上</span></span><br><span class="line">    mDisplay = display;</span><br><span class="line">    mBasePackageName = context.getBasePackageName();</span><br><span class="line">    <span class="comment">//3 保存当前线程到mThread，这个赋值操作体现了创建ViewRootImpl的线程如何成为UI主线程。在ViewRootImp处理来自控件树的请求时，会检查发起请求的thread与这个mThread是否相同。倘若不同则会拒绝这个请求并抛出一个异常。</span></span><br><span class="line">    mThread = Thread.currentThread();</span><br><span class="line">    mLocation = <span class="keyword">new</span> WindowLeaked(<span class="keyword">null</span>);</span><br><span class="line">    mLocation.fillInStackTrace();</span><br><span class="line">    mWidth = -<span class="number">1</span>;</span><br><span class="line">    mHeight = -<span class="number">1</span>;</span><br><span class="line">    <span class="comment">//4 mDirty用于收集窗口中的无效(需要重绘的)区域。</span></span><br><span class="line">    mDirty = <span class="keyword">new</span> Rect();</span><br><span class="line">    mTempRect = <span class="keyword">new</span> Rect();</span><br><span class="line">    mVisRect = <span class="keyword">new</span> Rect();</span><br><span class="line">    <span class="comment">//5 mWinFrame描述了当前窗口的位置和尺寸。</span></span><br><span class="line">    mWinFrame = <span class="keyword">new</span> Rect();</span><br><span class="line">    <span class="comment">//6 创建一个W类型的实例，W是IWindow.Stub的子类。</span></span><br><span class="line">    mWindow = <span class="keyword">new</span> W(<span class="keyword">this</span>);</span><br><span class="line">    mTargetSdkVersion = context.getApplicationInfo().targetSdkVersion;</span><br><span class="line">    mViewVisibility = View.GONE;</span><br><span class="line">    mTransparentRegion = <span class="keyword">new</span> Region();</span><br><span class="line">    mPreviousTransparentRegion = <span class="keyword">new</span> Region();</span><br><span class="line">    mFirst = <span class="keyword">true</span>; <span class="comment">// true for the first time the view is added</span></span><br><span class="line">    mAdded = <span class="keyword">false</span>;</span><br><span class="line">    mAttachInfo = <span class="keyword">new</span> View.AttachInfo(mWindowSession, mWindow, display, <span class="keyword">this</span>, mHandler, <span class="keyword">this</span>,</span><br><span class="line">            context);</span><br><span class="line">    mAccessibilityManager = AccessibilityManager.getInstance(context);</span><br><span class="line">    mAccessibilityManager.addAccessibilityStateChangeListener(</span><br><span class="line">            mAccessibilityInteractionConnectionManager, mHandler);</span><br><span class="line">    mHighContrastTextManager = <span class="keyword">new</span> HighContrastTextManager();</span><br><span class="line">    mAccessibilityManager.addHighTextContrastStateChangeListener(</span><br><span class="line">            mHighContrastTextManager, mHandler);</span><br><span class="line">    mViewConfiguration = ViewConfiguration.get(context);</span><br><span class="line">    mDensity = context.getResources().getDisplayMetrics().densityDpi;</span><br><span class="line">    mNoncompatDensity = context.getResources().getDisplayMetrics().noncompatDensityDpi;</span><br><span class="line">    mFallbackEventHandler = <span class="keyword">new</span> PhoneFallbackEventHandler(context);</span><br><span class="line">    <span class="comment">// VSYNC特性安排重绘行为</span></span><br><span class="line">    mChoreographer = Choreographer.getInstance();</span><br><span class="line">    mDisplayManager = (DisplayManager)context.getSystemService(Context.DISPLAY_SERVICE);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!sCompatibilityDone) &#123;</span><br><span class="line">        sAlwaysAssignFocus = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">        sCompatibilityDone = <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    loadSystemProperties();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>1 mChoreographer来自VSYNC重绘重绘，mHandler实时性高，将发生在其他线程上的事件安排在主线程上。</li>
+</ul>
+<h3 id="2-ViewRootImpl-setVeiw"><a href="#2-ViewRootImpl-setVeiw" class="headerlink" title="2 ViewRootImpl.setVeiw()"></a>2 ViewRootImpl.setVeiw()</h3><p>setView()创建了窗口，建立输入事件接收机制的场所。</p>
+<h3 id="3-控件系统刷新：performTraversals"><a href="#3-控件系统刷新：performTraversals" class="headerlink" title="3 控件系统刷新：performTraversals()"></a>3 控件系统刷新：performTraversals()</h3><p>ViewRootImpl通过requestLayout()向主线程发送一条触发遍历操作的消息，遍历指:performTraversals方法。ViewRootImpl在接收到WMS窗口变化，来自view的尺寸变化以及重绘申请等重绘请求触发。</p>
+<p>performTraversals：</p>
+<ul>
+<li>1 预测量阶段：此阶段将会计算出控件树为显示其内容所需的尺寸，即期望的窗口尺寸，view及其子类的onMeasure一次调用。</li>
+<li>2 布局窗口阶段：根据预测结果，通过向WMS请求调整布局参数并重新布局，将布局结果返回给ViewRootImpl。</li>
+<li>3 最终测量阶段：预测量的是期望的尺寸，WMS不一定会将窗口准确地布局所要求的尺寸，view及其子类的onMeasure一次调用。</li>
+<li>4 布局控件树阶段：测量确定尺寸，布局确定位置，View及其子类的onLayout被回调。</li>
+<li>5 绘制阶段：View及其子类的onDraw方法将会被回调。</li>
+</ul>
+<p>MeasureSpec：MeasureSpec是复合整型变量，用于指导控件对自身进行测量，它有两个分量，SPEC_MODE，SPEC_SIZE。</p>
+<p>SPEC_MODE:</p>
+<ul>
+<li>1 MeasureSpec.UNSPECIFIED(0)：表示控件在进行测量时，可以无视SPEC_SIZE的值，控件可以是它期望的任何尺寸。</li>
+<li>2 MeasureSpec.EXACTLY(1)：表示子控件必须为SPEC_SIZE，当控件宽高为确定值或MATCH_PARENT时，使用这个参数。</li>
+<li>3 MeasureSpec.AT_MOST(2)：子控件可以是它期望的尺寸，但不得大于SPEC_SIZE，用于WRAP_CONTENT时。</li>
+</ul>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-23%20%E4%B8%8A%E5%8D%8811.00.10.png" alt=""></p>
+<h2 id="控件树的绘制"><a href="#控件树的绘制" class="headerlink" title="控件树的绘制"></a>控件树的绘制</h2><h3 id="Canvas"><a href="#Canvas" class="headerlink" title="Canvas"></a>Canvas</h3><p>Canvas是一个绘图工具类，其API提供了一系列绘图指令。根据绘制加速模式不同分为软件Canvas和硬件Canvas。</p>
+<p>绘制指令分类：</p>
+<ul>
+<li>1 绘制指令，drawXXX()方法。</li>
+<li>2 辅助指令，设置变换，裁剪区域。</li>
+</ul>
+<h4 id="Canvas-的绘制目标"><a href="#Canvas-的绘制目标" class="headerlink" title="Canvas 的绘制目标"></a>Canvas 的绘制目标</h4><p>对于软件Canvas来说，其绘制目标是一个建立在Surface之上的位图Bitmap。<br>Canvas-&gt;bitmap-&gt;添加到surface上的Buffer</p>
+<p>硬件canvas目标有两种：</p>
+<ul>
+<li>1 HardwareLayer,理解为GL Texture(纹理)，或者简单的认为是一个硬件加速的Bitmap。</li>
+<li>2 Display,Display是一个指令序列。Display会将Canvas的绘制指令编译并优化为硬件绘制指令，并且可以在需要时将这些指令回放到一个HardwareLayer上，而不需要重新使用Canvas进行绘制。</li>
+</ul>
+<p>HardwareLayer和Bitmap十分相似，区别在于使用时采用了硬件加速还是软件加速。Display并不像Bitmap存储了绘制的结果，而是存储了绘制过程。</p>
+<h3 id="脏区域"><a href="#脏区域" class="headerlink" title="脏区域"></a>脏区域</h3><p>为了保证绘制的效率，控件树仅对需要重绘的区域进行绘制，这部分区域成为”脏区域”即Dirty Area.</p>
+<p>当一个控件的内容变化而需要重绘时，它会通知View.invalidate()方法将需要重绘的区域沿着控件树提交给ViewRootImpl，并保存在ViewRootImpl的mDirty成员中，最后通过scheduleTraversals()引发一次遍历，ViewRootImpl会保证仅位于mDirty描述的区域得到重绘。另外，View.invalidate()在回溯到ViewRootImpl的过程中会将沿途的控件标记为脏的。</p>
+<h3 id="软件绘制与硬件加速绘制"><a href="#软件绘制与硬件加速绘制" class="headerlink" title="软件绘制与硬件加速绘制"></a>软件绘制与硬件加速绘制</h3><p>控件绘制过程：</p>
+<ul>
+<li>1 绘制背景</li>
+<li>2 绘制控件自身</li>
+<li>3 绘制子控件</li>
+<li>4 绘制控件的装饰，即滚动条</li>
+</ul>
+<p>软件绘制流程：</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-23%20%E4%B8%8A%E5%8D%8811.50.21.png" alt=""></p>
+<p>硬件加速绘制与软件绘制在前两步是完全相同的，区别在于第三部，View.draw()的流程上。硬件加速希望在canvas上绘制子控件的DisplayList，而不是直接View.onDraw直接绘制。</p>
+<p>硬件加速绘制流程：</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-07-23%20%E4%B8%8A%E5%8D%8811.55.39.png" alt=""></p>
+<p>控件内容不再通过Canvas直接绘制到Surface,而是绘制到DisplayList。同时子控件的DisplayList会被绘制到父控件的DisplayList。最终整个控件树的内容被集合在根控件的DisplayList，并且这个DisplayList通过HardwareCanvas绘制到Surface之上。</p>
+<h2 id="绘图缓存"><a href="#绘图缓存" class="headerlink" title="绘图缓存"></a>绘图缓存</h2><p>绘图缓存有两种类型，即软件缓存(bitmap)和硬件缓存(HardwareLayer)。保存了控件及其子控件的一个快照。当控件的父控件需要重绘时，可以考虑将其绘图绘制canvas上。</p>
+<h3 id="原则"><a href="#原则" class="headerlink" title="原则"></a>原则</h3><ul>
+<li>1 不要为十分轻量级的控件启用缓存，因为缓存的开销可能大于此控件的重绘开销。</li>
+<li>2 为黑哨发生变化的控件启用绘图缓存。</li>
+<li>3 当父控件需要频发改变子控件的位置的时候启用缓存。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-Android 投屏" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/13/Android 投屏/" class="article-date">
+  	<time datetime="2018-07-12T16:00:00.000Z" itemprop="datePublished">2018-07-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/13/Android 投屏/">
+        Android 投屏
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-投屏"><a href="#Android-投屏" class="headerlink" title="Android 投屏"></a>Android 投屏</h1><h2 id="Vysor"><a href="#Vysor" class="headerlink" title="Vysor"></a>Vysor</h2><p><a href="https://chrome.google.com/webstore/detail/vysorcom/kdphpklacmlhmooodiekhpbepcdlaghl?utm_source=chrome-ntp-icon" target="_blank" rel="noopener">vysor</a></p>
+<p>可以通过修改配置文件的形式进行破解，但是破解后投放的影像还是有些模糊，且在一些UI细节上面存在一些瑕疵，比如有些线显示不出来。</p>
+<h2 id="Scrcpy"><a href="#Scrcpy" class="headerlink" title="Scrcpy"></a>Scrcpy</h2><p>Scrcpy本身就是免费的，且默认传输速率为8M，最高支持32M,画面相对来说非常清晰。</p>
+<h3 id="安装Scrcpy"><a href="#安装Scrcpy" class="headerlink" title="安装Scrcpy"></a>安装Scrcpy</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ brew install scrcpy</span><br><span class="line"><span class="comment"># adb</span></span><br><span class="line">$ brew cask install android-platform-tools</span><br></pre></td></tr></table></figure>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><ul>
+<li>启动-scrcpy</li>
+<li>scrcpy –help ：Scrcpy 内建的帮助模式，里面也列举了 Scrcpy 的所有的附加命令。</li>
+<li>scrcpy -b Xm ：强制提升/下降 Scrcpy 的传输速率，默认速率为 8Mbps，“X” 的值小于 8 表示限制速率，大于 8 表示强制提高传输速率，速率越高代表传输的质量越高。</li>
+</ul>
+<h3 id="注意"><a href="#注意" class="headerlink" title="注意"></a>注意</h3><ul>
+<li>部分手机需要在开发者选项里面打开允许「模拟位置点击」</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-Android 模块化 " class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/07/06/Android 模块化 /" class="article-date">
+  	<time datetime="2018-07-05T16:00:00.000Z" itemprop="datePublished">2018-07-06</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/07/06/Android 模块化 /">
+        Android 模块化
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-模块化"><a href="#Android-模块化" class="headerlink" title="Android 模块化"></a>Android 模块化</h1><p>背景，当我们的项目的业务随着时间的推移越来越多越来越复杂，有时候只是想测试一下或者修改一下相对简单的功能，也需要等待相对漫长的编译时间，以及各种跳转依赖的处理。为了使相对独立的模块相对快速的开发，我们决定事实模块化，可以单独打包对应的模块。</p>
+<h2 id="整体的思路"><a href="#整体的思路" class="headerlink" title="整体的思路"></a>整体的思路</h2><p>主项目全量打包，包含所有的功能以及连贯的前后业务逻辑。实现模块化后的独立模块可以实现单独打包开发对应的功能。</p>
+<h2 id="模块化的流程"><a href="#模块化的流程" class="headerlink" title="模块化的流程"></a>模块化的流程</h2><p>首先模块化的目的确定了，在模块化的过程中的原则就是尽量不要修改主项目的代码。首先将模块的代码从主项目中抽离出来，并进行全功能测试以及主项目的集成测试，最后删除主项目中移除的对应的代码。</p>
+<h3 id="第一步新建独立模块的app引导"><a href="#第一步新建独立模块的app引导" class="headerlink" title="第一步新建独立模块的app引导"></a>第一步新建独立模块的app引导</h3><p>MyModuleAPP模块：我的模块的引导程序。</p>
+<p>new- &gt;android lib -&gt; build配置</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if(myAsApp.toBoolean()) &#123;</span><br><span class="line">    apply plugin: 'com.android.application'</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    apply plugin: 'com.android.library'</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置全局的myAsApp变量控制MyModuleAPP是作为lib还是app编译：</p>
+<p>gradle.properties:</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">myAsApp=true</span><br></pre></td></tr></table></figure>
+<h3 id="将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule"><a href="#将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule" class="headerlink" title="将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule"></a>将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule</h3><p>注意：</p>
+<ul>
+<li>1 在抽离相关代码的时候记得重命名抽离的资源文件，防止主项目依赖的时候资源冲突。</li>
+<li>2 尽量少使用butterknife,因为在lib依赖的时候会有很多bug。</li>
+<li>3 当将代码从app抽离出到lib，资源会从常量变为变量。</li>
+</ul>
+<h3 id="公共代码抽离"><a href="#公共代码抽离" class="headerlink" title="公共代码抽离"></a>公共代码抽离</h3><ul>
+<li>1 登录相关的代码抽离出来供所有独立模块使用。</li>
+<li>2 api相关抽离。</li>
+<li>3 公共库依赖。</li>
+</ul>
+<h3 id="数据同步"><a href="#数据同步" class="headerlink" title="数据同步"></a>数据同步</h3><ul>
+<li>1 配置文件放到公共库。</li>
+<li>2 lib访问app数据的时候时候使用<a href="https://sirencode.github.io/2018/02/26/%E5%AD%90%E6%A8%A1%E5%9D%97%E8%AE%BF%E9%97%AEapp%E6%A8%A1%E5%9D%97/" target="_blank" rel="noopener">bridge</a></li>
+<li>3 lib跳转app使用apt路由ARouter。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-dir505 科学上网" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -800,241 +1084,9 @@
 
 
   
-    <article id="post-Android P" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/29/Android P/" class="article-date">
-  	<time datetime="2018-04-28T16:00:00.000Z" itemprop="datePublished">2018-04-29</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/29/Android P/">
-        Android P
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-P"><a href="#Android-P" class="headerlink" title="Android P"></a>Android P</h1><h2 id="P-中的变更"><a href="#P-中的变更" class="headerlink" title="P 中的变更"></a>P 中的变更</h2><h3 id="基于RTT的室内定位技术"><a href="#基于RTT的室内定位技术" class="headerlink" title="基于RTT的室内定位技术"></a>基于RTT的室内定位技术</h3><p>原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。</p>
-<p>这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定涉及到WiFi穿墙后的信号衰减问题，而且不同的室内结构的墙体的多少材质厚度都不同，很难有统一的算法来实现对这块的弥补，这也是后来爱立信公司放弃这块技术的主要原因。我看了一下Google这次推出这个技术，也没有相对对这个问题完善的解决方案，想来也是先推出来占个坑，后续优化吧。</p>
-<p>前景：我认为室内定位的前景还是非常好的，而且RTT技术是AP无感的，安全也可以保证。</p>
-<h3 id="屏幕缺口支持"><a href="#屏幕缺口支持" class="headerlink" title="屏幕缺口支持"></a>屏幕缺口支持</h3><p>Android P 支持最新的全面屏以及为摄像头和扬声器预留空间的凹口屏幕。幸运的是，选择凹口屏幕的大小。</p>
-<p>为了更多的屏占比，对齐刘海的支持，给你们看一下预览图，随意感受下。(我实在欣赏不来)</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/emulator-devoptions-cutout_2x.png" alt=""></p>
-<p>辣眼睛</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/timg.png" alt=""></p>
-<h3 id="通知"><a href="#通知" class="headerlink" title="通知"></a>通知</h3><p>Android P 引入了多个通知增强功能：</p>
-<ul>
-<li>1 支持图像：现在，Android P 可在手机的“短信通知”中显示图像。 您可以使用短信中的 setData() 来显示图像。</li>
-<li>2 简化了针对对话参与者的支持：全新的 Notification.Person 类可用于识别参与对话的人员，包括他们的头像和 URI。 现在，许多其他 API（如 addMessage()）均可利用 Person 类，而不是 CharSequence。(Message)</li>
-<li>3 将回复另存为草稿。</li>
-<li>4 确定对话是否为群组对话。</li>
-<li>5 允许为操作提供语义含义，如标记为已读、删除、回复等。</li>
-<li>6 SmartReply：Android P 支持您的短信应用中提供的建议回复。 使用 RemoteInput.setChoices() 为用户提供一组标准回复。</li>
-<li>7 渠道设置、广播和请勿打扰</li>
-</ul>
-<h3 id="多摄像头支持和摄像头更新"><a href="#多摄像头支持和摄像头更新" class="headerlink" title="多摄像头支持和摄像头更新"></a>多摄像头支持和摄像头更新</h3><p>在运行 Android P 的设备上，您可以通过两个或更多物理摄像头来同时访问多个视频流。</p>
-<p>在受支持的设备上，Android P 还支持外置 USB/UVC 摄像头。</p>
-<h3 id="适用于位图和可绘制对象的-ImageDecoder"><a href="#适用于位图和可绘制对象的-ImageDecoder" class="headerlink" title="适用于位图和可绘制对象的 ImageDecoder"></a>适用于位图和可绘制对象的 ImageDecoder</h3><p>Android P 引入 ImageDecoder ，以提供现代化的图像解码方法。 您应使用 ImageDecoder 来解码图像，而不是使用 BitmapFactory 和 BitmapFactory.Options API。</p>
-<ul>
-<li>要将解码的图像缩放到精确尺寸，请以目标尺寸为参数，调用 setResize()。 您也可以使用样图尺寸来缩放图像。 </li>
-</ul>
-<p>对于开发者来说这个是重点，算是非常重大的改动。重点就在这个精准，以前对bitmap做质量压缩的时候参数只接受整数倍的。我举个例子，现在有张图，需要安质量压缩为原来的1.5分之一，也就是缩放1.5倍，也就是质量压缩2.25倍，但如果只接受整数倍的话你要么缩放四倍，要么不缩放，这就蛋疼了。</p>
-<h3 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h3><p>Android P 引入了一个新的 AnimatedImageDrawable 类，用于绘制和显示 GIF 和 WebP 动画图像。</p>
-<h3 id="Neural-Networks-API-1-1"><a href="#Neural-Networks-API-1-1" class="headerlink" title="Neural Networks API 1.1"></a>Neural Networks API 1.1</h3><p>Android 8.1（API 级别 27）中引入了 Neural Networks API 以加快 Android 设备上机器学习的速度。 Android P 扩展并改进了该 API，从而增加了对 Pad、BatchToSpaceND、SpaceToBatchND、Transpose、Strided Slice、Mean、Div、Sub 和 Squeeze 九个新运算的支持。</p>
-<h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><h3 id="新增的-APK-密钥轮转"><a href="#新增的-APK-密钥轮转" class="headerlink" title="新增的 APK 密钥轮转"></a>新增的 APK 密钥轮转</h3><p>Android P 添加了对 APK Signature Scheme v3 的支持。该架构提供的选择可以在其签名块中为每个签名证书加入一条轮转证据记录。 应用可以通过将 APK 文件过去的签名证书链接到现在签署应用时使用的证书，使用新签名证书来签署应用。</p>
-<h3 id="传输层安全协议-TLS-实现变更"><a href="#传输层安全协议-TLS-实现变更" class="headerlink" title="传输层安全协议 (TLS) 实现变更"></a>传输层安全协议 (TLS) 实现变更</h3><h3 id="对-ChaCha20-流式传输加密的支持"><a href="#对-ChaCha20-流式传输加密的支持" class="headerlink" title="对 ChaCha20 流式传输加密的支持"></a>对 ChaCha20 流式传输加密的支持</h3><h3 id="统一的指纹身份验证对话框"><a href="#统一的指纹身份验证对话框" class="headerlink" title="统一的指纹身份验证对话框"></a>统一的指纹身份验证对话框</h3><p>可以选择使用，也可以不用。</p>
-<h3 id="高可信度用户确认"><a href="#高可信度用户确认" class="headerlink" title="高可信度用户确认"></a>高可信度用户确认</h3><p>发布时安装有 Android P 的受支持设备赋予您使用 Protected Confirmation API 的能力。 借助这个新增的 API，应用可以利用 ConfirmationDialog 的实例向用户显示提示，请他们批准一个简短的声明。 应用可以通过这个声明再次确认，用户确实想完成一项敏感事务，例如付款。</p>
-<h3 id="硬件安全性模块"><a href="#硬件安全性模块" class="headerlink" title="硬件安全性模块"></a>硬件安全性模块</h3><p>Android P 的受支持设备可拥有 StrongBox Keymaster，这个 Keymaster HAL 的实现位于一个硬件安全性模块内。 该模块包含自己的 CPU、安全存储空间、真实随机数生成器以及抵御软件包篡改和未经授权线刷应用的附加机制。 检查存储在 StrongBox Keymaster 中的密钥时，系统会通过可信执行环境 (TEE) 证实密钥的完整性。</p>
-<h3 id="保护对密钥库进行的密钥导入"><a href="#保护对密钥库进行的密钥导入" class="headerlink" title="保护对密钥库进行的密钥导入"></a>保护对密钥库进行的密钥导入</h3><p>Android P 增加了密钥加密的安全性，添加了利用新增的 ASN.1 编码密钥格式将已加密密钥安全导入密钥库的功能。 Keymaster 随后会在密钥库中将密钥解密，因此密钥的内容永远不会以明文形式出现在设备的主机内存中。</p>
-<h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><p>为避免无意的旋转，我们新增了一个模式，哪怕设备位置发生变化，也会固定在当前屏幕方向上。 必要时用户可以通过按系统栏上的一个新增按钮手动触发旋转。</p>
-<h2 id="兼容性问题"><a href="#兼容性问题" class="headerlink" title="兼容性问题"></a>兼容性问题</h2><h3 id="对于非-SDK-接口的限制"><a href="#对于非-SDK-接口的限制" class="headerlink" title="对于非 SDK 接口的限制"></a>对于非 SDK 接口的限制</h3><p>Android P 引入了针对非 SDK 接口的使用限制，无论是直接使用还是通过反射或 JNI 间接使用。 无论应用是引用非 SDK 接口还是尝试使用反射或 JNI 获取其句柄，均适用这些限制。 </p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android root 原理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/19/Android root 原理/" class="article-date">
-  	<time datetime="2018-04-18T16:00:00.000Z" itemprop="datePublished">2018-04-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/19/Android root 原理/">
-        Android root 原理
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-root-原理"><a href="#Android-root-原理" class="headerlink" title="Android root 原理"></a>Android root 原理</h1><p>因为Amdroid的内核是Linux的，所以Android的root和linux的获取root权限是一回事。</p>
-<h2 id="Linux获取root权限"><a href="#Linux获取root权限" class="headerlink" title="Linux获取root权限"></a>Linux获取root权限</h2><ul>
-<li>1 执行su或sudo命令切换用户</li>
-<li>2 输入管理员密码，获取root权限</li>
-</ul>
-<h2 id="Android-root"><a href="#Android-root" class="headerlink" title="Android root"></a>Android root</h2><p>首先Android系统不希望用户获取root权限，做一些破坏系统完整性的事情，所以大部分厂商发布的系统中都不会包含su这个程序。另外Android里的su不是靠验证密码的，而是看你原来的权限是什么。意思就是如果你是root，那你可以通过su切换到别的用户。</p>
-<ul>
-<li>拷贝su文件到/system/xbin或/system/bin系统分区。</li>
-<li>设置su文件所有者为root用户。</li>
-<li>设置su文件的setUID权限，便于自己的进程执行su命令获取root权限。</li>
-</ul>
-<p>大体流程：</p>
-<p>用过Linux的人都知道r代表该文件可读，w代表可写，x代表可执行，-就代表没有该权限，s代表当任何一个用户执行该文件的时候都拥有文件所有者的权限，这文件的所有者是root，简单点说就是不管谁执行这个文件，他执行的时候都是以root身份执行的。</p>
-<p>×××（所有者）×××（组用户）×××（其他用户：<br>第一个rwx代表文件所有者的权限，第二个rwx代表和所有者同组人的权限，第三个rwx代表其他用户对该文件的权限。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp /data/tmp/su /system/bin/</span><br><span class="line">copy su 到/system/分区chown root:root su</span><br><span class="line"><span class="comment">#su的所有者置成root</span></span><br><span class="line">chmod 4775 /system/bin/su        </span><br><span class="line"><span class="comment">#把su置成-rwsr-xr-x</span></span><br></pre></td></tr></table></figure>
-<p>执行上面的命令也是需要root权限的，一个办法就是找一个本身已经有root权限的进程(系统进程漏洞)来启动我上面的两行代码，那我这两行代码一启动就是root权限，就可以顺利执行了。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 加固技术" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/18/Android 加固技术/" class="article-date">
-  	<time datetime="2018-04-17T16:00:00.000Z" itemprop="datePublished">2018-04-18</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/18/Android 加固技术/">
-        Android 加固技术
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-加固技术"><a href="#Android-加固技术" class="headerlink" title="Android 加固技术"></a>Android 加固技术</h1><h2 id="为什么要加固"><a href="#为什么要加固" class="headerlink" title="为什么要加固"></a>为什么要加固</h2><p>增加反编译的难度，混淆的破解难度已经不够了，因此需要做进一步的防护工作，因此加固的方案就产生。</p>
-<h2 id="加固的历史"><a href="#加固的历史" class="headerlink" title="加固的历史"></a>加固的历史</h2><p>第一代加固技术——混淆技术；</p>
-<p>第二代加固技术——加壳技术；</p>
-<p>第三代加固技术——指令抽离：即抽取 dex 文件中 DexCode 的部分结构，即虚拟机操作码。在虚拟机加载到此类的时候对 DexCode 结构进行还原。从而保证 app 能正常的运行。</p>
-<p>第四代加固技术——指令转换，即现在经常被应用的VMP加固技术。</p>
-<h2 id="加固的实现"><a href="#加固的实现" class="headerlink" title="加固的实现"></a>加固的实现</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>原理：将我们的源APK进行加密，解密的过程</p>
-<p>dex合并：采用的 VMP（虚拟软件保护技术）大概思路就是自定义一套虚拟机指令和对应的解释器，并将标准的指令转换成自己的指令，然后由解释器将自己的指令给对应的解释器。</p>
-<h3 id="加壳流程"><a href="#加壳流程" class="headerlink" title="加壳流程"></a>加壳流程</h3><p>三个对象：</p>
-<ul>
-<li>1 源APK-要加密的apk文件</li>
-<li>2 壳APK-负责对源apk解密</li>
-<li>3 加密工具-将源APK进行加密和壳Dex合并新的Dex</li>
-</ul>
-<p>主要步骤：</p>
-<ul>
-<li>1 加密算法加密源APK，生成加密的dex文件</li>
-<li>2 加密后的dex和壳apk进行合并生成新的dex文件</li>
-<li>3 新的dex替换壳程序的dex，得到新的apk,修改壳apk的checksum、signature 和file_size的信息，并且要附加加壳的apk的长度信息在dex文件中，以便我们进行解壳保证原来apk的正常运行。</li>
-</ul>
-<h3 id="脱壳流程"><a href="#脱壳流程" class="headerlink" title="脱壳流程"></a>脱壳流程</h3><p><img src="http://oc4zuck5v.bkt.clouddn.com/%E4%B8%8B%E8%BD%BD.png" alt=""></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+      <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
   
 </div>
