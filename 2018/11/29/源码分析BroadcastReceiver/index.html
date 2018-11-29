@@ -3,22 +3,22 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Diablo</title>
+  <title>源码分析BroadcastReceiver | Diablo</title>
 
   <!-- keywords -->
   
 
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="title: 源码分析BroadcastReceiverdate: 2018-11-29   源码分析BroadcastReceiverBroadcastReceiver注册： 1 ContextWrapper.registerReceiver() 2 ContextImpl.registerReceiver() 123456@Overridepublic Intent registerRecei">
+  <meta name="description" content="源码分析BroadcastReceiverBroadcastReceiver注册： 1 ContextWrapper.registerReceiver() 2 ContextImpl.registerReceiver() 123456@Overridepublic Intent registerReceiver(BroadcastReceiver receiver, IntentFilter fi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Diablo">
+<meta property="og:title" content="源码分析BroadcastReceiver">
 <meta property="og:url" content="https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/index.html">
 <meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="title: 源码分析BroadcastReceiverdate: 2018-11-29   源码分析BroadcastReceiverBroadcastReceiver注册： 1 ContextWrapper.registerReceiver() 2 ContextImpl.registerReceiver() 123456@Overridepublic Intent registerRecei">
-<meta property="og:updated_time" content="2018-11-29T02:39:43.894Z">
+<meta property="og:description" content="源码分析BroadcastReceiverBroadcastReceiver注册： 1 ContextWrapper.registerReceiver() 2 ContextImpl.registerReceiver() 123456@Overridepublic Intent registerReceiver(BroadcastReceiver receiver, IntentFilter fi">
+<meta property="og:updated_time" content="2018-11-29T02:41:44.236Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Diablo">
-<meta name="twitter:description" content="title: 源码分析BroadcastReceiverdate: 2018-11-29   源码分析BroadcastReceiverBroadcastReceiver注册： 1 ContextWrapper.registerReceiver() 2 ContextImpl.registerReceiver() 123456@Overridepublic Intent registerRecei">
+<meta name="twitter:title" content="源码分析BroadcastReceiver">
+<meta name="twitter:description" content="源码分析BroadcastReceiverBroadcastReceiver注册： 1 ContextWrapper.registerReceiver() 2 ContextImpl.registerReceiver() 123456@Overridepublic Intent registerReceiver(BroadcastReceiver receiver, IntentFilter fi">
   
     <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
   
@@ -168,7 +168,7 @@
   
     <div class="article-meta">
       <a href="/2018/11/29/源码分析BroadcastReceiver/" class="article-date">
-  	<time datetime="2018-11-29T02:30:26.673Z" itemprop="datePublished">2018-11-29</time>
+  	<time datetime="2018-11-28T16:00:00.000Z" itemprop="datePublished">2018-11-29</time>
 </a>
     </div>
   
@@ -177,11 +177,29 @@
       <input type="hidden" class="isFancy" />
     
     
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      源码分析BroadcastReceiver
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
     <div class="article-entry" itemprop="articleBody">
       
-        <p>title: 源码分析BroadcastReceiver<br>date: 2018-11-29 </p>
-<hr>
-<h1 id="源码分析BroadcastReceiver"><a href="#源码分析BroadcastReceiver" class="headerlink" title="源码分析BroadcastReceiver"></a>源码分析BroadcastReceiver</h1><p>BroadcastReceiver注册：</p>
+        <h1 id="源码分析BroadcastReceiver"><a href="#源码分析BroadcastReceiver" class="headerlink" title="源码分析BroadcastReceiver"></a>源码分析BroadcastReceiver</h1><p>BroadcastReceiver注册：</p>
 <p>1 ContextWrapper.registerReceiver()</p>
 <p>2 ContextImpl.registerReceiver()</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Intent <span class="title">registerReceiver</span><span class="params">(BroadcastReceiver receiver, IntentFilter filter,</span></span></span><br><span class="line"><span class="function"><span class="params">        String broadcastPermission, Handler scheduler, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> registerReceiverInternal(receiver, getUserId(),</span><br><span class="line">            filter, broadcastPermission, scheduler, getOuterContext(), flags);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -228,9 +246,18 @@
     
 <nav id="article-nav">
   
+    <a href="/2018/11/29/源码分析ContentProvider/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          (no title)
+        
+      </div>
+    </a>
   
-    <a href="/2018/11/29/源码分析Service/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title"></div>
+  
+    <a href="/2018/11/29/源码分析Activity分析/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">源码分析Activity分析</div>
       <strong class="article-nav-caption">&gt;</strong>
     </a>
   
@@ -240,7 +267,7 @@
 </article>
 
 
-<div class="ds-share share" data-thread-key="源码分析BroadcastReceiver" data-title="" data-url="https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="">
+<div class="ds-share share" data-thread-key="源码分析BroadcastReceiver" data-title="源码分析BroadcastReceiver" data-url="https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="源码分析BroadcastReceiver">
     <div class="ds-share-inline">
       <ul  class="ds-share-icons-16">
       	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>

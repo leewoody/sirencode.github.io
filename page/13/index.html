@@ -162,10 +162,10 @@
 </nav>
       <div class="body-wrap">
   
-    <article id="post-recycleview" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-gradle same dependencies" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/23/recycleview/" class="article-date">
+      <a href="/2016/08/23/gradle same dependencies/" class="article-date">
   	<time datetime="2016-08-22T16:00:00.000Z" itemprop="datePublished">2016-08-23</time>
 </a>
     </div>
@@ -179,8 +179,8 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/23/recycleview/">
-        Android RecycleView
+      <a class="article-title" href="/2016/08/23/gradle same dependencies/">
+        Android 多模块相同依赖问题
         
       </a>
     </h1>
@@ -191,57 +191,98 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>RecycleView相信大家都不会陌生，基本上每个项目里面都会用到。主要做一些展示工作的view，例如资讯，XX单等等。今天主要谈谈，在项目中我遇到的一些问题以及解决方案。</p>
-<h3 id="RecycleView-和-ListView的对比"><a href="#RecycleView-和-ListView的对比" class="headerlink" title="RecycleView 和 ListView的对比"></a>RecycleView 和 ListView的对比</h3><p>可以说RecycleView是ListView的升级版本。</p>
-<ul>
-<li>1 更灵活的定制功能，可以自定义动画，view的格式，间隙样式等等。</li>
-<li>2 更合理的代码规格，在adapter里面强制viewholder使用。</li>
+        <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。</p>
+<h3 id="相同依赖带来的问题"><a href="#相同依赖带来的问题" class="headerlink" title="相同依赖带来的问题"></a>相同依赖带来的问题</h3><ul>
+<li>1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。</li>
+<li>2 版本混乱，相同的依赖版本可能不同，这样就带了了代码上的冗余，并且可能带来错误。</li>
+<li>3 相同的依赖不仅仅来自于不同的模块，有可能是不同的依赖库引用了相同的依赖，总之为了避免不必要的麻烦，我们还是在使用前检查一下吧。</li>
 </ul>
-<h3 id="RecycleView使用"><a href="#RecycleView使用" class="headerlink" title="RecycleView使用"></a>RecycleView使用</h3><h4 id="基本功能-刷新加载"><a href="#基本功能-刷新加载" class="headerlink" title="基本功能-刷新加载"></a>基本功能-刷新加载</h4><p>网络上上拉刷新下拉加载的第三方的库很多，实现起来也是大同小异。但是在使用中多多少少有些瑕疵，如果用时间还是建议自己写一个，改起来也方便些。</p>
-<p>现在比较主流的事项方式是使用google官方的下拉刷新库，然后自定义上拉加载效果。</p>
-<h4 id="容错处理"><a href="#容错处理" class="headerlink" title="容错处理"></a>容错处理</h4><p>所谓的容错处理，就是当接收不到数据时候显示什么？数据为零时候显示什么？以及，点击刷新功能。</p>
-<p><a href="https://github.com/Drnkn/Android-ProgressSwitcher">推荐库</a></p>
-<p><a href="https://github.com/sirencode/RecycleViewLib">使用demo</a></p>
-<h4 id="瀑布流使用注意"><a href="#瀑布流使用注意" class="headerlink" title="瀑布流使用注意"></a>瀑布流使用注意</h4><p>在使用瀑布流的时候一般会出现对象变动，滑动时变动参差不齐的情况：</p>
-<pre><code>// 防止item位置互换
-layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+<h3 id="抽离相同依赖"><a href="#抽离相同依赖" class="headerlink" title="抽离相同依赖"></a>抽离相同依赖</h3><h4 id="在项目根目录新建-gradle整理文件"><a href="#在项目根目录新建-gradle整理文件" class="headerlink" title="在项目根目录新建.gradle整理文件"></a>在项目根目录新建.gradle整理文件</h4><p>1 我们新建名为config.gradle的文件：</p>
+<p>代码如下：</p>
+<pre><code>//全局变量名称
+ext {
+// Android
+android = [
+  compileSdkVersion: 24,
+  buildToolsVersion: &apos;24.0.1&apos;,
+  applicationId    : &apos;com.baidao.ytxmobile&apos;,
+  minSdkVersion    : 14,
+  targetSdkVersion : 24
+]
 
-//防止滑到第一行不对齐
-recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-            InformationsFragment.this.layoutManager.invalidateSpanAssignments();
-            int[] position =
-                    InformationsFragment.this.layoutManager.findFirstVisibleItemPositions(null);
-            int visible = position[0] &gt; LINE_COUNT - 1 ? View.VISIBLE : View.GONE;
-            goTop.setVisibility(visible);
-        }
-    });
-</code></pre><h3 id="多类型Item加载"><a href="#多类型Item加载" class="headerlink" title="多类型Item加载"></a>多类型Item加载</h3><p>封装自定义数据类型：</p>
-<pre><code> public class MultipleItemTypeData {
+// AllDependencies
+allDependencies = [
+  support_recyclerview : &apos;com.android.support:recyclerview-v7:24.0.0&apos;,
+  support : &apos;com.android.support:appcompat-v7:24.1.1&apos;,
+  progress_switcher : &apos;com.github.drnkn:progress-switcher:1.1.3@aar&apos;
+]
+//app模块的依赖关系
+appDps = [
+  support_recyclerview : &quot;compile&quot;,
+  support : &apos;compile&apos;,
+  progress_switcher : &apos;compile&apos;
+]
 
-private RecycleItemTypeData recycleItemTypeData;
+//RefreshLoadLayout模块的依赖关系
+RefreshLoadLayoutDps = [
+  support_recyclerview : &quot;compile&quot;,
+]
 
-private String data;
-
-public MultipleItemTypeData(RecycleItemTypeData itemType, String data) {
-    this.recycleItemTypeData = itemType;
-    this.data = data;
+dependenciesMethod = { dps, closure -&gt;
+dps.each { entry -&gt;
+  def value = entry.value
+  if (value instanceof List) {
+    value.each { result -&gt;
+      closure result, allDependencies.get(entry.key), entry.key
+    }
+  } else {
+    closure value, allDependencies.get(entry.key), entry.key
+  }
 }
 }
-</code></pre><p>类型绑定：</p>
-<pre><code>public class RecycleItemTypeData {
 
-//recycleview item的类型
-private int itemType;
+}
+</code></pre><p>2 添加config.gradle文件的使用</p>
+<p>打开项目根目录下的build.gradle文件，并添加如下代码。</p>
+<pre><code>apply from: &quot;config.gradle&quot;
+</code></pre><p>3 在我们的模块中使用，相关依赖和相关属性</p>
+<p>打开我们模块对应的build.gradle文件。</p>
+<p>使用全局属性：</p>
+<pre><code>def globalConfiguration = rootProject.ext
 
-//recycleview item当前类型对应的res资源
-private int typeRes;
+android {
+compileSdkVersion globalConfiguration.android.compileSdkVersion
+buildToolsVersion globalConfiguration.android.buildToolsVersion
 
-public RecycleItemTypeData(int itemType, int typeRes) {
-    this.itemType = itemType;
-    this.typeRes = typeRes;
+defaultConfig {
+minSdkVersion globalConfiguration.android.minSdkVersion
+targetSdkVersion globalConfiguration.android.targetSdkVersion
+applicationId &quot;diablo.lib.list.com&quot;
+versionCode 1
+versionName &quot;1.0&quot;
+}
+buildTypes {
+release {
+  minifyEnabled false
+  proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
+}
+}
+}
+</code></pre><p>在dependencies{}中添加相关依赖：</p>
+<pre><code>//appDps为在config文件中定义的模块名称
+rootProject.dependenciesMethod rootProject.ext.appDps, { type, library, key -&gt;
+if (type == &apos;compile&apos;) {
+  compile library
+} else if (type == &apos;debugCompile&apos;) {
+  debugCompile library
+} else if (type == &apos;testCompile&apos;) {
+  testCompile library
+} else if (type == &apos;apt&apos;) {
+  apt library
+} else if (type == &apos;debuggableReleaseCompile&apos;) {
+  debuggableReleaseCompile library
+} else if (type == &apos;debugProCompile&apos;) {
+  debugProCompile library
 }
 }
 </code></pre>
@@ -664,81 +705,6 @@ final class JavaScriptInterface {
 
 
   
-    <article id="post-traceView" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/20/traceView/" class="article-date">
-  	<time datetime="2016-08-19T16:00:00.000Z" itemprop="datePublished">2016-08-20</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/20/traceView/">
-        Android 性能优化-traceview
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。</p>
-<h3 id="TraceView的使用"><a href="#TraceView的使用" class="headerlink" title="TraceView的使用"></a>TraceView的使用</h3><h4 id="1-使用编译器自带的工具操作"><a href="#1-使用编译器自带的工具操作" class="headerlink" title="1.使用编译器自带的工具操作"></a>1.使用编译器自带的工具操作</h4><p>最简单的方式就是直接打开DDMS，选择一个进程，然后按上面的“Start Method Profiling”按钮，等红色小点变成黑色以后就表示TraceView已经开始工作了。然后我就可以滑动一下列表（现在手机上的操作肯定会很卡，因为Android系统在检测Dalvik虚拟机中每个Java方法的调用，这是我猜测的）。操作最好不要超过5s，因为最好是进行小范围的性能测试。然后再按一下刚才按的按钮，等一会就会出现结果图，然后就可以开始分析了。</p>
-<ul>
-<li>坑，用系统自带的工具分析使用起来是很简单，但是系统自带的工具的find查找功能不好用，这就尴尬了，这么多方法，找瞎了，所以我果断放弃了。</li>
-</ul>
-<h4 id="2-自己在代码里面实现"><a href="#2-自己在代码里面实现" class="headerlink" title="2.自己在代码里面实现"></a>2.自己在代码里面实现</h4><h5 id="开始分析："><a href="#开始分析：" class="headerlink" title="开始分析："></a>开始分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.startMethodTracing(<span class="string">"xxx"</span>,size);</span><br></pre></td></tr></table></figure>
-<h5 id="结束分析："><a href="#结束分析：" class="headerlink" title="结束分析："></a>结束分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.stopMethodTracing();</span><br></pre></td></tr></table></figure>
-<h5 id="别忘了加上读写sd卡权限："><a href="#别忘了加上读写sd卡权限：" class="headerlink" title="别忘了加上读写sd卡权限："></a>别忘了加上读写sd卡权限：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br><span class="line">  &lt;uses-permission android:name=<span class="string">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span>/&gt;</span><br></pre></td></tr></table></figure>
-<p>至此性能分析的代发就完成了，之后打开APP运行即可，运行到stop之后就会在sd卡里面生成对应的xxx.trace文件。</p>
-<h5 id="导出traceview文件"><a href="#导出traceview文件" class="headerlink" title="导出traceview文件"></a>导出traceview文件</h5><p>  xxx.trace文件在sdcard根目录</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb pull sdcard/xxx.trace</span><br></pre></td></tr></table></figure>
-<h5 id="打开trace文件"><a href="#打开trace文件" class="headerlink" title="打开trace文件"></a>打开trace文件</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ traceview /Users/yonghe.shen/Desktop/my.trace</span><br></pre></td></tr></table></figure>
-<h5 id="筛选我们的应用相关的分析"><a href="#筛选我们的应用相关的分析" class="headerlink" title="筛选我们的应用相关的分析"></a>筛选我们的应用相关的分析</h5><p>find 输入包名，回车即可从上到下查看（DDMS中的find不好用）。</p>
-<h5 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h5><p><img src="http://oc4zuck5v.bkt.clouddn.com/traceview_par.png" alt="图片"></p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
-<li>1注意设置trace文件的大小，默认大小8M,太大的分析工具会崩掉,太小又分析的不全面，那到底选择多大合适呐，我认为50M以下吧。</li>
-<li>2 另外我建议分段分析，这样文件也不大，分析的也比较全面。</li>
-<li>3 其实你要不限制大小，生成这个文件还是蛮大的，我跑过一个两百多兆的，分析工具直接卡死了。</li>
-<li>4 另外在执行start-&gt;stop之间的代码的时候会很卡，这个是正常现象，毕竟在疯狂采集信息。</li>
-<li>5 尽量小，例如一次只分析几个函数，避免ANR产生，如果还是出现了，那我只能建议你等了。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-check_code_style" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -794,6 +760,81 @@ final class JavaScriptInterface {
 <li>混合检查（包活一些有用的比如非必须的System.out和printstackTrace）</li>
 </ul>
 <p>我现在用的是基于华为的<a href="https://gist.github.com/ownwell/c32878440216f1866842" target="_blank" rel="noopener">CheckStyle:</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-traceView" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/20/traceView/" class="article-date">
+  	<time datetime="2016-08-19T16:00:00.000Z" itemprop="datePublished">2016-08-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/20/traceView/">
+        Android 性能优化-traceview
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。</p>
+<h3 id="TraceView的使用"><a href="#TraceView的使用" class="headerlink" title="TraceView的使用"></a>TraceView的使用</h3><h4 id="1-使用编译器自带的工具操作"><a href="#1-使用编译器自带的工具操作" class="headerlink" title="1.使用编译器自带的工具操作"></a>1.使用编译器自带的工具操作</h4><p>最简单的方式就是直接打开DDMS，选择一个进程，然后按上面的“Start Method Profiling”按钮，等红色小点变成黑色以后就表示TraceView已经开始工作了。然后我就可以滑动一下列表（现在手机上的操作肯定会很卡，因为Android系统在检测Dalvik虚拟机中每个Java方法的调用，这是我猜测的）。操作最好不要超过5s，因为最好是进行小范围的性能测试。然后再按一下刚才按的按钮，等一会就会出现结果图，然后就可以开始分析了。</p>
+<ul>
+<li>坑，用系统自带的工具分析使用起来是很简单，但是系统自带的工具的find查找功能不好用，这就尴尬了，这么多方法，找瞎了，所以我果断放弃了。</li>
+</ul>
+<h4 id="2-自己在代码里面实现"><a href="#2-自己在代码里面实现" class="headerlink" title="2.自己在代码里面实现"></a>2.自己在代码里面实现</h4><h5 id="开始分析："><a href="#开始分析：" class="headerlink" title="开始分析："></a>开始分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.startMethodTracing(<span class="string">"xxx"</span>,size);</span><br></pre></td></tr></table></figure>
+<h5 id="结束分析："><a href="#结束分析：" class="headerlink" title="结束分析："></a>结束分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.stopMethodTracing();</span><br></pre></td></tr></table></figure>
+<h5 id="别忘了加上读写sd卡权限："><a href="#别忘了加上读写sd卡权限：" class="headerlink" title="别忘了加上读写sd卡权限："></a>别忘了加上读写sd卡权限：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br><span class="line">  &lt;uses-permission android:name=<span class="string">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>至此性能分析的代发就完成了，之后打开APP运行即可，运行到stop之后就会在sd卡里面生成对应的xxx.trace文件。</p>
+<h5 id="导出traceview文件"><a href="#导出traceview文件" class="headerlink" title="导出traceview文件"></a>导出traceview文件</h5><p>  xxx.trace文件在sdcard根目录</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb pull sdcard/xxx.trace</span><br></pre></td></tr></table></figure>
+<h5 id="打开trace文件"><a href="#打开trace文件" class="headerlink" title="打开trace文件"></a>打开trace文件</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ traceview /Users/yonghe.shen/Desktop/my.trace</span><br></pre></td></tr></table></figure>
+<h5 id="筛选我们的应用相关的分析"><a href="#筛选我们的应用相关的分析" class="headerlink" title="筛选我们的应用相关的分析"></a>筛选我们的应用相关的分析</h5><p>find 输入包名，回车即可从上到下查看（DDMS中的find不好用）。</p>
+<h5 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h5><p><img src="http://oc4zuck5v.bkt.clouddn.com/traceview_par.png" alt="图片"></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>1注意设置trace文件的大小，默认大小8M,太大的分析工具会崩掉,太小又分析的不全面，那到底选择多大合适呐，我认为50M以下吧。</li>
+<li>2 另外我建议分段分析，这样文件也不大，分析的也比较全面。</li>
+<li>3 其实你要不限制大小，生成这个文件还是蛮大的，我跑过一个两百多兆的，分析工具直接卡死了。</li>
+<li>4 另外在执行start-&gt;stop之间的代码的时候会很卡，这个是正常现象，毕竟在疯狂采集信息。</li>
+<li>5 尽量小，例如一次只分析几个函数，避免ANR产生，如果还是出现了，那我只能建议你等了。</li>
+</ul>
 
       
     </div>
@@ -1266,6 +1307,136 @@ if (requestCode == REQUEST_CODE) {
 
 
   
+    <article id="post-build_blog" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/17/build_blog/" class="article-date">
+  	<time datetime="2016-08-16T16:00:00.000Z" itemprop="datePublished">2016-08-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/17/build_blog/">
+        Mac上 Github 博客搭建
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>文章来自[他人博客]（<a href="http://www.jianshu.com/p/13e64c9e2295）" target="_blank" rel="noopener">http://www.jianshu.com/p/13e64c9e2295）</a></p>
+<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><h3 id="1-安装-node"><a href="#1-安装-node" class="headerlink" title="1 安装 node"></a>1 安装 node</h3><p>用来生成静态页面。移步<a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js官网</a>，下载v5.5.0 Stable 一路安装即可。</p>
+<h3 id="2-安装-Git"><a href="#2-安装-Git" class="headerlink" title="2 安装 Git"></a>2 安装 Git</h3><p>作用：把本地的hexo内容提交到github上去. </p>
+<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Git</a></p>
+<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><p>当Node.js和Git都安装好后就可以正式安装Hexo了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g hexo</span><br></pre></td></tr></table></figure>
+<p>输入管理员密码（Mac登录密码）即开始安装 (sudo:linux系统管理指令  -g:全局安装)</p>
+<pre><code>注意坑一：[Hexo官网](https://hexo.io/docs)上的安装命令是$ npm install -g hexo-cli，安装时不要忘记前面加上sudo，否则会因为权限问题报错。
+</code></pre><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>终端cd到一个你选定的目录，执行hexo init命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init blog</span><br></pre></td></tr></table></figure>
+<p>blog是你建立的文件夹名称。cd到blog文件夹下，执行如下命令，安装npm：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
+<p>执行如下命令，开启hexo服务器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
+<p>此时，浏览器中打开网址<a href="http://localhost:4000查看本地效果" target="_blank" rel="noopener">http://localhost:4000查看本地效果</a></p>
+<p>本地设置好后，接下来开始关联Github。</p>
+<h2 id="关联Github"><a href="#关联Github" class="headerlink" title="关联Github"></a>关联Github</h2><h3 id="1-创建仓库"><a href="#1-创建仓库" class="headerlink" title="1 创建仓库"></a>1 创建仓库</h3><p>登录你的Github帐号，新建仓库，名为用户名.github.io固定写法，如sirencode</p>
+<p>本地的blog文件夹下内容为：</p>
+<pre><code>_config.yml  
+db.json 
+node_modules 
+package.json
+scaffolds
+source
+themes
+</code></pre><p>终端cd到blog文件夹下，vim打开_config.yml，命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim _config.yml</span><br></pre></td></tr></table></figure>
+<p>打开后往下滑到最后，修改成下边的样子：</p>
+<pre><code>deploy:
+  type: git
+  repository: https://github.com/sirencode/sirencode.github.io.git
+  branch: master
+</code></pre><p>你需要将repository后sirencode换成你自己的用户名hexo 3.1.1版本后type:值为git。</p>
+<pre><code>注意坑二：在配置所有的_config.yml文件时（包括theme中的），在所有的冒号:后边都要加一个空格，否则执行hexo命令会报错，切记 切记
+</code></pre><p>在blog文件夹目录下执行生成静态页面命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate        或者：hexo g</span><br></pre></td></tr></table></figure>
+<pre><code>此时若出现如下报错：
+ERROR Local hexo not found in ~/blog
+ERROR Try runing: &apos;npm install hexo --save&apos;
+则执行命令：
+npm install hexo --save
+若无报错，自行忽略此步骤。
+</code></pre><p>再执行配置命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy            或者：hexo d</span><br></pre></td></tr></table></figure>
+<pre><code>注意坑三：若执行命令hexo deploy仍然报错：无法连接git或找不到git，则执行如下命令来安装hexo-deployer-git：
+ $ npm install hexo-deployer-git --save
+</code></pre><p> 再次执行hexo generate和hexo deploy命令。</p>
+<p> 若你未关联Github，则执行hexo deploy命令时终端会提示你输入Github的用户名和密码，即</p>
+<pre><code>Username for &apos;https://github.com&apos;:
+Password for &apos;https://github.com&apos;:
+</code></pre><p>hexo deploy命令执行成功后，浏览器中打开网址<a href="http://sirencode.github.io（将sirencode换成你的用户名）能看到和打开http://localhost:4000时一样的页面。" target="_blank" rel="noopener">http://sirencode.github.io（将sirencode换成你的用户名）能看到和打开http://localhost:4000时一样的页面。</a></p>
+<p>为避免每次输入Github用户名和密码的麻烦，添加ssh key到Github</p>
+<p>####1 检查SSH keys是否存在Github<br>执行如下命令，检查SSH keys是否存在。如果有文件id_rsa.pub或id_dsa.pub，则直接进入步骤3将SSH key添加到Github中，否则进入下一步生成SSH key。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al ~/.ssh</span><br></pre></td></tr></table></figure>
+<p>####2 生成新的ssh key<br>执行如下命令生成public/private rsa key pair，注意将<a href="mailto:your_email@example.com" target="_blank" rel="noopener">your_email@example.com</a>换成你自己注册Github的邮箱地址。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></span><br></pre></td></tr></table></figure>
+<p>默认会在相应路径下（~/.ssh/id_rsa.pub）生成id_rsa和id_rsa.pub两个文件。</p>
+<p>####3 将ssh key添加到Github中<br>Find前往文件夹~/.ssh/id_rsa.pub打开id_rsa.pub文件，里面的信息即为SSH key，将这些信息复制到Github的Add SSH key页面即可。</p>
+<p>进入Github –&gt; Settings –&gt; SSH keys –&gt; add SSH key:</p>
+<p>Title里任意添一个标题，将复制的内容粘贴到Key里，点击下方Add key绿色按钮即可。</p>
+<h3 id="2-发布文章"><a href="#2-发布文章" class="headerlink" title="2 发布文章"></a>2 发布文章</h3><p>终端cd到blog文件夹下，执行如下命令新建文章：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"postName"</span></span><br></pre></td></tr></table></figure>
+<p>名为postName.md的文件会建在目录/blog/source/_posts下。你当然可以用vim来编辑文章。我在用Mou编辑器，支持预览，虽然其预览主题并非我喜欢，如果你有好用的markdown编辑器请推荐给我，感激不尽！</p>
+<p>文章编辑完成后，终端cd到blog文件夹下，执行如下命令来发布：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate             //生成静态页面</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy            //将文章部署到Github</span><br></pre></td></tr></table></figure>
+<p>文章的发布环节已经完成，就是编辑，（clean）generate,deploy循环。</p>
+<h3 id="3-安装Theme博客模板"><a href="#3-安装Theme博客模板" class="headerlink" title="3 安装Theme博客模板"></a>3 安装Theme博客模板</h3><p>你可以到<a href="https://hexo.io/themes/" target="_blank" rel="noopener">Hexo官网主题页</a>去搜寻自己喜欢的theme。这里以<a href="https://github.com/iissnan/hexo-theme-next">hexo-theme-next</a>为例</p>
+<p>终端cd到 blog 目录下执行如下命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
+<p>将blog目录下_config.yml里theme的名称landscape修改为next</p>
+<p>终端cd到blog目录下执行如下命令(每次部署文章的步骤)：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean     //清除缓存文件 (db.json) 和已生成的静态文件 (public)</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g             //生成缓存和静态文件</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d             //重新部署到服务器</span><br></pre></td></tr></table></figure>
+<p>至于更改theme内容，比如名称，描述，头像等去修改blog/_config.yml文件和blog/themes/next/_config.yml文件中对应的属性名称即可， 不要忘记冒号:后加空格。 <a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">NexT</a> 使用文档里有极详细的介绍。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-rxjava" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1430,136 +1601,6 @@ public void call(Integer number) {
 });
 </code></pre></li>
 </ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-build_blog" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/17/build_blog/" class="article-date">
-  	<time datetime="2016-08-16T16:00:00.000Z" itemprop="datePublished">2016-08-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/17/build_blog/">
-        Mac上 Github 博客搭建
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>文章来自[他人博客]（<a href="http://www.jianshu.com/p/13e64c9e2295）" target="_blank" rel="noopener">http://www.jianshu.com/p/13e64c9e2295）</a></p>
-<h2 id="环境准备"><a href="#环境准备" class="headerlink" title="环境准备"></a>环境准备</h2><h3 id="1-安装-node"><a href="#1-安装-node" class="headerlink" title="1 安装 node"></a>1 安装 node</h3><p>用来生成静态页面。移步<a href="https://nodejs.org/en/" target="_blank" rel="noopener">Node.js官网</a>，下载v5.5.0 Stable 一路安装即可。</p>
-<h3 id="2-安装-Git"><a href="#2-安装-Git" class="headerlink" title="2 安装 Git"></a>2 安装 Git</h3><p>作用：把本地的hexo内容提交到github上去. </p>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Git</a></p>
-<h3 id="安装Hexo"><a href="#安装Hexo" class="headerlink" title="安装Hexo"></a>安装Hexo</h3><p>当Node.js和Git都安装好后就可以正式安装Hexo了</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo npm install -g hexo</span><br></pre></td></tr></table></figure>
-<p>输入管理员密码（Mac登录密码）即开始安装 (sudo:linux系统管理指令  -g:全局安装)</p>
-<pre><code>注意坑一：[Hexo官网](https://hexo.io/docs)上的安装命令是$ npm install -g hexo-cli，安装时不要忘记前面加上sudo，否则会因为权限问题报错。
-</code></pre><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><p>终端cd到一个你选定的目录，执行hexo init命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo init blog</span><br></pre></td></tr></table></figure>
-<p>blog是你建立的文件夹名称。cd到blog文件夹下，执行如下命令，安装npm：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install</span><br></pre></td></tr></table></figure>
-<p>执行如下命令，开启hexo服务器：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo s</span><br></pre></td></tr></table></figure>
-<p>此时，浏览器中打开网址<a href="http://localhost:4000查看本地效果" target="_blank" rel="noopener">http://localhost:4000查看本地效果</a></p>
-<p>本地设置好后，接下来开始关联Github。</p>
-<h2 id="关联Github"><a href="#关联Github" class="headerlink" title="关联Github"></a>关联Github</h2><h3 id="1-创建仓库"><a href="#1-创建仓库" class="headerlink" title="1 创建仓库"></a>1 创建仓库</h3><p>登录你的Github帐号，新建仓库，名为用户名.github.io固定写法，如sirencode</p>
-<p>本地的blog文件夹下内容为：</p>
-<pre><code>_config.yml  
-db.json 
-node_modules 
-package.json
-scaffolds
-source
-themes
-</code></pre><p>终端cd到blog文件夹下，vim打开_config.yml，命令如下：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ vim _config.yml</span><br></pre></td></tr></table></figure>
-<p>打开后往下滑到最后，修改成下边的样子：</p>
-<pre><code>deploy:
-  type: git
-  repository: https://github.com/sirencode/sirencode.github.io.git
-  branch: master
-</code></pre><p>你需要将repository后sirencode换成你自己的用户名hexo 3.1.1版本后type:值为git。</p>
-<pre><code>注意坑二：在配置所有的_config.yml文件时（包括theme中的），在所有的冒号:后边都要加一个空格，否则执行hexo命令会报错，切记 切记
-</code></pre><p>在blog文件夹目录下执行生成静态页面命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate        或者：hexo g</span><br></pre></td></tr></table></figure>
-<pre><code>此时若出现如下报错：
-ERROR Local hexo not found in ~/blog
-ERROR Try runing: &apos;npm install hexo --save&apos;
-则执行命令：
-npm install hexo --save
-若无报错，自行忽略此步骤。
-</code></pre><p>再执行配置命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy            或者：hexo d</span><br></pre></td></tr></table></figure>
-<pre><code>注意坑三：若执行命令hexo deploy仍然报错：无法连接git或找不到git，则执行如下命令来安装hexo-deployer-git：
- $ npm install hexo-deployer-git --save
-</code></pre><p> 再次执行hexo generate和hexo deploy命令。</p>
-<p> 若你未关联Github，则执行hexo deploy命令时终端会提示你输入Github的用户名和密码，即</p>
-<pre><code>Username for &apos;https://github.com&apos;:
-Password for &apos;https://github.com&apos;:
-</code></pre><p>hexo deploy命令执行成功后，浏览器中打开网址<a href="http://sirencode.github.io（将sirencode换成你的用户名）能看到和打开http://localhost:4000时一样的页面。" target="_blank" rel="noopener">http://sirencode.github.io（将sirencode换成你的用户名）能看到和打开http://localhost:4000时一样的页面。</a></p>
-<p>为避免每次输入Github用户名和密码的麻烦，添加ssh key到Github</p>
-<p>####1 检查SSH keys是否存在Github<br>执行如下命令，检查SSH keys是否存在。如果有文件id_rsa.pub或id_dsa.pub，则直接进入步骤3将SSH key添加到Github中，否则进入下一步生成SSH key。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ls -al ~/.ssh</span><br></pre></td></tr></table></figure>
-<p>####2 生成新的ssh key<br>执行如下命令生成public/private rsa key pair，注意将<a href="mailto:your_email@example.com" target="_blank" rel="noopener">your_email@example.com</a>换成你自己注册Github的邮箱地址。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ ssh-keygen -t rsa -C <span class="string">"your_email@example.com"</span></span><br></pre></td></tr></table></figure>
-<p>默认会在相应路径下（~/.ssh/id_rsa.pub）生成id_rsa和id_rsa.pub两个文件。</p>
-<p>####3 将ssh key添加到Github中<br>Find前往文件夹~/.ssh/id_rsa.pub打开id_rsa.pub文件，里面的信息即为SSH key，将这些信息复制到Github的Add SSH key页面即可。</p>
-<p>进入Github –&gt; Settings –&gt; SSH keys –&gt; add SSH key:</p>
-<p>Title里任意添一个标题，将复制的内容粘贴到Key里，点击下方Add key绿色按钮即可。</p>
-<h3 id="2-发布文章"><a href="#2-发布文章" class="headerlink" title="2 发布文章"></a>2 发布文章</h3><p>终端cd到blog文件夹下，执行如下命令新建文章：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new <span class="string">"postName"</span></span><br></pre></td></tr></table></figure>
-<p>名为postName.md的文件会建在目录/blog/source/_posts下。你当然可以用vim来编辑文章。我在用Mou编辑器，支持预览，虽然其预览主题并非我喜欢，如果你有好用的markdown编辑器请推荐给我，感激不尽！</p>
-<p>文章编辑完成后，终端cd到blog文件夹下，执行如下命令来发布：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate             //生成静态页面</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo deploy            //将文章部署到Github</span><br></pre></td></tr></table></figure>
-<p>文章的发布环节已经完成，就是编辑，（clean）generate,deploy循环。</p>
-<h3 id="3-安装Theme博客模板"><a href="#3-安装Theme博客模板" class="headerlink" title="3 安装Theme博客模板"></a>3 安装Theme博客模板</h3><p>你可以到<a href="https://hexo.io/themes/" target="_blank" rel="noopener">Hexo官网主题页</a>去搜寻自己喜欢的theme。这里以<a href="https://github.com/iissnan/hexo-theme-next">hexo-theme-next</a>为例</p>
-<p>终端cd到 blog 目录下执行如下命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ git <span class="built_in">clone</span> https://github.com/iissnan/hexo-theme-next themes/next</span><br></pre></td></tr></table></figure>
-<p>将blog目录下_config.yml里theme的名称landscape修改为next</p>
-<p>终端cd到blog目录下执行如下命令(每次部署文章的步骤)：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo clean     //清除缓存文件 (db.json) 和已生成的静态文件 (public)</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo g             //生成缓存和静态文件</span><br></pre></td></tr></table></figure>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo d             //重新部署到服务器</span><br></pre></td></tr></table></figure>
-<p>至于更改theme内容，比如名称，描述，头像等去修改blog/_config.yml文件和blog/themes/next/_config.yml文件中对应的属性名称即可， 不要忘记冒号:后加空格。 <a href="http://theme-next.iissnan.com/" target="_blank" rel="noopener">NexT</a> 使用文档里有极详细的介绍。</p>
 
       
     </div>
