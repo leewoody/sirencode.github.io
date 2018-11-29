@@ -162,6 +162,86 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-dir505 科学上网" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/06/16/dir505 科学上网/" class="article-date">
+  	<time datetime="2018-06-15T16:00:00.000Z" itemprop="datePublished">2018-06-16</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/16/dir505 科学上网/">
+        dir505 科学上网
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="dir505-科学上网"><a href="#dir505-科学上网" class="headerlink" title="dir505 科学上网"></a>dir505 科学上网</h1><h2 id="dir505-升级国际版固件"><a href="#dir505-升级国际版固件" class="headerlink" title="dir505 升级国际版固件"></a>dir505 升级国际版固件</h2><p><a href="http://support.dlink.com.au/download/download.aspx?product=DIR-505" target="_blank" rel="noopener">国际版固件地址</a></p>
+<p>利用16进制编辑器将‘DEF’替换为‘CN’,之后通过路由器的固件升级升级固件。</p>
+<h2 id="刷openwrt"><a href="#刷openwrt" class="headerlink" title="刷openwrt"></a>刷openwrt</h2><p><a href="https://archive.openwrt.org/releases/" target="_blank" rel="noopener">openwrt</a> 之后找到dir-505的固件下载(包含factory的那个),通过固件升级的方式刷。</p>
+<h2 id="配置openwrt"><a href="#配置openwrt" class="headerlink" title="配置openwrt"></a>配置openwrt</h2><ul>
+<li><p>注意安装完openwrt在WiFi中将找不到对应的路由信号，这是因为openwrt默认没有开启无线功能，这时候不要慌，网线连接电脑进行配置即可。</p>
+</li>
+<li><p>1 首先向电脑的本地网卡设置为固定ip:192.168.1.x,子网掩码：255.255.0.0</p>
+</li>
+<li>2 telnet 192.168.1.1</li>
+<li>3 设置root密码</li>
+<li>4 mac ssh win putty 192.168.1.1</li>
+</ul>
+<h3 id="开启wifi"><a href="#开启wifi" class="headerlink" title="开启wifi"></a>开启wifi</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">uci set wireless.@wifi-device[0].disabled=0</span><br><span class="line">uci set wireless.@wifi-iface[0].ssid='wifiname'</span><br><span class="line">uci set wireless.@wifi-iface[0].encryption='psk2'</span><br><span class="line">uci set wireless.@wifi-iface[0].key='password'</span><br><span class="line">uci commit wireless</span><br></pre></td></tr></table></figure>
+<h3 id="设置时区"><a href="#设置时区" class="headerlink" title="设置时区"></a>设置时区</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">uci set system.@system[0].zonename='Asia/Shanghai'</span><br><span class="line">uci set system.@system[0].timezone='CST-8'</span><br><span class="line">uci commit system</span><br></pre></td></tr></table></figure>
+<h3 id="中继路由设置"><a href="#中继路由设置" class="headerlink" title="中继路由设置"></a>中继路由设置</h3><p>如果你需要将你的路由作为二级路由使用请设置中继192.168.0.x，因为192.168.1.1已经被一级路由占用。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">uci delete network.lan.ifname</span><br><span class="line">uci delete network.lan.type</span><br><span class="line">uci add network interface</span><br><span class="line">uci rename network.@interface[-1]='wan'</span><br><span class="line">uci set network.@interface[-1].ifname='eth1'</span><br><span class="line">uci set network.wan.proto=static</span><br><span class="line">uci set network.wan.ipaddr=192.168.1.123</span><br><span class="line">uci set network.wan.netmask=255.255.255.0</span><br><span class="line">uci set network.wan.gateway=192.168.1.1</span><br><span class="line">uci set network.wan.dns='114.114.114.114 114.114.115.115'</span><br><span class="line">uci set network.lan.ipaddr=192.168.0.1</span><br><span class="line">uci set network.lan.dns='114.114.114.114 114.114.115.115'</span><br><span class="line">uci commit network</span><br></pre></td></tr></table></figure>
+<h3 id="重启network"><a href="#重启network" class="headerlink" title="重启network"></a>重启network</h3><p>/etc/init.d/network restart</p>
+<h2 id="安装ss"><a href="#安装ss" class="headerlink" title="安装ss"></a>安装ss</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">opkg update</span><br><span class="line">//中文后台</span><br><span class="line">opkg install install luci-i18n-base-zh-cn</span><br><span class="line">opkg install luci-app-shadowsocks-libev</span><br><span class="line">opkg install luci-i18n-shadowsocks-libev-zh-cn</span><br><span class="line">opkg install shadowsocks-libev</span><br></pre></td></tr></table></figure>
+<p>注意安装顺序：最后安装shadowsocks-libev,安装完这个就默认设置一个本地代理导致网络无法访问了。</p>
+<h2 id="刷成砖恢复"><a href="#刷成砖恢复" class="headerlink" title="刷成砖恢复"></a>刷成砖恢复</h2><p>dir-505号称刷不坏的神机：</p>
+<p>恢复模式设置：</p>
+<ul>
+<li>1 将电脑的本地网卡设置为固定IP：192.168.0.x 子网掩码:255.255.0.0</li>
+<li>2 断电情况按住路由的reset之后通电等到红灯闪烁松开reset</li>
+<li>3 电脑打开192.168.1.1便可上传固件了</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android 输入系统" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -927,114 +1007,6 @@
 <li>3 新的dex替换壳程序的dex，得到新的apk,修改壳apk的checksum、signature 和file_size的信息，并且要附加加壳的apk的长度信息在dex文件中，以便我们进行解壳保证原来apk的正常运行。</li>
 </ul>
 <h3 id="脱壳流程"><a href="#脱壳流程" class="headerlink" title="脱壳流程"></a>脱壳流程</h3><p><img src="http://oc4zuck5v.bkt.clouddn.com/%E4%B8%8B%E8%BD%BD.png" alt=""></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-java GC" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/17/java GC/" class="article-date">
-  	<time datetime="2018-04-16T16:00:00.000Z" itemprop="datePublished">2018-04-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/17/java GC/">
-        java GC
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="java-GC"><a href="#java-GC" class="headerlink" title="java GC"></a>java GC</h1><p>Java程序不用像C++程序在程序中自行处理内存的回收释放。这是因为Java在JVM虚拟机上增加了垃圾回收(GC)机制，用以在合适的时间触发垃圾回收，将不需要的内存空间回收释放，避免无限制的内存增长导致的OOM。</p>
-<p>由于Java堆是Java中最大的一块内存区域，主要用来存储各种类的实例对象，GC主要回收的也是Java堆中的内存。</p>
-<h2 id="堆中新生代和老年代两块区域"><a href="#堆中新生代和老年代两块区域" class="headerlink" title="堆中新生代和老年代两块区域"></a>堆中新生代和老年代两块区域</h2><p>新生代和老年代所占的内存比例默认是1:2(JDK1.6,该值可以通过参数 –XX:NewRatio 来指定)。</p>
-<p>还有一个持久代，用于存放静态文件（class类、方法）和常量等。持久代对垃圾回收没有显著影响，但是有些应用可能动态生成或者调用一些class，例如Hibernate 等，在这种时候需要设置一个比较大的持久代空间来存放这些运行过程中新增的类。对永久代的回收主要回收两部分内容：废弃常量和无用的类。永久代空间在Java SE8特性中已经被移除。取而代之的是元空间（MetaSpace）。</p>
-<h2 id="GC-触发"><a href="#GC-触发" class="headerlink" title="GC 触发"></a>GC 触发</h2><ul>
-<li>1 对象优先分配到新生代的Eden区，当不够空间的时候进行一次Minor GC，清理频率很高。</li>
-<li>2 Full GC发生在老年代，当不够空间的时候进行一次Full GC，伴随着也会进行一次Minor GC。</li>
-<li>3 进行Minor GC时，会判断每次变成晋升到老年代的对象平均值是否大于老年代剩余空间，如果大于，则进行一次Full GC，如果小于就会去判断HandlePromotionFailure设置是否允许担保失败，如果允许，则进行Minor GC，不允许则改为Full GC。</li>
-</ul>
-<h2 id="堆内存的GC特点"><a href="#堆内存的GC特点" class="headerlink" title="堆内存的GC特点"></a>堆内存的GC特点</h2><ul>
-<li>1 对象优先在Eden分配。</li>
-<li>2 大对象直接进入老年代。</li>
-<li>3 长期存活的对象将进入老年代。</li>
-</ul>
-<h2 id="新生代"><a href="#新生代" class="headerlink" title="新生代"></a>新生代</h2><p>新生代又分为：Eden、From Survivor、To Survivor三个区域。Eden : from : to = 8 : 1 : 1(可以通过参数 –XX:SurvivorRatio 来设定).</p>
-<p>JVM 每次只会使用 Eden 和其中的一块 Survivor 区域来为对象服务，所以无论什么时候，总是有一块 Survivor 区域是空闲着的。因此，新生代实际可用的内存空间为 9/10 ( 即90% )的新生代空间。</p>
-<h2 id="老年代"><a href="#老年代" class="headerlink" title="老年代"></a>老年代</h2><h2 id="GC分类"><a href="#GC分类" class="headerlink" title="GC分类"></a>GC分类</h2><p>GC 分为两种：Minor GC、Full GC ( 或称为 Major GC )。</p>
-<h2 id="Minor-GC"><a href="#Minor-GC" class="headerlink" title="Minor GC"></a>Minor GC</h2><p>Minor GC是发生在新生代中的垃圾收集动作，所采用的是复制算法。</p>
-<p>复制算法的思想是将内存分成大小相等的两块区域(survivor0,survivor1)，每次使用其中的一块。当这一块的内存用完了，就将还存活的对象复制到另一块区域上，然后对该块进行内存回收。</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-04-17%20%E4%B8%8B%E5%8D%889.31.06.png" alt=""></p>
-<p>对象诞生在Eden中的一块区域-&gt;一次GC后,将Eden中还存活的对象放到from区域，并清理Eden区域，如果存货对象年龄+1，就这样每次GC一次就将存活的对象拷贝到frome区域，如果from区满了，就将from并将对应对象的年龄+1，当加到15(默认)，这些对象就会成为老年代。</p>
-<p>但这也不是一定的，对于一些较大的对象 ( 即需要分配一块较大的连续内存空间 ) 则是直接进入到老年代。</p>
-<h2 id="Full-GC"><a href="#Full-GC" class="headerlink" title="Full GC"></a>Full GC</h2><p>Full GC 是发生在老年代的垃圾收集动作，所采用的是标记-清除算法，标记-整理算法。</p>
-<h3 id="标记"><a href="#标记" class="headerlink" title="标记"></a>标记</h3><p>将不可达对象，null或者没有引用的对象标记。</p>
-<h3 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h3><p>在标记阶段将标记出需要回收的对象空间，然后在下一个阶段清除阶段里面，将这些标记出来的对象空间回收掉。这种算法有两个主要问题：一个是标记和清除的效率不高，另一个问题是在清理之后会产生大量不连续的内存碎片，这样会导致在分配大对象时候无法找到足够的连续内存而触发另一次垃圾收集动作。</p>
-<h3 id="标记整理"><a href="#标记整理" class="headerlink" title="标记整理"></a>标记整理</h3><p>标记-整理(Mark-Compact)算法有效预防了标记-清除算法中可能产生过多内存碎片的问题。在标记需要回收的对象以后，它会将所有存活的对象空间挪到一起，然后再执行清理。</p>
-<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p>并行（Parallel）：指多条垃圾收集线程并行工作，但此时用户线程仍然处于等待状态。</p>
-<p>并发（Concurrent）：指用户线程与垃圾收集线程同时执行（但不一定是并行的，可能会交替执行），用户程序在继续运行。而垃圾收集程序运行在另一个CPU上。</p>
-<p>吞吐量 = 运行用户代码时间 /（运行用户代码时间 + 垃圾收集时间）。</p>
-<h3 id="新生代收集器"><a href="#新生代收集器" class="headerlink" title="新生代收集器"></a>新生代收集器</h3><ul>
-<li>1 Serial收集器：最老的一个单线程收集器，更重要的是它在进行垃圾收集时，必须暂停其他所有的工作线程，直至Serial收集器收集结束为止（“Stop The World”）。</li>
-<li>2 ParNew 收集器：ParNew收集器就是Serial收集器的多线程版本</li>
-<li>3 Parallel Scavenge 收集器：Parallel Scavenge收集器的目标是达到一个可控制的吞吐量，停顿时间越短就越适合需要与用户交互的程序，良好的响应速度能提升用户体验</li>
-</ul>
-<h3 id="老年代收集器"><a href="#老年代收集器" class="headerlink" title="老年代收集器"></a>老年代收集器</h3><ul>
-<li>1 Serial Old 是 Serial收集器的老年代版本，它同样是一个单线程收集器。</li>
-<li>2 Parallel Old收集器：Parallel Old收集器是Parallel Scavenge收集器的老年代版本。</li>
-<li>3 CMS收集器：CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时间为目标的收集器，它非常符合那些集中在互联网站或者B/S系统的服务端上的Java应用，这些应用都非常重视服务的响应速度。</li>
-</ul>
-<h2 id="JVM-Dalvik-ART"><a href="#JVM-Dalvik-ART" class="headerlink" title="JVM Dalvik ART"></a>JVM Dalvik ART</h2><h3 id="Dalvik"><a href="#Dalvik" class="headerlink" title="Dalvik"></a>Dalvik</h3><p>Dalvik虚拟机是Google等厂商合作开发的Android移动设备平台的核心组成部分之一。它可以支持已转换为.dex（即Dalvik Executable）格式的Java应用程序的运行，.dex格式是专为Dalvik设计的一种压缩格式，适合内存和处理器速度有限的系统。（dx 是一套工具，可以将 Java .class 转换成 .dex 格式. 一个dex档通常会有多个.class。由于dex有时必须进行最佳化，会使档案大小增加1-4倍，以ODEX结尾。） </p>
-<h4 id="DVM如何运行java"><a href="#DVM如何运行java" class="headerlink" title="DVM如何运行java"></a>DVM如何运行java</h4><ul>
-<li>1 JVM字节码由.class文件组成，每个文件一个class。</li>
-<li>2 JVM在运行的时候为每一个类装载字节码。相反的，Dalvik程序只包含一个或多个.dex文件，这个文件包含了程序中所有的类。</li>
-<li>3 Java编译器创建了JVM字节码之后，Dalvik的dx编译器删除.class文件，重新把它们编译成Dalvik字节码，然后把它们写进一个.dex文件中。　　</li>
-</ul>
-<h4 id="Dalvik与JVM区别"><a href="#Dalvik与JVM区别" class="headerlink" title="Dalvik与JVM区别"></a>Dalvik与JVM区别</h4><ul>
-<li>1 Dalvik 基于寄存器，而 JVM 基于栈。基于寄存器的虚拟机对于更大的程序来说，在它们编译的时候，花费的时间更短。</li>
-<li>2 Dalvik执行.dex格式的字节码，而JVM执行.class格式的字节码。</li>
-<li>3 Dalvik 和 Java SDK的SDK不同</li>
-<li>4 Dalvik 经过优化，允许在有限的内存中同时运行多个虚拟机的实例，并且每一个Dalvik 应用作为一个独立的Linux 进程执行。独立的进程可以防止在虚拟机崩溃的时候所有程序都被关闭。</li>
-<li>5 Dalvik虚拟机有自己的 bytecode，并非使用 java bytecode</li>
-</ul>
-<h3 id="ART"><a href="#ART" class="headerlink" title="ART"></a>ART</h3><p>Android 4.4发布了一个ART运行时，准备用来替换掉之前一直使用的Dalvik虚拟机.</p>
-<p>ART 的机制与 Dalvik 不同。在Dalvik下，应用每次运行的时候，字节码都需要通过即时编译器（just in time ，JIT）转换为机器码，这会拖慢应用的运行效率，而在ART 环境中，应用在第一次安装的时候，字节码就会预先编译成机器码，使其成为真正的本地应用。这个过程叫做预编译（AOT,Ahead-Of-Time）。这样的话，应用的启动(首次)和执行都会变得更加快速。</p>
 
       
     </div>

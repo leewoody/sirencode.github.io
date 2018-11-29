@@ -162,6 +162,64 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-子模块访问app模块" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/02/26/子模块访问app模块/" class="article-date">
+  	<time datetime="2018-02-25T16:00:00.000Z" itemprop="datePublished">2018-02-26</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/02/26/子模块访问app模块/">
+        子模块访问app模块
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="子模块访问app模块"><a href="#子模块访问app模块" class="headerlink" title="子模块访问app模块"></a>子模块访问app模块</h1><h2 id="第一步子模块定义接口"><a href="#第一步子模块定义接口" class="headerlink" title="第一步子模块定义接口"></a>第一步子模块定义接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TradeModuleBridge</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">goOpenAccount</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="第二步-接口管理类"><a href="#第二步-接口管理类" class="headerlink" title="第二步 接口管理类"></a>第二步 接口管理类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TradeBridgeHolder</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TradeModuleBridge <span class="title">getBridge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bridge;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setBridge</span><span class="params">(TradeModuleBridge bridge)</span> </span>&#123;</span><br><span class="line">        TradeBridgeHolder.bridge = bridge;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> TradeModuleBridge bridge;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="第三步-在app的application里面初始化"><a href="#第三步-在app的application里面初始化" class="headerlink" title="第三步 在app的application里面初始化"></a>第三步 在app的application里面初始化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initTradeBridge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    TradeBridgeHolder.setBridge(<span class="keyword">new</span> TradeModuleBridge() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">goOpenAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            startActivity(WebViewActivity.buildAccountIntent(FuturesApplication.from()));</span><br><span class="line">            StatisticsAgent.onEV(EventIDS.ME_OPEN_ACCOUNT);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="第四步-使用"><a href="#第四步-使用" class="headerlink" title="第四步 使用"></a>第四步 使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TradeBridgeHolder.getBridge().goOpenAccount();</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-java 内存区域详解" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1490,90 +1548,6 @@
 <li>3 每当用户请求接口的时候，就将用户加入当前时间-1秒的那个list里面</li>
 <li>4 每当转到对应的刻度就去取一下当前刻度里面的用户列表，并逐一将用户断开连接。</li>
 </ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-ConstraintLayout" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/10/13/ConstraintLayout/" class="article-date">
-  	<time datetime="2017-10-12T16:00:00.000Z" itemprop="datePublished">2017-10-13</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/13/ConstraintLayout/">
-        ConstraintLayout
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="ConstraintLayout-对象的优势"><a href="#ConstraintLayout-对象的优势" class="headerlink" title="ConstraintLayout 对象的优势"></a>ConstraintLayout 对象的优势</h3><p>如果您使用 ConstraintLayout 来构建相同的布局，XML 文件会包含类似于下面这样的元素层次结构。该布局拥有一个完全扁平的层次结构。这是因为 ConstraintLayout 允许您构建复杂的布局，而不必嵌套 View 和 ViewGroup 元素。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.constraint.ConstraintLayout</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ImageView</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ImageView</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">TextView</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">EditText</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">TextView</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">TextView</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">EditText</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Button</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Button</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">TextView</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.constraint.ConstraintLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>使用ConstraintLayout布局可以极大降低布局的嵌套层次，避免过度重绘，从而极大提升了绘制的性能，当布局越复杂的时候表现的越明显。</p>
-<ul>
-<li>布局位置重叠时，后面的在前面的顶层。</li>
-</ul>
-<h3 id="属性说明"><a href="#属性说明" class="headerlink" title="属性说明"></a>属性说明</h3><h4 id="layout-constraint-本源位置-目标位置-”-目标ID-”"><a href="#layout-constraint-本源位置-目标位置-”-目标ID-”" class="headerlink" title="layout_constraint[本源位置]_[目标位置]=”[目标ID]”"></a>layout_constraint[本源位置]_[目标位置]=”[目标ID]”</h4><p>根据布局中的其他元素或视图, 确定View在屏幕中的位置, 受到三类约束, 即其他视图, 父容器(parent), 基准线(Guideline)。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">layout_constraintLeft_toLeftOf</span><br><span class="line">layout_constraintRight_toLeftOf</span><br><span class="line">layout_constraintRight_toRightOf</span><br><span class="line">layout_constraintTop_toTopOf</span><br><span class="line">layout_constraintTop_toBottomOf</span><br><span class="line">layout_constraintBottom_toTopOf</span><br><span class="line">layout_constraintBottom_toBottomOf</span><br><span class="line">layout_constraintBaseline_toBaselineOf</span><br></pre></td></tr></table></figure>
-<h4 id="match-parent-替换"><a href="#match-parent-替换" class="headerlink" title="match_parent 替换"></a>match_parent 替换</h4><p>单个设置：<br>ConstraintLayout也支持自动填充宽高, 把宽高设置为0dp会根据位置自动填充。宽全屏，需要左右和父布局左右相邻，高全屏，需要上下和副布局上下相邻。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">      android:id=&quot;@+id/textView3&quot;</span><br><span class="line">      android:layout_width=&quot;0dp&quot;</span><br><span class="line">      android:layout_height=&quot;0dp&quot;</span><br><span class="line">      android:layout_marginTop=&quot;16dp&quot;</span><br><span class="line">      android:text=&quot;TextView&quot;</span><br><span class="line">      app:layout_constraintLeft_toLeftOf=&quot;parent&quot;</span><br><span class="line">      app:layout_constraintRight_toRightOf=&quot;parent&quot;</span><br><span class="line">      app:layout_constraintTop_toTopOf=&quot;parent&quot;</span><br><span class="line">      app:layout_constraintBottom_toBottomOf=&quot;parent&quot;/&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="控件的高宽比例设置"><a href="#控件的高宽比例设置" class="headerlink" title="控件的高宽比例设置"></a>控件的高宽比例设置</h4><p>ConstraintLayout支持使用constraintDimensionRatio设置宽高的纵横比, 把宽(layout_width)或者高(layout_height)设置为0dp, 则根据另一个属性值和比例, 计算当前属性值.</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ImageView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"200dp"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:background</span>=<span class="string">"@color/colorAccent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:contentDescription</span>=<span class="string">"@null"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:src</span>=<span class="string">"@drawable/total_large"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"@+id/constraintLayout"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_constraintDimensionRatio</span>=<span class="string">"4:3"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_constraintLeft_toLeftOf</span>=<span class="string">"@+id/constraintLayout"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_constraintRight_toRightOf</span>=<span class="string">"@+id/constraintLayout"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
-<h4 id="比例方式"><a href="#比例方式" class="headerlink" title="比例方式"></a>比例方式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app:layout_constraintHorizontal_weight</span><br><span class="line">app:layout_constraintVertical_weight</span><br></pre></td></tr></table></figure>
-<h4 id="Guidelines"><a href="#Guidelines" class="headerlink" title="Guidelines"></a>Guidelines</h4><p>Guidelines在布局的横向或者竖向添加网格线，网格线可以是具体的长度或者是宽高的百分比。之后添加控件相对于具体的线位置布局。</p>
-<h4 id="自动生成约束"><a href="#自动生成约束" class="headerlink" title="自动生成约束"></a>自动生成约束</h4><p>如果嫌弃手动布局麻烦，再简单的布局情况下，可以手动的拖动，并设置自动生成约束，design -&gt; Autoconnect。</p>
-<h4 id="Inference"><a href="#Inference" class="headerlink" title="Inference"></a>Inference</h4><p>Inference也是用于自动添加约束的，但它比Autoconnect的功能要更为强大，因为AutoConnect只能给当前操作的控件自动添加约束，而Inference会给当前界面中的所有元素自动添加约束。因而Inference比较适合用来实现复杂度比较高的界面，它可以一键自动生成所有的约束。摆放完成之后点击一下工具栏上的Infer Constraints按钮，就能为所有控件自动添加约束了</p>
-<h4 id="比例间距"><a href="#比例间距" class="headerlink" title="比例间距"></a>比例间距</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">layout_constraintHorizontal_chainStyle</span><br></pre></td></tr></table></figure>
-<p>取值：</p>
-<ul>
-<li>packed</li>
-<li><p>spread_inside</p>
-</li>
-<li><p>spread + 宽度为0，且可以通过weight控制分配比例，首未加间隔</p>
-</li>
-<li>spread_inside + 宽度非0 首未不加间隔</li>
-<li>packed + 宽度非0</li>
-</ul>
-<p><img src="http://img.blog.csdn.net/20170917222312991?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbG1qNjIzNTY1Nzkx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
-<h4 id="浮动按钮"><a href="#浮动按钮" class="headerlink" title="浮动按钮"></a>浮动按钮</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">layout_constraintHorizontal_bias</span><br><span class="line">layout_constraintVertical_bias</span><br></pre></td></tr></table></figure>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.constraint.ConstraintLayout</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">...</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">"com.zhy.constrantlayout_learn.MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"60dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"60dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"#612"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintHorizontal_bias</span>=<span class="string">"0.9"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintLeft_toLeftOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintRight_toRightOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintVertical_bias</span>=<span class="string">"0.9"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">....</span>&gt;</span></span><br></pre></td></tr></table></figure>
 
       
     </div>
