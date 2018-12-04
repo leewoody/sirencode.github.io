@@ -1,537 +1,421 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="">
+
+
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>Diablo</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/gitment.css">
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="" />
+  
+
+  
+    <meta name="description" content="Diablo,null" />
+  
+  
+  <link rel="icon" type="image/x-icon" href="/logo.png">
+  <title> [ Diablo ]null</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
 </head>
+
+
 <body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://github.com/sirencode/images/logo.png">
+    <span class="title">Diablo</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item actived"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      
+
+  <div class="recent-posts">
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2018/05/05/逆向-small语法/"><h2>逆向-small语法</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2018-05-04T16:00:00.000Z">
+            2018-05-05
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
 
         </div>
-        <nav class="header-nav">
-            
-            <a href="/" class="header-nav-link" >
-                首页
-            </a>
-            
 
-            
-            <a href="/archives" class="header-nav-link">
-                归档
-            </a>
-            
+        
+        <a class="more" href="/2018/05/05/逆向-small语法/"> 阅读全文〉</a>
+      </article>
+    
 
-            
-            <a href="/tags" class="header-nav-link">
-                标签
-            </a>
-            
+      <article class="recent-post-item">
+        <a class="title" href="/2018/04/29/Android P/"><h2>Android P</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2018-04-28T16:00:00.000Z">
+            2018-04-29
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
 
-            
-            <a href="/about/" class="header-nav-link">
-                关于
-            </a>
-            
-        </nav>
-    </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
         </div>
 
-    </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/" class="mobile-nav-link">首页</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/archives" class="mobile-nav-link">归档</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/tags" class="mobile-nav-link">标签</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/about/" class="mobile-nav-link">关于</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2018/05/05/Apk二次打包/">Apk二次打包</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-05-05</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
-<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
-<li>添加方法记得修改被注入方法的寄存器个数</li>
-</ul>
-<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2018/04/29/Android P/">Android P</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-04-29</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="Android-P"><a href="#Android-P" class="headerlink" title="Android P"></a>Android P</h1><h2 id="P-中的变更"><a href="#P-中的变更" class="headerlink" title="P 中的变更"></a>P 中的变更</h2><h3 id="基于RTT的室内定位技术"><a href="#基于RTT的室内定位技术" class="headerlink" title="基于RTT的室内定位技术"></a>基于RTT的室内定位技术</h3><p>原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。</p>
-<p>这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定涉及到WiFi穿墙后的信号衰减问题，而且不同的室内结构的墙体的多少材质厚度都不同，很难有统一的算法来实现对这块的弥补，这也是后来爱立信公司放弃这块技术的主要原因。我看了一下Google这次推出这个技术，也没有相对对这个问题完善的解决方案，想来也是先推出来占个坑，后续优化吧。</p>
-<p>前景：我认为室内定位的前景还是非常好的，而且RTT技术是AP无感的，安全也可以保证。</p>
-<h3 id="屏幕缺口支持"><a href="#屏幕缺口支持" class="headerlink" title="屏幕缺口支持"></a>屏幕缺口支持</h3><p>Android P 支持最新的全面屏以及为摄像头和扬声器预留空间的凹口屏幕。幸运的是，选择凹口屏幕的大小。</p>
-<p>为了更多的屏占比，对齐刘海的支持，给你们看一下预览图，随意感受下。(我实在欣赏不来)</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/emulator-devoptions-cutout_2x.png" alt=""></p>
-<p>辣眼睛</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/timg.png" alt=""></p>
-<h3 id="通知"><a href="#通知" class="headerlink" title="通知"></a>通知</h3><p>Android P 引入了多个通知增强功能：</p>
-<ul>
-<li>1 支持图像：现在，Android P 可在手机的“短信通知”中显示图像。 您可以使用短信中的 setData() 来显示图像。</li>
-<li>2 简化了针对对话参与者的支持：全新的 Notification.Person 类可用于识别参与对话的人员，包括他们的头像和 URI。 现在，许多其他 API（如 addMessage()）均可利用 Person 类，而不是 CharSequence。(Message)</li>
-<li>3 将回复另存为草稿。</li>
-<li>4 确定对话是否为群组对话。</li>
-<li>5 允许为操作提供语义含义，如标记为已读、删除、回复等。</li>
-<li>6 SmartReply：Android P 支持您的短信应用中提供的建议回复。 使用 RemoteInput.setChoices() 为用户提供一组标准回复。</li>
-<li>7 渠道设置、广播和请勿打扰</li>
-</ul>
-<h3 id="多摄像头支持和摄像头更新"><a href="#多摄像头支持和摄像头更新" class="headerlink" title="多摄像头支持和摄像头更新"></a>多摄像头支持和摄像头更新</h3><p>在运行 Android P 的设备上，您可以通过两个或更多物理摄像头来同时访问多个视频流。</p>
-<p>在受支持的设备上，Android P 还支持外置 USB/UVC 摄像头。</p>
-<h3 id="适用于位图和可绘制对象的-ImageDecoder"><a href="#适用于位图和可绘制对象的-ImageDecoder" class="headerlink" title="适用于位图和可绘制对象的 ImageDecoder"></a>适用于位图和可绘制对象的 ImageDecoder</h3><p>Android P 引入 ImageDecoder ，以提供现代化的图像解码方法。 您应使用 ImageDecoder 来解码图像，而不是使用 BitmapFactory 和 BitmapFactory.Options API。</p>
-<ul>
-<li>要将解码的图像缩放到精确尺寸，请以目标尺寸为参数，调用 setResize()。 您也可以使用样图尺寸来缩放图像。 </li>
-</ul>
-<p>对于开发者来说这个是重点，算是非常重大的改动。重点就在这个精准，以前对bitmap做质量压缩的时候参数只接受整数倍的。我举个例子，现在有张图，需要安质量压缩为原来的1.5分之一，也就是缩放1.5倍，也就是质量压缩2.25倍，但如果只接受整数倍的话你要么缩放四倍，要么不缩放，这就蛋疼了。</p>
-<h3 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h3><p>Android P 引入了一个新的 AnimatedImageDrawable 类，用于绘制和显示 GIF 和 WebP 动画图像。</p>
-<h3 id="Neural-Networks-API-1-1"><a href="#Neural-Networks-API-1-1" class="headerlink" title="Neural Networks API 1.1"></a>Neural Networks API 1.1</h3><p>Android 8.1（API 级别 27）中引入了 Neural Networks API 以加快 Android 设备上机器学习的速度。 Android P 扩展并改进了该 API，从而增加了对 Pad、BatchToSpaceND、SpaceToBatchND、Transpose、Strided Slice、Mean、Div、Sub 和 Squeeze 九个新运算的支持。</p>
-<h2 id="安全"><a href="#安全" class="headerlink" title="安全"></a>安全</h2><h3 id="新增的-APK-密钥轮转"><a href="#新增的-APK-密钥轮转" class="headerlink" title="新增的 APK 密钥轮转"></a>新增的 APK 密钥轮转</h3><p>Android P 添加了对 APK Signature Scheme v3 的支持。该架构提供的选择可以在其签名块中为每个签名证书加入一条轮转证据记录。 应用可以通过将 APK 文件过去的签名证书链接到现在签署应用时使用的证书，使用新签名证书来签署应用。</p>
-<h3 id="传输层安全协议-TLS-实现变更"><a href="#传输层安全协议-TLS-实现变更" class="headerlink" title="传输层安全协议 (TLS) 实现变更"></a>传输层安全协议 (TLS) 实现变更</h3><h3 id="对-ChaCha20-流式传输加密的支持"><a href="#对-ChaCha20-流式传输加密的支持" class="headerlink" title="对 ChaCha20 流式传输加密的支持"></a>对 ChaCha20 流式传输加密的支持</h3><h3 id="统一的指纹身份验证对话框"><a href="#统一的指纹身份验证对话框" class="headerlink" title="统一的指纹身份验证对话框"></a>统一的指纹身份验证对话框</h3><p>可以选择使用，也可以不用。</p>
-<h3 id="高可信度用户确认"><a href="#高可信度用户确认" class="headerlink" title="高可信度用户确认"></a>高可信度用户确认</h3><p>发布时安装有 Android P 的受支持设备赋予您使用 Protected Confirmation API 的能力。 借助这个新增的 API，应用可以利用 ConfirmationDialog 的实例向用户显示提示，请他们批准一个简短的声明。 应用可以通过这个声明再次确认，用户确实想完成一项敏感事务，例如付款。</p>
-<h3 id="硬件安全性模块"><a href="#硬件安全性模块" class="headerlink" title="硬件安全性模块"></a>硬件安全性模块</h3><p>Android P 的受支持设备可拥有 StrongBox Keymaster，这个 Keymaster HAL 的实现位于一个硬件安全性模块内。 该模块包含自己的 CPU、安全存储空间、真实随机数生成器以及抵御软件包篡改和未经授权线刷应用的附加机制。 检查存储在 StrongBox Keymaster 中的密钥时，系统会通过可信执行环境 (TEE) 证实密钥的完整性。</p>
-<h3 id="保护对密钥库进行的密钥导入"><a href="#保护对密钥库进行的密钥导入" class="headerlink" title="保护对密钥库进行的密钥导入"></a>保护对密钥库进行的密钥导入</h3><p>Android P 增加了密钥加密的安全性，添加了利用新增的 ASN.1 编码密钥格式将已加密密钥安全导入密钥库的功能。 Keymaster 随后会在密钥库中将密钥解密，因此密钥的内容永远不会以明文形式出现在设备的主机内存中。</p>
-<h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><p>为避免无意的旋转，我们新增了一个模式，哪怕设备位置发生变化，也会固定在当前屏幕方向上。 必要时用户可以通过按系统栏上的一个新增按钮手动触发旋转。</p>
-<h2 id="兼容性问题"><a href="#兼容性问题" class="headerlink" title="兼容性问题"></a>兼容性问题</h2><h3 id="对于非-SDK-接口的限制"><a href="#对于非-SDK-接口的限制" class="headerlink" title="对于非 SDK 接口的限制"></a>对于非 SDK 接口的限制</h3><p>Android P 引入了针对非 SDK 接口的使用限制，无论是直接使用还是通过反射或 JNI 间接使用。 无论应用是引用非 SDK 接口还是尝试使用反射或 JNI 获取其句柄，均适用这些限制。 </p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2018/04/19/Android root 原理/">Android root 原理</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-04-19</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="Android-root-原理"><a href="#Android-root-原理" class="headerlink" title="Android root 原理"></a>Android root 原理</h1><p>因为Amdroid的内核是Linux的，所以Android的root和linux的获取root权限是一回事。</p>
-<h2 id="Linux获取root权限"><a href="#Linux获取root权限" class="headerlink" title="Linux获取root权限"></a>Linux获取root权限</h2><ul>
-<li>1 执行su或sudo命令切换用户</li>
-<li>2 输入管理员密码，获取root权限</li>
-</ul>
-<h2 id="Android-root"><a href="#Android-root" class="headerlink" title="Android root"></a>Android root</h2><p>首先Android系统不希望用户获取root权限，做一些破坏系统完整性的事情，所以大部分厂商发布的系统中都不会包含su这个程序。另外Android里的su不是靠验证密码的，而是看你原来的权限是什么。意思就是如果你是root，那你可以通过su切换到别的用户。</p>
-<ul>
-<li>拷贝su文件到/system/xbin或/system/bin系统分区。</li>
-<li>设置su文件所有者为root用户。</li>
-<li>设置su文件的setUID权限，便于自己的进程执行su命令获取root权限。</li>
-</ul>
-<p>大体流程：</p>
-<p>用过Linux的人都知道r代表该文件可读，w代表可写，x代表可执行，-就代表没有该权限，s代表当任何一个用户执行该文件的时候都拥有文件所有者的权限，这文件的所有者是root，简单点说就是不管谁执行这个文件，他执行的时候都是以root身份执行的。</p>
-<p>×××（所有者）×××（组用户）×××（其他用户：<br>第一个rwx代表文件所有者的权限，第二个rwx代表和所有者同组人的权限，第三个rwx代表其他用户对该文件的权限。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp /data/tmp/su /system/bin/</span><br><span class="line">copy su 到/system/分区chown root:root su</span><br><span class="line"><span class="comment">#su的所有者置成root</span></span><br><span class="line">chmod 4775 /system/bin/su        </span><br><span class="line"><span class="comment">#把su置成-rwsr-xr-x</span></span><br></pre></td></tr></table></figure>
-<p>执行上面的命令也是需要root权限的，一个办法就是找一个本身已经有root权限的进程(系统进程漏洞)来启动我上面的两行代码，那我这两行代码一启动就是root权限，就可以顺利执行了。</p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2018/04/18/Android 加固技术/">Android 加固技术</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-04-18</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="Android-加固技术"><a href="#Android-加固技术" class="headerlink" title="Android 加固技术"></a>Android 加固技术</h1><h2 id="为什么要加固"><a href="#为什么要加固" class="headerlink" title="为什么要加固"></a>为什么要加固</h2><p>增加反编译的难度，混淆的破解难度已经不够了，因此需要做进一步的防护工作，因此加固的方案就产生。</p>
-<h2 id="加固的历史"><a href="#加固的历史" class="headerlink" title="加固的历史"></a>加固的历史</h2><p>第一代加固技术——混淆技术；</p>
-<p>第二代加固技术——加壳技术；</p>
-<p>第三代加固技术——指令抽离：即抽取 dex 文件中 DexCode 的部分结构，即虚拟机操作码。在虚拟机加载到此类的时候对 DexCode 结构进行还原。从而保证 app 能正常的运行。</p>
-<p>第四代加固技术——指令转换，即现在经常被应用的VMP加固技术。</p>
-<h2 id="加固的实现"><a href="#加固的实现" class="headerlink" title="加固的实现"></a>加固的实现</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>原理：将我们的源APK进行加密，解密的过程</p>
-<p>dex合并：采用的 VMP（虚拟软件保护技术）大概思路就是自定义一套虚拟机指令和对应的解释器，并将标准的指令转换成自己的指令，然后由解释器将自己的指令给对应的解释器。</p>
-<h3 id="加壳流程"><a href="#加壳流程" class="headerlink" title="加壳流程"></a>加壳流程</h3><p>三个对象：</p>
-<ul>
-<li>1 源APK-要加密的apk文件</li>
-<li>2 壳APK-负责对源apk解密</li>
-<li>3 加密工具-将源APK进行加密和壳Dex合并新的Dex</li>
-</ul>
-<p>主要步骤：</p>
-<ul>
-<li>1 加密算法加密源APK，生成加密的dex文件</li>
-<li>2 加密后的dex和壳apk进行合并生成新的dex文件</li>
-<li>3 新的dex替换壳程序的dex，得到新的apk,修改壳apk的checksum、signature 和file_size的信息，并且要附加加壳的apk的长度信息在dex文件中，以便我们进行解壳保证原来apk的正常运行。</li>
-</ul>
-<h3 id="脱壳流程"><a href="#脱壳流程" class="headerlink" title="脱壳流程"></a>脱壳流程</h3><p><img src="http://oc4zuck5v.bkt.clouddn.com/%E4%B8%8B%E8%BD%BD.png" alt=""></p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2018/04/17/java GC/">java GC</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-04-17</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="java-GC"><a href="#java-GC" class="headerlink" title="java GC"></a>java GC</h1><p>Java程序不用像C++程序在程序中自行处理内存的回收释放。这是因为Java在JVM虚拟机上增加了垃圾回收(GC)机制，用以在合适的时间触发垃圾回收，将不需要的内存空间回收释放，避免无限制的内存增长导致的OOM。</p>
-<p>由于Java堆是Java中最大的一块内存区域，主要用来存储各种类的实例对象，GC主要回收的也是Java堆中的内存。</p>
-<h2 id="堆中新生代和老年代两块区域"><a href="#堆中新生代和老年代两块区域" class="headerlink" title="堆中新生代和老年代两块区域"></a>堆中新生代和老年代两块区域</h2><p>新生代和老年代所占的内存比例默认是1:2(JDK1.6,该值可以通过参数 –XX:NewRatio 来指定)。</p>
-<p>还有一个持久代，用于存放静态文件（class类、方法）和常量等。持久代对垃圾回收没有显著影响，但是有些应用可能动态生成或者调用一些class，例如Hibernate 等，在这种时候需要设置一个比较大的持久代空间来存放这些运行过程中新增的类。对永久代的回收主要回收两部分内容：废弃常量和无用的类。永久代空间在Java SE8特性中已经被移除。取而代之的是元空间（MetaSpace）。</p>
-<h2 id="GC-触发"><a href="#GC-触发" class="headerlink" title="GC 触发"></a>GC 触发</h2><ul>
-<li>1 对象优先分配到新生代的Eden区，当不够空间的时候进行一次Minor GC，清理频率很高。</li>
-<li>2 Full GC发生在老年代，当不够空间的时候进行一次Full GC，伴随着也会进行一次Minor GC。</li>
-<li>3 进行Minor GC时，会判断每次变成晋升到老年代的对象平均值是否大于老年代剩余空间，如果大于，则进行一次Full GC，如果小于就会去判断HandlePromotionFailure设置是否允许担保失败，如果允许，则进行Minor GC，不允许则改为Full GC。</li>
-</ul>
-<h2 id="堆内存的GC特点"><a href="#堆内存的GC特点" class="headerlink" title="堆内存的GC特点"></a>堆内存的GC特点</h2><ul>
-<li>1 对象优先在Eden分配。</li>
-<li>2 大对象直接进入老年代。</li>
-<li>3 长期存活的对象将进入老年代。</li>
-</ul>
-<h2 id="新生代"><a href="#新生代" class="headerlink" title="新生代"></a>新生代</h2><p>新生代又分为：Eden、From Survivor、To Survivor三个区域。Eden : from : to = 8 : 1 : 1(可以通过参数 –XX:SurvivorRatio 来设定).</p>
-<p>JVM 每次只会使用 Eden 和其中的一块 Survivor 区域来为对象服务，所以无论什么时候，总是有一块 Survivor 区域是空闲着的。因此，新生代实际可用的内存空间为 9/10 ( 即90% )的新生代空间。</p>
-<h2 id="老年代"><a href="#老年代" class="headerlink" title="老年代"></a>老年代</h2><h2 id="GC分类"><a href="#GC分类" class="headerlink" title="GC分类"></a>GC分类</h2><p>GC 分为两种：Minor GC、Full GC ( 或称为 Major GC )。</p>
-<h2 id="Minor-GC"><a href="#Minor-GC" class="headerlink" title="Minor GC"></a>Minor GC</h2><p>Minor GC是发生在新生代中的垃圾收集动作，所采用的是复制算法。</p>
-<p>复制算法的思想是将内存分成大小相等的两块区域(survivor0,survivor1)，每次使用其中的一块。当这一块的内存用完了，就将还存活的对象复制到另一块区域上，然后对该块进行内存回收。</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-04-17%20%E4%B8%8B%E5%8D%889.31.06.png" alt=""></p>
-<p>对象诞生在Eden中的一块区域-&gt;一次GC后,将Eden中还存活的对象放到from区域，并清理Eden区域，如果存货对象年龄+1，就这样每次GC一次就将存活的对象拷贝到frome区域，如果from区满了，就将from并将对应对象的年龄+1，当加到15(默认)，这些对象就会成为老年代。</p>
-<p>但这也不是一定的，对于一些较大的对象 ( 即需要分配一块较大的连续内存空间 ) 则是直接进入到老年代。</p>
-<h2 id="Full-GC"><a href="#Full-GC" class="headerlink" title="Full GC"></a>Full GC</h2><p>Full GC 是发生在老年代的垃圾收集动作，所采用的是标记-清除算法，标记-整理算法。</p>
-<h3 id="标记"><a href="#标记" class="headerlink" title="标记"></a>标记</h3><p>将不可达对象，null或者没有引用的对象标记。</p>
-<h3 id="标记清除"><a href="#标记清除" class="headerlink" title="标记清除"></a>标记清除</h3><p>在标记阶段将标记出需要回收的对象空间，然后在下一个阶段清除阶段里面，将这些标记出来的对象空间回收掉。这种算法有两个主要问题：一个是标记和清除的效率不高，另一个问题是在清理之后会产生大量不连续的内存碎片，这样会导致在分配大对象时候无法找到足够的连续内存而触发另一次垃圾收集动作。</p>
-<h3 id="标记整理"><a href="#标记整理" class="headerlink" title="标记整理"></a>标记整理</h3><p>标记-整理(Mark-Compact)算法有效预防了标记-清除算法中可能产生过多内存碎片的问题。在标记需要回收的对象以后，它会将所有存活的对象空间挪到一起，然后再执行清理。</p>
-<h2 id="垃圾收集器"><a href="#垃圾收集器" class="headerlink" title="垃圾收集器"></a>垃圾收集器</h2><p>并行（Parallel）：指多条垃圾收集线程并行工作，但此时用户线程仍然处于等待状态。</p>
-<p>并发（Concurrent）：指用户线程与垃圾收集线程同时执行（但不一定是并行的，可能会交替执行），用户程序在继续运行。而垃圾收集程序运行在另一个CPU上。</p>
-<p>吞吐量 = 运行用户代码时间 /（运行用户代码时间 + 垃圾收集时间）。</p>
-<h3 id="新生代收集器"><a href="#新生代收集器" class="headerlink" title="新生代收集器"></a>新生代收集器</h3><ul>
-<li>1 Serial收集器：最老的一个单线程收集器，更重要的是它在进行垃圾收集时，必须暂停其他所有的工作线程，直至Serial收集器收集结束为止（“Stop The World”）。</li>
-<li>2 ParNew 收集器：ParNew收集器就是Serial收集器的多线程版本</li>
-<li>3 Parallel Scavenge 收集器：Parallel Scavenge收集器的目标是达到一个可控制的吞吐量，停顿时间越短就越适合需要与用户交互的程序，良好的响应速度能提升用户体验</li>
-</ul>
-<h3 id="老年代收集器"><a href="#老年代收集器" class="headerlink" title="老年代收集器"></a>老年代收集器</h3><ul>
-<li>1 Serial Old 是 Serial收集器的老年代版本，它同样是一个单线程收集器。</li>
-<li>2 Parallel Old收集器：Parallel Old收集器是Parallel Scavenge收集器的老年代版本。</li>
-<li>3 CMS收集器：CMS（Concurrent Mark Sweep）收集器是一种以获取最短回收停顿时间为目标的收集器，它非常符合那些集中在互联网站或者B/S系统的服务端上的Java应用，这些应用都非常重视服务的响应速度。</li>
-</ul>
-<h2 id="JVM-Dalvik-ART"><a href="#JVM-Dalvik-ART" class="headerlink" title="JVM Dalvik ART"></a>JVM Dalvik ART</h2><h3 id="Dalvik"><a href="#Dalvik" class="headerlink" title="Dalvik"></a>Dalvik</h3><p>Dalvik虚拟机是Google等厂商合作开发的Android移动设备平台的核心组成部分之一。它可以支持已转换为.dex（即Dalvik Executable）格式的Java应用程序的运行，.dex格式是专为Dalvik设计的一种压缩格式，适合内存和处理器速度有限的系统。（dx 是一套工具，可以将 Java .class 转换成 .dex 格式. 一个dex档通常会有多个.class。由于dex有时必须进行最佳化，会使档案大小增加1-4倍，以ODEX结尾。） </p>
-<h4 id="DVM如何运行java"><a href="#DVM如何运行java" class="headerlink" title="DVM如何运行java"></a>DVM如何运行java</h4><ul>
-<li>1 JVM字节码由.class文件组成，每个文件一个class。</li>
-<li>2 JVM在运行的时候为每一个类装载字节码。相反的，Dalvik程序只包含一个或多个.dex文件，这个文件包含了程序中所有的类。</li>
-<li>3 Java编译器创建了JVM字节码之后，Dalvik的dx编译器删除.class文件，重新把它们编译成Dalvik字节码，然后把它们写进一个.dex文件中。　　</li>
-</ul>
-<h4 id="Dalvik与JVM区别"><a href="#Dalvik与JVM区别" class="headerlink" title="Dalvik与JVM区别"></a>Dalvik与JVM区别</h4><ul>
-<li>1 Dalvik 基于寄存器，而 JVM 基于栈。基于寄存器的虚拟机对于更大的程序来说，在它们编译的时候，花费的时间更短。</li>
-<li>2 Dalvik执行.dex格式的字节码，而JVM执行.class格式的字节码。</li>
-<li>3 Dalvik 和 Java SDK的SDK不同</li>
-<li>4 Dalvik 经过优化，允许在有限的内存中同时运行多个虚拟机的实例，并且每一个Dalvik 应用作为一个独立的Linux 进程执行。独立的进程可以防止在虚拟机崩溃的时候所有程序都被关闭。</li>
-<li>5 Dalvik虚拟机有自己的 bytecode，并非使用 java bytecode</li>
-</ul>
-<h3 id="ART"><a href="#ART" class="headerlink" title="ART"></a>ART</h3><p>Android 4.4发布了一个ART运行时，准备用来替换掉之前一直使用的Dalvik虚拟机.</p>
-<p>ART 的机制与 Dalvik 不同。在Dalvik下，应用每次运行的时候，字节码都需要通过即时编译器（just in time ，JIT）转换为机器码，这会拖慢应用的运行效率，而在ART 环境中，应用在第一次安装的时候，字节码就会预先编译成机器码，使其成为真正的本地应用。这个过程叫做预编译（AOT,Ahead-Of-Time）。这样的话，应用的启动(首次)和执行都会变得更加快速。</p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2018/04/09/Android Android 共享内存/">Android 共享内存</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-04-09</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="Android-匿名共享内存"><a href="#Android-匿名共享内存" class="headerlink" title="Android 匿名共享内存"></a>Android 匿名共享内存</h1><p>Android可以使用Linux的一切IPC通信方式，包括共享内存，不过Android主要使用的方式是匿名共享内存Ashmem（Anonymous Shared Memory），跟原生的不太一样，比如它在自己的驱动中添加了互斥锁，另外通过fd的传递来实现共享内存的传递。</p>
-<h2 id="Android进程数据传递"><a href="#Android进程数据传递" class="headerlink" title="Android进程数据传递"></a>Android进程数据传递</h2><ul>
-<li>binder机制(TransactionTooLargeException 每个进程的内存是 1M)</li>
-<li>mmap</li>
-<li>匿名共享内存Ashmem</li>
-</ul>
-<p>当两个进程需要共享数据时，我们通常可以通过两种方式来实现。第一种方式是在进程间拷贝共享数据，即将共享数据在进程间传输；第二种方式是将共享数据放在一个公共的地方，然后每一个进程都到这个公共的地方去访问共享数据。如果进程间需要共享的数据很大，那么显然第二种共享方式的效率更高。</p>
-<h2 id="Android-mmap内存映射"><a href="#Android-mmap内存映射" class="headerlink" title="Android  mmap内存映射"></a>Android  mmap内存映射</h2><p>mmap是一种内存映射文件的方法，即将一个文件或者其它对象映射到进程的地址空间，实现文件磁盘地址和进程虚拟地址空间中一段虚拟地址的一一对映关系。实现这样的映射关系后，进程就可以采用指针的方式读写操作这一段内存，而系统会自动回写脏页面到对应的文件磁盘上，即完成了对文件的操作而不必再调用read,write等系统调用函数。相反，内核空间对这段区域的修改也直接反映用户空间，从而可以实现不同进程间的文件共享。</p>
-<h3 id="mmap原理"><a href="#mmap原理" class="headerlink" title="mmap原理"></a>mmap原理</h3><ul>
-<li>1 进程启动映射过程，并在虚拟地址空间中为映射创建虚拟映射区域。</li>
-<li>2 调用内核空间的系统调用函数mmap（不同于用户空间函数），实现文件物理地址和进程虚拟地址的一一映射关系。</li>
-<li>3 进程发起对这片映射空间的访问，引发缺页异常，实现文件内容到物理内存（主存）的拷贝。</li>
-</ul>
-<p>注：前两个阶段仅在于创建虚拟区间并完成地址映射，但是并没有将任何文件数据的拷贝至主存。真正的文件读取是当进程发起读或写操作时。</p>
-<h3 id="mmap优点"><a href="#mmap优点" class="headerlink" title="mmap优点"></a>mmap优点</h3><ul>
-<li>1 对文件的读取操作跨过了页缓存，减少了数据的拷贝次数，用内存读写取代I/O读写，提高了文件读取效率。</li>
-<li>2 实现了用户空间和内核空间的高效交互方式。两空间的各自修改操作可以直接反映在映射的区域内，从而被对方空间及时捕捉。</li>
-<li>3 提供进程间共享内存及相互通信的方式。不管是父子进程还是无亲缘关系的进程，都可以将自身用户空间映射到同一个文件或匿名映射到同一片区域。从而通过各自对映射区域的改动，达到进程间通信和进程间共享的目的。 同时，如果进程A和进程B都映射了区域C，当A第一次读取C时通过缺页从磁盘复制文件页到内存中；但当B再读C的相同页面时，虽然也会产生缺页异常，但是不再需要从磁盘中复制文件过来，而可直接使用已经保存在内存中的文件数据。</li>
-<li>4 可用于实现高效的大规模数据传输。内存空间不足，是制约大数据操作的一个方面，解决方案往往是借助硬盘空间协助操作，补充内存的不足。但是进一步会造成大量的文件I/O操作，极大影响效率。这个问题可以通过mmap映射很好的解决。换句话说，但凡是需要用磁盘空间代替内存的时候，mmap都可以发挥其功效。</li>
-</ul>
-<h3 id="mmap-在-android中应用"><a href="#mmap-在-android中应用" class="headerlink" title="mmap 在 android中应用"></a>mmap 在 android中应用</h3><p>mmap的一大应用就是将内核空间的一段内存映射到各个应用程序的各自的应用地址空间中，然后各个应用程序都可以访问这段内存空间，这就是所谓的内存共享实现进程间的信息的交互。</p>
-<h2 id="ashmem匿名共享内存"><a href="#ashmem匿名共享内存" class="headerlink" title="ashmem匿名共享内存"></a>ashmem匿名共享内存</h2><p>Android 的Ashmem是一种共享内存的机制，它基于mmap系统调用，不同进程可以将同一段物理内存映射到各自的虚拟地址控制，从而实现共享。其优势是通过内核驱动提供了辅助内核的内存回收算法机制(pin/unpin)。</p>
-<p>Android的匿名共享内存（Ashmem）机制基于Linux内核的共享内存，但是Ashmem与cache shrinker关联起来，增加了内存回收算法的注册接口，因此Linux内存管理系统将不再使用内存区域加以回收。Ashmem以内核驱动的形式实现，在文件系统中创建/dev/ashmem设备文件。如果进程A与进程B需要共享内存，进程A可通过open打开该文件，用ioctl命令ASHMEM_SET_NAME和ASHMEM_SET_SIZE设置共享内存的名称和大小。mmap使用handle获得共享的内存区域；进程B使用同样的handle，由mmap获得同一块内存。handle在进程间的传递可通过Binder等方式实现。</p>
-<h3 id="MemoryFile"><a href="#MemoryFile" class="headerlink" title="MemoryFile"></a>MemoryFile</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">    <span class="class"><span class="keyword">interface</span> <span class="title">IMemoryAidlInterface</span> </span>&#123;</span><br><span class="line">        <span class="function">ParcelFileDescriptor <span class="title">getParcelFileDescriptor</span><span class="params">()</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MemoryFetchService</span> <span class="keyword">extends</span> <span class="title">Service</span> </span>&#123;</span><br><span class="line">        <span class="meta">@Nullable</span></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> IBinder <span class="title">onBind</span><span class="params">(Intent intent)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> MemoryFetchStub();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">MemoryFetchStub</span> <span class="keyword">extends</span> <span class="title">IMemoryAidlInterface</span>.<span class="title">Stub</span> </span>&#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="function"><span class="keyword">public</span> ParcelFileDescriptor <span class="title">getParcelFileDescriptor</span><span class="params">()</span> <span class="keyword">throws</span> RemoteException </span>&#123;</span><br><span class="line">                MemoryFile memoryFile = <span class="keyword">null</span>;</span><br><span class="line">                <span class="keyword">try</span> &#123;</span><br><span class="line">                    memoryFile = <span class="keyword">new</span> MemoryFile(<span class="string">"test_memory"</span>, <span class="number">1024</span>);</span><br><span class="line">                    memoryFile.getOutputStream().write(<span class="keyword">new</span> <span class="keyword">byte</span>[]&#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;);</span><br><span class="line">                    Method method = MemoryFile.class.getDeclaredMethod(<span class="string">"getFileDescriptor"</span>);</span><br><span class="line">                    FileDescriptor des = (FileDescriptor) method.invoke(memoryFile);</span><br><span class="line">                    <span class="keyword">return</span> ParcelFileDescriptor.dup(des);</span><br><span class="line">                &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    Intent intent = <span class="keyword">new</span> Intent(MainActivity.<span class="keyword">this</span>, MemoryFetchService.class);</span><br><span class="line"></span><br><span class="line">    bindService(intent, <span class="keyword">new</span> ServiceConnection() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceConnected</span> <span class="params">(ComponentName name, IBinder service)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">byte</span>[] content = <span class="keyword">new</span> <span class="keyword">byte</span>[<span class="number">10</span>];</span><br><span class="line">            IMemoryAidlInterface iMemoryAidlInterface</span><br><span class="line">                    = IMemoryAidlInterface.Stub.asInterface(service);</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                ParcelFileDescriptor parcelFileDescriptor = iMemoryAidlInterface.getParcelFileDescriptor();</span><br><span class="line">                FileDescriptor descriptor = parcelFileDescriptor.getFileDescriptor();</span><br><span class="line">                FileInputStream fileInputStream = <span class="keyword">new</span> FileInputStream(descriptor);</span><br><span class="line">                fileInputStream.read(content);</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onServiceDisconnected</span> <span class="params">(ComponentName name)</span></span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,Service.BIND_AUTO_CREATE);</span><br><span class="line">``` </span><br><span class="line"></span><br><span class="line">MemoryFile是应用层使用匿名共享内存的方法,关键点就是文件描述符（FileDescriptor）的传递，文件描述符是Linux系统中访问与更新文件的主要方式。</span><br><span class="line"></span><br><span class="line">### MemoryFile实现共享内存的分配与传递</span><br><span class="line"></span><br><span class="line">Java层的构造函数调用<span class="keyword">native</span>层的android_os_MemoryFile_open,首先是通过native_open调用ashmem_create_region创建共享内存</span><br><span class="line"></span><br><span class="line">```c++</span><br><span class="line">    <span class="function"><span class="keyword">static</span> jobject <span class="title">android_os_MemoryFile_open</span><span class="params">(JNIEnv* env, jobject clazz, jstring name, jint length)</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* namestr = (name ? env-&gt;GetStringUTFChars(name, NULL) : NULL);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> result = ashmem_create_region(namestr, length);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (name)</span><br><span class="line">            env-&gt;ReleaseStringUTFChars(name, namestr);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (result &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            jniThrowException(env, <span class="string">"java/io/IOException"</span>, <span class="string">"ashmem_create_region failed"</span>);</span><br><span class="line">            <span class="keyword">return</span> NULL;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> jniCreateFileDescriptor(env, result);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>接着通过native_mmap调用mmap将共享内存映射到当前进程空间，之后Java层就能利用FileDescriptor，像访问文件一样访问共享内存。</p>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">static</span> jint <span class="title">android_os_MemoryFile_mmap</span><span class="params">(JNIEnv* env, jobject clazz, jobject fileDescriptor,</span></span></span><br><span class="line"><span class="function"><span class="params">                                       jint length, jint prot)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> fd = jniGetFDFromFileDescriptor(env, fileDescriptor);</span><br><span class="line">&lt;!--系统调用mmap，分配内存--&gt;</span><br><span class="line">        jint result = (jint)mmap(<span class="literal">NULL</span>, length, prot, MAP_SHARED, fd, <span class="number">0</span>);</span><br><span class="line">    <span class="keyword">if</span> (!result)</span><br><span class="line">        jniThrowException(env, <span class="string">"java/io/IOException"</span>, <span class="string">"mmap failed"</span>);</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="Android进程共享内存的传递-fd文件描述符的传递"><a href="#Android进程共享内存的传递-fd文件描述符的传递" class="headerlink" title="Android进程共享内存的传递-fd文件描述符的传递"></a>Android进程共享内存的传递-fd文件描述符的传递</h3><p>原生Linux共享内存是通过传递已知的key来处理的，但是Android中不存在这种机制，Android是怎么处理的呢？那就是通过Binder传递文件描述符来处理，Android的Binder对于fd的传递也做了适配，原理其实就是在内核层为要传递的目标进程转换fd，因为在linux中fd只是对本进程是有效、且唯一，进程A打开一个文件得到一个fd，不能直接为进程B使用，因为B中那个fd可能压根无效、或者对应其他文件，不过，虽然同一个文件可以有多个文件描述符，但是文件只有一个，在内核层也只会对应一个inode节点与file对象，这也是内核层可以传递fd的基础，Binder驱动通过当前进程的fd找到对应的文件，然后为目标进程新建fd，并传递给目标进程，核心就是把进程A中的fd转化成进程B中的fd。</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/1460468-880df908d284fa9e.jpg" alt=""></p>
-<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>匿名共享内存不会占用Dalvik Heap与Native Heap，不会导致OOM，这是优点，同时也是缺点，因为如果肆意使用，会导致系统资源不足，性能下降。</p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2018/04/09/设计模式-迭代器模式/">设计模式-迭代器模式</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-04-09</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="设计模式-迭代器模式"><a href="#设计模式-迭代器模式" class="headerlink" title="设计模式-迭代器模式"></a>设计模式-迭代器模式</h1><p>在软件开发中，我们经常需要使用聚合对象来存储一系列数据。聚合对象拥有两个职责：一是存储数据；二是遍历数据。从依赖性来看，前者是聚合对象的基本职责；而后者既是可变化的，又是可分离的。因此，可以将遍历数据的行为从聚合对象中分离出来，封装在一个被称之为“迭代器”的对象中，由迭代器来提供遍历聚合对象内部数据的行为，这将简化聚合对象的设计，更符合“单一职责原则”的要求。</p>
-<p>迭代器模式(Iterator Pattern)：提供一种方法来访问聚合对象，而不用暴露这个对象的内部表示，其别名为游标(Cursor)。迭代器模式是一种对象行为型模式。</p>
-<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/20130815225537578.jpeg" alt=""></p>
-<ul>
-<li>Iterator（抽象迭代器）：它定义了访问和遍历元素的接口，声明了用于遍历数据元素的方法，例如：用于获取第一个元素的first()方法，用于访问下一个元素的next()方法，用于判断是否还有下一个元素的hasNext()方法，用于获取当前元素的currentItem()方法等，在具体迭代器中将实现这些方法。</li>
-<li>ConcreteIterator（具体迭代器）：它实现了抽象迭代器接口，完成对聚合对象的遍历，同时在具体迭代器中通过游标来记录在聚合对象中所处的当前位置，在具体实现时，游标通常是一个表示位置的非负整数。</li>
-<li>Aggregate（抽象聚合类）：它用于存储和管理元素对象，声明一个createIterator()方法用于创建一个迭代器对象，充当抽象迭代器工厂角色。</li>
-<li>ConcreteAggregate（具体聚合类）：它实现了在抽象聚合类中声明的createIterator()方法，该方法返回一个与该具体聚合类对应的具体迭代器ConcreteIterator实例。</li>
-</ul>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">first</span><span class="params">()</span></span>; <span class="comment">//将游标指向第一个元素</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">next</span><span class="params">()</span></span>; <span class="comment">//将游标指向下一个元素</span></span><br><span class="line">    <span class="function"><span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span></span>; <span class="comment">//判断是否存在下一个元素</span></span><br><span class="line">    <span class="function">Object <span class="title">currentItem</span><span class="params">()</span></span>; <span class="comment">//获取游标指向的当前元素</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteIterator</span> <span class="keyword">implements</span> <span class="title">Iterator</span> </span>&#123;</span><br><span class="line">    <span class="comment">//维持一个对具体聚合对象的引用，以便于访问存储在聚合对象中的数据</span></span><br><span class="line">    <span class="keyword">private</span> ConcreteAggregate objects;</span><br><span class="line">    <span class="comment">//定义一个游标，用于记录当前访问位置</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">int</span> cursor;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ConcreteIterator</span><span class="params">(ConcreteAggregate objects)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.objects=objects;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">first</span><span class="params">()</span> </span>&#123;  ......  &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">next</span><span class="params">()</span> </span>&#123;  ......  &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">hasNext</span><span class="params">()</span> </span>&#123;  ......  &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Object <span class="title">currentItem</span><span class="params">()</span> </span>&#123;  ......  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Aggregate</span> </span>&#123;</span><br><span class="line">    <span class="function">Iterator <span class="title">createIterator</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteAggregate</span> <span class="keyword">implements</span> <span class="title">Aggregate</span> </span>&#123;    </span><br><span class="line">......</span><br><span class="line">    <span class="function"><span class="keyword">public</span> Iterator <span class="title">createIterator</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> ConcreteIterator(<span class="keyword">this</span>);</span><br><span class="line">    &#125;  </span><br><span class="line">......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>优点：</p>
-<ul>
-<li>1 它支持以不同的方式遍历一个聚合对象，在同一个聚合对象上可以定义多种遍历方式。在迭代器模式中只需要用一个不同的迭代器来替换原有迭代器即可改变遍历算法，我们也可以自己定义迭代器的子类以支持新的遍历方式。</li>
-<li>2 迭代器简化了聚合类。由于引入了迭代器，在原有的聚合对象中不需要再自行提供数据遍历等方法，这样可以简化聚合类的设计。</li>
-<li>3 在迭代器模式中，由于引入了抽象层，增加新的聚合类和迭代器类都很方便，无须修改原有代码，满足“开闭原则”的要求。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>1 由于迭代器模式将存储数据和遍历数据的职责分离，增加新的聚合类需要对应增加新的迭代器类，类的个数成对增加，这在一定程度上增加了系统的复杂性。</li>
-<li>2 抽象迭代器的设计难度较大，需要充分考虑到系统将来的扩展，例如JDK内置迭代器Iterator就无法实现逆向遍历，如果需要实现逆向遍历，只能通过其子类ListIterator等来实现，而ListIterator迭代器无法用于操作Set类型的聚合对象。在自定义迭代器时，创建一个考虑全面的抽象迭代器并不是件很容易的事情。</li>
-</ul>
-<p>场景：</p>
-<ul>
-<li>1 访问一个聚合对象的内容而无须暴露它的内部表示。将聚合对象的访问与内部数据的存储分离，使得访问聚合对象时无须了解其内部实现细节。</li>
-<li>2 需要为一个聚合对象提供多种遍历方式。</li>
-<li>3 为遍历不同的聚合结构提供一个统一的接口，在该接口的实现类中为不同的聚合结构提供不同的遍历方式，而客户端可以一致性地操作该接口。</li>
-</ul>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2018/04/08/设计模式-适配器模式/">设计模式-适配器模式</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-04-08</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="设计模式-适配器模式"><a href="#设计模式-适配器模式" class="headerlink" title="设计模式-适配器模式"></a>设计模式-适配器模式</h1><p>适配器模式(Adapter Pattern)：将一个接口转换成客户希望的另一个接口，使接口不兼容的那些类可以一起工作，其别名为包装器(Wrapper)。适配器模式既可以作为类结构型模式，也可以作为对象结构型模式。</p>
-<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><ul>
-<li>Target：目标角色,期待得到的接口.</li>
-<li>Adaptee：适配者角色,被适配的接口.</li>
-<li>Adapter：适配器角色,将源接口转换成目标接口.</li>
-</ul>
-<h2 id="对象适配器"><a href="#对象适配器" class="headerlink" title="对象适配器"></a>对象适配器</h2><p>优点：把多个不同的适配者适配到同一个目标，也就是说，同一个适配器可以把适配者类和他的子类都适配到目标接口。</p>
-<p>缺点：与类适配器模式相比，要想置换适配者类的方法就不容易。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">sampleOperation2</span><span class="params">()</span></span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adaptee</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         System.out.println(<span class="string">"sampleOperation1"</span>);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adapter</span> <span class="keyword">implements</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">private</span> Adaptee mAdaptee;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="title">Adapter</span><span class="params">(Adaptee adaptee)</span> </span>&#123;</span><br><span class="line">         mAdaptee = adaptee;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="meta">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         mAdaptee.sampleOperation1();</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="meta">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         System.out.println(<span class="string">"sampleOperation2"</span>);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">         Adapter adapter = <span class="keyword">new</span> Adapter(<span class="keyword">new</span> Adaptee());</span><br><span class="line">         adapter.sampleOperation1();</span><br><span class="line">         adapter.sampleOperation2();</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="类适配器"><a href="#类适配器" class="headerlink" title="类适配器"></a>类适配器</h2><p>优点：由于适配器类是适配者类的子类，因此可以再适配器类中置换一些适配者的方法，使得适配器的灵活性更强。</p>
-<p>缺点：对于Java、C#等不支持多重继承的语言，一次最多只能适配一个适配者类，而且目标抽象类只能为接口，不能为类，其使用有一定的局限性，不能将一个适配者类和他的子类同时适配到目标接口。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sampleOperation2</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adaptee</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"sampleOperation1"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adapter</span> <span class="keyword">extends</span> <span class="title">Adaptee</span> <span class="keyword">implements</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"sampleOperation2"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Target adapter = <span class="keyword">new</span> Adapter();</span><br><span class="line">        adapter.sampleOperation1();</span><br><span class="line">        adapter.sampleOperation2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>优点：</p>
-<ul>
-<li>1 将目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，无须修改原有结构。</li>
-<li>2 增加了类的透明性和复用性，将具体的业务实现过程封装在适配者类中，对于客户端类而言是透明的，而且提高了适配者的复用性，同一个适配者类可以在多个不同的系统中复用。</li>
-<li>3 灵活性和扩展性都非常好，通过使用配置文件，可以很方便地更换适配器，也可以在不修改原有代码的基础上增加新的适配器类，完全符合“开闭原则”。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>1 不能同时适配多个适配者。</li>
-</ul>
-<p>场景：</p>
-<ul>
-<li>1 系统需要使用一些现有的类，而这些类的接口（如方法名）不符合系统的需要，甚至没有这些类的源代码。</li>
-<li>2 想创建一个可以重复使用的类，用于与一些彼此之间没有太大关联的一些类，包括一些可能在将来引进的类一起工作。</li>
-</ul>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2018/04/08/RemoteView/">RemoteView</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-04-08</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="RemoteView"><a href="#RemoteView" class="headerlink" title="RemoteView"></a>RemoteView</h1><p>RemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。</p>
-<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>1.通知栏<br>2.桌面小部件</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当前packgeName</span></span><br><span class="line">RemoteViews remoteView = <span class="keyword">new</span> RemoteViews(context.getPackageName(),R.layout.appwidget);</span><br><span class="line">remoteView.setImageViewBitmap(R.id.imageView1,rotateBitmap(context,srcBitmap,degree));</span><br></pre></td></tr></table></figure>
-<h3 id="支持类型"><a href="#支持类型" class="headerlink" title="支持类型"></a>支持类型</h3><p>Layout：FrameLayout,LInearLayout,RelativeLayout,GridLayout</p>
-<p>View：AnalogClock,Button,Chornometer,ImageButton,ImageView,ProgressBar,TextView,ViewFlipper,ListView,GridView,StackView,AdapterViewFlipper,ViewStub</p>
-<h2 id="RemoteViews内部机制"><a href="#RemoteViews内部机制" class="headerlink" title="RemoteViews内部机制"></a>RemoteViews内部机制</h2><ul>
-<li>1 RemoteViews的构造方法 public RemoteViews(String packageName, int layoutId)，第一个参数是当前应用的包名，第二个参数是待加载的布局文件。</li>
-<li>2 RemoteViews提供了一系列的set方法完成view的设置，这是通过反射完成的调用的。</li>
-<li>3 通知和小部件分别由NotificationManager和AppWidgetManager管理，而它们通过Binder分别和SystemServer进程中的NotificationManagerService和AppWidgetManagerService进行通信。所以，布局文件实际上是两个Service加载的，运行在SystemServer进程中。</li>
-<li>4 RemoteViews实现了Parcelable接口，它会通过Binder传递到SystemServer进程，系统会根据RemoteViews中的包名信息获取到应用中的资源，从而完成布局文件的加载。</li>
-<li>5 系统将view操作封装成Action对象，Action同样实现了Parcelable接口，通过Binder传递到SystemServer进程。远程进程通过RemoteViews的apply方法来进行view的更新操作，RemoteViews的apply方法内部则会去遍历所有的action对象并调用它们的apply方法来进行view的更新操作。</li>
-<li>6 RemoteViews的apply和reapply方法的区别：apply方法会加载布局并更新界面，而reapply方法则只会更新界面。</li>
-</ul>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2018/04/08/设计模式-观察者模式/">设计模式-观察者模式</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-04-08</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="设计模式-观察者模式"><a href="#设计模式-观察者模式" class="headerlink" title="设计模式-观察者模式"></a>设计模式-观察者模式</h1><p>观察者模式(Observer Pattern)：定义对象之间的一种一对多依赖关系，使得每当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新。观察者模式的别名包括发布-订阅（Publish_Subscribe）模式、模型-视图（Model_View）模式、源-监听器（Source/Listener）模式或从属者（Dependents）模式。观察者模式是一种对象行为型模式。</p>
-<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/1341501815_4830.jpg" alt=""></p>
-<p>java实现：</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/1341504430_1842.jpg" alt=""></p>
-<ul>
-<li>Subject（目标）：目标又称为主题，它是指被观察的对象。在目标中定义了一个观察者集合，一个观察目标可以接受任意数量的观察者来观察，它提供一系列方法来增加和删除观察者对象，同时它定义了通知方法notify()。目标类可以是接口，也可以是抽象类或具体类。</li>
-<li>ConcreteSubject（具体目标）：具体目标是目标类的子类，通常它包含有经常发生改变的数据，当它的状态发生改变时，向它的各个观察者发出通知；同时它还实现了在目标类中定义的抽象业务逻辑方法（如果有的话）。如果无须扩展目标类，则具体目标类可以省略。</li>
-<li>Observer（观察者）：观察者将对观察目标的改变做出反应，观察者一般定义为接口，该接口声明了更新数据的方法update()，因此又称为抽象观察者。</li>
-<li>ConcreteObserver（具体观察者）：在具体观察者中维护一个指向具体目标对象的引用，它存储具体观察者的有关状态，这些状态需要和具体目标的状态保持一致；它实现了在抽象观察者Observer中定义的update()方法。通常在实现时，可以调用具体目标类的attach()方法将自己添加到目标类的集合中或通过detach()方法将自己从目标类的集合中删除。</li>
-</ul>
-<h2 id="代码实现"><a href="#代码实现" class="headerlink" title="代码实现"></a>代码实现</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">    <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">    <span class="comment">//定义一个观察者集合用于存储所有观察者对象</span></span><br><span class="line">    <span class="keyword">protected</span> ArrayList observers&lt;Observer&gt; = <span class="keyword">new</span> ArrayList();</span><br><span class="line"></span><br><span class="line">    <span class="comment">//注册方法，用于向观察者集合中增加一个观察者</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(Observer observer)</span> </span>&#123;</span><br><span class="line">        observers.add(observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//注销方法，用于在观察者集合中删除一个观察者</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">detach</span><span class="params">(Observer observer)</span> </span>&#123;</span><br><span class="line">        observers.remove(observer);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">//声明抽象通知方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">notify</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteSubject</span> <span class="keyword">extends</span> <span class="title">Subject</span> </span>&#123;</span><br><span class="line">    <span class="comment">//实现通知方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notify</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//遍历观察者集合，调用每一个观察者的响应方法</span></span><br><span class="line">        <span class="keyword">for</span>(Object obs:observers) &#123;</span><br><span class="line">            ((Observer)obs).update();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="comment">//声明响应方法</span></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">update</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ConcreteObserver</span> <span class="keyword">implements</span> <span class="title">Observer</span> </span>&#123;</span><br><span class="line">    <span class="comment">//实现响应方法</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="comment">//具体响应代码</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>优点：</p>
-<ul>
-<li>1  观察者模式可以实现表示层和数据逻辑层的分离，定义了稳定的消息更新传递机制，并抽象了更新接口，使得可以有各种各样不同的表示层充当具体观察者角色。</li>
-<li>2 观察者模式在观察目标和观察者之间建立一个抽象的耦合。观察目标只需要维持一个抽象观察者的集合，无须了解其具体观察者。由于观察目标和观察者没有紧密地耦合在一起，因此它们可以属于不同的抽象化层次。</li>
-<li>3 观察者模式支持广播通信，观察目标会向所有已注册的观察者对象发送通知，简化了一对多系统设计的难度。</li>
-<li>4 观察者模式满足“开闭原则”的要求，增加新的具体观察者无须修改原有系统代码，在具体观察者与观察目标之间不存在关联关系的情况下，增加新的观察目标也很方便。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>1 如果一个观察目标对象有很多直接和间接观察者，将所有的观察者都通知到会花费很多时间。</li>
-<li>2 如果在观察者和观察目标之间存在循环依赖，观察目标会触发它们之间进行循环调用，可能导致系统崩溃。</li>
-<li>3 观察者模式没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅只是知道观察目标发生了变化。</li>
-</ul>
-<p>场景：</p>
-<ul>
-<li>1 一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两个方面封装在独立的对象中使它们可以各自独立地改变和复用。</li>
-<li>2 一个对象的改变将导致一个或多个其他对象也发生改变，而并不知道具体有多少对象将发生改变，也不知道这些对象是谁。</li>
-<li>3 需要在系统中创建一个触发链，A对象的行为将影响B对象，B对象的行为将影响C对象……，可以使用观察者模式创建一种链式触发机制。</li>
-</ul>
-
-                
-            </div>
-        </article>
-    
-</div>
-<div class="paginator">
-    
         
-        <a class="prev" href="/page/2/">
-            <i class="iconfont icon-prev"></i>
-            上一页
-        </a>
-        
-        
-        <a class="next" href="/page/4/">
-            下一页
-            <i class="iconfont icon-next"></i>
-        </a>
-        
+        <a class="more" href="/2018/04/29/Android P/"> 阅读全文〉</a>
+      </article>
     
-</div>
+
+      <article class="recent-post-item">
+        <a class="title" href="/2018/04/19/Android root 原理/"><h2>Android root 原理</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2018-04-18T16:00:00.000Z">
+            2018-04-19
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2018/04/19/Android root 原理/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2018/04/18/Android 加固技术/"><h2>Android 加固技术</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2018-04-17T16:00:00.000Z">
+            2018-04-18
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2018/04/18/Android 加固技术/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2018/04/17/java GC/"><h2>java GC</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2018-04-16T16:00:00.000Z">
+            2018-04-17
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2018/04/17/java GC/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2018/04/09/设计模式-迭代器模式/"><h2>设计模式-迭代器模式</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2018-04-08T16:00:00.000Z">
+            2018-04-09
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2018/04/09/设计模式-迭代器模式/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2018/04/09/Android Android 共享内存/"><h2>Android 共享内存</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2018-04-08T16:00:00.000Z">
+            2018-04-09
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2018/04/09/Android Android 共享内存/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2018/04/08/设计模式-观察者模式/"><h2>设计模式-观察者模式</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2018-04-07T16:00:00.000Z">
+            2018-04-08
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2018/04/08/设计模式-观察者模式/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2018/04/08/设计模式-适配器模式/"><h2>设计模式-适配器模式</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2018-04-07T16:00:00.000Z">
+            2018-04-08
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2018/04/08/设计模式-适配器模式/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2018/04/08/RemoteView/"><h2>RemoteView</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2018-04-07T16:00:00.000Z">
+            2018-04-08
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2018/04/08/RemoteView/"> 阅读全文〉</a>
+      </article>
+    
+  </div>
+
+
 
     </div>
-</div>
-<footer class="footer-social">
-    
 
     
-
+      <nav class="page-nav text-center">
+          <a class="extend prev" rel="prev" href="/page/2/">〈</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/4/">〉</a>
+      </nav>
     
 
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2018
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://blog.0xff000000.com">首页</a> |
+        <a class="bottom-item" href="https://0xff000000.com" target="_blank">主站</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
     </div>
 </footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
+  
 
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
 </script>
+
+  
+
+
+
+</body>
 </html>

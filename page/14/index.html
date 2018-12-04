@@ -1,389 +1,301 @@
+
 <!DOCTYPE html>
-<html>
+<html lang="">
+
+
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>Diablo</title>
-    <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/gitment.css">
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
+  <meta name="theme-color" content="#202020"/>
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <script src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js" async></script>
+  
+  
+    <meta name="keywords" content="" />
+  
+
+  
+    <meta name="description" content="Diablo,null" />
+  
+  
+  <link rel="icon" type="image/x-icon" href="/logo.png">
+  <title> [ Diablo ]null</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="//cdn.bootcss.com/pure/1.0.0/pure-min.css">
+    
+      <link rel="stylesheet" href="/css/xoxo.css">
+    
+  
 </head>
+
+
 <body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+  <div class="nav-container">
+    <nav class="home-menu pure-menu pure-menu-horizontal">
+  <a class="pure-menu-heading" href="/">
+    <img class="avatar" src="https://github.com/sirencode/images/logo.png">
+    <span class="title">Diablo</span>
+  </a>
+
+  <ul class="pure-menu-list clearfix">
+      
+          
+            <li class="pure-menu-item actived"><a href="/" class="pure-menu-link">首页</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/archives" class="pure-menu-link">归档</a></li>
+          
+      
+          
+            <li class="pure-menu-item"><a href="/search" class="pure-menu-link">搜索</a></li>
+          
+      
+  </ul>
+   
+</nav>
+  </div>
+
+  <div class="container" id="content-outer">
+    <div class="inner" id="content-inner">
+      
+
+  <div class="recent-posts">
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2016/08/17/build_blog/"><h2>Mac上 Github 博客搭建</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2016-08-16T16:00:00.000Z">
+            2016-08-17
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
 
         </div>
-        <nav class="header-nav">
-            
-            <a href="/" class="header-nav-link" >
-                首页
-            </a>
-            
 
-            
-            <a href="/archives" class="header-nav-link">
-                归档
-            </a>
-            
+        
+        <a class="more" href="/2016/08/17/build_blog/"> 阅读全文〉</a>
+      </article>
+    
 
-            
-            <a href="/tags" class="header-nav-link">
-                标签
-            </a>
-            
+      <article class="recent-post-item">
+        <a class="title" href="/2016/07/06/binder/"><h2>Binder 进程间通信</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2016-07-05T16:00:00.000Z">
+            2016-07-06
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
 
-            
-            <a href="/about/" class="header-nav-link">
-                关于
-            </a>
-            
-        </nav>
-    </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
         </div>
 
-    </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/" class="mobile-nav-link">首页</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/archives" class="mobile-nav-link">归档</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/tags" class="mobile-nav-link">标签</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/about/" class="mobile-nav-link">关于</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2016/08/17/rxjava/">RxJava RxAndroid</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2016-08-17</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h3 id="rxjava-原理"><a href="#rxjava-原理" class="headerlink" title="rxjava 原理"></a>rxjava 原理</h3><p>RxJava的一部实现，是通过一种扩展的观察者模式实现的。</p>
-<h4 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h4><p>观察者模式是对象的行为模式，又叫发布-订阅(Publish/Subscribe)模式、模型-视图(Model/View)模式、源-监听器(Source/Listener)模式或从属者(Dependents)模式。</p>
-<p>观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。这个主题对象在状态上发生变化时，会通知所有观察者对象，使它们能够自动更新自己。</p>
-<h4 id="观察者模式角色介绍："><a href="#观察者模式角色介绍：" class="headerlink" title="观察者模式角色介绍："></a>观察者模式角色介绍：</h4><ul>
-<li>抽象主题(Subject)角色：抽象主题角色把所有对观察者对象的引用保存在一个聚集（比如ArrayList对象）里，每个主题都可以有任何数量的观察者。抽象主题提供一个接口，可以增加和删除观察者对象，抽象主题角色又叫做抽象被观察者(Observable)角色。</li>
-<li>具体主题(ConcreteSubject)角色：将有关状态存入具体观察者对象；在具体主题的内部状态改变时，给所有登记过的观察者发出通知。具体主题角色又叫做具体被观察者(Concrete Observable)角色。</li>
-<li>抽象观察者(Observer)角色：为所有的具体观察者定义一个接口，在得到主题的通知时更新自己，这个接口叫做更新接口。</li>
-<li>具体观察者(ConcreteObserver)角色：存储与主题的状态自恰的状态。具体观察者角色实现抽象观察者角色所要求的更新接口，以便使本身的状态与主题的状态 像协调。如果需要，具体观察者角色可以保持一个指向具体主题对象的引用。</li>
-</ul>
-<p>与传统观察者模式不同， RxJava 的事件回调方法除了普通事件 onNext() （相当于 onClick() / onEvent()）之外，还定义了两个特殊的事件：onCompleted() 和 onError()。</p>
-<ul>
-<li>onCompleted(): 事件队列完结。RxJava 不仅把每个事件单独处理，还会把它们看做一个队列。RxJava 规定，当不会再有新的onNext() 发出时，需要触发 onCompleted() 方法作为标志。</li>
-<li>onError(): 事件队列异常。在事件处理过程中出异常时，onError() 会被触发，同时队列自动终止，不允许再有事件发出。</li>
-</ul>
-<p>在一个正确运行的事件序列中, onCompleted() 和 onError() 有且只有一个，并且是事件序列中的最后一个。需要注意的是，onCompleted() 和 onError() 二者也是互斥的，即在队列中调用了其中一个，就不应该再调用另一个。</p>
-<h4 id="为什么要用rxjava"><a href="#为什么要用rxjava" class="headerlink" title="为什么要用rxjava"></a>为什么要用rxjava</h4><p>首先介绍一下我们在项目里面哪些地方用到了rxjava?</p>
-<p>在用到异步处理相关，以及子线程主线程之间数据传递等等。</p>
-<p>传统的实现方式较rxjava要复杂的多：</p>
-<p>传统方式：</p>
-<p>异步处理并回调数据：thread+handler或者AsyncTask等方式，写起来代码量很高也很麻烦。</p>
-<p>rxjava方式：</p>
-<pre><code>Observable.from(folders)
-.flatMap(new Func1&lt;File, Observable&lt;File&gt;&gt;() {
-    @Override
-    public Observable&lt;File&gt; call(File file) {
-        return Observable.from(file.listFiles());
-    }
-})
-.filter(new Func1&lt;File, Boolean&gt;() {
-    @Override
-    public Boolean call(File file) {
-        return file.getName().endsWith(&quot;.png&quot;);
-    }
-})
-.map(new Func1&lt;File, Bitmap&gt;() {
-    @Override
-    public Bitmap call(File file) {
-        return getBitmapFromFile(file);
-    }
-})
-.subscribeOn(Schedulers.io())
-.observeOn(AndroidSchedulers.mainThread())
-.subscribe(new Action1&lt;Bitmap&gt;() {
-    @Override
-    public void call(Bitmap bitmap) {
-        imageCollectorView.addImage(bitmap);
-    }
-});
-</code></pre><p> rxjava主要提供链式调用，并按顺序执行，还可以切换每一步所在的线程。<br> 说到底就是因为简单，开发使用简便。原来很复杂的代码几句话就可以搞定了，大大加快了开发速度。</p>
-<h3 id="rxjava使用"><a href="#rxjava使用" class="headerlink" title="rxjava使用"></a>rxjava使用</h3><h4 id="1-创建-Observer"><a href="#1-创建-Observer" class="headerlink" title="1 创建 Observer"></a>1 创建 Observer</h4><p>Observer 即观察者，它决定事件触发的时候将有怎样的行为。 RxJava 中的 Observer 接口的实现方式：</p>
-<pre><code>Observer&lt;String&gt; observer = new Observer&lt;String&gt;() {
-@Override
-public void onNext(String s) {
-    Log.d(tag, &quot;Item: &quot; + s);
-}
-
-@Override
-public void onCompleted() {
-    Log.d(tag, &quot;Completed!&quot;);
-}
-
-@Override
-public void onError(Throwable e) {
-    Log.d(tag, &quot;Error!&quot;);
-}
-};
-</code></pre><p>除了 Observer 接口之外，RxJava 还内置了一个实现了 Observer 的抽象类：Subscriber。 Subscriber 对 Observer 接口进行了一些扩展，但他们的基本使用方式是完全一样的：</p>
-<pre><code>Subscriber&lt;String&gt; subscriber = new Subscriber&lt;String&gt;() {
-@Override
-public void onNext(String s) {
-    Log.d(tag, &quot;Item: &quot; + s);
-}
-
-@Override
-public void onCompleted() {
-    Log.d(tag, &quot;Completed!&quot;);
-}
-
-@Override
-public void onError(Throwable e) {
-    Log.d(tag, &quot;Error!&quot;);
-}
-};
-</code></pre><h4 id="2-创建-Observable"><a href="#2-创建-Observable" class="headerlink" title="2 创建 Observable"></a>2 创建 Observable</h4><p>Observable 即被观察者，它决定什么时候触发事件以及触发怎样的事件。 RxJava 使用 create() 方法来创建一个 Observable ，并为它定义事件触发规则：</p>
-<pre><code>Observable observable = Observable.create(new Observable.OnSubscribe&lt;String&gt;() {
-@Override
-public void call(Subscriber&lt;? super String&gt; subscriber) {
-    subscriber.onNext(&quot;Hello&quot;);
-    subscriber.onNext(&quot;Hi&quot;);
-    subscriber.onNext(&quot;Aloha&quot;);
-    subscriber.onCompleted();
-}
-});
-</code></pre><p>可以看到，这里传入了一个 OnSubscribe 对象作为参数。OnSubscribe 会被存储在返回的 Observable 对象中，它的作用相当于一个计划表，当 Observable 被订阅的时候，OnSubscribe 的 call() 方法会自动被调用，事件序列就会依照设定依次触发（对于上面的代码，就是观察者Subscriber 将会被调用三次 onNext() 和一次 onCompleted()）。这样，由被观察者调用了观察者的回调方法，就实现了由被观察者向观察者的事件传递，即观察者模式。</p>
-<p>create() 方法是 RxJava 最基本的创造事件序列的方法。基于这个方法， RxJava 还提供了一些方法用来快捷创建事件队列，例如：</p>
-<ul>
-<li><p>just(T…): 将传入的参数依次发送出来。</p>
-<pre><code>Observable observable = Observable.just(&quot;Hello&quot;, &quot;Hi&quot;, &quot;Aloha&quot;);
-// 将会依次调用：
-// onNext(&quot;Hello&quot;);
-// onNext(&quot;Hi&quot;);
-// onNext(&quot;Aloha&quot;);
-// onCompleted();
-</code></pre></li>
-<li><p>from(T[]) / from(Iterable&lt;? extends T&gt;) : 将传入的数组或 Iterable 拆分成具体对象后，依次发送出来。</p>
-<pre><code>String[] words = {&quot;Hello&quot;, &quot;Hi&quot;, &quot;Aloha&quot;};
-Observable observable = Observable.from(words);
-// 将会依次调用：
-// onNext(&quot;Hello&quot;);
-// onNext(&quot;Hi&quot;);
-// onNext(&quot;Aloha&quot;);
-// onCompleted();
-</code></pre></li>
-</ul>
-<h4 id="3-Subscribe-订阅"><a href="#3-Subscribe-订阅" class="headerlink" title="3 Subscribe (订阅)"></a>3 Subscribe (订阅)</h4><p>创建了 Observable 和 Observer 之后，再用 subscribe() 方法将它们联结起来，整条链子就可以工作了。代码形式很简单：</p>
-<pre><code>observable.subscribe(observer);
-// 或者：
-observable.subscribe(subscriber);
-</code></pre><h3 id="线程控制-——-Scheduler"><a href="#线程控制-——-Scheduler" class="headerlink" title="线程控制 —— Scheduler"></a>线程控制 —— Scheduler</h3><ul>
-<li>Schedulers.immediate(): 直接在当前线程运行，相当于不指定线程。这是默认的 Scheduler。</li>
-<li>Schedulers.newThread(): 总是启用新线程，并在新线程执行操作。</li>
-<li>Schedulers.io(): I/O 操作（读写文件、读写数据库、网络信息交互等）所使用的 Scheduler。行为模式和 newThread() 差不多，区别在于 io() 的内部实现是是用一个无数量上限的线程池，可以重用空闲的线程，因此多数情况下 io() 比 newThread() 更有效率。不要把计算工作放在 io() 中，可以避免创建不必要的线程。</li>
-<li>Schedulers.computation(): 计算所使用的 Scheduler。这个计算指的是 CPU 密集型计算，即不会被 I/O 等操作限制性能的操作，例如图形的计算。这个 Scheduler 使用的固定的线程池，大小为 CPU 核数。不要把 I/O 操作放在 computation() 中，否则 I/O 操作的等待时间会浪费 CPU。</li>
-<li><p>另外， Android 还有一个专用的AndroidSchedulers.mainThread()，它指定的操作将在 Android 主线程运行。</p>
-<pre><code>Observable.just(1, 2, 3, 4)
-.subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
-.observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
-.subscribe(new Action1&lt;Integer&gt;() {
-@Override
-public void call(Integer number) {
-    Log.d(tag, &quot;number:&quot; + number);
-}
-});
-</code></pre></li>
-</ul>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2016/07/06/binder/">Binder 进程间通信</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2016-07-06</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>Binder是一种进程间通信机制。在Android系统的Binder机制中，由一系统组件组成，分别是Client、Server、Service Manager和Binder驱动程序，其中Client、Server和Service Manager运行在用户空间，Binder驱动程序运行内核空间。Binder就是一种把这四个组件粘合在一起的粘结剂了。</p>
-<p>关系图：</p>
-<p><img src="http://img.my.csdn.net/uploads/201107/19/0_13110996490rZN.gif" alt="ipc"></p>
-<h3 id="角色介绍"><a href="#角色介绍" class="headerlink" title="角色介绍"></a>角色介绍</h3><ol>
-<li><p>Client、Server和Service Manager实现在用户空间中，Binder驱动程序实现在内核空间中</p>
-</li>
-<li><p>Binder驱动程序和Service Manager在Android平台中已经实现，开发者只需要在用户空间实现自己的Client和Server</p>
-</li>
-<li><p>Binder驱动程序提供设备文件/dev/binder与用户空间交互，Client、Server和Service Manager通过open和ioctl文件操作函数与Binder驱动程序进行通信</p>
-</li>
-<li><p>Client和Server之间的进程间通信通过Binder驱动程序间接实现</p>
-</li>
-<li><p>Service Manager是一个守护进程，用来管理Server，并向Client提供查询Server接口的能力</p>
-</li>
-</ol>
-<h4 id="Service-Manager"><a href="#Service-Manager" class="headerlink" title="Service Manager"></a>Service Manager</h4><p>Service Manager是成为Android进程间通信（IPC）机制Binder守护进程的过程是这样的：</p>
-<ul>
-<li><ol>
-<li>打开/dev/binder文件：open(“/dev/binder”, O_RDWR);</li>
-</ol>
-</li>
-<li><ol>
-<li>建立128K内存映射：mmap(NULL, mapsize, PROT_READ, MAP_PRIVATE, bs-&gt;fd, 0);</li>
-</ol>
-</li>
-<li><ol>
-<li>通知Binder驱动程序它是守护进程：binder_become_context_manager(bs);</li>
-</ol>
-</li>
-<li><ol>
-<li>进入循环等待请求的到来：binder_loop(bs, svcmgr_handler);</li>
-</ol>
-</li>
-</ul>
-<h4 id="client-service-获取service-manager接口"><a href="#client-service-获取service-manager接口" class="headerlink" title="client service 获取service manager接口"></a>client service 获取service manager接口</h4><p>我们知道，Service Manager在Binder机制中既充当守护进程的角色，同时它也充当着Server角色，然而它又与一般的Server不一样。对于普通的Server来说，Client如果想要获得Server的远程接口，那么必须通过Service Manager远程接口提供的getService接口来获得，这本身就是一个使用Binder机制来进行进程间通信的过程。而对于Service Manager这个Server来说，Client如果想要获得Service Manager远程接口，却不必通过进程间通信机制来获得，因为Service Manager远程接口是一个特殊的Binder引用，它的引用句柄一定是0。</p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2016/06/01/搜索技巧/">搜索技巧</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2016-06-01</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h4 id="网络允许请用google"><a href="#网络允许请用google" class="headerlink" title="网络允许请用google"></a>网络允许请用google</h4><h4 id="精确搜索"><a href="#精确搜索" class="headerlink" title="精确搜索"></a>精确搜索</h4><p>如果你明确想搜某一名词，而不想包含诸如“程先生”、“小卖部”、“先生”、“卖部”等零散的关键字命中结果，就把你的搜索关键字用引号括起来。”程先生的小卖部”</p>
-<h4 id="内容筛选"><a href="#内容筛选" class="headerlink" title="内容筛选"></a>内容筛选</h4><p>如果你想搜索包含关键字A，但不包含关键字B的内容，例如，搜索包含张柏芝但不包含陈冠希的网页，就这么设定搜索关键词：张柏芝 -陈冠希，也即“A -B”，A与-之间需要有空格。</p>
-<h4 id="指定格式"><a href="#指定格式" class="headerlink" title="指定格式"></a>指定格式</h4><p>如果你想搜诸如txt、pdf、mobi、mp3等特定格式的内容，不要只再“认真的雪 mp3”了，这么搜结果更惊艳：“认真的雪 filetype:mp3”，filetype即是用来指定特定的文件格式。</p>
-<h4 id="限定网站"><a href="#限定网站" class="headerlink" title="限定网站"></a>限定网站</h4><p>如果你想在某个网站搜索内容，但可悲的是那个网站不提供搜索功能，那么你要做的不是跺脚或者挠头，而是在关键字后面加上“site:xxx.xxx.com”，site即是用来指定你所要搜索的站点，可以是一级或者二级域名，注意不要包含 http:// 以及第三个/及之后的路径。<br>搜素技巧 site:jianshu.com。</p>
-<h4 id="inurl：在指定url中搜索内容"><a href="#inurl：在指定url中搜索内容" class="headerlink" title="inurl：在指定url中搜索内容"></a>inurl：在指定url中搜索内容</h4><p>这个和上面的「site」有点像。不过「site」是需要指定网站的完整网址，而「inurl」只需要指定网址的一部分就行了。</p>
-<p>格式如下：<br>yy inurl:xx<br>含义：在包含xx的url中搜索内容yy。其中，xx可以是中文。</p>
-<h4 id="模糊搜索"><a href="#模糊搜索" class="headerlink" title="模糊搜索"></a>模糊搜索</h4><p>通配符 <em> ？，</em>表示 不限制字符匹配数量， ？表示匹配单个字符，二者适用于模糊搜索</p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2016/06/01/工作/">工作</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2016-06-01</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>1 UI编写，自定义view,list等等。</p>
-<p>2 逻辑编写。</p>
-<p>3 多套UI显示逻辑处理，（AB，后端区分）。</p>
-<p>4 APP性能优化，启动速度优化，内存检查，代码格式化并review，lint，子线程绘制UI，矢量图使用。</p>
-<p>5 通讯，http,socket长连接。</p>
-<p>6 MVP,ui模块化（尽量少用fragment）。</p>
-<p>7 容错，时刻记住前端要显示的就要有容错处理，一切获取到的资源都是不可靠的。</p>
-<p>8 自定义APP框架梳理，网络通信框架，数据解析框架，各种UI（轮播，引导页等），数据加载框架数据列表相关，异步图片缓存处理框架，事件总线，本地数据存储方式选择，webview相关使用，app跨进程通信处理，链式编程Rxjava,表格处理相关，直播sdk,客服SDK，环境切换,便以相关，自动升级工具，自定义log，数据采集，APP性能分析，AB测试，灰度。APP开发中的架构调整，哪里用ctivity哪里用fragment，mvp在哪里使用，目录结构，项目层次等等。</p>
-<p>9 加速编译-freeline</p>
-<p>10 coding Dojo - 代码道场</p>
-<p>11 辅助功能实现自动化操作</p>
-<p>12 TDD </p>
-<p>13 Espresso 自动化测试</p>
-<p>14 scrummaster，敏捷特训</p>
-<ul>
-<li>有问题，会议讨论一定要记录澄清(凡是留记录)。</li>
-<li>关于业务价值要有数学家思维，先去搞，结论看市场反馈。</li>
-<li>planmeeting 问题讨论时，将问题分成三个方面讨论，解决问题的业务方案-产品说了算，具体的技术实现-开发说了算，可行性问题-市场测试决定。</li>
-<li>PM决定产品走向，市场方向问题，不要将精力过多放到产品本身的讨论上来。</li>
-<li>理想团队人数7(+-)2,5-9人.(前提大家都是全栈开发)</li>
-<li>早会不是形式，是用来解决问题的，没问题不需要参加。</li>
-<li>接口的设计是由使用者决定的，一般前端决定。</li>
-<li>版本回收，做好强制升级，不能一直兼容很老的版本。</li>
-<li>产品前期不要将一些极端化的问题讨论进来，这样需求会一直讨论个没完没了，等问题出现再去解决。</li>
-</ul>
-
-                
-            </div>
-        </article>
-    
-</div>
-<div class="paginator">
-    
         
-        <a class="prev" href="/page/13/">
-            <i class="iconfont icon-prev"></i>
-            上一页
-        </a>
-        
-        
+        <a class="more" href="/2016/07/06/binder/"> 阅读全文〉</a>
+      </article>
     
-</div>
+
+      <article class="recent-post-item">
+        <a class="title" href="/2016/06/01/工作/"><h2>工作</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2016-05-31T16:00:00.000Z">
+            2016-06-01
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2016/06/01/工作/"> 阅读全文〉</a>
+      </article>
+    
+
+      <article class="recent-post-item">
+        <a class="title" href="/2016/06/01/搜索技巧/"><h2>搜索技巧</h2></a>
+        <div class="post-meta">
+          
+          <time class="time" datetime="2016-05-31T16:00:00.000Z">
+            2016-06-01
+          </time>
+          
+          <span class="slash">/</span>
+          
+          
+          
+
+        </div>
+
+        
+        <a class="more" href="/2016/06/01/搜索技巧/"> 阅读全文〉</a>
+      </article>
+    
+  </div>
+
+
 
     </div>
-</div>
-<footer class="footer-social">
-    
 
     
-
+      <nav class="page-nav text-center">
+          <a class="extend prev" rel="prev" href="/page/13/">〈</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><span class="page-number current">14</span>
+      </nav>
     
 
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2018
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
+  </div>
+  <footer class="footer text-center">
+    <div id="bottom-inner">
+        <a class="bottom-item" href="https://blog.0xff000000.com">首页</a> |
+        <a class="bottom-item" href="https://0xff000000.com" target="_blank">主站</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu" target="_blank">GitHub</a> |
+        <a class="bottom-item" href="https://hexo.io" target="_blank">Powered by hexo</a> |
+        <a class="bottom-item" href="https://github.com/KevinOfNeu/hexo-theme-xoxo" target="_blank">Theme xoxo</a>
     </div>
 </footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
+  
 
+<script>
+  (function(window, document, undefined) {
+
+    var timer = null;
+
+    function returnTop() {
+      cancelAnimationFrame(timer);
+      timer = requestAnimationFrame(function fn() {
+        var oTop = document.body.scrollTop || document.documentElement.scrollTop;
+        if (oTop > 0) {
+          document.body.scrollTop = document.documentElement.scrollTop = oTop - 50;
+          timer = requestAnimationFrame(fn);
+        } else {
+          cancelAnimationFrame(timer);
+        }
+      });
+    }
+
+    var hearts = [];
+    window.requestAnimationFrame = (function() {
+      return window.requestAnimationFrame ||
+        window.webkitRequestAnimationFrame ||
+        window.mozRequestAnimationFrame ||
+        window.oRequestAnimationFrame ||
+        window.msRequestAnimationFrame ||
+        function(callback) {
+          setTimeout(callback, 1000 / 60);
+        }
+    })();
+    init();
+
+    function init() {
+      css(".heart{z-index:9999;width: 10px;height: 10px;position: fixed;background: #f00;transform: rotate(45deg);-webkit-transform: rotate(45deg);-moz-transform: rotate(45deg);}.heart:after,.heart:before{content: '';width: inherit;height: inherit;background: inherit;border-radius: 50%;-webkit-border-radius: 50%;-moz-border-radius: 50%;position: absolute;}.heart:after{top: -5px;}.heart:before{left: -5px;}");
+      attachEvent();
+      gameloop();
+      addMenuEvent();
+    }
+
+    function gameloop() {
+      for (var i = 0; i < hearts.length; i++) {
+        if (hearts[i].alpha <= 0) {
+          document.body.removeChild(hearts[i].el);
+          hearts.splice(i, 1);
+          continue;
+        }
+        hearts[i].y--;
+        hearts[i].scale += 0.004;
+        hearts[i].alpha -= 0.013;
+        hearts[i].el.style.cssText = "left:" + hearts[i].x + "px;top:" + hearts[i].y + "px;opacity:" + hearts[i].alpha + ";transform:scale(" + hearts[i].scale + "," + hearts[i].scale + ") rotate(45deg);background:" + hearts[i].color;
+      }
+      requestAnimationFrame(gameloop);
+    }
+
+    /**
+     * 给logo设置点击事件
+     * 
+     * - 回到顶部
+     * - 出现爱心
+     */
+    function attachEvent() {
+      var old = typeof window.onclick === "function" && window.onclick;
+      var logo = document.getElementById("logo");
+      if (logo) {
+        logo.onclick = function(event) {
+          returnTop();
+          old && old();
+          createHeart(event);
+        }
+      }
+      
+    }
+
+    function createHeart(event) {
+      var d = document.createElement("div");
+      d.className = "heart";
+      hearts.push({
+        el: d,
+        x: event.clientX - 5,
+        y: event.clientY - 5,
+        scale: 1,
+        alpha: 1,
+        color: randomColor()
+      });
+      document.body.appendChild(d);
+    }
+
+    function css(css) {
+      var style = document.createElement("style");
+      style.type = "text/css";
+      try {
+        style.appendChild(document.createTextNode(css));
+      } catch (ex) {
+        style.styleSheet.cssText = css;
+      }
+      document.getElementsByTagName('head')[0].appendChild(style);
+    }
+
+    function randomColor() {
+      // return "rgb(" + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + "," + (~~(Math.random() * 255)) + ")";
+      return "#F44336";
+    }
+
+    function addMenuEvent() {
+      var menu = document.getElementById('menu-main-post');
+      if (menu) {
+        var toc = document.getElementById('toc');
+        if (toc) {
+          menu.onclick = function() {
+            if (toc) {
+              if (toc.style.display == 'block') {
+                toc.style.display = 'none';
+              } else {
+                toc.style.display = 'block';
+              }
+            }
+          };
+        } else {
+          menu.style.display = 'none';
+        }
+      }
+    }
+
+  })(window, document);
 </script>
+
+  
+
+
+
+</body>
 </html>
