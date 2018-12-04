@@ -497,88 +497,6 @@ protected void onDestroy() {
 
 
   
-    <article id="post-事件总线" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/09/01/事件总线/" class="article-date">
-  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/01/事件总线/">
-        事件总线
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。</p>
-<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。</p>
-<p>通常我们在activity,service，fragment之间通信时，一般有以下几种方案：</p>
-<ul>
-<li>1 广播，使用起来比较麻烦。</li>
-<li>2 回调，增加了代码之间的耦合。</li>
-</ul>
-<p>事件总线框架, 它简化了Activity、Fragment、Service等组件之间的交互，很大程度上降低了它们之间的耦合，使得我们的代码更加简洁，耦合性更低，提升我们的代码质量。</p>
-<h3 id="主流事件总线的对比"><a href="#主流事件总线的对比" class="headerlink" title="主流事件总线的对比"></a>主流事件总线的对比</h3><p>1 otto框架，通过反射机制来实现的方法查找，并且是运行时的反射，效率较低，速度较慢。</p>
-<p>2 eventbus框架（3.0以上版本），也是通过反射机制实现，但是编译的时候生成新的class，对运行速度影响不大，效率较高。</p>
-<p>3 rxbus,自己结合rxjava实现的框架，简单实用，但是要考虑多种场景的处理情况，编写起来有很大的工作量。</p>
-<h3 id="EventBus使用"><a href="#EventBus使用" class="headerlink" title="EventBus使用"></a>EventBus使用</h3><p>1 添加依赖</p>
-<pre><code>compile &apos;org.greenrobot:eventbus:3.0.0&apos;
-</code></pre><p>2 定义event</p>
-<pre><code>public class MessageEvent { /* Additional fields if needed */ }
-</code></pre><p>3 发送者：</p>
-<pre><code>eventBus.post(event);
-</code></pre><p>4 接收者：</p>
-<pre><code>//注册
-eventBus.register(this);
-
-//接收方法
-@Subscribe  
-public void onEvent(AnyEventType event) {/* Do something */};
-
-//解除注册
-eventBus.unregister(this);
-</code></pre><p>5 确保在事件发送前注册，并处理接收方法。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-infer" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -638,11 +556,11 @@ eventBus.unregister(this);
 
 
   
-    <article id="post-LeakCanary" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-事件总线" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/31/LeakCanary/" class="article-date">
-  	<time datetime="2016-08-30T16:00:00.000Z" itemprop="datePublished">2016-08-31</time>
+      <a href="/2016/09/01/事件总线/" class="article-date">
+  	<time datetime="2016-08-31T16:00:00.000Z" itemprop="datePublished">2016-09-01</time>
 </a>
     </div>
   
@@ -655,8 +573,8 @@ eventBus.unregister(this);
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/31/LeakCanary/">
-        内存泄漏检查工具-LeakCanary
+      <a class="article-title" href="/2016/09/01/事件总线/">
+        事件总线
         
       </a>
     </h1>
@@ -667,26 +585,34 @@ eventBus.unregister(this);
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。</p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 添加项目依赖：</p>
-<pre><code>dependencies {
-    debugCompile &apos;com.squareup.leakcanary:leakcanary-android:1.4-beta2&apos;
-    releaseCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
-    testCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
-}
-</code></pre><p>2 初始化：</p>
-<pre><code>public class YourApplication extends Application {
+        <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。</p>
+<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。</p>
+<p>通常我们在activity,service，fragment之间通信时，一般有以下几种方案：</p>
+<ul>
+<li>1 广播，使用起来比较麻烦。</li>
+<li>2 回调，增加了代码之间的耦合。</li>
+</ul>
+<p>事件总线框架, 它简化了Activity、Fragment、Service等组件之间的交互，很大程度上降低了它们之间的耦合，使得我们的代码更加简洁，耦合性更低，提升我们的代码质量。</p>
+<h3 id="主流事件总线的对比"><a href="#主流事件总线的对比" class="headerlink" title="主流事件总线的对比"></a>主流事件总线的对比</h3><p>1 otto框架，通过反射机制来实现的方法查找，并且是运行时的反射，效率较低，速度较慢。</p>
+<p>2 eventbus框架（3.0以上版本），也是通过反射机制实现，但是编译的时候生成新的class，对运行速度影响不大，效率较高。</p>
+<p>3 rxbus,自己结合rxjava实现的框架，简单实用，但是要考虑多种场景的处理情况，编写起来有很大的工作量。</p>
+<h3 id="EventBus使用"><a href="#EventBus使用" class="headerlink" title="EventBus使用"></a>EventBus使用</h3><p>1 添加依赖</p>
+<pre><code>compile &apos;org.greenrobot:eventbus:3.0.0&apos;
+</code></pre><p>2 定义event</p>
+<pre><code>public class MessageEvent { /* Additional fields if needed */ }
+</code></pre><p>3 发送者：</p>
+<pre><code>eventBus.post(event);
+</code></pre><p>4 接收者：</p>
+<pre><code>//注册
+eventBus.register(this);
 
-@Override public void onCreate() {
-super.onCreate();
-LeakCanary.install(this);
-}
-}
-</code></pre><p>3 运行你的app，当检测到内存泄漏会有提示：</p>
-<p><img src="https://raw.githubusercontent.com/square/leakcanary/master/assets/screenshot.png" alt="图片"></p>
-<p>4 内存泄漏信息，将会保存在sdcard/blockcanary目录下。</p>
-<p>5 一般内存检查会出现在activity的销毁阶段。</p>
-<p>6 自己编译leakcanary源码的<a href="https://github.com/sirencode/LeakCanary">Demo</a>,可以根据自己的情况对功能进行定制。</p>
+//接收方法
+@Subscribe  
+public void onEvent(AnyEventType event) {/* Do something */};
+
+//解除注册
+eventBus.unregister(this);
+</code></pre><p>5 确保在事件发送前注册，并处理接收方法。</p>
 
       
     </div>
@@ -868,11 +794,11 @@ Linearlayout ly = findViewById(R.id.panel_stub);
 
 
   
-    <article id="post-mvp" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-LeakCanary" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
-      <a href="/2016/08/30/mvp/" class="article-date">
-  	<time datetime="2016-08-29T16:00:00.000Z" itemprop="datePublished">2016-08-30</time>
+      <a href="/2016/08/31/LeakCanary/" class="article-date">
+  	<time datetime="2016-08-30T16:00:00.000Z" itemprop="datePublished">2016-08-31</time>
 </a>
     </div>
   
@@ -885,8 +811,8 @@ Linearlayout ly = findViewById(R.id.panel_stub);
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2016/08/30/mvp/">
-        Android 设计模式-MVP框架
+      <a class="article-title" href="/2016/08/31/LeakCanary/">
+        内存泄漏检查工具-LeakCanary
         
       </a>
     </h1>
@@ -897,31 +823,26 @@ Linearlayout ly = findViewById(R.id.panel_stub);
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。</p>
-<h3 id="MVP介绍"><a href="#MVP介绍" class="headerlink" title="MVP介绍"></a>MVP介绍</h3><p>MVP实际是将原MVC模式下activity和fragment里面的代码抽离出来并封装到P里面，从而，降低了actvity和fragment的代码量，并解耦。</p>
-<ul>
-<li>M是指modle，model 是用户界面需要显示数据的抽象，也可以理解为从业务数据（结果）那里到用户界面的抽象（Business rule, data access, model classes）。</li>
-<li>视图这一层体现的很轻薄，负责显示数据、提供友好界面跟用户交互就行。MVP下Activity和Fragment体现在了这一层，<br>Activity一般也就做加载UI视图、设置监听再交由Presenter处理的一些工作，所以也就需要持有相应Presenter的引用。例如，Activity上滚动列表时隐藏或者显示Acionbar（Toolbar），这样的UI逻辑时也应该在这一层。另外在View上输入的数据做一些判断时，例如，EditText的输入数据，假如是简单的非空判断则可以作为View层的逻辑，而当需要对EditText的数据进行更复杂的比较时，如从数据库获取本地数据进行判断时明显需要经过Model层才能返回了，所以这些细节需要自己掂量。</li>
-<li>Presenter这一层处理着程序各种逻辑的分发，收到View层UI上的反馈命令、定时命令、系统命令等指令后分发处理逻辑交由业务层做具体的业务操作，然后将得到的 Model 给 View 显示。</li>
-</ul>
-<h4 id="获取数据-gt-改变View的流程（APP的主要流程）"><a href="#获取数据-gt-改变View的流程（APP的主要流程）" class="headerlink" title="获取数据-&gt;改变View的流程（APP的主要流程）"></a>获取数据-&gt;改变View的流程（APP的主要流程）</h4><p>步骤1：UI(Activity)实现View方法，引用Presenter<br>步骤2：Presenter调用Model，走Model具体逻辑<br>步骤3：Model逻辑实现，回调Presenter方法返回数据<br>步骤4：Presenter回调View，即回到UI，回调View方法</p>
-<h4 id="View改变-gt-业务处理"><a href="#View改变-gt-业务处理" class="headerlink" title="View改变-&gt;业务处理"></a>View改变-&gt;业务处理</h4><p>在View的改变事件——&gt;presenter -&gt; model处理，回调presenter -&gt; 根据结果显示UI</p>
-<h4 id="双向数据沟通"><a href="#双向数据沟通" class="headerlink" title="双向数据沟通"></a>双向数据沟通</h4><p>1 v变化——&gt; p -&gt; m处理<br>2 m处理后 -&gt; p -&gt; v变化</p>
-<p>或者</p>
-<p>1 m处理后 -&gt; p -&gt; v变化<br>2 v变化——&gt; p -&gt; m处理</p>
-<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
-<ul>
-<li>1 数据解耦，所有的业务逻辑放到model里面，方便管理复用。</li>
-<li>2 代码的可读性好很多，方便后续修改阅读。</li>
-<li>3 代码的耦合度很低，方便其它地方复用相关模块代码。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>1 要写大量的代码，或者文件。</li>
-<li>2 使用起来没有以前方便，需要进行数据的分离处理。</li>
-</ul>
-<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><p>使用MVP时，Activity和Fragment变成了MVC模式中View层，Presenter相当于MVC模式中Controller层，处理业务逻辑。每一个Activity都有一个相应的presenter来处理数据进而获取model。</p>
-<p>由于写MVP模式要写大量的代码和文件，因此建议不需要所有的功能都用mvp实现，在逻辑的叶子节点上的功能可以不使用。另外，modle文件可以根据模块化共用一个modle,不需要每个功能都新建一个model。</p>
+        <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 添加项目依赖：</p>
+<pre><code>dependencies {
+    debugCompile &apos;com.squareup.leakcanary:leakcanary-android:1.4-beta2&apos;
+    releaseCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
+    testCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
+}
+</code></pre><p>2 初始化：</p>
+<pre><code>public class YourApplication extends Application {
+
+@Override public void onCreate() {
+super.onCreate();
+LeakCanary.install(this);
+}
+}
+</code></pre><p>3 运行你的app，当检测到内存泄漏会有提示：</p>
+<p><img src="https://raw.githubusercontent.com/square/leakcanary/master/assets/screenshot.png" alt="图片"></p>
+<p>4 内存泄漏信息，将会保存在sdcard/blockcanary目录下。</p>
+<p>5 一般内存检查会出现在activity的销毁阶段。</p>
+<p>6 自己编译leakcanary源码的<a href="https://github.com/sirencode/LeakCanary">Demo</a>,可以根据自己的情况对功能进行定制。</p>
 
       
     </div>
@@ -1055,6 +976,85 @@ compileLintTask.dependsOn(copyLintJar)
 <li>4 Warning from Custom Lint Check 错误规则检查</li>
 <li>5 module 右键 Refactor -&gt; Remove Unused Resources</li>
 </ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-mvp" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/30/mvp/" class="article-date">
+  	<time datetime="2016-08-29T16:00:00.000Z" itemprop="datePublished">2016-08-30</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/30/mvp/">
+        Android 设计模式-MVP框架
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。</p>
+<h3 id="MVP介绍"><a href="#MVP介绍" class="headerlink" title="MVP介绍"></a>MVP介绍</h3><p>MVP实际是将原MVC模式下activity和fragment里面的代码抽离出来并封装到P里面，从而，降低了actvity和fragment的代码量，并解耦。</p>
+<ul>
+<li>M是指modle，model 是用户界面需要显示数据的抽象，也可以理解为从业务数据（结果）那里到用户界面的抽象（Business rule, data access, model classes）。</li>
+<li>视图这一层体现的很轻薄，负责显示数据、提供友好界面跟用户交互就行。MVP下Activity和Fragment体现在了这一层，<br>Activity一般也就做加载UI视图、设置监听再交由Presenter处理的一些工作，所以也就需要持有相应Presenter的引用。例如，Activity上滚动列表时隐藏或者显示Acionbar（Toolbar），这样的UI逻辑时也应该在这一层。另外在View上输入的数据做一些判断时，例如，EditText的输入数据，假如是简单的非空判断则可以作为View层的逻辑，而当需要对EditText的数据进行更复杂的比较时，如从数据库获取本地数据进行判断时明显需要经过Model层才能返回了，所以这些细节需要自己掂量。</li>
+<li>Presenter这一层处理着程序各种逻辑的分发，收到View层UI上的反馈命令、定时命令、系统命令等指令后分发处理逻辑交由业务层做具体的业务操作，然后将得到的 Model 给 View 显示。</li>
+</ul>
+<h4 id="获取数据-gt-改变View的流程（APP的主要流程）"><a href="#获取数据-gt-改变View的流程（APP的主要流程）" class="headerlink" title="获取数据-&gt;改变View的流程（APP的主要流程）"></a>获取数据-&gt;改变View的流程（APP的主要流程）</h4><p>步骤1：UI(Activity)实现View方法，引用Presenter<br>步骤2：Presenter调用Model，走Model具体逻辑<br>步骤3：Model逻辑实现，回调Presenter方法返回数据<br>步骤4：Presenter回调View，即回到UI，回调View方法</p>
+<h4 id="View改变-gt-业务处理"><a href="#View改变-gt-业务处理" class="headerlink" title="View改变-&gt;业务处理"></a>View改变-&gt;业务处理</h4><p>在View的改变事件——&gt;presenter -&gt; model处理，回调presenter -&gt; 根据结果显示UI</p>
+<h4 id="双向数据沟通"><a href="#双向数据沟通" class="headerlink" title="双向数据沟通"></a>双向数据沟通</h4><p>1 v变化——&gt; p -&gt; m处理<br>2 m处理后 -&gt; p -&gt; v变化</p>
+<p>或者</p>
+<p>1 m处理后 -&gt; p -&gt; v变化<br>2 v变化——&gt; p -&gt; m处理</p>
+<h3 id="优缺点"><a href="#优缺点" class="headerlink" title="优缺点"></a>优缺点</h3><p>优点：</p>
+<ul>
+<li>1 数据解耦，所有的业务逻辑放到model里面，方便管理复用。</li>
+<li>2 代码的可读性好很多，方便后续修改阅读。</li>
+<li>3 代码的耦合度很低，方便其它地方复用相关模块代码。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>1 要写大量的代码，或者文件。</li>
+<li>2 使用起来没有以前方便，需要进行数据的分离处理。</li>
+</ul>
+<h3 id="建议"><a href="#建议" class="headerlink" title="建议"></a>建议</h3><p>使用MVP时，Activity和Fragment变成了MVC模式中View层，Presenter相当于MVC模式中Controller层，处理业务逻辑。每一个Activity都有一个相应的presenter来处理数据进而获取model。</p>
+<p>由于写MVP模式要写大量的代码和文件，因此建议不需要所有的功能都用mvp实现，在逻辑的叶子节点上的功能可以不使用。另外，modle文件可以根据模块化共用一个modle,不需要每个功能都新建一个model。</p>
 
       
     </div>
