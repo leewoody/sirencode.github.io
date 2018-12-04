@@ -1,137 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="线程与CPU线程是最小的调度单位，在很多情况下为了使APP更加流程地运行，我们不可能将很多事情都放在主线程上执行，这样会造成严重卡顿（ANR），那么这些事情应该交给子线程去做，但对于一个系统而言，创建、销毁、调度线程的过程是需要开销的，所以我们并不能无限量地开启线程，那么对线程的了解就变得尤为重要了。 CPU中央处理器(Central Processing Unit)是一块超大规模的集成电路，是一">
-<meta property="og:type" content="article">
-<meta property="og:title" content="线程与CPU">
-<meta property="og:url" content="https://github.com/sirencode/2018/01/26/线程与CPU/index.html">
-<meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="线程与CPU线程是最小的调度单位，在很多情况下为了使APP更加流程地运行，我们不可能将很多事情都放在主线程上执行，这样会造成严重卡顿（ANR），那么这些事情应该交给子线程去做，但对于一个系统而言，创建、销毁、调度线程的过程是需要开销的，所以我们并不能无限量地开启线程，那么对线程的了解就变得尤为重要了。 CPU中央处理器(Central Processing Unit)是一块超大规模的集成电路，是一">
-<meta property="og:updated_time" content="2018-01-26T08:28:56.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="线程与CPU">
-<meta name="twitter:description" content="线程与CPU线程是最小的调度单位，在很多情况下为了使APP更加流程地运行，我们不可能将很多事情都放在主线程上执行，这样会造成严重卡顿（ANR），那么这些事情应该交给子线程去做，但对于一个系统而言，创建、销毁、调度线程的过程是需要开销的，所以我们并不能无限量地开启线程，那么对线程的了解就变得尤为重要了。 CPU中央处理器(Central Processing Unit)是一块超大规模的集成电路，是一">
-    
-    
-        
-          
-              <link rel="shortcut icon" href="/images/favicon.ico">
-          
-        
-        
-          
-            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-          
-        
-    
-    <!-- title -->
-    <title>线程与CPU</title>
-    <!-- styles -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Diablo</title>
     <link rel="stylesheet" href="/css/style.css">
-    <!-- rss -->
-    
-    
+    <link rel="stylesheet" href="/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
 </head>
-
 <body>
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2018/02/06/java基础整理/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
-        
-        
-        <li><a class="icon" href="/2018/01/22/Gradle 详解/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
-        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2018/01/26/线程与CPU/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2018/01/26/线程与CPU/&text=线程与CPU"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2018/01/26/线程与CPU/&title=线程与CPU"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2018/01/26/线程与CPU/&is_video=false&description=线程与CPU"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=线程与CPU&body=Check out this article: https://github.com/sirencode/2018/01/26/线程与CPU/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2018/01/26/线程与CPU/&title=线程与CPU"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2018/01/26/线程与CPU/&title=线程与CPU"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2018/01/26/线程与CPU/&title=线程与CPU"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2018/01/26/线程与CPU/&title=线程与CPU"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2018/01/26/线程与CPU/&name=线程与CPU&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+            <a href="/about/" class="header-nav-link">
+                关于
+            </a>
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
+        </div>
 
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#线程与CPU"><span class="toc-number">1.</span> <span class="toc-text">线程与CPU</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU核数"><span class="toc-number">1.1.</span> <span class="toc-text">CPU核数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU超线程"><span class="toc-number">1.1.1.</span> <span class="toc-text">CPU超线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程池的线程数"><span class="toc-number">1.1.2.</span> <span class="toc-text">线程池的线程数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程实现"><span class="toc-number">1.2.</span> <span class="toc-text">线程实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Thread-Runnable-Callable"><span class="toc-number">1.2.1.</span> <span class="toc-text">Thread/Runnable/Callable</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#runnable与callable区别"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">runnable与callable区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程池"><span class="toc-number">1.2.2.</span> <span class="toc-text">线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#线程池的作用：线程池作用就是限制系统中执行线程的数量。"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">线程池的作用：线程池作用就是限制系统中执行线程的数量。</span></a></li></ol></li></ol></li></ol></li></ol>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">线程与CPU</h2>
+            <div class="post-meta">
+                <span class="post-time">2018-01-26</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#线程与CPU"><span class="toc-text">线程与CPU</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU核数"><span class="toc-text">CPU核数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU超线程"><span class="toc-text">CPU超线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程池的线程数"><span class="toc-text">线程池的线程数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程实现"><span class="toc-text">线程实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Thread-Runnable-Callable"><span class="toc-text">Thread/Runnable/Callable</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#runnable与callable区别"><span class="toc-text">runnable与callable区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程池"><span class="toc-text">线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#线程池的作用：线程池作用就是限制系统中执行线程的数量。"><span class="toc-text">线程池的作用：线程池作用就是限制系统中执行线程的数量。</span></a></li></ol></li></ol></li></ol></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
     </div>
-  </span>
 </div>
-
-    
-    <div class="content index width mx-auto px2 my4">
-        
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle" itemprop="name headline">
-        线程与CPU
-    </h1>
-
-
-
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">Diablo</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2018-01-25T16:00:00.000Z" itemprop="datePublished">2018-01-26</time>
-    </div>
-
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <h1 id="线程与CPU"><a href="#线程与CPU" class="headerlink" title="线程与CPU"></a>线程与CPU</h1><p>线程是最小的调度单位，在很多情况下为了使APP更加流程地运行，我们不可能将很多事情都放在主线程上执行，这样会造成严重卡顿（ANR），那么这些事情应该交给子线程去做，但对于一个系统而言，创建、销毁、调度线程的过程是需要开销的，所以我们并不能无限量地开启线程，那么对线程的了解就变得尤为重要了。</p>
+        <div class="post-content">
+            <h1 id="线程与CPU"><a href="#线程与CPU" class="headerlink" title="线程与CPU"></a>线程与CPU</h1><p>线程是最小的调度单位，在很多情况下为了使APP更加流程地运行，我们不可能将很多事情都放在主线程上执行，这样会造成严重卡顿（ANR），那么这些事情应该交给子线程去做，但对于一个系统而言，创建、销毁、调度线程的过程是需要开销的，所以我们并不能无限量地开启线程，那么对线程的了解就变得尤为重要了。</p>
 <p>CPU中央处理器(Central Processing Unit)是一块超大规模的集成电路，是一台计算机的运算核心（Core）和控制核心（ Control Unit）。它的功能主要是解释计算机指令以及处理计算机软件中的数据。</p>
 <h2 id="CPU核数"><a href="#CPU核数" class="headerlink" title="CPU核数"></a>CPU核数</h2><p>一般来讲CPU的核数和线程同时运行的个数是相等的，因此合数越多，多线程处理能力越强。</p>
 <h3 id="CPU超线程"><a href="#CPU超线程" class="headerlink" title="CPU超线程"></a>CPU超线程</h3><p>CPU超线程就是利用特殊字符的硬件指令，把两个逻辑内核模拟成物理芯片，让单个处理器能使用线程级并行计算，从而兼容多线程并行计算，从而兼容多线程操作系统和软件，使运行性能提高。也就是说，支持超线程技术的cpu单核可以同时运行两个线程，也就是俗称的伪双核，但其实单核超线程的性能要比双核的差。</p>
@@ -169,107 +132,60 @@
 <li>（2）当池中的线程数大于corePoolSize的时候，多余的线程会等待keepAliveTime长的时间，如果无请求可处理就自行销毁。</li>
 </ul>
 
-  </div>
-</article>
-
-
-
-    </div>
-    
-      <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
+        </div>
         
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#线程与CPU"><span class="toc-number">1.</span> <span class="toc-text">线程与CPU</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#CPU核数"><span class="toc-number">1.1.</span> <span class="toc-text">CPU核数</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#CPU超线程"><span class="toc-number">1.1.1.</span> <span class="toc-text">CPU超线程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程池的线程数"><span class="toc-number">1.1.2.</span> <span class="toc-text">线程池的线程数</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#线程实现"><span class="toc-number">1.2.</span> <span class="toc-text">线程实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Thread-Runnable-Callable"><span class="toc-number">1.2.1.</span> <span class="toc-text">Thread/Runnable/Callable</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#runnable与callable区别"><span class="toc-number">1.2.1.1.</span> <span class="toc-text">runnable与callable区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#线程池"><span class="toc-number">1.2.2.</span> <span class="toc-text">线程池</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#线程池的作用：线程池作用就是限制系统中执行线程的数量。"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">线程池的作用：线程池作用就是限制系统中执行线程的数量。</span></a></li></ol></li></ol></li></ol></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2018/01/26/线程与CPU/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2018/01/26/线程与CPU/&text=线程与CPU"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2018/01/26/线程与CPU/&title=线程与CPU"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2018/01/26/线程与CPU/&is_video=false&description=线程与CPU"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=线程与CPU&body=Check out this article: https://github.com/sirencode/2018/01/26/线程与CPU/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2018/01/26/线程与CPU/&title=线程与CPU"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2018/01/26/线程与CPU/&title=线程与CPU"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2018/01/26/线程与CPU/&title=线程与CPU"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2018/01/26/线程与CPU/&title=线程与CPU"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2018/01/26/线程与CPU/&name=线程与CPU&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      <ul>
-        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
-        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
-        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
-        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
-      </ul>
-    </div>
-
-  </div>
+    </article>
 </div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/2018/02/06/java基础整理/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">java基础整理</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2018/01/22/Gradle 详解/">
+                <span class="nav-default">Gradle 详解</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
     
-    <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2018 ShenYonghe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2018
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
 </footer>
-
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+
+</script>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
-<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
-
-
-<!-- jquery -->
-<script src="/lib/jquery/jquery.min.js"></script>
-<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
-<script src="/js/main.js"></script>
-<!-- Google Analytics -->
-
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-86660611-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-
-<!-- Disqus Comments -->
-
-

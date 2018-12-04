@@ -1,137 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="ContentProviderContentResolver的获取流程： 1 ContextWrapper.getContentResolver() 2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResolver在ContextImpl的初始化的过程创建的。ApplicationContentResolv">
-<meta property="og:type" content="article">
-<meta property="og:title" content="源码分析ContentProvider">
-<meta property="og:url" content="https://github.com/sirencode/2018/11/29/源码分析ContentProvider/index.html">
-<meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="ContentProviderContentResolver的获取流程： 1 ContextWrapper.getContentResolver() 2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResolver在ContextImpl的初始化的过程创建的。ApplicationContentResolv">
-<meta property="og:updated_time" content="2018-11-29T02:44:23.207Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="源码分析ContentProvider">
-<meta name="twitter:description" content="ContentProviderContentResolver的获取流程： 1 ContextWrapper.getContentResolver() 2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResolver在ContextImpl的初始化的过程创建的。ApplicationContentResolv">
-    
-    
-        
-          
-              <link rel="shortcut icon" href="/images/favicon.ico">
-          
-        
-        
-          
-            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-          
-        
-    
-    <!-- title -->
-    <title>源码分析ContentProvider</title>
-    <!-- styles -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Diablo</title>
     <link rel="stylesheet" href="/css/style.css">
-    <!-- rss -->
-    
-    
+    <link rel="stylesheet" href="/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
 </head>
-
 <body>
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2018/11/29/源码分析Activity分析/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
-        
-        
-        <li><a class="icon" href="/2018/11/19/android 专用驱动/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
-        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&text=源码分析ContentProvider"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&title=源码分析ContentProvider"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&is_video=false&description=源码分析ContentProvider"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=源码分析ContentProvider&body=Check out this article: https://github.com/sirencode/2018/11/29/源码分析ContentProvider/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&title=源码分析ContentProvider"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&title=源码分析ContentProvider"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&title=源码分析ContentProvider"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&title=源码分析ContentProvider"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&name=源码分析ContentProvider&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+            <a href="/about/" class="header-nav-link">
+                关于
+            </a>
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
+        </div>
 
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ContentProvider"><span class="toc-number">1.</span> <span class="toc-text">ContentProvider</span></a></li></ol>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">源码分析ContentProvider</h2>
+            <div class="post-meta">
+                <span class="post-time">2018-11-29</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ContentProvider"><span class="toc-text">ContentProvider</span></a></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
     </div>
-  </span>
 </div>
-
-    
-    <div class="content index width mx-auto px2 my4">
-        
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle" itemprop="name headline">
-        源码分析ContentProvider
-    </h1>
-
-
-
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">Diablo</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2018-11-28T16:00:00.000Z" itemprop="datePublished">2018-11-29</time>
-    </div>
-
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <h1 id="ContentProvider"><a href="#ContentProvider" class="headerlink" title="ContentProvider"></a>ContentProvider</h1><p>ContentResolver的获取流程：</p>
+        <div class="post-content">
+            <h1 id="ContentProvider"><a href="#ContentProvider" class="headerlink" title="ContentProvider"></a>ContentProvider</h1><p>ContentResolver的获取流程：</p>
 <p>1 ContextWrapper.getContentResolver()</p>
 <p>2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResolver在ContextImpl的初始化的过程创建的。ApplicationContentResolver继承自ContentResolver。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> ContentResolver <span class="title">getContentResolver</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> mContentResolver;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="title">ContextImpl</span><span class="params">(...)</span></span>&#123;</span><br><span class="line">...</span><br><span class="line">mContentResolver = <span class="keyword">new</span> ApplicationContentResolver(<span class="keyword">this</span>, mainThread);</span><br><span class="line">...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -161,107 +124,60 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">publishContentProviders</span><span class="params">(IApplicationThread caller,</span></span></span><br><span class="line"><span class="function"><span class="params">            List&lt;ContentProviderHolder&gt; providers)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (providers == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        enforceNotIsolatedCaller(<span class="string">"publishContentProviders"</span>);</span><br><span class="line">        <span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">            <span class="keyword">final</span> ProcessRecord r = getRecordForAppLocked(caller);</span><br><span class="line">            <span class="keyword">if</span> (r == <span class="keyword">null</span>) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> SecurityException(</span><br><span class="line">                        <span class="string">"Unable to find app for caller "</span> + caller</span><br><span class="line">                      + <span class="string">" (pid="</span> + Binder.getCallingPid()</span><br><span class="line">                      + <span class="string">") when publishing content providers"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">long</span> origId = Binder.clearCallingIdentity();</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> N = providers.size();</span><br><span class="line">            <span class="comment">// 遍历所有已经安装的provider</span></span><br><span class="line">            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; N; i++) &#123;</span><br><span class="line">                ContentProviderHolder src = providers.get(i);</span><br><span class="line">                <span class="keyword">if</span> (src == <span class="keyword">null</span> || src.info == <span class="keyword">null</span> || src.provider == <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="keyword">continue</span>;</span><br><span class="line">                &#125;</span><br><span class="line">                ContentProviderRecord dst = r.pubProviders.get(src.info.name);</span><br><span class="line">                <span class="keyword">if</span> (dst != <span class="keyword">null</span>) &#123;</span><br><span class="line">                    <span class="comment">// 将这个providerRecord放入到mProviderMap中</span></span><br><span class="line">                    ComponentName comp = <span class="keyword">new</span> ComponentName(dst.info.packageName, dst.info.name);</span><br><span class="line">                    mProviderMap.putProviderByClass(comp, dst);</span><br><span class="line">                    String names[] = dst.info.authority.split(<span class="string">";"</span>);</span><br><span class="line">                    <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; names.length; j++) &#123;</span><br><span class="line">                        mProviderMap.putProviderByName(names[j], dst);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">int</span> launchingCount = mLaunchingProviders.size();</span><br><span class="line">                    <span class="keyword">int</span> j;</span><br><span class="line">                    <span class="comment">// 从mLaunchingProviders中移除</span></span><br><span class="line">                    <span class="keyword">boolean</span> wasInLaunchingProviders = <span class="keyword">false</span>;</span><br><span class="line">                    <span class="keyword">for</span> (j = <span class="number">0</span>; j &lt; launchingCount; j++) &#123;</span><br><span class="line">                        <span class="keyword">if</span> (mLaunchingProviders.get(j) == dst) &#123;</span><br><span class="line">                            mLaunchingProviders.remove(j);</span><br><span class="line">                            wasInLaunchingProviders = <span class="keyword">true</span>;</span><br><span class="line">                            j--;</span><br><span class="line">                            launchingCount--;</span><br><span class="line">                        &#125;</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="keyword">if</span> (wasInLaunchingProviders) &#123;</span><br><span class="line">                        mHandler.removeMessages(CONTENT_PROVIDER_PUBLISH_TIMEOUT_MSG, r);</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// notify当前正在等待这个provider呗publish的所有的binder线程</span></span><br><span class="line">                    <span class="keyword">synchronized</span> (dst) &#123;</span><br><span class="line">                        dst.provider = src.provider;</span><br><span class="line">                        dst.proc = r;</span><br><span class="line">                        dst.notifyAll();</span><br><span class="line">                    &#125;</span><br><span class="line">                    <span class="comment">// 更新进程优先级</span></span><br><span class="line">                    updateOomAdjLocked(r, <span class="keyword">true</span>);</span><br><span class="line">                    maybeUpdateProviderUsageStatsLocked(r, src.info.packageName,</span><br><span class="line">                            src.info.authority);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            Binder.restoreCallingIdentity(origId);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>总结：<br>1 application初始化的时候会installProvider<br>2 向AMS请求provider的时候如果对端进程不存在则请求的那个线程需要一直等待<br>3 当对方的进程启动之后并publish之后，请求provider的线程才可返回，所以尽量不要在主线程请求provider<br>4 请求provider分为stable以及unsbale，stable类型链接在server进程挂掉之后，client进程会跟着被株连kill<br>5 insert/delete/update默认建立stable链接，query默认建立unstable链接，不过在query的时候如果失败，还会重新创建stable<br>6 AMS作为一个中间管理员的身份，所有的provider会向它注册<br>7 向AMS请求到provider之后，就可以在client和server之间自行binder通信，不需要再经过systemserver<br>8 ContentProvider的创建是在调用线程，但是quey,insert,delete,update在binder的线程池中执行。</p>
 
-  </div>
-</article>
-
-
-
-    </div>
-    
-      <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
+        </div>
         
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#ContentProvider"><span class="toc-number">1.</span> <span class="toc-text">ContentProvider</span></a></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&text=源码分析ContentProvider"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&title=源码分析ContentProvider"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&is_video=false&description=源码分析ContentProvider"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=源码分析ContentProvider&body=Check out this article: https://github.com/sirencode/2018/11/29/源码分析ContentProvider/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&title=源码分析ContentProvider"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&title=源码分析ContentProvider"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&title=源码分析ContentProvider"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&title=源码分析ContentProvider"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2018/11/29/源码分析ContentProvider/&name=源码分析ContentProvider&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      <ul>
-        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
-        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
-        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
-        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
-      </ul>
-    </div>
-
-  </div>
+    </article>
 </div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/2018/12/04/android 显示-Surface/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">Android 显示-Surface</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2018/11/29/源码分析BroadcastReceiver/">
+                <span class="nav-default">源码分析BroadcastReceiver</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
     
-    <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2018 ShenYonghe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2018
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
 </footer>
-
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+
+</script>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
-<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
-
-
-<!-- jquery -->
-<script src="/lib/jquery/jquery.min.js"></script>
-<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
-<script src="/js/main.js"></script>
-<!-- Google Analytics -->
-
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-86660611-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-
-<!-- Disqus Comments -->
-
-

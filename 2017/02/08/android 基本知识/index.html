@@ -1,139 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Android沙箱Android“沙箱”的本质是为了实现不同应用程序和进程之间的互相隔离，即在默认情况下，应用程序没有权限访问系统资源或其它应用程序的资源。每个APP和系统进程都被分配唯一并且固定的User Id，这个uid与内核层进程的uid对应。每个APP在各自独立的Dalvik虚拟机中运行，拥有独立的地址空间和资源。运行于Dalvik虚拟机中的 进程必须依托内核层Linux进程而存在，因此A">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android 基本知识">
-<meta property="og:url" content="https://github.com/sirencode/2017/02/08/android 基本知识/index.html">
-<meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="Android沙箱Android“沙箱”的本质是为了实现不同应用程序和进程之间的互相隔离，即在默认情况下，应用程序没有权限访问系统资源或其它应用程序的资源。每个APP和系统进程都被分配唯一并且固定的User Id，这个uid与内核层进程的uid对应。每个APP在各自独立的Dalvik虚拟机中运行，拥有独立的地址空间和资源。运行于Dalvik虚拟机中的 进程必须依托内核层Linux进程而存在，因此A">
-<meta property="og:image" content="http://img.blog.csdn.net/20170205174903577?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWmhlbmc1NDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-<meta property="og:updated_time" content="2017-02-09T08:57:48.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android 基本知识">
-<meta name="twitter:description" content="Android沙箱Android“沙箱”的本质是为了实现不同应用程序和进程之间的互相隔离，即在默认情况下，应用程序没有权限访问系统资源或其它应用程序的资源。每个APP和系统进程都被分配唯一并且固定的User Id，这个uid与内核层进程的uid对应。每个APP在各自独立的Dalvik虚拟机中运行，拥有独立的地址空间和资源。运行于Dalvik虚拟机中的 进程必须依托内核层Linux进程而存在，因此A">
-<meta name="twitter:image" content="http://img.blog.csdn.net/20170205174903577?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvWmhlbmc1NDg=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
-    
-    
-        
-          
-              <link rel="shortcut icon" href="/images/favicon.ico">
-          
-        
-        
-          
-            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-          
-        
-    
-    <!-- title -->
-    <title>Android 基本知识</title>
-    <!-- styles -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Diablo</title>
     <link rel="stylesheet" href="/css/style.css">
-    <!-- rss -->
-    
-    
+    <link rel="stylesheet" href="/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
 </head>
-
 <body>
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2017/02/10/AS资源文件自动分类/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
-        
-        
-        <li><a class="icon" href="/2017/02/08/SOLID原则/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
-        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2017/02/08/android 基本知识/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2017/02/08/android 基本知识/&text=Android 基本知识"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2017/02/08/android 基本知识/&title=Android 基本知识"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2017/02/08/android 基本知识/&is_video=false&description=Android 基本知识"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Android 基本知识&body=Check out this article: https://github.com/sirencode/2017/02/08/android 基本知识/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2017/02/08/android 基本知识/&title=Android 基本知识"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2017/02/08/android 基本知识/&title=Android 基本知识"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2017/02/08/android 基本知识/&title=Android 基本知识"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2017/02/08/android 基本知识/&title=Android 基本知识"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2017/02/08/android 基本知识/&name=Android 基本知识&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+            <a href="/about/" class="header-nav-link">
+                关于
+            </a>
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
+        </div>
 
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Android沙箱"><span class="toc-number">1.</span> <span class="toc-text">Android沙箱</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么做沙箱"><span class="toc-number">1.1.</span> <span class="toc-text">为什么做沙箱</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#APP构建过程"><span class="toc-number">2.</span> <span class="toc-text">APP构建过程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#编译一个application-module或者library文件，大致可以分为gradle-task代表的五个阶段："><span class="toc-number">2.1.</span> <span class="toc-text">编译一个application module或者library文件，大致可以分为gradle task代表的五个阶段：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dalvik、ART-虚拟机"><span class="toc-number">3.</span> <span class="toc-text">Dalvik、ART 虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#jvm"><span class="toc-number">3.1.</span> <span class="toc-text">jvm</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#dvm"><span class="toc-number">3.2.</span> <span class="toc-text">dvm</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#JIT-AOT-ART"><span class="toc-number">3.3.</span> <span class="toc-text">JIT AOT ART</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Apk安装过程"><span class="toc-number">4.</span> <span class="toc-text">Apk安装过程</span></a></li></ol>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">Android 基本知识</h2>
+            <div class="post-meta">
+                <span class="post-time">2017-02-08</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Android沙箱"><span class="toc-text">Android沙箱</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么做沙箱"><span class="toc-text">为什么做沙箱</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#APP构建过程"><span class="toc-text">APP构建过程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#编译一个application-module或者library文件，大致可以分为gradle-task代表的五个阶段："><span class="toc-text">编译一个application module或者library文件，大致可以分为gradle task代表的五个阶段：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dalvik、ART-虚拟机"><span class="toc-text">Dalvik、ART 虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#jvm"><span class="toc-text">jvm</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#dvm"><span class="toc-text">dvm</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#JIT-AOT-ART"><span class="toc-text">JIT AOT ART</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Apk安装过程"><span class="toc-text">Apk安装过程</span></a></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
     </div>
-  </span>
 </div>
-
-    
-    <div class="content index width mx-auto px2 my4">
-        
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle" itemprop="name headline">
-        Android 基本知识
-    </h1>
-
-
-
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">Diablo</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2017-02-07T16:00:00.000Z" itemprop="datePublished">2017-02-08</time>
-    </div>
-
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <h4 id="Android沙箱"><a href="#Android沙箱" class="headerlink" title="Android沙箱"></a>Android沙箱</h4><p>Android“沙箱”的本质是为了实现不同应用程序和进程之间的互相隔离，即在默认情况下，应用程序没有权限访问系统资源或其它应用程序的资源。每个APP和系统进程都被分配唯一并且固定的User Id，这个uid与内核层进程的uid对应。每个APP在各自独立的Dalvik虚拟机中运行，拥有独立的地址空间和资源。运行于Dalvik虚拟机中的 进程必须依托内核层Linux进程而存在，因此Android使用Dalvik虚拟机和Linux的文件访问控制来实现沙箱机制，任何应用程序如果想要访问系统资源或者其它应用程序的资源必须在自己的manifest文件中进行声明权限或者共享uid。</p>
+        <div class="post-content">
+            <h4 id="Android沙箱"><a href="#Android沙箱" class="headerlink" title="Android沙箱"></a>Android沙箱</h4><p>Android“沙箱”的本质是为了实现不同应用程序和进程之间的互相隔离，即在默认情况下，应用程序没有权限访问系统资源或其它应用程序的资源。每个APP和系统进程都被分配唯一并且固定的User Id，这个uid与内核层进程的uid对应。每个APP在各自独立的Dalvik虚拟机中运行，拥有独立的地址空间和资源。运行于Dalvik虚拟机中的 进程必须依托内核层Linux进程而存在，因此Android使用Dalvik虚拟机和Linux的文件访问控制来实现沙箱机制，任何应用程序如果想要访问系统资源或者其它应用程序的资源必须在自己的manifest文件中进行声明权限或者共享uid。</p>
 <p>安装在设备中的每一个apk文件，Android给每个APK进程分配一个单独的用户空间,其manifest中的userid就是对应一个Linux 用户都会被分配到一个属于自己的统一的Linux用户ID，并且为它创建一个沙箱，以防止影响其他应用程序（或者其他应用程序影响它）。用户ID 在应用程序安装到设备中时被分配，并且在这个设备中保持它的永久性。</p>
 <p>通过Shared User id,拥有同一个User id的多个APK可以配置成运行在同一个进程中.所以默认就是可以互相访问任意数据. 也可以配置成运行成不同的进程, 同时可以访问其他APK的数据目录下的数据库和文件.就像访问本程序的数据一样.</p>
 <h5 id="为什么做沙箱"><a href="#为什么做沙箱" class="headerlink" title="为什么做沙箱"></a>为什么做沙箱</h5><p>沙箱，对使用者来说可以理解为一种安全环境，对恶意访问者来说是一种限制。Android 沙箱实现了应用程序的相互隔离，用于对文件系统的实体访问进行控制，也可以对其他Android系统资源进行访问控制。</p>
@@ -182,107 +143,60 @@
 <li>将包添加到系统包的数据库中。</li>
 </ul>
 
-  </div>
-</article>
-
-
-
-    </div>
-    
-      <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
+        </div>
         
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#Android沙箱"><span class="toc-number">1.</span> <span class="toc-text">Android沙箱</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#为什么做沙箱"><span class="toc-number">1.1.</span> <span class="toc-text">为什么做沙箱</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#APP构建过程"><span class="toc-number">2.</span> <span class="toc-text">APP构建过程</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#编译一个application-module或者library文件，大致可以分为gradle-task代表的五个阶段："><span class="toc-number">2.1.</span> <span class="toc-text">编译一个application module或者library文件，大致可以分为gradle task代表的五个阶段：</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dalvik、ART-虚拟机"><span class="toc-number">3.</span> <span class="toc-text">Dalvik、ART 虚拟机</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#jvm"><span class="toc-number">3.1.</span> <span class="toc-text">jvm</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#dvm"><span class="toc-number">3.2.</span> <span class="toc-text">dvm</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#JIT-AOT-ART"><span class="toc-number">3.3.</span> <span class="toc-text">JIT AOT ART</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Apk安装过程"><span class="toc-number">4.</span> <span class="toc-text">Apk安装过程</span></a></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2017/02/08/android 基本知识/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2017/02/08/android 基本知识/&text=Android 基本知识"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2017/02/08/android 基本知识/&title=Android 基本知识"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2017/02/08/android 基本知识/&is_video=false&description=Android 基本知识"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Android 基本知识&body=Check out this article: https://github.com/sirencode/2017/02/08/android 基本知识/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2017/02/08/android 基本知识/&title=Android 基本知识"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2017/02/08/android 基本知识/&title=Android 基本知识"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2017/02/08/android 基本知识/&title=Android 基本知识"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2017/02/08/android 基本知识/&title=Android 基本知识"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2017/02/08/android 基本知识/&name=Android 基本知识&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      <ul>
-        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
-        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
-        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
-        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
-      </ul>
-    </div>
-
-  </div>
+    </article>
 </div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/2017/02/10/AS资源文件自动分类/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">AS资源文件自动分类</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2017/02/08/SOLID原则/">
+                <span class="nav-default">SOLID原则</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
     
-    <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2018 ShenYonghe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2018
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
 </footer>
-
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+
+</script>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
-<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
-
-
-<!-- jquery -->
-<script src="/lib/jquery/jquery.min.js"></script>
-<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
-<script src="/js/main.js"></script>
-<!-- Google Analytics -->
-
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-86660611-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-
-<!-- Disqus Comments -->
-
-

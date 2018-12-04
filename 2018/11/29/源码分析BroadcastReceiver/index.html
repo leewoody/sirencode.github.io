@@ -1,137 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="源码分析BroadcastReceiverBroadcastReceiver注册： 1 ContextWrapper.registerReceiver() 2 ContextImpl.registerReceiver() 123456@Overridepublic Intent registerReceiver(BroadcastReceiver receiver, IntentFilter fi">
-<meta property="og:type" content="article">
-<meta property="og:title" content="源码分析BroadcastReceiver">
-<meta property="og:url" content="https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/index.html">
-<meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="源码分析BroadcastReceiverBroadcastReceiver注册： 1 ContextWrapper.registerReceiver() 2 ContextImpl.registerReceiver() 123456@Overridepublic Intent registerReceiver(BroadcastReceiver receiver, IntentFilter fi">
-<meta property="og:updated_time" content="2018-11-29T02:43:33.657Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="源码分析BroadcastReceiver">
-<meta name="twitter:description" content="源码分析BroadcastReceiverBroadcastReceiver注册： 1 ContextWrapper.registerReceiver() 2 ContextImpl.registerReceiver() 123456@Overridepublic Intent registerReceiver(BroadcastReceiver receiver, IntentFilter fi">
-    
-    
-        
-          
-              <link rel="shortcut icon" href="/images/favicon.ico">
-          
-        
-        
-          
-            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-          
-        
-    
-    <!-- title -->
-    <title>源码分析BroadcastReceiver</title>
-    <!-- styles -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Diablo</title>
     <link rel="stylesheet" href="/css/style.css">
-    <!-- rss -->
-    
-    
+    <link rel="stylesheet" href="/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
 </head>
-
 <body>
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2018/12/04/android 显示-Surface/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
-        
-        
-        <li><a class="icon" href="/2018/11/29/源码分析Service/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
-        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&text=源码分析BroadcastReceiver"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&title=源码分析BroadcastReceiver"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&is_video=false&description=源码分析BroadcastReceiver"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=源码分析BroadcastReceiver&body=Check out this article: https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&title=源码分析BroadcastReceiver"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&title=源码分析BroadcastReceiver"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&title=源码分析BroadcastReceiver"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&title=源码分析BroadcastReceiver"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&name=源码分析BroadcastReceiver&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+            <a href="/about/" class="header-nav-link">
+                关于
+            </a>
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
+        </div>
 
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#源码分析BroadcastReceiver"><span class="toc-number">1.</span> <span class="toc-text">源码分析BroadcastReceiver</span></a></li></ol>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">源码分析BroadcastReceiver</h2>
+            <div class="post-meta">
+                <span class="post-time">2018-11-29</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#源码分析BroadcastReceiver"><span class="toc-text">源码分析BroadcastReceiver</span></a></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
     </div>
-  </span>
 </div>
-
-    
-    <div class="content index width mx-auto px2 my4">
-        
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle" itemprop="name headline">
-        源码分析BroadcastReceiver
-    </h1>
-
-
-
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">Diablo</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2018-11-28T16:00:00.000Z" itemprop="datePublished">2018-11-29</time>
-    </div>
-
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <h1 id="源码分析BroadcastReceiver"><a href="#源码分析BroadcastReceiver" class="headerlink" title="源码分析BroadcastReceiver"></a>源码分析BroadcastReceiver</h1><p>BroadcastReceiver注册：</p>
+        <div class="post-content">
+            <h1 id="源码分析BroadcastReceiver"><a href="#源码分析BroadcastReceiver" class="headerlink" title="源码分析BroadcastReceiver"></a>源码分析BroadcastReceiver</h1><p>BroadcastReceiver注册：</p>
 <p>1 ContextWrapper.registerReceiver()</p>
 <p>2 ContextImpl.registerReceiver()</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Intent <span class="title">registerReceiver</span><span class="params">(BroadcastReceiver receiver, IntentFilter filter,</span></span></span><br><span class="line"><span class="function"><span class="params">        String broadcastPermission, Handler scheduler, <span class="keyword">int</span> flags)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> registerReceiverInternal(receiver, getUserId(),</span><br><span class="line">            filter, broadcastPermission, scheduler, getOuterContext(), flags);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -170,107 +133,60 @@
 <p>回调BroadcastReceiver.onReceive方法，于是前面注册的广播接受者，就接收到发送的广播了</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">Args</span> <span class="keyword">extends</span> <span class="title">BroadcastReceiver</span>.<span class="title">PendingResult</span> </span>&#123;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">final</span> Runnable <span class="title">getRunnable</span><span class="params">()</span> </span>&#123;</span><br><span class="line">	<span class="keyword">return</span> () -&gt; &#123;</span><br><span class="line">	    <span class="keyword">final</span> BroadcastReceiver receiver = mReceiver;</span><br><span class="line">	    </span><br><span class="line">	    <span class="comment">//...</span></span><br><span class="line">	    </span><br><span class="line">	    receiver.onReceive(mContext, intent);</span><br><span class="line">	    </span><br><span class="line">	    <span class="comment">//...</span></span><br><span class="line">			       </span><br><span class="line">	&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-  </div>
-</article>
-
-
-
-    </div>
-    
-      <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
+        </div>
         
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#源码分析BroadcastReceiver"><span class="toc-number">1.</span> <span class="toc-text">源码分析BroadcastReceiver</span></a></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&text=源码分析BroadcastReceiver"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&title=源码分析BroadcastReceiver"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&is_video=false&description=源码分析BroadcastReceiver"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=源码分析BroadcastReceiver&body=Check out this article: https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&title=源码分析BroadcastReceiver"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&title=源码分析BroadcastReceiver"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&title=源码分析BroadcastReceiver"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&title=源码分析BroadcastReceiver"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2018/11/29/源码分析BroadcastReceiver/&name=源码分析BroadcastReceiver&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      <ul>
-        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
-        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
-        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
-        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
-      </ul>
-    </div>
-
-  </div>
+    </article>
 </div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/2018/11/29/源码分析ContentProvider/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">源码分析ContentProvider</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2018/11/29/源码分析Service/">
+                <span class="nav-default">源码分析Service</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
     
-    <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2018 ShenYonghe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2018
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
 </footer>
-
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+
+</script>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
-<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
-
-
-<!-- jquery -->
-<script src="/lib/jquery/jquery.min.js"></script>
-<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
-<script src="/js/main.js"></script>
-<!-- Google Analytics -->
-
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-86660611-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-
-<!-- Disqus Comments -->
-
-

@@ -1,137 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Android 模块化背景，当我们的项目的业务随着时间的推移越来越多越来越复杂，有时候只是想测试一下或者修改一下相对简单的功能，也需要等待相对漫长的编译时间，以及各种跳转依赖的处理。为了使相对独立的模块相对快速的开发，我们决定事实模块化，可以单独打包对应的模块。 整体的思路主项目全量打包，包含所有的功能以及连贯的前后业务逻辑。实现模块化后的独立模块可以实现单独打包开发对应的功能。 模块化的流程首先">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android 模块化">
-<meta property="og:url" content="https://github.com/sirencode/2018/07/06/Android 模块化 /index.html">
-<meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="Android 模块化背景，当我们的项目的业务随着时间的推移越来越多越来越复杂，有时候只是想测试一下或者修改一下相对简单的功能，也需要等待相对漫长的编译时间，以及各种跳转依赖的处理。为了使相对独立的模块相对快速的开发，我们决定事实模块化，可以单独打包对应的模块。 整体的思路主项目全量打包，包含所有的功能以及连贯的前后业务逻辑。实现模块化后的独立模块可以实现单独打包开发对应的功能。 模块化的流程首先">
-<meta property="og:updated_time" content="2018-07-06T07:10:21.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android 模块化">
-<meta name="twitter:description" content="Android 模块化背景，当我们的项目的业务随着时间的推移越来越多越来越复杂，有时候只是想测试一下或者修改一下相对简单的功能，也需要等待相对漫长的编译时间，以及各种跳转依赖的处理。为了使相对独立的模块相对快速的开发，我们决定事实模块化，可以单独打包对应的模块。 整体的思路主项目全量打包，包含所有的功能以及连贯的前后业务逻辑。实现模块化后的独立模块可以实现单独打包开发对应的功能。 模块化的流程首先">
-    
-    
-        
-          
-              <link rel="shortcut icon" href="/images/favicon.ico">
-          
-        
-        
-          
-            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-          
-        
-    
-    <!-- title -->
-    <title>Android 模块化</title>
-    <!-- styles -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Diablo</title>
     <link rel="stylesheet" href="/css/style.css">
-    <!-- rss -->
-    
-    
+    <link rel="stylesheet" href="/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
 </head>
-
 <body>
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2018/07/13/Android 投屏/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
-        
-        
-        <li><a class="icon" href="/2018/06/16/dir505 科学上网/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
-        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2018/07/06/Android 模块化 /"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&text=Android 模块化"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&title=Android 模块化"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&is_video=false&description=Android 模块化"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Android 模块化&body=Check out this article: https://github.com/sirencode/2018/07/06/Android 模块化 /"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&title=Android 模块化"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&title=Android 模块化"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&title=Android 模块化"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&title=Android 模块化"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&name=Android 模块化&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+            <a href="/about/" class="header-nav-link">
+                关于
+            </a>
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
+        </div>
 
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-模块化"><span class="toc-number">1.</span> <span class="toc-text">Android 模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#整体的思路"><span class="toc-number">1.1.</span> <span class="toc-text">整体的思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模块化的流程"><span class="toc-number">1.2.</span> <span class="toc-text">模块化的流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一步新建独立模块的app引导"><span class="toc-number">1.2.1.</span> <span class="toc-text">第一步新建独立模块的app引导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule"><span class="toc-number">1.2.2.</span> <span class="toc-text">将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#公共代码抽离"><span class="toc-number">1.2.3.</span> <span class="toc-text">公共代码抽离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据同步"><span class="toc-number">1.2.4.</span> <span class="toc-text">数据同步</span></a></li></ol></li></ol></li></ol>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">Android 模块化</h2>
+            <div class="post-meta">
+                <span class="post-time">2018-07-06</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-模块化"><span class="toc-text">Android 模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#整体的思路"><span class="toc-text">整体的思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模块化的流程"><span class="toc-text">模块化的流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一步新建独立模块的app引导"><span class="toc-text">第一步新建独立模块的app引导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule"><span class="toc-text">将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#公共代码抽离"><span class="toc-text">公共代码抽离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据同步"><span class="toc-text">数据同步</span></a></li></ol></li></ol></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
     </div>
-  </span>
 </div>
-
-    
-    <div class="content index width mx-auto px2 my4">
-        
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle" itemprop="name headline">
-        Android 模块化
-    </h1>
-
-
-
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">Diablo</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2018-07-05T16:00:00.000Z" itemprop="datePublished">2018-07-06</time>
-    </div>
-
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <h1 id="Android-模块化"><a href="#Android-模块化" class="headerlink" title="Android 模块化"></a>Android 模块化</h1><p>背景，当我们的项目的业务随着时间的推移越来越多越来越复杂，有时候只是想测试一下或者修改一下相对简单的功能，也需要等待相对漫长的编译时间，以及各种跳转依赖的处理。为了使相对独立的模块相对快速的开发，我们决定事实模块化，可以单独打包对应的模块。</p>
+        <div class="post-content">
+            <h1 id="Android-模块化"><a href="#Android-模块化" class="headerlink" title="Android 模块化"></a>Android 模块化</h1><p>背景，当我们的项目的业务随着时间的推移越来越多越来越复杂，有时候只是想测试一下或者修改一下相对简单的功能，也需要等待相对漫长的编译时间，以及各种跳转依赖的处理。为了使相对独立的模块相对快速的开发，我们决定事实模块化，可以单独打包对应的模块。</p>
 <h2 id="整体的思路"><a href="#整体的思路" class="headerlink" title="整体的思路"></a>整体的思路</h2><p>主项目全量打包，包含所有的功能以及连贯的前后业务逻辑。实现模块化后的独立模块可以实现单独打包开发对应的功能。</p>
 <h2 id="模块化的流程"><a href="#模块化的流程" class="headerlink" title="模块化的流程"></a>模块化的流程</h2><p>首先模块化的目的确定了，在模块化的过程中的原则就是尽量不要修改主项目的代码。首先将模块的代码从主项目中抽离出来，并进行全功能测试以及主项目的集成测试，最后删除主项目中移除的对应的代码。</p>
 <h3 id="第一步新建独立模块的app引导"><a href="#第一步新建独立模块的app引导" class="headerlink" title="第一步新建独立模块的app引导"></a>第一步新建独立模块的app引导</h3><p>MyModuleAPP模块：我的模块的引导程序。</p>
@@ -157,107 +120,60 @@
 <li>3 lib跳转app使用apt路由ARouter。</li>
 </ul>
 
-  </div>
-</article>
-
-
-
-    </div>
-    
-      <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
+        </div>
         
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-模块化"><span class="toc-number">1.</span> <span class="toc-text">Android 模块化</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#整体的思路"><span class="toc-number">1.1.</span> <span class="toc-text">整体的思路</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#模块化的流程"><span class="toc-number">1.2.</span> <span class="toc-text">模块化的流程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#第一步新建独立模块的app引导"><span class="toc-number">1.2.1.</span> <span class="toc-text">第一步新建独立模块的app引导</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule"><span class="toc-number">1.2.2.</span> <span class="toc-text">将主项目中的所有“MY”相关的代码抽离到独立的模块NMyModule</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#公共代码抽离"><span class="toc-number">1.2.3.</span> <span class="toc-text">公共代码抽离</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#数据同步"><span class="toc-number">1.2.4.</span> <span class="toc-text">数据同步</span></a></li></ol></li></ol></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2018/07/06/Android 模块化 /"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&text=Android 模块化"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&title=Android 模块化"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&is_video=false&description=Android 模块化"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Android 模块化&body=Check out this article: https://github.com/sirencode/2018/07/06/Android 模块化 /"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&title=Android 模块化"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&title=Android 模块化"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&title=Android 模块化"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&title=Android 模块化"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2018/07/06/Android 模块化 /&name=Android 模块化&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      <ul>
-        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
-        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
-        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
-        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
-      </ul>
-    </div>
-
-  </div>
+    </article>
 </div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/2018/07/13/Android 投屏/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">Android 投屏</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2018/06/16/dir505 科学上网/">
+                <span class="nav-default">dir505 科学上网</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
     
-    <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2018 ShenYonghe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2018
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
 </footer>
-
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+
+</script>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
-<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
-
-
-<!-- jquery -->
-<script src="/lib/jquery/jquery.min.js"></script>
-<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
-<script src="/js/main.js"></script>
-<!-- Google Analytics -->
-
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-86660611-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-
-<!-- Disqus Comments -->
-
-

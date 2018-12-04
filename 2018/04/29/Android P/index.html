@@ -1,140 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Android PP 中的变更基于RTT的室内定位技术原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。 这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定涉及到WiFi穿墙后的信号衰减问题，而且不同的室内结构">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android P">
-<meta property="og:url" content="https://github.com/sirencode/2018/04/29/Android P/index.html">
-<meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="Android PP 中的变更基于RTT的室内定位技术原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。 这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定涉及到WiFi穿墙后的信号衰减问题，而且不同的室内结构">
-<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/emulator-devoptions-cutout_2x.png">
-<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/timg.png">
-<meta property="og:updated_time" content="2018-04-29T08:22:21.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android P">
-<meta name="twitter:description" content="Android PP 中的变更基于RTT的室内定位技术原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。 这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定涉及到WiFi穿墙后的信号衰减问题，而且不同的室内结构">
-<meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/emulator-devoptions-cutout_2x.png">
-    
-    
-        
-          
-              <link rel="shortcut icon" href="/images/favicon.ico">
-          
-        
-        
-          
-            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-          
-        
-    
-    <!-- title -->
-    <title>Android P</title>
-    <!-- styles -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Diablo</title>
     <link rel="stylesheet" href="/css/style.css">
-    <!-- rss -->
-    
-    
+    <link rel="stylesheet" href="/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
 </head>
-
 <body>
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2018/05/05/Apk二次打包/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
-        
-        
-        <li><a class="icon" href="/2018/04/19/Android root 原理/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
-        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2018/04/29/Android P/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2018/04/29/Android P/&text=Android P"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2018/04/29/Android P/&title=Android P"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2018/04/29/Android P/&is_video=false&description=Android P"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Android P&body=Check out this article: https://github.com/sirencode/2018/04/29/Android P/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2018/04/29/Android P/&title=Android P"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2018/04/29/Android P/&title=Android P"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2018/04/29/Android P/&title=Android P"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2018/04/29/Android P/&title=Android P"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2018/04/29/Android P/&name=Android P&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+            <a href="/about/" class="header-nav-link">
+                关于
+            </a>
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
+        </div>
 
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-P"><span class="toc-number">1.</span> <span class="toc-text">Android P</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#P-中的变更"><span class="toc-number">1.1.</span> <span class="toc-text">P 中的变更</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于RTT的室内定位技术"><span class="toc-number">1.1.1.</span> <span class="toc-text">基于RTT的室内定位技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#屏幕缺口支持"><span class="toc-number">1.1.2.</span> <span class="toc-text">屏幕缺口支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通知"><span class="toc-number">1.1.3.</span> <span class="toc-text">通知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多摄像头支持和摄像头更新"><span class="toc-number">1.1.4.</span> <span class="toc-text">多摄像头支持和摄像头更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#适用于位图和可绘制对象的-ImageDecoder"><span class="toc-number">1.1.5.</span> <span class="toc-text">适用于位图和可绘制对象的 ImageDecoder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动画"><span class="toc-number">1.1.6.</span> <span class="toc-text">动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Neural-Networks-API-1-1"><span class="toc-number">1.1.7.</span> <span class="toc-text">Neural Networks API 1.1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安全"><span class="toc-number">1.2.</span> <span class="toc-text">安全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新增的-APK-密钥轮转"><span class="toc-number">1.2.1.</span> <span class="toc-text">新增的 APK 密钥轮转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传输层安全协议-TLS-实现变更"><span class="toc-number">1.2.2.</span> <span class="toc-text">传输层安全协议 (TLS) 实现变更</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对-ChaCha20-流式传输加密的支持"><span class="toc-number">1.2.3.</span> <span class="toc-text">对 ChaCha20 流式传输加密的支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#统一的指纹身份验证对话框"><span class="toc-number">1.2.4.</span> <span class="toc-text">统一的指纹身份验证对话框</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高可信度用户确认"><span class="toc-number">1.2.5.</span> <span class="toc-text">高可信度用户确认</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#硬件安全性模块"><span class="toc-number">1.2.6.</span> <span class="toc-text">硬件安全性模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#保护对密钥库进行的密钥导入"><span class="toc-number">1.2.7.</span> <span class="toc-text">保护对密钥库进行的密钥导入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#旋转"><span class="toc-number">1.2.8.</span> <span class="toc-text">旋转</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#兼容性问题"><span class="toc-number">1.3.</span> <span class="toc-text">兼容性问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对于非-SDK-接口的限制"><span class="toc-number">1.3.1.</span> <span class="toc-text">对于非 SDK 接口的限制</span></a></li></ol></li></ol></li></ol>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">Android P</h2>
+            <div class="post-meta">
+                <span class="post-time">2018-04-29</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-P"><span class="toc-text">Android P</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#P-中的变更"><span class="toc-text">P 中的变更</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于RTT的室内定位技术"><span class="toc-text">基于RTT的室内定位技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#屏幕缺口支持"><span class="toc-text">屏幕缺口支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通知"><span class="toc-text">通知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多摄像头支持和摄像头更新"><span class="toc-text">多摄像头支持和摄像头更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#适用于位图和可绘制对象的-ImageDecoder"><span class="toc-text">适用于位图和可绘制对象的 ImageDecoder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动画"><span class="toc-text">动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Neural-Networks-API-1-1"><span class="toc-text">Neural Networks API 1.1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安全"><span class="toc-text">安全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新增的-APK-密钥轮转"><span class="toc-text">新增的 APK 密钥轮转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传输层安全协议-TLS-实现变更"><span class="toc-text">传输层安全协议 (TLS) 实现变更</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对-ChaCha20-流式传输加密的支持"><span class="toc-text">对 ChaCha20 流式传输加密的支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#统一的指纹身份验证对话框"><span class="toc-text">统一的指纹身份验证对话框</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高可信度用户确认"><span class="toc-text">高可信度用户确认</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#硬件安全性模块"><span class="toc-text">硬件安全性模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#保护对密钥库进行的密钥导入"><span class="toc-text">保护对密钥库进行的密钥导入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#旋转"><span class="toc-text">旋转</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#兼容性问题"><span class="toc-text">兼容性问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对于非-SDK-接口的限制"><span class="toc-text">对于非 SDK 接口的限制</span></a></li></ol></li></ol></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
     </div>
-  </span>
 </div>
-
-    
-    <div class="content index width mx-auto px2 my4">
-        
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle" itemprop="name headline">
-        Android P
-    </h1>
-
-
-
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">Diablo</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2018-04-28T16:00:00.000Z" itemprop="datePublished">2018-04-29</time>
-    </div>
-
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <h1 id="Android-P"><a href="#Android-P" class="headerlink" title="Android P"></a>Android P</h1><h2 id="P-中的变更"><a href="#P-中的变更" class="headerlink" title="P 中的变更"></a>P 中的变更</h2><h3 id="基于RTT的室内定位技术"><a href="#基于RTT的室内定位技术" class="headerlink" title="基于RTT的室内定位技术"></a>基于RTT的室内定位技术</h3><p>原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。</p>
+        <div class="post-content">
+            <h1 id="Android-P"><a href="#Android-P" class="headerlink" title="Android P"></a>Android P</h1><h2 id="P-中的变更"><a href="#P-中的变更" class="headerlink" title="P 中的变更"></a>P 中的变更</h2><h3 id="基于RTT的室内定位技术"><a href="#基于RTT的室内定位技术" class="headerlink" title="基于RTT的室内定位技术"></a>基于RTT的室内定位技术</h3><p>原理：根据WiFi的信号强度来判断举例，实现多个AP点三线可以确定一个三维的点的特性。</p>
 <p>这里我要吐槽一下，2010-2013年间，我还在大学的时候爱立信曾经对这块研究过，并开放了api，以及如何布AP的具体实现细节，我在实验室也搞过，总体下来感觉坑特多。首先也是最重要的既然是室内定位，那肯定涉及到WiFi穿墙后的信号衰减问题，而且不同的室内结构的墙体的多少材质厚度都不同，很难有统一的算法来实现对这块的弥补，这也是后来爱立信公司放弃这块技术的主要原因。我看了一下Google这次推出这个技术，也没有相对对这个问题完善的解决方案，想来也是先推出来占个坑，后续优化吧。</p>
 <p>前景：我认为室内定位的前景还是非常好的，而且RTT技术是AP无感的，安全也可以保证。</p>
 <h3 id="屏幕缺口支持"><a href="#屏幕缺口支持" class="headerlink" title="屏幕缺口支持"></a>屏幕缺口支持</h3><p>Android P 支持最新的全面屏以及为摄像头和扬声器预留空间的凹口屏幕。幸运的是，选择凹口屏幕的大小。</p>
@@ -169,107 +129,60 @@
 <h3 id="旋转"><a href="#旋转" class="headerlink" title="旋转"></a>旋转</h3><p>为避免无意的旋转，我们新增了一个模式，哪怕设备位置发生变化，也会固定在当前屏幕方向上。 必要时用户可以通过按系统栏上的一个新增按钮手动触发旋转。</p>
 <h2 id="兼容性问题"><a href="#兼容性问题" class="headerlink" title="兼容性问题"></a>兼容性问题</h2><h3 id="对于非-SDK-接口的限制"><a href="#对于非-SDK-接口的限制" class="headerlink" title="对于非 SDK 接口的限制"></a>对于非 SDK 接口的限制</h3><p>Android P 引入了针对非 SDK 接口的使用限制，无论是直接使用还是通过反射或 JNI 间接使用。 无论应用是引用非 SDK 接口还是尝试使用反射或 JNI 获取其句柄，均适用这些限制。 </p>
 
-  </div>
-</article>
-
-
-
-    </div>
-    
-      <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
+        </div>
         
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-P"><span class="toc-number">1.</span> <span class="toc-text">Android P</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#P-中的变更"><span class="toc-number">1.1.</span> <span class="toc-text">P 中的变更</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#基于RTT的室内定位技术"><span class="toc-number">1.1.1.</span> <span class="toc-text">基于RTT的室内定位技术</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#屏幕缺口支持"><span class="toc-number">1.1.2.</span> <span class="toc-text">屏幕缺口支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通知"><span class="toc-number">1.1.3.</span> <span class="toc-text">通知</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#多摄像头支持和摄像头更新"><span class="toc-number">1.1.4.</span> <span class="toc-text">多摄像头支持和摄像头更新</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#适用于位图和可绘制对象的-ImageDecoder"><span class="toc-number">1.1.5.</span> <span class="toc-text">适用于位图和可绘制对象的 ImageDecoder</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#动画"><span class="toc-number">1.1.6.</span> <span class="toc-text">动画</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Neural-Networks-API-1-1"><span class="toc-number">1.1.7.</span> <span class="toc-text">Neural Networks API 1.1</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#安全"><span class="toc-number">1.2.</span> <span class="toc-text">安全</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新增的-APK-密钥轮转"><span class="toc-number">1.2.1.</span> <span class="toc-text">新增的 APK 密钥轮转</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#传输层安全协议-TLS-实现变更"><span class="toc-number">1.2.2.</span> <span class="toc-text">传输层安全协议 (TLS) 实现变更</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#对-ChaCha20-流式传输加密的支持"><span class="toc-number">1.2.3.</span> <span class="toc-text">对 ChaCha20 流式传输加密的支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#统一的指纹身份验证对话框"><span class="toc-number">1.2.4.</span> <span class="toc-text">统一的指纹身份验证对话框</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#高可信度用户确认"><span class="toc-number">1.2.5.</span> <span class="toc-text">高可信度用户确认</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#硬件安全性模块"><span class="toc-number">1.2.6.</span> <span class="toc-text">硬件安全性模块</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#保护对密钥库进行的密钥导入"><span class="toc-number">1.2.7.</span> <span class="toc-text">保护对密钥库进行的密钥导入</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#旋转"><span class="toc-number">1.2.8.</span> <span class="toc-text">旋转</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#兼容性问题"><span class="toc-number">1.3.</span> <span class="toc-text">兼容性问题</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#对于非-SDK-接口的限制"><span class="toc-number">1.3.1.</span> <span class="toc-text">对于非 SDK 接口的限制</span></a></li></ol></li></ol></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2018/04/29/Android P/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2018/04/29/Android P/&text=Android P"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2018/04/29/Android P/&title=Android P"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2018/04/29/Android P/&is_video=false&description=Android P"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Android P&body=Check out this article: https://github.com/sirencode/2018/04/29/Android P/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2018/04/29/Android P/&title=Android P"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2018/04/29/Android P/&title=Android P"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2018/04/29/Android P/&title=Android P"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2018/04/29/Android P/&title=Android P"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2018/04/29/Android P/&name=Android P&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      <ul>
-        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
-        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
-        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
-        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
-      </ul>
-    </div>
-
-  </div>
+    </article>
 </div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/2018/05/05/逆向-small语法/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">逆向-small语法</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2018/04/19/Android root 原理/">
+                <span class="nav-default">Android root 原理</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
     
-    <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2018 ShenYonghe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2018
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
 </footer>
-
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+
+</script>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
-<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
-
-
-<!-- jquery -->
-<script src="/lib/jquery/jquery.min.js"></script>
-<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
-<script src="/js/main.js"></script>
-<!-- Google Analytics -->
-
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-86660611-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-
-<!-- Disqus Comments -->
-
-

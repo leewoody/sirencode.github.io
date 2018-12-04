@@ -1,137 +1,100 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <!-- so meta -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta name="description" content="Android 内部存储 外部存储最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android 内部存储 外部存储">
-<meta property="og:url" content="https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/index.html">
-<meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="Android 内部存储 外部存储最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把">
-<meta property="og:updated_time" content="2018-02-24T07:15:21.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android 内部存储 外部存储">
-<meta name="twitter:description" content="Android 内部存储 外部存储最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把">
-    
-    
-        
-          
-              <link rel="shortcut icon" href="/images/favicon.ico">
-          
-        
-        
-          
-            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
-          
-        
-        
-          
-            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
-          
-        
-    
-    <!-- title -->
-    <title>Android 内部存储 外部存储</title>
-    <!-- styles -->
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Diablo</title>
     <link rel="stylesheet" href="/css/style.css">
-    <!-- rss -->
-    
-    
+    <link rel="stylesheet" href="/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
 </head>
-
 <body>
-    
-      <div id="header-post">
-  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
-  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
-  <span id="menu">
-    <span id="nav">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </span>
-    <br/>
-    <span id="actions">
-      <ul>
-        
-        <li><a class="icon" href="/2016/10/04/android 动画/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
-        
-        
-        <li><a class="icon" href="/2016/10/03/APP启动时间优化/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
-        
-        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
-        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
-      </ul>
-      <span id="i-prev" class="info" style="display:none;">Previous post</span>
-      <span id="i-next" class="info" style="display:none;">Next post</span>
-      <span id="i-top" class="info" style="display:none;">Back to top</span>
-      <span id="i-share" class="info" style="display:none;">Share post</span>
-    </span>
-    <br/>
-    <div id="share" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&text=Android 内部存储 外部存储"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&title=Android 内部存储 外部存储"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&is_video=false&description=Android 内部存储 外部存储"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Android 内部存储 外部存储&body=Check out this article: https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&title=Android 内部存储 外部存储"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&title=Android 内部存储 外部存储"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&title=Android 内部存储 外部存储"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&title=Android 内部存储 外部存储"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&name=Android 内部存储 外部存储&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
-</ul>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
+
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
+
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
+
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
+
+            
+            <a href="/about/" class="header-nav-link">
+                关于
+            </a>
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
+        </div>
 
     </div>
-    <div id="toc">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-内部存储-外部存储"><span class="toc-number">1.</span> <span class="toc-text">Android 内部存储 外部存储</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存-RAM"><span class="toc-number">1.1.</span> <span class="toc-text">内存 RAM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部存储内部ROM"><span class="toc-number">1.2.</span> <span class="toc-text">内部存储内部ROM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#data-app"><span class="toc-number">1.2.1.</span> <span class="toc-text">data/app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#data-data"><span class="toc-number">1.2.2.</span> <span class="toc-text">data/data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用目录"><span class="toc-number">1.2.3.</span> <span class="toc-text">常用目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特点"><span class="toc-number">1.2.4.</span> <span class="toc-text">特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外部存储外部ROM和SDCard"><span class="toc-number">1.3.</span> <span class="toc-text">外部存储外部ROM和SDCard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用目录-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">常用目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特点-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">特点</span></a></li></ol></li></ol></li></ol>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">Android 内部存储 外部存储</h2>
+            <div class="post-meta">
+                <span class="post-time">2016-10-04</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-内部存储-外部存储"><span class="toc-text">Android 内部存储 外部存储</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存-RAM"><span class="toc-text">内存 RAM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部存储内部ROM"><span class="toc-text">内部存储内部ROM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#data-app"><span class="toc-text">data/app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#data-data"><span class="toc-text">data/data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用目录"><span class="toc-text">常用目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特点"><span class="toc-text">特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外部存储外部ROM和SDCard"><span class="toc-text">外部存储外部ROM和SDCard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用目录-1"><span class="toc-text">常用目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特点-1"><span class="toc-text">特点</span></a></li></ol></li></ol></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
     </div>
-  </span>
 </div>
-
-    
-    <div class="content index width mx-auto px2 my4">
-        
-        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
-  <header>
-    
-    <h1 class="posttitle" itemprop="name headline">
-        Android 内部存储 外部存储
-    </h1>
-
-
-
-    <div class="meta">
-      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
-        <span itemprop="name">Diablo</span>
-      </span>
-      
-    <div class="postdate">
-        <time datetime="2016-10-03T16:00:00.000Z" itemprop="datePublished">2016-10-04</time>
-    </div>
-
-
-      
-
-    </div>
-  </header>
-  
-
-  <div class="content" itemprop="articleBody">
-    <h1 id="Android-内部存储-外部存储"><a href="#Android-内部存储-外部存储" class="headerlink" title="Android 内部存储 外部存储"></a>Android 内部存储 外部存储</h1><p>最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把内置存储（机身存储）当做内部存储，而把扩展的SD卡当做是外部存储。这么认为确实没错，因为在4.4（API19）以前的手机上确实是这样的，手机自身带的存储卡就是内部存储，而扩展的SD卡就是外部存储。但是从4.4的系统开始，很多的中高端机器都将自己的机身存储扩展到了8G以上，比如有的人的手机是16G的，有的人的手机是32G的，但是这个16G，32G是内部存储吗，不是的！！！，它们依然是外部存储，也就是说4.4系统及以上的手机将机身存储存储（手机自身带的存储叫做机身存储）在概念上分成了”内部存储internal” 和”外部存储external” 两部分。既然16G，32G是外部存储，那有人又有疑惑了，那4.4系统及以上的手机要是插了SD卡呢，SD卡又是什么呢，如果SD卡也是外部存储的话，那怎么区分机身存储的外部存储跟SD卡的外部存储呢？对，SD卡也是外部存储，那怎么区分呢，在4.4以后的系统中，API提供了这样一个方法来遍历手机的外部存储路径：</p>
+        <div class="post-content">
+            <h1 id="Android-内部存储-外部存储"><a href="#Android-内部存储-外部存储" class="headerlink" title="Android 内部存储 外部存储"></a>Android 内部存储 外部存储</h1><p>最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把内置存储（机身存储）当做内部存储，而把扩展的SD卡当做是外部存储。这么认为确实没错，因为在4.4（API19）以前的手机上确实是这样的，手机自身带的存储卡就是内部存储，而扩展的SD卡就是外部存储。但是从4.4的系统开始，很多的中高端机器都将自己的机身存储扩展到了8G以上，比如有的人的手机是16G的，有的人的手机是32G的，但是这个16G，32G是内部存储吗，不是的！！！，它们依然是外部存储，也就是说4.4系统及以上的手机将机身存储存储（手机自身带的存储叫做机身存储）在概念上分成了”内部存储internal” 和”外部存储external” 两部分。既然16G，32G是外部存储，那有人又有疑惑了，那4.4系统及以上的手机要是插了SD卡呢，SD卡又是什么呢，如果SD卡也是外部存储的话，那怎么区分机身存储的外部存储跟SD卡的外部存储呢？对，SD卡也是外部存储，那怎么区分呢，在4.4以后的系统中，API提供了这样一个方法来遍历手机的外部存储路径：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">File[] files;</span><br><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">    files = getExternalFilesDirs(Environment.MEDIA_MOUNTED);</span><br><span class="line">    <span class="keyword">for</span>(File file:files)&#123;</span><br><span class="line">        Log.e(<span class="string">"main"</span>,file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果你的手机插了SD卡的话，那么它打印的路径就有两条了，例如我的华为荣耀7插了SD卡，它的结果如下：<br>/storage/emulated/0/Android/data/packname/files/mounted<br>/storage/B3E4-1711/Android/data/packname/files/mounted<br>其中/storage/emulated/0目录就是机身存储的外部存储路径,而/storage/B3E4-1711/就是SD卡的路径 </p>
 <h2 id="内存-RAM"><a href="#内存-RAM" class="headerlink" title="内存 RAM"></a>内存 RAM</h2><p>物理位置是位于手机内部的随机存储器上，就是俗称的RAM。就是计算机上对内存储器的理解。</p>
@@ -165,107 +128,60 @@
 <li>app卸载的时候，系统会删除存在getExternalFilesDir()-{路径为:/mnt/sdcard/Android/data/&lt; package name &gt;/files/…}目录的内容。</li>
 </ul>
 
-  </div>
-</article>
-
-
-
-    </div>
-    
-      <div id="footer-post-container">
-  <div id="footer-post">
-
-    <div id="nav-footer" style="display: none">
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
+        </div>
         
-      </ul>
-    </div>
-
-    <div id="toc-footer" style="display: none">
-      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-内部存储-外部存储"><span class="toc-number">1.</span> <span class="toc-text">Android 内部存储 外部存储</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存-RAM"><span class="toc-number">1.1.</span> <span class="toc-text">内存 RAM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部存储内部ROM"><span class="toc-number">1.2.</span> <span class="toc-text">内部存储内部ROM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#data-app"><span class="toc-number">1.2.1.</span> <span class="toc-text">data/app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#data-data"><span class="toc-number">1.2.2.</span> <span class="toc-text">data/data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用目录"><span class="toc-number">1.2.3.</span> <span class="toc-text">常用目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特点"><span class="toc-number">1.2.4.</span> <span class="toc-text">特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外部存储外部ROM和SDCard"><span class="toc-number">1.3.</span> <span class="toc-text">外部存储外部ROM和SDCard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用目录-1"><span class="toc-number">1.3.1.</span> <span class="toc-text">常用目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特点-1"><span class="toc-number">1.3.2.</span> <span class="toc-text">特点</span></a></li></ol></li></ol></li></ol>
-    </div>
-
-    <div id="share-footer" style="display: none">
-      <ul>
-  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&text=Android 内部存储 外部存储"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&title=Android 内部存储 外部存储"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&is_video=false&description=Android 内部存储 外部存储"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="mailto:?subject=Android 内部存储 外部存储&body=Check out this article: https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&title=Android 内部存储 外部存储"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&title=Android 内部存储 外部存储"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&title=Android 内部存储 外部存储"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&title=Android 内部存储 外部存储"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
-  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/&name=Android 内部存储 外部存储&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
-</ul>
-
-    </div>
-
-    <div id="actions-footer">
-      <ul>
-        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
-        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
-        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
-        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
-      </ul>
-    </div>
-
-  </div>
+    </article>
 </div>
+<div class="paginator">
+    
+        
+            <a class="prev" href="/2016/10/11/android imageview加载/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">Android imageview加载实现</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2016/10/04/android 动画/">
+                <span class="nav-default">Android 动画</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
     
-    <footer id="footer">
-  <div class="footer-left">
-    Copyright &copy; 2018 ShenYonghe
-  </div>
-  <div class="footer-right">
-    <nav>
-      <ul>
-         
-          <li><a href="/">Home</a></li>
-         
-          <li><a href="/about/">About</a></li>
-         
-          <li><a href="/archives/">Writing</a></li>
-         
-          <li><a href="http://github.com/gabithume">Projects</a></li>
-        
-      </ul>
-    </nav>
-  </div>
+
+    
+
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2018
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
 </footer>
-
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+
+</script>
 </html>
-<!-- styles -->
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
-<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
-
-
-<!-- jquery -->
-<script src="/lib/jquery/jquery.min.js"></script>
-<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
-<script src="/js/main.js"></script>
-<!-- Google Analytics -->
-
-    <script type="text/javascript">
-        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
-        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-        ga('create', 'UA-86660611-1', 'auto');
-        ga('send', 'pageview');
-    </script>
-
-<!-- Disqus Comments -->
-
-
