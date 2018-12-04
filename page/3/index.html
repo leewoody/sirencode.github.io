@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">페이지</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">압축 파일</a>
         
           
           
@@ -56,7 +56,7 @@
           
           
           
-          <a href="/about">About</a>
+          <a href="/about">에 관하다</a>
         
       </div>
     </div>
@@ -71,22 +71,18 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/05/05/Android 逆向工程/">
-            Android 逆向工程
+          <a href="/2018/05/05/Apk二次打包/">
+            Apk二次打包
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>Android 逆向工程安装apktoolapktool官网
-安装说明
+            <p>Apk二次打包首先反编译获得smali文件1$ apktool d demo.apk
+找到要注入的方法并添加smali方法调用
+添加方法记得修改被注入方法的寄存器个数
 
-
-注意apktool的脚本文件不能有后缀名(sublimetext新建一个无后缀的文件之后将内容拷贝进去)
-
-安装dex2jargit下载地址
-下载zip解压待用
-安装JD-GUI官网地址
-下载安装即可(mac版的请下载.ja...</p>
+修改后的smali进行打包1$ apktool b demo
+...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -190,26 +186,6 @@ Android root首先Android系统不希望用户...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/09/设计模式-迭代器模式/">
-            设计模式-迭代器模式
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>设计模式-迭代器模式在软件开发中，我们经常需要使用聚合对象来存储一系列数据。聚合对象拥有两个职责：一是存储数据；二是遍历数据。从依赖性来看，前者是聚合对象的基本职责；而后者既是可变化的，又是可分离的。因此，可以将遍历数据的行为从聚合对象中分离出来，封装在一个被称之为“迭代器”的对象中，由迭代器来提供...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-04-09
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2018/04/09/Android Android 共享内存/">
             Android 共享内存
           </a>
@@ -231,21 +207,19 @@ Android root首先Android系统不希望用户...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/08/RemoteView/">
-            RemoteView
+          <a href="/2018/04/09/设计模式-迭代器模式/">
+            设计模式-迭代器模式
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>RemoteViewRemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。
-场景1.通知栏2.桌面小部件
-123//当前packgeNameRemoteViews rem...</p>
+            <p>设计模式-迭代器模式在软件开发中，我们经常需要使用聚合对象来存储一系列数据。聚合对象拥有两个职责：一是存储数据；二是遍历数据。从依赖性来看，前者是聚合对象的基本职责；而后者既是可变化的，又是可分离的。因此，可以将遍历数据的行为从聚合对象中分离出来，封装在一个被称之为“迭代器”的对象中，由迭代器来提供...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2018-04-08
+              2018-04-09
             </span>
           
         </div>
@@ -263,6 +237,28 @@ Android root首先Android系统不希望用户...</p>
 角色
 Target：目标角色,期待得到的接口.
 Adaptee：适...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-04-08
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/04/08/RemoteView/">
+            RemoteView
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>RemoteViewRemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。
+场景1.通知栏2.桌面小部件
+123//当前packgeNameRemoteViews rem...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -304,7 +300,7 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/2">prev</a>
+        <a class="extend prev" href="/page/2">페이지</a>
     
 
     
@@ -361,7 +357,7 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
     
     
     
-        <a class="extend next" href="/page/4">next</a>
+        <a class="extend next" href="/page/4">다음 페이지</a>
     
 </div>
 
@@ -375,7 +371,7 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
 				
 				
 				<li>
-					<a href="mailto:1178752402@qq.com" title="email" target="_blank">
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
 					<i class="fa fa-email"></i>
 					</a>
 				</li>
@@ -394,7 +390,7 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
 			
 				
 				<li>
-					<a href="https://github.com/CaiChenghan" title="github" target="_self">
+					<a href="https://github.com/sirencode" title="github" target="_self">
 					<i class="fa fa-github"></i>
 					</a>
 				</li>
@@ -404,15 +400,6 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
 		
 			
 		
-			
-		
-			
-				
-				<li>
-					<a href="https://www.jianshu.com/u/565c8e790605" title="jianshu" target="_self">
-					<i class="fa fa-jianshu"></i>
-					</a>
-				</li>
 			
 		
 			
@@ -428,7 +415,7 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
             
             
             
-                © ShenYonghe 2017 - 2018
+                © ShenYonghe 2016 - 2018
             
         </span>
     </div>
