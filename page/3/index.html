@@ -162,6 +162,65 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-Apk二次打包" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/Apk二次打包/" class="article-date">
+  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/05/Apk二次打包/">
+        Apk二次打包
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
+<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
+<li>添加方法记得修改被注入方法的寄存器个数</li>
+</ul>
+<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android P" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -666,6 +725,87 @@
 
 
   
+    <article id="post-设计模式-适配器模式" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/08/设计模式-适配器模式/" class="article-date">
+  	<time datetime="2018-04-07T16:00:00.000Z" itemprop="datePublished">2018-04-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/04/08/设计模式-适配器模式/">
+        设计模式-适配器模式
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="设计模式-适配器模式"><a href="#设计模式-适配器模式" class="headerlink" title="设计模式-适配器模式"></a>设计模式-适配器模式</h1><p>适配器模式(Adapter Pattern)：将一个接口转换成客户希望的另一个接口，使接口不兼容的那些类可以一起工作，其别名为包装器(Wrapper)。适配器模式既可以作为类结构型模式，也可以作为对象结构型模式。</p>
+<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><ul>
+<li>Target：目标角色,期待得到的接口.</li>
+<li>Adaptee：适配者角色,被适配的接口.</li>
+<li>Adapter：适配器角色,将源接口转换成目标接口.</li>
+</ul>
+<h2 id="对象适配器"><a href="#对象适配器" class="headerlink" title="对象适配器"></a>对象适配器</h2><p>优点：把多个不同的适配者适配到同一个目标，也就是说，同一个适配器可以把适配者类和他的子类都适配到目标接口。</p>
+<p>缺点：与类适配器模式相比，要想置换适配者类的方法就不容易。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">sampleOperation2</span><span class="params">()</span></span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adaptee</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         System.out.println(<span class="string">"sampleOperation1"</span>);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adapter</span> <span class="keyword">implements</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">private</span> Adaptee mAdaptee;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="title">Adapter</span><span class="params">(Adaptee adaptee)</span> </span>&#123;</span><br><span class="line">         mAdaptee = adaptee;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="meta">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         mAdaptee.sampleOperation1();</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="meta">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         System.out.println(<span class="string">"sampleOperation2"</span>);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">         Adapter adapter = <span class="keyword">new</span> Adapter(<span class="keyword">new</span> Adaptee());</span><br><span class="line">         adapter.sampleOperation1();</span><br><span class="line">         adapter.sampleOperation2();</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="类适配器"><a href="#类适配器" class="headerlink" title="类适配器"></a>类适配器</h2><p>优点：由于适配器类是适配者类的子类，因此可以再适配器类中置换一些适配者的方法，使得适配器的灵活性更强。</p>
+<p>缺点：对于Java、C#等不支持多重继承的语言，一次最多只能适配一个适配者类，而且目标抽象类只能为接口，不能为类，其使用有一定的局限性，不能将一个适配者类和他的子类同时适配到目标接口。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sampleOperation2</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adaptee</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"sampleOperation1"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adapter</span> <span class="keyword">extends</span> <span class="title">Adaptee</span> <span class="keyword">implements</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"sampleOperation2"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Target adapter = <span class="keyword">new</span> Adapter();</span><br><span class="line">        adapter.sampleOperation1();</span><br><span class="line">        adapter.sampleOperation2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>优点：</p>
+<ul>
+<li>1 将目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，无须修改原有结构。</li>
+<li>2 增加了类的透明性和复用性，将具体的业务实现过程封装在适配者类中，对于客户端类而言是透明的，而且提高了适配者的复用性，同一个适配者类可以在多个不同的系统中复用。</li>
+<li>3 灵活性和扩展性都非常好，通过使用配置文件，可以很方便地更换适配器，也可以在不修改原有代码的基础上增加新的适配器类，完全符合“开闭原则”。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>1 不能同时适配多个适配者。</li>
+</ul>
+<p>场景：</p>
+<ul>
+<li>1 系统需要使用一些现有的类，而这些类的接口（如方法名）不符合系统的需要，甚至没有这些类的源代码。</li>
+<li>2 想创建一个可以重复使用的类，用于与一些彼此之间没有太大关联的一些类，包括一些可能在将来引进的类一起工作。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-设计模式-代理模式" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -796,154 +936,6 @@
 <li>1 一个抽象模型有两个方面，其中一个方面依赖于另一个方面，将这两个方面封装在独立的对象中使它们可以各自独立地改变和复用。</li>
 <li>2 一个对象的改变将导致一个或多个其他对象也发生改变，而并不知道具体有多少对象将发生改变，也不知道这些对象是谁。</li>
 <li>3 需要在系统中创建一个触发链，A对象的行为将影响B对象，B对象的行为将影响C对象……，可以使用观察者模式创建一种链式触发机制。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-设计模式-适配器模式" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/08/设计模式-适配器模式/" class="article-date">
-  	<time datetime="2018-04-07T16:00:00.000Z" itemprop="datePublished">2018-04-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/08/设计模式-适配器模式/">
-        设计模式-适配器模式
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="设计模式-适配器模式"><a href="#设计模式-适配器模式" class="headerlink" title="设计模式-适配器模式"></a>设计模式-适配器模式</h1><p>适配器模式(Adapter Pattern)：将一个接口转换成客户希望的另一个接口，使接口不兼容的那些类可以一起工作，其别名为包装器(Wrapper)。适配器模式既可以作为类结构型模式，也可以作为对象结构型模式。</p>
-<h2 id="角色"><a href="#角色" class="headerlink" title="角色"></a>角色</h2><ul>
-<li>Target：目标角色,期待得到的接口.</li>
-<li>Adaptee：适配者角色,被适配的接口.</li>
-<li>Adapter：适配器角色,将源接口转换成目标接口.</li>
-</ul>
-<h2 id="对象适配器"><a href="#对象适配器" class="headerlink" title="对象适配器"></a>对象适配器</h2><p>优点：把多个不同的适配者适配到同一个目标，也就是说，同一个适配器可以把适配者类和他的子类都适配到目标接口。</p>
-<p>缺点：与类适配器模式相比，要想置换适配者类的方法就不容易。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">void</span> <span class="title">sampleOperation2</span><span class="params">()</span></span>;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adaptee</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         System.out.println(<span class="string">"sampleOperation1"</span>);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adapter</span> <span class="keyword">implements</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">     <span class="keyword">private</span> Adaptee mAdaptee;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="title">Adapter</span><span class="params">(Adaptee adaptee)</span> </span>&#123;</span><br><span class="line">         mAdaptee = adaptee;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="meta">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         mAdaptee.sampleOperation1();</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="meta">@Override</span></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">         System.out.println(<span class="string">"sampleOperation2"</span>);</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br><span class="line"></span><br><span class="line"> <span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">         Adapter adapter = <span class="keyword">new</span> Adapter(<span class="keyword">new</span> Adaptee());</span><br><span class="line">         adapter.sampleOperation1();</span><br><span class="line">         adapter.sampleOperation2();</span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<h2 id="类适配器"><a href="#类适配器" class="headerlink" title="类适配器"></a>类适配器</h2><p>优点：由于适配器类是适配者类的子类，因此可以再适配器类中置换一些适配者的方法，使得适配器的灵活性更强。</p>
-<p>缺点：对于Java、C#等不支持多重继承的语言，一次最多只能适配一个适配者类，而且目标抽象类只能为接口，不能为类，其使用有一定的局限性，不能将一个适配者类和他的子类同时适配到目标接口。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">sampleOperation2</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adaptee</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation1</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"sampleOperation1"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Adapter</span> <span class="keyword">extends</span> <span class="title">Adaptee</span> <span class="keyword">implements</span> <span class="title">Target</span> </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">sampleOperation2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">"sampleOperation2"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MyClass</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</span><br><span class="line">        Target adapter = <span class="keyword">new</span> Adapter();</span><br><span class="line">        adapter.sampleOperation1();</span><br><span class="line">        adapter.sampleOperation2();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>优点：</p>
-<ul>
-<li>1 将目标类和适配者类解耦，通过引入一个适配器类来重用现有的适配者类，无须修改原有结构。</li>
-<li>2 增加了类的透明性和复用性，将具体的业务实现过程封装在适配者类中，对于客户端类而言是透明的，而且提高了适配者的复用性，同一个适配者类可以在多个不同的系统中复用。</li>
-<li>3 灵活性和扩展性都非常好，通过使用配置文件，可以很方便地更换适配器，也可以在不修改原有代码的基础上增加新的适配器类，完全符合“开闭原则”。</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>1 不能同时适配多个适配者。</li>
-</ul>
-<p>场景：</p>
-<ul>
-<li>1 系统需要使用一些现有的类，而这些类的接口（如方法名）不符合系统的需要，甚至没有这些类的源代码。</li>
-<li>2 想创建一个可以重复使用的类，用于与一些彼此之间没有太大关联的一些类，包括一些可能在将来引进的类一起工作。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-RemoteView" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/04/08/RemoteView/" class="article-date">
-  	<time datetime="2018-04-07T16:00:00.000Z" itemprop="datePublished">2018-04-08</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/04/08/RemoteView/">
-        RemoteView
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="RemoteView"><a href="#RemoteView" class="headerlink" title="RemoteView"></a>RemoteView</h1><p>RemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。</p>
-<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>1.通知栏<br>2.桌面小部件</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//当前packgeName</span></span><br><span class="line">RemoteViews remoteView = <span class="keyword">new</span> RemoteViews(context.getPackageName(),R.layout.appwidget);</span><br><span class="line">remoteView.setImageViewBitmap(R.id.imageView1,rotateBitmap(context,srcBitmap,degree));</span><br></pre></td></tr></table></figure>
-<h3 id="支持类型"><a href="#支持类型" class="headerlink" title="支持类型"></a>支持类型</h3><p>Layout：FrameLayout,LInearLayout,RelativeLayout,GridLayout</p>
-<p>View：AnalogClock,Button,Chornometer,ImageButton,ImageView,ProgressBar,TextView,ViewFlipper,ListView,GridView,StackView,AdapterViewFlipper,ViewStub</p>
-<h2 id="RemoteViews内部机制"><a href="#RemoteViews内部机制" class="headerlink" title="RemoteViews内部机制"></a>RemoteViews内部机制</h2><ul>
-<li>1 RemoteViews的构造方法 public RemoteViews(String packageName, int layoutId)，第一个参数是当前应用的包名，第二个参数是待加载的布局文件。</li>
-<li>2 RemoteViews提供了一系列的set方法完成view的设置，这是通过反射完成的调用的。</li>
-<li>3 通知和小部件分别由NotificationManager和AppWidgetManager管理，而它们通过Binder分别和SystemServer进程中的NotificationManagerService和AppWidgetManagerService进行通信。所以，布局文件实际上是两个Service加载的，运行在SystemServer进程中。</li>
-<li>4 RemoteViews实现了Parcelable接口，它会通过Binder传递到SystemServer进程，系统会根据RemoteViews中的包名信息获取到应用中的资源，从而完成布局文件的加载。</li>
-<li>5 系统将view操作封装成Action对象，Action同样实现了Parcelable接口，通过Binder传递到SystemServer进程。远程进程通过RemoteViews的apply方法来进行view的更新操作，RemoteViews的apply方法内部则会去遍历所有的action对象并调用它们的apply方法来进行view的更新操作。</li>
-<li>6 RemoteViews的apply和reapply方法的区别：apply方法会加载布局并更新界面，而reapply方法则只会更新界面。</li>
 </ul>
 
       

@@ -162,6 +162,72 @@
 </nav>
       <div class="body-wrap">
   
+    <article id="post-LiveDataBus" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/08/22/LiveDataBus/" class="article-date">
+  	<time datetime="2018-08-21T16:00:00.000Z" itemprop="datePublished">2018-08-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/08/22/LiveDataBus/">
+        LiveDataBus
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="LiveDataBus"><a href="#LiveDataBus" class="headerlink" title="LiveDataBus"></a>LiveDataBus</h1><h2 id="Android-Architecture-Components"><a href="#Android-Architecture-Components" class="headerlink" title="Android Architecture Components"></a>Android Architecture Components</h2><p>Android Architecture Components是谷歌在Google I/O 2017发布一套帮助开发者解决Android架构设计的方案。里面包含了两大块内容：</p>
+<ol>
+<li>生命周期相关的Lifecycle-aware Components</li>
+<li>数据库解决方案Room</li>
+</ol>
+<p>这是一个帮助构建稳定，易于测试和易于维护的App架构的库。</p>
+<h3 id="Lifecycle"><a href="#Lifecycle" class="headerlink" title="Lifecycle"></a>Lifecycle</h3><p>Lifecycle 是一个类，它持有关于组件（如 Activity 或 Fragment）生命周期状态的信息，并且允许其他对象观察此状态。</p>
+<h3 id="LiveData"><a href="#LiveData" class="headerlink" title="LiveData"></a>LiveData</h3><p>LiveData是一种持有可被观察数据的类。和其他可被观察的类不同的是，LiveData是有生命周期感知能力的，这意味着它可以在activities, fragments, 或者 services生命周期是活跃状态时更新这些组件。</p>
+<h3 id="ViewModel"><a href="#ViewModel" class="headerlink" title="ViewModel"></a>ViewModel</h3><p>ViewModel设计的目的就是存放和处理和UI相关的数据，并且这些数据不受配置变化（Configuration Changes，例如：旋转屏幕，组件被系统回收）的影响。</p>
+<h3 id="room"><a href="#room" class="headerlink" title="room"></a>room</h3><p>Room在SQLite上提供了一个方便访问的抽象层。</p>
+<h3 id="Paging-Library"><a href="#Paging-Library" class="headerlink" title="Paging Library"></a>Paging Library</h3><p>Paging Library（分页加载库）用于逐步从数据源加载信息，而不会耗费过多的设备资源或者等待太长的时间。</p>
+<h2 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h2><p>基于Livedata的实现的主要原因就是Livedata是生命周期感知的，不需要手动管理，又避免了内存泄露以及UI显示的问题。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
     <article id="post-Android 控件系统" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -861,140 +927,6 @@
 
 
   
-    <article id="post-Android 逆向工程" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/Android 逆向工程/" class="article-date">
-  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/Android 逆向工程/">
-        Android 逆向工程
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-逆向工程"><a href="#Android-逆向工程" class="headerlink" title="Android 逆向工程"></a>Android 逆向工程</h1><h2 id="安装apktool"><a href="#安装apktool" class="headerlink" title="安装apktool"></a>安装apktool</h2><p><a href="https://ibotpeaches.github.io/Apktool/install/" target="_blank" rel="noopener">apktool官网</a></p>
-<p>安装说明</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8810.02.27.png" alt=""></p>
-<ul>
-<li>注意apktool的脚本文件不能有后缀名(sublimetext新建一个无后缀的文件之后将内容拷贝进去)</li>
-</ul>
-<h2 id="安装dex2jar"><a href="#安装dex2jar" class="headerlink" title="安装dex2jar"></a>安装dex2jar</h2><p><a href="https://github.com/pxb1988/dex2jar/releases">git下载地址</a></p>
-<p>下载zip解压待用</p>
-<h2 id="安装JD-GUI"><a href="#安装JD-GUI" class="headerlink" title="安装JD-GUI"></a>安装JD-GUI</h2><p><a href="http://jd.benow.ca/" target="_blank" rel="noopener">官网地址</a></p>
-<p>下载安装即可(mac版的请下载.jar包那个，安装包的兼容性有问题)</p>
-<h2 id="开始简单的反编译之旅"><a href="#开始简单的反编译之旅" class="headerlink" title="开始简单的反编译之旅"></a>开始简单的反编译之旅</h2><h3 id="获取xml反编译文件和smail代码"><a href="#获取xml反编译文件和smail代码" class="headerlink" title="获取xml反编译文件和smail代码"></a>获取xml反编译文件和smail代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//apk文件所在的目录</span><br><span class="line"><span class="built_in">cd</span> /User/shen/Desktop </span><br><span class="line">//获取xml反编译文件和smail代码</span><br><span class="line">apktool d demo.apk</span><br></pre></td></tr></table></figure>
-<p>等跑完，里面的资源文件就出来了，还有smail源码，你要是会读的话跟java差不多。</p>
-<p>small的语法长这样：</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.13.21.png" alt=""></p>
-<h3 id="反编译class-dex文件"><a href="#反编译class-dex文件" class="headerlink" title="反编译class.dex文件"></a>反编译class.dex文件</h3><p>将demo.apk复制一份并改后缀名为zip，然后将文件夹里的classes.dex拷贝出来，回到dex2jar 解压的目录下，将文件复制进去。</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/shenyonghe/Downloads/dex-tools-2.1</span><br><span class="line">chmod +x ./* </span><br><span class="line">./d2j-dex2jar.sh classes.dex</span><br></pre></td></tr></table></figure>
-<p>这个时候文件夹下回多出一个jar文件classes-dex2jar.jar包</p>
-<p>注意有的项目会包含多个.dex文件(分包了)，因此要生成多个.jar包进行分析</p>
-<p>使用JD-GUI打开对应的classes-dex2jar.jar包</p>
-<p>打开后就是下面这个样子的阅读起来就容易多了</p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.06.01.png" alt=""></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Apk二次打包" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/05/05/Apk二次打包/" class="article-date">
-  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/05/05/Apk二次打包/">
-        Apk二次打包
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Apk二次打包"><a href="#Apk二次打包" class="headerlink" title="Apk二次打包"></a>Apk二次打包</h1><h2 id="首先反编译获得smali文件"><a href="#首先反编译获得smali文件" class="headerlink" title="首先反编译获得smali文件"></a>首先反编译获得smali文件</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool d demo.apk</span><br></pre></td></tr></table></figure>
-<h2 id="找到要注入的方法并添加smali方法调用"><a href="#找到要注入的方法并添加smali方法调用" class="headerlink" title="找到要注入的方法并添加smali方法调用"></a>找到要注入的方法并添加smali方法调用</h2><ul>
-<li>添加方法记得修改被注入方法的寄存器个数</li>
-</ul>
-<h2 id="修改后的smali进行打包"><a href="#修改后的smali进行打包" class="headerlink" title="修改后的smali进行打包"></a>修改后的smali进行打包</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ apktool b demo</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
     <article id="post-逆向-small语法" class="article article-type-post" itemscope itemprop="blogPost">
   
     <div class="article-meta">
@@ -1059,6 +991,81 @@
 <li>v3        p1        the second parameter register   第二个参数寄存器</li>
 <li>v4        p2        the third parameter register   第三个参数寄存器</li>
 </ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-Android 逆向工程" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/05/05/Android 逆向工程/" class="article-date">
+  	<time datetime="2018-05-04T16:00:00.000Z" itemprop="datePublished">2018-05-05</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/05/05/Android 逆向工程/">
+        Android 逆向工程
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-逆向工程"><a href="#Android-逆向工程" class="headerlink" title="Android 逆向工程"></a>Android 逆向工程</h1><h2 id="安装apktool"><a href="#安装apktool" class="headerlink" title="安装apktool"></a>安装apktool</h2><p><a href="https://ibotpeaches.github.io/Apktool/install/" target="_blank" rel="noopener">apktool官网</a></p>
+<p>安装说明</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8810.02.27.png" alt=""></p>
+<ul>
+<li>注意apktool的脚本文件不能有后缀名(sublimetext新建一个无后缀的文件之后将内容拷贝进去)</li>
+</ul>
+<h2 id="安装dex2jar"><a href="#安装dex2jar" class="headerlink" title="安装dex2jar"></a>安装dex2jar</h2><p><a href="https://github.com/pxb1988/dex2jar/releases">git下载地址</a></p>
+<p>下载zip解压待用</p>
+<h2 id="安装JD-GUI"><a href="#安装JD-GUI" class="headerlink" title="安装JD-GUI"></a>安装JD-GUI</h2><p><a href="http://jd.benow.ca/" target="_blank" rel="noopener">官网地址</a></p>
+<p>下载安装即可(mac版的请下载.jar包那个，安装包的兼容性有问题)</p>
+<h2 id="开始简单的反编译之旅"><a href="#开始简单的反编译之旅" class="headerlink" title="开始简单的反编译之旅"></a>开始简单的反编译之旅</h2><h3 id="获取xml反编译文件和smail代码"><a href="#获取xml反编译文件和smail代码" class="headerlink" title="获取xml反编译文件和smail代码"></a>获取xml反编译文件和smail代码</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//apk文件所在的目录</span><br><span class="line"><span class="built_in">cd</span> /User/shen/Desktop </span><br><span class="line">//获取xml反编译文件和smail代码</span><br><span class="line">apktool d demo.apk</span><br></pre></td></tr></table></figure>
+<p>等跑完，里面的资源文件就出来了，还有smail源码，你要是会读的话跟java差不多。</p>
+<p>small的语法长这样：</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.13.21.png" alt=""></p>
+<h3 id="反编译class-dex文件"><a href="#反编译class-dex文件" class="headerlink" title="反编译class.dex文件"></a>反编译class.dex文件</h3><p>将demo.apk复制一份并改后缀名为zip，然后将文件夹里的classes.dex拷贝出来，回到dex2jar 解压的目录下，将文件复制进去。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> /Users/shenyonghe/Downloads/dex-tools-2.1</span><br><span class="line">chmod +x ./* </span><br><span class="line">./d2j-dex2jar.sh classes.dex</span><br></pre></td></tr></table></figure>
+<p>这个时候文件夹下回多出一个jar文件classes-dex2jar.jar包</p>
+<p>注意有的项目会包含多个.dex文件(分包了)，因此要生成多个.jar包进行分析</p>
+<p>使用JD-GUI打开对应的classes-dex2jar.jar包</p>
+<p>打开后就是下面这个样子的阅读起来就容易多了</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-05-05%20%E4%B8%8A%E5%8D%8811.06.01.png" alt=""></p>
 
       
     </div>
