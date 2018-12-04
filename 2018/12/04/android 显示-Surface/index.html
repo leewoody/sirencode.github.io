@@ -1,42 +1,361 @@
-extends ../_partial/layout
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 显示-Surface | Diablo</title>
 
-block content
-  .container.post
-    section.article
-      .title= page.title
-      .date 写于#{moment(page.date).format(theme.date_format)}
-      .content!= page.content
-      if page.tags
-        .tags!= list_tags(page.tags, { show_count: false, class: 'tag', style: false, separator: '' })
+  <!-- keywords -->
+  
 
-  .container
-    ul.nav
-      if page.prev
-        li 上一篇：
-          a(href=url_for(page.prev.path))= page.prev.title || '未命名'
-      if page.next
-        li 下一篇：
-          a(href=url_for(page.next.path))= page.next.title || '未命名'
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android 显示-SurfaceAndroid应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通过显示刷新机制把数据更新到屏幕。 APP:App需要将自己的内容显示在屏幕上，所以App负责发起Su">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 显示-Surface">
+<meta property="og:url" content="https://github.com/sirencode/2018/12/04/android 显示-Surface/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="Android 显示-SurfaceAndroid应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通过显示刷新机制把数据更新到屏幕。 APP:App需要将自己的内容显示在屏幕上，所以App负责发起Su">
+<meta property="og:image" content="https://pic4.zhimg.com/80/v2-1f7928f598476560d7aae611ee5b6997_hd.png">
+<meta property="og:image" content="https://lc-gold-cdn.xitu.io/d6dd0a6ac064e2e1f5fc.jpg">
+<meta property="og:image" content="https://img-blog.csdn.net/20160128103617052?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center">
+<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/1319879-ac8a796f5d898625.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:updated_time" content="2018-12-04T07:52:17.213Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 显示-Surface">
+<meta name="twitter:description" content="Android 显示-SurfaceAndroid应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通过显示刷新机制把数据更新到屏幕。 APP:App需要将自己的内容显示在屏幕上，所以App负责发起Su">
+<meta name="twitter:image" content="https://pic4.zhimg.com/80/v2-1f7928f598476560d7aae611ee5b6997_hd.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-    if !index && config.disqus_shortname
-      .comments
-        #disqus_thread
-          noscript Please enable JavaScript to view the 
-            a(href="http://disqus.com/?ref_noscript") comments powered by Disqus
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 
-block js
-  include ../_partial/post_footer.pug
-  != js('script/post')
-  if config.disqus_shortname
-    script
-      | var disqus_shortname = '!{config.disqus_shortname}';
-      if page.permalink
-        | var disqus_url = '!{page.permalink}';
-        | (function(){
-        |  var dsq = document.createElement('script');
-        |  dsq.type = 'text/javascript';
-        |  dsq.async = true;
-        |  dsq.src = '//' + disqus_shortname + '.disqus.com/!{page.comments ? 'embed.js' : 'count.hs'}';
-        |  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        | })();
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-android 显示-Surface" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/12/04/android 显示-Surface/" class="article-date">
+  	<time datetime="2018-12-03T16:00:00.000Z" itemprop="datePublished">2018-12-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
+  
+    <h1 class="article-title" itemprop="name">
+      Android 显示-Surface
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-显示-Surface"><a href="#Android-显示-Surface" class="headerlink" title="Android 显示-Surface"></a>Android 显示-Surface</h1><p>Android应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通过显示刷新机制把数据更新到屏幕。</p>
+<p>APP:App需要将自己的内容显示在屏幕上，所以App负责发起Surface创建请求，创建好Surface后, 就可以直接可以在canvas上画图等，最终都会保存到Surface里的buffer里，最后由SurfaceFlinger合成并显示。</p>
+<p>WMS:负责接收APP请求，向SurfaceFlinger发起具体的请求创建Surface, 且WMS需要创建Surface的辅助管理类，如SurfaceControl。</p>
+<p>SF:为App进程创建具体的Surface(帧缓冲区), 在SurfaceFlinger里对应成Layer, 然后负责管理、合成，交给屏幕进行显示。</p>
+<h2 id="SurfaceFlinger"><a href="#SurfaceFlinger" class="headerlink" title="SurfaceFlinger"></a>SurfaceFlinger</h2><p>从Android4.1版本开始，Android对显示系统进行了重构，引入了三个核心元素：VSYNC, Tripple Buffer和Choreographer。VSYNC是Vertical Synchronized的缩写，是一种定时中断；Tripple Buffer是显示数据的缓冲区；Choreographer起调度作用，将绘制工作统一到VSYNC的某个时间点上，使应用的绘制工作有序进行。</p>
+<h3 id="SurfaceFlinger作用"><a href="#SurfaceFlinger作用" class="headerlink" title="SurfaceFlinger作用"></a>SurfaceFlinger作用</h3><ul>
+<li>响应客户端事件，创建Layer与客户端的Surface建立连接。</li>
+<li>接收客户端数据及属性，修改Layer属性，如尺寸、颜色、透明度等。</li>
+<li>将创建的Layer内容刷新到屏幕上。</li>
+<li>维持Layer的序列，并对Layer最终输出做出裁剪计算。</li>
+</ul>
+<p>因应用层和系统层分别是两个不同进程，需要一个跨进程的通信机制来实现数据传输，在Android的显示系统中，使用了Android的匿名共享内存：SharedClient。每一个应用和SurfaceFlinger之间都会创建一个SharedClient，每个SharedClient中，最多可以创建31个SharedBufferStack，每个Surface都对应一个SharedBufferStack，也就是一个window。这意味着一个Android应用程序最多可以包含31个窗口，同时每个SharedBufferStack中又包含两个(&lt;4.1)或三个(&gt;=4.1)缓冲区。</p>
+<p><img src="https://pic4.zhimg.com/80/v2-1f7928f598476560d7aae611ee5b6997_hd.png" alt=""></p>
+<h2 id="CPU-GPU"><a href="#CPU-GPU" class="headerlink" title="CPU GPU"></a>CPU GPU</h2><p>app绘制的流程：</p>
+<ol>
+<li>测量View的宽高（Measure）</li>
+<li>设置View的宽高位置（Layout）</li>
+<li>创建显示列表，并执行绘制（Draw）</li>
+<li>生成多边形和纹理</li>
+<li>对多边形和纹理进行栅格化操作</li>
+</ol>
+<p><img src="https://lc-gold-cdn.xitu.io/d6dd0a6ac064e2e1f5fc.jpg" alt=""></p>
+<p>CPU:Measure，Layout，纹理和多边形生成，发送纹理和多边形到GPU</p>
+<p>GPU:将CPU生成的纹理和多边形进行栅格化以及合成。栅格化指的是绘制Button，Shape，Path，String，Bitmap等组件最基础的操作。栅格化把那些组件拆分到不同的像素上进行显示。</p>
+<h2 id="VSYNC-垂直同步-VerticalSynchronization"><a href="#VSYNC-垂直同步-VerticalSynchronization" class="headerlink" title="VSYNC(垂直同步-VerticalSynchronization)"></a>VSYNC(垂直同步-VerticalSynchronization)</h2><p>VSYNC其实就是一个信号源，用来控制屏幕的帧率，定时发送信号。默认60fps，也就意味着1s产生60次中断信号。VSYNC一般由硬件HWC驱动产生，也可以由软件模拟(为了适配没有HWComposer的硬件设备)。</p>
+<p>Vsync信号由HW_VSYNC_ON_0,HW_VSYNC_0, Vsync-app和Vsync-sf四部分构成。</p>
+<p>1 EventControlThread: 控制硬件vsync的开关<br>2 DispSyncThread: 软件产生vsync的线程<br>3 SF EventThread: 该线程用于SurfaceFlinger接收vsync信号用于渲染<br>4 App EventThread: 该线程用于接收vsync信号并且上报给App进程，App开始画图</p>
+<ul>
+<li>HW_VSYNC_ON_0:代表PrimaryDisplay的VSync被enable或disable.0这个数字代表的是display的编号, 0是PrimaryDisplay,如果是Externalmonitor,就会是HW_VSYNC_ON_1.当SF要求HWComposer将Display的VSync打开或关掉时,这个event就会记录下来。</li>
+<li>HW_VSYNC_0:代表PrimaryDisplay的VSync发生时间点, 0同样代表display编号.其用来调节Vsync-app和Vsync-sfevent的输出。</li>
+<li>Vsync-app:App,SystemUI和systemserver 等viewdraw的触发器。</li>
+<li>Vsync-sf:Surfaceflinger合成画面的触发器。</li>
+</ul>
+<p>一般硬件产生一个HW_VSYNC_0的时间内可以完成Vsync-app和Vsync-sf两个信号的操作。也就是说, 如果phase_app与phase_sf设定的好的话, 可能大部份user使用的状况, App+SF可以在一个frame里完成, 然后在下一个HW_VSYNC_0来的时候, 显示在display上。</p>
+<p><img src="https://img-blog.csdn.net/20160128103617052?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<h3 id="缓存"><a href="#缓存" class="headerlink" title="缓存"></a>缓存</h3><p>缓冲区是构建和存储帧的容器。android采用的三缓冲机制，前置缓冲区显示帧的显示，后置缓冲合成下一帧。缓冲器标记为“A”和“B”。当显示缓冲区A时，系统开始在缓冲区B中建立一个新帧。当准备好时，它们交换缓冲区。B被显示，并且A中的帧被清除并且处理新的帧。当双缓冲时，cpu+gpu的处理时间大于16.7毫秒就会出现掉帧，在该显示B的时候，B没有合成完，所以只能显示A,为了充分利用cpu+gpu，当这种情况出现的时候，系统会引入第三个缓存，用来缓存C。由图可知： 第二个16ms时间段，CPU使用C Buffer绘图。虽然还是会多显示A帧一次，但后续显示就比较顺畅了。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/1319879-ac8a796f5d898625.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt=""></p>
+<h2 id="Surface"><a href="#Surface" class="headerlink" title="Surface"></a>Surface</h2><p>1 Surface 它实现了 Parcelable 接口进行序列化（这里主要用来在进程间传递 surface 对象），用来处理屏幕显示缓冲区的数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Surface</span> <span class="keyword">implements</span> <span class="title">Parcelable</span></span></span><br></pre></td></tr></table></figure>
+<p>2 Java中，绘图通常在一个 Canvas 对象上进行的，Surface 中也包含了一个 Canvas 对象，这里的 CompatibleCanvas 是Surface.java 中的一个内部类，其中包含一个矩阵对象Matrix（变量名mOrigMatrix）。矩阵Matrix就是一块内存区域，针对View的各种绘画操作都保存在此内存中。 </p>
+<p>Surface 内部有一个 CompatibleCanvas 的内部类，这个内部类的作用是为了能够兼容 Android 各个分辨率的屏幕，根据不同屏幕的分辨率处理不同的图像数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">final</span> <span class="class"><span class="keyword">class</span> <span class="title">CompatibleCanvas</span> <span class="keyword">extends</span> <span class="title">Canvas</span> </span>&#123;</span><br><span class="line">    <span class="comment">// A temp matrix to remember what an application obtained via &#123;@link getMatrix&#125;</span></span><br><span class="line">    <span class="keyword">private</span> Matrix mOrigMatrix = <span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setMatrix</span><span class="params">(Matrix matrix)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mCompatibleMatrix == <span class="keyword">null</span> || mOrigMatrix == <span class="keyword">null</span> || mOrigMatrix.equals(matrix)) &#123;</span><br><span class="line">            <span class="comment">// don't scale the matrix if it's not compatibility mode, or</span></span><br><span class="line">            <span class="comment">// the matrix was obtained from getMatrix.</span></span><br><span class="line">            <span class="keyword">super</span>.setMatrix(matrix);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            Matrix m = <span class="keyword">new</span> Matrix(mCompatibleMatrix);</span><br><span class="line">            m.preConcat(matrix);</span><br><span class="line">            <span class="keyword">super</span>.setMatrix(m);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@SuppressWarnings</span>(<span class="string">"deprecation"</span>)</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">getMatrix</span><span class="params">(Matrix m)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.getMatrix(m);</span><br><span class="line">        <span class="keyword">if</span> (mOrigMatrix == <span class="keyword">null</span>) &#123;</span><br><span class="line">            mOrigMatrix = <span class="keyword">new</span> Matrix();</span><br><span class="line">        &#125;</span><br><span class="line">        mOrigMatrix.set(m);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>3 两个重要的方法lockCanvas和unlockCanvasAndPost，lockCanvas 和 unlockCanvasAndPost 两个方法最终都是调用jni层的方法来处理。lockCanvas获取进行绘画的Canvas对象并锁住画布，绘制完一帧的数据之后调用unlockCanvasAndPost把画布解锁，然后把画好的图像post到当前屏幕上去显示。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Canvas <span class="title">lockCanvas</span><span class="params">(Rect inOutDirty)</span></span></span><br><span class="line"><span class="function">        <span class="keyword">throws</span> Surface.OutOfResourcesException, IllegalArgumentException </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (mLock) &#123;</span><br><span class="line">        checkNotReleasedLocked();</span><br><span class="line">        <span class="keyword">if</span> (mLockedObject != <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// Ideally, nativeLockCanvas() would throw in this situation and prevent the</span></span><br><span class="line">            <span class="comment">// double-lock, but that won't happen if mNativeObject was updated.  We can't</span></span><br><span class="line">            <span class="comment">// abandon the old mLockedObject because it might still be in use, so instead</span></span><br><span class="line">            <span class="comment">// we just refuse to re-lock the Surface.</span></span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Surface was already locked"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        mLockedObject = nativeLockCanvas(mNativeObject, mCanvas, inOutDirty);</span><br><span class="line">        <span class="keyword">return</span> mCanvas;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlockCanvasAndPost</span><span class="params">(Canvas canvas)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (mLock) &#123;</span><br><span class="line">        checkNotReleasedLocked();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (mHwuiContext != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mHwuiContext.unlockAndPost(canvas);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            unlockSwCanvasAndPost(canvas);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Surface是一个raw buffer（屏幕缓冲区）的句柄，用来保存当前窗口的像素数据，每个window对应一个Surface，每个SurfaceView也对应一个Surface，任何View都要画在Surface的Canvas上。</p>
+<p>Surface就是Application的画布，Application通过surface显示UI。Surface向SurfaceFlinger提供数据，SurfaceFlinger负责将Surface混合数据。</p>
+<p>Surface是定义在ViewRootImpl中的成员，定义时并实例化了.由于 ViewRootImpl的个数与addView的调用次数相关，一个Activity可以多次调用addView, 也就是说一个Activity可以有多个Surface.<br>另外Surface被定义成final,也就是说mSurface不能重新再赋值了。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> Surface mSurface = <span class="keyword">new</span> Surface();</span><br></pre></td></tr></table></figure>
+<h2 id="SurfaceHolder"><a href="#SurfaceHolder" class="headerlink" title="SurfaceHolder"></a>SurfaceHolder</h2><p>SurfaceHolder是一个针对Surface的抽象接口，可以控制 Surface 的大小和格式，监控 Surface 的变化，充当controller的角色。如果用子线程来处理 SurfaceView 的绘制可以在 surfaceCreated 方法中开启的绘制动画的线程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">SurfaceHolder</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/** <span class="doctag">@deprecated</span> this is ignored, this value is set automatically when needed. */</span></span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SURFACE_TYPE_NORMAL = <span class="number">0</span>;</span><br><span class="line">    <span class="comment">/** <span class="doctag">@deprecated</span> this is ignored, this value is set automatically when needed. */</span></span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SURFACE_TYPE_HARDWARE = <span class="number">1</span>;</span><br><span class="line">    <span class="comment">/** <span class="doctag">@deprecated</span> this is ignored, this value is set automatically when needed. */</span></span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SURFACE_TYPE_GPU = <span class="number">2</span>;</span><br><span class="line">    <span class="comment">/** <span class="doctag">@deprecated</span> this is ignored, this value is set automatically when needed. */</span></span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> SURFACE_TYPE_PUSH_BUFFERS = <span class="number">3</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">BadSurfaceTypeException</span> <span class="keyword">extends</span> <span class="title">RuntimeException</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">BadSurfaceTypeException</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">BadSurfaceTypeException</span><span class="params">(String name)</span> </span>&#123;</span><br><span class="line">            <span class="keyword">super</span>(name);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callback</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">surfaceCreated</span><span class="params">(SurfaceHolder holder)</span></span>;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">surfaceChanged</span><span class="params">(SurfaceHolder holder, <span class="keyword">int</span> format, <span class="keyword">int</span> width,</span></span></span><br><span class="line"><span class="function"><span class="params">                <span class="keyword">int</span> height)</span></span>;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">surfaceDestroyed</span><span class="params">(SurfaceHolder holder)</span></span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Callback2</span> <span class="keyword">extends</span> <span class="title">Callback</span> </span>&#123;</span><br><span class="line">        <span class="function"><span class="keyword">void</span> <span class="title">surfaceRedrawNeeded</span><span class="params">(SurfaceHolder holder)</span></span>;</span><br><span class="line">        </span><br><span class="line">        <span class="function"><span class="keyword">default</span> <span class="keyword">void</span> <span class="title">surfaceRedrawNeededAsync</span><span class="params">(SurfaceHolder holder, Runnable drawingFinished)</span> </span>&#123;</span><br><span class="line">            surfaceRedrawNeeded(holder);</span><br><span class="line">            drawingFinished.run();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addCallback</span><span class="params">(Callback callback)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">removeCallback</span><span class="params">(Callback callback)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">isCreating</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="meta">@Deprecated</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setType</span><span class="params">(<span class="keyword">int</span> type)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFixedSize</span><span class="params">(<span class="keyword">int</span> width, <span class="keyword">int</span> height)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setSizeFromLayout</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setFormat</span><span class="params">(<span class="keyword">int</span> format)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setKeepScreenOn</span><span class="params">(<span class="keyword">boolean</span> screenOn)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Canvas <span class="title">lockCanvas</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Canvas <span class="title">lockCanvas</span><span class="params">(Rect dirty)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">default</span> Canvas <span class="title">lockHardwareCanvas</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"This SurfaceHolder doesn't support lockHardwareCanvas"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">unlockCanvasAndPost</span><span class="params">(Canvas canvas)</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Rect <span class="title">getSurfaceFrame</span><span class="params">()</span></span>;</span><br><span class="line">    </span><br><span class="line">    <span class="function"><span class="keyword">public</span> Surface <span class="title">getSurface</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Surfaceview"><a href="#Surfaceview" class="headerlink" title="Surfaceview"></a>Surfaceview</h2><p>Surfaceview和普通View的区别在于，普通View都是将自己的UI绘制在宿主窗口的绘图表面之上，这意味着它们的UI是在应用程序的主线程中进行绘制的。UI线程不仅仅负责绘制，还需要响应输入事件，因此有些复杂的UI(游戏画面，摄像头预览，视频播放等)就不适合普通的View的绘制。SurfaceView类的目的在于提供一个可以使用绘图线程渲染到屏幕的surface。</p>
+<p>1 surface是纵深排序(Z-ordered)的，这表明它总在自己所在窗口的后面。<br>2 Surfaceview变的可见时，surface被创建，surfaceView隐藏前，surface被毁灭。<br>3 surface 的排版显示受到视图层级关系的影响，它的兄弟视图结点会在顶端显示。这意味者 surface的内容会被它的兄弟视图遮挡。<br>4 如果 surface 上面有透明控件，那么它的每次变化都会引起框架重新计算它和顶层控件之间的透明效果，这会影响性能。<br>5 所有的SurfaceView和surfaceHolder.Callback方法都应该在主线程调用，所以对于绘图线程使用的变量应该做同步处理。</p>
+<h3 id="Surfaceview绘制"><a href="#Surfaceview绘制" class="headerlink" title="Surfaceview绘制"></a>Surfaceview绘制</h3><p>Surface的可绘制状态是在SurfaceHolder.Callback的surfaceCreated(SurfaceHolder holder)方法回调后，surfaceDestroyed(SurfaceHolder holder)方法回调前，可以用一个boolean变量标记可绘制状态，在每次绘制前先判断这个变量。如果在Surface创建前，或者Surface销毁后进行绘制，也会直接抛出异常。</p>
+<p>双缓存：通俗来讲就是有两个缓冲区，一个后台缓冲区和一个前台缓冲区，每次后台缓冲区接受数据，当填充完整后交换给前台缓冲，这样就保证了前台缓冲里的数据都是完整的。</p>
+<p>Surfaceview的绘制并不占UI线程的资源，是独立线程进行绘制的。然后在子线程的run方法中通过SurfaceHolder的lockCanvas方法获取到Canvas进行绘制操作，绘制完以后再通过SurfaceHolder的unlockCanvasAndPost方法释放canvas并提交更改。</p>
+<p>从Android N（API24）开始，SurfaceView的窗口位置与其他View渲染同步更新。这意味着在SurfaceView的平移和缩放不会导致重新渲染。在先前版本中，当窗口位置异步更新，会导致重新渲染。</p>
+<h3 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h3><p>SurfaceView适用于主动更新，比如有消息控制rpc。这就要一个单独线程绘制人物，防止主线程阻塞。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/11/29/源码分析BroadcastReceiver/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">源码分析BroadcastReceiver</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="android 显示-Surface" data-title="Android 显示-Surface" data-url="https://github.com/sirencode/2018/12/04/android 显示-Surface/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 显示-Surface">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

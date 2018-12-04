@@ -1,42 +1,330 @@
-extends ../_partial/layout
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Android 加固技术 | Diablo</title>
 
-block content
-  .container.post
-    section.article
-      .title= page.title
-      .date 写于#{moment(page.date).format(theme.date_format)}
-      .content!= page.content
-      if page.tags
-        .tags!= list_tags(page.tags, { show_count: false, class: 'tag', style: false, separator: '' })
+  <!-- keywords -->
+  
 
-  .container
-    ul.nav
-      if page.prev
-        li 上一篇：
-          a(href=url_for(page.prev.path))= page.prev.title || '未命名'
-      if page.next
-        li 下一篇：
-          a(href=url_for(page.next.path))= page.next.title || '未命名'
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Android 加固技术为什么要加固增加反编译的难度，混淆的破解难度已经不够了，因此需要做进一步的防护工作，因此加固的方案就产生。 加固的历史第一代加固技术——混淆技术； 第二代加固技术——加壳技术； 第三代加固技术——指令抽离：即抽取 dex 文件中 DexCode 的部分结构，即虚拟机操作码。在虚拟机加载到此类的时候对 DexCode 结构进行还原。从而保证 app 能正常的运行。 第四代加固">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android 加固技术">
+<meta property="og:url" content="https://github.com/sirencode/2018/04/18/Android 加固技术/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="Android 加固技术为什么要加固增加反编译的难度，混淆的破解难度已经不够了，因此需要做进一步的防护工作，因此加固的方案就产生。 加固的历史第一代加固技术——混淆技术； 第二代加固技术——加壳技术； 第三代加固技术——指令抽离：即抽取 dex 文件中 DexCode 的部分结构，即虚拟机操作码。在虚拟机加载到此类的时候对 DexCode 结构进行还原。从而保证 app 能正常的运行。 第四代加固">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/%E4%B8%8B%E8%BD%BD.png">
+<meta property="og:updated_time" content="2018-04-22T02:15:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android 加固技术">
+<meta name="twitter:description" content="Android 加固技术为什么要加固增加反编译的难度，混淆的破解难度已经不够了，因此需要做进一步的防护工作，因此加固的方案就产生。 加固的历史第一代加固技术——混淆技术； 第二代加固技术——加壳技术； 第三代加固技术——指令抽离：即抽取 dex 文件中 DexCode 的部分结构，即虚拟机操作码。在虚拟机加载到此类的时候对 DexCode 结构进行还原。从而保证 app 能正常的运行。 第四代加固">
+<meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/%E4%B8%8B%E8%BD%BD.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-    if !index && config.disqus_shortname
-      .comments
-        #disqus_thread
-          noscript Please enable JavaScript to view the 
-            a(href="http://disqus.com/?ref_noscript") comments powered by Disqus
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 
-block js
-  include ../_partial/post_footer.pug
-  != js('script/post')
-  if config.disqus_shortname
-    script
-      | var disqus_shortname = '!{config.disqus_shortname}';
-      if page.permalink
-        | var disqus_url = '!{page.permalink}';
-        | (function(){
-        |  var dsq = document.createElement('script');
-        |  dsq.type = 'text/javascript';
-        |  dsq.async = true;
-        |  dsq.src = '//' + disqus_shortname + '.disqus.com/!{page.comments ? 'embed.js' : 'count.hs'}';
-        |  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        | })();
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Android 加固技术" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/04/18/Android 加固技术/" class="article-date">
+  	<time datetime="2018-04-17T16:00:00.000Z" itemprop="datePublished">2018-04-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
+  
+    <h1 class="article-title" itemprop="name">
+      Android 加固技术
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-加固技术"><a href="#Android-加固技术" class="headerlink" title="Android 加固技术"></a>Android 加固技术</h1><h2 id="为什么要加固"><a href="#为什么要加固" class="headerlink" title="为什么要加固"></a>为什么要加固</h2><p>增加反编译的难度，混淆的破解难度已经不够了，因此需要做进一步的防护工作，因此加固的方案就产生。</p>
+<h2 id="加固的历史"><a href="#加固的历史" class="headerlink" title="加固的历史"></a>加固的历史</h2><p>第一代加固技术——混淆技术；</p>
+<p>第二代加固技术——加壳技术；</p>
+<p>第三代加固技术——指令抽离：即抽取 dex 文件中 DexCode 的部分结构，即虚拟机操作码。在虚拟机加载到此类的时候对 DexCode 结构进行还原。从而保证 app 能正常的运行。</p>
+<p>第四代加固技术——指令转换，即现在经常被应用的VMP加固技术。</p>
+<h2 id="加固的实现"><a href="#加固的实现" class="headerlink" title="加固的实现"></a>加固的实现</h2><h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>原理：将我们的源APK进行加密，解密的过程</p>
+<p>dex合并：采用的 VMP（虚拟软件保护技术）大概思路就是自定义一套虚拟机指令和对应的解释器，并将标准的指令转换成自己的指令，然后由解释器将自己的指令给对应的解释器。</p>
+<h3 id="加壳流程"><a href="#加壳流程" class="headerlink" title="加壳流程"></a>加壳流程</h3><p>三个对象：</p>
+<ul>
+<li>1 源APK-要加密的apk文件</li>
+<li>2 壳APK-负责对源apk解密</li>
+<li>3 加密工具-将源APK进行加密和壳Dex合并新的Dex</li>
+</ul>
+<p>主要步骤：</p>
+<ul>
+<li>1 加密算法加密源APK，生成加密的dex文件</li>
+<li>2 加密后的dex和壳apk进行合并生成新的dex文件</li>
+<li>3 新的dex替换壳程序的dex，得到新的apk,修改壳apk的checksum、signature 和file_size的信息，并且要附加加壳的apk的长度信息在dex文件中，以便我们进行解壳保证原来apk的正常运行。</li>
+</ul>
+<h3 id="脱壳流程"><a href="#脱壳流程" class="headerlink" title="脱壳流程"></a>脱壳流程</h3><p><img src="http://oc4zuck5v.bkt.clouddn.com/%E4%B8%8B%E8%BD%BD.png" alt=""></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/04/19/Android root 原理/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Android root 原理
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/04/17/java GC/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">java GC</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="Android 加固技术" data-title="Android 加固技术" data-url="https://github.com/sirencode/2018/04/18/Android 加固技术/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 加固技术">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

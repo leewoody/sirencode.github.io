@@ -1,42 +1,445 @@
-extends ../_partial/layout
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>麦肯锡工作法 | Diablo</title>
 
-block content
-  .container.post
-    section.article
-      .title= page.title
-      .date 写于#{moment(page.date).format(theme.date_format)}
-      .content!= page.content
-      if page.tags
-        .tags!= list_tags(page.tags, { show_count: false, class: 'tag', style: false, separator: '' })
+  <!-- keywords -->
+  
 
-  .container
-    ul.nav
-      if page.prev
-        li 上一篇：
-          a(href=url_for(page.prev.path))= page.prev.title || '未命名'
-      if page.next
-        li 下一篇：
-          a(href=url_for(page.next.path))= page.next.title || '未命名'
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="麦肯锡工作法第一课 麦肯锡专业作风客户第一主义任何时候都积极应对 绝不逃避，无论身处何种情况，绝不退缩，积极应对-PMA(Positive Mental Attitude-积极心态)。  专业人士应该尽善尽美地工作 事情不允许完成一半就讨论，即是全部完成，也要尽善尽美，苛刻要求。  修行僧与艺术家 在工作达到自己预设的标准之前决不妥协，一直追求尽善尽美，直到截止日期。  勿将调查当工作成为独一无二">
+<meta property="og:type" content="article">
+<meta property="og:title" content="麦肯锡工作法">
+<meta property="og:url" content="https://github.com/sirencode/2018/01/08/麦肯锡工作法/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="麦肯锡工作法第一课 麦肯锡专业作风客户第一主义任何时候都积极应对 绝不逃避，无论身处何种情况，绝不退缩，积极应对-PMA(Positive Mental Attitude-积极心态)。  专业人士应该尽善尽美地工作 事情不允许完成一半就讨论，即是全部完成，也要尽善尽美，苛刻要求。  修行僧与艺术家 在工作达到自己预设的标准之前决不妥协，一直追求尽善尽美，直到截止日期。  勿将调查当工作成为独一无二">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/luojishu.jpeg">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/yaodianshu.jpeg">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/WechatIMG7.jpeg">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/WechatIMG8.jpeg">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/WechatIMG9.jpeg">
+<meta property="og:updated_time" content="2018-01-08T05:10:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="麦肯锡工作法">
+<meta name="twitter:description" content="麦肯锡工作法第一课 麦肯锡专业作风客户第一主义任何时候都积极应对 绝不逃避，无论身处何种情况，绝不退缩，积极应对-PMA(Positive Mental Attitude-积极心态)。  专业人士应该尽善尽美地工作 事情不允许完成一半就讨论，即是全部完成，也要尽善尽美，苛刻要求。  修行僧与艺术家 在工作达到自己预设的标准之前决不妥协，一直追求尽善尽美，直到截止日期。  勿将调查当工作成为独一无二">
+<meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/luojishu.jpeg">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-    if !index && config.disqus_shortname
-      .comments
-        #disqus_thread
-          noscript Please enable JavaScript to view the 
-            a(href="http://disqus.com/?ref_noscript") comments powered by Disqus
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 
-block js
-  include ../_partial/post_footer.pug
-  != js('script/post')
-  if config.disqus_shortname
-    script
-      | var disqus_shortname = '!{config.disqus_shortname}';
-      if page.permalink
-        | var disqus_url = '!{page.permalink}';
-        | (function(){
-        |  var dsq = document.createElement('script');
-        |  dsq.type = 'text/javascript';
-        |  dsq.async = true;
-        |  dsq.src = '//' + disqus_shortname + '.disqus.com/!{page.comments ? 'embed.js' : 'count.hs'}';
-        |  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        | })();
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-麦肯锡工作法" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/01/08/麦肯锡工作法/" class="article-date">
+  	<time datetime="2018-01-07T16:00:00.000Z" itemprop="datePublished">2018-01-08</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
+  
+    <h1 class="article-title" itemprop="name">
+      麦肯锡工作法
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="麦肯锡工作法"><a href="#麦肯锡工作法" class="headerlink" title="麦肯锡工作法"></a>麦肯锡工作法</h1><h2 id="第一课-麦肯锡专业作风"><a href="#第一课-麦肯锡专业作风" class="headerlink" title="第一课 麦肯锡专业作风"></a>第一课 麦肯锡专业作风</h2><h3 id="客户第一主义"><a href="#客户第一主义" class="headerlink" title="客户第一主义"></a>客户第一主义</h3><h3 id="任何时候都积极应对"><a href="#任何时候都积极应对" class="headerlink" title="任何时候都积极应对"></a>任何时候都积极应对</h3><ul>
+<li>绝不逃避，无论身处何种情况，绝不退缩，积极应对-PMA(Positive Mental Attitude-积极心态)。</li>
+</ul>
+<h3 id="专业人士应该尽善尽美地工作"><a href="#专业人士应该尽善尽美地工作" class="headerlink" title="专业人士应该尽善尽美地工作"></a>专业人士应该尽善尽美地工作</h3><ul>
+<li>事情不允许完成一半就讨论，即是全部完成，也要尽善尽美，苛刻要求。</li>
+</ul>
+<h3 id="修行僧与艺术家"><a href="#修行僧与艺术家" class="headerlink" title="修行僧与艺术家"></a>修行僧与艺术家</h3><ul>
+<li>在工作达到自己预设的标准之前决不妥协，一直追求尽善尽美，直到截止日期。</li>
+</ul>
+<h3 id="勿将调查当工作"><a href="#勿将调查当工作" class="headerlink" title="勿将调查当工作"></a>勿将调查当工作</h3><h3 id="成为独一无二的行家"><a href="#成为独一无二的行家" class="headerlink" title="成为独一无二的行家"></a>成为独一无二的行家</h3><h3 id="不要只解决眼前问题"><a href="#不要只解决眼前问题" class="headerlink" title="不要只解决眼前问题"></a>不要只解决眼前问题</h3><ul>
+<li>工作中，我们总是希望尽早解决眼前的问题，以至于只专注于现象本身。但是，这时如果进一步转变关注视角，脱离现象这个框架，就可以发现真正的问题所在。</li>
+<li>解决问题至关紧要，但是对于真正问题的把握能力也不容忽视。</li>
+</ul>
+<h2 id="第二课-麦肯锡式解决问题的基本步骤"><a href="#第二课-麦肯锡式解决问题的基本步骤" class="headerlink" title="第二课 麦肯锡式解决问题的基本步骤"></a>第二课 麦肯锡式解决问题的基本步骤</h2><h3 id="什么是“解决问题”？"><a href="#什么是“解决问题”？" class="headerlink" title="什么是“解决问题”？"></a>什么是“解决问题”？</h3><ul>
+<li>解决问题的原意并不是应对已经发生的事情，而是深入研究问题的本质：为什么会出现这种问题，应该如何做才能防止这类问题的发生？继而解决问题。也就是说，应该确定真正的问题所在，然后明确解决该问题的具体策略，并付诸实施，这才是解决问题。</li>
+<li>解决问题的步骤：区分问题设定与解答区域-&gt;整理并将客体结构化-&gt;收集信息-&gt;建立假说-&gt;验证假说-&gt;考虑解决方案-&gt;实施解决方案</li>
+</ul>
+<h3 id="解决问题的基本步骤"><a href="#解决问题的基本步骤" class="headerlink" title="解决问题的基本步骤"></a>解决问题的基本步骤</h3><ul>
+<li>1 不要打地鼠：像打地鼠一样只解决眼前的问题 - 要明确希望达到的状态</li>
+<li><p>2 解决问题的整体流程</p>
+<ul>
+<li>1 把握问题结构 ：首先要根据眼前发生的事情，定义问题，锁定问题所在，并将问题的结构可视化，即明确与该问题相关的主要因素。</li>
+<li><p>2 分析问题构造的方法–逻辑树：就是前提事件是大数的树干，众多的要因成为分枝。</p>
+<p>注意：</p>
+<pre><code>* 第一应当做到不漏不重。
+* 第二应当根据事实基础进行分析。
+* 第三不必深究不太重要的事情。
+
+逻辑树案例
+</code></pre><p>   <img src="http://oc4zuck5v.bkt.clouddn.com/luojishu.jpeg" alt=""></p>
+</li>
+</ul>
+</li>
+<li><p>3 提出假说，进行分析</p>
+</li>
+<li><p>4 验证假说的方法–要点树：以关键问题为起点，针对由此推出的诸多要素，验证该假说是否成立。</p>
+<p>要点树案例：<br><img src="http://oc4zuck5v.bkt.clouddn.com/yaodianshu.jpeg" alt=""></p>
+</li>
+<li><p>5 推导解决方案–空雨伞：空指的是事实，即现状如何，雨指的是意义，即这种现状意味着什么，伞指的是解决方案与对策，即从该意义推导出要做什么。以现状、意义、对策为基础进行思考，至关重要。</p>
+<p> <img src="http://oc4zuck5v.bkt.clouddn.com/WechatIMG7.jpeg" alt=""></p>
+</li>
+</ul>
+<h3 id="解决问题时必须要注意的要点"><a href="#解决问题时必须要注意的要点" class="headerlink" title="解决问题时必须要注意的要点"></a>解决问题时必须要注意的要点</h3><ul>
+<li>1 不要过分局限于现在的状况或制约条件：解决问题意味着实现现有状态或希望达到的状态，即填补目标与现状之间的差距。因此在解决问题的时候，比应该拘泥于现状，而应该站在应有状态或希望达成状态这一更高角度想办法。</li>
+<li>2 时刻保持思维的逻辑性：逻辑本意-明辨原因与结果，找到合乎道理的思考方法或判断方法，它可以将含混不清的问题理顺。</li>
+<li>3 反复重复为什么：要彻底验证逻辑是否严谨</li>
+<li>4 必须考虑”针对谁、做什么、如何做”</li>
+</ul>
+<h2 id="特别讲-麦肯锡式分析框架的入门工具包"><a href="#特别讲-麦肯锡式分析框架的入门工具包" class="headerlink" title="特别讲 麦肯锡式分析框架的入门工具包"></a>特别讲 麦肯锡式分析框架的入门工具包</h2><h3 id="脑中存有框架"><a href="#脑中存有框架" class="headerlink" title="脑中存有框架"></a>脑中存有框架</h3><h3 id="希望把握整体流程中的重要因素时，采用商业体系"><a href="#希望把握整体流程中的重要因素时，采用商业体系" class="headerlink" title="希望把握整体流程中的重要因素时，采用商业体系"></a>希望把握整体流程中的重要因素时，采用商业体系</h3><p>商业体系：指的是在开展事业时，按照性能区分各类必需的要素，并将其整理为连续的流程。</p>
+<h3 id="希望探讨市场战略的基本面时，采用3C框架"><a href="#希望探讨市场战略的基本面时，采用3C框架" class="headerlink" title="希望探讨市场战略的基本面时，采用3C框架"></a>希望探讨市场战略的基本面时，采用3C框架</h3><p>3C:取自于客户(customer)、竞争对手(competitor)、公司(company)，该框架是通过分析自己公司现在所处的经营环境，灵活地开发经营课题，制定战略等，并非单纯用于明确自己公司的情况。</p>
+<h3 id="希望重新评估组织时，采用7S框架"><a href="#希望重新评估组织时，采用7S框架" class="headerlink" title="希望重新评估组织时，采用7S框架"></a>希望重新评估组织时，采用7S框架</h3><p>硬件：</p>
+<ul>
+<li>战略：打造开拓市场，增加占有率，消减成本，开发新产品等企业优势，定位企业方向性的活动及活动计划。</li>
+<li>组织构造：规定组织形态与管理体制，明确部门间的任务划分等在完成事业时所必需的人力与物力的变动情况。</li>
+<li>公司体系：从业务操作到财务等事业必需的信息体系，经营计划及预算管理，决策结构，人事评定，聘用培养等结构。</li>
+</ul>
+<p>软件</p>
+<ul>
+<li>组织文化：经营方式，公司风气，潜藏的企业文化及传统。</li>
+<li>组织具备的优势：组织拥有的优越性。</li>
+<li>人才：拥有各种能力，经历潜力的组织内部人才。</li>
+<li>共同的价值观：全体成员共有的理念，梦想，目标及开展事业活动时依据的价值观等。</li>
+</ul>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/WechatIMG8.jpeg" alt=""></p>
+<h3 id="不知道该如何选择时，采用位置矩阵"><a href="#不知道该如何选择时，采用位置矩阵" class="headerlink" title="不知道该如何选择时，采用位置矩阵"></a>不知道该如何选择时，采用位置矩阵</h3><p>位置矩阵：指的是有助于明确”紧急、重要的事件“以及实践行动优先顺序的框架。</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/WechatIMG9.jpeg" alt=""></p>
+<h3 id="希望寻求解决问题的真正方法时，采用逻辑树框架"><a href="#希望寻求解决问题的真正方法时，采用逻辑树框架" class="headerlink" title="希望寻求解决问题的真正方法时，采用逻辑树框架"></a>希望寻求解决问题的真正方法时，采用逻辑树框架</h3><h2 id="第三课-麦肯锡式处理信息的技巧"><a href="#第三课-麦肯锡式处理信息的技巧" class="headerlink" title="第三课 麦肯锡式处理信息的技巧"></a>第三课 麦肯锡式处理信息的技巧</h2><h3 id="调查要基于原始材料"><a href="#调查要基于原始材料" class="headerlink" title="调查要基于原始材料"></a>调查要基于原始材料</h3><h3 id="性感地运用信息"><a href="#性感地运用信息" class="headerlink" title="性感地运用信息"></a>性感地运用信息</h3><p>原封不动的仅仅分析眼前已有的信息或数据，是不性感的，不会产生新的价值。不仅需要分析，而且必须从中创造。</p>
+<h3 id="风来时，做木桶的人将如何？"><a href="#风来时，做木桶的人将如何？" class="headerlink" title="风来时，做木桶的人将如何？"></a>风来时，做木桶的人将如何？</h3><p>通过现在的某种信息，可以解读对未来的影响。换言之，为了使对方完成自己希望达成的事情，而考虑如何使用现在的某种信息。</p>
+<h2 id="第四课-麦肯锡式提高解决问题能力的思考方法"><a href="#第四课-麦肯锡式提高解决问题能力的思考方法" class="headerlink" title="第四课 麦肯锡式提高解决问题能力的思考方法"></a>第四课 麦肯锡式提高解决问题能力的思考方法</h2><h3 id="不要只从硬币的正反面考虑问题"><a href="#不要只从硬币的正反面考虑问题" class="headerlink" title="不要只从硬币的正反面考虑问题"></a>不要只从硬币的正反面考虑问题</h3><p>思考的顺序是：首先，思考从这件事中可以学到什么，以及其带来的意义；其次，改变视角，按照“空雨伞”的逻辑，落实自己应当采取的行动。</p>
+<h3 id="决不放弃的定力"><a href="#决不放弃的定力" class="headerlink" title="决不放弃的定力"></a>决不放弃的定力</h3><h3 id="使五感更敏锐"><a href="#使五感更敏锐" class="headerlink" title="使五感更敏锐"></a>使五感更敏锐</h3><p>不要让自己的身心疲惫，尽量早睡早起，这样五感才能更为敏锐，思维才能更为敏捷。</p>
+<p>冥想</p>
+<h3 id="边放松边集中"><a href="#边放松边集中" class="headerlink" title="边放松边集中"></a>边放松边集中</h3><h3 id="框架型的思考方法"><a href="#框架型的思考方法" class="headerlink" title="框架型的思考方法"></a>框架型的思考方法</h3><h3 id="超越自己的框架"><a href="#超越自己的框架" class="headerlink" title="超越自己的框架"></a>超越自己的框架</h3><p>推荐方法：有意识地改变自己的行为。</p>
+<h3 id="区分事实与意见"><a href="#区分事实与意见" class="headerlink" title="区分事实与意见"></a>区分事实与意见</h3><p>聆听的时候，不要被对方的话所牵引，导致自己思路变得不清晰。只需做到一边倾听对方，一边将对方的话分解为意见与事实。</p>
+<h3 id="从疑问出发"><a href="#从疑问出发" class="headerlink" title="从疑问出发"></a>从疑问出发</h3><h3 id="疑问的核心是什么？"><a href="#疑问的核心是什么？" class="headerlink" title="疑问的核心是什么？"></a>疑问的核心是什么？</h3><p>提出疑问时需要注意以下两点：</p>
+<p>第一，使疑问做到”一言以弊之”<br>第二，抓住问题的核心</p>
+<h3 id="有助于抓住疑问核心的好问题"><a href="#有助于抓住疑问核心的好问题" class="headerlink" title="有助于抓住疑问核心的好问题"></a>有助于抓住疑问核心的好问题</h3><p>提出高质量问题的基本态度：</p>
+<ul>
+<li>注意对方的反应</li>
+<li>带着单纯的好奇心(暂且将自己的想法与考虑搁置一边)</li>
+<li>不要评论对方的言论与想法</li>
+<li>重视简单的疑问并展开询问</li>
+<li>深入地思考与观察</li>
+</ul>
+<p>改变视角的问题，比如</p>
+<ul>
+<li>如果你是顾客，希望怎么做？</li>
+<li>如果你现在正在工作，你认为自己会在做什么？</li>
+<li>从整个人生的角度看，这件事的重要程度有多大？</li>
+</ul>
+<p>探索原因的问题：</p>
+<ul>
+<li>在整个过程当中，哪个环节让你感到了压力？</li>
+<li>在如今所处的环境中，哪些方面让自己身心愉悦？</li>
+<li>尽管想做却并未实际去做的是什么事情？</li>
+</ul>
+<p>认识对方价值的问题：</p>
+<ul>
+<li>什么时候，你会感到满足？</li>
+<li>对你而言，至关重要且无可取代的事物是什么？</li>
+<li>你如何在一天内花掉100万？</li>
+</ul>
+<h3 id="对是否真实发出疑问"><a href="#对是否真实发出疑问" class="headerlink" title="对是否真实发出疑问"></a>对是否真实发出疑问</h3><p>举例：”我最近很在意自己的体重，所以要去健身房减肥，你觉得A或B哪家健身房比较好？“</p>
+<p>疑问是：A或B哪家健身房比较好？</p>
+<p>真正的问题其实是在意自己的体重。</p>
+<p>实际问题也许在于饮食不均衡，也或许在于生活不规律，而并非仅仅缺乏运动。</p>
+<h3 id="勿忘全局"><a href="#勿忘全局" class="headerlink" title="勿忘全局"></a>勿忘全局</h3><p>从全局出发观察事物，提高立足点，开阔视野，也是麦肯锡再三强调的注意事项。</p>
+<h3 id="试试电梯测试-30秒描述重点"><a href="#试试电梯测试-30秒描述重点" class="headerlink" title="试试电梯测试-30秒描述重点"></a>试试电梯测试-30秒描述重点</h3><h2 id="麦肯锡式提高自身能力的方法"><a href="#麦肯锡式提高自身能力的方法" class="headerlink" title="麦肯锡式提高自身能力的方法"></a>麦肯锡式提高自身能力的方法</h2><h3 id="发挥自己存在的价值"><a href="#发挥自己存在的价值" class="headerlink" title="发挥自己存在的价值"></a>发挥自己存在的价值</h3><p>大家要准确地把握自己的个性与特质，以及擅长的事情，也可以听取同事，前辈或朋友的意见。至于如何发挥这种优势，应当反复思考，如果有导师，也可以与导师探讨。</p>
+<p>我们总是不自觉地希望成为获得自己缺失的性格的人。比如成熟的羡慕性格开朗的人，希望变成那类人。但是，要获得自己缺失的性格，是十分困难的。</p>
+<p>不要试图改变自己，成为别人。不断提高原本的自己，才能赢到最后，获得最大的回报。</p>
+<h3 id="审视自己的外表和内在"><a href="#审视自己的外表和内在" class="headerlink" title="审视自己的外表和内在"></a>审视自己的外表和内在</h3><p>着手解决某件事情的时候，请务必清楚地辨别自己的能量是否足够。</p>
+<h3 id="携带简单的工具"><a href="#携带简单的工具" class="headerlink" title="携带简单的工具"></a>携带简单的工具</h3><h3 id="拥有榜样"><a href="#拥有榜样" class="headerlink" title="拥有榜样"></a>拥有榜样</h3><h3 id="不做批判"><a href="#不做批判" class="headerlink" title="不做批判"></a>不做批判</h3><p>拥抱棘手问题</p>
+<h2 id="第六课-麦肯锡式创造成果的能力"><a href="#第六课-麦肯锡式创造成果的能力" class="headerlink" title="第六课 麦肯锡式创造成果的能力"></a>第六课 麦肯锡式创造成果的能力</h2><h3 id="在限定时间内取得成果"><a href="#在限定时间内取得成果" class="headerlink" title="在限定时间内取得成果"></a>在限定时间内取得成果</h3><p>需要锻炼忍耐孤独的意志</p>
+<h3 id="即便无法喜欢他，也可以与之产生共鸣、实现共享"><a href="#即便无法喜欢他，也可以与之产生共鸣、实现共享" class="headerlink" title="即便无法喜欢他，也可以与之产生共鸣、实现共享"></a>即便无法喜欢他，也可以与之产生共鸣、实现共享</h3><p>首先，清楚对方是什么样的人。其次，有意识地关注对方的优点与长处。</p>
+<h3 id="在领导询问之前汇报"><a href="#在领导询问之前汇报" class="headerlink" title="在领导询问之前汇报"></a>在领导询问之前汇报</h3><h3 id="彰显自己存在感的方法"><a href="#彰显自己存在感的方法" class="headerlink" title="彰显自己存在感的方法"></a>彰显自己存在感的方法</h3><p>保持本我，不强迫自己，同时出色地完成需要自己完成的工作。</p>
+<h3 id="摆脱“应当论”的束缚"><a href="#摆脱“应当论”的束缚" class="headerlink" title="摆脱“应当论”的束缚"></a>摆脱“应当论”的束缚</h3><p>与其说麦肯锡的经理自己引领团队，不如说他们巧妙地发挥每个人的能力，使个人成果最大化。</p>
+<h3 id="不要一个人完成所有的工作"><a href="#不要一个人完成所有的工作" class="headerlink" title="不要一个人完成所有的工作"></a>不要一个人完成所有的工作</h3><h3 id="设计工作"><a href="#设计工作" class="headerlink" title="设计工作"></a>设计工作</h3><p>使用甘特图表</p>
+<p>为了检测自己是否掌握项目所需的要素，也已运用4P思考框架：</p>
+<ul>
+<li>purpose（初衷）</li>
+<li>position（问题定位）</li>
+<li>perspective（视角）</li>
+<li>period（完成时间）</li>
+</ul>
+<h3 id="运用“原本模式”"><a href="#运用“原本模式”" class="headerlink" title="运用“原本模式”"></a>运用“原本模式”</h3><p>“我们原本希望做什么？”</p>
+<p>通过思考原本如如何，可以发散思维，继而从中发现遗漏之处，或激发全新的创意。</p>
+<h3 id="设计会议"><a href="#设计会议" class="headerlink" title="设计会议"></a>设计会议</h3><h3 id="使用我们而非我"><a href="#使用我们而非我" class="headerlink" title="使用我们而非我"></a>使用我们而非我</h3><h3 id="提出有效的质疑"><a href="#提出有效的质疑" class="headerlink" title="提出有效的质疑"></a>提出有效的质疑</h3><p>人一旦直面疑问的核心，或是自己真心期待、希望的事情，表情与声音都会发生改变。</p>
+<h2 id="第七课-麦肯锡式演示的技巧"><a href="#第七课-麦肯锡式演示的技巧" class="headerlink" title="第七课 麦肯锡式演示的技巧"></a>第七课 麦肯锡式演示的技巧</h2><h3 id="演示所需要的三要素"><a href="#演示所需要的三要素" class="headerlink" title="演示所需要的三要素"></a>演示所需要的三要素</h3><ul>
+<li>只做演示资料</li>
+<li>演示资料可用于展示</li>
+<li>实际进行演示</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/01/22/Gradle 详解/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Gradle 详解
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/12/27/麦肯锡思维/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">麦肯锡思维</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="麦肯锡工作法" data-title="麦肯锡工作法" data-url="https://github.com/sirencode/2018/01/08/麦肯锡工作法/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="麦肯锡工作法">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

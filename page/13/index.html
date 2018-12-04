@@ -1,16 +1,1668 @@
-extends ../_partial/layout
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Diablo</title>
 
-block content
+  <!-- keywords -->
+  
 
-  .container.home
-    each post in site.posts.sort('date', -1).data
-      section.article
-        a(href=url_for(post.path)).title= post.title || '未命名'
-        div.content.excerpt!= post.excerpt || post.content
-        if post.tags
-          .tags!= list_tags(post.tags, { show_count: false, class: 'tag', style: false, separator: '' })
-        div.article-footer
-          a.excerpt-link(href=url_for(post.path))= theme.excerpt_link
-          .article-footer__right
-            span.date 写于#{moment(post.date).format(theme.date_format)}
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Diablo">
+<meta property="og:url" content="https://github.com/sirencode/page/13/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Diablo">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
+
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
+
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap">
+  
+    <article id="post-recycleview" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/23/recycleview/" class="article-date">
+  	<time datetime="2016-08-22T16:00:00.000Z" itemprop="datePublished">2016-08-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/23/recycleview/">
+        Android RecycleView
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>RecycleView相信大家都不会陌生，基本上每个项目里面都会用到。主要做一些展示工作的view，例如资讯，XX单等等。今天主要谈谈，在项目中我遇到的一些问题以及解决方案。</p>
+<h3 id="RecycleView-和-ListView的对比"><a href="#RecycleView-和-ListView的对比" class="headerlink" title="RecycleView 和 ListView的对比"></a>RecycleView 和 ListView的对比</h3><p>可以说RecycleView是ListView的升级版本。</p>
+<ul>
+<li>1 更灵活的定制功能，可以自定义动画，view的格式，间隙样式等等。</li>
+<li>2 更合理的代码规格，在adapter里面强制viewholder使用。</li>
+</ul>
+<h3 id="RecycleView使用"><a href="#RecycleView使用" class="headerlink" title="RecycleView使用"></a>RecycleView使用</h3><h4 id="基本功能-刷新加载"><a href="#基本功能-刷新加载" class="headerlink" title="基本功能-刷新加载"></a>基本功能-刷新加载</h4><p>网络上上拉刷新下拉加载的第三方的库很多，实现起来也是大同小异。但是在使用中多多少少有些瑕疵，如果用时间还是建议自己写一个，改起来也方便些。</p>
+<p>现在比较主流的事项方式是使用google官方的下拉刷新库，然后自定义上拉加载效果。</p>
+<h4 id="容错处理"><a href="#容错处理" class="headerlink" title="容错处理"></a>容错处理</h4><p>所谓的容错处理，就是当接收不到数据时候显示什么？数据为零时候显示什么？以及，点击刷新功能。</p>
+<p><a href="https://github.com/Drnkn/Android-ProgressSwitcher">推荐库</a></p>
+<p><a href="https://github.com/sirencode/RecycleViewLib">使用demo</a></p>
+<h4 id="瀑布流使用注意"><a href="#瀑布流使用注意" class="headerlink" title="瀑布流使用注意"></a>瀑布流使用注意</h4><p>在使用瀑布流的时候一般会出现对象变动，滑动时变动参差不齐的情况：</p>
+<pre><code>// 防止item位置互换
+layoutManager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+
+//防止滑到第一行不对齐
+recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+            InformationsFragment.this.layoutManager.invalidateSpanAssignments();
+            int[] position =
+                    InformationsFragment.this.layoutManager.findFirstVisibleItemPositions(null);
+            int visible = position[0] &gt; LINE_COUNT - 1 ? View.VISIBLE : View.GONE;
+            goTop.setVisibility(visible);
+        }
+    });
+</code></pre><h3 id="多类型Item加载"><a href="#多类型Item加载" class="headerlink" title="多类型Item加载"></a>多类型Item加载</h3><p>封装自定义数据类型：</p>
+<pre><code> public class MultipleItemTypeData {
+
+private RecycleItemTypeData recycleItemTypeData;
+
+private String data;
+
+public MultipleItemTypeData(RecycleItemTypeData itemType, String data) {
+    this.recycleItemTypeData = itemType;
+    this.data = data;
+}
+}
+</code></pre><p>类型绑定：</p>
+<pre><code>public class RecycleItemTypeData {
+
+//recycleview item的类型
+private int itemType;
+
+//recycleview item当前类型对应的res资源
+private int typeRes;
+
+public RecycleItemTypeData(int itemType, int typeRes) {
+    this.itemType = itemType;
+    this.typeRes = typeRes;
+}
+}
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-gradle same dependencies" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/23/gradle same dependencies/" class="article-date">
+  	<time datetime="2016-08-22T16:00:00.000Z" itemprop="datePublished">2016-08-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/23/gradle same dependencies/">
+        Android 多模块相同依赖问题
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。</p>
+<h3 id="相同依赖带来的问题"><a href="#相同依赖带来的问题" class="headerlink" title="相同依赖带来的问题"></a>相同依赖带来的问题</h3><ul>
+<li>1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。</li>
+<li>2 版本混乱，相同的依赖版本可能不同，这样就带了了代码上的冗余，并且可能带来错误。</li>
+<li>3 相同的依赖不仅仅来自于不同的模块，有可能是不同的依赖库引用了相同的依赖，总之为了避免不必要的麻烦，我们还是在使用前检查一下吧。</li>
+</ul>
+<h3 id="抽离相同依赖"><a href="#抽离相同依赖" class="headerlink" title="抽离相同依赖"></a>抽离相同依赖</h3><h4 id="在项目根目录新建-gradle整理文件"><a href="#在项目根目录新建-gradle整理文件" class="headerlink" title="在项目根目录新建.gradle整理文件"></a>在项目根目录新建.gradle整理文件</h4><p>1 我们新建名为config.gradle的文件：</p>
+<p>代码如下：</p>
+<pre><code>//全局变量名称
+ext {
+// Android
+android = [
+  compileSdkVersion: 24,
+  buildToolsVersion: &apos;24.0.1&apos;,
+  applicationId    : &apos;com.baidao.ytxmobile&apos;,
+  minSdkVersion    : 14,
+  targetSdkVersion : 24
+]
+
+// AllDependencies
+allDependencies = [
+  support_recyclerview : &apos;com.android.support:recyclerview-v7:24.0.0&apos;,
+  support : &apos;com.android.support:appcompat-v7:24.1.1&apos;,
+  progress_switcher : &apos;com.github.drnkn:progress-switcher:1.1.3@aar&apos;
+]
+//app模块的依赖关系
+appDps = [
+  support_recyclerview : &quot;compile&quot;,
+  support : &apos;compile&apos;,
+  progress_switcher : &apos;compile&apos;
+]
+
+//RefreshLoadLayout模块的依赖关系
+RefreshLoadLayoutDps = [
+  support_recyclerview : &quot;compile&quot;,
+]
+
+dependenciesMethod = { dps, closure -&gt;
+dps.each { entry -&gt;
+  def value = entry.value
+  if (value instanceof List) {
+    value.each { result -&gt;
+      closure result, allDependencies.get(entry.key), entry.key
+    }
+  } else {
+    closure value, allDependencies.get(entry.key), entry.key
+  }
+}
+}
+
+}
+</code></pre><p>2 添加config.gradle文件的使用</p>
+<p>打开项目根目录下的build.gradle文件，并添加如下代码。</p>
+<pre><code>apply from: &quot;config.gradle&quot;
+</code></pre><p>3 在我们的模块中使用，相关依赖和相关属性</p>
+<p>打开我们模块对应的build.gradle文件。</p>
+<p>使用全局属性：</p>
+<pre><code>def globalConfiguration = rootProject.ext
+
+android {
+compileSdkVersion globalConfiguration.android.compileSdkVersion
+buildToolsVersion globalConfiguration.android.buildToolsVersion
+
+defaultConfig {
+minSdkVersion globalConfiguration.android.minSdkVersion
+targetSdkVersion globalConfiguration.android.targetSdkVersion
+applicationId &quot;diablo.lib.list.com&quot;
+versionCode 1
+versionName &quot;1.0&quot;
+}
+buildTypes {
+release {
+  minifyEnabled false
+  proguardFiles getDefaultProguardFile(&apos;proguard-android.txt&apos;), &apos;proguard-rules.pro&apos;
+}
+}
+}
+</code></pre><p>在dependencies{}中添加相关依赖：</p>
+<pre><code>//appDps为在config文件中定义的模块名称
+rootProject.dependenciesMethod rootProject.ext.appDps, { type, library, key -&gt;
+if (type == &apos;compile&apos;) {
+  compile library
+} else if (type == &apos;debugCompile&apos;) {
+  debugCompile library
+} else if (type == &apos;testCompile&apos;) {
+  testCompile library
+} else if (type == &apos;apt&apos;) {
+  apt library
+} else if (type == &apos;debuggableReleaseCompile&apos;) {
+  debuggableReleaseCompile library
+} else if (type == &apos;debugProCompile&apos;) {
+  debugProCompile library
+}
+}
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-lazy_load" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/22/lazy_load/" class="article-date">
+  	<time datetime="2016-08-21T16:00:00.000Z" itemprop="datePublished">2016-08-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/22/lazy_load/">
+        Android 性能优化-懒加载
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。</p>
+<h3 id="懒加载的使用"><a href="#懒加载的使用" class="headerlink" title="懒加载的使用"></a>懒加载的使用</h3><p>在android开发中我们用到了很多懒加载的例子。<br>如：</p>
+<ul>
+<li>1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示真正的图片。</li>
+<li>2 app初始化的时候，app开始前我们必不可少的要设置一些第三方的初始化工作，而这些初始化工作在主线程里面也相对耗时，所以可以将这些初始化工作放到子线程里面实现。</li>
+<li>3 view的懒加载，还有一种比较耗时的操作就是view的绘制过程，一个复杂的fragment的绘制也是一个很耗时的操作，为了尽量不丢帧，我们也可以做一个fragment的懒加载。</li>
+</ul>
+<h3 id="初始化的懒加载实现"><a href="#初始化的懒加载实现" class="headerlink" title="初始化的懒加载实现"></a>初始化的懒加载实现</h3><p>1 我们将application 和 activity oncreate()里面比较费时的操作抽取出来。</p>
+<p>2 将这些费时的操作放到一个子线程里面执行，并在初始化的时候启动初始化的子线程。</p>
+<p>3 有一个问题就是什么时候去使用这些需要初始化的东西，因为做了异步处理，我们不能知道什么时候初始化完成了。解决方法不一，最简单的办法就是设置全局变量，在使用前判断一下。在项目中我们一般都会对第三方的SDK封装一下，在封装的时候判断一下是否初始化就可以了。</p>
+<p>初始化:</p>
+<pre><code> protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    LazyThread lazyThread = new LazyThread();
+    lazyThread.start();
+}
+</code></pre><p>封装费时的初始化工作：</p>
+<pre><code>class LazyThread extends Thread{
+    @Override
+    public void run() {
+        //做一些费时的初始化工作
+        //完成后回调,或者设置全局变量
+    }
+} 
+</code></pre><p>这样就完成了初始化的懒加载，记得将application里面的初始化工作也做一下懒加载。</p>
+<h3 id="View的懒加载实现"><a href="#View的懒加载实现" class="headerlink" title="View的懒加载实现"></a>View的懒加载实现</h3><p>这个其实我们一直都在使用，比如我们要异步的去请求一张图片并显示出来，但是这个是需要一段时间才能请求到的。为了使等待时间不那么尴尬，我们设置一个默认图，等到请求到结果后再替换掉。</p>
+<h4 id="为什么做view的懒加载"><a href="#为什么做view的懒加载" class="headerlink" title="为什么做view的懒加载"></a>为什么做view的懒加载</h4><p>我们在做应用开发的时候，一个Activity里面可能会以viewpager（或其他容器）与多个Fragment来组合使用，而如果每个fragment都需要去加载数据，或从本地加载，或从网络加载，那么在这个activity刚创建的时候就变成需要初始化大量资源。为了减少初次加载的时间，我们要实现显示对应的fragment的时候再去初始化对应工作。</p>
+<h4 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h4><p>Fragment里的setUserVisibleHint这个方法用于告诉系统，这个Fragment的UI是否是可见的。所以我们只需要继承Fragment并重写该方法，即可实现在fragment可见时才进行数据加载操作，即Fragment的懒加载。</p>
+<p>自定义lazyfragment:</p>
+<pre><code>public abstract class LazyFragment extends Fragment {
+protected boolean isVisible;
+/**
+ * 在这里实现Fragment数据的缓加载.
+ * @param isVisibleToUser
+ */
+@Override
+public void setUserVisibleHint(boolean isVisibleToUser) {
+    super.setUserVisibleHint(isVisibleToUser);
+    if(getUserVisibleHint()) {
+        isVisible = true;
+        onVisible();
+    } else {
+        isVisible = false;
+        onInvisible();
+    }
+}
+
+protected void onVisible(){
+    lazyLoad();
+}
+
+protected abstract void lazyLoad();
+
+protected void onInvisible(){}
+}
+</code></pre><p> 实现：</p>
+<pre><code> public class OpenResultFragment extends LazyFragment{
+// 标志位，标志已经初始化完成。
+private boolean isPrepared;
+
+@Override
+public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    Log.d(LOG_TAG, &quot;onCreateView&quot;);
+    View view = inflater.inflate(R.layout.fragment_open_result, container, false);
+    //XXX初始化view的各控件
+isPrepared = true;
+    lazyLoad();
+    return view;
+}
+
+@Override
+protected void lazyLoad() {
+    if(!isPrepared || !isVisible) {
+        return;
+    }
+    //填充各控件的数据
+}
+
+}
+</code></pre>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-monkey" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/22/monkey/" class="article-date">
+  	<time datetime="2016-08-21T16:00:00.000Z" itemprop="datePublished">2016-08-22</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/22/monkey/">
+        Android Mokey压力测试
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。</p>
+<h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ol>
+<li>Monky测试使用的事件流数据流是随机的，不能自定义。</li>
+<li>测试的对象仅为应用程序包，有一定的局限性。</li>
+<li>运行Monkey时，对本次测试对象，事件数量，类型，频率等进行设置。可输入命令行或运行小脚本。</li>
+</ol>
+<h3 id="monkey事件"><a href="#monkey事件" class="headerlink" title="monkey事件"></a>monkey事件</h3><ul>
+<li>触摸事件，参数 –pct-touch</li>
+<li>手势事件 –pct-motion</li>
+<li>二指缩放 –pct-pinchzoom</li>
+<li>轨迹事件 –pct-trackball</li>
+<li>屏幕旋转 –pct-rotation</li>
+<li>导航键 –pct-majornav</li>
+<li>系统按键 –pct-syskeys</li>
+<li>启动activity –pct-appswitch</li>
+<li>键盘事件 –pct-flip</li>
+</ul>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li>-v 表示反馈信息级别 越大返回信息越多越详细。-v-vhe-v-v-v三个级别。</li>
+<li>-throttle 两个事件之间的事件间隔</li>
+<li>–pct-xxx &lt;百分比&gt;</li>
+<li>-p &lt;包名&gt; 一个或多个，monkey只允许在指定包名里面运行</li>
+<li>–ignore-crashes 发生crash不停止</li>
+<li>–ignore-timeouts anr不停止</li>
+<li>-s 伪随机数生成器，-s值相同执行的事件相同(便于问题复现)。</li>
+</ul>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>开启：（参数详解）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell monkey -v -p com.you.packet --throttle 300 120000 &gt; monkey_log.txt</span><br></pre></td></tr></table></figure>
+<ul>
+<li>－V:logcat级别（最高－VVV）</li>
+<li>-p:后加测试对象包名，一个或多个</li>
+<li>-throttle 300:Monkey每个事件间的间隔</li>
+<li>120000:事件总次数</li>
+<li>monkey_log.txt:本地日志名</li>
+</ul>
+<h3 id="停止monkey"><a href="#停止monkey" class="headerlink" title="停止monkey"></a>停止monkey</h3><ul>
+<li>获取monekey(com.android.commands.monkey)的进程ID</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell ps | grep monkey</span><br></pre></td></tr></table></figure>
+<ul>
+<li>杀死monkey进程</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell <span class="built_in">kill</span> 30898</span><br></pre></td></tr></table></figure>
+<h3 id="monkey-自定义脚本"><a href="#monkey-自定义脚本" class="headerlink" title="monkey 自定义脚本"></a>monkey 自定义脚本</h3><p>常规的monkey是测试执行随机的事件流的，但如果想执行特定场景，这个时候就要执行自定义脚本了。</p>
+<h4 id="monkey脚本常见API"><a href="#monkey脚本常见API" class="headerlink" title="monkey脚本常见API"></a>monkey脚本常见API</h4><ul>
+<li>LanchActivity(Pkg_name,cl_name) 启动被测试的某个activity，Pkg_name:包名，cl_name:Activity名</li>
+<li>Tap(x, y, tapDuration): 模拟一次手指单击事件。参数：x,y为控件坐标，tapDuration为点击的持续时间，此参数可省略。</li>
+<li>DispatchPress(keyName): 按键。参数： keycode。 详细的Android Keycode列表：<a href="http://blog.csdn.net/feizhixuan46789/article/details/16801429" target="_blank" rel="noopener">Android Keycode列表</a>。</li>
+<li>RotateScreen(rotationDegree, persist): 旋转屏幕。 参数：rotationDegree为旋转角度， e.g. 1代表90度；persist表示旋转之后是否固定，0表示旋转后恢复，非0则表示固定不变。</li>
+<li>DispatchFlip(true/false): 打开或者关闭软键盘。</li>
+<li>Drag(xStart, yStart, xEnd, yEnd, stepCount):  用于模拟一个拖拽操作。</li>
+<li>PinchZoom(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End, stepCount): 模拟缩放手势。</li>
+<li>UserWait(sleepTime): 休眠一段时间</li>
+<li>DeviceWakeUp(): 唤醒屏幕。</li>
+<li>PowerLog(power_log_type, test_case_status): 模拟电池电量信息。</li>
+<li>WriteLog(): 将电池信息写入sd卡。</li>
+<li>RunCmd(cmd): 运行shell命令。</li>
+<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFlags)：向指定位置，发送单个手势。</li>
+<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFilags) ：发送按键消息。</li>
+<li>LaunchInstrumentation(test_name,runner_name): 运行一个instrumentation测试用例。</li>
+<li>DispatchTrackball: 模拟发送轨迹球事件。</li>
+<li>ProfileWait: 等待5秒。</li>
+<li>StartCaptureFramerate():  获取帧率。</li>
+<li>EndCaptureFramerate(input): 结束获取帧率。</li>
+</ul>
+<h4 id="脚本demo"><a href="#脚本demo" class="headerlink" title="脚本demo"></a>脚本demo</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#头文件信息  </span></span><br><span class="line"><span class="built_in">type</span>=raw events  </span><br><span class="line">count=10  </span><br><span class="line">speed=1.0  </span><br><span class="line">start data &gt;&gt;  </span><br><span class="line"><span class="comment">#具体的脚本内容  </span></span><br><span class="line">LaunchActivity(com.example.package,com.example.ui.SplashActivity)  </span><br><span class="line">Tap(972,1818)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,607)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">DispatchString(1234567)  </span><br><span class="line">Tap(636,859)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(388,895)  </span><br><span class="line">UserWait(1000)  </span><br><span class="line">DispatchString(123456)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,1104)</span><br></pre></td></tr></table></figure>
+<h4 id="执行脚本"><a href="#执行脚本" class="headerlink" title="执行脚本"></a>执行脚本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ adb push monkey.script /sdcard/ </span><br><span class="line">$ adb shell  </span><br><span class="line">$ shell@pisces:/ $ monkey -f /sdcard/monkey.script -v 1</span><br></pre></td></tr></table></figure>
+<h4 id="日志分别存储"><a href="#日志分别存储" class="headerlink" title="日志分别存储"></a>日志分别存储</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Monkey [option] &lt;count&gt; 1&gt;/sdcard/monkey.txt 2&gt;/sdcard/error.txt</span><br></pre></td></tr></table></figure>
+<h3 id="monlkey的基本原理"><a href="#monlkey的基本原理" class="headerlink" title="monlkey的基本原理"></a>monlkey的基本原理</h3><p>monkey的代码核心模块主要包括主控，监控，事件源和事件四部分。</p>
+<ul>
+<li>主控模块：主控模块即com.android.commands.monkey.Monkey类,是入口函数所在的类，主要负责参数解析和赋值，初始化运行环境，执行runMonkeyCucles()方法针对不同的事件源开始获取并执行不同的事件。</li>
+<li>监控模块：监控部分包括异常监控和网络监控两部分。异常监控通过ActivityWatch类来实现，注意监控Activity的crash和ANR事件。网络监控通过MonkeyNetworkmonitor类来实现，主要用于统计运行期间移动网络和WiFi网络的链接时长。</li>
+<li>事件源模块：代表不同的事件来源。</li>
+<li>事件模块：事件代表了各种用户操作类型。</li>
+</ul>
+<h3 id="monkey-扩展"><a href="#monkey-扩展" class="headerlink" title="monkey 扩展"></a>monkey 扩展</h3><p>monkey本身的功能有限，比如不能截屏和网络重新连接等，为了更好的测试，有时候我们要添加一些功能。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-h5-webview" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/21/h5-webview/" class="article-date">
+  	<time datetime="2016-08-20T16:00:00.000Z" itemprop="datePublished">2016-08-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/21/h5-webview/">
+        Android 混合式开发-H5
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些建议。</p>
+<h3 id="Android开发的多种模式"><a href="#Android开发的多种模式" class="headerlink" title="Android开发的多种模式"></a>Android开发的多种模式</h3><h4 id="原生开发"><a href="#原生开发" class="headerlink" title="原生开发"></a>原生开发</h4><p>顾名思义，就是纯原生的开发模式，一点也不嵌入h5相关的功能模块。</p>
+<p>优点：</p>
+<ul>
+<li>性能极佳</li>
+<li>可以实现所有功能</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>开发成本高</li>
+<li>无法实热而更新</li>
+</ul>
+<h4 id="混合式开发"><a href="#混合式开发" class="headerlink" title="混合式开发"></a>混合式开发</h4><p>混合式开发是指，一些模块通过h5实现。具体哪些使用h5开发比较合适呐，这里我给出几点建议：</p>
+<ul>
+<li>需要模块话，在多端共用的，比如一个系统登录相关模块。</li>
+<li>更新比较频繁，且对性能要求不高的，例如项目的资讯模块。</li>
+<li>调用底层功能和首页第一屏的显示要求很高的性能的地方，一定不要用。</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>开发成本低，方便复用</li>
+<li>支持热更新</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>性能差，不同版本对H5的支持差异较大。</li>
+<li>一些调用系统功能的实现起来不方便。</li>
+</ul>
+<h4 id="纯Web版的App"><a href="#纯Web版的App" class="headerlink" title="纯Web版的App"></a>纯Web版的App</h4><p>这种App是纯h5开发，之后通过插件生成各个平台的APP，这个就不说了，性能简直无法直视，还有很多限制，我没见那个公司用过，一般适合没有APP开发经验的使用。即使调研我都没有过，很是嫌弃。</p>
+<h3 id="Hybrid开发的使用"><a href="#Hybrid开发的使用" class="headerlink" title="Hybrid开发的使用"></a>Hybrid开发的使用</h3><p>以上三种模式各有各的使用场景，我们这里主要讨论一下hybrid的开发模式，混合式开发模式的使用也分很多种情况。下面我们一个个分析，并给出不同建议，供大家选择。</p>
+<h4 id="混合式框架"><a href="#混合式框架" class="headerlink" title="混合式框架"></a>混合式框架</h4><p>所谓的混合式开发框架就是实现，js和java的互调工作，当然还需要对webview进行封装，屏蔽掉4.2之前的反向注入的bug，并定制属于自己的通信规则。</p>
+<p>这种框架网上很多，我用过cordova，太重了，有能力就自己写一个吧。</p>
+<h4 id="自定义框架"><a href="#自定义框架" class="headerlink" title="自定义框架"></a>自定义框架</h4><h4 id="1-java-gt-js-这里不解释，每个框架都一样"><a href="#1-java-gt-js-这里不解释，每个框架都一样" class="headerlink" title="1.java -&gt; js,这里不解释，每个框架都一样"></a>1.java -&gt; js,这里不解释，每个框架都一样</h4><pre><code>WebView.loadUrl(&quot;javascript:setUserName(&apos;xxx&apos;);&quot;);
+</code></pre><h4 id="2-js-gt-java-实现"><a href="#2-js-gt-java-实现" class="headerlink" title="2.js -&gt; java 实现"></a>2.js -&gt; java 实现</h4><p>1 通过webview的addJavascriptInterface实现通信，并重写webview来屏蔽掉4.2之前的bug.<br>代码实现：</p>
+<pre><code>mWebView.addJavascriptInterface(new JavaScriptInterface(), &quot;ncp&quot;);
+
+final class JavaScriptInterface {
+
+   public int callOnJs() {
+
+      return 1000;
+   }
+
+   public void callOnJs2(String mode) {
+     //TODO
+   }
+
+ }  
+</code></pre><p>如何修复反向注入bug:<a href="https://github.com/shenyonghe525/WebViewBugDemo">github</a></p>
+<p>2 通过相同的接口实现通信</p>
+<p>通过js的window.prompt(msg,defaultText) = android-&gt;WebViewChromeClient-&gt;onJsPrompt(WebView view,<br>String url, String message, String defaultValue, JsPromptResult result)<br>其中window.prompt -&gt; msg = onJsPrompt-&gt;message</p>
+<p>所以在js调用java方法步骤如下：</p>
+<ul>
+<li>1 在js中配置好需要的参数信息msg(此消息格式可以自定义)。</li>
+<li>2 在js中通过window.prompt(msg,””)方法将信息传到java中的WebViewChromeClient-&gt;onJsPrompt方法中。</li>
+<li>3 在onJsPrompt中将js传来的信息进行解析处理，传到供js调用的native方法中，之后做相关native方法处理。</li>
+<li>4 获得处理结果 拼接callbackJs参数 jscallback()-&gt;webView.loadUrl(callbackJs);。</li>
+</ul>
+<h4 id="3-js-gt-java-msg-拼接（规定通讯协议）"><a href="#3-js-gt-java-msg-拼接（规定通讯协议）" class="headerlink" title="3 js-&gt;java  msg 拼接（规定通讯协议）"></a>3 js-&gt;java  msg 拼接（规定通讯协议）</h4><ul>
+<li>协定协议:myname://class:port/method?params;</li>
+<li>myname:请求头信息，可根据实际情况自定义</li>
+<li>class:java中供js调用的方法类</li>
+<li>port:port我们并不会直接操作它，它是由Js代码自动生成的，port的作用是为了标识Js中的回调function,当Js调用Native方法时，<br>我们会得到本次调用的port号，我们需要在Native方法执行完毕后再把该port、执行的后结果、是否调用成功、<br>调用失败的msg等信息通过调用Js的onComplete方法传入，这时候Js凭什么知道你本次返回的信息是哪次调用的结果呢？就是通过port号，<br>因为在Js调用Native方法时我们会把自动生成的port号和此次回调的function绑定在一起，这样以来Native方法返回结果时把port也带过来，<br>就知道是哪次回调该用哪个function方法来处理.</li>
+<li>method:java中供js调用的方法类中的指定方法</li>
+<li><p>params:参数<br>RainbowBridge.callMethod(‘JsInvokeJavaScope’,’getAppName’,{},function(msg){alert(JSON.stringify(msg))});</p>
+</li>
+<li><p>java中供js调用的方法，参数也可以固定public static void finish(WebView webView, JSONObject data, JsCallback callback)<br>带返回值的将返回值放到callback中</p>
+</li>
+</ul>
+<p>Demo推荐：<a href="https://github.com/sirencode/RainbowBridge">地址</a></p>
+<h3 id="离线模式和在线模式"><a href="#离线模式和在线模式" class="headerlink" title="离线模式和在线模式"></a>离线模式和在线模式</h3><p>混合式的开发，根据资源包放的位置可以分为离线模式和在线模式。<br>离线模式：就是将h5的资源包压缩放到项目里面一同发布，之后根据升级提示去更新资源包。可以做到后台无感升级。<br>在线模式：就是把所有的资源都放在服务器上面，每次都去网上加载对应资源 ，对网速要求很高。</p>
+<h3 id="版本支持"><a href="#版本支持" class="headerlink" title="版本支持"></a>版本支持</h3><ul>
+<li>android 4.0前不支持h5标准。</li>
+<li>4.0-4.4对h5支持不好。</li>
+<li>4.4更换了内核，Chromium对webview的性能提升了很多，并做了更好的支持。</li>
+<li>4.4以上，基本支持所以的h5功能。</li>
+</ul>
+<h3 id="WebView独立进程"><a href="#WebView独立进程" class="headerlink" title="WebView独立进程"></a>WebView独立进程</h3><p>webview的使用会占用手机大量的内存，使用不当还会造成大量的内存泄漏，因此放到独立进程中。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-check_code_style" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/20/check_code_style/" class="article-date">
+  	<time datetime="2016-08-19T16:00:00.000Z" itemprop="datePublished">2016-08-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/20/check_code_style/">
+        Android 代码规范-CheckStyle
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。</p>
+<h3 id="AndroidStudio-集成CheckStyle"><a href="#AndroidStudio-集成CheckStyle" class="headerlink" title="AndroidStudio 集成CheckStyle"></a>AndroidStudio 集成CheckStyle</h3><h4 id="1-先安装CheckStyle插件"><a href="#1-先安装CheckStyle插件" class="headerlink" title="1.先安装CheckStyle插件"></a>1.先安装CheckStyle插件</h4><p>安装CheckStyle—IDEA，重启AndroidStudio。</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/CheckStyle%E2%80%94IDEA.jpg" alt="图片"></p>
+<ul>
+<li>这里有一个坑，如果导入这个插件后，studio无法启动，并报错，请修改studio文件夹下面的info.plist里面的值为1.8<pre><code class="bash">&lt;key&gt;JVMVersion&lt;/key&gt;
+&lt;string&gt;1.8,1.8+&lt;/string&gt;
+</code></pre>
+</li>
+</ul>
+<h4 id="2-导入CheckStyle"><a href="#2-导入CheckStyle" class="headerlink" title="2.导入CheckStyle"></a>2.导入CheckStyle</h4><p>AndroidStudio File-&gt;Other sttings -&gt;default settings…，在弹出的界面中按下图步骤执行6步，在第3步中Check Style配置文件在主工程android/static_code_check/checkstyle下面。</p>
+<p><img src="http://oc4zuck5v.bkt.clouddn.com/daoru_checkstyle.png" alt="图片"></p>
+<h4 id="3-1-运行CheckStyle"><a href="#3-1-运行CheckStyle" class="headerlink" title="3.1.    运行CheckStyle"></a>3.1.    运行CheckStyle</h4><p><img src="http://oc4zuck5v.bkt.clouddn.com/yunxingCheck_style.jpg" alt="图片"></p>
+<h3 id="CheckStyle检验的主要内容"><a href="#CheckStyle检验的主要内容" class="headerlink" title="CheckStyle检验的主要内容"></a>CheckStyle检验的主要内容</h3><ul>
+<li>Javadoc注释</li>
+<li>命名约定</li>
+<li>标题</li>
+<li>Import语句</li>
+<li>体积大小</li>
+<li>空白</li>
+<li>修饰符</li>
+<li>块</li>
+<li>代码问题</li>
+<li>类设计</li>
+<li>混合检查（包活一些有用的比如非必须的System.out和printstackTrace）</li>
+</ul>
+<p>我现在用的是基于华为的<a href="https://gist.github.com/ownwell/c32878440216f1866842" target="_blank" rel="noopener">CheckStyle:</a></p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-traceView" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/20/traceView/" class="article-date">
+  	<time datetime="2016-08-19T16:00:00.000Z" itemprop="datePublished">2016-08-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/20/traceView/">
+        Android 性能优化-traceview
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。</p>
+<h3 id="TraceView的使用"><a href="#TraceView的使用" class="headerlink" title="TraceView的使用"></a>TraceView的使用</h3><h4 id="1-使用编译器自带的工具操作"><a href="#1-使用编译器自带的工具操作" class="headerlink" title="1.使用编译器自带的工具操作"></a>1.使用编译器自带的工具操作</h4><p>最简单的方式就是直接打开DDMS，选择一个进程，然后按上面的“Start Method Profiling”按钮，等红色小点变成黑色以后就表示TraceView已经开始工作了。然后我就可以滑动一下列表（现在手机上的操作肯定会很卡，因为Android系统在检测Dalvik虚拟机中每个Java方法的调用，这是我猜测的）。操作最好不要超过5s，因为最好是进行小范围的性能测试。然后再按一下刚才按的按钮，等一会就会出现结果图，然后就可以开始分析了。</p>
+<ul>
+<li>坑，用系统自带的工具分析使用起来是很简单，但是系统自带的工具的find查找功能不好用，这就尴尬了，这么多方法，找瞎了，所以我果断放弃了。</li>
+</ul>
+<h4 id="2-自己在代码里面实现"><a href="#2-自己在代码里面实现" class="headerlink" title="2.自己在代码里面实现"></a>2.自己在代码里面实现</h4><h5 id="开始分析："><a href="#开始分析：" class="headerlink" title="开始分析："></a>开始分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.startMethodTracing(<span class="string">"xxx"</span>,size);</span><br></pre></td></tr></table></figure>
+<h5 id="结束分析："><a href="#结束分析：" class="headerlink" title="结束分析："></a>结束分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.stopMethodTracing();</span><br></pre></td></tr></table></figure>
+<h5 id="别忘了加上读写sd卡权限："><a href="#别忘了加上读写sd卡权限：" class="headerlink" title="别忘了加上读写sd卡权限："></a>别忘了加上读写sd卡权限：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br><span class="line">  &lt;uses-permission android:name=<span class="string">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>至此性能分析的代发就完成了，之后打开APP运行即可，运行到stop之后就会在sd卡里面生成对应的xxx.trace文件。</p>
+<h5 id="导出traceview文件"><a href="#导出traceview文件" class="headerlink" title="导出traceview文件"></a>导出traceview文件</h5><p>  xxx.trace文件在sdcard根目录</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb pull sdcard/xxx.trace</span><br></pre></td></tr></table></figure>
+<h5 id="打开trace文件"><a href="#打开trace文件" class="headerlink" title="打开trace文件"></a>打开trace文件</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ traceview /Users/yonghe.shen/Desktop/my.trace</span><br></pre></td></tr></table></figure>
+<h5 id="筛选我们的应用相关的分析"><a href="#筛选我们的应用相关的分析" class="headerlink" title="筛选我们的应用相关的分析"></a>筛选我们的应用相关的分析</h5><p>find 输入包名，回车即可从上到下查看（DDMS中的find不好用）。</p>
+<h5 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h5><p><img src="http://oc4zuck5v.bkt.clouddn.com/traceview_par.png" alt="图片"></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>1注意设置trace文件的大小，默认大小8M,太大的分析工具会崩掉,太小又分析的不全面，那到底选择多大合适呐，我认为50M以下吧。</li>
+<li>2 另外我建议分段分析，这样文件也不大，分析的也比较全面。</li>
+<li>3 其实你要不限制大小，生成这个文件还是蛮大的，我跑过一个两百多兆的，分析工具直接卡死了。</li>
+<li>4 另外在执行start-&gt;stop之间的代码的时候会很卡，这个是正常现象，毕竟在疯狂采集信息。</li>
+<li>5 尽量小，例如一次只分析几个函数，避免ANR产生，如果还是出现了，那我只能建议你等了。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-react-native" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/19/react-native/" class="article-date">
+  	<time datetime="2016-08-18T16:00:00.000Z" itemprop="datePublished">2016-08-19</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/19/react-native/">
+        react-native android使用入门
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Facebook 在2015.9.15发布了 React Native for Android，把JavaScript 开发技术扩展到了Android平台。React Native 让开发者使用 JavaScript 和 React 编写应用，利用相同的核心代码就可以创建 基于Web，iOS 和 Android 平台的原生应用。</p>
+<p>与 WebView 不同，React Native 运行的界面，最终会被解释映射为原生的 View，可以直接使用布局边界或者 Hierarchy Viewer 看出层级（js 文件会打包为一个bundle，位于assets下面，RN引擎会加载并进行解释映射）。</p>
+<p>本文将浅析Android React的架构及相关基础知识。</p>
+<h4 id="环境搭建（mac）"><a href="#环境搭建（mac）" class="headerlink" title="环境搭建（mac）"></a>环境搭建（mac）</h4><p>1.安装Homebrew (osx的包管理工具):</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/bin/ruby -e <span class="string">"<span class="variable">$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)</span>"</span></span><br></pre></td></tr></table></figure>
+<p>2.安装node.js :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install node</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo chown -R $(whoami) /usr/<span class="built_in">local</span>/share/systemtap</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew link node</span><br></pre></td></tr></table></figure>
+<p>3.安装watchman :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install watchman</span><br></pre></td></tr></table></figure>
+<p>4.安装flow :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ brew install flow</span><br></pre></td></tr></table></figure>
+<p>5.设置npm淘宝镜像: (也可参考<a href="http://npm.taobao.org/" target="_blank" rel="noopener">http://npm.taobao.org/</a>)</p>
+<ul>
+<li>1 创建 .npmrc 文件(在用户主目录下)</li>
+<li>2 加入以下配置信息:<br>registry = <a href="http://registry.npm.taobao.org" target="_blank" rel="noopener">http://registry.npm.taobao.org</a></li>
+</ul>
+<p>6.安装React-Native :</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install -g react-native-cli</span><br></pre></td></tr></table></figure>
+<p>7.创建React-Native项目HelloWorld:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$  react-native init HelloWorld</span><br></pre></td></tr></table></figure>
+<p>8.运行Android应用</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> AwesomeProject</span><br><span class="line">$ react-native run-android</span><br></pre></td></tr></table></figure>
+<p>9.版本查看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ react-native --version</span><br></pre></td></tr></table></figure>
+<p>10.真机测试</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb reverse tcp:8081 tcp:8081（5.0以上）</span><br></pre></td></tr></table></figure>
+<p>11.react-native 升级以及版本管理</p>
+<p>  npm install</p>
+<p>  1 查询react-native的npm包得最新版本:</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm info react-native</span><br></pre></td></tr></table></figure>
+<p>  2 安装react-native的指定版本(可以是升级或者降级):</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ npm install --save react-native@0.22.2</span><br></pre></td></tr></table></figure>
+<p>  3 更新项目配置:</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ react-native upgrade</span><br></pre></td></tr></table></figure>
+<p>12.离线调试</p>
+<ul>
+<li>1 离线文件下载地址:<a href="http://localhost:8081/index.android.bundle?platform=android" target="_blank" rel="noopener">http://localhost:8081/index.android.bundle?platform=android</a></li>
+<li>2 将代码拷贝到Android的assets目录的index.android.bundle.js文件下</li>
+</ul>
+<h4 id="RN实现原理"><a href="#RN实现原理" class="headerlink" title="RN实现原理"></a>RN实现原理</h4><p>RN需要一个JS的运行环境， 在IOS上直接使用内置的javascriptcore， 在Android 则使用webkit.org官方开源的jsc.so。 此外还集成了其他开源组件，如fresco图片组件，okhttp网络组件等。</p>
+<p>RN 会把应用的JS代码（包括依赖的framework）编译成一个js文件（一般命名为index.android.bundle),RN的整体框架目标就是为了解释运行这个js 脚本文件，如果是js 扩展的API， 则直接通过bridge调用native方法; 如果是UI界面， 则映射到virtual DOM这个虚拟的JS数据结构中，通过bridge 传递到native ， 然后根据数据属性设置各个对应的真实native的View。 bridge是一种JS 和 JAVA代码通信的机制， 用bridge函数传入对方module 和 method即可得到异步回调的结果。</p>
+<p>对于 Android 开发者来说， RN是一个普通的安卓程序加上一堆事件响应， 事件来源主要是JS的命令。主要有二个线程，UI main thread, JS thread。 UI thread创建一个APP的事件循环后，就挂在looper等待事件 , 事件驱动各自的对象执行命令。 JS thread 运行的脚本相当于底层数据采集器， 不断上传数据，转化成UI 事件， 通过bridge转发到UI thread, 从而改变真实的View。 后面再深一层发现， UI main thread 跟 JS thread更像是CS 模型，JS thread更像服务端， UI main thread是客户端， UI main thread 不断询问JS thread并且请求数据，如果数据有变，则更新UI界面。</p>
+<h4 id="代码流程"><a href="#代码流程" class="headerlink" title="代码流程"></a>代码流程</h4><h4 id="js开发者角度"><a href="#js开发者角度" class="headerlink" title="js开发者角度"></a>js开发者角度</h4><p>对于JS开发者来说， 整个RN APP就只有一个JS文件， 而开发者需要编写的有主要是四个部分：</p>
+<p>1 require 所有依赖到的组件， 相当于java中的import 或者 c++ 中的include。</p>
+<p>2 var AwesomeProject = React.createClass 创建APP， 并且在render函数中返回UI界面结构（采用JSX ), 实际经过编译， 都会变成JS 代码， 比如 变成 React.createElement(View,{style:{flex:1}},</p>
+<p>3 var styles = StyleSheet.create({， 创建CSS 样式，实际上会直接当做参数直接反馈到上面的React.createElement</p>
+<p>4 AppRegistry.registerComponent(‘AwesomeProject’, () =&gt; AwesomeProject); 以上三个更像是参数，这个才是JS 程序的入口。即把当前APP的对象注册到AppRegistry组件中， AppRegistry组件是js module。<br>接着就等待Native事件驱动渲染JS端定义的APP组件。</p>
+<h4 id="android开发者角度"><a href="#android开发者角度" class="headerlink" title="android开发者角度"></a>android开发者角度</h4><p>对于Android 开发者， 普通安卓程序入口是Activity.onCreate()方法 ， 主要有三个对象</p>
+<p>1 ReactRootView, Android 标准的FrameLayout对象，另外一个功能是提供react 世界的入口，函数startReactApplication实际调用attachMeasuredRootView触发react世界的初始化。</p>
+<p>2 MyReactPackage， 配置当前APP 需要加载的模块，RN 的JS框架会在初始化阶段就会把native的模块按照配置加载到JS数据结构中（MessageQueue), 从而才能在JS 层即可直接判断native是否支持某个模块。支持三种类型模块配置， native module(实际就是不需要操作View结构的API), view managers(实际是映射到virtual DOM中的View组件)， JS module 。</p>
+<p>3 ReactInstanceManager， 构建React世界的运行环境，发送事件到JS世界， 驱动整个React世界运转。 通过builder可以创建不同的React环境， 比如内置js 路径， 开发环境dev的js名字，是否支持调试等。doInBackground会加载指定的JS文件, onPostExecute会调用runApplication接口运行JS APP。</p>
+<h4 id="通信机制"><a href="#通信机制" class="headerlink" title="通信机制"></a>通信机制</h4><p>RN框架最主要的就是实现了一套JAVA和 JS通信的方案，该方案可以做到比较简便的互调对方的接口。一般的JS运行环境是直接扩展JS接口，然后JS通过扩展接口发送信息到主线程。但RN的通信的实现机制是单向调用，Native线程定期向JS线程拉取数据， 然后转成JS的调用预期，最后转交给Native对应的调用模块。这样最终同样也可以达到Java和 JS 定义的Module互相调用的目的。</p>
+<h4 id="自定义原生模块"><a href="#自定义原生模块" class="headerlink" title="自定义原生模块"></a>自定义原生模块</h4><p>1 首先编写一个自定义模块的类，该类需要继承ReactContextBaseJavaModule, 并需要实现getName()方法返回一个模块名称，在本实例中，该自定义模块将实现Android的Toast功能，所以定义了一个show()方法，并加上了ReactMethod注解，这个注解可以将show(String msg, int duration)中的Java参数类型映射成Js中对应的数据类型，具体映射关系如下:</p>
+<pre><code>Boolean -&gt; Bool
+Integer -&gt; Number
+Double -&gt; Number
+Float -&gt; Number
+String -&gt; String
+Callback -&gt; function
+ReadableMap -&gt; Object
+ReadableArray -&gt; Array
+</code></pre><h4 id="以Toast为例："><a href="#以Toast为例：" class="headerlink" title="以Toast为例："></a>以Toast为例：</h4><h4 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h4><pre><code>public class ToastAndroidModule extends    ReactContextBaseJavaModule {
+
+private static final String DURATION_SHORT_KEY = &quot;SHORT&quot;;
+private static final String DURATION_LONG_KEY = &quot;LONG&quot;;
+
+public ToastAndroidModule(ReactApplicationContext reactContext) {
+    super(reactContext);
+}
+
+/**
+ * 定义模块名称
+ * @return
+ */
+@Override
+public String getName() {
+    return &quot;MyToastAndroid&quot;;
+}
+
+/**
+ * 可以设置一些常量，能够在js层调用，本例中在JS代码中调用如&quot;MyToastAndroid.LONG&quot;
+ * @return
+ */
+@Nullable
+@Override
+public Map&lt;String, Object&gt; getConstants() {
+    final Map&lt;String, Object&gt; constants = new HashMap&lt;&gt;(2);
+    constants.put(DURATION_SHORT_KEY, Toast.LENGTH_SHORT);
+    constants.put(DURATION_LONG_KEY, Toast.LENGTH_LONG);
+    return constants;
+}
+
+/**
+ * 自定义方法，通过ReactMethod注解可以把一些Java常量类型映射成js类型
+ * @param msg
+ * @param duration
+ */
+@ReactMethod
+public void show(String msg, int duration) {
+    Toast.makeText(getReactApplicationContext(), msg, duration).show();
+}
+}
+</code></pre><h4 id="注册模块"><a href="#注册模块" class="headerlink" title="注册模块"></a>注册模块</h4><p>在目前0.20版本上，我们自定义原生模块(NativeModule)是需要注册才能生效的，所以编写好模块之后需要重新打包安装到手机上。</p>
+<h4 id="编写Package"><a href="#编写Package" class="headerlink" title="编写Package"></a>编写Package</h4><p>注册模块首先可以先写个自定义的Package，顾名思义，就是一个可以包含你自己写的模块的一个包，然后把包在MainActivity(本例中的类)中注册下，通过已有工程引入React组件的可以根据实际情况修改，也不难。<br>本例中新建一个MyPackage类，通过实现ReactPackage的三个接口来完成模块的绑定，其中createNativeModules方法是我们本例需要用到的，其他两个之后再说，要注意三个方法均不能返回null类型，不需要用到的请传入一个空集合！</p>
+<h4 id="代码-1"><a href="#代码-1" class="headerlink" title="代码"></a>代码</h4><pre><code>public class MyPackage implements ReactPackage {
+@Override
+public List&lt;NativeModule&gt; createNativeModules(ReactApplicationContext reactContext) {
+    List&lt;NativeModule&gt; modules = new ArrayList&lt;&gt;(1);
+    // 将我们自定义模块添加一个集合中，这样React组件就会在合适的时机将我们引用的模块加载进去，这样后面才能愉快地玩耍~
+    modules.add(new ToastAndroidModule(reactContext));
+    return modules;
+}
+
+@Override
+public List&lt;Class&lt;? extends JavaScriptModule&gt;&gt; createJSModules() {
+    //现在不需要用到，不要传null，否则报错
+    return Collections.emptyList();
+}
+
+@Override
+public List&lt;ViewManager&gt; createViewManagers(ReactApplicationContext reactContext) {
+    //现在不需要用到，不要传null，否则报错
+    return Collections.emptyList();
+}
+}
+</code></pre><h4 id="注册Package"><a href="#注册Package" class="headerlink" title="注册Package"></a>注册Package</h4><p>写好Package之后，就可以愉快将Package加入到MainActivity(本例)类里，方法很简单，直接贴部分源代码</p>
+<h4 id="代码-2"><a href="#代码-2" class="headerlink" title="代码"></a>代码</h4><pre><code>public class MainActivity extends ReactActivity {
+
+/**
+ * Returns the name of the main component registered from JavaScript.
+ * This is used to schedule rendering of the component.
+ */
+@Override
+protected String getMainComponentName() {
+    return &quot;AwesomeProject&quot;;
+}
+
+/**
+ * Returns whether dev mode should be enabled.
+ * This enables e.g. the dev menu.
+ */
+@Override
+protected boolean getUseDeveloperSupport() {
+    return BuildConfig.DEBUG;
+}
+
+/**
+ * A list of packages used by the app. If the app uses additional views
+ * or modules besides the default ones, add more packages here.
+ */
+@Override
+protected List&lt;ReactPackage&gt; getPackages() {
+    return Arrays.&lt;ReactPackage&gt;asList(
+            new MainReactPackage(),
+            //加入我们自己写的Package
+            new MyPackage()
+    );
+}
+}
+</code></pre><h4 id="JS调用"><a href="#JS调用" class="headerlink" title="JS调用"></a>JS调用</h4><h4 id="代码-3"><a href="#代码-3" class="headerlink" title="代码"></a>代码</h4><pre><code>import React, {
+AppRegistry,
+Component,
+StyleSheet,
+Text,
+View,
+NativeModules
+} from &apos;react-native&apos;;
+
+class AwesomeProject extends Component {
+constructor(props) {
+    super(props);
+}
+
+componentDidMount() {
+    var MyToastAndroid = NativeModules.MyToastAndroid;
+    MyToastAndroid.show(&apos;This is from MyToastAndroid Native Module&apos;, MyToastAndroid.LONG)
+}
+
+render() {
+    return (
+        &lt;View style={styles.container}&gt;
+            &lt;Text&gt;
+                NativeModule Test by BogerChan
+            &lt;/Text&gt;
+        &lt;/View&gt;
+    );
+}
+};
+var styles = StyleSheet.create({
+container: {
+    flex: 1,
+    flexDirection: &apos;row&apos;,
+    justifyContent: &apos;center&apos;,
+    alignItems: &apos;center&apos;,
+    backgroundColor: &apos;#F5FCFF&apos;,
+},
+});
+AppRegistry.registerComponent(&apos;AwesomeProject&apos;, () =&gt; AwesomeProject);
+</code></pre><h4 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h4><ul>
+<li>1 体验 web 开发的便捷，不再需要编译，重新加载一下 js 就行了</li>
+<li>2 可以直接使用 Chrome 或者 Nuclide 调试</li>
+<li>3 Android / iOS 两端可以共享很大一部分代码（RN 还在进行 Windows, MacOS, Node-webkit 等平台的支持）</li>
+<li>4 热更新，JS bundle 下发一下新的就行了（当然也有一定局限性，如果是 hybrid，则 native 的 RN module 部分不能更新）</li>
+</ul>
+<h4 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h4><ul>
+<li>1 前端开发不会原生做不了 React Native（除非你能真只用自带的那些东西），而且理解那些 RN 提供的组件也会很头晕（需要同时了解 Android 和 iOS）。</li>
+<li>2 原生开发需要一定成本的学习实践才能掌握 React Native。毕竟 ES6 不像过去的 JS 那么傻瓜式了。</li>
+<li>3 React Native 目前仍然处于快速迭代开发的阶段，你永远也不知道下个版本自己升级需要修改多少原来的代码。</li>
+<li>4 React Native 的资料较少，尤其是国内的，更尤其是 hybrid 开发的（GitHub 上的开源项目大多是纯 RN 的）。</li>
+</ul>
+<h4 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h4><ul>
+<li>因为bridge,  JS和 JAVA是异步互通，如果实现复杂多API的逻辑，可能会导致部分效率损耗在多线程通信。JS 异步的编程方式多多少少带来一些不便。</li>
+<li>因为bridge,  可能某些场景做不到及时响应。比如帧动画的实时控制。</li>
+<li>Android版本刚推出不完善，并且目前RN版本还在不停的更新中， 可能存在暗坑。</li>
+<li>加入JS引擎， 内存的控制比较麻烦，会比普通native增加不少。</li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-android 6.0 permission" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/18/android 6.0 permission/" class="article-date">
+  	<time datetime="2016-08-17T16:00:00.000Z" itemprop="datePublished">2016-08-18</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/18/android 6.0 permission/">
+        Android 6.0权限处理
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <pre><code>6.0的改动较大的集中在了权限这一块，和以往不同，最新的权限（高危和特殊）是必须动态的申请才可以使用的，如果不动态申请直接使用会导致程序崩溃掉。
+</code></pre><p>现在开源的写的比较好的有以下两个框架：</p>
+<p><a href="https://github.com/tbruyelle/RxPermissions">RxPermissions</a>：主要可以实现通过链式的方式调用。</p>
+<p><a href="https://github.com/googlesamples/easypermissions">easypermissions</a>:这是google官方的一个例子，考虑的相对全面。</p>
+<p>以上两个框架虽然写的都很好，但是在项目的使用中还会遇到很多实质性的问题需要解决，下面我们就根据在项目中的具体使用来分析一下。</p>
+<h2 id="6-0权限介绍"><a href="#6-0权限介绍" class="headerlink" title="6.0权限介绍"></a>6.0权限介绍</h2><h3 id="1-一般权限，声明即可使用，无需做特殊处理。"><a href="#1-一般权限，声明即可使用，无需做特殊处理。" class="headerlink" title="1 一般权限，声明即可使用，无需做特殊处理。"></a>1 一般权限，声明即可使用，无需做特殊处理。</h3><p>一般权限的使用和6.0前使用方式相同，在Manifest声明一下即可使用。<br>一般权限列表：</p>
+<pre><code>ACCESS_LOCATION_EXTRA_COMMANDS
+ACCESS_NETWORK_STATE
+ACCESS_NOTIFICATION_POLICY
+ACCESS_WIFI_STATE
+BLUETOOTH
+BLUETOOTH_ADMIN
+BROADCAST_STICKY
+CHANGE_NETWORK_STATE
+CHANGE_WIFI_MULTICAST_STATE
+CHANGE_WIFI_STATE
+DISABLE_KEYGUARD
+EXPAND_STATUS_BAR
+GET_PACKAGE_SIZE
+INSTALL_SHORTCUT
+INTERNET
+KILL_BACKGROUND_PROCESSES
+MODIFY_AUDIO_SETTINGS
+NFC
+READ_SYNC_SETTINGS
+READ_SYNC_STATS
+RECEIVE_BOOT_COMPLETED
+REORDER_TASKS
+REQUEST_INSTALL_PACKAGES
+SET_ALARM
+SET_TIME_ZONE
+SET_WALLPAPER
+SET_WALLPAPER_HINTS
+TRANSMIT_IR
+UNINSTALL_SHORTCUT
+USE_FINGERPRINT
+VIBRATE
+WAKE_LOCK
+WRITE_SYNC_SETTINGS
+</code></pre><h3 id="2-危险权限，也成运行时权限，需要动态的在使用时授权，如果未授权直接使用会导致崩溃。"><a href="#2-危险权限，也成运行时权限，需要动态的在使用时授权，如果未授权直接使用会导致崩溃。" class="headerlink" title="2 危险权限，也成运行时权限，需要动态的在使用时授权，如果未授权直接使用会导致崩溃。"></a>2 危险权限，也成运行时权限，需要动态的在使用时授权，如果未授权直接使用会导致崩溃。</h3><p>危险权限，在6.0中又被称之为运行时权限，顾名思义就是要在使用的时候动态的申请相关的权限。</p>
+<h4 id="危险权限的使用过程"><a href="#危险权限的使用过程" class="headerlink" title="危险权限的使用过程"></a>危险权限的使用过程</h4><p>首先要在Manifest里面声明。（此处有坑，如果不声明你动态去申请的时候，直接返回失败，我在测试的时候犯过这个错误，排查了好久）</p>
+<p>有使用相关权限前先判断当前API是否大于等于6.0，如果大于就走动态授权的流程，不然直接使用相关权限。</p>
+<p>如果在6.0以上，去判断对应权限是否已经授权了。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">checkSelfPermission(permission) == PackageManager.PERMISSION_GRANTED</span><br></pre></td></tr></table></figure>
+<p>如果未授权，先去走授权的流程</p>
+<p>判断未授权的权限是否被勾选为不在提示，一旦相关权限被拒绝一次，下一次再弹出授权的窗口时就会带上不再提示的复选框，这个是系统级别的无法修改，而用户要是勾选了不再提示的按钮，下次我们再发起动态权限申请流程，就不会弹出提示框授权。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">activity.shouldShowRequestPermissionRationale(permission)</span><br></pre></td></tr></table></figure>
+<p>如果被勾选了不再提示，我们就要跳到对应APP的详细信息页面，去叫用户手动的授权。</p>
+<p>如果只是单纯的未授权但是没有勾选不再提示的权限，那我们就发起权限申请的流程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">activity.requestPermissions(permissions)</span><br></pre></td></tr></table></figure>
+<p>之后会通过activity.onRequestPermissionsResult进行回调处理。</p>
+<h4 id="坑点"><a href="#坑点" class="headerlink" title="坑点"></a>坑点</h4><pre><code>坑一：
+我们这里把危险权限的使用分为两种情况
+第一种被称为主动调用：举个例子就像我们点击相机按钮去打开相机这种调用，这种调用是可控的，走授权流程后再点击一下就生效了，也是不叫常用的授权方式。
+
+第二种被称为被动调用：例如初始化的时候要用到deviceId这个参数，而这个参数是需要读取手机状态&quot;危险权限&quot;的，所以就要动态去申请，但是这个参数是在我们的APP初始化的时候要调用的，没有点击事件，我们称这种情况为被动调用。被动调用的缺点就是，我们发起权限后不知道什么时候授权情况如何，之后重新调用相关方法。因此在这种情况的时候就要产品给出合理的选择了，如果未授权相关功能，我们的APP是放弃相关功能而继续运行还是直接强制他授权才能使用（不授权就一直提示，直到授权成功才继续运行）。
+
+坑二：
+我们项目中的运行时权限一般分为我们自己写的功能使用到相关权限，还有就是第三方的SDK使用到了运行时权限。自己使用权限的地方我们可以自己去控制什么时候申请权限以及权限申请的使用流程控制。第三方的东西控制起来就相对麻烦的多了，比如数据埋点的友盟talkingdata等的试用地方极多，控制起来就相对麻烦的多了。
+我的建议是，将第三方的sdk进行封装使用，这样我们就可以控制对应参数的传入时机以及容错处理了。
+
+坑三：缓存一些读值型的数据，如deviceId。因为这种被动式的授权模式有一个缺点就是当我们的APP切到后台后，用户手动的把权限关掉了的情况下（这用户得有多二逼啊），会崩溃的。因为这些权限是被动权限初始化后就自动使用的。
+建议就是读值型的，全局缓存，每次初始化的时候更新，非读值型的，初始化后，每次使用的时候还是要做授权判断。
+坑四：
+尽量把需要运行是权限的东西放到activity或者fragment里面处理，因为申请授权的流程只能在有UI的情况进行。当然有一些情况必须要在Application里面初始化，因为APP可能通过推送直接跳过这个初始化的activity跳到直接使用的页面。
+解决办法就是，授权放到四次启动的ui里面，第一次的初始化也放到这个UI里面处理。然后在application里面判断是否授权，已授权就初始化，未授权做好处理。
+</code></pre><h4 id="运行时权限列表"><a href="#运行时权限列表" class="headerlink" title="运行时权限列表"></a>运行时权限列表</h4><pre><code>Permission Group    Permissions
+
+CALENDAR
+                    READ_CALENDAR
+                    WRITE_CALENDAR
+CAMERA
+                    CAMERA
+CONTACTS
+                    READ_CONTACTS
+                    WRITE_CONTACTS
+                    GET_ACCOUNTS
+LOCATION
+                    ACCESS_FINE_LOCATION
+                    ACCESS_COARSE_LOCATION
+MICROPHONE
+                    RECORD_AUDIO
+PHONE
+                    READ_PHONE_STATE
+                    CALL_PHONE
+                    READ_CALL_LOG
+                    WRITE_CALL_LOG
+                    ADD_VOICEMAIL
+                    USE_SIP
+                    PROCESS_OUTGOING_CALLS
+SENSORS
+                    BODY_SENSORS
+SMS
+                    SEND_SMS
+                    RECEIVE_SMS
+                    READ_SMS
+                    RECEIVE_WAP_PUSH
+                    RECEIVE_MMS
+STORAGE
+                    READ_EXTERNAL_STORAGE
+                    WRITE_EXTERNAL_STORAGE
+</code></pre><h3 id="3-特殊权限"><a href="#3-特殊权限" class="headerlink" title="3 特殊权限"></a>3 特殊权限</h3><pre><code>SYSTEM_ALERT_WINDOW，设置悬浮窗，进行一些黑科技
+WRITE_SETTINGS 修改系统设置
+</code></pre><h4 id="权限使用"><a href="#权限使用" class="headerlink" title="权限使用"></a>权限使用</h4><pre><code>private static final int REQUEST_CODE = 1;
+private  void requestAlertWindowPermission() {
+Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION);
+intent.setData(Uri.parse(&quot;package:&quot; + getPackageName()));
+startActivityForResult(intent, REQUEST_CODE);
+}
+
+@Override
+ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+super.onActivityResult(requestCode, resultCode, data);
+if (requestCode == REQUEST_CODE) {
+    if (Settings.canDrawOverlays(this)) {
+      Log.i(LOGTAG, &quot;onActivityResult granted&quot;);
+    }
+}
+}
+</code></pre><h3 id="做好缓冲工作"><a href="#做好缓冲工作" class="headerlink" title="做好缓冲工作"></a>做好缓冲工作</h3><p>我们的APP中难免会有一些权限不授权就无法使用的情况，例如我们要读deviceId,但是这个权限所在组是打电话的权限组，也就是会提示要打电话的权限，这样很多用户可能直接就拒绝了。为了避免这种情况发生，我们做一个缓冲，也就是先弹出我们自己定义的比较和谐的提示，同意后在弹出系统生硬的提示，这样一来可以很多程度上避免用户的流失。</p>
+<p>###结语<br>适配是一个烦人的过程，会有各种各样的问题，我在这里列出了一些我自己遇到的问题及解决方案，希望对大家有所帮助，另外如果你遇到了一些我没有提到的问题希望帮我补充，大家互相完善，最后希望对你们有所帮助。</p>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+    <article id="post-rxjava" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/08/17/rxjava/" class="article-date">
+  	<time datetime="2016-08-16T16:00:00.000Z" itemprop="datePublished">2016-08-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/17/rxjava/">
+        RxJava RxAndroid
+        
+      </a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="rxjava-原理"><a href="#rxjava-原理" class="headerlink" title="rxjava 原理"></a>rxjava 原理</h3><p>RxJava的一部实现，是通过一种扩展的观察者模式实现的。</p>
+<h4 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h4><p>观察者模式是对象的行为模式，又叫发布-订阅(Publish/Subscribe)模式、模型-视图(Model/View)模式、源-监听器(Source/Listener)模式或从属者(Dependents)模式。</p>
+<p>观察者模式定义了一种一对多的依赖关系，让多个观察者对象同时监听某一个主题对象。这个主题对象在状态上发生变化时，会通知所有观察者对象，使它们能够自动更新自己。</p>
+<h4 id="观察者模式角色介绍："><a href="#观察者模式角色介绍：" class="headerlink" title="观察者模式角色介绍："></a>观察者模式角色介绍：</h4><ul>
+<li>抽象主题(Subject)角色：抽象主题角色把所有对观察者对象的引用保存在一个聚集（比如ArrayList对象）里，每个主题都可以有任何数量的观察者。抽象主题提供一个接口，可以增加和删除观察者对象，抽象主题角色又叫做抽象被观察者(Observable)角色。</li>
+<li>具体主题(ConcreteSubject)角色：将有关状态存入具体观察者对象；在具体主题的内部状态改变时，给所有登记过的观察者发出通知。具体主题角色又叫做具体被观察者(Concrete Observable)角色。</li>
+<li>抽象观察者(Observer)角色：为所有的具体观察者定义一个接口，在得到主题的通知时更新自己，这个接口叫做更新接口。</li>
+<li>具体观察者(ConcreteObserver)角色：存储与主题的状态自恰的状态。具体观察者角色实现抽象观察者角色所要求的更新接口，以便使本身的状态与主题的状态 像协调。如果需要，具体观察者角色可以保持一个指向具体主题对象的引用。</li>
+</ul>
+<p>与传统观察者模式不同， RxJava 的事件回调方法除了普通事件 onNext() （相当于 onClick() / onEvent()）之外，还定义了两个特殊的事件：onCompleted() 和 onError()。</p>
+<ul>
+<li>onCompleted(): 事件队列完结。RxJava 不仅把每个事件单独处理，还会把它们看做一个队列。RxJava 规定，当不会再有新的onNext() 发出时，需要触发 onCompleted() 方法作为标志。</li>
+<li>onError(): 事件队列异常。在事件处理过程中出异常时，onError() 会被触发，同时队列自动终止，不允许再有事件发出。</li>
+</ul>
+<p>在一个正确运行的事件序列中, onCompleted() 和 onError() 有且只有一个，并且是事件序列中的最后一个。需要注意的是，onCompleted() 和 onError() 二者也是互斥的，即在队列中调用了其中一个，就不应该再调用另一个。</p>
+<h4 id="为什么要用rxjava"><a href="#为什么要用rxjava" class="headerlink" title="为什么要用rxjava"></a>为什么要用rxjava</h4><p>首先介绍一下我们在项目里面哪些地方用到了rxjava?</p>
+<p>在用到异步处理相关，以及子线程主线程之间数据传递等等。</p>
+<p>传统的实现方式较rxjava要复杂的多：</p>
+<p>传统方式：</p>
+<p>异步处理并回调数据：thread+handler或者AsyncTask等方式，写起来代码量很高也很麻烦。</p>
+<p>rxjava方式：</p>
+<pre><code>Observable.from(folders)
+.flatMap(new Func1&lt;File, Observable&lt;File&gt;&gt;() {
+    @Override
+    public Observable&lt;File&gt; call(File file) {
+        return Observable.from(file.listFiles());
+    }
+})
+.filter(new Func1&lt;File, Boolean&gt;() {
+    @Override
+    public Boolean call(File file) {
+        return file.getName().endsWith(&quot;.png&quot;);
+    }
+})
+.map(new Func1&lt;File, Bitmap&gt;() {
+    @Override
+    public Bitmap call(File file) {
+        return getBitmapFromFile(file);
+    }
+})
+.subscribeOn(Schedulers.io())
+.observeOn(AndroidSchedulers.mainThread())
+.subscribe(new Action1&lt;Bitmap&gt;() {
+    @Override
+    public void call(Bitmap bitmap) {
+        imageCollectorView.addImage(bitmap);
+    }
+});
+</code></pre><p> rxjava主要提供链式调用，并按顺序执行，还可以切换每一步所在的线程。<br> 说到底就是因为简单，开发使用简便。原来很复杂的代码几句话就可以搞定了，大大加快了开发速度。</p>
+<h3 id="rxjava使用"><a href="#rxjava使用" class="headerlink" title="rxjava使用"></a>rxjava使用</h3><h4 id="1-创建-Observer"><a href="#1-创建-Observer" class="headerlink" title="1 创建 Observer"></a>1 创建 Observer</h4><p>Observer 即观察者，它决定事件触发的时候将有怎样的行为。 RxJava 中的 Observer 接口的实现方式：</p>
+<pre><code>Observer&lt;String&gt; observer = new Observer&lt;String&gt;() {
+@Override
+public void onNext(String s) {
+    Log.d(tag, &quot;Item: &quot; + s);
+}
+
+@Override
+public void onCompleted() {
+    Log.d(tag, &quot;Completed!&quot;);
+}
+
+@Override
+public void onError(Throwable e) {
+    Log.d(tag, &quot;Error!&quot;);
+}
+};
+</code></pre><p>除了 Observer 接口之外，RxJava 还内置了一个实现了 Observer 的抽象类：Subscriber。 Subscriber 对 Observer 接口进行了一些扩展，但他们的基本使用方式是完全一样的：</p>
+<pre><code>Subscriber&lt;String&gt; subscriber = new Subscriber&lt;String&gt;() {
+@Override
+public void onNext(String s) {
+    Log.d(tag, &quot;Item: &quot; + s);
+}
+
+@Override
+public void onCompleted() {
+    Log.d(tag, &quot;Completed!&quot;);
+}
+
+@Override
+public void onError(Throwable e) {
+    Log.d(tag, &quot;Error!&quot;);
+}
+};
+</code></pre><h4 id="2-创建-Observable"><a href="#2-创建-Observable" class="headerlink" title="2 创建 Observable"></a>2 创建 Observable</h4><p>Observable 即被观察者，它决定什么时候触发事件以及触发怎样的事件。 RxJava 使用 create() 方法来创建一个 Observable ，并为它定义事件触发规则：</p>
+<pre><code>Observable observable = Observable.create(new Observable.OnSubscribe&lt;String&gt;() {
+@Override
+public void call(Subscriber&lt;? super String&gt; subscriber) {
+    subscriber.onNext(&quot;Hello&quot;);
+    subscriber.onNext(&quot;Hi&quot;);
+    subscriber.onNext(&quot;Aloha&quot;);
+    subscriber.onCompleted();
+}
+});
+</code></pre><p>可以看到，这里传入了一个 OnSubscribe 对象作为参数。OnSubscribe 会被存储在返回的 Observable 对象中，它的作用相当于一个计划表，当 Observable 被订阅的时候，OnSubscribe 的 call() 方法会自动被调用，事件序列就会依照设定依次触发（对于上面的代码，就是观察者Subscriber 将会被调用三次 onNext() 和一次 onCompleted()）。这样，由被观察者调用了观察者的回调方法，就实现了由被观察者向观察者的事件传递，即观察者模式。</p>
+<p>create() 方法是 RxJava 最基本的创造事件序列的方法。基于这个方法， RxJava 还提供了一些方法用来快捷创建事件队列，例如：</p>
+<ul>
+<li><p>just(T…): 将传入的参数依次发送出来。</p>
+<pre><code>Observable observable = Observable.just(&quot;Hello&quot;, &quot;Hi&quot;, &quot;Aloha&quot;);
+// 将会依次调用：
+// onNext(&quot;Hello&quot;);
+// onNext(&quot;Hi&quot;);
+// onNext(&quot;Aloha&quot;);
+// onCompleted();
+</code></pre></li>
+<li><p>from(T[]) / from(Iterable&lt;? extends T&gt;) : 将传入的数组或 Iterable 拆分成具体对象后，依次发送出来。</p>
+<pre><code>String[] words = {&quot;Hello&quot;, &quot;Hi&quot;, &quot;Aloha&quot;};
+Observable observable = Observable.from(words);
+// 将会依次调用：
+// onNext(&quot;Hello&quot;);
+// onNext(&quot;Hi&quot;);
+// onNext(&quot;Aloha&quot;);
+// onCompleted();
+</code></pre></li>
+</ul>
+<h4 id="3-Subscribe-订阅"><a href="#3-Subscribe-订阅" class="headerlink" title="3 Subscribe (订阅)"></a>3 Subscribe (订阅)</h4><p>创建了 Observable 和 Observer 之后，再用 subscribe() 方法将它们联结起来，整条链子就可以工作了。代码形式很简单：</p>
+<pre><code>observable.subscribe(observer);
+// 或者：
+observable.subscribe(subscriber);
+</code></pre><h3 id="线程控制-——-Scheduler"><a href="#线程控制-——-Scheduler" class="headerlink" title="线程控制 —— Scheduler"></a>线程控制 —— Scheduler</h3><ul>
+<li>Schedulers.immediate(): 直接在当前线程运行，相当于不指定线程。这是默认的 Scheduler。</li>
+<li>Schedulers.newThread(): 总是启用新线程，并在新线程执行操作。</li>
+<li>Schedulers.io(): I/O 操作（读写文件、读写数据库、网络信息交互等）所使用的 Scheduler。行为模式和 newThread() 差不多，区别在于 io() 的内部实现是是用一个无数量上限的线程池，可以重用空闲的线程，因此多数情况下 io() 比 newThread() 更有效率。不要把计算工作放在 io() 中，可以避免创建不必要的线程。</li>
+<li>Schedulers.computation(): 计算所使用的 Scheduler。这个计算指的是 CPU 密集型计算，即不会被 I/O 等操作限制性能的操作，例如图形的计算。这个 Scheduler 使用的固定的线程池，大小为 CPU 核数。不要把 I/O 操作放在 computation() 中，否则 I/O 操作的等待时间会浪费 CPU。</li>
+<li><p>另外， Android 还有一个专用的AndroidSchedulers.mainThread()，它指定的操作将在 Android 主线程运行。</p>
+<pre><code>Observable.just(1, 2, 3, 4)
+.subscribeOn(Schedulers.io()) // 指定 subscribe() 发生在 IO 线程
+.observeOn(AndroidSchedulers.mainThread()) // 指定 Subscriber 的回调发生在主线程
+.subscribe(new Action1&lt;Integer&gt;() {
+@Override
+public void call(Integer number) {
+    Log.d(tag, &quot;number:&quot; + number);
+}
+});
+</code></pre></li>
+</ul>
+
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+      
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/12/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/14/">Next &raquo;</a>
+    </nav>
+  
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

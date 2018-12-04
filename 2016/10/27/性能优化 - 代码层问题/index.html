@@ -1,42 +1,359 @@
-extends ../_partial/layout
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>性能优化 - 代码层问题 | Diablo</title>
 
-block content
-  .container.post
-    section.article
-      .title= page.title
-      .date 写于#{moment(page.date).format(theme.date_format)}
-      .content!= page.content
-      if page.tags
-        .tags!= list_tags(page.tags, { show_count: false, class: 'tag', style: false, separator: '' })
+  <!-- keywords -->
+  
 
-  .container
-    ul.nav
-      if page.prev
-        li 上一篇：
-          a(href=url_for(page.prev.path))= page.prev.title || '未命名'
-      if page.next
-        li 下一篇：
-          a(href=url_for(page.next.path))= page.next.title || '未命名'
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="用stringbuffer代替string ArrayMap 替代 HashMap ArraySet 替代 HashSet SparseArray 替代 HashMap SparseBooleanArray 替代 HashMap SparseIntArray 替代 HashMap SparseLongArray 替代 HashMap LongSparseArray 替代 HashMap 避免匿名">
+<meta property="og:type" content="article">
+<meta property="og:title" content="性能优化 - 代码层问题">
+<meta property="og:url" content="https://github.com/sirencode/2016/10/27/性能优化 - 代码层问题/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="用stringbuffer代替string ArrayMap 替代 HashMap ArraySet 替代 HashSet SparseArray 替代 HashMap SparseBooleanArray 替代 HashMap SparseIntArray 替代 HashMap SparseLongArray 替代 HashMap LongSparseArray 替代 HashMap 避免匿名">
+<meta property="og:updated_time" content="2017-05-11T08:33:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="性能优化 - 代码层问题">
+<meta name="twitter:description" content="用stringbuffer代替string ArrayMap 替代 HashMap ArraySet 替代 HashSet SparseArray 替代 HashMap SparseBooleanArray 替代 HashMap SparseIntArray 替代 HashMap SparseLongArray 替代 HashMap LongSparseArray 替代 HashMap 避免匿名">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-    if !index && config.disqus_shortname
-      .comments
-        #disqus_thread
-          noscript Please enable JavaScript to view the 
-            a(href="http://disqus.com/?ref_noscript") comments powered by Disqus
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 
-block js
-  include ../_partial/post_footer.pug
-  != js('script/post')
-  if config.disqus_shortname
-    script
-      | var disqus_shortname = '!{config.disqus_shortname}';
-      if page.permalink
-        | var disqus_url = '!{page.permalink}';
-        | (function(){
-        |  var dsq = document.createElement('script');
-        |  dsq.type = 'text/javascript';
-        |  dsq.async = true;
-        |  dsq.src = '//' + disqus_shortname + '.disqus.com/!{page.comments ? 'embed.js' : 'count.hs'}';
-        |  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        | })();
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-性能优化 - 代码层问题" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2016/10/27/性能优化 - 代码层问题/" class="article-date">
+  	<time datetime="2016-10-26T16:00:00.000Z" itemprop="datePublished">2016-10-27</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
+  
+    <h1 class="article-title" itemprop="name">
+      性能优化 - 代码层问题
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>用stringbuffer代替string</li>
+<li>ArrayMap 替代 HashMap</li>
+<li>ArraySet 替代 HashSet</li>
+<li>SparseArray 替代 HashMap</li>
+<li>SparseBooleanArray 替代 HashMap</li>
+<li>SparseIntArray 替代 HashMap</li>
+<li>SparseLongArray 替代 HashMap</li>
+<li>LongSparseArray 替代 HashMap</li>
+<li>避免匿名内部类</li>
+<li>单例引用问题</li>
+<li>io流，bitmap，数据库cursor等资源及时释放</li>
+<li>将类、变量、方法等等的可见性修改为最小</li>
+<li>尽量少使用fragment和activity(太重)</li>
+<li>使用Application的Context</li>
+<li>如果程序会频繁创建线程，则可以考虑使用线程池</li>
+<li>尽量用色值代替图片</li>
+<li>慎用透明度属性图片，大小和内存会极具增加</li>
+<li>避免在Android里面使用Enum(因为枚举内存大小是静态碧昂量的两倍)</li>
+<li>避免在onDraw方法里面执行对象的创建</li>
+<li>注意监听器的注销</li>
+<li>注意WebView的泄漏（独立进程）</li>
+<li>谨慎使用static对象，因为static的生命周期过长，和应用的进程保持一致，使用不当很可能导致对象泄漏，在Android中应该谨慎使用static对象</li>
+<li>常量请用static final来修饰</li>
+<li>尽量采用静态内部类，这样可以避免潜在的由于内部类而导致的内存泄漏</li>
+<li>在代码中减少反射调用</li>
+<li>谨慎使用抽象编程</li>
+<li>使用ProGuard来剔除不需要的代码</li>
+<li>慎用异常,异常对性能不利</li>
+<li>任何一个Java类，包括匿名类、内部类，都要占用大概500字节的内存空间</li>
+<li>任何一个类的实例要消耗12-16字节的内存开支，因此频繁创建实例也是会在一定程序上影响内存的</li>
+<li>LinearLayout 要比 RelativeLayout占用更小内存</li>
+<li>数据不需要序列化的不要序列化，因为数据的序列化和反序列化很费时</li>
+<li>代码混淆和资源混淆</li>
+<li>使用更小的图片格式webp</li>
+<li>将循环变量无关的计算都放到循环外</li>
+<li>外提循环内的各种条件判断：比如 if（a &gt; b &amp;&amp; b &gt; c）改为if(conditionX)，循环判断条件的计算，比如i &lt; xxxList.length 改为 i &lt; xxxListLen。</li>
+<li>交换内外循环，将次数多的循环放在最内层，将多次全循环合并（可能降低可读性）</li>
+<li>布尔逻辑优化，比如!a &amp;&amp; !b 转换为!(a || b) 会减少计算</li>
+<li>使用自增、自减表达式</li>
+<li>使用尽量简单的数据类型：使用int或long代替long long，使用定点或整数代替浮点数，使单精度代替双精度</li>
+<li>尽可能降低数组维度</li>
+<li>尽可能减少数组的引用</li>
+</ul>
+<h4 id="逻辑判断优化"><a href="#逻辑判断优化" class="headerlink" title="逻辑判断优化"></a>逻辑判断优化</h4><ul>
+<li>switch 语句按照出现频率排序，让最常用的放在最前面，减少无效判断</li>
+<li>if 语句将弱计算的条件放在前面，避免过多的计算（短路规则）</li>
+<li>逻辑判断条件转换为与0值比较</li>
+<li>使用结果缓存，而不是每次都计算结果</li>
+<li>使用查表的方法代替复杂的条件计算</li>
+</ul>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/11/03/vector drawable/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Vector Drawable
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/10/20/无线 adb连接/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 无线adb连接</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="性能优化 - 代码层问题" data-title="性能优化 - 代码层问题" data-url="https://github.com/sirencode/2016/10/27/性能优化 - 代码层问题/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="性能优化 - 代码层问题">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

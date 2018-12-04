@@ -1,42 +1,385 @@
-extends ../_partial/layout
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>源码分析Activity分析 | Diablo</title>
 
-block content
-  .container.post
-    section.article
-      .title= page.title
-      .date 写于#{moment(page.date).format(theme.date_format)}
-      .content!= page.content
-      if page.tags
-        .tags!= list_tags(page.tags, { show_count: false, class: 'tag', style: false, separator: '' })
+  <!-- keywords -->
+  
 
-  .container
-    ul.nav
-      if page.prev
-        li 上一篇：
-          a(href=url_for(page.prev.path))= page.prev.title || '未命名'
-      if page.next
-        li 下一篇：
-          a(href=url_for(page.next.path))= page.next.title || '未命名'
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout并且方向是vertical的  1 在activity的创建之后将activity attach方法">
+<meta property="og:type" content="article">
+<meta property="og:title" content="源码分析Activity分析">
+<meta property="og:url" content="https://github.com/sirencode/2018/11/29/源码分析Activity分析/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout并且方向是vertical的  1 在activity的创建之后将activity attach方法">
+<meta property="og:updated_time" content="2018-11-29T02:26:04.350Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="源码分析Activity分析">
+<meta name="twitter:description" content="源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout并且方向是vertical的  1 在activity的创建之后将activity attach方法">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-    if !index && config.disqus_shortname
-      .comments
-        #disqus_thread
-          noscript Please enable JavaScript to view the 
-            a(href="http://disqus.com/?ref_noscript") comments powered by Disqus
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 
-block js
-  include ../_partial/post_footer.pug
-  != js('script/post')
-  if config.disqus_shortname
-    script
-      | var disqus_shortname = '!{config.disqus_shortname}';
-      if page.permalink
-        | var disqus_url = '!{page.permalink}';
-        | (function(){
-        |  var dsq = document.createElement('script');
-        |  dsq.type = 'text/javascript';
-        |  dsq.async = true;
-        |  dsq.src = '//' + disqus_shortname + '.disqus.com/!{page.comments ? 'embed.js' : 'count.hs'}';
-        |  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        | })();
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-源码分析Activity分析" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2018/11/29/源码分析Activity分析/" class="article-date">
+  	<time datetime="2018-11-28T16:00:00.000Z" itemprop="datePublished">2018-11-29</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
+  
+    <h1 class="article-title" itemprop="name">
+      源码分析Activity分析
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="源码分析Activity分析"><a href="#源码分析Activity分析" class="headerlink" title="源码分析Activity分析"></a>源码分析Activity分析</h1><h2 id="布局"><a href="#布局" class="headerlink" title="布局"></a>布局</h2><p>PhoneWindow-&gt;getDecorView()-&gt;installDecor()-&gt;DecorView 继承 FrameLayout-&gt;generateLayout(DecorView)生成activity的跟布局LinearLayout并且方向是vertical的</p>
+<ul>
+<li>1 在activity的创建之后将activity attach方法的时候，创建一个PhoneWindow对象。</li>
+<li>2 setContentView调用PhoneWindow setContentView -&gt; installDecor();</li>
+<li>3 installDecor-&gt;generateLayout(DecorView)生成activity的跟布局LinearLayout并且方向是vertical的,并将生成的布局添加到decorView中。</li>
+<li>4 mDecor.onResourcesLoaded(mLayoutInflater, layoutResource);将mContentParent添加到decorView.</li>
+<li>5 PW的setContentView执行完installDecor后，mContentParent = decor已经获得，mLayoutInflater.inflate(layoutResID, mContentParent)添加自定义布局;</li>
+</ul>
+<p>结论：首先Activity的跟布局是DecorView，DecorView继承自FrameLayout。然后根据activity的不同属性DecorView.addView(不同的resId mContentParent),在之后就是将我们的自定义布局添加进来mLayoutInflater.inflate(layoutResID, mContentParent)。因此activity的布局层次如下。DecorView(FrameLayout)-&gt;DecorView.add系统根据不同方式返回的布局-&gt;mContentParent我们设置的布局。</p>
+<p>PhoneWindow-&gt;generateLayout生成的布局种类有多种根据场景返回不同的跟布局的样式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> layoutResource;</span><br><span class="line"><span class="keyword">int</span> features = getLocalFeatures();</span><br><span class="line"><span class="comment">// System.out.println("Features: 0x" + Integer.toHexString(features));</span></span><br><span class="line"><span class="keyword">if</span> ((features &amp; (<span class="number">1</span> &lt;&lt; FEATURE_SWIPE_TO_DISMISS)) != <span class="number">0</span>) &#123;</span><br><span class="line">    layoutResource = R.layout.screen_swipe_dismiss;</span><br><span class="line">    setCloseOnSwipeEnabled(<span class="keyword">true</span>);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> ((features &amp; ((<span class="number">1</span> &lt;&lt; FEATURE_LEFT_ICON) | (<span class="number">1</span> &lt;&lt; FEATURE_RIGHT_ICON))) != <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (mIsFloating) &#123;</span><br><span class="line">        TypedValue res = <span class="keyword">new</span> TypedValue();</span><br><span class="line">        getContext().getTheme().resolveAttribute(</span><br><span class="line">                R.attr.dialogTitleIconsDecorLayout, res, <span class="keyword">true</span>);</span><br><span class="line">        layoutResource = res.resourceId;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        layoutResource = R.layout.screen_title_icons;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// XXX Remove this once action bar supports these features.</span></span><br><span class="line">    removeFeature(FEATURE_ACTION_BAR);</span><br><span class="line">    <span class="comment">// System.out.println("Title Icons!");</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> ((features &amp; ((<span class="number">1</span> &lt;&lt; FEATURE_PROGRESS) | (<span class="number">1</span> &lt;&lt; FEATURE_INDETERMINATE_PROGRESS))) != <span class="number">0</span></span><br><span class="line">        &amp;&amp; (features &amp; (<span class="number">1</span> &lt;&lt; FEATURE_ACTION_BAR)) == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// Special case for a window with only a progress bar (and title).</span></span><br><span class="line">    <span class="comment">// XXX Need to have a no-title version of embedded windows.</span></span><br><span class="line">    layoutResource = R.layout.screen_progress;</span><br><span class="line">    <span class="comment">// System.out.println("Progress!");</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> ((features &amp; (<span class="number">1</span> &lt;&lt; FEATURE_CUSTOM_TITLE)) != <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// Special case for a window with a custom title.</span></span><br><span class="line">    <span class="comment">// If the window is floating, we need a dialog layout</span></span><br><span class="line">    <span class="keyword">if</span> (mIsFloating) &#123;</span><br><span class="line">        TypedValue res = <span class="keyword">new</span> TypedValue();</span><br><span class="line">        getContext().getTheme().resolveAttribute(</span><br><span class="line">                R.attr.dialogCustomTitleDecorLayout, res, <span class="keyword">true</span>);</span><br><span class="line">        layoutResource = res.resourceId;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        layoutResource = R.layout.screen_custom_title;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// XXX Remove this once action bar supports these features.</span></span><br><span class="line">    removeFeature(FEATURE_ACTION_BAR);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> ((features &amp; (<span class="number">1</span> &lt;&lt; FEATURE_NO_TITLE)) == <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="comment">// If no other features and not embedded, only need a title.</span></span><br><span class="line">    <span class="comment">// If the window is floating, we need a dialog layout</span></span><br><span class="line">    <span class="keyword">if</span> (mIsFloating) &#123;</span><br><span class="line">        TypedValue res = <span class="keyword">new</span> TypedValue();</span><br><span class="line">        getContext().getTheme().resolveAttribute(</span><br><span class="line">                R.attr.dialogTitleDecorLayout, res, <span class="keyword">true</span>);</span><br><span class="line">        layoutResource = res.resourceId;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((features &amp; (<span class="number">1</span> &lt;&lt; FEATURE_ACTION_BAR)) != <span class="number">0</span>) &#123;</span><br><span class="line">        layoutResource = a.getResourceId(</span><br><span class="line">                R.styleable.Window_windowActionBarFullscreenDecorLayout,</span><br><span class="line">                R.layout.screen_action_bar);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        layoutResource = R.layout.screen_title;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// System.out.println("Title!");</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> ((features &amp; (<span class="number">1</span> &lt;&lt; FEATURE_ACTION_MODE_OVERLAY)) != <span class="number">0</span>) &#123;</span><br><span class="line">    layoutResource = R.layout.screen_simple_overlay_action_mode;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// Embedded, so no decoration is needed.</span></span><br><span class="line">    layoutResource = R.layout.screen_simple;</span><br><span class="line">    <span class="comment">// System.out.println("Simple!");</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="启动流程"><a href="#启动流程" class="headerlink" title="启动流程"></a>启动流程</h2><ul>
+<li>1 Activity:startActivity-&gt;startActivityForResult</li>
+<li>2 Instrumentation.execStartActivity</li>
+<li>3 Instrumentation.execStartActivity()-checkStartActivityResult<br>会对启动结果进行检查-&gt; ActivityManager.getService().startActivity</li>
+<li>4 ActivityManager.getService() 返回AMS代理</li>
+<li>5 AMS-&gt;startActivity-&gt;startActivityAsUser-&gt;startActivityMayWait-&gt;startActivityLocked 做一些当前activity绑定进程以及消息存储</li>
+<li>6 AMS-&gt;startActivity-&gt;doPendingActivityLaunches-&gt;ActivityStarter.startResolvedActivity</li>
+<li>7 ActivityStarter.startActivity-&gt;startActivityUnchecked</li>
+<li>8 ActivityStackSupervisor-&gt;resumeFocusedStackTopActivityLocked-&gt;resumeFocusedStackTopActivityLocked-&gt;resumeFocusedStackTopActivityLocked-&gt;resumeTopActivityUncheckedLocked-&gt;resumeTopActivityInnerLocked-&gt;startSpecificActivityLocked-&gt;realStartActivityLocked</li>
+<li>9 ClientTransaction.addCallback()</li>
+<li>10 mService.getLifecycleManager().scheduleTransaction(clientTransaction);</li>
+<li>11 ClientLifecycleManager.scheduleTransaction</li>
+<li>12 ClientTransaction.schedule()</li>
+<li>13 ActivityThread.ApplicationThread.scheduleTransaction </li>
+<li>14 ActivityThread.this.scheduleTransaction(transaction);</li>
+<li>15 AT-&gt;sendMessage</li>
+<li>16 AT-&gt;handleMsg</li>
+<li>17 TransactionExecutor.execute-&gt;TransactionExecutor.executeCallbacks</li>
+<li>18 ClientTransactionItem.execute-&gt;LaunchActivityItem.execute</li>
+<li>19 AT.handleLaunchActivity</li>
+<li>20 AT.performLaunchActivity-&gt;callActivityOnCreate</li>
+<li>21 Activity.performCreate-&gt;Activity-&gt;onCreate</li>
+</ul>
+<p>9.0中处理调用客户端启动activity的方式和以往有些不同，以往是通过app.thread.scheduleLaunchActivity 调度来执行的，而9.0是通过ClientLifecycleManager和ClientTransactionHandler来辅助管理Activity生命周期。</p>
+<h2 id="任务栈"><a href="#任务栈" class="headerlink" title="任务栈"></a>任务栈</h2><p>ActivityStack从名称来看是跟栈相关的类，其实它是一个管理类，用来管理系统所有Activity的各种状态。它由ActivityStackSupervisor来进行管理的，而ActivityStackSupervisor在AMS中的构造方法中被创建。 </p>
+<p>ActivityStackSupervisor中有多种ActivityStack实例，如下所示。 </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** The stack containing the launcher app. Assumed to always be attached to</span></span><br><span class="line"><span class="comment"> * Display.DEFAULT_DISPLAY. */</span></span><br><span class="line">ActivityStack mHomeStack;<span class="comment">//mHomeStack用来存储Launcher App的Activity的堆栈</span></span><br><span class="line"><span class="comment">/** The stack currently receiving input or launching the next activity. */</span></span><br><span class="line">ActivityStack mFocusedStack;<span class="comment">//mFocusedStack表示当前正在接收输入或启动下一个Activity的堆栈</span></span><br><span class="line"><span class="comment">/** If this is the same as mFocusedStack then the activity on the top of the focused stack has</span></span><br><span class="line"><span class="comment"> * been resumed. If stacks are changing position this will hold the old stack until the new</span></span><br><span class="line"><span class="comment"> * stack becomes resumed after which it will be set to mFocusedStack. */</span></span><br><span class="line"><span class="keyword">private</span> ActivityStack mLastFocusedStack;mLastFocusedStack表示此前接收输入的Activity的堆栈。</span><br></pre></td></tr></table></figure>
+<p>ActivityStack内部类ActivityState通过枚举存储了activity的所有状态。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> ActivityState &#123;</span><br><span class="line">    INITIALIZING,</span><br><span class="line">    RESUMED,</span><br><span class="line">    PAUSING,</span><br><span class="line">    PAUSED,</span><br><span class="line">    STOPPING,</span><br><span class="line">    STOPPED,</span><br><span class="line">    FINISHING,</span><br><span class="line">    DESTROYING,</span><br><span class="line">    DESTROYED</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>ActivityStack中定义了一些特殊状态的activity</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">ActivityRecord mPausingActivity = <span class="keyword">null</span>;<span class="comment">//正在暂停的Activity</span></span><br><span class="line">ActivityRecord mLastPausedActivity = <span class="keyword">null</span>;<span class="comment">//上一个已经暂停的Activity</span></span><br><span class="line">ActivityRecord mLastNoHistoryActivity = <span class="keyword">null</span>;<span class="comment">//最近一次没有历史记录的Activity</span></span><br><span class="line">ActivityRecord mResumedActivity = <span class="keyword">null</span>;<span class="comment">//已经Resume的Activity</span></span><br><span class="line">ActivityRecord mTranslucentActivityWaiting = <span class="keyword">null</span>;<span class="comment">//传递给convertToTranslucent方法的最上层的Activity</span></span><br></pre></td></tr></table></figure>
+<p>ActivityRecord用来记录一个Activity的所有信息。从栈的角度来说(Activity任务战是一个假想的模型)，一个或多个ActivityRecord组成一个TaskRecord,TaskRecord记录activity的栈，ActivityStack包含了一个或多个TaskRecord。</p>
+<p>ActivityStack维护的列表</p>
+<table>
+<thead>
+<tr>
+<th>ArrayList</th>
+<th>元素类型</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>mTaskHistory</td>
+<td>TaskRecord</td>
+<td>所有没有被销毁的Task</td>
+</tr>
+<tr>
+<td>mLRUActivities</td>
+<td>ActivityRecord</td>
+<td>正在运行的Activity，列表中的第一个条目是最近最少使用的元素</td>
+</tr>
+<tr>
+<td>mTmpActivities</td>
+<td>ActivityRecord</td>
+<td>不考虑转换动画的Activity</td>
+</tr>
+</tbody>
+</table>
+<p>当activity启动的时候去设置的launchFlags。在ActivityStarter.startActivityUnchecked方法中去设置launchFlags。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">startActivityUnchecked</span><span class="params">(...)</span> </span>&#123;</span><br><span class="line">    setInitialState(r, options, inTask, doResume, startFlags, sourceRecord,voiceSession,voiceInteractor);</span><br><span class="line">    computeLaunchingTaskFlags();</span><br><span class="line">    computeSourceStack();</span><br><span class="line">    mIntent.setFlags(mLaunchFlags);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>setInitialState用于初始化启动Activity的各种配置，在初始化前会重置各种配置再进行配置，这些配置包括：ActivityRecord、Intent、TaskRecord和LaunchFlags（启动的FLAG）等等。computeLaunchingTaskFlags方法用于计算出启动的FLAG，并将计算的值赋值给mLaunchFlags。之后将mLaunchFlags设置给Intent，达到设定Activity的启动方式的目的。</p>
+<p>computeLaunchingTaskFlags:<br>mSourceRecord:初始activity,A启动B，A就是初始activity。<br>mInTask:activity 要加入的栈。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">computeLaunchingTaskFlags</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="comment">// If the caller is not coming from another activity, but has given us an explicit task into</span></span><br><span class="line">    <span class="comment">// which they would like us to launch the new activity, then let's see about doing that.</span></span><br><span class="line">    <span class="keyword">if</span> (mSourceRecord == <span class="keyword">null</span> &amp;&amp; mInTask != <span class="keyword">null</span> &amp;&amp; mInTask.getStack() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">final</span> Intent baseIntent = mInTask.getBaseIntent();</span><br><span class="line">        <span class="keyword">final</span> ActivityRecord root = mInTask.getRootActivity();</span><br><span class="line">        <span class="keyword">if</span> (baseIntent == <span class="keyword">null</span>) &#123;</span><br><span class="line">            ActivityOptions.abort(mOptions);</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Launching into task without base intent: "</span></span><br><span class="line">                    + mInTask);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If this task is empty, then we are adding the first activity -- it</span></span><br><span class="line">        <span class="comment">// determines the root, and must be launching as a NEW_TASK.</span></span><br><span class="line">        <span class="keyword">if</span> (isLaunchModeOneOf(LAUNCH_SINGLE_INSTANCE, LAUNCH_SINGLE_TASK)) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!baseIntent.getComponent().equals(mStartActivity.intent.getComponent())) &#123;</span><br><span class="line">                ActivityOptions.abort(mOptions);</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Trying to launch singleInstance/Task "</span></span><br><span class="line">                        + mStartActivity + <span class="string">" into different task "</span> + mInTask);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (root != <span class="keyword">null</span>) &#123;</span><br><span class="line">                ActivityOptions.abort(mOptions);</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"Caller with mInTask "</span> + mInTask</span><br><span class="line">                        + <span class="string">" has root "</span> + root + <span class="string">" but target is singleInstance/Task"</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// If task is empty, then adopt the interesting intent launch flags in to the</span></span><br><span class="line">        <span class="comment">// activity being started.</span></span><br><span class="line">        <span class="keyword">if</span> (root == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="keyword">final</span> <span class="keyword">int</span> flagsOfInterest = FLAG_ACTIVITY_NEW_TASK | FLAG_ACTIVITY_MULTIPLE_TASK</span><br><span class="line">                    | FLAG_ACTIVITY_NEW_DOCUMENT | FLAG_ACTIVITY_RETAIN_IN_RECENTS;</span><br><span class="line">            mLaunchFlags = (mLaunchFlags &amp; ~flagsOfInterest)</span><br><span class="line">                    | (baseIntent.getFlags() &amp; flagsOfInterest);</span><br><span class="line">            mIntent.setFlags(mLaunchFlags);</span><br><span class="line">            mInTask.setIntent(mStartActivity);</span><br><span class="line">            mAddingToTask = <span class="keyword">true</span>;</span><br><span class="line"></span><br><span class="line">            <span class="comment">// If the task is not empty and the caller is asking to start it as the root of</span></span><br><span class="line">            <span class="comment">// a new task, then we don't actually want to start this on the task. We will</span></span><br><span class="line">            <span class="comment">// bring the task to the front, and possibly give it a new intent.</span></span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ((mLaunchFlags &amp; FLAG_ACTIVITY_NEW_TASK) != <span class="number">0</span>) &#123;</span><br><span class="line">            mAddingToTask = <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mAddingToTask = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        mReuseTask = mInTask;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        mInTask = <span class="keyword">null</span>;</span><br><span class="line">        <span class="comment">// Launch ResolverActivity in the source task, so that it stays in the task bounds</span></span><br><span class="line">        <span class="comment">// when in freeform workspace.</span></span><br><span class="line">        <span class="comment">// Also put noDisplay activities in the source task. These by itself can be placed</span></span><br><span class="line">        <span class="comment">// in any task/stack, however it could launch other activities like ResolverActivity,</span></span><br><span class="line">        <span class="comment">// and we want those to stay in the original task.</span></span><br><span class="line">        <span class="keyword">if</span> ((mStartActivity.isResolverActivity() || mStartActivity.noDisplay) &amp;&amp; mSourceRecord != <span class="keyword">null</span></span><br><span class="line">                &amp;&amp; mSourceRecord.inFreeformWindowingMode())  &#123;</span><br><span class="line">            mAddingToTask = <span class="keyword">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (mInTask == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (mSourceRecord == <span class="keyword">null</span>) &#123;</span><br><span class="line">            <span class="comment">// This activity is not being started from another...  in this</span></span><br><span class="line">            <span class="comment">// case we -always- start a new task.</span></span><br><span class="line">            <span class="keyword">if</span> ((mLaunchFlags &amp; FLAG_ACTIVITY_NEW_TASK) == <span class="number">0</span> &amp;&amp; mInTask == <span class="keyword">null</span>) &#123;</span><br><span class="line">                Slog.w(TAG, <span class="string">"startActivity called from non-Activity context; forcing "</span> +</span><br><span class="line">                        <span class="string">"Intent.FLAG_ACTIVITY_NEW_TASK for: "</span> + mIntent);</span><br><span class="line">                mLaunchFlags |= FLAG_ACTIVITY_NEW_TASK;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mSourceRecord.launchMode == LAUNCH_SINGLE_INSTANCE) &#123;</span><br><span class="line">            <span class="comment">// The original activity who is starting us is running as a single</span></span><br><span class="line">            <span class="comment">// instance...  this new activity it is starting must go on its</span></span><br><span class="line">            <span class="comment">// own task.</span></span><br><span class="line">            mLaunchFlags |= FLAG_ACTIVITY_NEW_TASK;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (isLaunchModeOneOf(LAUNCH_SINGLE_INSTANCE, LAUNCH_SINGLE_TASK)) &#123;</span><br><span class="line">            <span class="comment">// The activity being started is a single instance...  it always</span></span><br><span class="line">            <span class="comment">// gets launched into its own task.</span></span><br><span class="line">            mLaunchFlags |= FLAG_ACTIVITY_NEW_TASK;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>taskAffinity，可以翻译为任务相关性。这个参数标识了一个 Activity 所需要的任务栈的名字，默认情况下，所有 Activity 所需的任务栈的名字为应用的包名，当 Activity 设置了 taskAffinity 属性，那么这个 Activity 在被创建时就会运行在和 taskAffinity 名字相同的任务栈中，如果没有，则新建 taskAffinity 指定的任务栈，并将 Activity 放入该栈中。</p>
+<p>taskAffinity属性主要和SingleTask启动模式或者allowTaskReparenting属性配对使用，在其他情况下没有意义。当taskAffinity和singleTask启动模式配对使用的时候，他是具有该模式的Activity的目前任务栈的名字，待启动的Activity会运行在名字和taskAffinity相同的任务栈中。allowTaskReparenting用于配置是否允许该activity可以更换从属task，通常情况二者连在一起使用，用于实现把一个应用程序的Activity移到另一个应用程序的Task中。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2018/11/29/源码分析ContentProvider/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          源码分析ContentProvider
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2018/11/19/android 专用驱动/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Android 专用驱动</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="源码分析Activity分析" data-title="源码分析Activity分析" data-url="https://github.com/sirencode/2018/11/29/源码分析Activity分析/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="源码分析Activity分析">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>

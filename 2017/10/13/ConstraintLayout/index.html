@@ -1,42 +1,340 @@
-extends ../_partial/layout
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ConstraintLayout | Diablo</title>
 
-block content
-  .container.post
-    section.article
-      .title= page.title
-      .date 写于#{moment(page.date).format(theme.date_format)}
-      .content!= page.content
-      if page.tags
-        .tags!= list_tags(page.tags, { show_count: false, class: 'tag', style: false, separator: '' })
+  <!-- keywords -->
+  
 
-  .container
-    ul.nav
-      if page.prev
-        li 上一篇：
-          a(href=url_for(page.prev.path))= page.prev.title || '未命名'
-      if page.next
-        li 下一篇：
-          a(href=url_for(page.next.path))= page.next.title || '未命名'
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ConstraintLayout 对象的优势如果您使用 ConstraintLayout 来构建相同的布局，XML 文件会包含类似于下面这样的元素层次结构。该布局拥有一个完全扁平的层次结构。这是因为 ConstraintLayout 允许您构建复杂的布局，而不必嵌套 View 和 ViewGroup 元素。 123456789101112&amp;lt;android.support.constraint">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ConstraintLayout">
+<meta property="og:url" content="https://github.com/sirencode/2017/10/13/ConstraintLayout/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="ConstraintLayout 对象的优势如果您使用 ConstraintLayout 来构建相同的布局，XML 文件会包含类似于下面这样的元素层次结构。该布局拥有一个完全扁平的层次结构。这是因为 ConstraintLayout 允许您构建复杂的布局，而不必嵌套 View 和 ViewGroup 元素。 123456789101112&amp;lt;android.support.constraint">
+<meta property="og:image" content="http://img.blog.csdn.net/20170917222312991?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbG1qNjIzNTY1Nzkx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+<meta property="og:updated_time" content="2017-10-16T06:12:09.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ConstraintLayout">
+<meta name="twitter:description" content="ConstraintLayout 对象的优势如果您使用 ConstraintLayout 来构建相同的布局，XML 文件会包含类似于下面这样的元素层次结构。该布局拥有一个完全扁平的层次结构。这是因为 ConstraintLayout 允许您构建复杂的布局，而不必嵌套 View 和 ViewGroup 元素。 123456789101112&amp;lt;android.support.constraint">
+<meta name="twitter:image" content="http://img.blog.csdn.net/20170917222312991?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbG1qNjIzNTY1Nzkx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast">
+  
+    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  
 
-    if !index && config.disqus_shortname
-      .comments
-        #disqus_thread
-          noscript Please enable JavaScript to view the 
-            a(href="http://disqus.com/?ref_noscript") comments powered by Disqus
+  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
+  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
 
-block js
-  include ../_partial/post_footer.pug
-  != js('script/post')
-  if config.disqus_shortname
-    script
-      | var disqus_shortname = '!{config.disqus_shortname}';
-      if page.permalink
-        | var disqus_url = '!{page.permalink}';
-        | (function(){
-        |  var dsq = document.createElement('script');
-        |  dsq.type = 'text/javascript';
-        |  dsq.async = true;
-        |  dsq.src = '//' + disqus_shortname + '.disqus.com/!{page.comments ? 'embed.js' : 'count.hs'}';
-        |  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        | })();
+  
+</head>
+<body>
+  <div id="container">
+    <div id="particles-js"></div>
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
+		</hgroup>
+
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">ShenYonghe</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-ConstraintLayout" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2017/10/13/ConstraintLayout/" class="article-date">
+  	<time datetime="2017-10-12T16:00:00.000Z" itemprop="datePublished">2017-10-13</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
+  
+    <h1 class="article-title" itemprop="name">
+      ConstraintLayout
+      
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+        
+
+        
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="ConstraintLayout-对象的优势"><a href="#ConstraintLayout-对象的优势" class="headerlink" title="ConstraintLayout 对象的优势"></a>ConstraintLayout 对象的优势</h3><p>如果您使用 ConstraintLayout 来构建相同的布局，XML 文件会包含类似于下面这样的元素层次结构。该布局拥有一个完全扁平的层次结构。这是因为 ConstraintLayout 允许您构建复杂的布局，而不必嵌套 View 和 ViewGroup 元素。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.constraint.ConstraintLayout</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ImageView</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ImageView</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">TextView</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">EditText</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">TextView</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">TextView</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">EditText</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Button</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">Button</span> /&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">TextView</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">android.support.constraint.ConstraintLayout</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>使用ConstraintLayout布局可以极大降低布局的嵌套层次，避免过度重绘，从而极大提升了绘制的性能，当布局越复杂的时候表现的越明显。</p>
+<ul>
+<li>布局位置重叠时，后面的在前面的顶层。</li>
+</ul>
+<h3 id="属性说明"><a href="#属性说明" class="headerlink" title="属性说明"></a>属性说明</h3><h4 id="layout-constraint-本源位置-目标位置-”-目标ID-”"><a href="#layout-constraint-本源位置-目标位置-”-目标ID-”" class="headerlink" title="layout_constraint[本源位置]_[目标位置]=”[目标ID]”"></a>layout_constraint[本源位置]_[目标位置]=”[目标ID]”</h4><p>根据布局中的其他元素或视图, 确定View在屏幕中的位置, 受到三类约束, 即其他视图, 父容器(parent), 基准线(Guideline)。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">layout_constraintLeft_toLeftOf</span><br><span class="line">layout_constraintRight_toLeftOf</span><br><span class="line">layout_constraintRight_toRightOf</span><br><span class="line">layout_constraintTop_toTopOf</span><br><span class="line">layout_constraintTop_toBottomOf</span><br><span class="line">layout_constraintBottom_toTopOf</span><br><span class="line">layout_constraintBottom_toBottomOf</span><br><span class="line">layout_constraintBaseline_toBaselineOf</span><br></pre></td></tr></table></figure>
+<h4 id="match-parent-替换"><a href="#match-parent-替换" class="headerlink" title="match_parent 替换"></a>match_parent 替换</h4><p>单个设置：<br>ConstraintLayout也支持自动填充宽高, 把宽高设置为0dp会根据位置自动填充。宽全屏，需要左右和父布局左右相邻，高全屏，需要上下和副布局上下相邻。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;TextView</span><br><span class="line">      android:id=&quot;@+id/textView3&quot;</span><br><span class="line">      android:layout_width=&quot;0dp&quot;</span><br><span class="line">      android:layout_height=&quot;0dp&quot;</span><br><span class="line">      android:layout_marginTop=&quot;16dp&quot;</span><br><span class="line">      android:text=&quot;TextView&quot;</span><br><span class="line">      app:layout_constraintLeft_toLeftOf=&quot;parent&quot;</span><br><span class="line">      app:layout_constraintRight_toRightOf=&quot;parent&quot;</span><br><span class="line">      app:layout_constraintTop_toTopOf=&quot;parent&quot;</span><br><span class="line">      app:layout_constraintBottom_toBottomOf=&quot;parent&quot;/&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="控件的高宽比例设置"><a href="#控件的高宽比例设置" class="headerlink" title="控件的高宽比例设置"></a>控件的高宽比例设置</h4><p>ConstraintLayout支持使用constraintDimensionRatio设置宽高的纵横比, 把宽(layout_width)或者高(layout_height)设置为0dp, 则根据另一个属性值和比例, 计算当前属性值.</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ImageView</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_width</span>=<span class="string">"0dp"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:layout_height</span>=<span class="string">"200dp"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:background</span>=<span class="string">"@color/colorAccent"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:contentDescription</span>=<span class="string">"@null"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">android:src</span>=<span class="string">"@drawable/total_large"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"@+id/constraintLayout"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_constraintDimensionRatio</span>=<span class="string">"4:3"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_constraintLeft_toLeftOf</span>=<span class="string">"@+id/constraintLayout"</span></span></span><br><span class="line"><span class="tag">    <span class="attr">app:layout_constraintRight_toRightOf</span>=<span class="string">"@+id/constraintLayout"</span>/&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="比例方式"><a href="#比例方式" class="headerlink" title="比例方式"></a>比例方式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">app:layout_constraintHorizontal_weight</span><br><span class="line">app:layout_constraintVertical_weight</span><br></pre></td></tr></table></figure>
+<h4 id="Guidelines"><a href="#Guidelines" class="headerlink" title="Guidelines"></a>Guidelines</h4><p>Guidelines在布局的横向或者竖向添加网格线，网格线可以是具体的长度或者是宽高的百分比。之后添加控件相对于具体的线位置布局。</p>
+<h4 id="自动生成约束"><a href="#自动生成约束" class="headerlink" title="自动生成约束"></a>自动生成约束</h4><p>如果嫌弃手动布局麻烦，再简单的布局情况下，可以手动的拖动，并设置自动生成约束，design -&gt; Autoconnect。</p>
+<h4 id="Inference"><a href="#Inference" class="headerlink" title="Inference"></a>Inference</h4><p>Inference也是用于自动添加约束的，但它比Autoconnect的功能要更为强大，因为AutoConnect只能给当前操作的控件自动添加约束，而Inference会给当前界面中的所有元素自动添加约束。因而Inference比较适合用来实现复杂度比较高的界面，它可以一键自动生成所有的约束。摆放完成之后点击一下工具栏上的Infer Constraints按钮，就能为所有控件自动添加约束了</p>
+<h4 id="比例间距"><a href="#比例间距" class="headerlink" title="比例间距"></a>比例间距</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">layout_constraintHorizontal_chainStyle</span><br></pre></td></tr></table></figure>
+<p>取值：</p>
+<ul>
+<li>packed</li>
+<li><p>spread_inside</p>
+</li>
+<li><p>spread + 宽度为0，且可以通过weight控制分配比例，首未加间隔</p>
+</li>
+<li>spread_inside + 宽度非0 首未不加间隔</li>
+<li>packed + 宽度非0</li>
+</ul>
+<p><img src="http://img.blog.csdn.net/20170917222312991?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbG1qNjIzNTY1Nzkx/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt=""></p>
+<h4 id="浮动按钮"><a href="#浮动按钮" class="headerlink" title="浮动按钮"></a>浮动按钮</h4><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">layout_constraintHorizontal_bias</span><br><span class="line">layout_constraintVertical_bias</span><br></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">android.support.constraint.ConstraintLayout</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">...</span></span></span><br><span class="line"><span class="tag">    <span class="attr">tools:context</span>=<span class="string">"com.zhy.constrantlayout_learn.MainActivity"</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">TextView</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_width</span>=<span class="string">"60dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:layout_height</span>=<span class="string">"60dp"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">android:background</span>=<span class="string">"#612"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintBottom_toBottomOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintHorizontal_bias</span>=<span class="string">"0.9"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintLeft_toLeftOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintRight_toRightOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintTop_toTopOf</span>=<span class="string">"parent"</span></span></span><br><span class="line"><span class="tag">        <span class="attr">app:layout_constraintVertical_bias</span>=<span class="string">"0.9"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">....</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/10/25/Timing Wheel 定时轮算法/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">&lt;</strong>
+      <div class="article-nav-title">
+        
+          Timing Wheel 定时轮算法
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/09/25/android 动画view/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">自定义View 动画</div>
+      <strong class="article-nav-caption">&gt;</strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="ds-share share" data-thread-key="ConstraintLayout" data-title="ConstraintLayout" data-url="https://github.com/sirencode/2017/10/13/ConstraintLayout/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="ConstraintLayout">
+    <div class="ds-share-inline">
+      <ul  class="ds-share-icons-16">
+      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
+        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
+        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
+        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
+        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
+      </ul>
+      <div class="ds-share-icons-more">
+      </div>
+    </div>
+ </div>
+ 
+
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+      <div class="footer-left">
+        &copy; 2018 ShenYonghe
+      </div>
+        <div class="footer-right">
+          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
+        </div>
+    </div>
+  </div>
+</footer>
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="/js/main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
+
+
+  </div>
+</body>
+</html>
