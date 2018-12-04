@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">페이지</a>
+          <a href="/">Home</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">압축 파일</a>
+          <a href="/archives">Archives</a>
         
           
           
@@ -56,7 +56,7 @@
           
           
           
-          <a href="/about">에 관하다</a>
+          <a href="/about">About</a>
         
       </div>
     </div>
@@ -91,27 +91,6 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Service/">
-            源码分析Service
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>源码分析ServiceService启动流程APP端启动：
-1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-11-29
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2018/11/29/源码分析ContentProvider/">
             源码分析ContentProvider
           </a>
@@ -134,13 +113,14 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Activity分析/">
-            源码分析Activity分析
+          <a href="/2018/11/29/源码分析Service/">
+            源码分析Service
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout...</p>
+            <p>源码分析ServiceService启动流程APP端启动：
+1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -164,6 +144,26 @@
 1 ContextWrapper.registerReceiver()
 2 ContextImpl.registerReceiver()
 123456@Overridepublic Intent registerRe...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-11-29
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/11/29/源码分析Activity分析/">
+            源码分析Activity分析
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -290,7 +290,7 @@ app lib 切换,以及多个AndroidManifest配置12345678910111213141516171...</p
 
     <div class="pagenator">
     
-        <a class="extend prev-none">페이지</a>
+        <a class="extend prev-none">prev</a>
     
     
 
@@ -348,7 +348,7 @@ app lib 切换,以及多个AndroidManifest配置12345678910111213141516171...</p
     
     
     
-        <a class="extend next" href="/page/2">다음 페이지</a>
+        <a class="extend next" href="/page/2">next</a>
     
 </div>
 
