@@ -1,205 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  
-  <title>Android 内部存储 外部存储 | Diablo</title>
-
-  <!-- keywords -->
-  
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Android 内部存储 外部存储最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android 内部存储 外部存储">
-<meta property="og:url" content="https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/index.html">
-<meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="Android 内部存储 外部存储最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把">
-<meta property="og:updated_time" content="2018-02-24T07:15:21.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android 内部存储 外部存储">
-<meta name="twitter:description" content="Android 内部存储 外部存储最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把">
-  
-    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
-  
-
-  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
-  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-
-  
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Diablo</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
 </head>
 <body>
-  <div id="container">
-    <div id="particles-js"></div>
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
-			
-		</a>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
-		</hgroup>
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
 
-		
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
 
-		
-			<div class="switch-btn">
-				<div class="icon">
-					<div class="icon-ctn">
-						<div class="icon-wrap icon-house" data-idx="0">
-							<div class="birdhouse"></div>
-							<div class="birdhouse_holes"></div>
-						</div>
-						<div class="icon-wrap icon-ribbon hide" data-idx="1">
-							<div class="ribbon"></div>
-						</div>
-						
-						<div class="icon-wrap icon-link hide" data-idx="2">
-							<div class="loopback_l"></div>
-							<div class="loopback_r"></div>
-						</div>
-						
-						
-					</div>
-					
-				</div>
-				<div class="tips-box hide">
-					<div class="tips-arrow"></div>
-					<ul class="tips-inner">
-						<li>菜单</li>
-						<li>标签</li>
-						
-						<li>友情链接</li>
-						
-						
-					</ul>
-				</div>
-			</div>
-		
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
 
-		<div class="switch-area">
-			<div class="switch-wrap">
-				<section class="switch-part switch-part1">
-					<nav class="header-menu">
-						<ul>
-						
-							<li><a href="/">主页</a></li>
-				        
-							<li><a href="/archives">所有文章</a></li>
-				        
-						</ul>
-					</nav>
-					<nav class="header-nav">
-						<div class="social">
-							
-						</div>
-					</nav>
-				</section>
-				
-				
-				<section class="switch-part switch-part2">
-					<div class="widget tagcloud" id="js-tagcloud">
-						
-					</div>
-				</section>
-				
-				
-				
-				<section class="switch-part switch-part3">
-					<div id="js-friends">
-					
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
-			        
-			        </div>
-				</section>
-				
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
+        </div>
 
-				
-			</div>
-		</div>
-	</header>				
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">Android 内部存储 外部存储</h2>
+            <div class="post-meta">
+                <span class="post-time">2016-10-04</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Android-内部存储-外部存储"><span class="toc-text">Android 内部存储 外部存储</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#内存-RAM"><span class="toc-text">内存 RAM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#内部存储内部ROM"><span class="toc-text">内部存储内部ROM</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#data-app"><span class="toc-text">data/app</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#data-data"><span class="toc-text">data/data</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#常用目录"><span class="toc-text">常用目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特点"><span class="toc-text">特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#外部存储外部ROM和SDCard"><span class="toc-text">外部存储外部ROM和SDCard</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#常用目录-1"><span class="toc-text">常用目录</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#特点-1"><span class="toc-text">特点</span></a></li></ol></li></ol></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
 </div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
-			</div>
-			<hgroup>
-			  <h1 class="header-author">ShenYonghe</h1>
-			</hgroup>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-					<li><a href="/archives">所有文章</a></li>
-		        
-		        <div class="clearfix"></div>
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-				</div>
-			</nav>
-		</header>				
-	</div>
-</nav>
-      <div class="body-wrap"><article id="post-Android 内部存储 外部存储" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/10/04/Android 内部存储 外部存储/" class="article-date">
-  	<time datetime="2016-10-03T16:00:00.000Z" itemprop="datePublished">2016-10-04</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android 内部存储 外部存储
-      
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-        
-
-        
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-内部存储-外部存储"><a href="#Android-内部存储-外部存储" class="headerlink" title="Android 内部存储 外部存储"></a>Android 内部存储 外部存储</h1><p>最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把内置存储（机身存储）当做内部存储，而把扩展的SD卡当做是外部存储。这么认为确实没错，因为在4.4（API19）以前的手机上确实是这样的，手机自身带的存储卡就是内部存储，而扩展的SD卡就是外部存储。但是从4.4的系统开始，很多的中高端机器都将自己的机身存储扩展到了8G以上，比如有的人的手机是16G的，有的人的手机是32G的，但是这个16G，32G是内部存储吗，不是的！！！，它们依然是外部存储，也就是说4.4系统及以上的手机将机身存储存储（手机自身带的存储叫做机身存储）在概念上分成了”内部存储internal” 和”外部存储external” 两部分。既然16G，32G是外部存储，那有人又有疑惑了，那4.4系统及以上的手机要是插了SD卡呢，SD卡又是什么呢，如果SD卡也是外部存储的话，那怎么区分机身存储的外部存储跟SD卡的外部存储呢？对，SD卡也是外部存储，那怎么区分呢，在4.4以后的系统中，API提供了这样一个方法来遍历手机的外部存储路径：</p>
+        <div class="post-content">
+            <h1 id="Android-内部存储-外部存储"><a href="#Android-内部存储-外部存储" class="headerlink" title="Android 内部存储 外部存储"></a>Android 内部存储 外部存储</h1><p>最容易混淆的是外部存储，因为老的Android系统的跟新的Android系统是有差别的，很多人去网上查找资料，看了一下以前的资料，又看了一下现在的资料，但是发现它们说法不一样然后就困惑了。首先说一个大家普遍的概念“如果在pc机上是区分外部存储和内部存储的话，那么电脑自带的硬盘算是内部存储，U盘或者移动硬盘就是外部存储了。”因此很多人带着这样的理解去看待安卓手机，把内置存储（机身存储）当做内部存储，而把扩展的SD卡当做是外部存储。这么认为确实没错，因为在4.4（API19）以前的手机上确实是这样的，手机自身带的存储卡就是内部存储，而扩展的SD卡就是外部存储。但是从4.4的系统开始，很多的中高端机器都将自己的机身存储扩展到了8G以上，比如有的人的手机是16G的，有的人的手机是32G的，但是这个16G，32G是内部存储吗，不是的！！！，它们依然是外部存储，也就是说4.4系统及以上的手机将机身存储存储（手机自身带的存储叫做机身存储）在概念上分成了”内部存储internal” 和”外部存储external” 两部分。既然16G，32G是外部存储，那有人又有疑惑了，那4.4系统及以上的手机要是插了SD卡呢，SD卡又是什么呢，如果SD卡也是外部存储的话，那怎么区分机身存储的外部存储跟SD卡的外部存储呢？对，SD卡也是外部存储，那怎么区分呢，在4.4以后的系统中，API提供了这样一个方法来遍历手机的外部存储路径：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">File[] files;</span><br><span class="line"><span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.KITKAT) &#123;</span><br><span class="line">    files = getExternalFilesDirs(Environment.MEDIA_MOUNTED);</span><br><span class="line">    <span class="keyword">for</span>(File file:files)&#123;</span><br><span class="line">        Log.e(<span class="string">"main"</span>,file);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果你的手机插了SD卡的话，那么它打印的路径就有两条了，例如我的华为荣耀7插了SD卡，它的结果如下：<br>/storage/emulated/0/Android/data/packname/files/mounted<br>/storage/B3E4-1711/Android/data/packname/files/mounted<br>其中/storage/emulated/0目录就是机身存储的外部存储路径,而/storage/B3E4-1711/就是SD卡的路径 </p>
 <h2 id="内存-RAM"><a href="#内存-RAM" class="headerlink" title="内存 RAM"></a>内存 RAM</h2><p>物理位置是位于手机内部的随机存储器上，就是俗称的RAM。就是计算机上对内存储器的理解。</p>
@@ -233,109 +124,60 @@
 <li>app卸载的时候，系统会删除存在getExternalFilesDir()-{路径为:/mnt/sdcard/Android/data/&lt; package name &gt;/files/…}目录的内容。</li>
 </ul>
 
-      
-    </div>
-    
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2016/10/04/android 动画/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">&lt;</strong>
-      <div class="article-nav-title">
-        
-          Android 动画
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2016/10/03/APP启动时间优化/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">APP 启动时间优化</div>
-      <strong class="article-nav-caption">&gt;</strong>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-<div class="ds-share share" data-thread-key="Android 内部存储 外部存储" data-title="Android 内部存储 外部存储" data-url="https://github.com/sirencode/2016/10/04/Android 内部存储 外部存储/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 内部存储 外部存储">
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
- 
-
-
-
-
-
-</div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-      <div class="footer-left">
-        &copy; 2018 ShenYonghe
-      </div>
-        <div class="footer-right">
-          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
         </div>
-    </div>
-  </div>
-</footer>
-    </div>
+        
+    </article>
+</div>
+<div class="paginator">
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+        
+            <a class="prev" href="/2016/10/11/android imageview加载/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">Android imageview加载实现</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2016/10/04/android 动画/">
+                <span class="nav-default">Android 动画</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
+    
 
-<script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: true,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false
-	}
-</script>
-<script src="/js/main.js"></script>
+    
 
-
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    }
-});
-
-MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';                 
-    }       
-});
-</script>
-
-<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
-
-
-  </div>
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2018
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+
+</script>
 </html>

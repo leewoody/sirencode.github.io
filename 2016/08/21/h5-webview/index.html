@@ -1,205 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  
-  <title>Android 混合式开发-H5 | Diablo</title>
-
-  <!-- keywords -->
-  
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些建议。 Android开发的多种模式原生开发顾名思义，就是纯原生的开发模式，一点也不嵌入h5相关的功">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android 混合式开发-H5">
-<meta property="og:url" content="https://github.com/sirencode/2016/08/21/h5-webview/index.html">
-<meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些建议。 Android开发的多种模式原生开发顾名思义，就是纯原生的开发模式，一点也不嵌入h5相关的功">
-<meta property="og:updated_time" content="2016-09-09T06:29:34.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android 混合式开发-H5">
-<meta name="twitter:description" content="H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些建议。 Android开发的多种模式原生开发顾名思义，就是纯原生的开发模式，一点也不嵌入h5相关的功">
-  
-    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
-  
-
-  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
-  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-
-  
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Diablo</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
 </head>
 <body>
-  <div id="container">
-    <div id="particles-js"></div>
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
-			
-		</a>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
-		</hgroup>
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
 
-		
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
 
-		
-			<div class="switch-btn">
-				<div class="icon">
-					<div class="icon-ctn">
-						<div class="icon-wrap icon-house" data-idx="0">
-							<div class="birdhouse"></div>
-							<div class="birdhouse_holes"></div>
-						</div>
-						<div class="icon-wrap icon-ribbon hide" data-idx="1">
-							<div class="ribbon"></div>
-						</div>
-						
-						<div class="icon-wrap icon-link hide" data-idx="2">
-							<div class="loopback_l"></div>
-							<div class="loopback_r"></div>
-						</div>
-						
-						
-					</div>
-					
-				</div>
-				<div class="tips-box hide">
-					<div class="tips-arrow"></div>
-					<ul class="tips-inner">
-						<li>菜单</li>
-						<li>标签</li>
-						
-						<li>友情链接</li>
-						
-						
-					</ul>
-				</div>
-			</div>
-		
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
 
-		<div class="switch-area">
-			<div class="switch-wrap">
-				<section class="switch-part switch-part1">
-					<nav class="header-menu">
-						<ul>
-						
-							<li><a href="/">主页</a></li>
-				        
-							<li><a href="/archives">所有文章</a></li>
-				        
-						</ul>
-					</nav>
-					<nav class="header-nav">
-						<div class="social">
-							
-						</div>
-					</nav>
-				</section>
-				
-				
-				<section class="switch-part switch-part2">
-					<div class="widget tagcloud" id="js-tagcloud">
-						
-					</div>
-				</section>
-				
-				
-				
-				<section class="switch-part switch-part3">
-					<div id="js-friends">
-					
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
-			        
-			        </div>
-				</section>
-				
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
+        </div>
 
-				
-			</div>
-		</div>
-	</header>				
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">Android 混合式开发-H5</h2>
+            <div class="post-meta">
+                <span class="post-time">2016-08-21</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#Android开发的多种模式"><span class="toc-text">Android开发的多种模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#原生开发"><span class="toc-text">原生开发</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#混合式开发"><span class="toc-text">混合式开发</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#纯Web版的App"><span class="toc-text">纯Web版的App</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Hybrid开发的使用"><span class="toc-text">Hybrid开发的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#混合式框架"><span class="toc-text">混合式框架</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自定义框架"><span class="toc-text">自定义框架</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#1-java-gt-js-这里不解释，每个框架都一样"><span class="toc-text">1.java -&gt; js,这里不解释，每个框架都一样</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-js-gt-java-实现"><span class="toc-text">2.js -&gt; java 实现</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-js-gt-java-msg-拼接（规定通讯协议）"><span class="toc-text">3 js-&gt;java  msg 拼接（规定通讯协议）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#离线模式和在线模式"><span class="toc-text">离线模式和在线模式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#版本支持"><span class="toc-text">版本支持</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#WebView独立进程"><span class="toc-text">WebView独立进程</span></a></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
 </div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
-			</div>
-			<hgroup>
-			  <h1 class="header-author">ShenYonghe</h1>
-			</hgroup>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-					<li><a href="/archives">所有文章</a></li>
-		        
-		        <div class="clearfix"></div>
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-				</div>
-			</nav>
-		</header>				
-	</div>
-</nav>
-      <div class="body-wrap"><article id="post-h5-webview" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2016/08/21/h5-webview/" class="article-date">
-  	<time datetime="2016-08-20T16:00:00.000Z" itemprop="datePublished">2016-08-21</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android 混合式开发-H5
-      
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-        
-
-        
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些建议。</p>
+        <div class="post-content">
+            <p>H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些建议。</p>
 <h3 id="Android开发的多种模式"><a href="#Android开发的多种模式" class="headerlink" title="Android开发的多种模式"></a>Android开发的多种模式</h3><h4 id="原生开发"><a href="#原生开发" class="headerlink" title="原生开发"></a>原生开发</h4><p>顾名思义，就是纯原生的开发模式，一点也不嵌入h5相关的功能模块。</p>
 <p>优点：</p>
 <ul>
@@ -278,109 +169,60 @@ final class JavaScriptInterface {
 </ul>
 <h3 id="WebView独立进程"><a href="#WebView独立进程" class="headerlink" title="WebView独立进程"></a>WebView独立进程</h3><p>webview的使用会占用手机大量的内存，使用不当还会造成大量的内存泄漏，因此放到独立进程中。</p>
 
-      
-    </div>
-    
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2016/08/22/lazy_load/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">&lt;</strong>
-      <div class="article-nav-title">
-        
-          Android 性能优化-懒加载
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2016/08/20/traceView/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Android 性能优化-traceview</div>
-      <strong class="article-nav-caption">&gt;</strong>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-<div class="ds-share share" data-thread-key="h5-webview" data-title="Android 混合式开发-H5" data-url="https://github.com/sirencode/2016/08/21/h5-webview/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 混合式开发-H5">
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
- 
-
-
-
-
-
-</div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-      <div class="footer-left">
-        &copy; 2018 ShenYonghe
-      </div>
-        <div class="footer-right">
-          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
         </div>
-    </div>
-  </div>
-</footer>
-    </div>
+        
+    </article>
+</div>
+<div class="paginator">
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+        
+            <a class="prev" href="/2016/08/22/lazy_load/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">Android 性能优化-懒加载</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2016/08/20/check_code_style/">
+                <span class="nav-default">Android 代码规范-CheckStyle</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
+    
 
-<script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: true,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false
-	}
-</script>
-<script src="/js/main.js"></script>
+    
 
-
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    }
-});
-
-MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';                 
-    }       
-});
-</script>
-
-<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
-
-
-  </div>
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2018
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+
+</script>
 </html>

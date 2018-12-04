@@ -1,205 +1,96 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="utf-8">
-  
-  <title>javascript 学习笔记 | Diablo</title>
-
-  <!-- keywords -->
-  
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="类型内置类型JavaScript 有七种内置类型:  空值(null) 未定义(undefined) 布尔值( boolean) 数字(number) 字符串(string) 对象(object) 符号(symbol，ES6 中新增)  123456789typeof undefined     === &quot;undefined&quot;; // truetypeof true          === &quot;b">
-<meta property="og:type" content="article">
-<meta property="og:title" content="javascript 学习笔记">
-<meta property="og:url" content="https://github.com/sirencode/2017/04/19/javascript 学习/index.html">
-<meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="类型内置类型JavaScript 有七种内置类型:  空值(null) 未定义(undefined) 布尔值( boolean) 数字(number) 字符串(string) 对象(object) 符号(symbol，ES6 中新增)  123456789typeof undefined     === &quot;undefined&quot;; // truetypeof true          === &quot;b">
-<meta property="og:updated_time" content="2017-04-21T07:37:35.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="javascript 学习笔记">
-<meta name="twitter:description" content="类型内置类型JavaScript 有七种内置类型:  空值(null) 未定义(undefined) 布尔值( boolean) 数字(number) 字符串(string) 对象(object) 符号(symbol，ES6 中新增)  123456789typeof undefined     === &quot;undefined&quot;; // truetypeof true          === &quot;b">
-  
-    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
-  
-
-  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
-  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-
-  
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+    <title>Diablo</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/gitment.css">
+    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
 </head>
 <body>
-  <div id="container">
-    <div id="particles-js"></div>
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
-			
-		</a>
+<header class="header">
+    <div class="header-inner">
+        <div class="header-title">
 
-		<hgroup>
-		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
-		</hgroup>
+        </div>
+        <nav class="header-nav">
+            
+            <a href="/" class="header-nav-link" >
+                首页
+            </a>
+            
 
-		
+            
+            <a href="/archives" class="header-nav-link">
+                归档
+            </a>
+            
 
-		
-			<div class="switch-btn">
-				<div class="icon">
-					<div class="icon-ctn">
-						<div class="icon-wrap icon-house" data-idx="0">
-							<div class="birdhouse"></div>
-							<div class="birdhouse_holes"></div>
-						</div>
-						<div class="icon-wrap icon-ribbon hide" data-idx="1">
-							<div class="ribbon"></div>
-						</div>
-						
-						<div class="icon-wrap icon-link hide" data-idx="2">
-							<div class="loopback_l"></div>
-							<div class="loopback_r"></div>
-						</div>
-						
-						
-					</div>
-					
-				</div>
-				<div class="tips-box hide">
-					<div class="tips-arrow"></div>
-					<ul class="tips-inner">
-						<li>菜单</li>
-						<li>标签</li>
-						
-						<li>友情链接</li>
-						
-						
-					</ul>
-				</div>
-			</div>
-		
+            
+            <a href="/tags" class="header-nav-link">
+                标签
+            </a>
+            
 
-		<div class="switch-area">
-			<div class="switch-wrap">
-				<section class="switch-part switch-part1">
-					<nav class="header-menu">
-						<ul>
-						
-							<li><a href="/">主页</a></li>
-				        
-							<li><a href="/archives">所有文章</a></li>
-				        
-						</ul>
-					</nav>
-					<nav class="header-nav">
-						<div class="social">
-							
-						</div>
-					</nav>
-				</section>
-				
-				
-				<section class="switch-part switch-part2">
-					<div class="widget tagcloud" id="js-tagcloud">
-						
-					</div>
-				</section>
-				
-				
-				
-				<section class="switch-part switch-part3">
-					<div id="js-friends">
-					
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
-			        
-			        </div>
-				</section>
-				
+            
+        </nav>
+    </div>
+</header>
+<header class="mobile-header">
+    <div class="mobile-nav">
+        <div class="mobile-nav-icon">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="mobile-nav-title">
+            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
+        </div>
 
-				
-			</div>
-		</div>
-	</header>				
+    </div>
+    <nav class="mobile-menu">
+        <ul class="mobile-menu-list">
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-home"></i>
+                <a href="/" class="mobile-nav-link">首页</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-archive"></i>
+                <a href="/archives" class="mobile-nav-link">归档</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-tag"></i>
+                <a href="/tags" class="mobile-nav-link">标签</a>
+            </li>
+            <li class="mobile-menu-item">
+                <i class="iconfont icon-about"></i>
+                <a href="/about/" class="mobile-nav-link">关于</a>
+            </li>
+        </ul>
+    </nav>
+</header>
+<div class="main">
+    <div class="content-inner">
+        <div class="posts">
+    <article class="post-whole">
+        <div class="post-title">
+            <h2 class="title">javascript 学习笔记</h2>
+            <div class="post-meta">
+                <span class="post-time">2017-04-19</span>
+                
+                <span class="post-visit"> 阅读次数：<span id="busuanzi_value_page_pv"></span></span>
+            </div>
+        </div>
+        <div class="post-toc" id="post-toc">
+    <strong class="post-toc-title">目录</strong>
+    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#类型"><span class="toc-text">类型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#内置类型"><span class="toc-text">内置类型</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#值和类型"><span class="toc-text">值和类型</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined-和-undeclared"><span class="toc-text">undefined 和 undeclared</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#值"><span class="toc-text">值</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#数组"><span class="toc-text">数组</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#类数组"><span class="toc-text">类数组</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#字符串"><span class="toc-text">字符串</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#数字"><span class="toc-text">数字</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#数字的语法"><span class="toc-text">数字的语法</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#较小的数值"><span class="toc-text">较小的数值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#整数的安全范围"><span class="toc-text">整数的安全范围</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#整数检查"><span class="toc-text">整数检查</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#32-位有符号整数"><span class="toc-text">32 位有符号整数</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#特殊数值"><span class="toc-text">特殊数值</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#不是值的值"><span class="toc-text">不是值的值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#void-运算符"><span class="toc-text">void 运算符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#特殊的数字NaN"><span class="toc-text">特殊的数字NaN</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#无穷数"><span class="toc-text">无穷数</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#零值"><span class="toc-text">零值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#特殊等式"><span class="toc-text">特殊等式</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#值和引用"><span class="toc-text">值和引用</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#原生函数"><span class="toc-text">原生函数</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#内部属性-Class"><span class="toc-text">内部属性 [[Class]]</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#封装对象包装"><span class="toc-text">封装对象包装</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#拆封"><span class="toc-text">拆封</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原生函数作为构造函数"><span class="toc-text">原生函数作为构造函数</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Array"><span class="toc-text">Array</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Object-、Function-和-RegExp"><span class="toc-text">Object(..)、Function(..) 和 RegExp(..)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Date-和Error"><span class="toc-text">Date()和Error()</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Symbol"><span class="toc-text">Symbol</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#原生原型"><span class="toc-text">原生原型</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#小结"><span class="toc-text">小结</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#强制类型转换"><span class="toc-text">强制类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#值类型转换"><span class="toc-text">值类型转换</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#抽象值操作"><span class="toc-text">抽象值操作</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#toString-NaN"><span class="toc-text">toString</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#JSON-字符串化"><span class="toc-text">JSON 字符串化</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#toNumber"><span class="toc-text">toNumber</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#toBoolean"><span class="toc-text">toBoolean</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#显示强制类型转化"><span class="toc-text">显示强制类型转化</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#字符串和数字之间的显式转换"><span class="toc-text">字符串和数字之间的显式转换</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#奇特的-运算符"><span class="toc-text">奇特的 ~ 运算符</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#显式解析数字字符串"><span class="toc-text">显式解析数字字符串</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#显式转换为布尔值"><span class="toc-text">显式转换为布尔值</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#隐式强制类型转换"><span class="toc-text">隐式强制类型转换</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#和-amp-amp"><span class="toc-text">|| 和 &amp;&amp;</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#宽松相等和严格相等"><span class="toc-text">宽松相等和严格相等</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#其他类型和布尔类型之间的相等比较"><span class="toc-text">其他类型和布尔类型之间的相等比较</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#null-和-undefined-之间的相等比较"><span class="toc-text">null 和 undefined 之间的相等比较</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#对象和非对象之间的相等比较"><span class="toc-text">对象和非对象之间的相等比较</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#语法"><span class="toc-text">语法</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#语句和表达式"><span class="toc-text">语句和表达式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#语句的结果值"><span class="toc-text">语句的结果值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#表达式的副作用"><span class="toc-text">表达式的副作用</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#上下文规则"><span class="toc-text">上下文规则</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#大括号"><span class="toc-text">大括号</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#else-if-和可选代码块"><span class="toc-text">else if 和可选代码块</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#运算符优先级"><span class="toc-text">运算符优先级</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#短路"><span class="toc-text">短路</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#自动分号"><span class="toc-text">自动分号</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#错误"><span class="toc-text">错误</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#提前使用变量"><span class="toc-text">提前使用变量</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#函数参数"><span class="toc-text">函数参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#try-finally"><span class="toc-text">try..finally</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#switch"><span class="toc-text">switch</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Promise"><span class="toc-text">Promise</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#术语-决议、完成以及拒绝"><span class="toc-text">术语:决议、完成以及拒绝</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#异常"><span class="toc-text">异常</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Promise-all"><span class="toc-text">Promise.all([ .. ])</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Promise-race"><span class="toc-text">Promise.race([ .. ])</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Promise-API-概述"><span class="toc-text">Promise API 概述</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#new-Promise-构造器"><span class="toc-text">new Promise(..) 构造器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Promise-resolve-和-Promise-reject"><span class="toc-text">Promise.resolve(..) 和 Promise.reject(..)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#then-和-catch"><span class="toc-text">then(..) 和 catch(..)</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#then-接受一个或两个参数"><span class="toc-text">then(..) 接受一个或两个参数</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Promise-局限性"><span class="toc-text">Promise 局限性</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#顺序错误处理"><span class="toc-text">顺序错误处理</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#单一值"><span class="toc-text">单一值</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#单决议"><span class="toc-text">单决议</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#无法取消的Promise"><span class="toc-text">无法取消的Promise</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Promise-性能"><span class="toc-text">Promise 性能</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#生成器"><span class="toc-text">生成器</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#打破完整运行"><span class="toc-text">打破完整运行</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#输入和输出"><span class="toc-text">输入和输出</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#多个迭代器"><span class="toc-text">多个迭代器</span></a></li></ol></li></ol></li></ol>
+    <div class="back-to-top" id="back-to-top">
+        <a href="javascript:void(0);">回到顶部</a>
+    </div>
 </div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
-			</div>
-			<hgroup>
-			  <h1 class="header-author">ShenYonghe</h1>
-			</hgroup>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-					<li><a href="/archives">所有文章</a></li>
-		        
-		        <div class="clearfix"></div>
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-				</div>
-			</nav>
-		</header>				
-	</div>
-</nav>
-      <div class="body-wrap"><article id="post-javascript 学习" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/04/19/javascript 学习/" class="article-date">
-  	<time datetime="2017-04-18T16:00:00.000Z" itemprop="datePublished">2017-04-19</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      javascript 学习笔记
-      
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-        
-
-        
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><h4 id="内置类型"><a href="#内置类型" class="headerlink" title="内置类型"></a>内置类型</h4><p>JavaScript 有七种内置类型:</p>
+        <div class="post-content">
+            <h3 id="类型"><a href="#类型" class="headerlink" title="类型"></a>类型</h3><h4 id="内置类型"><a href="#内置类型" class="headerlink" title="内置类型"></a>内置类型</h4><p>JavaScript 有七种内置类型:</p>
 <ul>
 <li>空值(null)</li>
 <li>未定义(undefined)</li>
@@ -424,109 +315,60 @@
 <p>yield .. 和 next(..) 这一对组合起来，在生成器的执行过程中构成了一个双向消息传递系统。</p>
 <h5 id="多个迭代器"><a href="#多个迭代器" class="headerlink" title="多个迭代器"></a>多个迭代器</h5><p>同一个生成器的多个实例可以同时运行，它们甚至可以彼此交互:</p>
 <figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span>* <span class="title">foo</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="keyword">var</span> x = <span class="keyword">yield</span> <span class="number">2</span>;</span><br><span class="line">  z++;</span><br><span class="line">  <span class="keyword">var</span> y = <span class="keyword">yield</span>(x * z);</span><br><span class="line">  <span class="built_in">console</span>.log(x, y, z);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">var</span> z = <span class="number">1</span>;</span><br><span class="line"><span class="keyword">var</span> it1 = foo();</span><br><span class="line"><span class="keyword">var</span> it2 = foo();</span><br><span class="line"><span class="keyword">var</span> val1 = it1.next().value; <span class="comment">// 2 &lt;-- yield 2</span></span><br><span class="line"><span class="keyword">var</span> val2 = it2.next().value; <span class="comment">// 2 &lt;-- yield 2</span></span><br><span class="line">val1 = it1.next(val2 * <span class="number">10</span>).value; <span class="comment">// 40   &lt;-- x:20,  z:2</span></span><br><span class="line">val2 = it2.next(val1 * <span class="number">5</span>).value; <span class="comment">// 600  &lt;-- x:200, z:3</span></span><br><span class="line">it1.next(val2 / <span class="number">2</span>); <span class="comment">// y:300</span></span><br><span class="line">it2.next(val1 / <span class="number">4</span>); <span class="comment">// y:10</span></span><br></pre></td></tr></table></figure>
-      
-    </div>
-    
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2017/05/05/lambda 语法/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">&lt;</strong>
-      <div class="article-nav-title">
-        
-          lambda 语法
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2017/04/17/设计模式/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">设计模式</div>
-      <strong class="article-nav-caption">&gt;</strong>
-    </a>
-  
-</nav>
-
-  
-</article>
-
-
-<div class="ds-share share" data-thread-key="javascript 学习" data-title="javascript 学习笔记" data-url="https://github.com/sirencode/2017/04/19/javascript 学习/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="javascript 学习笔记">
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
- 
-
-
-
-
-
-</div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-      <div class="footer-left">
-        &copy; 2018 ShenYonghe
-      </div>
-        <div class="footer-right">
-          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
         </div>
-    </div>
-  </div>
-</footer>
-    </div>
+        
+    </article>
+</div>
+<div class="paginator">
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+        
+            <a class="prev" href="/2017/05/05/lambda 语法/">
+                <i class="iconfont icon-prev"></i>
+                <span class="nav-default">lambda 语法</span>
+                <span class="nav-mobile">上一篇</span>
+            </a>
+        
+        
+            <a class="next" href="/2017/04/17/设计模式/">
+                <span class="nav-default">设计模式</span>
+                <span class="nav-mobile">下一篇</span>
+                <i class="iconfont icon-next"></i>
+            </a>
+        
+    
+</div>
+<div id="comment-container"></div>
+    </div>
+</div>
+<footer class="footer-social">
+    
 
+    
 
-<script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: true,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false
-	}
-</script>
-<script src="/js/main.js"></script>
+    
 
-
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    }
-});
-
-MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';                 
-    }       
-});
-</script>
-
-<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
-
-
-  </div>
+    <div class="footer-copyright">
+        <p class="time-line">
+            &copy;
+            
+            
+            2018
+            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
+            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
+        </p>
+        <p class="theme-info">
+            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
+            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
+        </p>
+    </div>
+</footer>
 </body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/index.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+    
+
+</script>
 </html>
