@@ -1,96 +1,139 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>Diablo</title>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="java GCJava程序不用像C++程序在程序中自行处理内存的回收释放。这是因为Java在JVM虚拟机上增加了垃圾回收(GC)机制，用以在合适的时间触发垃圾回收，将不需要的内存空间回收释放，避免无限制的内存增长导致的OOM。 由于Java堆是Java中最大的一块内存区域，主要用来存储各种类的实例对象，GC主要回收的也是Java堆中的内存。 堆中新生代和老年代两块区域新生代和老年代所占的内存比例默">
+<meta property="og:type" content="article">
+<meta property="og:title" content="java GC">
+<meta property="og:url" content="https://github.com/sirencode/2018/04/17/java GC/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="java GCJava程序不用像C++程序在程序中自行处理内存的回收释放。这是因为Java在JVM虚拟机上增加了垃圾回收(GC)机制，用以在合适的时间触发垃圾回收，将不需要的内存空间回收释放，避免无限制的内存增长导致的OOM。 由于Java堆是Java中最大的一块内存区域，主要用来存储各种类的实例对象，GC主要回收的也是Java堆中的内存。 堆中新生代和老年代两块区域新生代和老年代所占的内存比例默">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-04-17%20%E4%B8%8B%E5%8D%889.31.06.png">
+<meta property="og:updated_time" content="2018-04-17T15:01:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="java GC">
+<meta name="twitter:description" content="java GCJava程序不用像C++程序在程序中自行处理内存的回收释放。这是因为Java在JVM虚拟机上增加了垃圾回收(GC)机制，用以在合适的时间触发垃圾回收，将不需要的内存空间回收释放，避免无限制的内存增长导致的OOM。 由于Java堆是Java中最大的一块内存区域，主要用来存储各种类的实例对象，GC主要回收的也是Java堆中的内存。 堆中新生代和老年代两块区域新生代和老年代所占的内存比例默">
+<meta name="twitter:image" content="http://oc4zuck5v.bkt.clouddn.com/%E5%B1%8F%E5%B9%95%E5%BF%AB%E7%85%A7%202018-04-17%20%E4%B8%8B%E5%8D%889.31.06.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>java GC</title>
+    <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/gitment.css">
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+    <!-- rss -->
+    
+    
 </head>
+
 <body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2018/04/18/Android 加固技术/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2018/04/09/Android Android 共享内存/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2018/04/17/java GC/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2018/04/17/java GC/&text=java GC"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2018/04/17/java GC/&title=java GC"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2018/04/17/java GC/&is_video=false&description=java GC"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=java GC&body=Check out this article: https://github.com/sirencode/2018/04/17/java GC/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2018/04/17/java GC/&title=java GC"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2018/04/17/java GC/&title=java GC"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2018/04/17/java GC/&title=java GC"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2018/04/17/java GC/&title=java GC"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2018/04/17/java GC/&name=java GC&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
 
-        </div>
-        <nav class="header-nav">
-            
-            <a href="/" class="header-nav-link" >
-                Home
-            </a>
-            
-
-            
-            <a href="/archives" class="header-nav-link">
-                Archives
-            </a>
-            
-
-            
-            <a href="/tags" class="header-nav-link">
-                Tags
-            </a>
-            
-
-            
-        </nav>
     </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
-        </div>
-
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#java-GC"><span class="toc-number">1.</span> <span class="toc-text">java GC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#堆中新生代和老年代两块区域"><span class="toc-number">1.1.</span> <span class="toc-text">堆中新生代和老年代两块区域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GC-触发"><span class="toc-number">1.2.</span> <span class="toc-text">GC 触发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆内存的GC特点"><span class="toc-number">1.3.</span> <span class="toc-text">堆内存的GC特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新生代"><span class="toc-number">1.4.</span> <span class="toc-text">新生代</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#老年代"><span class="toc-number">1.5.</span> <span class="toc-text">老年代</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GC分类"><span class="toc-number">1.6.</span> <span class="toc-text">GC分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Minor-GC"><span class="toc-number">1.7.</span> <span class="toc-text">Minor GC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Full-GC"><span class="toc-number">1.8.</span> <span class="toc-text">Full GC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#标记"><span class="toc-number">1.8.1.</span> <span class="toc-text">标记</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记清除"><span class="toc-number">1.8.2.</span> <span class="toc-text">标记清除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记整理"><span class="toc-number">1.8.3.</span> <span class="toc-text">标记整理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾收集器"><span class="toc-number">1.9.</span> <span class="toc-text">垃圾收集器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新生代收集器"><span class="toc-number">1.9.1.</span> <span class="toc-text">新生代收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#老年代收集器"><span class="toc-number">1.9.2.</span> <span class="toc-text">老年代收集器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM-Dalvik-ART"><span class="toc-number">1.10.</span> <span class="toc-text">JVM Dalvik ART</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dalvik"><span class="toc-number">1.10.1.</span> <span class="toc-text">Dalvik</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DVM如何运行java"><span class="toc-number">1.10.1.1.</span> <span class="toc-text">DVM如何运行java</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dalvik与JVM区别"><span class="toc-number">1.10.1.2.</span> <span class="toc-text">Dalvik与JVM区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ART"><span class="toc-number">1.10.2.</span> <span class="toc-text">ART</span></a></li></ol></li></ol></li></ol>
     </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/" class="mobile-nav-link">Home</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/archives" class="mobile-nav-link">Archives</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/tags" class="mobile-nav-link">Tags</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/about/" class="mobile-nav-link">About</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    <article class="post-whole">
-        <div class="post-title">
-            <h2 class="title">java GC</h2>
-            <div class="post-meta">
-                <span class="post-time">2018-04-17</span>
-                
-                <span class="post-visit"> visited：<span id="busuanzi_value_page_pv"></span></span>
-            </div>
-        </div>
-        <div class="post-toc" id="post-toc">
-    <strong class="post-toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#java-GC"><span class="toc-text">java GC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#堆中新生代和老年代两块区域"><span class="toc-text">堆中新生代和老年代两块区域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GC-触发"><span class="toc-text">GC 触发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆内存的GC特点"><span class="toc-text">堆内存的GC特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新生代"><span class="toc-text">新生代</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#老年代"><span class="toc-text">老年代</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GC分类"><span class="toc-text">GC分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Minor-GC"><span class="toc-text">Minor GC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Full-GC"><span class="toc-text">Full GC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#标记"><span class="toc-text">标记</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记清除"><span class="toc-text">标记清除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记整理"><span class="toc-text">标记整理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾收集器"><span class="toc-text">垃圾收集器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新生代收集器"><span class="toc-text">新生代收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#老年代收集器"><span class="toc-text">老年代收集器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM-Dalvik-ART"><span class="toc-text">JVM Dalvik ART</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dalvik"><span class="toc-text">Dalvik</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DVM如何运行java"><span class="toc-text">DVM如何运行java</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dalvik与JVM区别"><span class="toc-text">Dalvik与JVM区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ART"><span class="toc-text">ART</span></a></li></ol></li></ol></li></ol>
-    <div class="back-to-top" id="back-to-top">
-        <a href="javascript:void(0);">回到顶部</a>
-    </div>
+  </span>
 </div>
-        <div class="post-content">
-            <h1 id="java-GC"><a href="#java-GC" class="headerlink" title="java GC"></a>java GC</h1><p>Java程序不用像C++程序在程序中自行处理内存的回收释放。这是因为Java在JVM虚拟机上增加了垃圾回收(GC)机制，用以在合适的时间触发垃圾回收，将不需要的内存空间回收释放，避免无限制的内存增长导致的OOM。</p>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        java GC
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Diablo</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2018-04-16T16:00:00.000Z" itemprop="datePublished">2018-04-17</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h1 id="java-GC"><a href="#java-GC" class="headerlink" title="java GC"></a>java GC</h1><p>Java程序不用像C++程序在程序中自行处理内存的回收释放。这是因为Java在JVM虚拟机上增加了垃圾回收(GC)机制，用以在合适的时间触发垃圾回收，将不需要的内存空间回收释放，避免无限制的内存增长导致的OOM。</p>
 <p>由于Java堆是Java中最大的一块内存区域，主要用来存储各种类的实例对象，GC主要回收的也是Java堆中的内存。</p>
 <h2 id="堆中新生代和老年代两块区域"><a href="#堆中新生代和老年代两块区域" class="headerlink" title="堆中新生代和老年代两块区域"></a>堆中新生代和老年代两块区域</h2><p>新生代和老年代所占的内存比例默认是1:2(JDK1.6,该值可以通过参数 –XX:NewRatio 来指定)。</p>
 <p>还有一个持久代，用于存放静态文件（class类、方法）和常量等。持久代对垃圾回收没有显著影响，但是有些应用可能动态生成或者调用一些class，例如Hibernate 等，在这种时候需要设置一个比较大的持久代空间来存放这些运行过程中新增的类。对永久代的回收主要回收两部分内容：废弃常量和无用的类。永久代空间在Java SE8特性中已经被移除。取而代之的是元空间（MetaSpace）。</p>
@@ -145,60 +188,107 @@
 <h3 id="ART"><a href="#ART" class="headerlink" title="ART"></a>ART</h3><p>Android 4.4发布了一个ART运行时，准备用来替换掉之前一直使用的Dalvik虚拟机.</p>
 <p>ART 的机制与 Dalvik 不同。在Dalvik下，应用每次运行的时候，字节码都需要通过即时编译器（just in time ，JIT）转换为机器码，这会拖慢应用的运行效率，而在ART 环境中，应用在第一次安装的时候，字节码就会预先编译成机器码，使其成为真正的本地应用。这个过程叫做预编译（AOT,Ahead-Of-Time）。这样的话，应用的启动(首次)和执行都会变得更加快速。</p>
 
-        </div>
-        
-    </article>
-</div>
-<div class="paginator">
-    
-        
-            <a class="prev" href="/2018/04/18/Android 加固技术/">
-                <i class="iconfont icon-prev"></i>
-                <span class="nav-default">Android 加固技术</span>
-                <span class="nav-mobile">Prev</span>
-            </a>
-        
-        
-            <a class="next" href="/2018/04/09/设计模式-迭代器模式/">
-                <span class="nav-default">设计模式-迭代器模式</span>
-                <span class="nav-mobile">Next</span>
-                <i class="iconfont icon-next"></i>
-            </a>
-        
-    
-</div>
-<div id="comment-container"></div>
+  </div>
+</article>
+
+
+
     </div>
-</div>
-<footer class="footer-social">
     
+      <div id="footer-post-container">
+  <div id="footer-post">
 
-    
-
-    
-
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2018
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
     </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#java-GC"><span class="toc-number">1.</span> <span class="toc-text">java GC</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#堆中新生代和老年代两块区域"><span class="toc-number">1.1.</span> <span class="toc-text">堆中新生代和老年代两块区域</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GC-触发"><span class="toc-number">1.2.</span> <span class="toc-text">GC 触发</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#堆内存的GC特点"><span class="toc-number">1.3.</span> <span class="toc-text">堆内存的GC特点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#新生代"><span class="toc-number">1.4.</span> <span class="toc-text">新生代</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#老年代"><span class="toc-number">1.5.</span> <span class="toc-text">老年代</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#GC分类"><span class="toc-number">1.6.</span> <span class="toc-text">GC分类</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Minor-GC"><span class="toc-number">1.7.</span> <span class="toc-text">Minor GC</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Full-GC"><span class="toc-number">1.8.</span> <span class="toc-text">Full GC</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#标记"><span class="toc-number">1.8.1.</span> <span class="toc-text">标记</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记清除"><span class="toc-number">1.8.2.</span> <span class="toc-text">标记清除</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#标记整理"><span class="toc-number">1.8.3.</span> <span class="toc-text">标记整理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#垃圾收集器"><span class="toc-number">1.9.</span> <span class="toc-text">垃圾收集器</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#新生代收集器"><span class="toc-number">1.9.1.</span> <span class="toc-text">新生代收集器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#老年代收集器"><span class="toc-number">1.9.2.</span> <span class="toc-text">老年代收集器</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#JVM-Dalvik-ART"><span class="toc-number">1.10.</span> <span class="toc-text">JVM Dalvik ART</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Dalvik"><span class="toc-number">1.10.1.</span> <span class="toc-text">Dalvik</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#DVM如何运行java"><span class="toc-number">1.10.1.1.</span> <span class="toc-text">DVM如何运行java</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Dalvik与JVM区别"><span class="toc-number">1.10.1.2.</span> <span class="toc-text">Dalvik与JVM区别</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ART"><span class="toc-number">1.10.2.</span> <span class="toc-text">ART</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2018/04/17/java GC/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2018/04/17/java GC/&text=java GC"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2018/04/17/java GC/&title=java GC"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2018/04/17/java GC/&is_video=false&description=java GC"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=java GC&body=Check out this article: https://github.com/sirencode/2018/04/17/java GC/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2018/04/17/java GC/&title=java GC"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2018/04/17/java GC/&title=java GC"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2018/04/17/java GC/&title=java GC"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2018/04/17/java GC/&title=java GC"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2018/04/17/java GC/&name=java GC&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ShenYonghe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
 </footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
 
-</script>
+</body>
 </html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

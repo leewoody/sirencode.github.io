@@ -1,96 +1,137 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>Diablo</title>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="OOM大家在项目开发中多多少少会遇到一些OOM的问题，内存是个大问题。 手机内存解析Android是一个多任务系统, 为了保证多任务的运行, Android给每个App可使用的Heap大小设定了一个限定值. 这个值是系统设置的prop值, 系统编译时内置的, 保存在system/build.prop中. 一般国内的手机厂商都会做修改, 根据手机配置不同而不同, 可以通过如下命令查看: 12$ ad">
+<meta property="og:type" content="article">
+<meta property="og:title" content="图片OOM问题">
+<meta property="og:url" content="https://github.com/sirencode/2016/11/15/图片OOM问题/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="OOM大家在项目开发中多多少少会遇到一些OOM的问题，内存是个大问题。 手机内存解析Android是一个多任务系统, 为了保证多任务的运行, Android给每个App可使用的Heap大小设定了一个限定值. 这个值是系统设置的prop值, 系统编译时内置的, 保存在system/build.prop中. 一般国内的手机厂商都会做修改, 根据手机配置不同而不同, 可以通过如下命令查看: 12$ ad">
+<meta property="og:updated_time" content="2016-11-16T07:37:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="图片OOM问题">
+<meta name="twitter:description" content="OOM大家在项目开发中多多少少会遇到一些OOM的问题，内存是个大问题。 手机内存解析Android是一个多任务系统, 为了保证多任务的运行, Android给每个App可使用的Heap大小设定了一个限定值. 这个值是系统设置的prop值, 系统编译时内置的, 保存在system/build.prop中. 一般国内的手机厂商都会做修改, 根据手机配置不同而不同, 可以通过如下命令查看: 12$ ad">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>图片OOM问题</title>
+    <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/gitment.css">
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+    <!-- rss -->
+    
+    
 </head>
+
 <body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2016/11/17/性能优化-UI/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2016/11/15/APK大小分析/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2016/11/15/图片OOM问题/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&text=图片OOM问题"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&title=图片OOM问题"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&is_video=false&description=图片OOM问题"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=图片OOM问题&body=Check out this article: https://github.com/sirencode/2016/11/15/图片OOM问题/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&title=图片OOM问题"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&title=图片OOM问题"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&title=图片OOM问题"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&title=图片OOM问题"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&name=图片OOM问题&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
 
-        </div>
-        <nav class="header-nav">
-            
-            <a href="/" class="header-nav-link" >
-                Home
-            </a>
-            
-
-            
-            <a href="/archives" class="header-nav-link">
-                Archives
-            </a>
-            
-
-            
-            <a href="/tags" class="header-nav-link">
-                Tags
-            </a>
-            
-
-            
-        </nav>
     </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
-        </div>
-
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#OOM"><span class="toc-number">1.</span> <span class="toc-text">OOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#手机内存解析"><span class="toc-number">2.</span> <span class="toc-text">手机内存解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapstartsize"><span class="toc-number">2.1.</span> <span class="toc-text">dalvik.vm.heapstartsize</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapgrowthlimit"><span class="toc-number">2.2.</span> <span class="toc-text">dalvik.vm.heapgrowthlimit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapsize"><span class="toc-number">2.3.</span> <span class="toc-text">dalvik.vm.heapsize</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heaptargetutilization"><span class="toc-number">2.4.</span> <span class="toc-text">dalvik.vm.heaptargetutilization</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapminfree"><span class="toc-number">2.5.</span> <span class="toc-text">dalvik.vm.heapminfree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapmaxfree"><span class="toc-number">2.6.</span> <span class="toc-text">dalvik.vm.heapmaxfree</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片内存问题"><span class="toc-number">3.</span> <span class="toc-text">图片内存问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#本地图片内存问题"><span class="toc-number">3.1.</span> <span class="toc-text">本地图片内存问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网络图片内存问题"><span class="toc-number">3.2.</span> <span class="toc-text">网络图片内存问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#图片压缩的问题"><span class="toc-number">3.3.</span> <span class="toc-text">图片压缩的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不要将Button的背景设置为selector"><span class="toc-number">3.4.</span> <span class="toc-text">不要将Button的背景设置为selector</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable"><span class="toc-number">3.5.</span> <span class="toc-text">尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#尽量使用vector-drawable"><span class="toc-number">3.6.</span> <span class="toc-text">尽量使用vector drawable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在服务器段配置相对较小的webp格式"><span class="toc-number">3.7.</span> <span class="toc-text">在服务器段配置相对较小的webp格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他方式优化"><span class="toc-number">3.8.</span> <span class="toc-text">其他方式优化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bitmap-相关"><span class="toc-number">4.</span> <span class="toc-text">Bitmap 相关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#不同格式的图片每像素所占字节数"><span class="toc-number">4.1.</span> <span class="toc-text">不同格式的图片每像素所占字节数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#生成Bitmap所占大小-size"><span class="toc-number">4.2.</span> <span class="toc-text">生成Bitmap所占大小(size)</span></a></li></ol></li></ol>
     </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/" class="mobile-nav-link">Home</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/archives" class="mobile-nav-link">Archives</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/tags" class="mobile-nav-link">Tags</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/about/" class="mobile-nav-link">About</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    <article class="post-whole">
-        <div class="post-title">
-            <h2 class="title">图片OOM问题</h2>
-            <div class="post-meta">
-                <span class="post-time">2016-11-15</span>
-                
-                <span class="post-visit"> visited：<span id="busuanzi_value_page_pv"></span></span>
-            </div>
-        </div>
-        <div class="post-toc" id="post-toc">
-    <strong class="post-toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#OOM"><span class="toc-text">OOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#手机内存解析"><span class="toc-text">手机内存解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapstartsize"><span class="toc-text">dalvik.vm.heapstartsize</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapgrowthlimit"><span class="toc-text">dalvik.vm.heapgrowthlimit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapsize"><span class="toc-text">dalvik.vm.heapsize</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heaptargetutilization"><span class="toc-text">dalvik.vm.heaptargetutilization</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapminfree"><span class="toc-text">dalvik.vm.heapminfree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapmaxfree"><span class="toc-text">dalvik.vm.heapmaxfree</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片内存问题"><span class="toc-text">图片内存问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#本地图片内存问题"><span class="toc-text">本地图片内存问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网络图片内存问题"><span class="toc-text">网络图片内存问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#图片压缩的问题"><span class="toc-text">图片压缩的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不要将Button的背景设置为selector"><span class="toc-text">不要将Button的背景设置为selector</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable"><span class="toc-text">尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#尽量使用vector-drawable"><span class="toc-text">尽量使用vector drawable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在服务器段配置相对较小的webp格式"><span class="toc-text">在服务器段配置相对较小的webp格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他方式优化"><span class="toc-text">其他方式优化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bitmap-相关"><span class="toc-text">Bitmap 相关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#不同格式的图片每像素所占字节数"><span class="toc-text">不同格式的图片每像素所占字节数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#生成Bitmap所占大小-size"><span class="toc-text">生成Bitmap所占大小(size)</span></a></li></ol></li></ol>
-    <div class="back-to-top" id="back-to-top">
-        <a href="javascript:void(0);">回到顶部</a>
-    </div>
+  </span>
 </div>
-        <div class="post-content">
-            <h3 id="OOM"><a href="#OOM" class="headerlink" title="OOM"></a>OOM</h3><p>大家在项目开发中多多少少会遇到一些OOM的问题，内存是个大问题。</p>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        图片OOM问题
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Diablo</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2016-11-14T16:00:00.000Z" itemprop="datePublished">2016-11-15</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="OOM"><a href="#OOM" class="headerlink" title="OOM"></a>OOM</h3><p>大家在项目开发中多多少少会遇到一些OOM的问题，内存是个大问题。</p>
 <h3 id="手机内存解析"><a href="#手机内存解析" class="headerlink" title="手机内存解析"></a>手机内存解析</h3><p>Android是一个多任务系统, 为了保证多任务的运行, Android给每个App可使用的Heap大小设定了一个限定值.</p>
 <p>这个值是系统设置的prop值, 系统编译时内置的, 保存在system/build.prop中. 一般国内的手机厂商都会做修改, 根据手机配置不同而不同, 可以通过如下命令查看:</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell</span><br><span class="line">$ cat /system/build.prop</span><br></pre></td></tr></table></figure>
@@ -150,60 +191,107 @@
 <h4 id="生成Bitmap所占大小-size"><a href="#生成Bitmap所占大小-size" class="headerlink" title="生成Bitmap所占大小(size)"></a>生成Bitmap所占大小(size)</h4><p>公式: 宽 <em> 高 </em> 每个像素所占字节</p>
 <p>size = width <em> height </em> bytes(格式1,2,3,4)*放大缩小倍数</p>
 
-        </div>
-        
-    </article>
-</div>
-<div class="paginator">
-    
-        
-            <a class="prev" href="/2016/11/15/APK大小分析/">
-                <i class="iconfont icon-prev"></i>
-                <span class="nav-default">APK大小分析</span>
-                <span class="nav-mobile">Prev</span>
-            </a>
-        
-        
-            <a class="next" href="/2016/11/14/AccessibilityService 辅助类实现系统监听/">
-                <span class="nav-default">AccessibilityService</span>
-                <span class="nav-mobile">Next</span>
-                <i class="iconfont icon-next"></i>
-            </a>
-        
-    
-</div>
-<div id="comment-container"></div>
+  </div>
+</article>
+
+
+
     </div>
-</div>
-<footer class="footer-social">
     
+      <div id="footer-post-container">
+  <div id="footer-post">
 
-    
-
-    
-
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2018
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
     </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#OOM"><span class="toc-number">1.</span> <span class="toc-text">OOM</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#手机内存解析"><span class="toc-number">2.</span> <span class="toc-text">手机内存解析</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapstartsize"><span class="toc-number">2.1.</span> <span class="toc-text">dalvik.vm.heapstartsize</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapgrowthlimit"><span class="toc-number">2.2.</span> <span class="toc-text">dalvik.vm.heapgrowthlimit</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapsize"><span class="toc-number">2.3.</span> <span class="toc-text">dalvik.vm.heapsize</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heaptargetutilization"><span class="toc-number">2.4.</span> <span class="toc-text">dalvik.vm.heaptargetutilization</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapminfree"><span class="toc-number">2.5.</span> <span class="toc-text">dalvik.vm.heapminfree</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#dalvik-vm-heapmaxfree"><span class="toc-number">2.6.</span> <span class="toc-text">dalvik.vm.heapmaxfree</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#图片内存问题"><span class="toc-number">3.</span> <span class="toc-text">图片内存问题</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#本地图片内存问题"><span class="toc-number">3.1.</span> <span class="toc-text">本地图片内存问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网络图片内存问题"><span class="toc-number">3.2.</span> <span class="toc-text">网络图片内存问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#图片压缩的问题"><span class="toc-number">3.3.</span> <span class="toc-text">图片压缩的问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#不要将Button的背景设置为selector"><span class="toc-number">3.4.</span> <span class="toc-text">不要将Button的背景设置为selector</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable"><span class="toc-number">3.5.</span> <span class="toc-text">尽量少用AnimationDrawable，如果必须要可以自定义图片切换器代替AnimationDrawable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#尽量使用vector-drawable"><span class="toc-number">3.6.</span> <span class="toc-text">尽量使用vector drawable</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#在服务器段配置相对较小的webp格式"><span class="toc-number">3.7.</span> <span class="toc-text">在服务器段配置相对较小的webp格式</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#其他方式优化"><span class="toc-number">3.8.</span> <span class="toc-text">其他方式优化</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Bitmap-相关"><span class="toc-number">4.</span> <span class="toc-text">Bitmap 相关</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#不同格式的图片每像素所占字节数"><span class="toc-number">4.1.</span> <span class="toc-text">不同格式的图片每像素所占字节数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#生成Bitmap所占大小-size"><span class="toc-number">4.2.</span> <span class="toc-text">生成Bitmap所占大小(size)</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2016/11/15/图片OOM问题/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&text=图片OOM问题"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&title=图片OOM问题"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&is_video=false&description=图片OOM问题"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=图片OOM问题&body=Check out this article: https://github.com/sirencode/2016/11/15/图片OOM问题/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&title=图片OOM问题"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&title=图片OOM问题"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&title=图片OOM问题"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&title=图片OOM问题"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2016/11/15/图片OOM问题/&name=图片OOM问题&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ShenYonghe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
 </footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
 
-</script>
+</body>
 </html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

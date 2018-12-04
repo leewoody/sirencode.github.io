@@ -1,96 +1,141 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>Diablo</title>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="起源设计模式起源于建筑领域，是由美国著名建筑学家Christopher Alexander（克里斯托弗.亚历山大，被称为模式之父）。模式是在特定环境下人们解决某类重复出现问题的一套成功或有效的解决方案。 最早将模式的思想引入软件工程方法学的是1991-1992年以“四人组(Gang of Four，简称GoF，分别是Erich Gamma, Richard Helm, Ralph Johnson和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="设计模式">
+<meta property="og:url" content="https://github.com/sirencode/2017/04/17/设计模式/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="起源设计模式起源于建筑领域，是由美国著名建筑学家Christopher Alexander（克里斯托弗.亚历山大，被称为模式之父）。模式是在特定环境下人们解决某类重复出现问题的一套成功或有效的解决方案。 最早将模式的思想引入软件工程方法学的是1991-1992年以“四人组(Gang of Four，简称GoF，分别是Erich Gamma, Richard Helm, Ralph Johnson和">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201204/02/1333301568_8769.gif">
+<meta property="og:image" content="http://oc4zuck5v.bkt.clouddn.com/Snip20170417_2.png">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201303/01/1362069067_3033.jpg">
+<meta property="og:updated_time" content="2017-06-01T02:01:01.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="设计模式">
+<meta name="twitter:description" content="起源设计模式起源于建筑领域，是由美国著名建筑学家Christopher Alexander（克里斯托弗.亚历山大，被称为模式之父）。模式是在特定环境下人们解决某类重复出现问题的一套成功或有效的解决方案。 最早将模式的思想引入软件工程方法学的是1991-1992年以“四人组(Gang of Four，简称GoF，分别是Erich Gamma, Richard Helm, Ralph Johnson和">
+<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201204/02/1333301568_8769.gif">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>设计模式</title>
+    <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/gitment.css">
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+    <!-- rss -->
+    
+    
 </head>
+
 <body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/04/19/javascript 学习/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/04/13/OKR/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2017/04/17/设计模式/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2017/04/17/设计模式/&text=设计模式"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2017/04/17/设计模式/&title=设计模式"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2017/04/17/设计模式/&is_video=false&description=设计模式"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=设计模式&body=Check out this article: https://github.com/sirencode/2017/04/17/设计模式/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2017/04/17/设计模式/&title=设计模式"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2017/04/17/设计模式/&title=设计模式"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2017/04/17/设计模式/&title=设计模式"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2017/04/17/设计模式/&title=设计模式"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2017/04/17/设计模式/&name=设计模式&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
 
-        </div>
-        <nav class="header-nav">
-            
-            <a href="/" class="header-nav-link" >
-                Home
-            </a>
-            
-
-            
-            <a href="/archives" class="header-nav-link">
-                Archives
-            </a>
-            
-
-            
-            <a href="/tags" class="header-nav-link">
-                Tags
-            </a>
-            
-
-            
-        </nav>
     </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
-        </div>
-
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#起源"><span class="toc-number">1.</span> <span class="toc-text">起源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定义"><span class="toc-number">2.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分类"><span class="toc-number">3.</span> <span class="toc-text">分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用途"><span class="toc-number">4.</span> <span class="toc-text">用途</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#好处"><span class="toc-number">4.1.</span> <span class="toc-text">好处</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六个创建模式"><span class="toc-number">5.</span> <span class="toc-text">六个创建模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简单-静态工厂模式"><span class="toc-number">5.1.</span> <span class="toc-text">简单/静态工厂模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景"><span class="toc-number">5.1.1.</span> <span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工厂方法模式"><span class="toc-number">5.2.</span> <span class="toc-text">工厂方法模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-1"><span class="toc-number">5.2.1.</span> <span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#抽象工厂"><span class="toc-number">5.3.</span> <span class="toc-text">抽象工厂</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-2"><span class="toc-number">5.3.1.</span> <span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#单例模式"><span class="toc-number">5.4.</span> <span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#饿汉式单例类"><span class="toc-number">5.4.1.</span> <span class="toc-text">饿汉式单例类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#懒汉式单例类与线程锁定"><span class="toc-number">5.4.2.</span> <span class="toc-text">懒汉式单例类与线程锁定</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#饿汉式单例类与懒汉式单例类比较"><span class="toc-number">5.4.3.</span> <span class="toc-text">饿汉式单例类与懒汉式单例类比较</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Initialization-Demand-Holder"><span class="toc-number">5.4.4.</span> <span class="toc-text">Initialization Demand Holder</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-3"><span class="toc-number">5.4.5.</span> <span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原型模式"><span class="toc-number">5.5.</span> <span class="toc-text">原型模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-4"><span class="toc-number">5.5.1.</span> <span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#建造者模式"><span class="toc-number">5.6.</span> <span class="toc-text">建造者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-5"><span class="toc-number">5.6.1.</span> <span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#适配器模式"><span class="toc-number">5.7.</span> <span class="toc-text">适配器模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#双向适配器"><span class="toc-number">5.7.1.</span> <span class="toc-text">双向适配器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#优点"><span class="toc-number">5.7.2.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#场景"><span class="toc-number">5.7.3.</span> <span class="toc-text">场景</span></a></li></ol></li></ol></li></ol>
     </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/" class="mobile-nav-link">Home</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/archives" class="mobile-nav-link">Archives</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/tags" class="mobile-nav-link">Tags</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/about/" class="mobile-nav-link">About</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    <article class="post-whole">
-        <div class="post-title">
-            <h2 class="title">设计模式</h2>
-            <div class="post-meta">
-                <span class="post-time">2017-04-17</span>
-                
-                <span class="post-visit"> visited：<span id="busuanzi_value_page_pv"></span></span>
-            </div>
-        </div>
-        <div class="post-toc" id="post-toc">
-    <strong class="post-toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#起源"><span class="toc-text">起源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定义"><span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分类"><span class="toc-text">分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用途"><span class="toc-text">用途</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#好处"><span class="toc-text">好处</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六个创建模式"><span class="toc-text">六个创建模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简单-静态工厂模式"><span class="toc-text">简单/静态工厂模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景"><span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工厂方法模式"><span class="toc-text">工厂方法模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-1"><span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#抽象工厂"><span class="toc-text">抽象工厂</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-2"><span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#单例模式"><span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#饿汉式单例类"><span class="toc-text">饿汉式单例类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#懒汉式单例类与线程锁定"><span class="toc-text">懒汉式单例类与线程锁定</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#饿汉式单例类与懒汉式单例类比较"><span class="toc-text">饿汉式单例类与懒汉式单例类比较</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Initialization-Demand-Holder"><span class="toc-text">Initialization Demand Holder</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-3"><span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原型模式"><span class="toc-text">原型模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-4"><span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#建造者模式"><span class="toc-text">建造者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-5"><span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#适配器模式"><span class="toc-text">适配器模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#双向适配器"><span class="toc-text">双向适配器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#优点"><span class="toc-text">优点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#场景"><span class="toc-text">场景</span></a></li></ol></li></ol></li></ol>
-    <div class="back-to-top" id="back-to-top">
-        <a href="javascript:void(0);">回到顶部</a>
-    </div>
+  </span>
 </div>
-        <div class="post-content">
-            <h3 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h3><p>设计模式起源于建筑领域，是由美国著名建筑学家Christopher Alexander（克里斯托弗.亚历山大，被称为模式之父）。模式是在特定环境下人们解决某类重复出现问题的一套成功或有效的解决方案。</p>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        设计模式
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Diablo</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-04-16T16:00:00.000Z" itemprop="datePublished">2017-04-17</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="起源"><a href="#起源" class="headerlink" title="起源"></a>起源</h3><p>设计模式起源于建筑领域，是由美国著名建筑学家Christopher Alexander（克里斯托弗.亚历山大，被称为模式之父）。模式是在特定环境下人们解决某类重复出现问题的一套成功或有效的解决方案。</p>
 <p>最早将模式的思想引入软件工程方法学的是1991-1992年以“四人组(Gang of Four，简称GoF，分别是Erich Gamma, Richard Helm, Ralph Johnson和John Vlissides)”自称的四位著名软件工程学者，他们在1994年归纳发表了23种在软件开发中使用频率较高的设计模式，旨在用模式来统一沟通面向对象方法在分析、设计和实现间的鸿沟。</p>
 <p>软件模式基本结构：</p>
 <p><img src="http://img.my.csdn.net/uploads/201204/02/1333301568_8769.gif" alt=""></p>
@@ -218,60 +263,107 @@
 </ul>
 <p>转载自<a href="http://blog.csdn.net/lovelion/article/details/17517213" target="_blank" rel="noopener">史上最全设计模式导学目录（完整版）</a></p>
 
-        </div>
-        
-    </article>
-</div>
-<div class="paginator">
-    
-        
-            <a class="prev" href="/2017/04/19/javascript 学习/">
-                <i class="iconfont icon-prev"></i>
-                <span class="nav-default">javascript 学习笔记</span>
-                <span class="nav-mobile">Prev</span>
-            </a>
-        
-        
-            <a class="next" href="/2017/04/13/OKR/">
-                <span class="nav-default">OKR</span>
-                <span class="nav-mobile">Next</span>
-                <i class="iconfont icon-next"></i>
-            </a>
-        
-    
-</div>
-<div id="comment-container"></div>
+  </div>
+</article>
+
+
+
     </div>
-</div>
-<footer class="footer-social">
     
+      <div id="footer-post-container">
+  <div id="footer-post">
 
-    
-
-    
-
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2018
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
     </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#起源"><span class="toc-number">1.</span> <span class="toc-text">起源</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#定义"><span class="toc-number">2.</span> <span class="toc-text">定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分类"><span class="toc-number">3.</span> <span class="toc-text">分类</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#用途"><span class="toc-number">4.</span> <span class="toc-text">用途</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#好处"><span class="toc-number">4.1.</span> <span class="toc-text">好处</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#六个创建模式"><span class="toc-number">5.</span> <span class="toc-text">六个创建模式</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#简单-静态工厂模式"><span class="toc-number">5.1.</span> <span class="toc-text">简单/静态工厂模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景"><span class="toc-number">5.1.1.</span> <span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#工厂方法模式"><span class="toc-number">5.2.</span> <span class="toc-text">工厂方法模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-1"><span class="toc-number">5.2.1.</span> <span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#抽象工厂"><span class="toc-number">5.3.</span> <span class="toc-text">抽象工厂</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-2"><span class="toc-number">5.3.1.</span> <span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#单例模式"><span class="toc-number">5.4.</span> <span class="toc-text">单例模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#饿汉式单例类"><span class="toc-number">5.4.1.</span> <span class="toc-text">饿汉式单例类</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#懒汉式单例类与线程锁定"><span class="toc-number">5.4.2.</span> <span class="toc-text">懒汉式单例类与线程锁定</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#饿汉式单例类与懒汉式单例类比较"><span class="toc-number">5.4.3.</span> <span class="toc-text">饿汉式单例类与懒汉式单例类比较</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#Initialization-Demand-Holder"><span class="toc-number">5.4.4.</span> <span class="toc-text">Initialization Demand Holder</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-3"><span class="toc-number">5.4.5.</span> <span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#原型模式"><span class="toc-number">5.5.</span> <span class="toc-text">原型模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-4"><span class="toc-number">5.5.1.</span> <span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#建造者模式"><span class="toc-number">5.6.</span> <span class="toc-text">建造者模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#适用场景-5"><span class="toc-number">5.6.1.</span> <span class="toc-text">适用场景</span></a></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#适配器模式"><span class="toc-number">5.7.</span> <span class="toc-text">适配器模式</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#双向适配器"><span class="toc-number">5.7.1.</span> <span class="toc-text">双向适配器</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#优点"><span class="toc-number">5.7.2.</span> <span class="toc-text">优点</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#场景"><span class="toc-number">5.7.3.</span> <span class="toc-text">场景</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2017/04/17/设计模式/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2017/04/17/设计模式/&text=设计模式"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2017/04/17/设计模式/&title=设计模式"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2017/04/17/设计模式/&is_video=false&description=设计模式"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=设计模式&body=Check out this article: https://github.com/sirencode/2017/04/17/设计模式/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2017/04/17/设计模式/&title=设计模式"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2017/04/17/设计模式/&title=设计模式"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2017/04/17/设计模式/&title=设计模式"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2017/04/17/设计模式/&title=设计模式"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2017/04/17/设计模式/&name=设计模式&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ShenYonghe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
 </footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
 
-</script>
+</body>
 </html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+

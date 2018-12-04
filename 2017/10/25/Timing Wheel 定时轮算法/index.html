@@ -1,96 +1,139 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8">
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
-    <title>Diablo</title>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="背景我们在做一款期货交易的app，网络部分使用的socket长连接。由于我们的网关服务器性能有限，因此需要在用户不频繁操作的时候，把用户断开。 需求每个用户只要5分钟不请求长连接相关接口，我们就自动将用户断开，从而保证我们服务器的负载能力。 分析最简单的实现方式就是使用timer定时器，但是由于timer定时器的性能消耗较大，当有成千上万个连接时，性能消耗是我们无法忍受的。因此我们使用了timin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Timing Wheel 定时轮算法">
+<meta property="og:url" content="https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/index.html">
+<meta property="og:site_name" content="Diablo">
+<meta property="og:description" content="背景我们在做一款期货交易的app，网络部分使用的socket长连接。由于我们的网关服务器性能有限，因此需要在用户不频繁操作的时候，把用户断开。 需求每个用户只要5分钟不请求长连接相关接口，我们就自动将用户断开，从而保证我们服务器的负载能力。 分析最简单的实现方式就是使用timer定时器，但是由于timer定时器的性能消耗较大，当有成千上万个连接时，性能消耗是我们无法忍受的。因此我们使用了timin">
+<meta property="og:image" content="http://img.my.csdn.net/uploads/201209/29/1348926970_9123.png">
+<meta property="og:updated_time" content="2017-10-25T07:45:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Timing Wheel 定时轮算法">
+<meta name="twitter:description" content="背景我们在做一款期货交易的app，网络部分使用的socket长连接。由于我们的网关服务器性能有限，因此需要在用户不频繁操作的时候，把用户断开。 需求每个用户只要5分钟不请求长连接相关接口，我们就自动将用户断开，从而保证我们服务器的负载能力。 分析最简单的实现方式就是使用timer定时器，但是由于timer定时器的性能消耗较大，当有成千上万个连接时，性能消耗是我们无法忍受的。因此我们使用了timin">
+<meta name="twitter:image" content="http://img.my.csdn.net/uploads/201209/29/1348926970_9123.png">
+    
+    
+        
+          
+              <link rel="shortcut icon" href="/images/favicon.ico">
+          
+        
+        
+          
+            <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+          
+        
+        
+          
+            <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+          
+        
+    
+    <!-- title -->
+    <title>Timing Wheel 定时轮算法</title>
+    <!-- styles -->
     <link rel="stylesheet" href="/css/style.css">
-    <link rel="stylesheet" href="/css/gitment.css">
-    <link rel="stylesheet" type="text/css" href="//at.alicdn.com/t/font_859455_eaq7v6w8ktj.css">
+    <!-- rss -->
+    
+    
 </head>
+
 <body>
-<header class="header">
-    <div class="header-inner">
-        <div class="header-title">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fa fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fa fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/2017/11/09/六顶思考帽/"><i class="fa fa-chevron-left" aria-hidden="true" onmouseover='$("#i-prev").toggle();' onmouseout='$("#i-prev").toggle();'></i></a></li>
+        
+        
+        <li><a class="icon" href="/2017/10/13/ConstraintLayout/"><i class="fa fa-chevron-right" aria-hidden="true" onmouseover='$("#i-next").toggle();' onmouseout='$("#i-next").toggle();'></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up" aria-hidden="true" onmouseover='$("#i-top").toggle();' onmouseout='$("#i-top").toggle();'></i></a></li>
+        <li><a class="icon" href="#"><i class="fa fa-share-alt" aria-hidden="true" onmouseover='$("#i-share").toggle();' onmouseout='$("#i-share").toggle();' onclick='$("#share").toggle();return false;'></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/"><i class="fa fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&text=Timing Wheel 定时轮算法"><i class="fa fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&title=Timing Wheel 定时轮算法"><i class="fa fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&is_video=false&description=Timing Wheel 定时轮算法"><i class="fa fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Timing Wheel 定时轮算法&body=Check out this article: https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/"><i class="fa fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&title=Timing Wheel 定时轮算法"><i class="fa fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&title=Timing Wheel 定时轮算法"><i class="fa fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&title=Timing Wheel 定时轮算法"><i class="fa fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&title=Timing Wheel 定时轮算法"><i class="fa fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&name=Timing Wheel 定时轮算法&description="><i class="fa fa-tumblr " aria-hidden="true"></i></a></li>
+</ul>
 
-        </div>
-        <nav class="header-nav">
-            
-            <a href="/" class="header-nav-link" >
-                Home
-            </a>
-            
-
-            
-            <a href="/archives" class="header-nav-link">
-                Archives
-            </a>
-            
-
-            
-            <a href="/tags" class="header-nav-link">
-                Tags
-            </a>
-            
-
-            
-        </nav>
     </div>
-</header>
-<header class="mobile-header">
-    <div class="mobile-nav">
-        <div class="mobile-nav-icon">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-        <div class="mobile-nav-title">
-            <a href="/" class="mobile-nav-title-link">ShenYonghe's Blog</a>
-        </div>
-
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#需求"><span class="toc-number">2.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析"><span class="toc-number">3.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Timing-Wheel-原理"><span class="toc-number">4.</span> <span class="toc-text">Timing Wheel 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用"><span class="toc-number">5.</span> <span class="toc-text">应用</span></a></li></ol>
     </div>
-    <nav class="mobile-menu">
-        <ul class="mobile-menu-list">
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-home"></i>
-                <a href="/" class="mobile-nav-link">Home</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-archive"></i>
-                <a href="/archives" class="mobile-nav-link">Archives</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-tag"></i>
-                <a href="/tags" class="mobile-nav-link">Tags</a>
-            </li>
-            <li class="mobile-menu-item">
-                <i class="iconfont icon-about"></i>
-                <a href="/about/" class="mobile-nav-link">About</a>
-            </li>
-        </ul>
-    </nav>
-</header>
-<div class="main">
-    <div class="content-inner">
-        <div class="posts">
-    <article class="post-whole">
-        <div class="post-title">
-            <h2 class="title">Timing Wheel 定时轮算法</h2>
-            <div class="post-meta">
-                <span class="post-time">2017-10-25</span>
-                
-                <span class="post-visit"> visited：<span id="busuanzi_value_page_pv"></span></span>
-            </div>
-        </div>
-        <div class="post-toc" id="post-toc">
-    <strong class="post-toc-title">目录</strong>
-    <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#背景"><span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#需求"><span class="toc-text">需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析"><span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Timing-Wheel-原理"><span class="toc-text">Timing Wheel 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用"><span class="toc-text">应用</span></a></li></ol>
-    <div class="back-to-top" id="back-to-top">
-        <a href="javascript:void(0);">回到顶部</a>
-    </div>
+  </span>
 </div>
-        <div class="post-content">
-            <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>我们在做一款期货交易的app，网络部分使用的socket长连接。由于我们的网关服务器性能有限，因此需要在用户不频繁操作的时候，把用户断开。</p>
+
+    
+    <div class="content index width mx-auto px2 my4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Timing Wheel 定时轮算法
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Diablo</span>
+      </span>
+      
+    <div class="postdate">
+        <time datetime="2017-10-24T16:00:00.000Z" itemprop="datePublished">2017-10-25</time>
+    </div>
+
+
+      
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>我们在做一款期货交易的app，网络部分使用的socket长连接。由于我们的网关服务器性能有限，因此需要在用户不频繁操作的时候，把用户断开。</p>
 <h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>每个用户只要5分钟不请求长连接相关接口，我们就自动将用户断开，从而保证我们服务器的负载能力。</p>
 <h3 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h3><p>最简单的实现方式就是使用timer定时器，但是由于timer定时器的性能消耗较大，当有成千上万个连接时，性能消耗是我们无法忍受的。因此我们使用了timing wheel算法，这个算法既保证了功能的实现，又保证了性能。</p>
 <h3 id="Timing-Wheel-原理"><a href="#Timing-Wheel-原理" class="headerlink" title="Timing Wheel 原理"></a>Timing Wheel 原理</h3><p><img src="http://img.my.csdn.net/uploads/201209/29/1348926970_9123.png" alt=""></p>
@@ -108,60 +151,107 @@
 <li>4 每当转到对应的刻度就去取一下当前刻度里面的用户列表，并逐一将用户断开连接。</li>
 </ul>
 
-        </div>
-        
-    </article>
-</div>
-<div class="paginator">
-    
-        
-            <a class="prev" href="/2017/11/09/六顶思考帽/">
-                <i class="iconfont icon-prev"></i>
-                <span class="nav-default">六顶思考帽</span>
-                <span class="nav-mobile">Prev</span>
-            </a>
-        
-        
-            <a class="next" href="/2017/10/13/ConstraintLayout/">
-                <span class="nav-default">ConstraintLayout</span>
-                <span class="nav-mobile">Next</span>
-                <i class="iconfont icon-next"></i>
-            </a>
-        
-    
-</div>
-<div id="comment-container"></div>
+  </div>
+</article>
+
+
+
     </div>
-</div>
-<footer class="footer-social">
     
+      <div id="footer-post-container">
+  <div id="footer-post">
 
-    
-
-    
-
-    <div class="footer-copyright">
-        <p class="time-line">
-            &copy;
-            
-            
-            2018
-            &nbsp;<i class="iconfont icon-heart"></i>&nbsp;
-            <a target="_blank" href="https://github.com/iJinxin">ShenYonghe</a>
-        </p>
-        <p class="theme-info">
-            Powered by <a target="_blank" href="https://hexo.io">Hexo</a>  |  Theme -
-            <a target="_blank" href="https://github.com/iJinxin/hexo-theme-sky">Sky</a>
-        </p>
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
     </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#背景"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#需求"><span class="toc-number">2.</span> <span class="toc-text">需求</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#分析"><span class="toc-number">3.</span> <span class="toc-text">分析</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Timing-Wheel-原理"><span class="toc-number">4.</span> <span class="toc-text">Timing Wheel 原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应用"><span class="toc-number">5.</span> <span class="toc-text">应用</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/"><i class="fa fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&text=Timing Wheel 定时轮算法"><i class="fa fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&title=Timing Wheel 定时轮算法"><i class="fa fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&is_video=false&description=Timing Wheel 定时轮算法"><i class="fa fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Timing Wheel 定时轮算法&body=Check out this article: https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/"><i class="fa fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&title=Timing Wheel 定时轮算法"><i class="fa fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&title=Timing Wheel 定时轮算法"><i class="fa fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&title=Timing Wheel 定时轮算法"><i class="fa fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&title=Timing Wheel 定时轮算法"><i class="fa fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://github.com/sirencode/2017/10/25/Timing Wheel 定时轮算法/&name=Timing Wheel 定时轮算法&description="><i class="fa fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+      <ul>
+        <li id="toc"><a class="icon" href="#" onclick='$("#toc-footer").toggle();return false;'><i class="fa fa-list fa-lg" aria-hidden="true"></i> TOC</a></li>
+        <li id="share"><a class="icon" href="#" onclick='$("#share-footer").toggle();return false;'><i class="fa fa-share-alt fa-lg" aria-hidden="true"></i> Share</a></li>
+        <li id="top" style="display:none"><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fa fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a></li>
+        <li id="menu"><a class="icon" href="#" onclick='$("#nav-footer").toggle();return false;'><i class="fa fa-bars fa-lg" aria-hidden="true"></i> Menu</a></li>
+      </ul>
+    </div>
+
+  </div>
+</div>
+
+    
+    <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy; 2018 ShenYonghe
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="http://github.com/gabithume">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
 </footer>
-</body>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script src="/js/index.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
-<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
-<script>
-    
 
-</script>
+</body>
 </html>
+<!-- styles -->
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
+<link rel="stylesheet" href="/lib/meslo-LG/styles.css">
+<link rel="stylesheet" href="/lib/justified-gallery/justifiedGallery.min.css">
+
+
+<!-- jquery -->
+<script src="/lib/jquery/jquery.min.js"></script>
+<script src="/lib/justified-gallery/jquery.justifiedGallery.min.js"></script>
+<script src="/js/main.js"></script>
+<!-- Google Analytics -->
+
+    <script type="text/javascript">
+        (function(i,s,o,g,r,a,m) {i['GoogleAnalyticsObject']=r;i[r]=i[r]||function() {
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-86660611-1', 'auto');
+        ga('send', 'pageview');
+    </script>
+
+<!-- Disqus Comments -->
+
+
