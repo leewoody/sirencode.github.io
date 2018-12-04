@@ -1,205 +1,71 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   
-  <title>Android 安全概述 | Diablo</title>
+  <title>Android 安全概述 [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
 
-  <!-- keywords -->
-  
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="安全要点Android 操作系统内置了安全功能，可显著降低应用出现安全问题的频率及其造成的影响。系统经过精心设计，您在通常情况下只需使用默认的系统和文件权限即可打造自己的应用，而无需费心针对安全性作出艰难决策。 下面是一些可以帮助您打造安全应用的核心安全功能：  Android 应用沙盒，可以将您的应用数据和代码执行与其他应用分隔开来。 应用框架，可以稳健实现常见的安全性功能，例如加密、权限和安全">
-<meta property="og:type" content="article">
-<meta property="og:title" content="Android 安全概述">
-<meta property="og:url" content="https://github.com/sirencode/2017/03/17/Android 安全概述/index.html">
-<meta property="og:site_name" content="Diablo">
-<meta property="og:description" content="安全要点Android 操作系统内置了安全功能，可显著降低应用出现安全问题的频率及其造成的影响。系统经过精心设计，您在通常情况下只需使用默认的系统和文件权限即可打造自己的应用，而无需费心针对安全性作出艰难决策。 下面是一些可以帮助您打造安全应用的核心安全功能：  Android 应用沙盒，可以将您的应用数据和代码执行与其他应用分隔开来。 应用框架，可以稳健实现常见的安全性功能，例如加密、权限和安全">
-<meta property="og:updated_time" content="2017-03-17T07:13:22.000Z">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Android 安全概述">
-<meta name="twitter:description" content="安全要点Android 操作系统内置了安全功能，可显著降低应用出现安全问题的频率及其造成的影响。系统经过精心设计，您在通常情况下只需使用默认的系统和文件权限即可打造自己的应用，而无需费心针对安全性作出艰难决策。 下面是一些可以帮助您打造安全应用的核心安全功能：  Android 应用沙盒，可以将您的应用数据和代码执行与其他应用分隔开来。 应用框架，可以稳健实现常见的安全性功能，例如加密、权限和安全">
-  
-    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
-  
-
-  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
-  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-
-  
 </head>
 <body>
-  <div id="container">
-    <div id="particles-js"></div>
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
-			
-		</a>
-
-		<hgroup>
-		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
-		</hgroup>
-
-		
-
-		
-			<div class="switch-btn">
-				<div class="icon">
-					<div class="icon-ctn">
-						<div class="icon-wrap icon-house" data-idx="0">
-							<div class="birdhouse"></div>
-							<div class="birdhouse_holes"></div>
-						</div>
-						<div class="icon-wrap icon-ribbon hide" data-idx="1">
-							<div class="ribbon"></div>
-						</div>
-						
-						<div class="icon-wrap icon-link hide" data-idx="2">
-							<div class="loopback_l"></div>
-							<div class="loopback_r"></div>
-						</div>
-						
-						
-					</div>
-					
-				</div>
-				<div class="tips-box hide">
-					<div class="tips-arrow"></div>
-					<ul class="tips-inner">
-						<li>菜单</li>
-						<li>标签</li>
-						
-						<li>友情链接</li>
-						
-						
-					</ul>
-				</div>
-			</div>
-		
-
-		<div class="switch-area">
-			<div class="switch-wrap">
-				<section class="switch-part switch-part1">
-					<nav class="header-menu">
-						<ul>
-						
-							<li><a href="/">主页</a></li>
-				        
-							<li><a href="/archives">所有文章</a></li>
-				        
-						</ul>
-					</nav>
-					<nav class="header-nav">
-						<div class="social">
-							
-						</div>
-					</nav>
-				</section>
-				
-				
-				<section class="switch-part switch-part2">
-					<div class="widget tagcloud" id="js-tagcloud">
-						
-					</div>
-				</section>
-				
-				
-				
-				<section class="switch-part switch-part3">
-					<div id="js-friends">
-					
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
-			        
-			        </div>
-				</section>
-				
-
-				
-			</div>
-		</div>
-	</header>				
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/about">About</a>
+        
+      </div>
+    </div>
 </div>
     </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
-			</div>
-			<hgroup>
-			  <h1 class="header-author">ShenYonghe</h1>
-			</hgroup>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-					<li><a href="/archives">所有文章</a></li>
-		        
-		        <div class="clearfix"></div>
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-				</div>
-			</nav>
-		</header>				
-	</div>
-</nav>
-      <div class="body-wrap"><article id="post-Android 安全概述" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2017/03/17/Android 安全概述/" class="article-date">
-  	<time datetime="2017-03-16T16:00:00.000Z" itemprop="datePublished">2017-03-17</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Android 安全概述
-      
-    </h1>
-  
-
-      </header>
-      
-      <div class="article-info article-info-post">
-        
-        
-
-        
-        <div class="clearfix"></div>
-      </div>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="安全要点"><a href="#安全要点" class="headerlink" title="安全要点"></a>安全要点</h3><p>Android 操作系统内置了安全功能，可显著降低应用出现安全问题的频率及其造成的影响。系统经过精心设计，您在通常情况下只需使用默认的系统和文件权限即可打造自己的应用，而无需费心针对安全性作出艰难决策。</p>
+    <div class="container">
+        <h1 class="post-title">Android 安全概述</h1>
+<article class="post markdown-style">
+  <h3 id="安全要点"><a href="#安全要点" class="headerlink" title="安全要点"></a>安全要点</h3><p>Android 操作系统内置了安全功能，可显著降低应用出现安全问题的频率及其造成的影响。系统经过精心设计，您在通常情况下只需使用默认的系统和文件权限即可打造自己的应用，而无需费心针对安全性作出艰难决策。</p>
 <p>下面是一些可以帮助您打造安全应用的核心安全功能：</p>
 <ul>
 <li>Android 应用沙盒，可以将您的应用数据和代码执行与其他应用分隔开来。</li>
@@ -275,109 +141,160 @@
 <p>如果您的应用会动态加载代码，您务必谨记，运行动态加载的代码需要拥有与应用 APK 相同的安全权限。用户是因为您才决定安装您的应用的，因此他们希望您提供的是在您的应用内运行的代码，包括动态加载的代码。</p>
 <p>与动态加载代码相关的主要安全风险与这样的代码需要来自可验证的来源有关。如果这些模块已直接纳入您的 APK 中，那么其他应用就无法对其进行修改；无论代码是原生库代码还是使用 DexClassLoader 加载的类，均是如此。我们见过很多应用尝试从不安全的位置（例如，通过未加密的协议从网络上进行下载）或任何人都可写入内容的位置（如外部存储设备）加载代码的例子；对于前一种位置，网络上的用户将可以修改正在传输的内容，对于后一种位置，用户设备上的其他应用将可以修改设备上的内容。</p>
 
-      
-    </div>
-    
-  </div>
-  
-    
-<nav id="article-nav">
-  
-    <a href="/2017/04/08/学会提问/" id="article-nav-newer" class="article-nav-link-wrap">
-      <strong class="article-nav-caption">&lt;</strong>
-      <div class="article-nav-title">
-        
-          学会提问
-        
-      </div>
-    </a>
-  
-  
-    <a href="/2017/03/03/单元测试/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">单元测试</div>
-      <strong class="article-nav-caption">&gt;</strong>
-    </a>
-  
-</nav>
-
-  
 </article>
 
-
-<div class="ds-share share" data-thread-key="Android 安全概述" data-title="Android 安全概述" data-url="https://github.com/sirencode/2017/03/17/Android 安全概述/"  data-images="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" data-content="Android 安全概述">
-    <div class="ds-share-inline">
-      <ul  class="ds-share-icons-16">
-      	<li data-toggle="ds-share-icons-more"><a class="ds-more" href="javascript:void(0);">分享到：</a></li>
-        <li><a class="ds-weibo" href="javascript:void(0);" data-service="weibo">微博</a></li>
-        <li><a class="ds-qzone" href="javascript:void(0);" data-service="qzone">QQ空间</a></li>
-        <li><a class="ds-qqt" href="javascript:void(0);" data-service="qqt">腾讯微博</a></li>
-        <li><a class="ds-wechat" href="javascript:void(0);" data-service="wechat">微信</a></li>
-      </ul>
-      <div class="ds-share-icons-more">
-      </div>
-    </div>
- </div>
- 
-
-
-
-
-
-</div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-      <div class="footer-left">
-        &copy; 2018 ShenYonghe
-      </div>
-        <div class="footer-right">
-          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
-        </div>
-    </div>
-  </div>
-</footer>
-    </div>
+    <div class="pagenator post-pagenator">
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+    
+        <a class="extend prev post-prev" href="/2017/04/08/学会提问/">prev</a>
+    
 
+    
+    <p>last update time 2017-03-17</p>
+    
+    
+        <a class="extend next post-next" href="/2017/03/03/单元测试/">next</a>
+    
+    </div>
 
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:1178752402@qq.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/CaiChenghan" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://www.jianshu.com/u/565c8e790605" title="jianshu" target="_self">
+					<i class="fa fa-jianshu"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2017 - 2018
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
 <script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: true,
-		animate: true,
-		isHome: false,
-		isPost: true,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false
-	}
-</script>
-<script src="/js/main.js"></script>
-
-
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
     }
-});
-
-MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';                 
-    }       
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
 });
 </script>
-
-<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
-
-
-  </div>
+</div>
+    </div>
 </body>
 </html>

@@ -1,1146 +1,490 @@
 <!DOCTYPE html>
-<html>
+
+<html lang="zh-CN">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   
-  <title>Diablo</title>
+  <title> [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
 
-  <!-- keywords -->
-  
-
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Diablo">
-<meta property="og:url" content="https://github.com/sirencode/page/5/index.html">
-<meta property="og:site_name" content="Diablo">
-<meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Diablo">
-  
-    <link rel="alternative" href="/atom.xml" title="Diablo" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg">
-  
-  <link rel="stylesheet" href="/css/style.css">
-  
-  
-
-  <script src="//cdn.bootcss.com/require.js/2.3.2/require.min.js"></script>
-  <script src="//cdn.bootcss.com/jquery/3.1.1/jquery.min.js"></script>
-
-  
 </head>
 <body>
-  <div id="container">
-    <div id="particles-js"></div>
-    <div class="left-col">
-    <div class="overlay"></div>
-<div class="intrude-less">
-	<header id="header" class="inner">
-		<a href="/" class="profilepic">
-			
-			<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
-			
-		</a>
-
-		<hgroup>
-		  <h1 class="header-author"><a href="/">ShenYonghe</a></h1>
-		</hgroup>
-
-		
-
-		
-			<div class="switch-btn">
-				<div class="icon">
-					<div class="icon-ctn">
-						<div class="icon-wrap icon-house" data-idx="0">
-							<div class="birdhouse"></div>
-							<div class="birdhouse_holes"></div>
-						</div>
-						<div class="icon-wrap icon-ribbon hide" data-idx="1">
-							<div class="ribbon"></div>
-						</div>
-						
-						<div class="icon-wrap icon-link hide" data-idx="2">
-							<div class="loopback_l"></div>
-							<div class="loopback_r"></div>
-						</div>
-						
-						
-					</div>
-					
-				</div>
-				<div class="tips-box hide">
-					<div class="tips-arrow"></div>
-					<ul class="tips-inner">
-						<li>菜单</li>
-						<li>标签</li>
-						
-						<li>友情链接</li>
-						
-						
-					</ul>
-				</div>
-			</div>
-		
-
-		<div class="switch-area">
-			<div class="switch-wrap">
-				<section class="switch-part switch-part1">
-					<nav class="header-menu">
-						<ul>
-						
-							<li><a href="/">主页</a></li>
-				        
-							<li><a href="/archives">所有文章</a></li>
-				        
-						</ul>
-					</nav>
-					<nav class="header-nav">
-						<div class="social">
-							
-						</div>
-					</nav>
-				</section>
-				
-				
-				<section class="switch-part switch-part2">
-					<div class="widget tagcloud" id="js-tagcloud">
-						
-					</div>
-				</section>
-				
-				
-				
-				<section class="switch-part switch-part3">
-					<div id="js-friends">
-					
-			          <a target="_blank" class="main-nav-link switch-friends-link" href="https://github.com/smackgg/hexo-theme-smackdown">smackdown</a>
-			        
-			        </div>
-				</section>
-				
-
-				
-			</div>
-		</div>
-	</header>				
-</div>
-    </div>
-    <div class="mid-col">
-      <nav id="mobile-nav">
-  	<div class="overlay">
-  		<div class="slider-trigger"></div>
-  		<h1 class="header-author js-mobile-header hide">ShenYonghe</h1>
-  	</div>
-	<div class="intrude-less">
-		<header id="header" class="inner">
-			<div class="profilepic">
-				<img lazy-src="http://7xkj1z.com1.z0.glb.clouddn.com/head.jpg" class="js-avatar">
-			</div>
-			<hgroup>
-			  <h1 class="header-author">ShenYonghe</h1>
-			</hgroup>
-			
-			<nav class="header-menu">
-				<ul>
-				
-					<li><a href="/">主页</a></li>
-		        
-					<li><a href="/archives">所有文章</a></li>
-		        
-		        <div class="clearfix"></div>
-				</ul>
-			</nav>
-			<nav class="header-nav">
-				<div class="social">
-					
-				</div>
-			</nav>
-		</header>				
-	</div>
-</nav>
-      <div class="body-wrap">
-  
-    <article id="post-Android View 的事件传递力" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/03/05/Android View 的事件传递力/" class="article-date">
-  	<time datetime="2018-03-04T16:00:00.000Z" itemprop="datePublished">2018-03-05</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/03/05/Android View 的事件传递力/">
-        Android View 的事件传递力
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-View-的事件传递"><a href="#Android-View-的事件传递" class="headerlink" title="Android View 的事件传递"></a>Android View 的事件传递</h1><h2 id="事件分类"><a href="#事件分类" class="headerlink" title="事件分类"></a>事件分类</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/android_view.png" alt=""> </p>
-<p>activity和view没有事件拦截的原因：Activity 作为原始的事件分发者，如果 Activity 拦截了事件会导致整个屏幕都无法响应事件，这肯定不是我们想要的效果。View最为事件传递的最末端，要么消费掉事件，要么不处理进行回传，根本没必要进行事件拦截。</p>
-<h2 id="dispatchTouchEvent"><a href="#dispatchTouchEvent" class="headerlink" title="dispatchTouchEvent"></a>dispatchTouchEvent</h2><p>true:当前事件被消费，时间分发结束，后续事件继续分发到该view。</p>
-<p>false:当前事件不会被处理，继续分发或将消息回传到activity的onTouchEvent。</p>
-<h2 id="onInterceptTouchEvent"><a href="#onInterceptTouchEvent" class="headerlink" title="onInterceptTouchEvent"></a>onInterceptTouchEvent</h2><p>true:当前事件被拦截，停止向下传递事件，执行自己的onTouchEvent。</p>
-<p>false:事件继续分发，当前view依然可以接受此事件的其它事件。</p>
-<h2 id="onTouchEvent"><a href="#onTouchEvent" class="headerlink" title="onTouchEvent"></a>onTouchEvent</h2><p>在dispatchTouchEvent方法中调用，用来处理点击事件，返回结果表示是否消耗当前事件，如果不消耗，则在同一个事件序列当中，当前View无法再次接收到事件。</p>
-<p>如果 View 没有对 ACTION_DOWN 进行消费，之后的其他事件不会传递过来。OnTouchListener 优先于 onTouchEvent()对事件进行消费。</p>
-<p>true:时间分发结束，逐层返回true结果，后续事件序列让其处理。</p>
-<p>false:逐层调用上层的onTouchEvent()事件，当前事件不在接受此事件的其它事件。</p>
-<h2 id="事件分发的流程"><a href="#事件分发的流程" class="headerlink" title="事件分发的流程"></a>事件分发的流程</h2><p>将点击事件（MotionEvent）传递到某个具体的View &amp; 处理的整个过程，事件传递的过程 = 分发过程。</p>
-<p>Activity －&gt; PhoneWindow －&gt; DecorView －&gt; ViewGroup －&gt; … －&gt; View</p>
-<p>如果没有任何View消费掉事件，那么这个事件会按照反方向回传，最终传回给Activity。</p>
-<h2 id="点击后的流程跟踪"><a href="#点击后的流程跟踪" class="headerlink" title="点击后的流程跟踪"></a>点击后的流程跟踪</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/944365-aea821bbb613c195.png" alt=""></p>
-<p><img src="http://oc4zuck5v.bkt.clouddn.com/944365-faaf73d0f3eb870f.png" alt=""></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Gradle 依赖方式" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/28/Gradle 依赖方式/" class="article-date">
-  	<time datetime="2018-02-27T16:00:00.000Z" itemprop="datePublished">2018-02-28</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/28/Gradle 依赖方式/">
-        Gradle 依赖方式
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Gradle-依赖方式"><a href="#Gradle-依赖方式" class="headerlink" title="Gradle 依赖方式"></a>Gradle 依赖方式</h1><h2 id="android-gradle-tools-2-X"><a href="#android-gradle-tools-2-X" class="headerlink" title="android gradle tools 2.X"></a>android gradle tools 2.X</h2><h3 id="apk"><a href="#apk" class="headerlink" title="apk"></a>apk</h3><p>只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错</p>
-<h3 id="provided"><a href="#provided" class="headerlink" title="provided"></a>provided</h3><p>Provided是对所有的build type以及favlors只在编译时使用，类似eclipse中的external-libs,只参与编译，不打包到最终apk。防止重复打包。</p>
-<p>V7,V4之类的不使用provided也不会导致支持包重复，依赖module编译出来的aar并不包含那些多个module（包括app module）重复使用的支持包。</p>
-<p>如果依赖module使用的style中引用了支持包（V7,V4之类的）中的主题，那么，使用provided会报错（找不到主题资源）。如果只是引用支持包中的类和接口是可以使用provided的（但意义也不大，反正也不会重复）。</p>
-<h3 id="compile"><a href="#compile" class="headerlink" title="compile"></a>compile</h3><p>compile是对所有的build type以及favlors都会参与编译并且打包到最终的apk文件中。</p>
-<h3 id="debugCompile"><a href="#debugCompile" class="headerlink" title="debugCompile"></a>debugCompile</h3><p>Debug compile 仅仅针对debug模式的编译和最终的debug apk打包。</p>
-<h3 id="releaseCompile"><a href="#releaseCompile" class="headerlink" title="releaseCompile"></a>releaseCompile</h3><p>Release compile 仅仅针对Release 模式的编译和最终的Release apk打包。</p>
-<h3 id="androidtestCompile"><a href="#androidtestCompile" class="headerlink" title="androidtestCompile"></a>androidtestCompile</h3><p>Test compile 仅仅是针对单元测试代码的编译编译以及最终打包测试apk时有效，而对正常的debug或者release apk包不起作用。</p>
-<h2 id="android-gradle-tools-3-X"><a href="#android-gradle-tools-3-X" class="headerlink" title="android gradle tools 3.X"></a>android gradle tools 3.X</h2><h3 id="runtimeOnly-apk"><a href="#runtimeOnly-apk" class="headerlink" title="runtimeOnly == apk"></a>runtimeOnly == apk</h3><h3 id="compileOnly-provided"><a href="#compileOnly-provided" class="headerlink" title="compileOnly == provided"></a>compileOnly == provided</h3><h3 id="api-compile"><a href="#api-compile" class="headerlink" title="api == compile"></a>api == compile</h3><h3 id="debugImplementation-debugCompile"><a href="#debugImplementation-debugCompile" class="headerlink" title="debugImplementation == debugCompile"></a>debugImplementation == debugCompile</h3><h3 id="releaseImplementation-releaseCompile"><a href="#releaseImplementation-releaseCompile" class="headerlink" title="releaseImplementation == releaseCompile"></a>releaseImplementation == releaseCompile</h3><h3 id="androidTestImplementation-androidtestCompile"><a href="#androidTestImplementation-androidtestCompile" class="headerlink" title="androidTestImplementation == androidtestCompile"></a>androidTestImplementation == androidtestCompile</h3><h3 id="implementation"><a href="#implementation" class="headerlink" title="implementation"></a>implementation</h3><p>implementation和compile类似，区别在于对外可见性，而且可以加快编译速度（原理在于减少不必要的重复编译过程）。</p>
-<p>只能在内部使用此模块，比如我在一个libiary中使用implementation依赖了gson库，然后我的主项目依赖了libiary，那么，我的主项目就无法访问gson库中的方法。这样的好处是编译速度会加快，推荐使用implementation的方式去依赖，如果你需要提供给外部访问，那么就使用api依赖即可</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 动画原理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/27/Android 动画原理/" class="article-date">
-  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/Android 动画原理/">
-        Android 动画原理
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-动画原理"><a href="#Android-动画原理" class="headerlink" title="Android 动画原理"></a>Android 动画原理</h1><h2 id="Animation-与-Transform"><a href="#Animation-与-Transform" class="headerlink" title="Animation 与 Transform"></a>Animation 与 Transform</h2><p>Animation：在给定了初始状态，结束状态，启动时间和持续时间后，Animation可以计算动画目标在任意时刻的变换（Transfirmation）,这是Animation唯一的用途。Animation考虑的是时间线效果的实现。</p>
-<p>Transfirmation：描述了一个变换。它包含两个分量：透明度和一个二维的变换矩阵（可以在二维空间中对变换目标实现平移旋转缩放,矩阵相乘可以组合实现各自的变换）。</p>
-<h2 id="动画的驱动器Choreographer"><a href="#动画的驱动器Choreographer" class="headerlink" title="动画的驱动器Choreographer"></a>动画的驱动器Choreographer</h2><p>在Animation start()的时候会创建一个Choreographer（线程唯一的）来实现动画的绘制工作。Choreographer发送一个runnable以处理一帧动画。在处理动画时，使用Animation getTransfirmation函数获取动画对象所需要进行的变换，然后根据变换对动画对象进行渲染。之后重复画下一帧直至动画结束。</p>
-<h2 id="Tween动画-Animation"><a href="#Tween动画-Animation" class="headerlink" title="Tween动画 Animation"></a>Tween动画 Animation</h2><p>原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。</p>
-<h3 id="1-startAnimation-animation"><a href="#1-startAnimation-animation" class="headerlink" title="1 startAnimation(animation);"></a>1 startAnimation(animation);</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startAnimation</span><span class="params">(Animation animation)</span> </span>&#123;</span><br><span class="line">    animation.setStartTime(Animation.START_ON_FIRST_FRAME);</span><br><span class="line">    setAnimation(animation);</span><br><span class="line">    invalidateParentCaches();</span><br><span class="line">    invalidate(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="2-invalidate请求View树进行重绘"><a href="#2-invalidate请求View树进行重绘" class="headerlink" title="2 invalidate请求View树进行重绘"></a>2 invalidate请求View树进行重绘</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidate</span><span class="params">(<span class="keyword">boolean</span> invalidateCache)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//这里的mLeft，mRight都是相当于父View来讲的。所以这里的参数就是当前View所在的区域。</span></span><br><span class="line">    invalidateInternal(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, invalidateCache, <span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">invalidateInternal</span><span class="params">(<span class="keyword">int</span> l, <span class="keyword">int</span> t, <span class="keyword">int</span> r, <span class="keyword">int</span> b, <span class="keyword">boolean</span> invalidateCache,</span></span></span><br><span class="line"><span class="function"><span class="params">                        <span class="keyword">boolean</span> fullInvalidate)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//不需要绘制的情况（View不可见&amp;&amp;没有动画等）</span></span><br><span class="line">    <span class="keyword">if</span> (skipInvalidate()) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//...</span></span><br><span class="line">    <span class="keyword">if</span>(condition<span class="comment">/*满足需要绘制的条件*/</span>)&#123;</span><br><span class="line">        <span class="keyword">final</span> AttachInfo ai = mAttachInfo;</span><br><span class="line">        <span class="keyword">final</span> ViewParent p = mParent;</span><br><span class="line">        <span class="keyword">if</span> (p != <span class="keyword">null</span> &amp;&amp; ai != <span class="keyword">null</span> &amp;&amp; l &lt; r &amp;&amp; t &lt; b) &#123;</span><br><span class="line">            <span class="keyword">final</span> Rect damage = ai.mTmpInvalRect;</span><br><span class="line">            damage.set(l, t, r, b);</span><br><span class="line">            p.invalidateChild(<span class="keyword">this</span>, damage);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//....</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h3 id="3-调用子view的draw方法"><a href="#3-调用子view的draw方法" class="headerlink" title="3 调用子view的draw方法"></a>3 调用子view的draw方法</h3><p>Animation 实现了下面方法设置Transformation动画信息。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//第一个参数是 interpolatedTime 它代表插值后的时间，第二个参数是Transformation类的实例</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">applyTransformation</span><span class="params">(<span class="keyword">float</span> interpolatedTime, Transformation t)</span></span></span><br></pre></td></tr></table></figure>
-<p>view getAnimation()获取动画信息，getTransformation获取Transformation；</p>
-<p>Transformation是一个实体类，它主要的内容是透明度和一个矩阵，动画的变化，就隐藏在Transformation之中。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">boolean</span> <span class="title">draw</span><span class="params">(Canvas canvas, ViewGroup parent, <span class="keyword">long</span> drawingTime)</span></span></span><br></pre></td></tr></table></figure>
-<p>draw中applyLegacyAnimation方法是用来获取变换的，其中有两个部分需要注意：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a.getTransformation(drawingTime, invalidationTransform, <span class="number">1f</span>);</span><br><span class="line">a.getInvalidateRegion(<span class="number">0</span>, <span class="number">0</span>, mRight - mLeft, mBottom - mTop, region,</span><br><span class="line">    invalidationTransform);</span><br></pre></td></tr></table></figure>
-<p>第一个就是获取变换，第二个是获取绘制无效区域。<br>其实这个无效区域是绘制后的无效区域，因为很有可能需要下次绘制(保证动画连续性)。</p>
-<p>动画的绘制：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (transformToApply != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (concatMatrix) &#123;</span><br><span class="line">        <span class="keyword">if</span> (drawingWithRenderNode) &#123;</span><br><span class="line">            renderNode.setAnimationMatrix(transformToApply.getMatrix());</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            canvas.translate(-transX, -transY);</span><br><span class="line">            canvas.concat(transformToApply.getMatrix());</span><br><span class="line">            canvas.translate(transX, transY);</span><br><span class="line">        &#125;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">float</span> transformAlpha = transformToApply.getAlpha();</span><br><span class="line">    <span class="keyword">if</span> (transformAlpha &lt; <span class="number">1</span>) &#123;</span><br><span class="line">        alpha *= transformAlpha;</span><br><span class="line">        parent.mGroupFlags |= ViewGroup.FLAG_CLEAR_TRANSFORMATION;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>分别从硬件加速和软件绘制上　对canvas进行矩阵变换．</p>
-<h2 id="帧动画"><a href="#帧动画" class="headerlink" title="帧动画"></a>帧动画</h2><p>原理：使用了Choreographer机制.</p>
-<p>Android系统从4.1(API 16)开始加入Choreographer这个类来控制同步处理输入(Input)、动画(Animation)、绘制(Draw)三个UI操作。收到VSync信号后，顺序执行3个操作，然后等待下一个信号，再次顺序执行3个操作。</p>
-<p>AnimationDrawable继承了DrawableContainer，因为DrawableContainer是一个drawable的容器，可以保存多个图片<br>同时，实现了Runnable接口，重写了run方法,根据源码中的start方法，它调用了setFrame方法，方法内部最重要的调用就是调用了<br> scheduleSelf(this, SystemClock.uptimeMillis() + mAnimationState.mDurations[frame]);callback调用view的scheduleDrawable方法而这个方法最终会调用Choreographer.subtractFrameDelay(delay));</p>
-<h2 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h2><p>原理：使用了Choreographer机制</p>
-<p>简单的说，Chreographer是组织上层进行处理绘制的控制类，它会在每次vsync信号来临时，执行与绘制相关的过程．</p>
-<p>Animator的过程发生在绘制之前（甚至是布局之前）.</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Android 底层网络实现" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/27/Android 底层网络实现/" class="article-date">
-  	<time datetime="2018-02-26T16:00:00.000Z" itemprop="datePublished">2018-02-27</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/27/Android 底层网络实现/">
-        Android 底层网络实现
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
-<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
-<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
-<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
-<p>OkHttp底层也是通过socket实现。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-子模块访问app模块" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/26/子模块访问app模块/" class="article-date">
-  	<time datetime="2018-02-25T16:00:00.000Z" itemprop="datePublished">2018-02-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/26/子模块访问app模块/">
-        子模块访问app模块
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="子模块访问app模块"><a href="#子模块访问app模块" class="headerlink" title="子模块访问app模块"></a>子模块访问app模块</h1><h2 id="第一步子模块定义接口"><a href="#第一步子模块定义接口" class="headerlink" title="第一步子模块定义接口"></a>第一步子模块定义接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">TradeModuleBridge</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">goOpenAccount</span><span class="params">()</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="第二步-接口管理类"><a href="#第二步-接口管理类" class="headerlink" title="第二步 接口管理类"></a>第二步 接口管理类</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">TradeBridgeHolder</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> TradeModuleBridge <span class="title">getBridge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> bridge;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">setBridge</span><span class="params">(TradeModuleBridge bridge)</span> </span>&#123;</span><br><span class="line">        TradeBridgeHolder.bridge = bridge;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> TradeModuleBridge bridge;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="第三步-在app的application里面初始化"><a href="#第三步-在app的application里面初始化" class="headerlink" title="第三步 在app的application里面初始化"></a>第三步 在app的application里面初始化</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">initTradeBridge</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    TradeBridgeHolder.setBridge(<span class="keyword">new</span> TradeModuleBridge() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">goOpenAccount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            startActivity(WebViewActivity.buildAccountIntent(FuturesApplication.from()));</span><br><span class="line">            StatisticsAgent.onEV(EventIDS.ME_OPEN_ACCOUNT);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="第四步-使用"><a href="#第四步-使用" class="headerlink" title="第四步 使用"></a>第四步 使用</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TradeBridgeHolder.getBridge().goOpenAccount();</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-java 内存区域详解" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/24/java 内存区域详解/" class="article-date">
-  	<time datetime="2018-02-23T16:00:00.000Z" itemprop="datePublished">2018-02-24</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/24/java 内存区域详解/">
-        java 内存区域详解
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="java-内存区域详解"><a href="#java-内存区域详解" class="headerlink" title="java 内存区域详解"></a>java 内存区域详解</h1><p><img src="http://oc4zuck5v.bkt.clouddn.com/java_memory.png" alt=""></p>
-<h2 id="java堆"><a href="#java堆" class="headerlink" title="java堆"></a>java堆</h2><p>占内存最大的一块区域。大部分对象存储在这个区域。</p>
-<p>Java Heap（Dalvik Heap），这部分的内存区域是由Dalvik虚拟机管理，通过Java中 new 关键字来申请一块新内存。这块区域的内存是由GC直接管理，能够自动回收内存。这块内存的大小会受到系统限制，当内存超过APP最大可用内存时会OOM</p>
-<p>Native Heap，这部分内存区域是在C++中申请的，它不受限于APP的最大可用内存限制，而只是受限于设备的物理可用内存限制。它的缺点在于没有自动回收机制，只能通过C++语法来释放申请的内存</p>
-<p>Ashmem（Android匿名共享内存），这部分内存类似于Native内存区，但是它是受Android系统底层管理的，当Android系统内存不足时，会回收Ashmem区域中状态是 unpin 的对象内存块，如果不希望对象被回收，可以通过 pin 来保护一个对象</p>
-<h2 id="方法区Meta-Area"><a href="#方法区Meta-Area" class="headerlink" title="方法区Meta-Area"></a>方法区Meta-Area</h2><p>这是堆中的一块区域，用来存储类信息，类变量，类常量，静态变量等等数据，即时编译器编译后的代码等数据。</p>
-<p>运行时常量区：存放编译器生成的各种字面量和符号引用，这部分将在类加载后存放到方法区的运行时常量池。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    Object obj = <span class="keyword">new</span> Object();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这段代码会涉及虚拟机栈，java堆，Meta-Area三个内存区域：test()-&gt;虚拟机栈,obj存放在局部变量表中，new Object()对象存储在java heap里。</p>
-<h2 id="虚拟机栈，本地栈"><a href="#虚拟机栈，本地栈" class="headerlink" title="虚拟机栈，本地栈"></a>虚拟机栈，本地栈</h2><h3 id="虚拟机栈"><a href="#虚拟机栈" class="headerlink" title="虚拟机栈"></a>虚拟机栈</h3><p>虚拟机栈是Java方法执行的内存模型。每个方法执行都会创建一个栈帧的东西，用来存储局部变量表，操作数栈，动态链接，方法出口等信息，每一个方法从调用直至执行完成的过程，就对应着一个栈帧在虚拟机栈中入栈道出栈的过程。</p>
-<h3 id="本地栈"><a href="#本地栈" class="headerlink" title="本地栈"></a>本地栈</h3><p>本地栈使用到的本地系统方法服务。</p>
-<h2 id="程序计数器"><a href="#程序计数器" class="headerlink" title="程序计数器"></a>程序计数器</h2><p>程序计数器(每个线程都有私有的程序计数器)是记录当前线程执行到什么地方了。多线程调度的时候，占用cup知道执行到哪里了。另外程序计数器是Java虚拟机规范中唯一一个没有规定任何内存错误的地方。</p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Protobuf" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/23/Protobuf/" class="article-date">
-  	<time datetime="2018-02-22T16:00:00.000Z" itemprop="datePublished">2018-02-23</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/23/Protobuf/">
-        Protobuf
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Protobuf"><a href="#Protobuf" class="headerlink" title="Protobuf"></a>Protobuf</h1><p>Google Protocol Buffer(简称 Protobuf)是一种轻便高效的结构化数据存储格式，平台无关、语言无关、可扩展，可用于通讯协议和数据存储等领域。</p>
-<h2 id="编码实现"><a href="#编码实现" class="headerlink" title="编码实现"></a>编码实现</h2><p>protobuf之所以小且快，就是因为使用变长的编码规则，只保存有用的信息，节省了大量空间。</p>
-<p>1 Base-128变长编码：每个字节使用低7位表示数字，除了最后一个字节，其他字节的最高位都设置为1；采用Little-Endian字节序。</p>
-<p>2 ZigZag编码：Base-128变长编码会去掉整数前面那些没用的0，只保留低位的有效位，然而负数的补码表示有很多的1，所以protobuf先用ZigZag编码将所有的数值映射为无符号数，然后使用Base-128编码，ZigZag的编码规则如下：</p>
- <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"> <span class="number">1</span> (n &lt;&lt; <span class="number">1</span>) ^ (n &gt;&gt; <span class="number">31</span>) or (n &lt;&lt; <span class="number">1</span>) ^ (n &gt;&gt; <span class="number">63</span>)</span><br></pre></td></tr></table></figure>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p><a href="https://github.com/google/protobuf">github</a></p>
-<p>1 下载源码</p>
-<p>2 cd到源码目录</p>
-<p>3 执行：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ./configure</span><br><span class="line">$ make</span><br><span class="line">$ make check</span><br><span class="line">$ sudo make install</span><br></pre></td></tr></table></figure>
-<h2 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Filename: addressbook.proto</span></span><br><span class="line"></span><br><span class="line">syntax=<span class="string">"proto2"</span>;</span><br><span class="line"><span class="keyword">package</span> addressbook;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="string">"src/help.proto"</span>;      <span class="comment">//举例用，编译时去掉</span></span><br><span class="line"></span><br><span class="line">message Person &#123;</span><br><span class="line">    required string name = <span class="number">1</span>;</span><br><span class="line">    required int32 id = <span class="number">2</span>;</span><br><span class="line">    optional string email = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">enum</span> PhoneType &#123;</span><br><span class="line">        MOBILE = <span class="number">0</span>;</span><br><span class="line">        HOME = <span class="number">1</span>;</span><br><span class="line">        WORK = <span class="number">2</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    message PhoneNumber &#123;</span><br><span class="line">        required string number = <span class="number">1</span>;</span><br><span class="line">        optional PhoneType type = <span class="number">2</span> [<span class="keyword">default</span> = HOME];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    repeated PhoneNumber phone = <span class="number">4</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">message AddressBook &#123;</span><br><span class="line">    repeated Person person_info = <span class="number">1</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<ul>
-<li>syntax=”proto2”; 表明使用protobuf的编译器版本为v2，目前最新的版本为v3 </li>
-<li>package addressbook; 声明了一个包名，用来防止不同的消息类型命名冲突，类似于 namespace </li>
-<li>message 是Protobuf中的结构化数据，类似于C++中的类，可以在其中定义需要处理的数据 </li>
-</ul>
-<h3 id="protobuf类型"><a href="#protobuf类型" class="headerlink" title="protobuf类型"></a>protobuf类型</h3><p><img src="http://oc4zuck5v.bkt.clouddn.com/pb.png" alt="pb图"></p>
-<h3 id="protobuf字段修饰符"><a href="#protobuf字段修饰符" class="headerlink" title="protobuf字段修饰符"></a>protobuf字段修饰符</h3><p>required：该值是必须要设置的；<br>optional：该字段可以有0个或1个值（不超过1个）；<br>repeated：该字段可以重复任意多次（包括0次），类似于C++中的list；</p>
-<h2 id="proto文件转换"><a href="#proto文件转换" class="headerlink" title="proto文件转换"></a>proto文件转换</h2><p>protoc是proto文件的编译器，目前可以将proto文件编译成C++、Java、Python三种代码文件</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">//java</span><br><span class="line">$ protoc --java_out=./java/ ./proto/helloworld.proto</span><br><span class="line">//go</span><br><span class="line">$ protoc --go_out=./go/ ./proto/helloworld.proto</span><br><span class="line">//c++</span><br><span class="line">protoc -I=<span class="variable">$SRC_DIR</span> --cpp_out=<span class="variable">$DST_DIR</span> /path/to/file.proto</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-java基础整理" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/02/06/java基础整理/" class="article-date">
-  	<time datetime="2018-02-05T16:00:00.000Z" itemprop="datePublished">2018-02-06</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/02/06/java基础整理/">
-        java基础整理
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="java基础整理"><a href="#java基础整理" class="headerlink" title="java基础整理"></a>java基础整理</h1><h2 id="java中equals，hashcode和-的区别"><a href="#java中equals，hashcode和-的区别" class="headerlink" title="java中equals，hashcode和==的区别"></a>java中equals，hashcode和==的区别</h2><h3 id=""><a href="#" class="headerlink" title="=="></a>==</h3><p>== 比较的是基础数据类型也称原始数据类型(byte,char,short,int,long,float,double,boolean)的值。</p>
-<p>引用类型(类、接口、数组)（==）进行比较的时候，比较的是他们在内存中的存放地址，所以，除非是同一个new出来的对象，他们的比较后的结果为true，否则比较后结果为false。</p>
-<h3 id="equals"><a href="#equals" class="headerlink" title="equals"></a>equals</h3><p>JAVA当中所有的类都是继承于Object这个基类的，在Object中的基类中定义了一个equals的方法，这个方法的初始行为是比较对象的内存地址，但在一些类库当中这个方法被覆盖掉了，如String,Integer,Date在这些类当中equals有其自身的实现，而不再是比较类在堆内存中的存放地址了。</p>
-<p>对于复合数据类型之间进行equals比较，在没有覆写equals方法的情况下，他们之间的比较还是基于他们在内存中的存放位置的地址值的，因为Object的equals方法也是用双等号进行比较的，所以比较后的结果跟双等号的结果相同。</p>
-<h3 id="hashCode"><a href="#hashCode" class="headerlink" title="hashCode"></a>hashCode</h3><p>hashCode也是Object类的一个方法。返回一个离散的int型整数。在集合类操作中使用，为了提高查询速度。（HashMap，HashSet等）</p>
-<h2 id="java基本类型所占字节数"><a href="#java基本类型所占字节数" class="headerlink" title="java基本类型所占字节数"></a>java基本类型所占字节数</h2><p>注：1字节(byte)=8位(bits)</p>
-<ul>
-<li>1字节： byte , boolean</li>
-<li>2字节： short , char</li>
-<li>4字节： int , float</li>
-<li>8字节： long , double</li>
-</ul>
-<p>取值范围</p>
-<ul>
-<li>int 二进制位数：32 Integer.MIN_VALUE= -2147483648（-2的31次方）<br>Integer.MAX_VALUE= 2147483647（2的31次方-1）</li>
-<li>short 二进制位数：16 Short.MIN_VALUE=-32768 （-2的15此方）<br>Short.MAX_VALUE=32767 （2的15次方-1）</li>
-<li>long 二进制位数：64 Long.MIN_VALUE=-9223372036854775808 （-2的63次方）<br>Long.MAX_VALUE=9223372036854775807 （2的63次方-1）</li>
-<li>float 二进制位数：32 Float.MIN_VALUE=1.4E-45 （2的-149次方）Float.MAX_VALUE=3.4028235E38 （2的128次方-1）</li>
-<li>double 二进制位数：64 Double.MIN_VALUE=4.9E-324 （2的-1074次方）Double.MAX_VALUE=1.7976931348623157E308 （2的1024次方-1）</li>
-</ul>
-<p>实践：int和long只能写10个数字，short只能写5个数字，多了就会报错。float的小数点后6位，double的小数点后16位。</p>
-<h2 id="java浮点运算"><a href="#java浮点运算" class="headerlink" title="java浮点运算"></a>java浮点运算</h2><h3 id="原因"><a href="#原因" class="headerlink" title="原因"></a>原因</h3><p>因为java的精度是小数点后18位的，而小数部分是需要转化为二进制形式的，而某些小数如0.22在转化为二进制的时候会出现除不尽的情况。</p>
-<h3 id="解决"><a href="#解决" class="headerlink" title="解决"></a>解决</h3><p>其实解决方法也是很简单，虽然并不是精确的结果，但是相差甚微，我们只需要四舍五入保留我们需要的小数点位数即可。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">double</span> <span class="title">getExactValue</span><span class="params">(<span class="keyword">double</span> value, <span class="keyword">int</span> digits)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> BigDecimal(BigDecimalUtil.format(value, digits)).doubleValue();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//results 0商，1余数    </span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">boolean</span> <span class="title">divideAndRemainder</span><span class="params">(<span class="keyword">double</span> v1, <span class="keyword">double</span> v2, <span class="keyword">int</span> digits)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (digits == <span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">return</span> v1 * <span class="number">10</span> % <span class="number">10</span> == <span class="number">0</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        BigDecimal b1 = <span class="keyword">new</span> BigDecimal(BigDecimalUtil.format(v1, digits));</span><br><span class="line">        BigDecimal b2 = <span class="keyword">new</span> BigDecimal(BigDecimalUtil.format(v2, digits));</span><br><span class="line">        BigDecimal[] results = b1.divideAndRemainder(b2);</span><br><span class="line">        <span class="keyword">return</span> results[<span class="number">1</span>].doubleValue() == <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-<p>使用BigDecimal进行转换是一件很费时的事，所以注意使用的场景，不要过度使用导致性能问题。</p>
-<h2 id="int-Integer-区别"><a href="#int-Integer-区别" class="headerlink" title="int Integer 区别"></a>int Integer 区别</h2><p>int的初始化值是0 ，Integer初始化的值是null。 </p>
-<p>原始类型: boolean，char，byte，short，int，long，float，double<br>封装类类型：Boolean，Character，Byte，Short，Integer，Long，Float，Double</p>
-<h3 id="拆箱封箱"><a href="#拆箱封箱" class="headerlink" title="拆箱封箱"></a>拆箱封箱</h3><p>封箱：原始类型-&gt;封装类型</p>
-<p>拆箱：封装类型-&gt;原始类型</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//装箱</span></span><br><span class="line">Integer num = <span class="number">10</span>;</span><br><span class="line"><span class="comment">//拆箱</span></span><br><span class="line"><span class="keyword">int</span> num1 = num;</span><br><span class="line"></span><br><span class="line"><span class="comment">//声明一个Integer对象</span></span><br><span class="line">Integer num = <span class="number">10</span>;</span><br><span class="line"><span class="comment">//以上的声明就是用到了自动的装箱：解析为</span></span><br><span class="line">Integer num = <span class="keyword">new</span> Integer(<span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">Integer num = <span class="number">10</span>;</span><br><span class="line"><span class="comment">//进行计算时隐含的有自动拆箱</span></span><br><span class="line">System.out.print(num--);</span><br></pre></td></tr></table></figure>
-<p>很奇怪吧：这就归结于java对于Integer与int的自动装箱与拆箱的设计，是一种模式：叫享元模式（flyweight）</p>
-<h2 id="String，StringBuffer，StringBuilder区别"><a href="#String，StringBuffer，StringBuilder区别" class="headerlink" title="String，StringBuffer，StringBuilder区别"></a>String，StringBuffer，StringBuilder区别</h2><p>String 字符串常量<br>StringBuffer 字符串变量（线程安全）<br>StringBuilder 字符串变量（非线程安全）</p>
-<p>简要的说， String 类型和 StringBuffer 类型的主要性能区别其实在于 String 是不可变的对象, 因此在每次对 String 类型进行改变的时候其实都等同于生成了一个新的 String 对象，然后将指针指向新的 String 对象，所以经常改变内容的字符串最好不要用 String ，因为每次生成对象都会对系统性能产生影响，特别当内存中无引用对象多了以后， JVM 的 GC 就会开始工作，那速度是一定会相当慢的。</p>
-<h2 id="java-内部类"><a href="#java-内部类" class="headerlink" title="java 内部类"></a>java 内部类</h2><p>内部类主要有以下几类：成员内部类、局部内部类、静态内部类、匿名内部类</p>
-<h3 id="成员内部类"><a href="#成员内部类" class="headerlink" title="成员内部类"></a>成员内部类</h3><ul>
-<li>(1)内部类仍然是一个独立的类，在编译之后内部类会被编译成独立的.class文件，但是前面冠以外部类的类名和$符号 。</li>
-<li>(2)内部类不能用普通的方式访问。</li>
-<li>(3)内部类声明成静态的，就不能随便的访问外部类的成员变量了，此时内部类只能访问外部类的静态成员变量 。</li>
-<li>(4)外部类不能直接访问内部类的的成员，但可以通过内部类对象来访问</li>
-</ul>
-<h3 id="作用"><a href="#作用" class="headerlink" title="作用"></a>作用</h3><ul>
-<li>1.内部类可以很好的实现隐藏，一般的非内部类，是不允许有 private 与protected权限的，但内部类可以</li>
-<li>2．内部类拥有外围类的所有元素的访问权限</li>
-<li>3.可是实现多重继承，外部类继承一个，内部再继承一个。</li>
-<li>4.可以避免修改接口而实现同一个类中两种同名方法的调用。</li>
-</ul>
-<h2 id="抽象类"><a href="#抽象类" class="headerlink" title="抽象类"></a>抽象类</h2><p>抽象方法：由abstract修饰的方法为抽象方法，抽象方法只有方法的定义，没有方法的实现。</p>
-<p>抽象类：一个类中如果包含抽象方法，一个类应该用abstract关键字声明为抽象类。</p>
-<p>抽象类不可以实例化，即使一个类中没有抽象方法，也可以将其定义为抽象类，同样，该类不可以实例化。</p>
-<p>抽象类是否可以没有方法和属性？- 可以</p>
-<h3 id="抽象类的意义"><a href="#抽象类的意义" class="headerlink" title="抽象类的意义"></a>抽象类的意义</h3><ul>
-<li>1 为子类提供一个公共的类型；</li>
-<li>2 封装子类中重复内容（成员变量和方法）；</li>
-<li>3 定义有抽象方法，子类虽然有不同的实现，但该方法的定义是一致的。</li>
-</ul>
-<h2 id="抽象类和接口区别"><a href="#抽象类和接口区别" class="headerlink" title="抽象类和接口区别"></a>抽象类和接口区别</h2><ul>
-<li>1.一个类可以实现多个接口 ，但却只能继承最多一个抽象类。</li>
-<li>2.抽象类可以包含具体的方法 ， 接口的所有方法都是抽象的。</li>
-<li>3.抽象类可以声明和使用字段 ，接口则不能，但接口可以创建静态的final常量。</li>
-<li>4.接口的方法都是public的，抽象类的方法可以是public，protected，private或者默认的package；</li>
-<li>5.抽象类可以定义构造函数，接口却不能。</li>
-</ul>
-<h3 id="接口的意义"><a href="#接口的意义" class="headerlink" title="接口的意义"></a>接口的意义</h3><ul>
-<li>1 通过接口可以实现不相关类的相同行为，而不需要了解对象所对应的类。</li>
-<li>2 通过接口可以指明多个类需要实现的方法。</li>
-<li>3 通过接口可以了解对象的交互界面，而不需了解对象所对应的类。</li>
-</ul>
-<h2 id="泛型中extends和super的区别"><a href="#泛型中extends和super的区别" class="headerlink" title="泛型中extends和super的区别"></a>泛型中extends和super的区别</h2><p>经常发现有List&lt;? super T&gt;、Set&lt;? extends T&gt;的声明，是什么意思呢？&lt;? super T&gt;表示包括T在内的任何T的父类，&lt;? extends T&gt;表示包括T在内的任何T的子类，下面我们详细分析一下两种通配符具体的区别。</p>
-<h2 id="父类的静态方法能否被子类重写"><a href="#父类的静态方法能否被子类重写" class="headerlink" title="父类的静态方法能否被子类重写"></a>父类的静态方法能否被子类重写</h2><p>父类的静态方法不能被子类继承，更谈不上重写，就算是子类中有一个和父类一模一样的静态方法，那也是子类本身的，和父类的那个静态方法不是一回事。方法加静态后就属于类不属于对象了。</p>
-<h2 id="进程和线程的区别"><a href="#进程和线程的区别" class="headerlink" title="进程和线程的区别"></a>进程和线程的区别</h2><p>进程是具有一定独立功能的程序关于某个数据集合上的一次运行活动,进程是系统进行资源分配和调度的一个独立单位.<br>线程是进程的一个实体,是CPU调度和分派的基本单位,它是比进程更小的能独立运行的基本单位.线程自己基本上不拥有系统资源,只拥有一点在运行中必不可少的资源(如程序计数器,一组寄存器和栈),但是它可与同属一个进程的其他的线程共享进程所拥有的全部资源.</p>
-<p>关系：一个线程可以创建和撤销另一个线程;同一个进程中的多个线程之间可以并发执行.</p>
-<p>区别：进程和线程的主要差别在于它们是不同的操作系统资源管理方式。进程有独立的地址空间，一个进程崩溃后，在保护模式下不会对其它进程产生影响，而线程只是一个进程中的不同执行路径。线程有自己的堆栈和局部变量，但线程之间没有单独的地址空间，一个线程死掉就等于整个进程死掉，所以多进程的程序要比多线程的程序健壮，但在进程切换时，耗费资源较大，效率要差一些。</p>
-<p>优缺点：线程和进程在使用上各有优缺点：线程执行开销小，但不利于资源的管理和保护；而进程正相反。同时，线程适合于在SMP机器上运行，而进程则可以跨机器迁移。</p>
-<h2 id="final，finally，finalize的区别"><a href="#final，finally，finalize的区别" class="headerlink" title="final，finally，finalize的区别"></a>final，finally，finalize的区别</h2><p>Final用于修饰类、成员变量和成员方法</p>
-<p>Finally是在异常处理时提供finally块来执行任何清除操作。不管有没有异常被抛出、捕获，finally块都会被执行。try块中的内容是在无异常时执行到结束。catch块中的内容，是在try块内容发生catch所声明的异常时，跳转到catch块中执行。finally块则是无论异常是否发生，都会执行finally块的内容，所以在代码逻辑中有需要无论发生什么都必须执行的代码，就可以放在finally块中。</p>
-<p>Finalize是object类中的一个方法，子类可以重写finalize()方法实现对资源的回收。</p>
-<h2 id="finally-return顺序"><a href="#finally-return顺序" class="headerlink" title="finally return顺序"></a>finally return顺序</h2><ul>
-<li>1 不管有木有出现异常，finally块中代码都会执行；</li>
-<li>2 当try和catch中有return时，finally仍然会执行；</li>
-<li>3 finally是在return语句执行之后，返回之前执行的（此时并没有返回运算后的值，而是先把要返回的值保存起来，不管finally中的代码怎么样，返回的值都不会改变，仍然是之前保存的值），所以函数返回值是在finally执行前就已经确定了；</li>
-<li>4 finally中如果包含return，那么程序将在这里返回，而不是try或catch中的return返回，返回值就不是try或catch中保存的返回值了。</li>
-</ul>
-<h2 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h2><p>对象的序列化就是将对象写入输出流中。<br>反序列化就是从输入流中将对象读取出来。</p>
-<p>Serializable：一个对象想要被序列化，那么它的类就要实现 此接口，这个对象的所有属性（包括private属性、包括其引用的对象）都可以被序列化和反序列化来保存、传递。</p>
-<p>Externalizable：他是Serializable接口的子类，有时我们不希望序列化那么多，可以使用这个接口，这个接口的writeExternal()和readExternal()方法可以指定序列化哪些属性;</p>
-<h2 id="Serializable-和Parcelable-的区别"><a href="#Serializable-和Parcelable-的区别" class="headerlink" title="Serializable 和Parcelable 的区别"></a>Serializable 和Parcelable 的区别</h2><p>作用：Serializable的作用是为了保存对象的属性到本地文件、数据库、网络流、rmi以方便数据传输，当然这种传输可以是程序内的也可以是两个程序间的。而Android的Parcelable的设计初衷是因为Serializable效率过慢，为了在程序内不同组件间以及不同Android程序间(AIDL)高效的传输数据而设计，这些数据仅在内存中存在，Parcelable是通过IBinder通信的消息的载体。</p>
-<p>效率及选择：Parcelable的性能比Serializable好，在内存开销方面较小，所以在内存间数据传输时推荐使用Parcelable，如activity间传输数据，而Serializable可将数据持久化方便保存，所以在需要保存或网络传输数据时选择Serializable，因为android不同版本Parcelable可能不同，所以不推荐使用Parcelable进行数据持久化。</p>
-<h2 id="静态属性和静态方法是否可以被继承？是否可以被重写？以及原因？"><a href="#静态属性和静态方法是否可以被继承？是否可以被重写？以及原因？" class="headerlink" title="静态属性和静态方法是否可以被继承？是否可以被重写？以及原因？"></a>静态属性和静态方法是否可以被继承？是否可以被重写？以及原因？</h2><p>可以继承不可以重写，静态属性、静态方法和非静态的属性都可以被继承和隐藏而不能被重写。static修饰与对象无关只与类相关。重写的时候父类对应会隐藏。</p>
-<h2 id="string-转换成-integer的方式及原理"><a href="#string-转换成-integer的方式及原理" class="headerlink" title="string 转换成 integer的方式及原理"></a>string 转换成 integer的方式及原理</h2><p>Integer.valueOf(str)或者str.parseInt()。前者需要拆箱操作，或者不需要。</p>
-<h1 id="源码"><a href="#源码" class="headerlink" title="源码"></a>源码</h1><h2 id="哪些情况下的对象会被垃圾回收机制处理掉？"><a href="#哪些情况下的对象会被垃圾回收机制处理掉？" class="headerlink" title="哪些情况下的对象会被垃圾回收机制处理掉？"></a>哪些情况下的对象会被垃圾回收机制处理掉？</h2><p>1 object = null,赋值为null后，就会标记为可回收状态。</p>
-<p>2 对象引用超过其作用范围，则这个对象将被视为垃圾。</p>
-<h2 id="java常见编码方式？"><a href="#java常见编码方式？" class="headerlink" title="java常见编码方式？"></a>java常见编码方式？</h2><p>编码原因：把我们日常生活中常用的字符转换成计算机可识别的二进制形式，八位一字符。要解决这个矛盾必须需要一个新的数据结构 char，从 char 到 byte 必须编码。</p>
-<p>字符集的概念实际上包含两个方面，一个是字符的集合，一个是编码方案。通常来说，一个字符集不仅仅定义字符集合，它还为每个符号定义一个二进制编码。例如当我们提到GB2312或者ASCII的时候，它隐式地指明了编码方案是GB2312或者ASCII。</p>
-<h3 id="ASCII码"><a href="#ASCII码" class="headerlink" title="ASCII码"></a>ASCII码</h3><p>学过计算机的人都知道 ASCII 码，总共有 128 个，用一个字节的低 7 位表示，0~31 是控制字符如换行回车删除等；32~126 是打印字符，可以通过键盘输入并且能够显示出来。</p>
-<h3 id="ISO-8859-1（扩展ASCII编码）"><a href="#ISO-8859-1（扩展ASCII编码）" class="headerlink" title="ISO-8859-1（扩展ASCII编码）"></a>ISO-8859-1（扩展ASCII编码）</h3><p>128个字符显然是不够用的，于是ISO组织在ASCII码基础上又制定了一些列标准用来扩展ASCII编码，它们是 ISO-8859-1~ISO-8859-15，其中ISO-8859-1涵盖了大多数西欧语言字符，所有应用的最广泛。ISO-8859-1仍然是单字节编码，它总共能表示256个字符。</p>
-<h3 id="GB2312"><a href="#GB2312" class="headerlink" title="GB2312"></a>GB2312</h3><p>它的全称是《信息交换用汉字编码字符集 基本集》，它是双字节编码，总的编码范围是 A1-F7，其中从 A1-A9 是符号区，总共包含 682 个符号，从 B0-F7 是汉字区，包含 6763 个汉字。</p>
-<h3 id="GBK（扩展GB2312）"><a href="#GBK（扩展GB2312）" class="headerlink" title="GBK（扩展GB2312）"></a>GBK（扩展GB2312）</h3><p>全称叫《汉字内码扩展规范》，是国家技术监督局为 windows95 所制定的新的汉字内码规范，它的出现是为了扩展 GB2312，加入更多的汉字，它的编码范围是 8140~FEFE（去掉 XX7F）总共有 23940 个码位，它能表示 21003 个汉字，它的编码是和 GB2312 兼容的，也就是说用 GB2312 编码的汉字可以用 GBK 来解码，并且不会有乱码。</p>
-<h3 id="GB18030（兼容GB2312）"><a href="#GB18030（兼容GB2312）" class="headerlink" title="GB18030（兼容GB2312）"></a>GB18030（兼容GB2312）</h3><p>全称是《信息交换用汉字编码字符集》，是我国的强制标准，它可能是单字节、双字节或者四字节编码，它的编码与 GB2312 编码兼容，这个虽然是国家标准，但是实际应用系统中使用的并不广泛。</p>
-<h3 id="Unicode编码集"><a href="#Unicode编码集" class="headerlink" title="Unicode编码集"></a>Unicode编码集</h3><h4 id="UTF-16"><a href="#UTF-16" class="headerlink" title="UTF-16"></a>UTF-16</h4><p>UTF-16 具体定义了 Unicode 字符在计算机中存取方法。UTF-16 用两个字节来表示 Unicode 转化格式，这个是定长的表示方法，不论什么字符都可以用两个字节表示，两个字节是 16 个 bit，所以叫 UTF-16。UTF-16 表示字符非常方便，每两个字节表示一个字符，这个在字符串操作时就大大简化了操作，这也是 Java 以 UTF-16 作为内存的字符存储格式的一个很重要的原因。</p>
-<h4 id="UTF-8"><a href="#UTF-8" class="headerlink" title="UTF-8"></a>UTF-8</h4><p>UTF-16 统一采用两个字节表示一个字符，虽然在表示上非常简单方便，但是也有其缺点，有很大一部分字符用一个字节就可以表示的现在要两个字节表示，存储空间放大了一倍，在现在的网络带宽还非常有限的今天，这样会增大网络传输的流量，而且也没必要。而 UTF-8 采用了一种变长技术，每个编码区域有不同的字码长度。不同类型的字符可以是由 1~6 个字节组成。</p>
-<p>编码规则</p>
-<ul>
-<li>如果一个字节，最高位（第 8 位）为 0，表示这是一个 ASCII 字符（00 - 7F）。可见，所有 ASCII 编码已经是 UTF-8 了。</li>
-<li>如果一个字节，以 11 开头，连续的 1 的个数暗示这个字符的字节数，例如：110xxxxx 代表它是双字节 UTF-8 字符的首字节。</li>
-<li>如果一个字节，以 10 开始，表示它不是首字节，需要向前查找才能得到当前字符的首字节 </li>
-</ul>
-<h4 id="UTF-32"><a href="#UTF-32" class="headerlink" title="UTF-32"></a>UTF-32</h4><p>采用4个字节进行编码，就空间而已，其效率最差；另外其不像UTF-16,可以很容易的判断出下一个字符的开始位置，因此并不如其它Unicode编码用得广泛；</p>
-<h2 id="静态代理和动态代理的区别，什么场景使用？"><a href="#静态代理和动态代理的区别，什么场景使用？" class="headerlink" title="静态代理和动态代理的区别，什么场景使用？"></a>静态代理和动态代理的区别，什么场景使用？</h2><p>代理模式: 是经常用到的设计模式，代理模式是给指定对象提供代理对象。由代理对象来控制具体对象的引用。</p>
-<p>静态代理: 由程序员创建或特定工具自动生成源代码，再对其编译。在程序运行前，代理类的.class文件就已经存在了。</p>
-<p>动态代理: 在程序运行时，运用反射机制动态创建而成。</p>
-<h3 id="区别"><a href="#区别" class="headerlink" title="区别"></a>区别</h3><ul>
-<li>静态代理通常只代理一个类，动态代理是代理一个接口下的多个实现类。</li>
-<li>静态代理事先知道要代理的是什么，而动态代理不知道要代理什么东西，只有在运行时才知道。</li>
-<li>动态代理是实现JDK里的InvocationHandler接口的invoke方法，但注意的是代理的是接口，也就是你的业务类必须要实现接口，通过Proxy里的newProxyInstance得到代理对象。</li>
-</ul>
-<h2 id="Java的异常体系"><a href="#Java的异常体系" class="headerlink" title="Java的异常体系"></a>Java的异常体系</h2><p>Throwable类所有异常和错误的超类，有两个子类Error和Exception，分别表示错误和异常。其中异常类Exception又分为运行时异常(RuntimeException)和非运行时异常， 这两种异常有很大的区别，也称之为不检查异常（Unchecked Exception）和检查异常（Checked Exception）。</p>
-<p>Error是程序无法处理的错误，比如OutOfMemoryError、ThreadDeath等。这些异常发生时，Java虚拟机（JVM）一般会选择线程终止。 </p>
-<p>Exception是程序本身可以处理的异常，这种异常分两大类运行时异常和非运行时异常。程序中应当尽可能去处理这些异常。 </p>
-<p>运行时异常：都是RuntimeException类及其子类异常，如NullPointerException、IndexOutOfBoundsException等，这些异常是不检查异常，程序中可以选择捕获处理，也可以不处理。这些异常一般是由程序逻辑错误引起的，程序应该从逻辑角度尽可能避免这类异常的发生。 </p>
-<p>非运行时异常：是RuntimeException以外的异常，类型上都属于Exception类及其子类。从程序语法角度讲是必须进行处理的异常，如果不处理，程序就不能编译通过。如IOException、SQLException等以及用户自定义的Exception异常，一般情况下不自定义检查异常。</p>
-<h2 id="java解析与分派"><a href="#java解析与分派" class="headerlink" title="java解析与分派"></a>java解析与分派</h2><p>解析：Java中方法调用的目标方法在Class文件里面都是常量池中的符号引用，在类加载的解析阶段，会将其中的一部分符号引用转化为直接引用。这种解析的前提是：方法在程序真正运行之前就有一个可以确定的调用版本，并且这个方法的调用版本在运行期是不可改变的，即“编译期可知，运行期不可变”，这类目标的方法的调用称为解析（Resolve）。</p>
-<p>只要能被invokestatic和invokespecial指令调用的方法，都可以在解析阶段中确定唯一的调用版本，符合条件的有静态方法（invokestatic指令）、私有方法、实例构造方法、父类方法（这3个是invokespecial指令），它们在类加载的的解析阶段就会将符号引用解析为该方法的直接引用。</p>
-<p>分派：解析调用一定是个静态的过程，在编译期就完全确定，在类加载的解析阶段就将涉及的符号引用全部转变为可以确定的直接引用，不会延迟到运行期再去完成。而分派（Dispatch）调用则可能是静态的也可能是动态的。分派是多态性的体现，Java虚拟机底层提供了我们开发中“重载”(Overload)“和重写”(Override)的底层实现。其中重载属于静态分派，而重写则是动态分派的过程。</p>
-<h2 id="类加载的过程"><a href="#类加载的过程" class="headerlink" title="类加载的过程"></a>类加载的过程</h2><ul>
-<li>1 加载：通过类的全限定名来获取此类的二进制字节流，将这个字节流代表的静态储存结构转化成方法区运行时的数据结构，在内存中生成一个代表这个类的class对象，作为方法区这个类的各种数据访问入口。</li>
-<li>2 验证：验证这个类的合法性，并且不会危害到虚拟机自身的安全。文件格式验证，元数据验证(符合类标准)，字节码验证，符号引用验证。</li>
-<li>3 准备：这个阶段正式为类变量分配内存并设置初始值。这些变量都会在方法区中分配。因为在方法区中分配，所以这个阶段处理的都是一些static修饰的变量，不包括实例变量的。</li>
-<li>4 解析：在这个阶段，主要是虚拟机将常量池中的符号引用代替为直接引用。解析动作主要针对类/接口，字段，类方法，接口方法四类符号引用进行。</li>
-<li>5 初始化：准备的时候赋值为0，那么我们在程序中是显示为a初始化为10的，所以现在，我们得把这个a初始化为10了。</li>
-<li>6 使用</li>
-<li>7 卸载：虚拟机会在代码中当代表类的Class对象不再被引用时，即不可达时，Class对象就会结束生命周期，此类在方法区内的数据也会被卸载，从而结束此类的生命周期。</li>
-</ul>
-<h2 id="Java中实现多态的机制是什么？"><a href="#Java中实现多态的机制是什么？" class="headerlink" title="Java中实现多态的机制是什么？"></a>Java中实现多态的机制是什么？</h2><p>编译多态-又称静态多态：主要是体现在重载，系统在编译时就能确定调用重载函数的哪个版本。<br>运行多态-又称动态多态：主要体现在OO设计的继承性上，子类的对象也是父类的对象，即上溯造型，所以子类对象可以作为父类对象使用，父类的对象变量可以指向子类对象。因此通过一个父类发出的方法调用可能执行的是方法在父类中的实现，也可能是某个子类中的实现，它是由运行时刻具体的对象类型决定的。</p>
-<h2 id="如何将一个Java对象序列化到文件里？"><a href="#如何将一个Java对象序列化到文件里？" class="headerlink" title="如何将一个Java对象序列化到文件里？"></a>如何将一个Java对象序列化到文件里？</h2><p>Java中要实现将对象保存起来持久化，需要让对象实现Serializable接口。写入序列化数据到文件中，主要是两个对象，一个对象是FileOutputStream 对象，一个是ObjectOutputStream 对象，ObjectOutputStream 负责向指定的流中写入序列化的对象。当从文件中读取序列化数据时，主要需要两个对象，一个是FileInputStream ，一个是ObjectInputStream 对象，ObjectInputStream 负责从指定流中读取序列化数据并还原成序列化前得对象。</p>
-<h2 id="编译——–静态-运行———动态"><a href="#编译——–静态-运行———动态" class="headerlink" title="编译——–静态      运行———动态"></a>编译——–静态      运行———动态</h2><h2 id="java-反射"><a href="#java-反射" class="headerlink" title="java 反射"></a>java 反射</h2><p>JAVA反射机制是在运行状态中，对于任意一个类，都能够知道这个类的所有属性和方法；对于任意一个对象，都能够调用它的任意一个方法和属性；这种动态获取的信息以及动态调用对象的方法的功能称为java语言的反射机制。动态机制。</p>
-<p>功能：在运行时判断任意一个对象所属的类；在运行时构造任意一个类的对象；在运行时判断任意一个类所具有的成员变量和方法；在运行时调用任意一个对象的方法；生成动态代理。</p>
-<p>反射获得信息： 类中有什么信息，它就可以获得什么信息，不过前提是得知道类的名字。</p>
-<p>动态语言：程序运行时，允许改变程序结构或变量类型，这种语言称为动态语言。</p>
-<h2 id="java-注解"><a href="#java-注解" class="headerlink" title="java 注解"></a>java 注解</h2><p>注解（Annotation）：是JDK1.5引入的新特性，包含在java.lang.annotation包中，它是附加在代码中的一些元信息，将一个类的外部信息与内部成员联系起来，在编译、运行时进行解析和使用。因为本质上，Annotion是一种特殊的接口，程序可以通过反射来获取指定程序元素的Annotion对象，然后通过Annotion对象来获取注解里面的元数据。</p>
-<p>元数据(metadata)：所谓元数据就是数据的数据。也就是说，元数据是描述数据的。就象数据表中的字段一样，每个字段描述了这个字段<br>下的数据的含义。</p>
-<p>1.5四种元注解，专门注解其他的注解：</p>
-<ul>
-<li>@Documented–一个简单的Annotations标记注解，表示是否将注解信息添加在java文档中。</li>
-<li><p>@Retention– 定义该注解的生命周期。</p>
-<p> RetentionPolicy.SOURCE – 在编译阶段丢弃。这些注解在编译结束之后就不再有任何意义，所以它们不会写入字节码。@Override, @SuppressWarnings都属于这类注解。</p>
-<p> RetentionPolicy.CLASS – 在类加载的时候丢弃。在字节码文件的处理中有用。注解默认使用这种方式。</p>
-<p> RetentionPolicy.RUNTIME– 始终不会丢弃，运行期也保留该注解，因此可以使用反射机制读取该注解的信息。我们自定义的注解通常使用这种方式。</p>
-</li>
-<li><p>@Target – 表示该注解用于什么地方。如果不明确指出，该注解可以放在任何地方。以下是一些可用的参数。需要说明的是：属性的注解是兼容的，如果你想给7个属性都添加注解，仅仅排除一个属性，那么你需要在定义target包含所有的属性。</p>
-</li>
-<li>@Inherited – 定义该注释和子类的关系</li>
-</ul>
-<h2 id="java依赖注入"><a href="#java依赖注入" class="headerlink" title="java依赖注入"></a>java依赖注入</h2><p>依赖：如果在 Class A 中，有 Class B 的实例，则称 Class A 对 Class B 有一个依赖。</p>
-<p>依赖注入：非自己主动初始化依赖，而通过外部来传入依赖的方式，我们就称为依赖注入。</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Human</span> </span>&#123;</span><br><span class="line">    ...</span><br><span class="line">    Father father;</span><br><span class="line">    ...</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">Human</span><span class="params">(Father father)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.father = father;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="java-泛型"><a href="#java-泛型" class="headerlink" title="java 泛型"></a>java 泛型</h2><p>原理：Java中的泛型基本上都是在编译器这个层次来实现的。在生成的Java字节码中是不包含泛型中的类型信息的。使用泛型的时候加上的类型参数，会在编译器在编译的时候去掉。这个过程就称为类型擦除。</p>
-<p>擦出规则：</p>
-<ul>
-<li><t>擦除后变为Obecjt</t></li>
-<li>&lt;? extends A&gt;擦除后变为A</li>
-<li>&lt;？ super A&gt;擦除后变为Object</li>
-</ul>
-<h2 id="String为什么要设计成不可变的"><a href="#String为什么要设计成不可变的" class="headerlink" title="String为什么要设计成不可变的"></a>String为什么要设计成不可变的</h2><p>1 字符串常量池的需要:字符串常量池(String pool, String intern pool, String保留池) 是Java堆内存中一个特殊的存储区域, 当创建一个String对象时,假如此字符串值已经存在于常量池中,则不会创建一个新的对象,而是引用已经存在的对象。</p>
-<p>2 允许String对象缓存HashCode:字符串不变性保证了hash码的唯一性,因此可以放心地进行缓存.这也是一种性能优化手段,意味着不必每次都去计算新的哈希码.</p>
-<p>3 安全性:不可变对象天生就是线程安全的,String被许多的Java类(库)用来当做参数,例如 网络连接地址URL,文件路径path,还有反射机制所需要的String参数等, 假若String不是固定不变的,将会引起各种安全隐患。</p>
-<h2 id="Object类的equal和hashCode方法重写"><a href="#Object类的equal和hashCode方法重写" class="headerlink" title="Object类的equal和hashCode方法重写"></a>Object类的equal和hashCode方法重写</h2><p>在Java API文档中关于hashCode方法有以下几点规定：</p>
-<ul>
-<li>1 在java应用程序执行期间，如果在equals方法比较中所用的信息没有被修改，那么在同一个对象上多次调用hashCode方法时必须一致地返回相同的整数。如果多次执行同一个应用时，不要求该整数必须相同。<ul>
-<li>2 如果两个对象通过调用equals方法是相等的，那么这两个对象调用hashCode方法必须返回相同的整数。</li>
-<li>3 如果两个对象通过调用equals方法是不相等的，不要求这两个对象调用hashCode方法必须返回不同的整数。但是程序员应该意识到对不同的对象产生不同的hash值可以提供哈希表的性能。</li>
-</ul>
-</li>
-</ul>
-<p>通过前面的分析，我们知道在Object类中，hashCode方法是通过Object对象的地址计算出来的，因为Object对象只与自身相等，所以同一个对象的地址总是相等的，计算取得的哈希码也必然相等，对于不同的对象，由于地址不同，所获取的哈希码自然也不会相等。因此到这里我们就明白了，如果一个类重写了equals方法，但没有重写hashCode方法，将会直接违反了第二点，这样的话，如果我们通过映射表(Map接口)操作相关对象时，就无法达到我们预期想要的效果。</p>
-<h1 id="数据结构"><a href="#数据结构" class="headerlink" title="数据结构"></a>数据结构</h1><h2 id="并发集合"><a href="#并发集合" class="headerlink" title="并发集合"></a>并发集合</h2><p>1 普通集合类中线程安全的集合：Vector  &amp;&amp; Stack</p>
-<p>2 Concurrent包中提供的线程安全集合()：ConcurrentHashMap，ConcurrentLinkedDeque，ConcurrentLinkedQueueConcurrentSkipListMap，ConcurrentSkipSet，CopyOnWriteArrayList，CopyOnWriteArraySet。</p>
-<p>3 具体看下ReentranLock(可重入锁机制)：</p>
-<h2 id="集合以及集合之间的继承关系"><a href="#集合以及集合之间的继承关系" class="headerlink" title="集合以及集合之间的继承关系"></a>集合以及集合之间的继承关系</h2><p><img src="http://oc4zuck5v.bkt.clouddn.com/collection.png" alt=""></p>
-<h3 id="Iterator接口"><a href="#Iterator接口" class="headerlink" title="Iterator接口"></a>Iterator接口</h3><p>Iterator接口，这是一个用于遍历集合中元素的接口，主要包含hashNext(),next(),remove()三种方法。</p>
-<h3 id="Collection-（集合的最大接口）继承关系"><a href="#Collection-（集合的最大接口）继承关系" class="headerlink" title="Collection （集合的最大接口）继承关系"></a>Collection （集合的最大接口）继承关系</h3><p>Collection定义了集合框架的共性功能:add(e),addAll(collection),remove(e),removeAll(),clear(),contains(e),isEmpty(),iterator(),size(),retainAll(),toArray()。</p>
-<ul>
-<li>List　可以存放重复的内容</li>
-<li>Set　　不能存放重复的内容，所以的重复内容靠hashCode()和equals()两个方法区分</li>
-<li>Queue　　队列接口</li>
-<li>SortedSet　　可以对集合中的数据进行排序</li>
-</ul>
-<h3 id="List"><a href="#List" class="headerlink" title="List"></a>List</h3><p>特有方法。凡是可以操作角标的方法都是该体系特有的方法:</p>
-<ul>
-<li>add(index,element)</li>
-<li>addAll(index,Collection)</li>
-<li>remove(index)</li>
-<li>set(index,element)</li>
-<li>get(index)</li>
-<li>subList(from,to)</li>
-<li>listIterator()</li>
-<li>int indexOf(obj)</li>
-<li>ListIterator listIterator()</li>
-</ul>
-<p>ArrayList 　　线程不安全，查询速度快</p>
-<p>Vector　　线程安全，但速度慢，已被ArrayList替代</p>
-<p>LinkedList　　链表结果，增删速度快</p>
-<h3 id="Set接口"><a href="#Set接口" class="headerlink" title="Set接口"></a>Set接口</h3><p>Set：元素是无序(存入和取出的顺序不一定一致)，元素不可以重复。<br> HashSet:底层数据结构是哈希表。是线程不安全的。不同步。<br> HashSet是如何保证元素唯一性的呢？<br> 　　　　是通过元素的两个方法，hashCode和equals来完成。<br> 　　　　如果元素的HashCode值相同，才会判断equals是否为true。<br> 　　　　如果元素的hashcode值不同，不会调用equals。注意,对于判断元素是否存在，以及删除等操作，依赖的方法是元素的hashcode和equals方法。<br>TreeSet：<br>有序的存放：TreeSet　　<br>线程不安全，可以对Set集合中的元素进行排序通过compareTo或者compare方法来保证元素的唯一性，元素以二叉树的形式存放。</p>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><h3 id="List：add-remove-get-set。"><a href="#List：add-remove-get-set。" class="headerlink" title="List：add/remove/get/set。"></a>List：add/remove/get/set。</h3><p>　　　　<br>1，ArrayList：其实就是数组，容量一大，频繁增删就是噩梦，适合随机查找；<br>2，LinkedList：增加了push/[pop|remove|pull]，其实都是removeFirst；<br>3，Vector：历史遗留产物，同步版的ArrayList，代码和ArrayList太像；<br>4，Stack：继承自Vector。Java里其实没有纯粹的Stack，可以自己实现，用组合的方式，封装一下LinkedList即可；<br>5，Queue：本来是单独的一类，不过在SUN的JDK里就是用LinkedList来提供这个功能的，主要方法是offer/pull/peek，因此归到这里呢。
-　　　　</p>
-<h3 id="Set：add-remove。可以用迭代器或者转换成list。"><a href="#Set：add-remove。可以用迭代器或者转换成list。" class="headerlink" title="Set：add/remove。可以用迭代器或者转换成list。"></a>Set：add/remove。可以用迭代器或者转换成list。</h3><p>1，HashSet：内部采用HashMap实现的；<br>2，LinkedHashSet：采用LinkedHashMap实现；<br>3，TreeSet：TreeMap。
-　　　　</p>
-<h3 id="Map：put-get-remove。"><a href="#Map：put-get-remove。" class="headerlink" title="Map：put/get/remove。"></a>Map：put/get/remove。</h3><p>1，HashMap/HashTable：散列表，和ArrayList一样采用数组实现，超过初始容量会对性能有损耗；<br>2，LinkedHashMap：继承自HashMap，但通过重写嵌套类HashMap.Entry实现了链表结构，同样有容量的问题；<br>3，Properties：是继承的HashTable。</p>
-<h2 id="有了进程为什么还要线程？"><a href="#有了进程为什么还要线程？" class="headerlink" title="有了进程为什么还要线程？"></a>有了进程为什么还要线程？</h2><p>进程只能在一个时间干一件事，如果想同时干两件事或多件事，进程就无能为力了。<br>进程在执行的过程中如果阻塞，例如等待输入，整个进程就会挂起，即使进程中有些工作不依赖于输入的数据，也将无法执行。  </p>
-<h2 id="如何控制某个方法允许并发访问线程的个数？"><a href="#如何控制某个方法允许并发访问线程的个数？" class="headerlink" title="如何控制某个方法允许并发访问线程的个数？"></a>如何控制某个方法允许并发访问线程的个数？</h2><p>Semaphore mSemaphore = new Semaphore(5);  </p>
-<p>Semaphore两个重要的方法就是：</p>
-<p>semaphore.acquire() 请求一个信号量，这时候的信号量个数-1（一旦没有可使用的信号量，也即信号量个数变为负数时，再次请求的时候就会阻塞，直到其他线程释放了信号量）</p>
-<p>semaphore.release() 释放一个信号量，此时信号量个数+1</p>
-<h2 id="线程如何关闭"><a href="#线程如何关闭" class="headerlink" title="线程如何关闭"></a>线程如何关闭</h2><p>1 使用共享变量（shared variable）发出信号，让线程自己退出。<br>2 使用stop方法强行终止线程（这个方法不推荐使用，因为stop和suspend、resume一样，也可能发生不可预料的结果）。<br>3 使用interrupt方法中断线程。</p>
-<h2 id="线程间操作List"><a href="#线程间操作List" class="headerlink" title="线程间操作List"></a>线程间操作List</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> List&lt;Long&gt; list  = Collections.synchronizedList(<span class="keyword">new</span> ArrayList&lt;Long&gt;());</span><br></pre></td></tr></table></figure>
-<h2 id="synchronize的原理"><a href="#synchronize的原理" class="headerlink" title="synchronize的原理"></a>synchronize的原理</h2><p>每个对象有一个监视器锁（monitor）。当monitor被占用时就会处于锁定状态，线程执行monitorenter指令时尝试获取monitor的所有权，过程如下：</p>
-<p>1.如果monitor的进入数为0，则该线程进入monitor，然后将进入数设置为1，该线程即为monitor的所有者。<br>2.如果线程已经占有该monitor，只是重新进入，则进入monitor的进入数加1.<br>3.如果其他线程已经占用了monitor，则该线程进入阻塞状态，直到monitor的进入数为0，再重新尝试获取monitor的所有权。</p>
-<p>执行monitorexit的线程必须是objectref所对应的monitor的所有者。</p>
-<p>Synchronized的语义底层是通过一个monitor的对象来完成，其实wait/notify等方法也依赖于monitor对象，这就是为什么只有在同步的块或者方法中才能调用wait/notify等方法，否则会抛出java.lang.IllegalMonitorStateException的异常的原因。</p>
-<h2 id="死锁的条件"><a href="#死锁的条件" class="headerlink" title="死锁的条件"></a>死锁的条件</h2><ul>
-<li>（1） 互斥条件：一个资源每次只能被一个进程使用。</li>
-<li>（2） 占有且等待：一个进程因请求资源而阻塞时，对已获得的资源保持不放。</li>
-<li>（3）不可强行占有:进程已获得的资源，在末使用完之前，不能强行剥夺。</li>
-<li>（4） 循环等待条件:若干进程之间形成一种头尾相接的循环等待资源关系。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-线程与CPU" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/26/线程与CPU/" class="article-date">
-  	<time datetime="2018-01-25T16:00:00.000Z" itemprop="datePublished">2018-01-26</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/26/线程与CPU/">
-        线程与CPU
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="线程与CPU"><a href="#线程与CPU" class="headerlink" title="线程与CPU"></a>线程与CPU</h1><p>线程是最小的调度单位，在很多情况下为了使APP更加流程地运行，我们不可能将很多事情都放在主线程上执行，这样会造成严重卡顿（ANR），那么这些事情应该交给子线程去做，但对于一个系统而言，创建、销毁、调度线程的过程是需要开销的，所以我们并不能无限量地开启线程，那么对线程的了解就变得尤为重要了。</p>
-<p>CPU中央处理器(Central Processing Unit)是一块超大规模的集成电路，是一台计算机的运算核心（Core）和控制核心（ Control Unit）。它的功能主要是解释计算机指令以及处理计算机软件中的数据。</p>
-<h2 id="CPU核数"><a href="#CPU核数" class="headerlink" title="CPU核数"></a>CPU核数</h2><p>一般来讲CPU的核数和线程同时运行的个数是相等的，因此合数越多，多线程处理能力越强。</p>
-<h3 id="CPU超线程"><a href="#CPU超线程" class="headerlink" title="CPU超线程"></a>CPU超线程</h3><p>CPU超线程就是利用特殊字符的硬件指令，把两个逻辑内核模拟成物理芯片，让单个处理器能使用线程级并行计算，从而兼容多线程并行计算，从而兼容多线程操作系统和软件，使运行性能提高。也就是说，支持超线程技术的cpu单核可以同时运行两个线程，也就是俗称的伪双核，但其实单核超线程的性能要比双核的差。</p>
-<h3 id="线程池的线程数"><a href="#线程池的线程数" class="headerlink" title="线程池的线程数"></a>线程池的线程数</h3><p>如果是CPU密集型应用，则线程池大小设置为N+1</p>
-<p>如果是IO密集型应用，则线程池大小设置为2N+1</p>
-<p>CPU密集型任务：尽量使用较小的线程池，一般为CPU核心数+1。因为CPU密集型任务得CPU使用率很高，若开过多的线程数，只能增加上下文切换的次数，因此会带来额外的开销。</p>
-<p>IO密集型任务：可以使用稍大的线程池，一般为2*CPU核心数。IO密集型任务CPU使用率并不高，因此可以让CPU在等待IO的时候去处理别的任务，充分利用CPU时间。</p>
-<p>混合型任务：可以将任务分成IO密集型和CPU密集型任务，然后分别用不同的线程池去处理。 只要分完之后两个任务的执行时间相差不大，那么就会比串行执行来的高效。 因为如果划分之后两个任务执行时间相差甚远，那么先执行完的任务就要等后执行完的任务，最终的时间仍然取决于后执行完的任务，而且还要加上任务拆分与合并的开销，得不偿失。</p>
-<h2 id="线程实现"><a href="#线程实现" class="headerlink" title="线程实现"></a>线程实现</h2><h3 id="Thread-Runnable-Callable"><a href="#Thread-Runnable-Callable" class="headerlink" title="Thread/Runnable/Callable"></a>Thread/Runnable/Callable</h3><h4 id="runnable与callable区别"><a href="#runnable与callable区别" class="headerlink" title="runnable与callable区别"></a>runnable与callable区别</h4><ul>
-<li>(1) Callable规定的方法是call()，Runnable规定的方法是run()。其中Runnable可以提交给Thread来包装下，直接启动一个线程来执行，而Callable则一般都是提交给ExecuteService来执行。 </li>
-<li>(2) Callable的任务执行后可返回值，而Runnable的任务是不能返回值得 </li>
-<li>(3) call方法可以抛出异常，run方法不可以 </li>
-<li>(4) 运行Callable任务可以拿到一个Future对象，表示异步计算的结果。</li>
-</ul>
-<h3 id="线程池"><a href="#线程池" class="headerlink" title="线程池"></a>线程池</h3><p>表示如果线程池中的某个线程死掉了，线程池会生成一个新的线程代替它。</p>
-<h4 id="线程池的作用：线程池作用就是限制系统中执行线程的数量。"><a href="#线程池的作用：线程池作用就是限制系统中执行线程的数量。" class="headerlink" title="线程池的作用：线程池作用就是限制系统中执行线程的数量。"></a>线程池的作用：线程池作用就是限制系统中执行线程的数量。</h4><p>线程池的分配遵循这样的规则：</p>
-<ul>
-<li>当线程池中的核心线程数量未达到最大线程数时，启动一个核心线程去执行任务；</li>
-<li>如果线程池中的核心线程数量达到最大线程数时，那么任务会被插入到任务队列中排队等待执行；</li>
-<li>如果在上一步骤中任务队列已满但是线程池中线程数量未达到限定线程总数，那么启动一个非核心线程来处理任务；</li>
-<li>如果上一步骤中线程数量达到了限定线程总量，那么线程池则拒绝执行该任务，且ThreadPoolExecutor会调用RejectedtionHandler的rejectedExecution方法来通知调用者。</li>
-</ul>
-<p>主要参数：</p>
-<ul>
-<li>corePoolSize：核心运行的poolSize，也就是当超过这个范围的时候，就需要将新的Thread放入到等待队列中了；</li>
-<li>maximumPoolSize：一般你用不到，当大于了这个值就会将Thread由一个丢弃处理机制来处理，但是当你发生：newFixedThreadPool的时候，corePoolSize和maximumPoolSize是一样的，而corePoolSize是先执行的，所以他会先被放入等待队列，而不会执行到下面的丢弃处理中，看了后面的代码你就知道了。</li>
-<li>workQueue：等待队列，当达到corePoolSize的时候，就向该等待队列放入线程信息（默认为一个LinkedBlockingQueue），运行中的队列属性为：workers，为一个HashSet；内部被包装了一层，后面会看到这部分代码。</li>
-<li>keepAliveTime：默认都是0，当线程没有任务处理后，保持多长时间，cachedPoolSize是默认60s，不推荐使用。</li>
-<li>threadFactory：是构造Thread的方法，你可以自己去包装和传递，主要实现newThread方法即可；</li>
-<li>handler：也就是参数maximumPoolSize达到后丢弃处理的方法，java提供了5种丢弃处理的方法，当然你也可以自己弄，主要是要实现接口：RejectedExecutionHandler中的方法：</li>
-</ul>
-<p>处理任务的优先级为： </p>
-<ul>
-<li>（1） 核心线程corePoolSize &gt; 任务队列workQueue &gt; 最大线程maximumPoolSize，如果三者都满了，使用handler处理被拒绝的任务。 </li>
-<li>（2）当池中的线程数大于corePoolSize的时候，多余的线程会等待keepAliveTime长的时间，如果无请求可处理就自行销毁。</li>
-</ul>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-    <article id="post-Gradle 详解" class="article article-type-post" itemscope itemprop="blogPost">
-  
-    <div class="article-meta">
-      <a href="/2018/01/22/Gradle 详解/" class="article-date">
-  	<time datetime="2018-01-21T16:00:00.000Z" itemprop="datePublished">2018-01-22</time>
-</a>
-    </div>
-  
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/01/22/Gradle 详解/">
-        Gradle 详解
-        
-      </a>
-    </h1>
-  
-
-      </header>
-      
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h1 id="Gradle-详解"><a href="#Gradle-详解" class="headerlink" title="Gradle 详解"></a>Gradle 详解</h1><h2 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h2><p>Gradle是一个基于Apache Ant和Apache Maven概念的项目自动化建构工具。它使用一种基于Groovy的特定领域语言来声明项目设置，而不是传统的XML。</p>
-<p>Android工程通过gradle文件管理各项配置，gradle文件利用DSL（Domain Specific Language）语言描述配置，并使用Groovy语言处理编译逻辑。</p>
-<p>Gradle 和 Android 插件独立于 Android Studio 运行。这意味着，可以在 Android Studio 内、使用计算机上的命令行工具或在未安装 Android Studio 的计算机（例如持续性集成服务器）上构建 Android 应用。如果您不使用 Android Studio，可以学习如何从命令行构建和运行您的应用。无论您是从命令行、在远程计算机上还是使用 Android Studio 构建项目，构建的输出都相同。</p>
-<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><p>Gradle中，每一个待编译的工程都叫一个Project。每一个Project在构建的时候都包含一系列的Task。比如一个Android APK的编译可能包含：Java源码编译Task、资源编译Task、JNI编译Task、lint检查Task、打包生成APK的Task、签名Task等。</p>
-<p>Gradle 工作主要包含三个阶段：</p>
-<ul>
-<li>首先是初始化阶段。对我们前面的multi-project build而言，就是执行settings.gradle，确定项目project(每个模块都是一个project)对象的个数。</li>
-<li>Configration阶段的目标是解析每个project中的build.gradle。比如multi-project build例子中，解析每个子目录中的build.gradle。在这两个阶段之间，我们可以加一些定制化的Hook。这当然是通过API来添加的。Configuration阶段完了后，整个build的project以及内部的Task关系就确定了。一个Project包含很多Task，每个Task之间有依赖关系。Configuration会建立一个有向图来描述Task之间的依赖关系。所以，我们可以添加一个HOOK，即当Task关系图建立好后，执行一些操作。</li>
-<li>最后一个阶段就是执行任务了。</li>
-</ul>
-<p>简言之，Gradle有一个初始化流程，这个时候settings.gradle会执行。 在配置阶段，每个Project都会被解析，其内部的任务也会被添加到一个有向图里，用于解决执行过程中的依赖关系。然后才是执行阶段。你在gradle xxx中指定什么任务，gradle就会将这个xxx任务链上的所有任务全部按依赖顺序执行一遍！</p>
-<h2 id="打包流程"><a href="#打包流程" class="headerlink" title="打包流程"></a>打包流程</h2><h3 id="编译–-gt-DEX–-gt-打包–-gt-签名和对齐"><a href="#编译–-gt-DEX–-gt-打包–-gt-签名和对齐" class="headerlink" title="编译–&gt;DEX–&gt;打包–&gt;签名和对齐"></a>编译–&gt;DEX–&gt;打包–&gt;签名和对齐</h3><p><img src="https://upload-images.jianshu.io/upload_images/2839011-58310b412bae9a01.png?imageMogr2/auto-orient/" alt=""></p>
-<ul>
-<li>1 Java编译器对工程本身的java代码进行编译，这些java代码有三个来源：app的源代码，由资源文件生成的R文件(aapt工具)，以及有aidl文件生成的java接口文件(aidl工具)。产出为.class文件。</li>
-<li>2 .class文件和依赖的三方库文件通过dex工具生成Delvik虚拟机可执行的.dex文件，可能有一个或多个，包含了所有的class信息，包括项目自身的class和依赖的class。产出为.dex文件。</li>
-<li>3 apkbuilder工具将.dex文件和编译后的资源文件生成未经签名对齐的apk文件。这里编译后的资源文件包括两部分，一是由aapt编译产生的编译后的资源文件，二是依赖的三方库里的资源文件。产出为未经签名的.apk文件。</li>
-<li>4 分别由Jarsigner和zipalign对apk文件进行签名和对齐，生成最终的apk文件。</li>
-</ul>
-<p>老官网：<br><img src="http://loody.me/images/android_build.png" alt=""></p>
-<ul>
-<li>1 通过aapt打包res资源文件，生成R.java、resources.arsc和res文件（二进制 &amp; 非二进制如res/raw和pic保持原样）</li>
-<li>2 处理.aidl文件，生成对应的Java接口文件</li>
-<li>3 通过Java Compiler编译R.java、Java接口文件、Java源文件，生成.class文件</li>
-<li>4 通过dex命令，将.class文件和第三方库中的.class文件处理生成classes.dex</li>
-<li>5 通过apkbuilder工具，将aapt生成的resources.arsc和res文件、assets文件和classes.dex一起打包生成apk</li>
-<li>6 通过Jarsigner工具，对上面的apk进行debug或release签名</li>
-<li>7 通过zipalign工具，将签名后的apk进行对齐处理。</li>
-</ul>
-<p><img src="http://loody.me/images/android_build_detail.png" alt=""></p>
-
-      
-    </div>
-    
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-      
-    
-  </div>
-  
-</article>
-
-
-
-
-
-
-
-  
-  
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
-    </nav>
-  
-</div>
-      <footer id="footer">
-  <div class="outer">
-    <div id="footer-info">
-      <div class="footer-left">
-        &copy; 2018 ShenYonghe
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
       </div>
-        <div class="footer-right">
-          <a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/smackgg/hexo-theme-smackdown" target="_blank">Smackdown</a>
-        </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/about">About</a>
+        
+      </div>
     </div>
-  </div>
-</footer>
+</div>
     </div>
+    <div class="container">
+        
+
+
+
+  <div class="article">
     
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-
-
-<script>
-	var yiliaConfig = {
-		fancybox: true,
-		mathjax: true,
-		animate: true,
-		isHome: true,
-		isPost: false,
-		isArchive: false,
-		isTag: false,
-		isCategory: false,
-		open_in_new: false
-	}
-</script>
-<script src="/js/main.js"></script>
-
-
-
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-    tex2jax: {
-        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-        processEscapes: true,
-        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-    }
-});
-
-MathJax.Hub.Queue(function() {
-    var all = MathJax.Hub.getAllJax(), i;
-    for(i=0; i < all.length; i += 1) {
-        all[i].SourceElement().parentNode.className += ' has-jax';                 
-    }       
-});
-</script>
-
-<script src="//cdn.bootcss.com/mathjax/2.7.0/MathJax.js"></script>
-
-
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/03/05/Android View 的事件传递力/">
+            Android View 的事件传递力
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Android View 的事件传递事件分类 
+activity和view没有事件拦截的原因：Activity 作为原始的事件分发者，如果 Activity 拦截了事件会导致整个屏幕都无法响应事件，这肯定不是我们想要的效果。View最为事件传递的最末端，要么消费掉事件，要么不处理进行回传，根本没必要...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-03-05
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/02/28/Gradle 依赖方式/">
+            Gradle 依赖方式
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Gradle 依赖方式android gradle tools 2.Xapk只会打包到apk文件中，而不参与编译，所以不能再代码中直接调用jar中的类或方法，否则在编译时会报错
+providedProvided是对所有的build type以及favlors只在编译时使用，类似eclipse中的ex...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-02-28
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/02/27/Android 动画原理/">
+            Android 动画原理
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Android 动画原理Animation 与 TransformAnimation：在给定了初始状态，结束状态，启动时间和持续时间后，Animation可以计算动画目标在任意时刻的变换（Transfirmation）,这是Animation唯一的用途。Animation考虑的是时间线效果的实现。
+...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-02-27
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/02/27/Android 底层网络实现/">
+            Android 底层网络实现
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Android 底层网络实现HttpURLConnectionHttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHtt...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-02-27
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/02/26/子模块访问app模块/">
+            子模块访问app模块
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>子模块访问app模块第一步子模块定义接口123public interface TradeModuleBridge &amp;#123;    void goOpenAccount();&amp;#125;
+第二步 接口管理类123456789101112public class TradeBridgeHolder...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-02-26
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/02/24/java 内存区域详解/">
+            java 内存区域详解
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>java 内存区域详解
+java堆占内存最大的一块区域。大部分对象存储在这个区域。
+Java Heap（Dalvik Heap），这部分的内存区域是由Dalvik虚拟机管理，通过Java中 new 关键字来申请一块新内存。这块区域的内存是由GC直接管理，能够自动回收内存。这块内存的大小会受到系统限制...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-02-24
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/02/23/Protobuf/">
+            Protobuf
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>ProtobufGoogle Protocol Buffer(简称 Protobuf)是一种轻便高效的结构化数据存储格式，平台无关、语言无关、可扩展，可用于通讯协议和数据存储等领域。
+编码实现protobuf之所以小且快，就是因为使用变长的编码规则，只保存有用的信息，节省了大量空间。
+1 Base-...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-02-23
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/02/06/java基础整理/">
+            java基础整理
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>java基础整理java中equals，hashcode和==的区别==== 比较的是基础数据类型也称原始数据类型(byte,char,short,int,long,float,double,boolean)的值。
+引用类型(类、接口、数组)（==）进行比较的时候，比较的是他们在内存中的存放地址，所...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-02-06
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/01/26/线程与CPU/">
+            线程与CPU
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>线程与CPU线程是最小的调度单位，在很多情况下为了使APP更加流程地运行，我们不可能将很多事情都放在主线程上执行，这样会造成严重卡顿（ANR），那么这些事情应该交给子线程去做，但对于一个系统而言，创建、销毁、调度线程的过程是需要开销的，所以我们并不能无限量地开启线程，那么对线程的了解就变得尤为重要了...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-01-26
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/01/22/Gradle 详解/">
+            Gradle 详解
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Gradle 详解定义Gradle是一个基于Apache Ant和Apache Maven概念的项目自动化建构工具。它使用一种基于Groovy的特定领域语言来声明项目设置，而不是传统的XML。
+Android工程通过gradle文件管理各项配置，gradle文件利用DSL（Domain Specif...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-01-22
+            </span>
+          
+        </div>
+      </div>
+    
   </div>
+
+
+
+    <div class="pagenator">
+    
+    
+        <a class="extend prev" href="/page/4">prev</a>
+    
+
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/">1</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/2">2</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/3">3</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/4">4</a>
+        
+    
+        
+            <span class="extend page-item page-item-select">5</span>
+        
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/6">6</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/7">7</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/8">8</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/9">9</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/10">10</a>
+        
+    
+    
+    
+    
+        <a class="extend next" href="/page/6">next</a>
+    
+</div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:1178752402@qq.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/CaiChenghan" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://www.jianshu.com/u/565c8e790605" title="jianshu" target="_self">
+					<i class="fa fa-jianshu"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2017 - 2018
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
 </body>
 </html>
