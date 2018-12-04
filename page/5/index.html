@@ -135,6 +135,26 @@
     
         <article class="post-abstract">
             <div class="post-title">
+                <h2><a class="post-title-link" href="/2018/02/27/Android 底层网络实现/">Android 底层网络实现</a></h2>
+            </div>
+            <div class="post-meta">
+                <span class="post-time">2018-02-27</span>
+                
+            </div>
+            <div class="post-content">
+                
+                    <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
+<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
+<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
+<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
+<p>OkHttp底层也是通过socket实现。</p>
+
+                
+            </div>
+        </article>
+    
+        <article class="post-abstract">
+            <div class="post-title">
                 <h2><a class="post-title-link" href="/2018/02/27/Android 动画原理/">Android 动画原理</a></h2>
             </div>
             <div class="post-meta">
@@ -166,26 +186,6 @@
 <h2 id="属性动画"><a href="#属性动画" class="headerlink" title="属性动画"></a>属性动画</h2><p>原理：使用了Choreographer机制</p>
 <p>简单的说，Chreographer是组织上层进行处理绘制的控制类，它会在每次vsync信号来临时，执行与绘制相关的过程．</p>
 <p>Animator的过程发生在绘制之前（甚至是布局之前）.</p>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2018/02/27/Android 底层网络实现/">Android 底层网络实现</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2018-02-27</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <h1 id="Android-底层网络实现"><a href="#Android-底层网络实现" class="headerlink" title="Android 底层网络实现"></a>Android 底层网络实现</h1><h2 id="HttpURLConnection"><a href="#HttpURLConnection" class="headerlink" title="HttpURLConnection"></a>HttpURLConnection</h2><p>HttpURLConnection是一种多用途、轻量极的HTTP客户端，使用它来进行HTTP操作可以适用于大多数的应用程序。底层也是Socket实现。从Android4.4开始HttpURLConnection的底层实现采用的是okHttp。</p>
-<p>但是HttpURLConnection再多线程请求存在不足，也没有做http缓存。</p>
-<h2 id="HttpClient"><a href="#HttpClient" class="headerlink" title="HttpClient"></a>HttpClient</h2><p>Apache HttpClient早就不推荐httpclient，5.0之后干脆废弃，后续会删除。6.0删除了HttpClient。Java开发用HttpClient，官方推荐Android开发用HttpUrlConnection。</p>
-<h2 id="OkHttp"><a href="#OkHttp" class="headerlink" title="OkHttp"></a>OkHttp</h2><p>OkHttp是一个精巧的网络请求库，支持http2，对一台机器的所有请求共享同一个socket ，内置连接池，支持连接复用，减少延迟 ，支持透明的gzip压缩响应体，通过缓存避免重复的请求，请求失败时自动重试主机的其他ip，自动重定向，简单易用的API实现。</p>
-<p>OkHttp底层也是通过socket实现。</p>
 
                 
             </div>

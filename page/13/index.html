@@ -257,6 +257,97 @@ public RecycleItemTypeData(int itemType, int typeRes) {
     
         <article class="post-abstract">
             <div class="post-title">
+                <h2><a class="post-title-link" href="/2016/08/22/monkey/">Android Mokey压力测试</a></h2>
+            </div>
+            <div class="post-meta">
+                <span class="post-time">2016-08-22</span>
+                
+            </div>
+            <div class="post-content">
+                
+                    <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。</p>
+<h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ol>
+<li>Monky测试使用的事件流数据流是随机的，不能自定义。</li>
+<li>测试的对象仅为应用程序包，有一定的局限性。</li>
+<li>运行Monkey时，对本次测试对象，事件数量，类型，频率等进行设置。可输入命令行或运行小脚本。</li>
+</ol>
+<h3 id="monkey事件"><a href="#monkey事件" class="headerlink" title="monkey事件"></a>monkey事件</h3><ul>
+<li>触摸事件，参数 –pct-touch</li>
+<li>手势事件 –pct-motion</li>
+<li>二指缩放 –pct-pinchzoom</li>
+<li>轨迹事件 –pct-trackball</li>
+<li>屏幕旋转 –pct-rotation</li>
+<li>导航键 –pct-majornav</li>
+<li>系统按键 –pct-syskeys</li>
+<li>启动activity –pct-appswitch</li>
+<li>键盘事件 –pct-flip</li>
+</ul>
+<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
+<li>-v 表示反馈信息级别 越大返回信息越多越详细。-v-vhe-v-v-v三个级别。</li>
+<li>-throttle 两个事件之间的事件间隔</li>
+<li>–pct-xxx &lt;百分比&gt;</li>
+<li>-p &lt;包名&gt; 一个或多个，monkey只允许在指定包名里面运行</li>
+<li>–ignore-crashes 发生crash不停止</li>
+<li>–ignore-timeouts anr不停止</li>
+<li>-s 伪随机数生成器，-s值相同执行的事件相同(便于问题复现)。</li>
+</ul>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>开启：（参数详解）</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell monkey -v -p com.you.packet --throttle 300 120000 &gt; monkey_log.txt</span><br></pre></td></tr></table></figure>
+<ul>
+<li>－V:logcat级别（最高－VVV）</li>
+<li>-p:后加测试对象包名，一个或多个</li>
+<li>-throttle 300:Monkey每个事件间的间隔</li>
+<li>120000:事件总次数</li>
+<li>monkey_log.txt:本地日志名</li>
+</ul>
+<h3 id="停止monkey"><a href="#停止monkey" class="headerlink" title="停止monkey"></a>停止monkey</h3><ul>
+<li>获取monekey(com.android.commands.monkey)的进程ID</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell ps | grep monkey</span><br></pre></td></tr></table></figure>
+<ul>
+<li>杀死monkey进程</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell <span class="built_in">kill</span> 30898</span><br></pre></td></tr></table></figure>
+<h3 id="monkey-自定义脚本"><a href="#monkey-自定义脚本" class="headerlink" title="monkey 自定义脚本"></a>monkey 自定义脚本</h3><p>常规的monkey是测试执行随机的事件流的，但如果想执行特定场景，这个时候就要执行自定义脚本了。</p>
+<h4 id="monkey脚本常见API"><a href="#monkey脚本常见API" class="headerlink" title="monkey脚本常见API"></a>monkey脚本常见API</h4><ul>
+<li>LanchActivity(Pkg_name,cl_name) 启动被测试的某个activity，Pkg_name:包名，cl_name:Activity名</li>
+<li>Tap(x, y, tapDuration): 模拟一次手指单击事件。参数：x,y为控件坐标，tapDuration为点击的持续时间，此参数可省略。</li>
+<li>DispatchPress(keyName): 按键。参数： keycode。 详细的Android Keycode列表：<a href="http://blog.csdn.net/feizhixuan46789/article/details/16801429" target="_blank" rel="noopener">Android Keycode列表</a>。</li>
+<li>RotateScreen(rotationDegree, persist): 旋转屏幕。 参数：rotationDegree为旋转角度， e.g. 1代表90度；persist表示旋转之后是否固定，0表示旋转后恢复，非0则表示固定不变。</li>
+<li>DispatchFlip(true/false): 打开或者关闭软键盘。</li>
+<li>Drag(xStart, yStart, xEnd, yEnd, stepCount):  用于模拟一个拖拽操作。</li>
+<li>PinchZoom(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End, stepCount): 模拟缩放手势。</li>
+<li>UserWait(sleepTime): 休眠一段时间</li>
+<li>DeviceWakeUp(): 唤醒屏幕。</li>
+<li>PowerLog(power_log_type, test_case_status): 模拟电池电量信息。</li>
+<li>WriteLog(): 将电池信息写入sd卡。</li>
+<li>RunCmd(cmd): 运行shell命令。</li>
+<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFlags)：向指定位置，发送单个手势。</li>
+<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFilags) ：发送按键消息。</li>
+<li>LaunchInstrumentation(test_name,runner_name): 运行一个instrumentation测试用例。</li>
+<li>DispatchTrackball: 模拟发送轨迹球事件。</li>
+<li>ProfileWait: 等待5秒。</li>
+<li>StartCaptureFramerate():  获取帧率。</li>
+<li>EndCaptureFramerate(input): 结束获取帧率。</li>
+</ul>
+<h4 id="脚本demo"><a href="#脚本demo" class="headerlink" title="脚本demo"></a>脚本demo</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#头文件信息  </span></span><br><span class="line"><span class="built_in">type</span>=raw events  </span><br><span class="line">count=10  </span><br><span class="line">speed=1.0  </span><br><span class="line">start data &gt;&gt;  </span><br><span class="line"><span class="comment">#具体的脚本内容  </span></span><br><span class="line">LaunchActivity(com.example.package,com.example.ui.SplashActivity)  </span><br><span class="line">Tap(972,1818)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,607)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">DispatchString(1234567)  </span><br><span class="line">Tap(636,859)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(388,895)  </span><br><span class="line">UserWait(1000)  </span><br><span class="line">DispatchString(123456)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,1104)</span><br></pre></td></tr></table></figure>
+<h4 id="执行脚本"><a href="#执行脚本" class="headerlink" title="执行脚本"></a>执行脚本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ adb push monkey.script /sdcard/ </span><br><span class="line">$ adb shell  </span><br><span class="line">$ shell@pisces:/ $ monkey -f /sdcard/monkey.script -v 1</span><br></pre></td></tr></table></figure>
+<h4 id="日志分别存储"><a href="#日志分别存储" class="headerlink" title="日志分别存储"></a>日志分别存储</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Monkey [option] &lt;count&gt; 1&gt;/sdcard/monkey.txt 2&gt;/sdcard/error.txt</span><br></pre></td></tr></table></figure>
+<h3 id="monlkey的基本原理"><a href="#monlkey的基本原理" class="headerlink" title="monlkey的基本原理"></a>monlkey的基本原理</h3><p>monkey的代码核心模块主要包括主控，监控，事件源和事件四部分。</p>
+<ul>
+<li>主控模块：主控模块即com.android.commands.monkey.Monkey类,是入口函数所在的类，主要负责参数解析和赋值，初始化运行环境，执行runMonkeyCucles()方法针对不同的事件源开始获取并执行不同的事件。</li>
+<li>监控模块：监控部分包括异常监控和网络监控两部分。异常监控通过ActivityWatch类来实现，注意监控Activity的crash和ANR事件。网络监控通过MonkeyNetworkmonitor类来实现，主要用于统计运行期间移动网络和WiFi网络的链接时长。</li>
+<li>事件源模块：代表不同的事件来源。</li>
+<li>事件模块：事件代表了各种用户操作类型。</li>
+</ul>
+<h3 id="monkey-扩展"><a href="#monkey-扩展" class="headerlink" title="monkey 扩展"></a>monkey 扩展</h3><p>monkey本身的功能有限，比如不能截屏和网络重新连接等，为了更好的测试，有时候我们要添加一些功能。</p>
+
+                
+            </div>
+        </article>
+    
+        <article class="post-abstract">
+            <div class="post-title">
                 <h2><a class="post-title-link" href="/2016/08/22/lazy_load/">Android 性能优化-懒加载</a></h2>
             </div>
             <div class="post-meta">
@@ -345,97 +436,6 @@ protected void lazyLoad() {
 
 }
 </code></pre>
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
-                <h2><a class="post-title-link" href="/2016/08/22/monkey/">Android Mokey压力测试</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2016-08-22</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。</p>
-<h3 id="特征"><a href="#特征" class="headerlink" title="特征"></a>特征</h3><ol>
-<li>Monky测试使用的事件流数据流是随机的，不能自定义。</li>
-<li>测试的对象仅为应用程序包，有一定的局限性。</li>
-<li>运行Monkey时，对本次测试对象，事件数量，类型，频率等进行设置。可输入命令行或运行小脚本。</li>
-</ol>
-<h3 id="monkey事件"><a href="#monkey事件" class="headerlink" title="monkey事件"></a>monkey事件</h3><ul>
-<li>触摸事件，参数 –pct-touch</li>
-<li>手势事件 –pct-motion</li>
-<li>二指缩放 –pct-pinchzoom</li>
-<li>轨迹事件 –pct-trackball</li>
-<li>屏幕旋转 –pct-rotation</li>
-<li>导航键 –pct-majornav</li>
-<li>系统按键 –pct-syskeys</li>
-<li>启动activity –pct-appswitch</li>
-<li>键盘事件 –pct-flip</li>
-</ul>
-<h3 id="参数"><a href="#参数" class="headerlink" title="参数"></a>参数</h3><ul>
-<li>-v 表示反馈信息级别 越大返回信息越多越详细。-v-vhe-v-v-v三个级别。</li>
-<li>-throttle 两个事件之间的事件间隔</li>
-<li>–pct-xxx &lt;百分比&gt;</li>
-<li>-p &lt;包名&gt; 一个或多个，monkey只允许在指定包名里面运行</li>
-<li>–ignore-crashes 发生crash不停止</li>
-<li>–ignore-timeouts anr不停止</li>
-<li>-s 伪随机数生成器，-s值相同执行的事件相同(便于问题复现)。</li>
-</ul>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p>开启：（参数详解）</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell monkey -v -p com.you.packet --throttle 300 120000 &gt; monkey_log.txt</span><br></pre></td></tr></table></figure>
-<ul>
-<li>－V:logcat级别（最高－VVV）</li>
-<li>-p:后加测试对象包名，一个或多个</li>
-<li>-throttle 300:Monkey每个事件间的间隔</li>
-<li>120000:事件总次数</li>
-<li>monkey_log.txt:本地日志名</li>
-</ul>
-<h3 id="停止monkey"><a href="#停止monkey" class="headerlink" title="停止monkey"></a>停止monkey</h3><ul>
-<li>获取monekey(com.android.commands.monkey)的进程ID</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell ps | grep monkey</span><br></pre></td></tr></table></figure>
-<ul>
-<li>杀死monkey进程</li>
-</ul>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell <span class="built_in">kill</span> 30898</span><br></pre></td></tr></table></figure>
-<h3 id="monkey-自定义脚本"><a href="#monkey-自定义脚本" class="headerlink" title="monkey 自定义脚本"></a>monkey 自定义脚本</h3><p>常规的monkey是测试执行随机的事件流的，但如果想执行特定场景，这个时候就要执行自定义脚本了。</p>
-<h4 id="monkey脚本常见API"><a href="#monkey脚本常见API" class="headerlink" title="monkey脚本常见API"></a>monkey脚本常见API</h4><ul>
-<li>LanchActivity(Pkg_name,cl_name) 启动被测试的某个activity，Pkg_name:包名，cl_name:Activity名</li>
-<li>Tap(x, y, tapDuration): 模拟一次手指单击事件。参数：x,y为控件坐标，tapDuration为点击的持续时间，此参数可省略。</li>
-<li>DispatchPress(keyName): 按键。参数： keycode。 详细的Android Keycode列表：<a href="http://blog.csdn.net/feizhixuan46789/article/details/16801429" target="_blank" rel="noopener">Android Keycode列表</a>。</li>
-<li>RotateScreen(rotationDegree, persist): 旋转屏幕。 参数：rotationDegree为旋转角度， e.g. 1代表90度；persist表示旋转之后是否固定，0表示旋转后恢复，非0则表示固定不变。</li>
-<li>DispatchFlip(true/false): 打开或者关闭软键盘。</li>
-<li>Drag(xStart, yStart, xEnd, yEnd, stepCount):  用于模拟一个拖拽操作。</li>
-<li>PinchZoom(x1Start, y1Start, x1End, y1End, x2Start, y2Start, x2End, y2End, stepCount): 模拟缩放手势。</li>
-<li>UserWait(sleepTime): 休眠一段时间</li>
-<li>DeviceWakeUp(): 唤醒屏幕。</li>
-<li>PowerLog(power_log_type, test_case_status): 模拟电池电量信息。</li>
-<li>WriteLog(): 将电池信息写入sd卡。</li>
-<li>RunCmd(cmd): 运行shell命令。</li>
-<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFlags)：向指定位置，发送单个手势。</li>
-<li>DispatchPointer(downtime,eventTime,action,x,yxpressure,size,metastate,xPrecision,yPrecision,device,edgeFilags) ：发送按键消息。</li>
-<li>LaunchInstrumentation(test_name,runner_name): 运行一个instrumentation测试用例。</li>
-<li>DispatchTrackball: 模拟发送轨迹球事件。</li>
-<li>ProfileWait: 等待5秒。</li>
-<li>StartCaptureFramerate():  获取帧率。</li>
-<li>EndCaptureFramerate(input): 结束获取帧率。</li>
-</ul>
-<h4 id="脚本demo"><a href="#脚本demo" class="headerlink" title="脚本demo"></a>脚本demo</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#头文件信息  </span></span><br><span class="line"><span class="built_in">type</span>=raw events  </span><br><span class="line">count=10  </span><br><span class="line">speed=1.0  </span><br><span class="line">start data &gt;&gt;  </span><br><span class="line"><span class="comment">#具体的脚本内容  </span></span><br><span class="line">LaunchActivity(com.example.package,com.example.ui.SplashActivity)  </span><br><span class="line">Tap(972,1818)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,607)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">DispatchString(1234567)  </span><br><span class="line">Tap(636,859)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(388,895)  </span><br><span class="line">UserWait(1000)  </span><br><span class="line">DispatchString(123456)  </span><br><span class="line">DispatchFlip(<span class="literal">false</span>)  </span><br><span class="line">UserWait(2000)  </span><br><span class="line">Tap(540,1104)</span><br></pre></td></tr></table></figure>
-<h4 id="执行脚本"><a href="#执行脚本" class="headerlink" title="执行脚本"></a>执行脚本</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ adb push monkey.script /sdcard/ </span><br><span class="line">$ adb shell  </span><br><span class="line">$ shell@pisces:/ $ monkey -f /sdcard/monkey.script -v 1</span><br></pre></td></tr></table></figure>
-<h4 id="日志分别存储"><a href="#日志分别存储" class="headerlink" title="日志分别存储"></a>日志分别存储</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Monkey [option] &lt;count&gt; 1&gt;/sdcard/monkey.txt 2&gt;/sdcard/error.txt</span><br></pre></td></tr></table></figure>
-<h3 id="monlkey的基本原理"><a href="#monlkey的基本原理" class="headerlink" title="monlkey的基本原理"></a>monlkey的基本原理</h3><p>monkey的代码核心模块主要包括主控，监控，事件源和事件四部分。</p>
-<ul>
-<li>主控模块：主控模块即com.android.commands.monkey.Monkey类,是入口函数所在的类，主要负责参数解析和赋值，初始化运行环境，执行runMonkeyCucles()方法针对不同的事件源开始获取并执行不同的事件。</li>
-<li>监控模块：监控部分包括异常监控和网络监控两部分。异常监控通过ActivityWatch类来实现，注意监控Activity的crash和ANR事件。网络监控通过MonkeyNetworkmonitor类来实现，主要用于统计运行期间移动网络和WiFi网络的链接时长。</li>
-<li>事件源模块：代表不同的事件来源。</li>
-<li>事件模块：事件代表了各种用户操作类型。</li>
-</ul>
-<h3 id="monkey-扩展"><a href="#monkey-扩展" class="headerlink" title="monkey 扩展"></a>monkey 扩展</h3><p>monkey本身的功能有限，比如不能截屏和网络重新连接等，为了更好的测试，有时候我们要添加一些功能。</p>
-
                 
             </div>
         </article>
@@ -535,42 +535,6 @@ final class JavaScriptInterface {
     
         <article class="post-abstract">
             <div class="post-title">
-                <h2><a class="post-title-link" href="/2016/08/20/traceView/">Android 性能优化-traceview</a></h2>
-            </div>
-            <div class="post-meta">
-                <span class="post-time">2016-08-20</span>
-                
-            </div>
-            <div class="post-content">
-                
-                    <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。</p>
-<h3 id="TraceView的使用"><a href="#TraceView的使用" class="headerlink" title="TraceView的使用"></a>TraceView的使用</h3><h4 id="1-使用编译器自带的工具操作"><a href="#1-使用编译器自带的工具操作" class="headerlink" title="1.使用编译器自带的工具操作"></a>1.使用编译器自带的工具操作</h4><p>最简单的方式就是直接打开DDMS，选择一个进程，然后按上面的“Start Method Profiling”按钮，等红色小点变成黑色以后就表示TraceView已经开始工作了。然后我就可以滑动一下列表（现在手机上的操作肯定会很卡，因为Android系统在检测Dalvik虚拟机中每个Java方法的调用，这是我猜测的）。操作最好不要超过5s，因为最好是进行小范围的性能测试。然后再按一下刚才按的按钮，等一会就会出现结果图，然后就可以开始分析了。</p>
-<ul>
-<li>坑，用系统自带的工具分析使用起来是很简单，但是系统自带的工具的find查找功能不好用，这就尴尬了，这么多方法，找瞎了，所以我果断放弃了。</li>
-</ul>
-<h4 id="2-自己在代码里面实现"><a href="#2-自己在代码里面实现" class="headerlink" title="2.自己在代码里面实现"></a>2.自己在代码里面实现</h4><h5 id="开始分析："><a href="#开始分析：" class="headerlink" title="开始分析："></a>开始分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.startMethodTracing(<span class="string">"xxx"</span>,size);</span><br></pre></td></tr></table></figure>
-<h5 id="结束分析："><a href="#结束分析：" class="headerlink" title="结束分析："></a>结束分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.stopMethodTracing();</span><br></pre></td></tr></table></figure>
-<h5 id="别忘了加上读写sd卡权限："><a href="#别忘了加上读写sd卡权限：" class="headerlink" title="别忘了加上读写sd卡权限："></a>别忘了加上读写sd卡权限：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br><span class="line">  &lt;uses-permission android:name=<span class="string">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span>/&gt;</span><br></pre></td></tr></table></figure>
-<p>至此性能分析的代发就完成了，之后打开APP运行即可，运行到stop之后就会在sd卡里面生成对应的xxx.trace文件。</p>
-<h5 id="导出traceview文件"><a href="#导出traceview文件" class="headerlink" title="导出traceview文件"></a>导出traceview文件</h5><p>  xxx.trace文件在sdcard根目录</p>
-  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb pull sdcard/xxx.trace</span><br></pre></td></tr></table></figure>
-<h5 id="打开trace文件"><a href="#打开trace文件" class="headerlink" title="打开trace文件"></a>打开trace文件</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ traceview /Users/yonghe.shen/Desktop/my.trace</span><br></pre></td></tr></table></figure>
-<h5 id="筛选我们的应用相关的分析"><a href="#筛选我们的应用相关的分析" class="headerlink" title="筛选我们的应用相关的分析"></a>筛选我们的应用相关的分析</h5><p>find 输入包名，回车即可从上到下查看（DDMS中的find不好用）。</p>
-<h5 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h5><p><img src="http://oc4zuck5v.bkt.clouddn.com/traceview_par.png" alt="图片"></p>
-<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
-<li>1注意设置trace文件的大小，默认大小8M,太大的分析工具会崩掉,太小又分析的不全面，那到底选择多大合适呐，我认为50M以下吧。</li>
-<li>2 另外我建议分段分析，这样文件也不大，分析的也比较全面。</li>
-<li>3 其实你要不限制大小，生成这个文件还是蛮大的，我跑过一个两百多兆的，分析工具直接卡死了。</li>
-<li>4 另外在执行start-&gt;stop之间的代码的时候会很卡，这个是正常现象，毕竟在疯狂采集信息。</li>
-<li>5 尽量小，例如一次只分析几个函数，避免ANR产生，如果还是出现了，那我只能建议你等了。</li>
-</ul>
-
-                
-            </div>
-        </article>
-    
-        <article class="post-abstract">
-            <div class="post-title">
                 <h2><a class="post-title-link" href="/2016/08/20/check_code_style/">Android 代码规范-CheckStyle</a></h2>
             </div>
             <div class="post-meta">
@@ -605,6 +569,42 @@ final class JavaScriptInterface {
 <li>混合检查（包活一些有用的比如非必须的System.out和printstackTrace）</li>
 </ul>
 <p>我现在用的是基于华为的<a href="https://gist.github.com/ownwell/c32878440216f1866842" target="_blank" rel="noopener">CheckStyle:</a></p>
+
+                
+            </div>
+        </article>
+    
+        <article class="post-abstract">
+            <div class="post-title">
+                <h2><a class="post-title-link" href="/2016/08/20/traceView/">Android 性能优化-traceview</a></h2>
+            </div>
+            <div class="post-meta">
+                <span class="post-time">2016-08-20</span>
+                
+            </div>
+            <div class="post-content">
+                
+                    <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。</p>
+<h3 id="TraceView的使用"><a href="#TraceView的使用" class="headerlink" title="TraceView的使用"></a>TraceView的使用</h3><h4 id="1-使用编译器自带的工具操作"><a href="#1-使用编译器自带的工具操作" class="headerlink" title="1.使用编译器自带的工具操作"></a>1.使用编译器自带的工具操作</h4><p>最简单的方式就是直接打开DDMS，选择一个进程，然后按上面的“Start Method Profiling”按钮，等红色小点变成黑色以后就表示TraceView已经开始工作了。然后我就可以滑动一下列表（现在手机上的操作肯定会很卡，因为Android系统在检测Dalvik虚拟机中每个Java方法的调用，这是我猜测的）。操作最好不要超过5s，因为最好是进行小范围的性能测试。然后再按一下刚才按的按钮，等一会就会出现结果图，然后就可以开始分析了。</p>
+<ul>
+<li>坑，用系统自带的工具分析使用起来是很简单，但是系统自带的工具的find查找功能不好用，这就尴尬了，这么多方法，找瞎了，所以我果断放弃了。</li>
+</ul>
+<h4 id="2-自己在代码里面实现"><a href="#2-自己在代码里面实现" class="headerlink" title="2.自己在代码里面实现"></a>2.自己在代码里面实现</h4><h5 id="开始分析："><a href="#开始分析：" class="headerlink" title="开始分析："></a>开始分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.startMethodTracing(<span class="string">"xxx"</span>,size);</span><br></pre></td></tr></table></figure>
+<h5 id="结束分析："><a href="#结束分析：" class="headerlink" title="结束分析："></a>结束分析：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Debug.stopMethodTracing();</span><br></pre></td></tr></table></figure>
+<h5 id="别忘了加上读写sd卡权限："><a href="#别忘了加上读写sd卡权限：" class="headerlink" title="别忘了加上读写sd卡权限："></a>别忘了加上读写sd卡权限：</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.WRITE_EXTERNAL_STORAGE"</span>/&gt;</span><br><span class="line">  &lt;uses-permission android:name=<span class="string">"android.permission.MOUNT_UNMOUNT_FILESYSTEMS"</span>/&gt;</span><br></pre></td></tr></table></figure>
+<p>至此性能分析的代发就完成了，之后打开APP运行即可，运行到stop之后就会在sd卡里面生成对应的xxx.trace文件。</p>
+<h5 id="导出traceview文件"><a href="#导出traceview文件" class="headerlink" title="导出traceview文件"></a>导出traceview文件</h5><p>  xxx.trace文件在sdcard根目录</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb pull sdcard/xxx.trace</span><br></pre></td></tr></table></figure>
+<h5 id="打开trace文件"><a href="#打开trace文件" class="headerlink" title="打开trace文件"></a>打开trace文件</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ traceview /Users/yonghe.shen/Desktop/my.trace</span><br></pre></td></tr></table></figure>
+<h5 id="筛选我们的应用相关的分析"><a href="#筛选我们的应用相关的分析" class="headerlink" title="筛选我们的应用相关的分析"></a>筛选我们的应用相关的分析</h5><p>find 输入包名，回车即可从上到下查看（DDMS中的find不好用）。</p>
+<h5 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h5><p><img src="http://oc4zuck5v.bkt.clouddn.com/traceview_par.png" alt="图片"></p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>1注意设置trace文件的大小，默认大小8M,太大的分析工具会崩掉,太小又分析的不全面，那到底选择多大合适呐，我认为50M以下吧。</li>
+<li>2 另外我建议分段分析，这样文件也不大，分析的也比较全面。</li>
+<li>3 其实你要不限制大小，生成这个文件还是蛮大的，我跑过一个两百多兆的，分析工具直接卡死了。</li>
+<li>4 另外在执行start-&gt;stop之间的代码的时候会很卡，这个是正常现象，毕竟在疯狂采集信息。</li>
+<li>5 尽量小，例如一次只分析几个函数，避免ANR产生，如果还是出现了，那我只能建议你等了。</li>
+</ul>
 
                 
             </div>
