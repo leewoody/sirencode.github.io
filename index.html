@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">페이지</a>
+          <a href="/">Home</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">압축 파일</a>
+          <a href="/archives">Archives</a>
         
       </div>
     </div>
@@ -63,21 +63,19 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/android 显示-Surface/">
-            
+          <a href="/2018/12/04/android 显示-Surface/">
+            Android 显示-Surface
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>title: Android 显示-Surfacedate: 2018-12-04 
-
-Android 显示-SurfaceAndroid应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责...</p>
+            <p>Android 显示-SurfaceAndroid应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2018-11-29
+              2018-12-04
             </span>
           
         </div>
@@ -108,14 +106,15 @@ Android 显示-SurfaceAndroid应用程序把经过测量、布局、绘制后的
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Service/">
-            源码分析Service
+          <a href="/2018/11/29/源码分析ContentProvider/">
+            源码分析ContentProvider
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析ServiceService启动流程APP端启动：
-1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
+            <p>ContentProviderContentResolver的获取流程：
+1 ContextWrapper.getContentResolver()
+2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -129,15 +128,14 @@ Android 显示-SurfaceAndroid应用程序把经过测量、布局、绘制后的
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析ContentProvider/">
-            源码分析ContentProvider
+          <a href="/2018/11/29/源码分析Service/">
+            源码分析Service
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>ContentProviderContentResolver的获取流程：
-1 ContextWrapper.getContentResolver()
-2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
+            <p>源码分析ServiceService启动流程APP端启动：
+1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -284,7 +282,7 @@ app lib 切换,以及多个AndroidManifest配置12345678910111213141516171...</p
 
     <div class="pagenator">
     
-        <a class="extend prev-none">페이지</a>
+        <a class="extend prev-none">prev</a>
     
     
 
@@ -342,7 +340,7 @@ app lib 切换,以及多个AndroidManifest配置12345678910111213141516171...</p
     
     
     
-        <a class="extend next" href="/page/2">다음 페이지</a>
+        <a class="extend next" href="/page/2">next</a>
     
 </div>
 

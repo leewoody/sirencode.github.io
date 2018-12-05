@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   
-  <title> [ Diablo ]</title>
+  <title>Android 显示-Surface [ Diablo ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">페이지</a>
+          <a href="/">Home</a>
         
           
           
@@ -48,18 +48,16 @@
           
           
           
-          <a href="/archives">압축 파일</a>
+          <a href="/archives">Archives</a>
         
       </div>
     </div>
 </div>
     </div>
     <div class="container">
-        <h1 class="post-title"></h1>
+        <h1 class="post-title">Android 显示-Surface</h1>
 <article class="post markdown-style">
-  <p>title: Android 显示-Surface<br>date: 2018-12-04 </p>
-<hr>
-<h1 id="Android-显示-Surface"><a href="#Android-显示-Surface" class="headerlink" title="Android 显示-Surface"></a>Android 显示-Surface</h1><p>Android应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通过显示刷新机制把数据更新到屏幕。</p>
+  <h1 id="Android-显示-Surface"><a href="#Android-显示-Surface" class="headerlink" title="Android 显示-Surface"></a>Android 显示-Surface</h1><p>Android应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通过显示刷新机制把数据更新到屏幕。</p>
 <p>APP:App需要将自己的内容显示在屏幕上，所以App负责发起Surface创建请求，创建好Surface后, 就可以直接可以在canvas上画图等，最终都会保存到Surface里的buffer里，最后由SurfaceFlinger合成并显示。</p>
 <p>WMS:负责接收APP请求，向SurfaceFlinger发起具体的请求创建Surface, 且WMS需要创建Surface的辅助管理类，如SurfaceControl。</p>
 <p>SF:为App进程创建具体的Surface(帧缓冲区), 在SurfaceFlinger里对应成Layer, 然后负责管理、合成，交给屏幕进行显示。</p>
@@ -132,10 +130,10 @@
     
 
     
-    <p>업데이트 2018-12-05</p>
+    <p>last update time 2018-12-05</p>
     
     
-        <a class="extend next post-next" href="/2018/11/29/源码分析BroadcastReceiver/">다음 편</a>
+        <a class="extend next post-next" href="/2018/11/29/源码分析BroadcastReceiver/">next</a>
     
     </div>
 
