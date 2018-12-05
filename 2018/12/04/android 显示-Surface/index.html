@@ -69,6 +69,7 @@
 <h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>软件绘制的流程：Canvas把要绘制的UI内容写进一个btimap,之后GPU将btimap转化为像素信息(栅格化)。</p>
 <p>硬件加速绘制流程：Canvas把绘制内容通过CPU转换为GPU操作保存下来，然后GPU执行计算绘制。</p>
 <p>CPU将自己不擅长的计算部分分摊给GPU一部分。硬件加速在界面内容发生重绘的时候绘制流程可以得到优化，避免了一些重复操作，从而大幅提升绘制效率。</p>
+<p><img src="https://raw.githubusercontent.com/yuegs/yuegs.github.io/master/images/android/render-process/diff-hw-soft.png" alt=""></p>
 <h2 id="SurfaceFlinger"><a href="#SurfaceFlinger" class="headerlink" title="SurfaceFlinger"></a>SurfaceFlinger</h2><p>从Android4.1版本开始，Android对显示系统进行了重构，引入了三个核心元素：VSYNC, Tripple Buffer和Choreographer。VSYNC是Vertical Synchronized的缩写，是一种定时中断；Tripple Buffer是显示数据的缓冲区；Choreographer起调度作用，将绘制工作统一到VSYNC的某个时间点上，使应用的绘制工作有序进行。</p>
 <h3 id="SurfaceFlinger作用"><a href="#SurfaceFlinger作用" class="headerlink" title="SurfaceFlinger作用"></a>SurfaceFlinger作用</h3><ul>
 <li>响应客户端事件，创建Layer与客户端的Surface建立连接。</li>
@@ -133,7 +134,7 @@
     <p>last update time 2018-12-05</p>
     
     
-        <a class="extend next post-next" href="/2018/11/29/源码分析BroadcastReceiver/">next</a>
+        <a class="extend next post-next" href="/2018/11/29/源码分析ContentProvider/">next</a>
     
     </div>
 
