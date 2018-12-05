@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   
-  <title>Android 显示-Surface [ Diablo ]</title>
+  <title> [ Diablo ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">페이지</a>
         
           
           
@@ -48,19 +48,29 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">압축 파일</a>
         
       </div>
     </div>
 </div>
     </div>
     <div class="container">
-        <h1 class="post-title">Android 显示-Surface</h1>
+        <h1 class="post-title"></h1>
 <article class="post markdown-style">
-  <h1 id="Android-显示-Surface"><a href="#Android-显示-Surface" class="headerlink" title="Android 显示-Surface"></a>Android 显示-Surface</h1><p>Android应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通过显示刷新机制把数据更新到屏幕。</p>
+  <p>title: Android 显示-Surface<br>date: 2018-12-04 </p>
+<hr>
+<h1 id="Android-显示-Surface"><a href="#Android-显示-Surface" class="headerlink" title="Android 显示-Surface"></a>Android 显示-Surface</h1><p>Android应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通过显示刷新机制把数据更新到屏幕。</p>
 <p>APP:App需要将自己的内容显示在屏幕上，所以App负责发起Surface创建请求，创建好Surface后, 就可以直接可以在canvas上画图等，最终都会保存到Surface里的buffer里，最后由SurfaceFlinger合成并显示。</p>
 <p>WMS:负责接收APP请求，向SurfaceFlinger发起具体的请求创建Surface, 且WMS需要创建Surface的辅助管理类，如SurfaceControl。</p>
 <p>SF:为App进程创建具体的Surface(帧缓冲区), 在SurfaceFlinger里对应成Layer, 然后负责管理、合成，交给屏幕进行显示。</p>
+<h2 id="软件绘制-skia-硬件加速绘制-opengl"><a href="#软件绘制-skia-硬件加速绘制-opengl" class="headerlink" title="软件绘制(skia)硬件加速绘制(opengl)"></a>软件绘制(skia)硬件加速绘制(opengl)</h2><p>软件绘制CPU主导的：<br>1 让视图结构(view hierarchy)失效。<br>2 绘制整个视图结构。<br>缺点：绘制了不需要重绘的视图（与脏区域相交的区域）</p>
+<p>硬件加速绘制由GPU主导绘图：<br>1 让视图结构失效。<br>2 记录和更新显示列表（Display List)。<br>3 绘制显示列表。</p>
+<p>DisplayList是一个基本绘制元素，包含元素原始属性（位置、尺寸、角度、透明度等）。</p>
+<p>这种模式下，Android系统依然会使用invalidate()方法和draw()方法来请求屏幕更新和展现View对象。但Android系统并不是立即执行绘制命令，而是首先把这些View的绘制函数作为绘制指令记录一个显示列表中，然后再读取显示列表中的绘制指令调用OpenGL相关函数完成实际绘制。另一个优化是，Android系统只需要针对由invalidate()方法调用所标记的View对象的脏区进行记录和更新显示列表。没有失效的View对象就简单重用先前显示列表记录的绘制指令来进行简单的重绘工作。　　</p>
+<p>缺点：兼容性(Canvas API版本问题支持)，内存电量消耗大。</p>
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>软件绘制的流程：Canvas把要绘制的UI内容写进一个btimap,之后GPU将btimap转化为像素信息(栅格化)。</p>
+<p>硬件加速绘制流程：Canvas把绘制内容通过CPU转换为GPU操作保存下来，然后GPU执行计算绘制。</p>
+<p>CPU将自己不擅长的计算部分分摊给GPU一部分。硬件加速在界面内容发生重绘的时候绘制流程可以得到优化，避免了一些重复操作，从而大幅提升绘制效率。</p>
 <h2 id="SurfaceFlinger"><a href="#SurfaceFlinger" class="headerlink" title="SurfaceFlinger"></a>SurfaceFlinger</h2><p>从Android4.1版本开始，Android对显示系统进行了重构，引入了三个核心元素：VSYNC, Tripple Buffer和Choreographer。VSYNC是Vertical Synchronized的缩写，是一种定时中断；Tripple Buffer是显示数据的缓冲区；Choreographer起调度作用，将绘制工作统一到VSYNC的某个时间点上，使应用的绘制工作有序进行。</p>
 <h3 id="SurfaceFlinger作用"><a href="#SurfaceFlinger作用" class="headerlink" title="SurfaceFlinger作用"></a>SurfaceFlinger作用</h3><ul>
 <li>响应客户端事件，创建Layer与客户端的Surface建立连接。</li>
@@ -122,10 +132,10 @@
     
 
     
-    <p>last update time 2018-12-04</p>
+    <p>업데이트 2018-12-05</p>
     
     
-        <a class="extend next post-next" href="/2018/11/29/源码分析Service/">next</a>
+        <a class="extend next post-next" href="/2018/11/29/源码分析BroadcastReceiver/">다음 편</a>
     
     </div>
 
