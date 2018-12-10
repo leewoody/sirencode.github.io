@@ -83,15 +83,15 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析ContentProvider/">
-            源码分析ContentProvider
+          <a href="/2018/11/29/Android 输入系统/">
+            
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>ContentProviderContentResolver的获取流程：
-1 ContextWrapper.getContentResolver()
-2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
+            <p>title: Android 输入系统date: 2018-12-10 
+
+Android 输入系统输入事件的源头是位于/dev/input/下的设备节点，而输入系统的终点是由WMS管理的某个窗口。最初的输入事件为内核生成的原始事件，而最终交付给窗口的则是KeyEvent或MotionEvent对象...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -128,6 +128,27 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2018/11/29/源码分析Service/">
+            源码分析Service
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>源码分析ServiceService启动流程APP端启动：
+1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-11-29
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2018/11/29/源码分析Activity分析/">
             源码分析Activity分析
           </a>
@@ -148,14 +169,15 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Service/">
-            源码分析Service
+          <a href="/2018/11/29/源码分析ContentProvider/">
+            源码分析ContentProvider
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析ServiceService启动流程APP端启动：
-1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
+            <p>ContentProviderContentResolver的获取流程：
+1 ContextWrapper.getContentResolver()
+2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -249,28 +271,6 @@ java动态代理代理类在程序运行时创建的代理方式被成为 动态
           
             <span>
               2018-09-18
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2018/09/07/android 模块化/">
-            Android 模块化
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Android 模块化目的将功能相对独立的模块从主项目中解耦出来，方便独立打包复用，降低编译的时间。
-实现开关配置12# gradle.propertiesmyAsApp=false
-app lib 切换,以及多个AndroidManifest配置12345678910111213141516171...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-09-07
             </span>
           
         </div>

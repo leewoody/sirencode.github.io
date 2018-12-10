@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title> [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title"></h1>
+<article class="post markdown-style">
+  <p>title: Android 输入系统<br>date: 2018-12-10 </p>
+<hr>
+<h1 id="Android-输入系统"><a href="#Android-输入系统" class="headerlink" title="Android 输入系统"></a>Android 输入系统</h1><p>输入事件的源头是位于/dev/input/下的设备节点，而输入系统的终点是由WMS管理的某个窗口。最初的输入事件为内核生成的原始事件，而最终交付给窗口的则是KeyEvent或MotionEvent对象。因此Android输入系统的主要工作是读取设备节点中的原始事件，将其加工封装，然后派发给一个特定的窗口以及窗口中的控件。</p>
+<p><img src="https://img-blog.csdn.net/20150814132642439?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>1 Linux内核接收输入设备中断，并将原始事件的数据写入到设备节点。当用户操作输入设备时，Linux内核接收到相应的硬件中断，然后将中断加工成原始的输入事件数据并写入其对应的设备节点中。<br>2 设备节点(触摸屏和键盘最普遍的输入设备，还支持外接鼠标手柄等等外接设备事件)，当输入设备可用的时候，Linux内核会在/dev/input/下创建对应的event0~N或其他名称的设备节点。而当输入设备不可用时，则会将对应的节点删除。<br>3 EventHub通过getEvent()将输入系统相关的待处理的底层事件返回给使用者。包括原始输入事件，设备节点增删。它的作用是监听、读取/dev/input目录下产生的新事件，并封装成RawEvent结构体供InputReader使用。<br>4 InputReader运行在IMS一个独立运行的线程，它通过其线程循环不断地通过EventHub的getEvents()函数从EventHub中将事件取出并进行处理(翻译组装)，然后交给InputDispatcher。<br>5 InputDispatcher中保管了来自WMS的所有窗口的信息，收到InputReader消息后，会在其保管的窗口中找到匹配的窗口，并将事件派发给此窗口。<br>6 WMS，虽说不是输入系统中的一员，但是它却对InputDispatcher的正常工作起到了至关重要的作用。当新建窗口时，WMS为新窗口和IMS创建了事件传递所用的通道。另外，WMS还将所有窗口的信息，包括窗口的可点击区域，焦点窗口等信息，实时地更新到IMS的InputDispatcher中，使得InputDispatcher可以正确地将事件派发到指定的窗口。</p>
+<h2 id="INotify和Epoll"><a href="#INotify和Epoll" class="headerlink" title="INotify和Epoll"></a>INotify和Epoll</h2><h3 id="INotify"><a href="#INotify" class="headerlink" title="INotify"></a>INotify</h3><p>INotify是一个Linux内核提供的文件系统变化通知机制。它可以为应用程序监控文件系统的变化，如文件的新建、删除、读写等。INotify机制包括两个对象，分别为inotify对象与watch对象，都使用文件描述符表示。</p>
+<p>1 inotify对象对应了一个队列，应用程序可以向inotify对象添加多个监听。当被监听的事件发生时，可以通过read()函数从inotify对象中将事件信息读取出来。</p>
+<p>2 watch对象则用来描述文件系统的变化事件的监听。它是一个二元组，包括监听目标和事件掩码两个元素。监听目标是文件系统的一个路径，可以是文件也可以是文件夹。而事件掩码则表示了需要需要监听的事件类型，掩码中的每一位代表一种事件。可以监听的事件种类很多，其中就包括文件的创建(IN_CREATE)与删除(IN_DELETE)。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> inotifyFd = inotify_init();</span><br><span class="line"><span class="keyword">int</span> wd = inotify_add_watch (inotifyFd, “/dev/input”,IN_CREATE | IN_DELETE);</span><br></pre></td></tr></table></figure>
+<p>当/dev/input/下的设备节点发生创建与删除操作时，都会将相应的事件信息写入到inotifyFd所描述的inotify对象中，此时可以通过read()函数从inotifyFd描述符中将事件信息读取出来。通过INotify机制避免了轮询文件系统的麻烦，但是还有一个问题，INotify机制并不是通过回调的方式通知事件，而需要使用者主动从inotify对象中进行事件读取。那么何时才是读取的最佳时机呢？这就需要借助Linux的另一个优秀的机制Epoll了。</p>
+<h3 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h3><p>Epoll可以使用一次等待监听多个描述符的可读/可写状态。等待返回时携带了可读的描述符或自定义的数据，使用者可以据此读取所需的数据后可以再次进入等待。因此不需要为每个描述符创建独立的线程进行阻塞读取，避免了资源浪费的同时又可以获得较快的响应速度。</p>
+<p>使用：</p>
+<ul>
+<li>1 通过epoll_create()创建一个epoll对象。</li>
+<li>2 为需要监听的描述符填充epoll_events结构体，并使用epoll_ctl()注册到epoll对象中。</li>
+<li>3 使用epoll_wait()等待事件的发生，函数将会使调用者陷入等待状态，直到其注册的事件之一发生之后才会返回，并且携带了刚刚发生的事件的详细信息。</li>
+<li>4 根据epoll_wait()返回的epoll_events结构体数组判断事件的类型与来源并进行处理。</li>
+<li>5 继续使用epoll_wait()等待新事件的发生。</li>
+</ul>
+<h3 id="配合使用"><a href="#配合使用" class="headerlink" title="配合使用"></a>配合使用</h3><p>INotify与Epoll这两套由Linux提供的事件监听机制以最小的开销解决了文件系统变化以及文件描述符可读可写状态变化的监听问题。它们是Reader子系统运行的基石，了解了这两个机制的使用方法之后便为对Reader子系统的分析学习铺平了道路。</p>
+<h2 id="InputManagerService"><a href="#InputManagerService" class="headerlink" title="InputManagerService"></a>InputManagerService</h2><p>IMS内部封装了Inputreadr从内核中读取设备节点的信息封装，然后将消息传递给InputDispatcher，InputDispatcher找到匹配的窗口，将消息发给对应创的对应View进行处理。</p>
+<h2 id="EventHub"><a href="#EventHub" class="headerlink" title="EventHub"></a>EventHub</h2><h3 id="初始化"><a href="#初始化" class="headerlink" title="初始化"></a>初始化</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">EventHub::EventHub(<span class="keyword">void</span>) :</span><br><span class="line">        mBuiltInKeyboardId(NO_BUILT_IN_KEYBOARD), mNextDeviceId(<span class="number">1</span>), mControllerNumbers(),</span><br><span class="line">        mOpeningDevices(<span class="number">0</span>), mClosingDevices(<span class="number">0</span>),</span><br><span class="line">        mNeedToSendFinishedDeviceScan(<span class="literal">false</span>),</span><br><span class="line">        mNeedToReopenDevices(<span class="literal">false</span>), mNeedToScanDevices(<span class="literal">true</span>),</span><br><span class="line">        mPendingEventCount(<span class="number">0</span>), mPendingEventIndex(<span class="number">0</span>), mPendingINotify(<span class="literal">false</span>) &#123;</span><br><span class="line">    acquire_wake_lock(PARTIAL_WAKE_LOCK, WAKE_LOCK_ID);</span><br><span class="line">    <span class="comment">//创建epoll对象</span></span><br><span class="line">    mEpollFd = epoll_create(EPOLL_SIZE_HINT);</span><br><span class="line">    LOG_ALWAYS_FATAL_IF(mEpollFd &lt; <span class="number">0</span>, <span class="string">"Could not create epoll instance.  errno=%d"</span>, errno);</span><br><span class="line">    <span class="comment">//创建inotify对象</span></span><br><span class="line">    mINotifyFd = inotify_init();</span><br><span class="line">    <span class="comment">//DEVICE_PATH值为"/dev/input"，监听该目录下的设备节点创建与删除操作。通过read函数读取事件。  </span></span><br><span class="line">    <span class="keyword">int</span> result = inotify_add_watch(mINotifyFd, DEVICE_PATH, IN_DELETE | IN_CREATE);</span><br><span class="line">    LOG_ALWAYS_FATAL_IF(result &lt; <span class="number">0</span>, <span class="string">"Could not register INotify for %s.  errno=%d"</span>,</span><br><span class="line">            DEVICE_PATH, errno);</span><br><span class="line"></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span> <span class="title">eventItem</span>;</span></span><br><span class="line">    <span class="built_in">memset</span>(&amp;eventItem, <span class="number">0</span>, <span class="keyword">sizeof</span>(eventItem));</span><br><span class="line">    eventItem.events = EPOLLIN;</span><br><span class="line">    eventItem.data.u32 = EPOLL_ID_INOTIFY;</span><br><span class="line">    result = epoll_ctl(mEpollFd, EPOLL_CTL_ADD, mINotifyFd, &amp;eventItem);</span><br><span class="line">    LOG_ALWAYS_FATAL_IF(result != <span class="number">0</span>, <span class="string">"Could not add INotify to epoll instance.  errno=%d"</span>, errno);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> wakeFds[<span class="number">2</span>];</span><br><span class="line">    result = pipe(wakeFds);</span><br><span class="line">    LOG_ALWAYS_FATAL_IF(result != <span class="number">0</span>, <span class="string">"Could not create wake pipe.  errno=%d"</span>, errno);</span><br><span class="line"></span><br><span class="line">    mWakeReadPipeFd = wakeFds[<span class="number">0</span>];</span><br><span class="line">    mWakeWritePipeFd = wakeFds[<span class="number">1</span>];</span><br><span class="line"></span><br><span class="line">    result = fcntl(mWakeReadPipeFd, F_SETFL, O_NONBLOCK);</span><br><span class="line">    LOG_ALWAYS_FATAL_IF(result != <span class="number">0</span>, <span class="string">"Could not make wake read pipe non-blocking.  errno=%d"</span>,</span><br><span class="line">            errno);</span><br><span class="line"></span><br><span class="line">    result = fcntl(mWakeWritePipeFd, F_SETFL, O_NONBLOCK);</span><br><span class="line">    LOG_ALWAYS_FATAL_IF(result != <span class="number">0</span>, <span class="string">"Could not make wake write pipe non-blocking.  errno=%d"</span>,</span><br><span class="line">            errno);</span><br><span class="line"></span><br><span class="line">    eventItem.data.u32 = EPOLL_ID_WAKE;</span><br><span class="line">    result = epoll_ctl(mEpollFd, EPOLL_CTL_ADD, mWakeReadPipeFd, &amp;eventItem);</span><br><span class="line">    LOG_ALWAYS_FATAL_IF(result != <span class="number">0</span>, <span class="string">"Could not add wake read pipe to epoll instance.  errno=%d"</span>,</span><br><span class="line">            errno);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> major, minor;</span><br><span class="line">    getLinuxRelease(&amp;major, &amp;minor);</span><br><span class="line">    <span class="comment">// EPOLLWAKEUP was introduced in kernel 3.5</span></span><br><span class="line">    mUsingEpollWakeup = major &gt; <span class="number">3</span> || (major == <span class="number">3</span> &amp;&amp; minor &gt;= <span class="number">5</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>EventHub的构造函数初识化了Epoll对象和INotify对象，分别监听原始输入事件与设备节点增删事件。同时将INotify对象的可读性事件也注册到Epoll中，因此EventHub可以像处理原始输入事件一样监听设备节点增删事件了。</p>
+<h3 id="getEvent"><a href="#getEvent" class="headerlink" title="getEvent"></a>getEvent</h3><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">[EventHub.cpp--&gt;EventHub::getEvents()]</span><br><span class="line"><span class="keyword">size_t</span> EventHub::getEvents(<span class="keyword">int</span> timeoutMillis,RawEvent* buffer, <span class="keyword">size_t</span> bufferSize) &#123;</span><br><span class="line">    <span class="comment">/* event指针指向了在buffer下一个可用于存储事件的RawEvent结构体。每存储一个事件，</span></span><br><span class="line"><span class="comment">       event指针都回向后偏移一个元素 */</span></span><br><span class="line">   RawEvent* event = buffer;</span><br><span class="line">    <span class="comment">/*capacity记录了buffer中剩余的元素数量。当capacity为0时，表示buffer已满，此时需要停</span></span><br><span class="line"><span class="comment">       继续处理新事件，并将已处理的事件返回给调用者 */</span></span><br><span class="line">    size_tcapacity = bufferSize;</span><br><span class="line">    <span class="comment">/* 接下来的循环是getEvents()函数的主体。在这个循环中，会先将可用事件放入到buffer中并返回。</span></span><br><span class="line"><span class="comment">       如果没有可用事件，则进入epoll_wait()等待事件的到来，epoll_wait()返回后会重新循环将可用</span></span><br><span class="line"><span class="comment">       将新事件放入buffer */</span></span><br><span class="line">    <span class="keyword">for</span> (;;)&#123;</span><br><span class="line">       <span class="keyword">nsecs_t</span> now = systemTime(SYSTEM_TIME_MONOTONIC);</span><br><span class="line">        <span class="comment">/* **① 首先进行与设备相关的工作。**某些情况下，如EventHub创建后第一次执行getEvents()函数</span></span><br><span class="line"><span class="comment">           时，需要扫描/dev/input文件夹下的所有设备节点并将这些设备打开。另外，当设备节点的发生增</span></span><br><span class="line"><span class="comment">           动作生时，会将设备事件存入到buffer中 */</span></span><br><span class="line">        ......</span><br><span class="line">        <span class="comment">/* **② 处理未被InputReader取走的输入事件与设备事件。**epoll_wait()所取出的epoll_event</span></span><br><span class="line"><span class="comment">           存储在mPendingEventItems中，mPendingEventCount指定了mPendingEventItems数组</span></span><br><span class="line"><span class="comment">           所存储的事件个数。而mPendingEventIndex指定尚未处理的epoll_event的索引 */</span></span><br><span class="line">       <span class="keyword">while</span> (mPendingEventIndex &amp;lt; mPendingEventCount) &#123;</span><br><span class="line">           <span class="keyword">const</span> <span class="class"><span class="keyword">struct</span> <span class="title">epoll_event</span>&amp; <span class="title">eventItem</span> =</span></span><br><span class="line"><span class="class">                                 <span class="title">mPendingEventItems</span>[<span class="title">mPendingEventIndex</span>++];</span></span><br><span class="line">           <span class="comment">/* 在这里分析每一个epoll_event，如果是表示设备节点可读，则读取原始事件并放置到buffer</span></span><br><span class="line"><span class="comment">              中。如果是表示mINotifyFd可读，则设置mPendingINotify为true，当InputReader</span></span><br><span class="line"><span class="comment">              将现有的输入事件都取出后读取mINotifyFd中的事件，并进行相应的设备加载与卸载操作。</span></span><br><span class="line"><span class="comment">               另外，如果此epoll_event表示wakeFds的读取端有数据可读，则设置awake标志为true，</span></span><br><span class="line"><span class="comment">              无论此次getEvents()调用有无取到事件，都不会再次进行epoll_wait()进行事件等待 */</span></span><br><span class="line">           ......</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// ③ 如果mINotifyFd有数据可读，说明设备节点发生了增删操作</span></span><br><span class="line">        <span class="keyword">if</span>(mPendingINotify &amp;&amp; mPendingEventIndex &amp;gt;= mPendingEventCount) &#123;</span><br><span class="line">           <span class="comment">/* 读取mINotifyFd中的事件，同时对输入设备进行相应的加载与卸载操作。这个操作必须当</span></span><br><span class="line"><span class="comment">              InputReader将现有输入事件读取并处理完毕后才能进行，因为现有的输入事件可能来自需要</span></span><br><span class="line"><span class="comment">              被卸载的输入设备，InputReader处理这些事件依赖于对应的设备信息 */</span></span><br><span class="line">            ......</span><br><span class="line">            deviceChanged= <span class="literal">true</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 设备节点增删操作发生时，则重新执行循环体，以便将设备变化的事件放入buffer中</span></span><br><span class="line">        <span class="keyword">if</span>(deviceChanged) &#123;</span><br><span class="line">           <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 如果此次getEvents()调用成功获取了一些事件，或者要求唤醒InputReader，则退出循环并</span></span><br><span class="line">        <span class="comment">// 结束getEvents()的调用，使InputReader可以立刻对事件进行处理</span></span><br><span class="line">        <span class="keyword">if</span>(event != buffer || awoken) &#123;</span><br><span class="line">           <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">/* ④ 如果此次getEvents()调用没能获取事件，说明mPendingEventItems中没有事件可用，</span></span><br><span class="line"><span class="comment">           于是执行epoll_wait()函数等待新的事件到来，将结果存储到mPendingEventItems里，并重</span></span><br><span class="line"><span class="comment">           置mPendingEventIndex为0 */</span></span><br><span class="line">       mPendingEventIndex = <span class="number">0</span>;</span><br><span class="line">       ......</span><br><span class="line">        intpollResult = epoll_wait(mEpollFd, mPendingEventItems, EPOLL_MAX_EVENTS,timeoutMillis);</span><br><span class="line">       ......</span><br><span class="line">        mPendingEventCount= <span class="keyword">size_t</span>(pollResult);</span><br><span class="line">        <span class="comment">// 从epoll_wait()中得到新的事件后，重新循环，对新事件进行处理</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 返回本次getEvents()调用所读取的事件数量</span></span><br><span class="line">    returnevent - buffer;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>getEvents()函数使用Epoll的核心是mPendingEventItems数组，它是一个事件池。getEvents()函数会优先从这个事件池获取epoll事件进行处理，并将读取相应的原始输入事件返回给调用者。当因为事件池枯竭而导致调用者无法获得任何事件时，会调用epoll_wait()函数等待新事件的到来，将事件池重新注满，然后再重新处理事件池中的Epoll事件。从这个意义来说，getEvents()函数的调用过程，就是消费epoll_wait()所产生的Epoll事件的过程。因此可以将从epoll_wait()的调用开始，到将Epoll事件消费完毕的过程称为EventHub的一个监听周期。依据每次epoll_wait()产生的Epoll事件的数量以及设备节点中原始输入事件的数量，一个监听周期包含一次或多次getEvents()调用。周期中的第一次调用会因为事件池枯竭而直接进入epoll_wait()，而周期中的最后一次调用一定会将最后的事件取走。</p>
+<p>在一个监听周期内的设备增删事件与Epoll事件的优先级。设备事件的生成逻辑位于Epoll事件的处理之前，因此getEvents()将优先生成设备增删事件，完成所有设备增删事件的生成之前不会处理Epoll事件，也就是不会生成原始输入事件。</p>
+<h2 id="InputReader"><a href="#InputReader" class="headerlink" title="InputReader"></a>InputReader</h2><p>Reader子系统的输入端是设备节点，输出端是Dispatcher子系统的派发队列。</p>
+<p>InputReaderThread仅仅重写了threadLoop()函数：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[InputReader.cpp--&gt;InputReaderThread::threadLoop()]</span><br><span class="line"><span class="keyword">bool</span> InputReaderThread::threadLoop() &#123;</span><br><span class="line">   mReader-&gt;loopOnce(); <span class="comment">// 执行InputReader的loopOnce()函数</span></span><br><span class="line">    returntrue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>InputReaderThread启动后，其线程循环将不断地执行InputReader.loopOnce()函数。因此这个loopOnce()函数作为线程循环的循环体包含了InputReader的所有工作。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">[InputReader.cpp--&gt;InputReader::loopOnce()]</span><br><span class="line"><span class="keyword">void</span> InputReader::loopOnce() &#123;</span><br><span class="line">    ......</span><br><span class="line">    <span class="comment">/* **① 通过EventHub抽取事件列表**。读取的结果存储在参数mEventBuffer中，返回值表示事件的个数</span></span><br><span class="line"><span class="comment">       当EventHub中无事件可以抽取时，此函数的调用将会阻塞直到事件到来或者超时 */</span></span><br><span class="line">    size_tcount = mEventHub-&gt;getEvents(timeoutMillis</span><br><span class="line">                                            ,mEventBuffer, EVENT_BUFFER_SIZE);</span><br><span class="line">    &#123;</span><br><span class="line">       AutoMutex _l(mLock);</span><br><span class="line">        ......</span><br><span class="line">        <span class="keyword">if</span>(count) &#123;</span><br><span class="line">           <span class="comment">// **② 如果有抽得事件，则调用processEventsLocked()函数对事件进行加工处理**</span></span><br><span class="line">           processEventsLocked(mEventBuffer, count);</span><br><span class="line">        &#125;</span><br><span class="line">        ......</span><br><span class="line">    &#125;</span><br><span class="line">    ......</span><br><span class="line">    <span class="comment">/* **③ 发布事件。** processEventsLocked()函数在对事件进行加工处理之后，便将处理后的事件存储在</span></span><br><span class="line"><span class="comment">      mQueuedListener中。在循环的最后，通过调用flush()函数将所有事件交付给InputDispatcher */</span></span><br><span class="line">   mQueuedListener-&gt;flush();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="InputDispatcher"><a href="#InputDispatcher" class="headerlink" title="InputDispatcher"></a>InputDispatcher</h2><p>当InputReader调用InputDispatcher::notifyKey，生成KeyEvent并包装成KeyEntry将其加入到InputDispatcher，Entry队列中并会唤醒InputDispatcher线程。</p>
+<p>1 InputDispatcherThread-&gt;dispatchOnce<br>2 InputDispatcher.dispatchOnce,主要是调用dispatchOnceInnerLocked来进行一次按键分发，当没有按键消息时会走到mLooper-&gt;pollOnce(timeoutMillis);这个函数会进入睡眠状态，当有按键消息发生时该函数会返回，然后走到dispatchOnceInnerLocked函数。<br>3 InputDispatcher.dispatchOnceInnerLocked,从InputDispatcher的mInboundQueue队列，取出事件EventEntry。另外该方法开始执行的时间点(currentTime)便是后续事件dispatchEntry的分发时间(deliveryTime）<br>4 dispatchKeyLocked，满足一定条件时会添加命令doInterceptKeyBeforeDispatchingLockedInterruptible<br>5 InputDispatcher.dispatchEventLocked<br>6 InputDispatcher.prepareDispatchCycleLocked<br>7 InputDispatcher::enqueueDispatchEntriesLocked<br>8 InputDispatcher.startDispatchCycleLocked<br>9 InputPublisher.publishKeyEvent<br>10 InputChannel.sendMessage,通过socket方式将消息发送给远端进程</p>
+<h2 id="WMS"><a href="#WMS" class="headerlink" title="WMS"></a>WMS</h2><p>WMS再添加新的Window的时候会建立一个InputChannel对象负责，负责WMS和IMS间的通信，InputChannel其实就是linux unix socket的一种封装。window端有一个socket对象，IMS端有一个socket对象。</p>
+<p>1 对于每一个Window，WMS都有一个结构体WindowSate来表示。当新启动一个窗口，通过binder通信，调用addWindow，addWindow创建了WindowSate表示该应用程序,接着创建一个socketpair得到两个文件句柄fd0和fd1，fd1直接返回给应用程序，fd0将其封装为InputChannel类，一方面InputChannel会放进该APPWindowState中，另外一方面，他会将InputChannel注册给InputDispatch。<br>2 InputDispatch线程中里面有KeyedVector包含含有多个connection,这些connection可以通过注册实现,创建一个connection（含有InputChannel，InputChannel含有文件句柄fd），将创建好的connection放入Vector当中。<br>3 对于每一个能够接受输入事件应用程序，在InputDispatch当中都有一个connection。假设还有一个应用程序APP，在WindowServiceManager中也有一个WindowState，在InputDispatch中也有一个对应的connection，放入Vector容器中，在connection中含有InputChannel和fd,其中fd来自Socketpair的fd0,另外一个fd1通过Binder通信返回给APP。这样子InputDispatch线程想把输入事件发送给APP时候，先要找出当前在屏幕最前面的应用程序，然后从vector容器中找到他的connection,然后将数据写入fd当中既可。</p>
+<p><img src="https://img-blog.csdn.net/20140527080007859?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvSVRsZWFrcw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
+<p>创建：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">addWindow</span><span class="params">(Session session, IWindow client, <span class="keyword">int</span> seq,</span></span></span><br><span class="line"><span class="function"><span class="params">        LayoutParams attrs, <span class="keyword">int</span> viewVisibility, <span class="keyword">int</span> displayId, Rect outFrame,</span></span></span><br><span class="line"><span class="function"><span class="params">        Rect outContentInsets, Rect outStableInsets, Rect outOutsets,</span></span></span><br><span class="line"><span class="function"><span class="params">        DisplayCutout.ParcelableWrapper outDisplayCutout, InputChannel outInputChannel)</span> </span>&#123;</span><br><span class="line">        ....</span><br><span class="line">        <span class="keyword">final</span> WindowState win = <span class="keyword">new</span> WindowState(<span class="keyword">this</span>, session, client, token, parentWindow,</span><br><span class="line">        appOp[<span class="number">0</span>], seq, attrs, viewVisibility, session.mUid,</span><br><span class="line">        session.mCanAddInternalSystemWindow);</span><br><span class="line">        ....</span><br><span class="line">        </span><br><span class="line">        <span class="keyword">final</span> <span class="keyword">boolean</span> openInputChannels = (outInputChannel != <span class="keyword">null</span></span><br><span class="line">        &amp;&amp; (attrs.inputFeatures &amp; INPUT_FEATURE_NO_INPUT_CHANNEL) == <span class="number">0</span>);</span><br><span class="line">       <span class="keyword">if</span>  (openInputChannels) &#123;</span><br><span class="line">           win.openInputChannel(outInputChannel);</span><br><span class="line">       &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">openInputChannel</span><span class="params">(InputChannel outInputChannel)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mInputChannel != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"Window already has an input channel."</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    String name = getName();</span><br><span class="line">    InputChannel[] inputChannels = InputChannel.openInputChannelPair(name);</span><br><span class="line">    mInputChannel = inputChannels[<span class="number">0</span>];</span><br><span class="line">    mClientChannel = inputChannels[<span class="number">1</span>];</span><br><span class="line">    mInputWindowHandle.inputChannel = inputChannels[<span class="number">0</span>];</span><br><span class="line">    <span class="keyword">if</span> (outInputChannel != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mClientChannel.transferTo(outInputChannel);</span><br><span class="line">        mClientChannel.dispose();</span><br><span class="line">        mClientChannel = <span class="keyword">null</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// If the window died visible, we setup a dummy input channel, so that taps</span></span><br><span class="line">        <span class="comment">// can still detected by input monitor channel, and we can relaunch the app.</span></span><br><span class="line">        <span class="comment">// Create dummy event receiver that simply reports all events as handled.</span></span><br><span class="line">        mDeadWindowEventReceiver = <span class="keyword">new</span> DeadWindowEventReceiver(mClientChannel);</span><br><span class="line">    &#125;</span><br><span class="line">    mService.mInputManager.registerInputChannel(mInputChannel, mInputWindowHandle);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> InputChannel[] openInputChannelPair(String name) &#123;</span><br><span class="line">    <span class="keyword">if</span> (name == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"name must not be null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (DEBUG) &#123;</span><br><span class="line">        Slog.d(TAG, <span class="string">"Opening input channel pair '"</span> + name + <span class="string">"'"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> nativeOpenInputChannelPair(name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//native android_view_InputChannel.cpp</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> jobjectArray <span class="title">android_view_InputChannel_nativeOpenInputChannelPair</span><span class="params">(JNIEnv* env,</span></span></span><br><span class="line"><span class="function"><span class="params">        jclass clazz, jstring nameObj)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">const</span> <span class="keyword">char</span>* nameChars = env-&gt;GetStringUTFChars(nameObj, NULL);</span><br><span class="line">    std::string name = nameChars;</span><br><span class="line">    env-&gt;ReleaseStringUTFChars(nameObj, nameChars);</span><br><span class="line"></span><br><span class="line">    sp&lt;InputChannel&gt; serverChannel;</span><br><span class="line">    sp&lt;InputChannel&gt; clientChannel;</span><br><span class="line">    <span class="comment">//创建socket pair</span></span><br><span class="line">    status_t result = InputChannel::openInputChannelPair(name, serverChannel, clientChannel);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (result) &#123;</span><br><span class="line">        String8 message;</span><br><span class="line">        message.appendFormat(<span class="string">"Could not open input channel pair.  status=%d"</span>, result);</span><br><span class="line">        jniThrowRuntimeException(env, message.string());</span><br><span class="line">        <span class="keyword">return</span> NULL;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 创建Java层的InputChannel数组对象</span></span><br><span class="line">    jobjectArray channelPair = env-&gt;NewObjectArray(<span class="number">2</span>, gInputChannelClassInfo.clazz, NULL);</span><br><span class="line">    <span class="keyword">if</span> (env-&gt;ExceptionCheck()) &#123;</span><br><span class="line">        <span class="keyword">return</span> NULL;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 创建Java层服务端InputChannel对象，NativeInputChannel相当于中介者</span></span><br><span class="line">    jobject serverChannelObj = android_view_InputChannel_createInputChannel(env,</span><br><span class="line">            std::make_unique&lt;NativeInputChannel&gt;(serverChannel));</span><br><span class="line">    <span class="keyword">if</span> (env-&gt;ExceptionCheck()) &#123;</span><br><span class="line">        <span class="keyword">return</span> NULL;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 创建Java层客户端InputChannel对象</span></span><br><span class="line">    jobject clientChannelObj = android_view_InputChannel_createInputChannel(env,</span><br><span class="line">            std::make_unique&lt;NativeInputChannel&gt;(clientChannel));</span><br><span class="line">    <span class="keyword">if</span> (env-&gt;ExceptionCheck()) &#123;</span><br><span class="line">        <span class="keyword">return</span> NULL;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 设置Java层InputChannel数组中的对象</span></span><br><span class="line">    env-&gt;SetObjectArrayElement(channelPair, <span class="number">0</span>, serverChannelObj);</span><br><span class="line">    env-&gt;SetObjectArrayElement(channelPair, <span class="number">1</span>, clientChannelObj);</span><br><span class="line">    <span class="keyword">return</span> channelPair;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//InputTransport.cpp</span></span><br><span class="line">status_t InputChannel::openInputChannelPair(<span class="keyword">const</span> std::string&amp; name,</span><br><span class="line">        sp&lt;InputChannel&gt;&amp; outServerChannel, sp&lt;InputChannel&gt;&amp; outClientChannel) &#123;</span><br><span class="line">    <span class="keyword">int</span> sockets[<span class="number">2</span>];</span><br><span class="line">    <span class="comment">//创建一个socket</span></span><br><span class="line">    <span class="keyword">if</span> (socketpair(AF_UNIX, SOCK_SEQPACKET, <span class="number">0</span>, sockets)) &#123;</span><br><span class="line">        status_t result = -errno;</span><br><span class="line">        ALOGE(<span class="string">"channel '%s' ~ Could not create socket pair.  errno=%d"</span>,</span><br><span class="line">                name.c_str(), errno);</span><br><span class="line">        outServerChannel.clear();</span><br><span class="line">        outClientChannel.clear();</span><br><span class="line">        <span class="keyword">return</span> result;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//设置socket发送，接收缓冲区</span></span><br><span class="line">    <span class="keyword">int</span> bufferSize = SOCKET_BUFFER_SIZE;</span><br><span class="line">    setsockopt(sockets[<span class="number">0</span>], SOL_SOCKET, SO_SNDBUF, &amp;bufferSize, sizeof(bufferSize));</span><br><span class="line">    setsockopt(sockets[<span class="number">0</span>], SOL_SOCKET, SO_RCVBUF, &amp;bufferSize, sizeof(bufferSize));</span><br><span class="line">    setsockopt(sockets[<span class="number">1</span>], SOL_SOCKET, SO_SNDBUF, &amp;bufferSize, sizeof(bufferSize));</span><br><span class="line">    setsockopt(sockets[<span class="number">1</span>], SOL_SOCKET, SO_RCVBUF, &amp;bufferSize, sizeof(bufferSize));</span><br><span class="line"></span><br><span class="line">    std::string serverChannelName = name;</span><br><span class="line">    serverChannelName += <span class="string">" (server)"</span>;</span><br><span class="line">    <span class="comment">//创建服务端Inputchannel</span></span><br><span class="line">    outServerChannel = <span class="keyword">new</span> InputChannel(serverChannelName, sockets[<span class="number">0</span>]);</span><br><span class="line"></span><br><span class="line">    std::string clientChannelName = name;</span><br><span class="line">    clientChannelName += <span class="string">" (client)"</span>;</span><br><span class="line">    <span class="comment">//创建客户端Inputchannel</span></span><br><span class="line">    outClientChannel = <span class="keyword">new</span> InputChannel(clientChannelName, sockets[<span class="number">1</span>]);</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注册：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//InputManagerService的registerInputChannel开始分析</span></span><br><span class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">void</span> <span class="title">nativeRegisterInputChannel</span><span class="params">(JNIEnv* env, jclass <span class="comment">/* clazz */</span>,</span></span></span><br><span class="line"><span class="function"><span class="params">        jlong ptr, jobject inputChannelObj, jobject inputWindowHandleObj, jboolean monitor)</span> </span>&#123;</span><br><span class="line">    NativeInputManager* im = <span class="keyword">reinterpret_cast</span>&lt;NativeInputManager*&gt;(ptr);</span><br><span class="line"></span><br><span class="line">    sp&lt;InputChannel&gt; inputChannel = android_view_InputChannel_getInputChannel(env,</span><br><span class="line">            inputChannelObj);</span><br><span class="line">    <span class="keyword">if</span> (inputChannel == <span class="literal">NULL</span>) &#123;</span><br><span class="line">        throwInputChannelNotInitialized(env);</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    sp&lt;InputWindowHandle&gt; inputWindowHandle =</span><br><span class="line">            android_server_InputWindowHandle_getHandle(env, inputWindowHandleObj);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">status_t</span> status = im-&gt;registerInputChannel(</span><br><span class="line">            env, inputChannel, inputWindowHandle, monitor);</span><br><span class="line">    <span class="keyword">if</span> (status) &#123;</span><br><span class="line">        <span class="built_in">std</span>::<span class="built_in">string</span> message;</span><br><span class="line">        message += StringPrintf(<span class="string">"Failed to register input channel.  status=%d"</span>, status);</span><br><span class="line">        jniThrowRuntimeException(env, message.c_str());</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! monitor) &#123;</span><br><span class="line">        android_view_InputChannel_setDisposeCallback(env, inputChannelObj,</span><br><span class="line">                handleInputChannelDisposed, im);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//InputDispatcher.cpp</span></span><br><span class="line"><span class="keyword">status_t</span> InputDispatcher::registerInputChannel(<span class="keyword">const</span> sp&lt;InputChannel&gt;&amp; inputChannel,</span><br><span class="line">        <span class="keyword">const</span> sp&lt;InputWindowHandle&gt;&amp; inputWindowHandle, <span class="keyword">bool</span> monitor) &#123;</span><br><span class="line"><span class="meta">#<span class="meta-keyword">if</span> DEBUG_REGISTRATION</span></span><br><span class="line">    ALOGD(<span class="string">"channel '%s' ~ registerInputChannel - monitor=%s"</span>, inputChannel-&gt;getName().c_str(),</span><br><span class="line">            toString(monitor));</span><br><span class="line"><span class="meta">#<span class="meta-keyword">endif</span></span></span><br><span class="line"></span><br><span class="line">    &#123; <span class="comment">// acquire lock</span></span><br><span class="line">        AutoMutex _l(mLock);</span><br><span class="line">        <span class="comment">// 检查是否已经注册过</span></span><br><span class="line">        <span class="keyword">if</span> (getConnectionIndexLocked(inputChannel) &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            ALOGW(<span class="string">"Attempted to register already registered input channel '%s'"</span>,</span><br><span class="line">                    inputChannel-&gt;getName().c_str());</span><br><span class="line">            <span class="keyword">return</span> BAD_VALUE;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//// 创建Connection，用于管理关联的InputChannel的事件分发状态</span></span><br><span class="line">        sp&lt;Connection&gt; connection = <span class="keyword">new</span> Connection(inputChannel, inputWindowHandle, monitor);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> fd = inputChannel-&gt;getFd();</span><br><span class="line">        <span class="comment">// 添加到mConnectionsByFd容器中</span></span><br><span class="line">        mConnectionsByFd.add(fd, connection);</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (monitor) &#123;</span><br><span class="line">            mMonitoringChannels.push(inputChannel);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">// 监听fd上的I/O操作，当有I/O操作时，回调handleReceiveCallback处理</span></span><br><span class="line">        mLooper-&gt;addFd(fd, <span class="number">0</span>, ALOOPER_EVENT_INPUT, handleReceiveCallback, <span class="keyword">this</span>);</span><br><span class="line">    &#125; <span class="comment">// release lock</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">// Wake the looper because some connections have changed.</span></span><br><span class="line">    <span class="comment">// 唤醒InputDispatcherThread</span></span><br><span class="line">    mLooper-&gt;wake();</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>IPC事件关联：</p>
+<p>当app端创建完InputChannel对象后，创建WindowInputEventReceiver(继承自InputEventReceiver)用于接收输入事件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//ViewRootImp </span></span><br><span class="line">setView()&#123;</span><br><span class="line">    ...</span><br><span class="line">    <span class="keyword">if</span> (mInputChannel != <span class="keyword">null</span>) &#123;</span><br><span class="line">    <span class="keyword">if</span> (mInputQueueCallback != <span class="keyword">null</span>) &#123;</span><br><span class="line">        mInputQueue = <span class="keyword">new</span> InputQueue();</span><br><span class="line">        mInputQueueCallback.onInputQueueCreated(mInputQueue);</span><br><span class="line">    &#125;</span><br><span class="line">    mInputEventReceiver = <span class="keyword">new</span> WindowInputEventReceiver(mInputChannel,</span><br><span class="line">            Looper.myLooper());</span><br><span class="line">   &#125;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//InputEventReceiver</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="title">InputEventReceiver</span><span class="params">(InputChannel inputChannel, Looper looper)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (inputChannel == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"inputChannel must not be null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (looper == <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"looper must not be null"</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//关联inputchannel</span></span><br><span class="line">    mInputChannel = inputChannel;</span><br><span class="line">    <span class="comment">//获取UI线程的消息队列</span></span><br><span class="line">    mMessageQueue = looper.getQueue();</span><br><span class="line">    <span class="comment">//调用nativeInit</span></span><br><span class="line">    mReceiverPtr = nativeInit(<span class="keyword">new</span> WeakReference&lt;InputEventReceiver&gt;(<span class="keyword">this</span>),</span><br><span class="line">            inputChannel, mMessageQueue);</span><br><span class="line"></span><br><span class="line">    mCloseGuard.open(<span class="string">"dispose"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">static</span> jlong <span class="title">nativeInit</span><span class="params">(JNIEnv* env, jclass clazz, jobject receiverWeak,</span></span></span><br><span class="line"><span class="function"><span class="params">        jobject inputChannelObj, jobject messageQueueObj)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 获取native层的InputChannel</span></span><br><span class="line">    sp&lt;InputChannel&gt; inputChannel = android_view_InputChannel_getInputChannel(env,</span><br><span class="line">            inputChannelObj);</span><br><span class="line">    <span class="keyword">if</span> (inputChannel == NULL) &#123;</span><br><span class="line">        jniThrowRuntimeException(env, <span class="string">"InputChannel is not initialized."</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 获取Native层的NativeMessageQueue</span></span><br><span class="line">    sp&lt;MessageQueue&gt; messageQueue = android_os_MessageQueue_getMessageQueue(env, messageQueueObj);</span><br><span class="line">    <span class="keyword">if</span> (messageQueue == NULL) &#123;</span><br><span class="line">        jniThrowRuntimeException(env, <span class="string">"MessageQueue is not initialized."</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 创建NativeInputEventReceiver对象</span></span><br><span class="line">    sp&lt;NativeInputEventReceiver&gt; receiver = <span class="keyword">new</span> NativeInputEventReceiver(env,</span><br><span class="line">            receiverWeak, inputChannel, messageQueue);</span><br><span class="line">    <span class="comment">// 监听InputChannel</span></span><br><span class="line">    status_t status = receiver-&gt;initialize();</span><br><span class="line">    <span class="keyword">if</span> (status) &#123;</span><br><span class="line">        String8 message;</span><br><span class="line">        message.appendFormat(<span class="string">"Failed to initialize input event receiver.  status=%d"</span>, status);</span><br><span class="line">        jniThrowRuntimeException(env, message.string());</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    receiver-&gt;incStrong(gInputEventReceiverClassInfo.clazz); <span class="comment">// retain a reference for the object</span></span><br><span class="line">    <span class="keyword">return</span> reinterpret_cast&lt;jlong&gt;(receiver.get());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">status_t NativeInputEventReceiver::initialize() &#123;</span><br><span class="line">    setFdEvents(ALOOPER_EVENT_INPUT);</span><br><span class="line">    <span class="keyword">return</span> OK;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> NativeInputEventReceiver::setFdEvents(<span class="keyword">int</span> events) &#123;</span><br><span class="line">    <span class="keyword">if</span> (mFdEvents != events) &#123;</span><br><span class="line">        mFdEvents = events;</span><br><span class="line">        <span class="keyword">int</span> fd = mInputConsumer.getChannel()-&gt;getFd();</span><br><span class="line">        <span class="keyword">if</span> (events) &#123;</span><br><span class="line">            <span class="comment">// 监听套接字fd，当收到输入事件时，回调NativeInputEventReceiver的handleEvent</span></span><br><span class="line">            mMessageQueue-&gt;getLooper()-&gt;addFd(fd, <span class="number">0</span>, events, <span class="keyword">this</span>, NULL);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mMessageQueue-&gt;getLooper()-&gt;removeFd(fd);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell getevent[-选项] [device_path]</span><br><span class="line">$ adb shell sendevent &lt;节点路径&gt; &lt;类型&gt; &lt;代码&gt; &lt;值&gt;</span><br></pre></td></tr></table></figure>
+<p>模拟输入：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ adb shell input keyevent XX</span><br></pre></td></tr></table></figure>
+<ul>
+<li>0 –&gt;  “KEYCODE_UNKNOWN”</li>
+<li>1 –&gt;  “KEYCODE_MENU”</li>
+<li>2 –&gt;  “KEYCODE_SOFT_RIGHT”</li>
+<li>3 –&gt;  “KEYCODE_HOME”</li>
+<li>4 –&gt;  “KEYCODE_BACK”</li>
+<li>5 –&gt;  “KEYCODE_CALL”</li>
+<li>6 –&gt;  “KEYCODE_ENDCALL”</li>
+<li>7 –&gt;  “KEYCODE_0”</li>
+<li>8 –&gt;  “KEYCODE_1”</li>
+<li>9 –&gt;  “KEYCODE_2”</li>
+<li>10 –&gt;  “KEYCODE_3”</li>
+<li>11 –&gt;  “KEYCODE_4”</li>
+<li>12 –&gt;  “KEYCODE_5”</li>
+<li>13 –&gt;  “KEYCODE_6”</li>
+<li>14 –&gt;  “KEYCODE_7”</li>
+<li>15 –&gt;  “KEYCODE_8”</li>
+<li>16 –&gt;  “KEYCODE_9”</li>
+<li>17 –&gt;  “KEYCODE_STAR”</li>
+<li>18 –&gt;  “KEYCODE_POUND”</li>
+<li>19 –&gt;  “KEYCODE_DPAD_UP”</li>
+<li>20 –&gt;  “KEYCODE_DPAD_DOWN”</li>
+<li>21 –&gt;  “KEYCODE_DPAD_LEFT”</li>
+<li>22 –&gt;  “KEYCODE_DPAD_RIGHT”</li>
+<li>23 –&gt;  “KEYCODE_DPAD_CENTER”</li>
+<li>24 –&gt;  “KEYCODE_VOLUME_UP”</li>
+<li>25 –&gt;  “KEYCODE_VOLUME_DOWN”</li>
+<li>26 –&gt;  “KEYCODE_POWER”</li>
+<li>27 –&gt;  “KEYCODE_CAMERA”</li>
+<li>28 –&gt;  “KEYCODE_CLEAR”</li>
+<li>29 –&gt;  “KEYCODE_A”</li>
+<li>30 –&gt;  “KEYCODE_B”</li>
+<li>31 –&gt;  “KEYCODE_C”</li>
+<li>32 –&gt;  “KEYCODE_D”</li>
+<li>33 –&gt;  “KEYCODE_E”</li>
+<li>34 –&gt;  “KEYCODE_F”</li>
+<li>35 –&gt;  “KEYCODE_G”</li>
+<li>36 –&gt;  “KEYCODE_H”</li>
+<li>37 –&gt;  “KEYCODE_I”</li>
+<li>38 –&gt;  “KEYCODE_J”</li>
+<li>39 –&gt;  “KEYCODE_K”</li>
+<li>40 –&gt;  “KEYCODE_L”</li>
+<li>41 –&gt;  “KEYCODE_M”</li>
+<li>42 –&gt;  “KEYCODE_N”</li>
+<li>43 –&gt;  “KEYCODE_O”</li>
+<li>44 –&gt;  “KEYCODE_P”</li>
+<li>45 –&gt;  “KEYCODE_Q”</li>
+<li>46 –&gt;  “KEYCODE_R”</li>
+<li>47 –&gt;  “KEYCODE_S”</li>
+<li>48 –&gt;  “KEYCODE_T”</li>
+<li>49 –&gt;  “KEYCODE_U”</li>
+<li>50 –&gt;  “KEYCODE_V”</li>
+<li>51 –&gt;  “KEYCODE_W”</li>
+<li>52 –&gt;  “KEYCODE_X”</li>
+<li>53 –&gt;  “KEYCODE_Y”</li>
+<li>54 –&gt;  “KEYCODE_Z”</li>
+<li>55 –&gt;  “KEYCODE_COMMA”</li>
+<li>56 –&gt;  “KEYCODE_PERIOD”</li>
+<li>57 –&gt;  “KEYCODE_ALT_LEFT”</li>
+<li>58 –&gt;  “KEYCODE_ALT_RIGHT”</li>
+<li>59 –&gt;  “KEYCODE_SHIFT_LEFT”</li>
+<li>60 –&gt;  “KEYCODE_SHIFT_RIGHT”</li>
+<li>61 –&gt;  “KEYCODE_TAB”</li>
+<li>62 –&gt;  “KEYCODE_SPACE”</li>
+<li>63 –&gt;  “KEYCODE_SYM”</li>
+<li>64 –&gt;  “KEYCODE_EXPLORER”</li>
+<li>65 –&gt;  “KEYCODE_ENVELOPE”</li>
+<li>66 –&gt;  “KEYCODE_ENTER”</li>
+<li>67 –&gt;  “KEYCODE_DEL”</li>
+<li>68 –&gt;  “KEYCODE_GRAVE”</li>
+<li>69 –&gt;  “KEYCODE_MINUS”</li>
+<li>70 –&gt;  “KEYCODE_EQUALS”</li>
+<li>71 –&gt;  “KEYCODE_LEFT_BRACKET”</li>
+<li>72 –&gt;  “KEYCODE_RIGHT_BRACKET”</li>
+<li>73 –&gt;  “KEYCODE_BACKSLASH”</li>
+<li>74 –&gt;  “KEYCODE_SEMICOLON”</li>
+<li>75 –&gt;  “KEYCODE_APOSTROPHE”</li>
+<li>76 –&gt;  “KEYCODE_SLASH”</li>
+<li>77 –&gt;  “KEYCODE_AT”</li>
+<li>78 –&gt;  “KEYCODE_NUM”</li>
+<li>79 –&gt;  “KEYCODE_HEADSETHOOK”</li>
+<li>80 –&gt;  “KEYCODE_FOCUS”</li>
+<li>81 –&gt;  “KEYCODE_PLUS”</li>
+<li>82 –&gt;  “KEYCODE_MENU”</li>
+<li>83 –&gt;  “KEYCODE_NOTIFICATION”</li>
+<li>84 –&gt;  “KEYCODE_SEARCH”</li>
+<li>85 –&gt;  “TAG_LAST_KEYCODE”</li>
+</ul>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+        <a class="extend prev post-prev" href="/2018/12/04/android 显示-Surface/">prev</a>
+    
+
+    
+    <p>last update time 2018-12-10</p>
+    
+    
+        <a class="extend next post-next" href="/2018/11/29/源码分析BroadcastReceiver/">next</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/sirencode" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2016 - 2018
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>
