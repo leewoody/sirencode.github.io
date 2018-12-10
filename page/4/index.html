@@ -63,16 +63,35 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/08/设计模式-代理模式/">
-            设计模式-代理模式
+          <a href="/2018/04/08/设计模式-观察者模式/">
+            设计模式-观察者模式
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>设计模式-代理模给某一个对象提供一个代理或占位符，并由代理对象来控制对原对象的访问。
-角色
-Subject（抽象主题角色）：它声明了真实主题和代理主题的共同接口，这样一来在任何使用真实主题的地方都可以使用代理主题，客户端通常需要针对抽象主题角色进行编程。
-Proxy（代理主题角色）：它包含了对真实主...</p>
+            <p>设计模式-观察者模式观察者模式(Observer Pattern)：定义对象之间的一种一对多依赖关系，使得每当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新。观察者模式的别名包括发布-订阅（Publish_Subscribe）模式、模型-视图（Model_View）模式、源-监听器（S...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-04-08
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/04/08/RemoteView/">
+            RemoteView
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>RemoteViewRemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。
+场景1.通知栏2.桌面小部件
+123//当前packgeNameRemoteViews rem...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -93,6 +112,28 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
         <div class="article-item-content">
           
             <p>设计模式-工厂模式简单工厂模式简单工厂模式(Simple Factory Pattern)：定义一个工厂类，它可以根据参数的不同返回不同类的实例，被创建的实例通常都具有共同的父类。因为在简单工厂模式中用于创建实例的方法是静态(static)方法，因此简单工厂模式又被称为静态工厂方法(Static F...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-04-06
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/04/06/设计模式-单例/">
+            设计模式-单例
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>设计模式-单例单例-确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例，这个类称为单例类，它提供全局访问的方法。单例模式是一种对象创建型模式。
+单例的实现单例的实现需要考虑线程安全，以及懒初始化等问题。
+饿汉式单例类1234567class EagerSingleton &amp;#123; ...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -136,28 +177,6 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
 
 依赖倒转原则
 抽象不应该依赖于细节...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-04-06
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2018/04/06/设计模式-单例/">
-            设计模式-单例
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>设计模式-单例单例-确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例，这个类称为单例类，它提供全局访问的方法。单例模式是一种对象创建型模式。
-单例的实现单例的实现需要考虑线程安全，以及懒初始化等问题。
-饿汉式单例类1234567class EagerSingleton &amp;#123; ...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -290,26 +309,6 @@ IT
           
             <span>
               2018-03-12
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2018/03/10/Broadcast/">
-            Broadcast
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Broadcast原理Android中的广播使用了观察者模式，基于消息的发布/订阅事件模型。广播发送者和广播接收者分别属于观察者模式中的消息发布和订阅两端，AMS属于中间的处理中心。广播发送者和广播接收者的执行是异步的，发出去的广播不会关心有无接收者接收，也不确定接收者到底是何时才能接收到。显然，整...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-03-10
             </span>
           
         </div>

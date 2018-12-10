@@ -103,22 +103,20 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析BroadcastReceiver/">
-            源码分析BroadcastReceiver
+          <a href="/2018/12/04/Linux 基础知识/">
+            Linux 基础知识
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析BroadcastReceiverBroadcastReceiver注册：
-1 ContextWrapper.registerReceiver()
-2 ContextImpl.registerReceiver()
-123456@Overridepublic Intent registerRe...</p>
+            <p>Linux 基础知识INotify和EpollINotifyINotify是一个Linux内核提供的文件系统变化通知机制。它可以为应用程序监控文件系统的变化，如文件的新建、删除、读写等。INotify机制包括两个对象，分别为inotify对象与watch对象，都使用文件描述符表示。
+1 inotif...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2018-11-29
+              2018-12-04
             </span>
           
         </div>
@@ -134,6 +132,26 @@
           
             <p>源码分析ServiceService启动流程APP端启动：
 1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-11-29
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/11/29/源码分析Activity分析/">
+            源码分析Activity分析
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -169,13 +187,16 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Activity分析/">
-            源码分析Activity分析
+          <a href="/2018/11/29/源码分析BroadcastReceiver/">
+            源码分析BroadcastReceiver
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout...</p>
+            <p>源码分析BroadcastReceiverBroadcastReceiver注册：
+1 ContextWrapper.registerReceiver()
+2 ContextImpl.registerReceiver()
+123456@Overridepublic Intent registerRe...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -247,28 +268,6 @@ java动态代理代理类在程序运行时创建的代理方式被成为 动态
           
             <span>
               2018-09-19
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2018/09/18/Android ProductFlavors /">
-            Android ProductFlavors
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Android ProductFlavorsProductFlavorsProductFlavors通俗来说就是可以通过一份代码产出不同的App的一种实现方式。
-代码关系product的继承自main的代码和资源，相同的资源product的覆盖main的。
-实现设置维度12345678default...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-09-18
             </span>
           
         </div>

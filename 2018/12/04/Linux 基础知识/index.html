@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>Linux 基础知识 [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">Linux 基础知识</h1>
+<article class="post markdown-style">
+  <h1 id="Linux-基础知识"><a href="#Linux-基础知识" class="headerlink" title="Linux 基础知识"></a>Linux 基础知识</h1><h2 id="INotify和Epoll"><a href="#INotify和Epoll" class="headerlink" title="INotify和Epoll"></a>INotify和Epoll</h2><h3 id="INotify"><a href="#INotify" class="headerlink" title="INotify"></a>INotify</h3><p>INotify是一个Linux内核提供的文件系统变化通知机制。它可以为应用程序监控文件系统的变化，如文件的新建、删除、读写等。INotify机制包括两个对象，分别为inotify对象与watch对象，都使用文件描述符表示。</p>
+<p>1 inotify对象对应了一个队列，应用程序可以向inotify对象添加多个监听。当被监听的事件发生时，可以通过read()函数从inotify对象中将事件信息读取出来。</p>
+<p>2 watch对象则用来描述文件系统的变化事件的监听。它是一个二元组，包括监听目标和事件掩码两个元素。监听目标是文件系统的一个路径，可以是文件也可以是文件夹。而事件掩码则表示了需要需要监听的事件类型，掩码中的每一位代表一种事件。可以监听的事件种类很多，其中就包括文件的创建(IN_CREATE)与删除(IN_DELETE)。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> inotifyFd = inotify_init();</span><br><span class="line"><span class="keyword">int</span> wd = inotify_add_watch (inotifyFd, “/dev/input”,IN_CREATE | IN_DELETE);</span><br></pre></td></tr></table></figure>
+<p>当/dev/input/下的设备节点发生创建与删除操作时，都会将相应的事件信息写入到inotifyFd所描述的inotify对象中，此时可以通过read()函数从inotifyFd描述符中将事件信息读取出来。通过INotify机制避免了轮询文件系统的麻烦，但是还有一个问题，INotify机制并不是通过回调的方式通知事件，而需要使用者主动从inotify对象中进行事件读取。那么何时才是读取的最佳时机呢？这就需要借助Linux的另一个优秀的机制Epoll了。</p>
+<h3 id="Epoll"><a href="#Epoll" class="headerlink" title="Epoll"></a>Epoll</h3><p>Epoll可以使用一次等待监听多个描述符的可读/可写状态。等待返回时携带了可读的描述符或自定义的数据，使用者可以据此读取所需的数据后可以再次进入等待。因此不需要为每个描述符创建独立的线程进行阻塞读取，避免了资源浪费的同时又可以获得较快的响应速度。</p>
+<p>使用：</p>
+<ul>
+<li>1 通过epoll_create()创建一个epoll对象。</li>
+<li>2 为需要监听的描述符填充epoll_events结构体，并使用epoll_ctl()注册到epoll对象中。</li>
+<li>3 使用epoll_wait()等待事件的发生，函数将会使调用者陷入等待状态，直到其注册的事件之一发生之后才会返回，并且携带了刚刚发生的事件的详细信息。</li>
+<li>4 根据epoll_wait()返回的epoll_events结构体数组判断事件的类型与来源并进行处理。</li>
+<li>5 继续使用epoll_wait()等待新事件的发生。</li>
+</ul>
+<h3 id="配合使用"><a href="#配合使用" class="headerlink" title="配合使用"></a>配合使用</h3><p>INotify与Epoll这两套由Linux提供的事件监听机制以最小的开销解决了文件系统变化以及文件描述符可读可写状态变化的监听问题。它们是Reader子系统运行的基石，了解了这两个机制的使用方法之后便为对Reader子系统的分析学习铺平了道路。</p>
+<h2 id="通信方式"><a href="#通信方式" class="headerlink" title="通信方式"></a>通信方式</h2><ul>
+<li>1 单工通信：传送信息只能是一个方向，而不进行反方向传送。(例如广播发送，android的通知等等)</li>
+<li>2 半双工通信：是指信息可以两个方向传输，但是同一时刻只能有一个方向传输。(无线电发报机)</li>
+<li>3 全双工通信：是同一时刻可以双向通信，如电话，视频聊天等。</li>
+</ul>
+<h2 id="pipe管道"><a href="#pipe管道" class="headerlink" title="pipe管道"></a>pipe管道</h2><p>管道是一种最基本的IPC机制，作用于有血缘关系的进程之间，完成数据传递。</p>
+<p>本质：本质是一个伪文件(实为内核缓冲区)，由两个文件描述符引用，一个表示读端，一个表示写端，规定数据从管道的写端流入管道，从读端流出。</p>
+<p>原理：管道实为内核使用环形队列机制，借助内核缓冲区(4k)实现。</p>
+<p>缺点：<br>1 数据自己读不能自己写。<br>2 数据一旦被读走，便不在管道中存在，不可反复读取。<br>3 由于管道采用半双工通信方式。因此，数据只能在一个方向上流动。<br>4 只能在有公共祖先的进程间使用管道。</p>
+<h2 id="UNIX-Domain-Socket"><a href="#UNIX-Domain-Socket" class="headerlink" title="UNIX Domain Socket"></a>UNIX Domain Socket</h2><p>UNIX Domain Socket, 简称UDS，是全双工的，用于实现同一主机上的进程间通信。不需要经过网络协议栈，不需要打包拆包、计算校验和、维护序号和应答等，只是将应用层数据从一个进程拷贝到另一个进程。</p>
+<p>USD优势：<br>1 UDS传输不需要经过网络协议栈,不需要打包拆包等操作,只是数据的拷贝过程。<br>2 UDS分为SOCK_STREAM(流套接字)和SOCK_DGRAM(数据包套接字),由于是在本机通过内核通信,不会丢包也不会出现发送包的次序和接收包的次序不一致的问题</p>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+        <a class="extend prev post-prev" href="/2018/12/04/android 显示-Surface/">prev</a>
+    
+
+    
+    <p>last update time 2018-12-10</p>
+    
+    
+        <a class="extend next post-next" href="/2018/11/29/源码分析Service/">next</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/sirencode" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2016 - 2018
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>
