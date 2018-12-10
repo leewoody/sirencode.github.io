@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   
-  <title> [ Diablo ]</title>
+  <title>Android 输入系统 [ Diablo ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -55,11 +55,9 @@
 </div>
     </div>
     <div class="container">
-        <h1 class="post-title"></h1>
+        <h1 class="post-title">Android 输入系统</h1>
 <article class="post markdown-style">
-  <p>title: Android 输入系统<br>date: 2018-12-10 </p>
-<hr>
-<h1 id="Android-输入系统"><a href="#Android-输入系统" class="headerlink" title="Android 输入系统"></a>Android 输入系统</h1><p>输入事件的源头是位于/dev/input/下的设备节点，而输入系统的终点是由WMS管理的某个窗口。最初的输入事件为内核生成的原始事件，而最终交付给窗口的则是KeyEvent或MotionEvent对象。因此Android输入系统的主要工作是读取设备节点中的原始事件，将其加工封装，然后派发给一个特定的窗口以及窗口中的控件。</p>
+  <h1 id="Android-输入系统"><a href="#Android-输入系统" class="headerlink" title="Android 输入系统"></a>Android 输入系统</h1><p>输入事件的源头是位于/dev/input/下的设备节点，而输入系统的终点是由WMS管理的某个窗口。最初的输入事件为内核生成的原始事件，而最终交付给窗口的则是KeyEvent或MotionEvent对象。因此Android输入系统的主要工作是读取设备节点中的原始事件，将其加工封装，然后派发给一个特定的窗口以及窗口中的控件。</p>
 <p><img src="https://img-blog.csdn.net/20150814132642439?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" alt=""></p>
 <p>1 Linux内核接收输入设备中断，并将原始事件的数据写入到设备节点。当用户操作输入设备时，Linux内核接收到相应的硬件中断，然后将中断加工成原始的输入事件数据并写入其对应的设备节点中。<br>2 设备节点(触摸屏和键盘最普遍的输入设备，还支持外接鼠标手柄等等外接设备事件)，当输入设备可用的时候，Linux内核会在/dev/input/下创建对应的event0~N或其他名称的设备节点。而当输入设备不可用时，则会将对应的节点删除。<br>3 EventHub通过getEvent()将输入系统相关的待处理的底层事件返回给使用者。包括原始输入事件，设备节点增删。它的作用是监听、读取/dev/input目录下产生的新事件，并封装成RawEvent结构体供InputReader使用。<br>4 InputReader运行在IMS一个独立运行的线程，它通过其线程循环不断地通过EventHub的getEvents()函数从EventHub中将事件取出并进行处理(翻译组装)，然后交给InputDispatcher。<br>5 InputDispatcher中保管了来自WMS的所有窗口的信息，收到InputReader消息后，会在其保管的窗口中找到匹配的窗口，并将事件派发给此窗口。<br>6 WMS，虽说不是输入系统中的一员，但是它却对InputDispatcher的正常工作起到了至关重要的作用。当新建窗口时，WMS为新窗口和IMS创建了事件传递所用的通道。另外，WMS还将所有窗口的信息，包括窗口的可点击区域，焦点窗口等信息，实时地更新到IMS的InputDispatcher中，使得InputDispatcher可以正确地将事件派发到指定的窗口。</p>
 <h2 id="INotify和Epoll"><a href="#INotify和Epoll" class="headerlink" title="INotify和Epoll"></a>INotify和Epoll</h2><h3 id="INotify"><a href="#INotify" class="headerlink" title="INotify"></a>INotify</h3><p>INotify是一个Linux内核提供的文件系统变化通知机制。它可以为应用程序监控文件系统的变化，如文件的新建、删除、读写等。INotify机制包括两个对象，分别为inotify对象与watch对象，都使用文件描述符表示。</p>
@@ -197,14 +195,12 @@
     <div class="pagenator post-pagenator">
     
     
-        <a class="extend prev post-prev" href="/2018/12/04/android 显示-Surface/">prev</a>
-    
 
     
     <p>last update time 2018-12-10</p>
     
     
-        <a class="extend next post-next" href="/2018/11/29/源码分析BroadcastReceiver/">next</a>
+        <a class="extend next post-next" href="/2018/12/04/android 显示-Surface/">next</a>
     
     </div>
 
