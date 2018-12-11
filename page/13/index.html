@@ -85,22 +85,20 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/23/gradle same dependencies/">
-            Android 多模块相同依赖问题
+          <a href="/2016/08/24/screen adapter/">
+            Android 屏幕适配-比例适配
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。
-相同依赖带来的问题
-1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。
-2 版本混乱，相同的依赖版本可能不同，这样就带...</p>
+            <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。
+适配分类完美适配(100分)这种适配方式是无差的适配方案。主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dime...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-23
+              2016-08-24
             </span>
           
         </div>
@@ -118,6 +116,29 @@
 RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本。
 
 1 更灵活的...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-08-23
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/08/23/gradle same dependencies/">
+            Android 多模块相同依赖问题
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。
+相同依赖带来的问题
+1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。
+2 版本混乱，相同的依赖版本可能不同，这样就带...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -198,14 +219,14 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/20/check_code_style/">
-            Android 代码规范-CheckStyle
+          <a href="/2016/08/20/traceView/">
+            Android 性能优化-traceview
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。
-AndroidS...</p>
+            <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。
+TraceVi...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -219,14 +240,14 @@ AndroidS...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/20/traceView/">
-            Android 性能优化-traceview
+          <a href="/2016/08/20/check_code_style/">
+            Android 代码规范-CheckStyle
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。
-TraceVi...</p>
+            <p>代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。
+AndroidS...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -253,29 +274,6 @@ TraceVi...</p>
           
             <span>
               2016-08-19
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2016/08/18/android 6.0 permission/">
-            Android 6.0权限处理
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>6.0的改动较大的集中在了权限这一块，和以往不同，最新的权限（高危和特殊）是必须动态的申请才可以使用的，如果不动态申请直接使用会导致程序崩溃掉。
-现在开源的写的比较好的有以下两个框架：
-RxPermissions：主要可以实现通过链式的方式调用。
-easypermissions:这是google官方...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-18
             </span>
           
         </div>

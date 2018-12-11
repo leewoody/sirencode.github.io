@@ -63,26 +63,6 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/08/设计模式-观察者模式/">
-            设计模式-观察者模式
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>设计模式-观察者模式观察者模式(Observer Pattern)：定义对象之间的一种一对多依赖关系，使得每当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新。观察者模式的别名包括发布-订阅（Publish_Subscribe）模式、模型-视图（Model_View）模式、源-监听器（S...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-04-08
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2018/04/08/RemoteView/">
             RemoteView
           </a>
@@ -105,19 +85,22 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/06/设计模式-工厂模式/">
-            设计模式-工厂模式
+          <a href="/2018/04/08/设计模式-代理模式/">
+            设计模式-代理模式
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>设计模式-工厂模式简单工厂模式简单工厂模式(Simple Factory Pattern)：定义一个工厂类，它可以根据参数的不同返回不同类的实例，被创建的实例通常都具有共同的父类。因为在简单工厂模式中用于创建实例的方法是静态(static)方法，因此简单工厂模式又被称为静态工厂方法(Static F...</p>
+            <p>设计模式-代理模给某一个对象提供一个代理或占位符，并由代理对象来控制对原对象的访问。
+角色
+Subject（抽象主题角色）：它声明了真实主题和代理主题的共同接口，这样一来在任何使用真实主题的地方都可以使用代理主题，客户端通常需要针对抽象主题角色进行编程。
+Proxy（代理主题角色）：它包含了对真实主...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2018-04-06
+              2018-04-08
             </span>
           
         </div>
@@ -125,15 +108,36 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/06/设计模式-单例/">
-            设计模式-单例
+          <a href="/2018/04/08/设计模式-适配器模式/">
+            设计模式-适配器模式
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>设计模式-单例单例-确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例，这个类称为单例类，它提供全局访问的方法。单例模式是一种对象创建型模式。
-单例的实现单例的实现需要考虑线程安全，以及懒初始化等问题。
-饿汉式单例类1234567class EagerSingleton &amp;#123; ...</p>
+            <p>设计模式-适配器模式适配器模式(Adapter Pattern)：将一个接口转换成客户希望的另一个接口，使接口不兼容的那些类可以一起工作，其别名为包装器(Wrapper)。适配器模式既可以作为类结构型模式，也可以作为对象结构型模式。
+角色
+Target：目标角色,期待得到的接口.
+Adaptee：适...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-04-08
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/04/06/设计模式-工厂模式/">
+            设计模式-工厂模式
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>设计模式-工厂模式简单工厂模式简单工厂模式(Simple Factory Pattern)：定义一个工厂类，它可以根据参数的不同返回不同类的实例，被创建的实例通常都具有共同的父类。因为在简单工厂模式中用于创建实例的方法是静态(static)方法，因此简单工厂模式又被称为静态工厂方法(Static F...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -177,6 +181,28 @@
 
 依赖倒转原则
 抽象不应该依赖于细节...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-04-06
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/04/06/设计模式-单例/">
+            设计模式-单例
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>设计模式-单例单例-确保某一个类只有一个实例，而且自行实例化并向整个系统提供这个实例，这个类称为单例类，它提供全局访问的方法。单例模式是一种对象创建型模式。
+单例的实现单例的实现需要考虑线程安全，以及懒初始化等问题。
+饿汉式单例类1234567class EagerSingleton &amp;#123; ...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -270,45 +296,6 @@ root刷recovery
           
             <span>
               2018-03-13
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2018/03/12/macdown 语法/">
-            macdown 语法
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>macdown 语法标题注：# 后面保持空格
-123456# h1 ## h2 ### h3 #### h4 ##### h5 ###### h6
-表格
-
-
-姓名
-job
-age
-
-
-
-
-申永鹤
-IT
-25
-
-
-
-代码1hello world
-图片123![](图片 &amp;apos;描述&amp;apos;)/...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-03-12
             </span>
           
         </div>

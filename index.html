@@ -63,6 +63,27 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2018/12/11/ANR分析/">
+            ANR 分析
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>ANR 分析ANR(Application Not Responding),即“应用程序无响应”。系统会向用户显示一个对话框，用户可以选择“等待”而让程序继续运行，也可以选择“强制关闭”。
+原因1 inputDispatchingTimeout 主线程5秒内没有响应UI输入事件2 Broadcast...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-12-11
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2018/12/10/Android 输入系统/">
             Android 输入系统
           </a>
@@ -124,14 +145,13 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Service/">
-            源码分析Service
+          <a href="/2018/11/29/源码分析Activity分析/">
+            源码分析Activity分析
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析ServiceService启动流程APP端启动：
-1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
+            <p>源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -145,13 +165,16 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Activity分析/">
-            源码分析Activity分析
+          <a href="/2018/11/29/源码分析BroadcastReceiver/">
+            源码分析BroadcastReceiver
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout...</p>
+            <p>源码分析BroadcastReceiverBroadcastReceiver注册：
+1 ContextWrapper.registerReceiver()
+2 ContextImpl.registerReceiver()
+123456@Overridepublic Intent registerRe...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -187,16 +210,14 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析BroadcastReceiver/">
-            源码分析BroadcastReceiver
+          <a href="/2018/11/29/源码分析Service/">
+            源码分析Service
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析BroadcastReceiverBroadcastReceiver注册：
-1 ContextWrapper.registerReceiver()
-2 ContextImpl.registerReceiver()
-123456@Overridepublic Intent registerRe...</p>
+            <p>源码分析ServiceService启动流程APP端启动：
+1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -247,27 +268,6 @@ SerializableParcelableparcel的传输是暂存在Binder transaction buffe的地�
           
             <span>
               2018-10-11
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2018/09/19/Retrofit 原理/">
-            Retrofit 原理
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Retrofit 原理Retrofit非常巧妙的用注解来描述一个HTTP请求，将一个HTTP请求抽象成一个Java接口，然后用了Java动态代理的方式，动态的将这个接口的注解“翻译”成一个HTTP请求，最后再执行这个HTTP请求。
-java动态代理代理类在程序运行时创建的代理方式被成为 动态代理。 ...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-09-19
             </span>
           
         </div>
