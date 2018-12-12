@@ -223,16 +223,15 @@ View的生命周期首先我们需要对view的各个生命周期做一些简单
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/31/LeakCanary/">
-            内存泄漏检查工具-LeakCanary
+          <a href="/2016/08/31/内存泄漏/">
+            Android 内存泄漏总结
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
-使用1 添加项目依赖：
-dependencies {
-    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
+            <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
+
+全局进程(process-global)的static...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -246,15 +245,16 @@ dependencies {
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/31/内存泄漏/">
-            Android 内存泄漏总结
+          <a href="/2016/08/31/LeakCanary/">
+            内存泄漏检查工具-LeakCanary
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
-
-全局进程(process-global)的static...</p>
+            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
+使用1 添加项目依赖：
+dependencies {
+    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
           
         </div>
         <div class="atricle-item-time">

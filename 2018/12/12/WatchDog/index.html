@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   
-  <title>ANR 分析 [ Diablo ]</title>
+  <title>WatchDog [ Diablo ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -55,7 +55,7 @@
 </div>
     </div>
     <div class="container">
-        <h1 class="post-title">ANR 分析</h1>
+        <h1 class="post-title">WatchDog</h1>
 <article class="post markdown-style">
   <h1 id="WatchDog"><a href="#WatchDog" class="headerlink" title="WatchDog"></a>WatchDog</h1><p>现在的CPU基本上都带有WatchDog功能，这种硬件的WatchDog可以在系统死掉(死锁或者程序跑飞)后重启系统，让系统回到可以工作的状态。WatchDog不能防止系统死掉，但是它能够起死回生，从而提高系统的可用性。Android系统中，有硬件WatchDog用于定时检测关键硬件是否正常工作，类似地，在framework层有一个软件WatchDog用于定期检测关键系统服务是否发生死锁事件。WatchDog功能主要是分析系统核心服务和重要线程是否处于Blocked状态。</p>
 <p>Watchdog是一个运行在system_server进程的名为”watchdog”的线程。Watchdog运作过程，当阻塞时间超过1分钟则触发一次watchdog，会杀死system_server,触发上层重启。mHandlerCheckers记录所有的HandlerChecker对象的列表，包括foreground, main, ui, i/o, display线程的handler。mHandlerChecker.mMonitors记录所有Watchdog目前正在监控Monitor，所有的这些monitors都运行在foreground线程。</p>
@@ -87,14 +87,12 @@
     <div class="pagenator post-pagenator">
     
     
-        <a class="extend prev post-prev" href="/2018/12/11/ANR分析/">prev</a>
-    
 
     
     <p>last update time 2018-12-12</p>
     
     
-        <a class="extend next post-next" href="/2018/12/10/Android 输入系统/">next</a>
+        <a class="extend next post-next" href="/2018/12/11/ANR分析/">next</a>
     
     </div>
 
