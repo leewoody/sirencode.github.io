@@ -63,6 +63,27 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2016/08/30/mvp/">
+            Android 设计模式-MVP框架
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。
+MVP介绍MVP...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-08-30
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2016/08/24/性能分析/">
             Android 性能分析
           </a>
@@ -106,16 +127,16 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/23/recycleview/">
-            Android RecycleView
+          <a href="/2016/08/23/gradle same dependencies/">
+            Android 多模块相同依赖问题
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>RecycleView相信大家都不会陌生，基本上每个项目里面都会用到。主要做一些展示工作的view，例如资讯，XX单等等。今天主要谈谈，在项目中我遇到的一些问题以及解决方案。
-RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本。
-
-1 更灵活的...</p>
+            <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。
+相同依赖带来的问题
+1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。
+2 版本混乱，相同的依赖版本可能不同，这样就带...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -129,16 +150,16 @@ RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本�
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/23/gradle same dependencies/">
-            Android 多模块相同依赖问题
+          <a href="/2016/08/23/recycleview/">
+            Android RecycleView
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。
-相同依赖带来的问题
-1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。
-2 版本混乱，相同的依赖版本可能不同，这样就带...</p>
+            <p>RecycleView相信大家都不会陌生，基本上每个项目里面都会用到。主要做一些展示工作的view，例如资讯，XX单等等。今天主要谈谈，在项目中我遇到的一些问题以及解决方案。
+RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本。
+
+1 更灵活的...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -219,27 +240,6 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/20/traceView/">
-            Android 性能优化-traceview
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。
-TraceVi...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-20
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2016/08/20/check_code_style/">
             Android 代码规范-CheckStyle
           </a>
@@ -261,19 +261,20 @@ AndroidS...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/19/react-native/">
-            react-native android使用入门
+          <a href="/2016/08/20/traceView/">
+            Android 性能优化-traceview
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>Facebook 在2015.9.15发布了 React Native for Android，把JavaScript 开发技术扩展到了Android平台。React Native 让开发者使用 JavaScript 和 React 编写应用，利用相同的核心代码就可以创建 基于Web，iOS 和 A...</p>
+            <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。
+TraceVi...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-19
+              2016-08-20
             </span>
           
         </div>

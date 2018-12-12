@@ -84,6 +84,26 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2018/12/11/WatchDog/">
+            ANR 分析
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>WatchDog现在的CPU基本上都带有WatchDog功能，这种硬件的WatchDog可以在系统死掉(死锁或者程序跑飞)后重启系统，让系统回到可以工作的状态。WatchDog不能防止系统死掉，但是它能够起死回生，从而提高系统的可用性。Android系统中，有硬件WatchDog用于定时检测关键硬件...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-12-11
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2018/12/10/Android 输入系统/">
             Android 输入系统
           </a>
@@ -97,26 +117,6 @@
           
             <span>
               2018-12-10
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2018/12/04/android 显示-Surface/">
-            Android 显示-Surface
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Android 显示-SurfaceAndroid应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-12-04
             </span>
           
         </div>
@@ -145,6 +145,26 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2018/12/04/android 显示-Surface/">
+            Android 显示-Surface
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Android 显示-SurfaceAndroid应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-12-04
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2018/11/29/源码分析Activity分析/">
             源码分析Activity分析
           </a>
@@ -152,6 +172,49 @@
         <div class="article-item-content">
           
             <p>源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-11-29
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/11/29/源码分析Service/">
+            源码分析Service
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>源码分析ServiceService启动流程APP端启动：
+1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-11-29
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/11/29/源码分析ContentProvider/">
+            源码分析ContentProvider
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>ContentProviderContentResolver的获取流程：
+1 ContextWrapper.getContentResolver()
+2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -188,49 +251,6 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析ContentProvider/">
-            源码分析ContentProvider
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>ContentProviderContentResolver的获取流程：
-1 ContextWrapper.getContentResolver()
-2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-11-29
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Service/">
-            源码分析Service
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>源码分析ServiceService启动流程APP端启动：
-1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-11-29
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2018/11/19/android 专用驱动/">
             Android 专用驱动
           </a>
@@ -247,27 +267,6 @@
           
             <span>
               2018-11-19
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2018/10/11/Android 序列化/">
-            Android 序列化
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Android 序列化序列化可以实现Java对象的传输和存储。
-SerializableParcelableparcel的传输是暂存在Binder transaction buffe的地方，缓冲区有1M(有些手机2M)的大小限制，并且这是该进程(16个binder线程)中所有正在进行中的传输对象所公...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-10-11
             </span>
           
         </div>

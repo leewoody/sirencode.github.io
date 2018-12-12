@@ -63,6 +63,27 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2016/10/03/APP启动时间优化/">
+            APP 启动时间优化
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>APP启动分类冷启动冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。
+热启动热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-10-03
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2016/09/26/自定义View/">
             Android 自定义View
           </a>
@@ -156,15 +177,17 @@ View的生命周期首先我们需要对view的各个生命周期做一些简单
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/09/01/infer/">
-            内存泄漏检查工具-infer
+          <a href="/2016/09/01/事件总线/">
+            事件总线
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p> infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。
-使用1 环境安装见官网
-2...</p>
+            <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。
+介绍事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。
+通常我们在activity,service，fragment之间通信时，一般有以下几种方案：
+
+1 广播，使用起...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -178,17 +201,15 @@ View的生命周期首先我们需要对view的各个生命周期做一些简单
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/09/01/事件总线/">
-            事件总线
+          <a href="/2016/09/01/infer/">
+            内存泄漏检查工具-infer
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。
-介绍事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。
-通常我们在activity,service，fragment之间通信时，一般有以下几种方案：
-
-1 广播，使用起...</p>
+            <p> infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。
+使用1 环境安装见官网
+2...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -257,27 +278,6 @@ dependencies {
 Lint规则Android Lint内置了很多lint规则，到现在为止是220项检查，总共可以分为以下几类：
 
 Correctness 正确...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-30
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2016/08/30/mvp/">
-            Android 设计模式-MVP框架
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。
-MVP介绍MVP...</p>
           
         </div>
         <div class="atricle-item-time">
