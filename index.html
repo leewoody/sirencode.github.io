@@ -69,8 +69,8 @@
         </h2>
         <div class="article-item-content">
           
-            <p>ijkplayer 编译使用编辑(Mac环境)Step1 安装git和yasmStep2 配置android sdk 和 ndk环境ndk不建议用sdkmanager中的ndk-bundle,问题很多，建议去官网下载，支持最低版本10e,高版本的支持也不太友好，在这里使用版本10e。
-12345ex...</p>
+            <p>ijkplayer 编译使用编译so(Mac环境)Step1 安装git和yasmStep2 配置android sdk 和 ndk环境ndk不建议用sdkmanager中的ndk-bundle,问题很多，建议去官网下载，支持最低版本10e,高版本的支持也不太友好，在这里使用版本10e。
+12345...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -145,26 +145,6 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/12/04/android 显示-Surface/">
-            Android 显示-Surface
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Android 显示-SurfaceAndroid应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-12-04
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2018/12/04/Linux 基础知识/">
             Linux 基础知识
           </a>
@@ -186,16 +166,34 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析BroadcastReceiver/">
-            源码分析BroadcastReceiver
+          <a href="/2018/12/04/android 显示-Surface/">
+            Android 显示-Surface
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析BroadcastReceiverBroadcastReceiver注册：
-1 ContextWrapper.registerReceiver()
-2 ContextImpl.registerReceiver()
-123456@Overridepublic Intent registerRe...</p>
+            <p>Android 显示-SurfaceAndroid应用程序把经过测量、布局、绘制后的surface缓存数据，通过SurfaceFlinger把数据渲染到屏幕上，通过Android的刷新机制来刷新数据。即应用层负责绘制，系统层负责渲染，通过进程间通信把应用层需要绘制的数据传递到系统层服务，系统层服务通...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-12-04
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/11/29/源码分析Service/">
+            源码分析Service
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>源码分析ServiceService启动流程APP端启动：
+1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -251,14 +249,16 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Service/">
-            源码分析Service
+          <a href="/2018/11/29/源码分析BroadcastReceiver/">
+            源码分析BroadcastReceiver
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析ServiceService启动流程APP端启动：
-1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
+            <p>源码分析BroadcastReceiverBroadcastReceiver注册：
+1 ContextWrapper.registerReceiver()
+2 ContextImpl.registerReceiver()
+123456@Overridepublic Intent registerRe...</p>
           
         </div>
         <div class="atricle-item-time">
