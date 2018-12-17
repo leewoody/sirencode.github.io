@@ -57,7 +57,8 @@
     <div class="container">
         <h1 class="post-title"></h1>
 <article class="post markdown-style">
-  <p> title: Linux 基础知识 date: 2018-12-04    —- </p>
+  <p>title: Linux 基础知识<br>date: 2018-12-04    </p>
+<hr>
 <h1 id="Linux-基础知识"><a href="#Linux-基础知识" class="headerlink" title="Linux 基础知识"></a>Linux 基础知识</h1><h2 id="INotify和Epoll"><a href="#INotify和Epoll" class="headerlink" title="INotify和Epoll"></a>INotify和Epoll</h2><h3 id="INotify"><a href="#INotify" class="headerlink" title="INotify"></a>INotify</h3><p>INotify是一个Linux内核提供的文件系统变化通知机制。它可以为应用程序监控文件系统的变化，如文件的新建、删除、读写等。INotify机制包括两个对象，分别为inotify对象与watch对象，都使用文件描述符表示。<br>1 inotify对象对应了一个队列，应用程序可以向inotify对象添加多个监听。当被监听的事件发生时，可以通过read()函数从inotify对象中将事件信息读取出来。<br>2 watch对象则用来描述文件系统的变化事件的监听。它是一个二元组，包括监听目标和事件掩码两个元素。监听目标是文件系统的一个路径，可以是文件也可以是文件夹。而事件掩码则表示了需要需要监听的事件类型，掩码中的每一位代表一种事件。可以监听的事件种类很多，其中就包括文件的创建(IN_CREATE)与删除(IN_DELETE)。 </p>
 <pre><code class="c"><span class="keyword">int</span> inotifyFd = inotify_init(); 
 <span class="keyword">int</span> wd = inotify_add_watch (inotifyFd, “/dev/input”,IN_CREATE | IN_DELETE); 
