@@ -63,15 +63,16 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/31/内存泄漏/">
-            Android 内存泄漏总结
+          <a href="/2016/08/31/LeakCanary/">
+            内存泄漏检查工具-LeakCanary
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
-
-全局进程(process-global)的static...</p>
+            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
+使用1 添加项目依赖：
+dependencies {
+    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -129,14 +130,15 @@ Correctness 正确...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/24/screen adapter/">
-            Android 屏幕适配-比例适配
+          <a href="/2016/08/24/性能分析/">
+            Android 性能分析
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。
-适配分类完美适配(100分)这种适配方式是无差的适配方案。主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dime...</p>
+            <p>性能分类  除了交互、视觉、内容方面的问题外，在用户使用过程中，给用户造成烦恼的问题都可以归结为是性能问题，比如上文中列出的这些都属于性能问题，按照影响的方面不同，可以分为如下几大类：
+
+内存问题：耗内存、OOM、程序切换到后台后占用内存无法释放（OOM会影响产品的稳定性；耗内存、内存泄露会影响整机...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -150,15 +152,14 @@ Correctness 正确...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/24/性能分析/">
-            Android 性能分析
+          <a href="/2016/08/24/screen adapter/">
+            Android 屏幕适配-比例适配
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>性能分类  除了交互、视觉、内容方面的问题外，在用户使用过程中，给用户造成烦恼的问题都可以归结为是性能问题，比如上文中列出的这些都属于性能问题，按照影响的方面不同，可以分为如下几大类：
-
-内存问题：耗内存、OOM、程序切换到后台后占用内存无法释放（OOM会影响产品的稳定性；耗内存、内存泄露会影响整机...</p>
+            <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。
+适配分类完美适配(100分)这种适配方式是无差的适配方案。主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dime...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -218,17 +219,16 @@ RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本�
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/22/monkey/">
-            Android Mokey压力测试
+          <a href="/2016/08/22/lazy_load/">
+            Android 性能优化-懒加载
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。
-特征
-Monky测试使用的事件流数据流是随机的，不能自定义。
-测试的对象仅为应用程序包，有一定的局限性。
-运行Monkey时，对本次测试对象，事件数量，类...</p>
+            <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。
+懒加载的使用在android开发中我们用到了很多懒加载的例子。如：
+
+1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -242,16 +242,17 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/22/lazy_load/">
-            Android 性能优化-懒加载
+          <a href="/2016/08/22/monkey/">
+            Android Mokey压力测试
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。
-懒加载的使用在android开发中我们用到了很多懒加载的例子。如：
-
-1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示...</p>
+            <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。
+特征
+Monky测试使用的事件流数据流是随机的，不能自定义。
+测试的对象仅为应用程序包，有一定的局限性。
+运行Monkey时，对本次测试对象，事件数量，类...</p>
           
         </div>
         <div class="atricle-item-time">
