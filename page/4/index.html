@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">トップページ</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">ポスト</a>
         
       </div>
     </div>
@@ -63,14 +63,13 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/09/Android Android 共享内存/">
-            Android 共享内存
+          <a href="/2018/04/09/设计模式-迭代器模式/">
+            设计模式-迭代器模式
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>Android 匿名共享内存Android可以使用Linux的一切IPC通信方式，包括共享内存，不过Android主要使用的方式是匿名共享内存Ashmem（Anonymous Shared Memory），跟原生的不太一样，比如它在自己的驱动中添加了互斥锁，另外通过fd的传递来实现共享内存的传递。
-...</p>
+            <p>设计模式-迭代器模式在软件开发中，我们经常需要使用聚合对象来存储一系列数据。聚合对象拥有两个职责：一是存储数据；二是遍历数据。从依赖性来看，前者是聚合对象的基本职责；而后者既是可变化的，又是可分离的。因此，可以将遍历数据的行为从聚合对象中分离出来，封装在一个被称之为“迭代器”的对象中，由迭代器来提供...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -84,13 +83,14 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/09/设计模式-迭代器模式/">
-            设计模式-迭代器模式
+          <a href="/2018/04/09/Android Android 共享内存/">
+            Android 共享内存
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>设计模式-迭代器模式在软件开发中，我们经常需要使用聚合对象来存储一系列数据。聚合对象拥有两个职责：一是存储数据；二是遍历数据。从依赖性来看，前者是聚合对象的基本职责；而后者既是可变化的，又是可分离的。因此，可以将遍历数据的行为从聚合对象中分离出来，封装在一个被称之为“迭代器”的对象中，由迭代器来提供...</p>
+            <p>Android 匿名共享内存Android可以使用Linux的一切IPC通信方式，包括共享内存，不过Android主要使用的方式是匿名共享内存Ashmem（Anonymous Shared Memory），跟原生的不太一样，比如它在自己的驱动中添加了互斥锁，另外通过fd的传递来实现共享内存的传递。
+...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -147,6 +147,28 @@ Adaptee：适...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2018/04/08/RemoteView/">
+            RemoteView
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>RemoteViewRemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。
+场景1.通知栏2.桌面小部件
+123//当前packgeNameRemoteViews rem...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-04-08
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2018/04/08/设计模式-代理模式/">
             设计模式-代理模式
           </a>
@@ -170,21 +192,19 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/08/RemoteView/">
-            RemoteView
+          <a href="/2018/04/06/设计模式-工厂模式/">
+            设计模式-工厂模式
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>RemoteViewRemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。
-场景1.通知栏2.桌面小部件
-123//当前packgeNameRemoteViews rem...</p>
+            <p>设计模式-工厂模式简单工厂模式简单工厂模式(Simple Factory Pattern)：定义一个工厂类，它可以根据参数的不同返回不同类的实例，被创建的实例通常都具有共同的父类。因为在简单工厂模式中用于创建实例的方法是静态(static)方法，因此简单工厂模式又被称为静态工厂方法(Static F...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2018-04-08
+              2018-04-06
             </span>
           
         </div>
@@ -257,26 +277,6 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/06/设计模式-工厂模式/">
-            设计模式-工厂模式
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>设计模式-工厂模式简单工厂模式简单工厂模式(Simple Factory Pattern)：定义一个工厂类，它可以根据参数的不同返回不同类的实例，被创建的实例通常都具有共同的父类。因为在简单工厂模式中用于创建实例的方法是静态(static)方法，因此简单工厂模式又被称为静态工厂方法(Static F...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-04-06
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2018/04/03/IntentService HandlerThread/">
             IntentService HandlerThread
           </a>
@@ -302,7 +302,7 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/3">prev</a>
+        <a class="extend prev" href="/page/3">前のページ</a>
     
 
     
@@ -359,7 +359,7 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
     
     
     
-        <a class="extend next" href="/page/5">next</a>
+        <a class="extend next" href="/page/5">次のページ</a>
     
 </div>
 

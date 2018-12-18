@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">トップページ</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">ポスト</a>
         
       </div>
     </div>
@@ -63,42 +63,22 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/31/内存泄漏/">
-            Android 内存泄漏总结
+          <a href="/2016/08/31/LeakCanary/">
+            内存泄漏检查工具-LeakCanary
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
-
-全局进程(process-global)的static...</p>
+            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
+使用1 添加项目依赖：
+dependencies {
+    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
               2016-08-31
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2016/08/30/mvp/">
-            Android 设计模式-MVP框架
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。
-MVP介绍MVP...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-30
             </span>
           
         </div>
@@ -129,20 +109,20 @@ Correctness 正确...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/24/screen adapter/">
-            Android 屏幕适配-比例适配
+          <a href="/2016/08/30/mvp/">
+            Android 设计模式-MVP框架
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。
-适配分类完美适配(100分)这种适配方式是无差的适配方案。主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dime...</p>
+            <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。
+MVP介绍MVP...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-24
+              2016-08-30
             </span>
           
         </div>
@@ -172,22 +152,20 @@ Correctness 正确...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/23/recycleview/">
-            Android RecycleView
+          <a href="/2016/08/24/screen adapter/">
+            Android 屏幕适配-比例适配
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>RecycleView相信大家都不会陌生，基本上每个项目里面都会用到。主要做一些展示工作的view，例如资讯，XX单等等。今天主要谈谈，在项目中我遇到的一些问题以及解决方案。
-RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本。
-
-1 更灵活的...</p>
+            <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。
+适配分类完美适配(100分)这种适配方式是无差的适配方案。主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dime...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-23
+              2016-08-24
             </span>
           
         </div>
@@ -218,23 +196,22 @@ RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本�
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/22/monkey/">
-            Android Mokey压力测试
+          <a href="/2016/08/23/recycleview/">
+            Android RecycleView
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。
-特征
-Monky测试使用的事件流数据流是随机的，不能自定义。
-测试的对象仅为应用程序包，有一定的局限性。
-运行Monkey时，对本次测试对象，事件数量，类...</p>
+            <p>RecycleView相信大家都不会陌生，基本上每个项目里面都会用到。主要做一些展示工作的view，例如资讯，XX单等等。今天主要谈谈，在项目中我遇到的一些问题以及解决方案。
+RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本。
+
+1 更灵活的...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-22
+              2016-08-23
             </span>
           
         </div>
@@ -252,6 +229,30 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
 懒加载的使用在android开发中我们用到了很多懒加载的例子。如：
 
 1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-08-22
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/08/22/monkey/">
+            Android Mokey压力测试
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。
+特征
+Monky测试使用的事件流数据流是随机的，不能自定义。
+测试的对象仅为应用程序包，有一定的局限性。
+运行Monkey时，对本次测试对象，事件数量，类...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -290,7 +291,7 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/12">prev</a>
+        <a class="extend prev" href="/page/12">前のページ</a>
     
 
     
@@ -347,7 +348,7 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     
     
     
-        <a class="extend next" href="/page/14">next</a>
+        <a class="extend next" href="/page/14">次のページ</a>
     
 </div>
 
