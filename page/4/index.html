@@ -63,6 +63,27 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2018/04/17/java GC/">
+            java GC
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>java GCJava程序不用像C++程序在程序中自行处理内存的回收释放。这是因为Java在JVM虚拟机上增加了垃圾回收(GC)机制，用以在合适的时间触发垃圾回收，将不需要的内存空间回收释放，避免无限制的内存增长导致的OOM。
+由于Java堆是Java中最大的一块内存区域，主要用来存储各种类的实例对...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-04-17
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2018/04/09/设计模式-迭代器模式/">
             设计模式-迭代器模式
           </a>
@@ -104,13 +125,15 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/08/设计模式-观察者模式/">
-            设计模式-观察者模式
+          <a href="/2018/04/08/RemoteView/">
+            RemoteView
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>设计模式-观察者模式观察者模式(Observer Pattern)：定义对象之间的一种一对多依赖关系，使得每当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新。观察者模式的别名包括发布-订阅（Publish_Subscribe）模式、模型-视图（Model_View）模式、源-监听器（S...</p>
+            <p>RemoteViewRemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。
+场景1.通知栏2.桌面小部件
+123//当前packgeNameRemoteViews rem...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -124,15 +147,13 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/08/RemoteView/">
-            RemoteView
+          <a href="/2018/04/08/设计模式-观察者模式/">
+            设计模式-观察者模式
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>RemoteViewRemoteView表示的是一个View结构，他可以在其他进程中显示，由于它在其他进程中显示，为了能够更新他的界面，RemoteViews提供了一组基础的操作应用与跨进程更新它的界面。
-场景1.通知栏2.桌面小部件
-123//当前packgeNameRemoteViews rem...</p>
+            <p>设计模式-观察者模式观察者模式(Observer Pattern)：定义对象之间的一种一对多依赖关系，使得每当一个对象状态发生改变时，其相关依赖对象皆得到通知并被自动更新。观察者模式的别名包括发布-订阅（Publish_Subscribe）模式、模型-视图（Model_View）模式、源-监听器（S...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -192,49 +213,6 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/06/面向对象设计原则/">
-            面向对象设计原则
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>面向对象设计原则一切都是为了软件可维护可扩展可重用。
-
-
-
-设计原则名称
-定  义
-
-
-
-
-单一职责原则
-一个类只负责一个功能领域中的相应职责
-
-
-开闭原则
-软件实体应对扩展开放，而对修改关闭
-
-
-里氏代换原则
-所有引用基类对象的地方能够透明地使用其子类的对象
-
-
-依赖倒转原则
-抽象不应该依赖于细节...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-04-06
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2018/04/06/设计模式-工厂模式/">
             设计模式-工厂模式
           </a>
@@ -277,19 +255,42 @@ Proxy（代理主题角色）：它包含了对真实主...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/03/IntentService HandlerThread/">
-            IntentService HandlerThread
+          <a href="/2018/04/06/面向对象设计原则/">
+            面向对象设计原则
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>IntentService HandlerThreadIntentServiceIntentService是Service的子类，根据需要处理异步请求（以intent表示）。客户端通过调用startService(Intent) 发送请求，该Service根据需要启动，使用工作线程处理依次每个Int...</p>
+            <p>面向对象设计原则一切都是为了软件可维护可扩展可重用。
+
+
+
+设计原则名称
+定  义
+
+
+
+
+单一职责原则
+一个类只负责一个功能领域中的相应职责
+
+
+开闭原则
+软件实体应对扩展开放，而对修改关闭
+
+
+里氏代换原则
+所有引用基类对象的地方能够透明地使用其子类的对象
+
+
+依赖倒转原则
+抽象不应该依赖于细节...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2018-04-03
+              2018-04-06
             </span>
           
         </div>

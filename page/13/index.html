@@ -63,6 +63,28 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2016/08/31/内存泄漏/">
+            Android 内存泄漏总结
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
+
+全局进程(process-global)的static...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-08-31
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2016/08/31/LeakCanary/">
             内存泄漏检查工具-LeakCanary
           </a>
@@ -219,30 +241,6 @@ RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本�
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/22/monkey/">
-            Android Mokey压力测试
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。
-特征
-Monky测试使用的事件流数据流是随机的，不能自定义。
-测试的对象仅为应用程序包，有一定的局限性。
-运行Monkey时，对本次测试对象，事件数量，类...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-22
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2016/08/22/lazy_load/">
             Android 性能优化-懒加载
           </a>
@@ -266,19 +264,23 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/21/h5-webview/">
-            Android 混合式开发-H5
+          <a href="/2016/08/22/monkey/">
+            Android Mokey压力测试
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些...</p>
+            <p>Moneky测试属于无目的测试，随机操作，可以通过参数设置操作的频率以及时长。主要是对APP的稳定性做测试，可以测出一些崩溃的bug，并修复掉。
+特征
+Monky测试使用的事件流数据流是随机的，不能自定义。
+测试的对象仅为应用程序包，有一定的局限性。
+运行Monkey时，对本次测试对象，事件数量，类...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-21
+              2016-08-22
             </span>
           
         </div>
