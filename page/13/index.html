@@ -63,6 +63,30 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2016/09/01/事件总线/">
+            事件总线
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。
+介绍事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。
+通常我们在activity,service，fragment之间通信时，一般有以下几种方案：
+
+1 广播，使用起...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-09-01
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2016/09/01/infer/">
             内存泄漏检查工具-infer
           </a>
@@ -85,15 +109,16 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/31/内存泄漏/">
-            Android 内存泄漏总结
+          <a href="/2016/08/31/LeakCanary/">
+            内存泄漏检查工具-LeakCanary
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
-
-全局进程(process-global)的static...</p>
+            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
+使用1 添加项目依赖：
+dependencies {
+    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -107,16 +132,15 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/31/LeakCanary/">
-            内存泄漏检查工具-LeakCanary
+          <a href="/2016/08/31/内存泄漏/">
+            Android 内存泄漏总结
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
-使用1 添加项目依赖：
-dependencies {
-    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
+            <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
+
+全局进程(process-global)的static...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -174,27 +198,6 @@ MVP介绍MVP...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/24/screen adapter/">
-            Android 屏幕适配-比例适配
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。
-适配分类完美适配(100分)这种适配方式是无差的适配方案。主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dime...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-24
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2016/08/24/性能分析/">
             Android 性能分析
           </a>
@@ -217,22 +220,20 @@ MVP介绍MVP...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/23/gradle same dependencies/">
-            Android 多模块相同依赖问题
+          <a href="/2016/08/24/screen adapter/">
+            Android 屏幕适配-比例适配
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。
-相同依赖带来的问题
-1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。
-2 版本混乱，相同的依赖版本可能不同，这样就带...</p>
+            <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。
+适配分类完美适配(100分)这种适配方式是无差的适配方案。主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dime...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-23
+              2016-08-24
             </span>
           
         </div>
@@ -263,22 +264,22 @@ RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本�
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/22/lazy_load/">
-            Android 性能优化-懒加载
+          <a href="/2016/08/23/gradle same dependencies/">
+            Android 多模块相同依赖问题
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。
-懒加载的使用在android开发中我们用到了很多懒加载的例子。如：
-
-1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示...</p>
+            <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。
+相同依赖带来的问题
+1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。
+2 版本混乱，相同的依赖版本可能不同，这样就带...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-22
+              2016-08-23
             </span>
           
         </div>
