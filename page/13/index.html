@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">トップページ</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">ポスト</a>
         
       </div>
     </div>
@@ -63,23 +63,20 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/09/01/事件总线/">
-            事件总线
+          <a href="/2016/09/02/UI块化处理/">
+            Android UI-块化处理
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。
-介绍事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。
-通常我们在activity,service，fragment之间通信时，一般有以下几种方案：
-
-1 广播，使用起...</p>
+            <p>Android UI 模块化实现在比较复杂的页面里面，会根据不同的业务逻辑将ui分为不同的块。当我们初始化的时候会很混乱，而且很容易和其他ui块的子View混淆，为了使各个ui块更加清晰，我们将UI块化。
+首先，这里的UI模块化是指布局碎片fragment文件里面的ui的模块化，并不是说叫大家不做u...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-09-01
+              2016-09-02
             </span>
           
         </div>
@@ -109,22 +106,23 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/31/LeakCanary/">
-            内存泄漏检查工具-LeakCanary
+          <a href="/2016/09/01/事件总线/">
+            事件总线
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
-使用1 添加项目依赖：
-dependencies {
-    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
+            <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。
+介绍事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。
+通常我们在activity,service，fragment之间通信时，一般有以下几种方案：
+
+1 广播，使用起...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-31
+              2016-09-01
             </span>
           
         </div>
@@ -141,6 +139,29 @@ dependencies {
             <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
 
 全局进程(process-global)的static...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-08-31
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/08/31/LeakCanary/">
+            内存泄漏检查工具-LeakCanary
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
+使用1 添加项目依赖：
+dependencies {
+    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -198,28 +219,6 @@ MVP介绍MVP...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/24/性能分析/">
-            Android 性能分析
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>性能分类  除了交互、视觉、内容方面的问题外，在用户使用过程中，给用户造成烦恼的问题都可以归结为是性能问题，比如上文中列出的这些都属于性能问题，按照影响的方面不同，可以分为如下几大类：
-
-内存问题：耗内存、OOM、程序切换到后台后占用内存无法释放（OOM会影响产品的稳定性；耗内存、内存泄露会影响整机...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-24
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2016/08/24/screen adapter/">
             Android 屏幕适配-比例适配
           </a>
@@ -241,22 +240,21 @@ MVP介绍MVP...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/23/recycleview/">
-            Android RecycleView
+          <a href="/2016/08/24/性能分析/">
+            Android 性能分析
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>RecycleView相信大家都不会陌生，基本上每个项目里面都会用到。主要做一些展示工作的view，例如资讯，XX单等等。今天主要谈谈，在项目中我遇到的一些问题以及解决方案。
-RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本。
+            <p>性能分类  除了交互、视觉、内容方面的问题外，在用户使用过程中，给用户造成烦恼的问题都可以归结为是性能问题，比如上文中列出的这些都属于性能问题，按照影响的方面不同，可以分为如下几大类：
 
-1 更灵活的...</p>
+内存问题：耗内存、OOM、程序切换到后台后占用内存无法释放（OOM会影响产品的稳定性；耗内存、内存泄露会影响整机...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-23
+              2016-08-24
             </span>
           
         </div>
@@ -292,7 +290,7 @@ RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本�
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/12">prev</a>
+        <a class="extend prev" href="/page/12">前のページ</a>
     
 
     
@@ -349,7 +347,7 @@ RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本�
     
     
     
-        <a class="extend next" href="/page/14">next</a>
+        <a class="extend next" href="/page/14">次のページ</a>
     
 </div>
 
@@ -407,7 +405,7 @@ RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本�
             
             
             
-                © ShenYonghe 2016 - 2018
+                © ShenYonghe 2016 - 2019
             
         </span>
     </div>

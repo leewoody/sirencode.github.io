@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>Trust Zone [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">トップページ</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">ポスト</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">Trust Zone</h1>
+<article class="post markdown-style">
+  <h1 id="Trust-Zone"><a href="#Trust-Zone" class="headerlink" title="Trust Zone"></a>Trust Zone</h1><p>TrustZone是ARM针对消费电子设备安全所提出的一种架构。CPU通过内存映射手段给每个进程营造一个单独的地址空间来隔离多个进程的代码和数据，通过内核空间和用户空间不同的特权级来隔离操作系统和用户进程的代码和数据。但由于内存中的代码和数据都是明文，容易被同处于内存中的其它应用偷窥，因此出现了扩展的安全模块，应用将加密数据送往安全模块，由安全模块处理完后再返回结果给相应的应用。</p>
+<p>ARM TrustZone技术是一种系统级芯片(System on Chip, SoC)，是安卓智能手机主处理器中的一个安全区域。ARM TrustZone是Android内核中的一个特殊部分，运行自家操作系统，即TrustZone OS，它与主Android OS是分开运行的</p>
+<h2 id="安全模块"><a href="#安全模块" class="headerlink" title="安全模块"></a>安全模块</h2><ul>
+<li>1 外部挂接硬件安全模块 ：如SIM卡、各种智能卡或连接到外部的硬件加解密模块等，但其同主芯片的通信线路暴露在外部，容易被监听破解。另外，通信的速率比较低。</li>
+<li>2 内部集成硬件安全模块 ：将外部安全模块的功能集成到芯片内，因此一个芯片上至少有两个核：一个普通核和一个安全核。优点是核与核之间的通信在芯片内部实现，不再暴露在外面。缺点是核之间的通信速度仍然较低，而且单独的安全核性能有限，还会会占用SoC面积，成本较高。</li>
+</ul>
+<h2 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h2><p>TrustZone在概念上将SoC(系统级芯片)的硬件和软件资源划分为安全(Secure World)和非安全(Normal World)两个世界，所有需要保密的操作在安全世界执行（如指纹识别、密码处理、数据加解密、安全认证等），其余操作在非安全世界执行（如用户操作系统、各种应用程序等），安全世界和非安全世界通过一个名为Monitor Mode的模式进行转换。</p>
+<p>处理器架构上，TrustZone将每个物理核虚拟为两个核，一个非安全核（Non-secure Core, NS Core），运行非安全世界的代码；和另一个安全核（Secure Core），运行安全世界的代码。</p>
+<p>两个虚拟的核以基于时间片的方式运行，根据需要实时占用物理核，并通过Monitor Mode在安全世界和非安全世界之间切换，类似同一CPU下的多应用程序环境，不同的是多应用程序环境下操作系统实现的是进程间切换，而Trustzone下的Monitor Mode实现了同一CPU上两个操作系统间的切换。</p>
+<p>AMBA3 AXI(AMBA3 Advanced eXtensble Interface)系统总线作为TrustZone的基础架构设施，提供了安全世界和非安全世界的隔离机制，确保非安全核只能访问非安全世界的系统资源，而安全核能访问所有资源，因此安全世界的资源不会被非安全世界（或普通世界）所访问。</p>
+<p>iOS虽然使用ARM处理器但不使用TrustZone技术，其硬件设计中有一个而外的处理器叫Secure Enclave来处理器安全相关的任务。</p>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>TrustZone 在系统总线上针对每一个信道的读写增加了一个额外的控制信号位，这个控制位叫做Non-Secure或者NS位，是AMBA3 AXI总线针对TrustZone作出的最重要、最核心的扩展设计。总线上的所有主设备(master)在发起新的操作(transaction)时会设置这些信号，总线或从设备(slave)上解析模块会对主设备发起的信号进行辨识，来确保主设备发起的操作在安全上没有违规。</p>
+<ul>
+<li>ARPROT[1]: 用于读操作(Read transaction), 低表示Secure, 高表示Non-Secure</li>
+<li>AWPROT[1]: 用于写操作(Write transaction), 低表示Secure，高表示Non-Secure</li>
+</ul>
+<p>TrustZone中，每个物理处理器核被虚拟为一个安全核(Secure)和一个非安全核(Non-Secure)，安全核运行安全世界的代码，非安全核运行除安全世界外的其它代码。由于安全世界和非安全世界的代码采用时间片机制轮流运行在同一个物理核上，相应的节省了一个物理处理器核。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>TrustZone技术，该技术是ARM 公司提出的一种硬件级的安全运行解决方案。TrustZone将系统分为了TEE和REE两个区域，REE中运行着我们熟悉的Android系统，而 TEE有独立的运算、存储资源，与REE完全隔离开。在TEE 上运行的程序需要由厂商单独签名才能运行。由于指纹的采集、传输走的是独立的加密物理通道，指纹的处理、比对发生在TEE中，而TEE和手机操作系统是完全隔离的。因此，指纹采集和识别的过程不会被手机中的病毒、恶意程序干扰，即便手机被Root获取了最高权限也依旧无法获取TEE区内的任何数据资料。</p>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+        <a class="extend prev post-prev" href="/2018/02/23/Protobuf/">前の章</a>
+    
+
+    
+    <p>前回の更新 2019-02-21</p>
+    
+    
+        <a class="extend next post-next" href="/2018/02/06/java基础整理/">次の章</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/sirencode" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2016 - 2019
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>

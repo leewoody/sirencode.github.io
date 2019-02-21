@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">トップページ</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">ポスト</a>
         
       </div>
     </div>
@@ -63,14 +63,16 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Service/">
-            源码分析Service
+          <a href="/2018/11/29/源码分析BroadcastReceiver/">
+            源码分析BroadcastReceiver
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析ServiceService启动流程APP端启动：
-1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
+            <p>源码分析BroadcastReceiverBroadcastReceiver注册：
+1 ContextWrapper.registerReceiver()
+2 ContextImpl.registerReceiver()
+123456@Overridepublic Intent registerRe...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -84,16 +86,14 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析BroadcastReceiver/">
-            源码分析BroadcastReceiver
+          <a href="/2018/11/29/源码分析Service/">
+            源码分析Service
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析BroadcastReceiverBroadcastReceiver注册：
-1 ContextWrapper.registerReceiver()
-2 ContextImpl.registerReceiver()
-123456@Overridepublic Intent registerRe...</p>
+            <p>源码分析ServiceService启动流程APP端启动：
+1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -285,7 +285,7 @@ app lib 切换,以及多个AndroidManifest配置12345678910111213141516171...</p
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/">prev</a>
+        <a class="extend prev" href="/">前のページ</a>
     
 
     
@@ -342,7 +342,7 @@ app lib 切换,以及多个AndroidManifest配置12345678910111213141516171...</p
     
     
     
-        <a class="extend next" href="/page/3">next</a>
+        <a class="extend next" href="/page/3">次のページ</a>
     
 </div>
 
@@ -400,7 +400,7 @@ app lib 切换,以及多个AndroidManifest配置12345678910111213141516171...</p
             
             
             
-                © ShenYonghe 2016 - 2018
+                © ShenYonghe 2016 - 2019
             
         </span>
     </div>
