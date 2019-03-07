@@ -74,12 +74,14 @@
 <li>AWPROT[1]: 用于写操作(Write transaction), 低表示Secure，高表示Non-Secure</li>
 </ul>
 <p>TrustZone中，每个物理处理器核被虚拟为一个安全核(Secure)和一个非安全核(Non-Secure)，安全核运行安全世界的代码，非安全核运行除安全世界外的其它代码。由于安全世界和非安全世界的代码采用时间片机制轮流运行在同一个物理核上，相应的节省了一个物理处理器核。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>TrustZone技术，该技术是ARM 公司提出的一种硬件级的安全运行解决方案。TrustZone将系统分为了TEE和REE两个区域，REE中运行着我们熟悉的Android系统，而 TEE有独立的运算、存储资源，与REE完全隔离开。在TEE 上运行的程序需要由厂商单独签名才能运行。由于指纹的采集、传输走的是独立的加密物理通道，指纹的处理、比对发生在TEE中，而TEE和手机操作系统是完全隔离的。因此，指纹采集和识别的过程不会被手机中的病毒、恶意程序干扰，即便手机被Root获取了最高权限也依旧无法获取TEE区内的任何数据资料。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>TrustZone技术，该技术是ARM 公司提出的一种硬件级的安全运行解决方案。TrustZone将系统分为了TEE和REE两个区域，REE中运行着我们熟悉的Android系统，而 TEE有独立的运算、存储资源，与REE完全隔离开。在TEE 上运行的程序需要由厂商单独签名才能运行。由于指纹的采集、传输走的是独立的加密物理通道，指纹的处理、比对发生在TEE中，而TEE和手机操作系统是完全隔离的。因此，指纹采集和识别的过程不会被手机中的病毒、恶意程序干扰，即便手机被Root获取了最高权限也依旧无法获取TEE区内的任何数据资料。TEE环境下也要有一个操作系统，海思有自己的Trustzone的操作系统，此外还有Trustonic、高通的QSEE、国内的豆荚，还有开源的OPTEE等。</p>
 
 </article>
 
     <div class="pagenator post-pagenator">
     
+    
+        <a class="extend prev post-prev" href="/2019/03/07/脏数据处理/">prev</a>
     
 
     
