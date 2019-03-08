@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   
-  <title>脏数据处理 [ Diablo ]</title>
+  <title>java 对象大小计算-unsafe [ Diablo ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -55,7 +55,7 @@
 </div>
     </div>
     <div class="container">
-        <h1 class="post-title">脏数据处理</h1>
+        <h1 class="post-title">java 对象大小计算-unsafe</h1>
 <article class="post markdown-style">
   <h1 id="java-对象大小计算-unsafe"><a href="#java-对象大小计算-unsafe" class="headerlink" title="java 对象大小计算-unsafe"></a>java 对象大小计算-unsafe</h1><p>Java计算对象大小的方式有两种，Instrumentation.getObjectSize()和Unsafe.objectFieldOffset(java.lang.reflect.Field field)。实例创建出来之后，在内存中所占的大小就是自身大小（Shadow heap size）。包括类的头部大小以及field max大小。</p>
 <h2 id="Shadow-Heap-Size-Retained-Heap-Size"><a href="#Shadow-Heap-Size-Retained-Heap-Size" class="headerlink" title="Shadow Heap Size Retained Heap Size"></a>Shadow Heap Size Retained Heap Size</h2><p>Shadow heap size:直译就是浅层堆，其实就是这个对象实际占用的堆大小。</p>

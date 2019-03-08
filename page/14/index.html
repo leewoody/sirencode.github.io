@@ -63,43 +63,21 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/24/screen adapter/">
-            Android 屏幕适配-比例适配
+          <a href="/2016/08/24/性能分析/">
+            Android 性能分析
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。
-适配分类完美适配(100分)这种适配方式是无差的适配方案。主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dime...</p>
+            <p>性能分类  除了交互、视觉、内容方面的问题外，在用户使用过程中，给用户造成烦恼的问题都可以归结为是性能问题，比如上文中列出的这些都属于性能问题，按照影响的方面不同，可以分为如下几大类：
+
+内存问题：耗内存、OOM、程序切换到后台后占用内存无法释放（OOM会影响产品的稳定性；耗内存、内存泄露会影响整机...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
               2016-08-24
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2016/08/23/recycleview/">
-            Android RecycleView
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>RecycleView相信大家都不会陌生，基本上每个项目里面都会用到。主要做一些展示工作的view，例如资讯，XX单等等。今天主要谈谈，在项目中我遇到的一些问题以及解决方案。
-RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本。
-
-1 更灵活的...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-23
             </span>
           
         </div>
@@ -130,22 +108,22 @@ RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本�
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/22/lazy_load/">
-            Android 性能优化-懒加载
+          <a href="/2016/08/23/recycleview/">
+            Android RecycleView
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。
-懒加载的使用在android开发中我们用到了很多懒加载的例子。如：
+            <p>RecycleView相信大家都不会陌生，基本上每个项目里面都会用到。主要做一些展示工作的view，例如资讯，XX单等等。今天主要谈谈，在项目中我遇到的一些问题以及解决方案。
+RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本。
 
-1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示...</p>
+1 更灵活的...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-22
+              2016-08-23
             </span>
           
         </div>
@@ -164,6 +142,29 @@ RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本�
 Monky测试使用的事件流数据流是随机的，不能自定义。
 测试的对象仅为应用程序包，有一定的局限性。
 运行Monkey时，对本次测试对象，事件数量，类...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-08-22
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/08/22/lazy_load/">
+            Android 性能优化-懒加载
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。
+懒加载的使用在android开发中我们用到了很多懒加载的例子。如：
+
+1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -197,14 +198,14 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/20/traceView/">
-            Android 性能优化-traceview
+          <a href="/2016/08/20/check_code_style/">
+            Android 代码规范-CheckStyle
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。
-TraceVi...</p>
+            <p>代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。
+AndroidS...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -218,14 +219,14 @@ TraceVi...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/20/check_code_style/">
-            Android 代码规范-CheckStyle
+          <a href="/2016/08/20/traceView/">
+            Android 性能优化-traceview
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。
-AndroidS...</p>
+            <p>TraceView这个工具的主要作用在于，分析android一段时间所有的函数的执行时间，执行次数等信息。我们可以根据时间长短去适当优化我们的方法，TraceView算是android性能分析上的一大利器，有一点问题就是，它没有分析每个方法所在的线程，而且结果里面含有大量的系统函数。
+TraceVi...</p>
           
         </div>
         <div class="atricle-item-time">
