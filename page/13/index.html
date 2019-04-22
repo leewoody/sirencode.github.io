@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">トップページ</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">ポスト</a>
         
       </div>
     </div>
@@ -60,6 +60,28 @@
 
 
   <div class="article">
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/09/26/自定义View/">
+            Android 自定义View
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>在我们实际的项目开发过程中，或多或少会遇到一些UI是无法用系统的控件可以实现的，这时我们就要考虑自己去实现这些UI,在这里我记录了一些关于自定义View的基本实以及相关方法的解析。
+View的生命周期首先我们需要对view的各个生命周期做一些简单的了解，以及各个生命周期的主要作用。
+主要的生命周期介...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-09-26
+            </span>
+          
+        </div>
+      </div>
     
       <div class="article-item">
         <h2 class="article-item-header">
@@ -180,16 +202,15 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/31/LeakCanary/">
-            内存泄漏检查工具-LeakCanary
+          <a href="/2016/08/31/内存泄漏/">
+            Android 内存泄漏总结
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
-使用1 添加项目依赖：
-dependencies {
-    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
+            <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
+
+全局进程(process-global)的static...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -203,15 +224,16 @@ dependencies {
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/31/内存泄漏/">
-            Android 内存泄漏总结
+          <a href="/2016/08/31/LeakCanary/">
+            内存泄漏检查工具-LeakCanary
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
-
-全局进程(process-global)的static...</p>
+            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
+使用1 添加项目依赖：
+dependencies {
+    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -267,27 +289,6 @@ MVP介绍MVP...</p>
         </div>
       </div>
     
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2016/08/24/screen adapter/">
-            Android 屏幕适配-比例适配
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。
-适配分类完美适配(100分)这种适配方式是无差的适配方案。主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dime...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-24
-            </span>
-          
-        </div>
-      </div>
-    
   </div>
 
 
@@ -295,7 +296,7 @@ MVP介绍MVP...</p>
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/12">prev</a>
+        <a class="extend prev" href="/page/12">前のページ</a>
     
 
     
@@ -352,7 +353,7 @@ MVP介绍MVP...</p>
     
     
     
-        <a class="extend next" href="/page/14">next</a>
+        <a class="extend next" href="/page/14">次のページ</a>
     
 </div>
 

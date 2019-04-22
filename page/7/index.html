@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">トップページ</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">ポスト</a>
         
       </div>
     </div>
@@ -60,6 +60,26 @@
 
 
   <div class="article">
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/01/26/线程与CPU/">
+            线程与CPU
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>线程与CPU线程是最小的调度单位，在很多情况下为了使APP更加流程地运行，我们不可能将很多事情都放在主线程上执行，这样会造成严重卡顿（ANR），那么这些事情应该交给子线程去做，但对于一个系统而言，创建、销毁、调度线程的过程是需要开销的，所以我们并不能无限量地开启线程，那么对线程的了解就变得尤为重要了...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-01-26
+            </span>
+          
+        </div>
+      </div>
     
       <div class="article-item">
         <h2 class="article-item-header">
@@ -264,27 +284,6 @@ Sta...</p>
         </div>
       </div>
     
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2017/08/25/多线程数据锁/">
-            多线程数据锁
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>关于多线程数据的安全问题，解决方法是synchronized关键字，但是其实synchronized的用法不对可能不一定起到数据锁的效果。
-synchronized原理每个锁对象都有两个队列，一个是就绪队列，一个是阻塞队列，就绪队列存储了将要获得锁的线程，阻塞队列存储了被阻塞的线程，当一个被线程被唤...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2017-08-25
-            </span>
-          
-        </div>
-      </div>
-    
   </div>
 
 
@@ -292,7 +291,7 @@ synchronized原理每个锁对象都有两个队列，一个是就绪队列，�
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/6">prev</a>
+        <a class="extend prev" href="/page/6">前のページ</a>
     
 
     
@@ -349,7 +348,7 @@ synchronized原理每个锁对象都有两个队列，一个是就绪队列，�
     
     
     
-        <a class="extend next" href="/page/8">next</a>
+        <a class="extend next" href="/page/8">次のページ</a>
     
 </div>
 

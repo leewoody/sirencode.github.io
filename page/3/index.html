@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">トップページ</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">ポスト</a>
         
       </div>
     </div>
@@ -60,6 +60,27 @@
 
 
   <div class="article">
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/09/19/Retrofit 原理/">
+            Retrofit 原理
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Retrofit 原理Retrofit非常巧妙的用注解来描述一个HTTP请求，将一个HTTP请求抽象成一个Java接口，然后用了Java动态代理的方式，动态的将这个接口的注解“翻译”成一个HTTP请求，最后再执行这个HTTP请求。
+java动态代理代理类在程序运行时创建的代理方式被成为 动态代理。 ...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-09-19
+            </span>
+          
+        </div>
+      </div>
     
       <div class="article-item">
         <h2 class="article-item-header">
@@ -270,31 +291,6 @@ sh+e = she,shhhe
         </div>
       </div>
     
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2018/05/05/Apk二次打包/">
-            Apk二次打包
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Apk二次打包首先反编译获得smali文件1$ apktool d demo.apk
-找到要注入的方法并添加smali方法调用
-添加方法记得修改被注入方法的寄存器个数
-
-修改后的smali进行打包1$ apktool b demo
-...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-05-05
-            </span>
-          
-        </div>
-      </div>
-    
   </div>
 
 
@@ -302,7 +298,7 @@ sh+e = she,shhhe
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/2">prev</a>
+        <a class="extend prev" href="/page/2">前のページ</a>
     
 
     
@@ -359,7 +355,7 @@ sh+e = she,shhhe
     
     
     
-        <a class="extend next" href="/page/4">next</a>
+        <a class="extend next" href="/page/4">次のページ</a>
     
 </div>
 

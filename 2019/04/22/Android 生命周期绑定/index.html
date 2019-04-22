@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>Android 生命周期绑定 [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">トップページ</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">ポスト</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">Android 生命周期绑定</h1>
+<article class="post markdown-style">
+  <h1 id="Android-生命周期绑定"><a href="#Android-生命周期绑定" class="headerlink" title="Android 生命周期绑定"></a>Android 生命周期绑定</h1><p>通过传参判断如果是activity或者fragment实例，可以获取到fragmentmanager进行空白fragment的添加，在对应空白fragment中添加生命周期的回调。</p>
+<h2 id="需透传生命周期接口定义"><a href="#需透传生命周期接口定义" class="headerlink" title="需透传生命周期接口定义"></a>需透传生命周期接口定义</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">LifeListener</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span></span>;</span><br><span class="line">    <span class="function"><span class="keyword">void</span> <span class="title">onFragmentHiddenChanged</span> <span class="params">(<span class="keyword">boolean</span> isHidden)</span></span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="Fragmnet定义-两个-v4"><a href="#Fragmnet定义-两个-v4" class="headerlink" title="Fragmnet定义(两个,v4)"></a>Fragmnet定义(两个,v4)</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListenerFragment</span> <span class="keyword">extends</span> <span class="title">Fragment</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> LifeListener mlistener;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> String ListenerFragmentTag = <span class="string">"ListenerFragment"</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">ListenerFragment</span> <span class="params">()</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setLifeListener</span> <span class="params">(LifeListener mlistener)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">this</span>.mlistener = mlistener;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> LifeListener <span class="title">getLifeListener</span><span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">return</span> mlistener;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span> <span class="params">(@Nullable <span class="keyword">final</span> Bundle savedInstanceState)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onCreate (savedInstanceState);</span><br><span class="line">        <span class="keyword">if</span> (mlistener != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mlistener.onCreate();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResume</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onResume ();</span><br><span class="line">        <span class="keyword">if</span> (mlistener != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mlistener.onResume ();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onHiddenChanged</span> <span class="params">(<span class="keyword">final</span> <span class="keyword">boolean</span> hidden)</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onHiddenChanged (hidden);</span><br><span class="line">        <span class="keyword">if</span> (mlistener != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mlistener.onFragmentHiddenChanged (hidden);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPause</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mlistener != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mlistener.onPause ();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">super</span>.onPause ();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStart</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">super</span>.onStart ();</span><br><span class="line">        <span class="keyword">if</span> (mlistener != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mlistener.onStart ();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStop</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mlistener != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mlistener.onStop ();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">super</span>.onStop ();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">        <span class="keyword">if</span> (mlistener != <span class="keyword">null</span>) &#123;</span><br><span class="line">            mlistener.onDestroy ();</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">super</span>.onDestroy ();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="管理类进行绑定"><a href="#管理类进行绑定" class="headerlink" title="管理类进行绑定"></a>管理类进行绑定</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">bindLife</span> <span class="params">(Object mContext, LifeListener mListener)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mContext <span class="keyword">instanceof</span> Activity) &#123;</span><br><span class="line">        FragmentManager manager = ((Activity) mContext).getFragmentManager ();</span><br><span class="line">        ListenerFragment fragment = (ListenerFragment) manager.findFragmentByTag(ListenerFragment.ListenerFragmentTag);</span><br><span class="line">        <span class="keyword">if</span> (fragment == <span class="keyword">null</span>) &#123;</span><br><span class="line">            fragment = <span class="keyword">new</span> ListenerFragment ();</span><br><span class="line">            fragment.setLifeListener (mListener);</span><br><span class="line">            manager.beginTransaction ().add (fragment, ListenerFragment.ListenerFragmentTag).commitAllowingStateLoss ();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mListener = fragment.getLifeListener();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mContext <span class="keyword">instanceof</span> FragmentActivity) &#123;</span><br><span class="line">        android.support.v4.app.FragmentManager manager = ((FragmentActivity) mContext).getSupportFragmentManager ();</span><br><span class="line">        ListenerFragmentV4 listenerFragment = (ListenerFragmentV4) manager.findFragmentByTag(ListenerFragmentV4.ListenerFragmentTag);</span><br><span class="line">        <span class="keyword">if</span> (listenerFragment == <span class="keyword">null</span>) &#123;</span><br><span class="line">            listenerFragment = <span class="keyword">new</span> ListenerFragmentV4 ();</span><br><span class="line">            listenerFragment.setLifeListener (mListener);</span><br><span class="line">            manager.beginTransaction().add (listenerFragment, ListenerFragmentV4.ListenerFragmentTag).commitAllowingStateLoss ();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mListener = listenerFragment.getLifeListener();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mContext <span class="keyword">instanceof</span> Fragment) &#123;</span><br><span class="line">        FragmentManager manager = ((Fragment) mContext).getFragmentManager ();</span><br><span class="line">        ListenerFragment fragment = (ListenerFragment) manager.findFragmentByTag(ListenerFragment.ListenerFragmentTag);</span><br><span class="line">        <span class="keyword">if</span> (fragment == <span class="keyword">null</span>) &#123;</span><br><span class="line">            fragment = <span class="keyword">new</span> ListenerFragment ();</span><br><span class="line">            fragment.setLifeListener (mListener);</span><br><span class="line">            manager.beginTransaction ().add (fragment, ListenerFragment.ListenerFragmentTag).commitAllowingStateLoss ();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mListener = fragment.getLifeListener();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (mContext <span class="keyword">instanceof</span> android.support.v4.app.Fragment) &#123;</span><br><span class="line">        android.support.v4.app.FragmentManager manager = ((android.support.v4.app.Fragment) mContext).getFragmentManager ();</span><br><span class="line">        ListenerFragmentV4 listenerFragment = (ListenerFragmentV4) manager.findFragmentByTag(ListenerFragmentV4.ListenerFragmentTag);</span><br><span class="line">        <span class="keyword">if</span> (listenerFragment == <span class="keyword">null</span>) &#123;</span><br><span class="line">            listenerFragment = <span class="keyword">new</span> ListenerFragmentV4 ();</span><br><span class="line">            listenerFragment.setLifeListener (mListener);</span><br><span class="line">            manager.beginTransaction().add (listenerFragment, ListenerFragmentV4.ListenerFragmentTag).commitAllowingStateLoss ();</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            mListener = listenerFragment.getLifeListener();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2>  <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">  <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">bindLife2</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    LifeCycleManager.bindLife(<span class="keyword">this</span>, <span class="keyword">new</span> LifeListener() &#123;</span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStart</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            LogUtil.d(<span class="string">"LifeListener2"</span>,<span class="string">"onStart"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onStop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            LogUtil.d(<span class="string">"LifeListener2"</span>,<span class="string">"onStop"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onCreate</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            LogUtil.d(<span class="string">"LifeListener2"</span>,<span class="string">"onCreate"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onPause</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            LogUtil.d(<span class="string">"LifeListener2"</span>,<span class="string">"onPause"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onResume</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            LogUtil.d(<span class="string">"LifeListener2"</span>,<span class="string">"onResume"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onDestroy</span><span class="params">()</span> </span>&#123;</span><br><span class="line">            LogUtil.d(<span class="string">"LifeListener2"</span>,<span class="string">"onDestroy"</span>);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="meta">@Override</span></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">onFragmentHiddenChanged</span><span class="params">(<span class="keyword">boolean</span> isHidden)</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+
+    
+    <p>前回の更新 2019-04-22</p>
+    
+    
+        <a class="extend next post-next" href="/2019/03/08/java 对象大小计算-unsafe/">次の章</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/sirencode" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2016 - 2019
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>
