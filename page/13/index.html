@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">トップページ</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">ポスト</a>
         
       </div>
     </div>
@@ -60,6 +60,27 @@
 
 
   <div class="article">
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/10/03/APP启动时间优化/">
+            APP 启动时间优化
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>APP启动分类冷启动冷启动：当启动应用时，后台没有该应用的进程，这时系统会重新创建一个新的进程分配给该应用，这个启动方式就是冷启动。
+热启动热启动：当启动应用时，后台已有该应用的进程（例：按back键、home键，应用虽然会退出，但是该应用的进程是依然会保留在后台，可进入任务列表查看），所以在已有进...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-10-03
+            </span>
+          
+        </div>
+      </div>
     
       <div class="article-item">
         <h2 class="article-item-header">
@@ -156,28 +177,6 @@ View的生命周期首先我们需要对view的各个生命周期做一些简单
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/09/01/infer/">
-            内存泄漏检查工具-infer
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p> infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。
-使用1 环境安装见官网
-2...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-09-01
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2016/09/01/事件总线/">
             事件总线
           </a>
@@ -202,22 +201,21 @@ View的生命周期首先我们需要对view的各个生命周期做一些简单
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/31/LeakCanary/">
-            内存泄漏检查工具-LeakCanary
+          <a href="/2016/09/01/infer/">
+            内存泄漏检查工具-infer
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
-使用1 添加项目依赖：
-dependencies {
-    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
+            <p> infer是facebook开源的一款支持ios和android双平台的静态代码扫描的工具，Infer 可检查 Android 和 Java 代码中的 NullPointException 和 资源泄露。除了以上，Infer 还可发现 iOS 和 C 代码中的内存泄露。
+使用1 环境安装见官网
+2...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-31
+              2016-09-01
             </span>
           
         </div>
@@ -234,6 +232,29 @@ dependencies {
             <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
 
 全局进程(process-global)的static...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-08-31
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/08/31/LeakCanary/">
+            内存泄漏检查工具-LeakCanary
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
+使用1 添加项目依赖：
+dependencies {
+    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -268,27 +289,6 @@ Correctness 正确...</p>
         </div>
       </div>
     
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2016/08/30/mvp/">
-            Android 设计模式-MVP框架
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。
-MVP介绍MVP...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-30
-            </span>
-          
-        </div>
-      </div>
-    
   </div>
 
 
@@ -296,7 +296,7 @@ MVP介绍MVP...</p>
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/12">prev</a>
+        <a class="extend prev" href="/page/12">前のページ</a>
     
 
     
@@ -353,7 +353,7 @@ MVP介绍MVP...</p>
     
     
     
-        <a class="extend next" href="/page/14">next</a>
+        <a class="extend next" href="/page/14">次のページ</a>
     
 </div>
 

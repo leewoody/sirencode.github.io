@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">トップページ</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">ポスト</a>
         
       </div>
     </div>
@@ -60,6 +60,26 @@
 
 
   <div class="article">
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/12/12/WatchDog/">
+            WatchDog
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>WatchDog现在的CPU基本上都带有WatchDog功能，这种硬件的WatchDog可以在系统死掉(死锁或者程序跑飞)后重启系统，让系统回到可以工作的状态。WatchDog不能防止系统死掉，但是它能够起死回生，从而提高系统的可用性。Android系统中，有硬件WatchDog用于定时检测关键硬件...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-12-12
+            </span>
+          
+        </div>
+      </div>
     
       <div class="article-item">
         <h2 class="article-item-header">
@@ -104,26 +124,6 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/12/04/Linux 基础知识/">
-            Linux 基础知识
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Linux 基础知识INotify和EpollINotifyINotify是一个Linux内核提供的文件系统变化通知机制。它可以为应用程序监控文件系统的变化，如文件的新建、删除、读写等。INotify机制包括两个对象，分别为inotify对象与watch对象，都使用文件描述符表示。1 inotify...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-12-04
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2018/12/04/android 显示-Surface/">
             Android 显示-Surface
           </a>
@@ -144,15 +144,34 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析ContentProvider/">
-            源码分析ContentProvider
+          <a href="/2018/12/04/Linux 基础知识/">
+            Linux 基础知识
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>ContentProviderContentResolver的获取流程：
-1 ContextWrapper.getContentResolver()
-2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
+            <p>Linux 基础知识INotify和EpollINotifyINotify是一个Linux内核提供的文件系统变化通知机制。它可以为应用程序监控文件系统的变化，如文件的新建、删除、读写等。INotify机制包括两个对象，分别为inotify对象与watch对象，都使用文件描述符表示。1 inotify...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-12-04
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/11/29/源码分析Service/">
+            源码分析Service
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>源码分析ServiceService启动流程APP端启动：
+1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -209,14 +228,15 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Service/">
-            源码分析Service
+          <a href="/2018/11/29/源码分析ContentProvider/">
+            源码分析ContentProvider
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析ServiceService启动流程APP端启动：
-1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
+            <p>ContentProviderContentResolver的获取流程：
+1 ContextWrapper.getContentResolver()
+2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -251,27 +271,6 @@
         </div>
       </div>
     
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2018/10/11/Android 序列化/">
-            Android 序列化
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Android 序列化序列化可以实现Java对象的传输和存储。
-SerializableParcelableparcel的传输是暂存在Binder transaction buffe的地方，缓冲区有1M(有些手机2M)的大小限制，并且这是该进程(16个binder线程)中所有正在进行中的传输对象所公...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-10-11
-            </span>
-          
-        </div>
-      </div>
-    
   </div>
 
 
@@ -279,7 +278,7 @@ SerializableParcelableparcel的传输是暂存在Binder transaction buffe的地�
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/">prev</a>
+        <a class="extend prev" href="/">前のページ</a>
     
 
     
@@ -336,7 +335,7 @@ SerializableParcelableparcel的传输是暂存在Binder transaction buffe的地�
     
     
     
-        <a class="extend next" href="/page/3">next</a>
+        <a class="extend next" href="/page/3">次のページ</a>
     
 </div>
 

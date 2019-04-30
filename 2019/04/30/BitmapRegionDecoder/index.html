@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>BitmapRegionDecoder [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">トップページ</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">ポスト</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">BitmapRegionDecoder</h1>
+<article class="post markdown-style">
+  <h1 id="BitmapRegionDecoder"><a href="#BitmapRegionDecoder" class="headerlink" title="BitmapRegionDecoder"></a>BitmapRegionDecoder</h1><p>BitmapRegionDecoder可以用来显示图片的指定矩形区域的图像，也就是说可以返回”大图的“指定区域的bitmap，可以用来解决加载长图内存问题。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">BitmapRegionDecoder can be used to decode a rectangle region from an image. BitmapRegionDecoder is particularly useful when an original image is large and you only need parts of the image.</span><br></pre></td></tr></table></figure>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><h3 id="初始化方法"><a href="#初始化方法" class="headerlink" title="初始化方法"></a>初始化方法</h3><p>构造函数虽然有多个，但最终是传入一个文件。isShareable如果为true，那BitmapRegionDecoder会对输入流保持一个表面的引用，如果为false，那么它将会创建一个输入流的复制，并且一直使用它。即使为true，程序也有可能会创建一个输入流的深度复制。如果图片是逐步解码的，那么为true会降低图片的解码速度。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BitmapRegionDecoder <span class="title">newInstance</span><span class="params">(<span class="keyword">byte</span>[] data, <span class="keyword">int</span> offset, <span class="keyword">int</span> length, <span class="keyword">boolean</span> isShareable)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BitmapRegionDecoder <span class="title">newInstance</span><span class="params">(InputStream is, <span class="keyword">boolean</span> isShareable)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BitmapRegionDecoder <span class="title">newInstance</span><span class="params">(FileDescriptor fd, <span class="keyword">boolean</span> isShareable)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BitmapRegionDecoder <span class="title">newInstance</span><span class="params">(InputStream is, <span class="keyword">boolean</span> isShareable)</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> BitmapRegionDecoder <span class="title">newInstance</span><span class="params">(String pathName, <span class="keyword">boolean</span> isShareable)</span></span></span><br></pre></td></tr></table></figure>
+<h3 id="获取局部bitmap"><a href="#获取局部bitmap" class="headerlink" title="获取局部bitmap"></a>获取局部bitmap</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Decodes a rectangle region in the image specified by rect.</span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> rect The rectangle that specified the region to be decode.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@param</span> options null-ok; Options that control downsampling.</span></span><br><span class="line"><span class="comment"> *             inPurgeable is not supported.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span> The decoded bitmap, or null if the image data could not be</span></span><br><span class="line"><span class="comment"> *         decoded.</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@throws</span> IllegalArgumentException if &#123;<span class="doctag">@link</span> BitmapFactory.Options#inPreferredConfig&#125;</span></span><br><span class="line"><span class="comment"> *         is &#123;<span class="doctag">@link</span> android.graphics.Bitmap.Config#HARDWARE&#125;</span></span><br><span class="line"><span class="comment"> *         and &#123;<span class="doctag">@link</span> BitmapFactory.Options#inMutable&#125; is set, if the specified color space</span></span><br><span class="line"><span class="comment"> *         is not &#123;<span class="doctag">@link</span> ColorSpace.Model#RGB RGB&#125;, or if the specified color space's transfer</span></span><br><span class="line"><span class="comment"> *         function is not an &#123;<span class="doctag">@link</span> ColorSpace.Rgb.TransferParameters ICC parametric curve&#125;</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> Bitmap <span class="title">decodeRegion</span><span class="params">(Rect rect, BitmapFactory.Options options)</span> </span>&#123;</span><br><span class="line">    BitmapFactory.Options.validate(options);</span><br><span class="line">    <span class="keyword">synchronized</span> (mNativeLock) &#123;</span><br><span class="line">        <span class="comment">// 原图是否被释放</span></span><br><span class="line">        checkRecycled(<span class="string">"decodeRegion called on recycled region decoder"</span>);</span><br><span class="line">        <span class="comment">// 确保矩形区域在范围内</span></span><br><span class="line">        <span class="keyword">if</span> (rect.right &lt;= <span class="number">0</span> || rect.bottom &lt;= <span class="number">0</span> || rect.left &gt;= getWidth()</span><br><span class="line">                || rect.top &gt;= getHeight())</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalArgumentException(<span class="string">"rectangle is outside the image"</span>);</span><br><span class="line">        <span class="keyword">return</span> nativeDecodeRegion(mNativeBitmapRegionDecoder, rect.left, rect.top,</span><br><span class="line">                rect.right - rect.left, rect.bottom - rect.top, options);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * Called by methods that want to throw an exception if the region decoder</span></span><br><span class="line"><span class="comment"> * has already been recycled.</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">checkRecycled</span><span class="params">(String errorMessage)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (mRecycled) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(errorMessage);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="获取原图片的宽高"><a href="#获取原图片的宽高" class="headerlink" title="获取原图片的宽高"></a>获取原图片的宽高</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/** Returns the original image's width */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (mNativeLock) &#123;</span><br><span class="line">        checkRecycled(<span class="string">"getWidth called on recycled region decoder"</span>);</span><br><span class="line">        <span class="keyword">return</span> nativeGetWidth(mNativeBitmapRegionDecoder);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/** Returns the original image's height */</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getHeight</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">synchronized</span> (mNativeLock) &#123;</span><br><span class="line">        checkRecycled(<span class="string">"getHeight called on recycled region decoder"</span>);</span><br><span class="line">        <span class="keyword">return</span> nativeGetHeight(mNativeBitmapRegionDecoder);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>既然已经有了返回指定区域bitmap的方法，剩下的就是对手势的定义了。定义手势的滑动事件，之后计算要显示矩形的位置，之后刷新UI就可以了。</p>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+
+    
+    <p>前回の更新 2019-04-30</p>
+    
+    
+        <a class="extend next post-next" href="/2019/04/22/Android 生命周期绑定/">次の章</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/sirencode" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2016 - 2019
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>
