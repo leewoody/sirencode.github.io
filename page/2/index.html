@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">トップページ</a>
+          <a href="/">Home</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">ポスト</a>
+          <a href="/archives">Archives</a>
         
       </div>
     </div>
@@ -185,13 +185,15 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Activity分析/">
-            源码分析Activity分析
+          <a href="/2018/11/29/源码分析ContentProvider/">
+            源码分析ContentProvider
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout...</p>
+            <p>ContentProviderContentResolver的获取流程：
+1 ContextWrapper.getContentResolver()
+2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -228,15 +230,13 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析ContentProvider/">
-            源码分析ContentProvider
+          <a href="/2018/11/29/源码分析Activity分析/">
+            源码分析Activity分析
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>ContentProviderContentResolver的获取流程：
-1 ContextWrapper.getContentResolver()
-2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
+            <p>源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -278,7 +278,7 @@
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/">前のページ</a>
+        <a class="extend prev" href="/">prev</a>
     
 
     
@@ -335,7 +335,7 @@
     
     
     
-        <a class="extend next" href="/page/3">次のページ</a>
+        <a class="extend next" href="/page/3">next</a>
     
 </div>
 
