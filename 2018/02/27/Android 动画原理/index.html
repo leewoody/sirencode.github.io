@@ -59,6 +59,14 @@
 <article class="post markdown-style">
   <h1 id="Android-动画原理"><a href="#Android-动画原理" class="headerlink" title="Android 动画原理"></a>Android 动画原理</h1><h2 id="Animation-与-Transform"><a href="#Animation-与-Transform" class="headerlink" title="Animation 与 Transform"></a>Animation 与 Transform</h2><p>Animation：在给定了初始状态，结束状态，启动时间和持续时间后，Animation可以计算动画目标在任意时刻的变换（Transfirmation）,这是Animation唯一的用途。Animation考虑的是时间线效果的实现。</p>
 <p>Transfirmation：描述了一个变换。它包含两个分量：透明度和一个二维的变换矩阵（可以在二维空间中对变换目标实现平移旋转缩放,矩阵相乘可以组合实现各自的变换）。</p>
+<p>动画执行：</p>
+<ul>
+<li>1 首先，当调用了 View.startAnimation() 时动画并没有马上就执行，而是通过 invalidate() 层层通知到 ViewRootImpl 发起一次遍历 View 树的请求，而这次请求会等到接收到最近一帧到了的信号时才去发起遍历 View 树绘制操作。</li>
+<li>2 从 DecorView 开始遍历，绘制流程在遍历时会调用到 View 的 draw() 方法，当该方法被调用时，如果 View 有绑定动画，那么会去调用applyLegacyAnimation()，这个方法是专门用来处理动画相关逻辑的。</li>
+<li>3 在 applyLegacyAnimation() 这个方法里，如果动画还没有执行过初始化，先调用动画的初始化方法 initialized()，同时调用 onAnimationStart() 通知动画开始了，然后调用 getTransformation() 来根据当前时间计算动画进度，紧接着调用 applyTransformation() 并传入动画进度来应用动画。</li>
+<li>4 getTransformation() 这个方法有返回值，如果动画还没结束会返回 true，动画已经结束或者被取消了返回 false。所以 applyLegacyAnimation() 会根据 getTransformation() 的返回值来决定是否通知 ViewRootImpl 再发起一次遍历请求，返回值是 true 表示动画没结束，那么就去通知 ViewRootImpl 再次发起一次遍历请求。然后当下一帧到来时，再从 DecorView 开始遍历 View 树绘制，重复上面的步骤，这样直到动画结束。</li>
+<li>5 有一点需要注意，动画是在每一帧的绘制流程里被执行，所以动画并不是单独执行的，也就是说，如果这一帧里有一些 View 需要重绘，那么这些工作同样是在这一帧里的这次遍历 View 树的过程中完成的。每一帧只会发起一次 perfromTraversals() 操作。</li>
+</ul>
 <h2 id="动画的驱动器Choreographer"><a href="#动画的驱动器Choreographer" class="headerlink" title="动画的驱动器Choreographer"></a>动画的驱动器Choreographer</h2><p>在Animation start()的时候会创建一个Choreographer（线程唯一的）来实现动画的绘制工作。Choreographer发送一个runnable以处理一帧动画。在处理动画时，使用Animation getTransfirmation函数获取动画对象所需要进行的变换，然后根据变换对动画对象进行渲染。之后重复画下一帧直至动画结束。</p>
 <h2 id="Tween动画-Animation"><a href="#Tween动画-Animation" class="headerlink" title="Tween动画 Animation"></a>Tween动画 Animation</h2><p>原理：在绘制的过程中，尝试获取动画在当前时刻的变换，然后应用到view的绘制中。</p>
 <h3 id="1-startAnimation-animation"><a href="#1-startAnimation-animation" class="headerlink" title="1 startAnimation(animation);"></a>1 startAnimation(animation);</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">startAnimation</span><span class="params">(Animation animation)</span> </span>&#123;</span><br><span class="line">    animation.setStartTime(Animation.START_ON_FIRST_FRAME);</span><br><span class="line">    setAnimation(animation);</span><br><span class="line">    invalidateParentCaches();</span><br><span class="line">    invalidate(<span class="keyword">true</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -86,14 +94,14 @@
     <div class="pagenator post-pagenator">
     
     
-        <a class="extend prev post-prev" href="/2018/02/27/Android 底层网络实现/">prev</a>
+        <a class="extend prev post-prev" href="/2018/02/28/Gradle 依赖方式/">prev</a>
     
 
     
-    <p>last update time 2018-04-01</p>
+    <p>last update time 2019-07-05</p>
     
     
-        <a class="extend next post-next" href="/2018/02/26/子模块访问app模块/">next</a>
+        <a class="extend next post-next" href="/2018/02/27/Android 底层网络实现/">next</a>
     
     </div>
 
