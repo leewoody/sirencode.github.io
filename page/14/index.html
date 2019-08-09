@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">トップページ</a>
+          <a href="/">Home</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">ポスト</a>
+          <a href="/archives">Archives</a>
         
       </div>
     </div>
@@ -60,6 +60,29 @@
 
 
   <div class="article">
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/08/31/LeakCanary/">
+            内存泄漏检查工具-LeakCanary
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
+使用1 添加项目依赖：
+dependencies {
+    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-08-31
+            </span>
+          
+        </div>
+      </div>
     
       <div class="article-item">
         <h2 class="article-item-header">
@@ -85,16 +108,14 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/30/lint/">
-            Android 代码静态检查-lint
+          <a href="/2016/08/30/mvp/">
+            Android 设计模式-MVP框架
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>Android Lint是一个静态代码分析工具，它能够对你的Android项目中潜在的bug、可优化的代码、安全性、性能、可用性、可访问性、国际化等进行检查。
-Lint规则Android Lint内置了很多lint规则，到现在为止是220项检查，总共可以分为以下几类：
-
-Correctness 正确...</p>
+            <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。
+MVP介绍MVP...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -108,14 +129,16 @@ Correctness 正确...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/30/mvp/">
-            Android 设计模式-MVP框架
+          <a href="/2016/08/30/lint/">
+            Android 代码静态检查-lint
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。
-MVP介绍MVP...</p>
+            <p>Android Lint是一个静态代码分析工具，它能够对你的Android项目中潜在的bug、可优化的代码、安全性、性能、可用性、可访问性、国际化等进行检查。
+Lint规则Android Lint内置了很多lint规则，到现在为止是220项检查，总共可以分为以下几类：
+
+Correctness 正确...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -218,29 +241,6 @@ RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本�
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/22/lazy_load/">
-            Android 性能优化-懒加载
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。
-懒加载的使用在android开发中我们用到了很多懒加载的例子。如：
-
-1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-22
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2016/08/22/monkey/">
             Android Mokey压力测试
           </a>
@@ -265,19 +265,22 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/21/h5-webview/">
-            Android 混合式开发-H5
+          <a href="/2016/08/22/lazy_load/">
+            Android 性能优化-懒加载
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些...</p>
+            <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。
+懒加载的使用在android开发中我们用到了很多懒加载的例子。如：
+
+1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-21
+              2016-08-22
             </span>
           
         </div>
@@ -290,7 +293,7 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/13">前のページ</a>
+        <a class="extend prev" href="/page/13">prev</a>
     
 
     
@@ -347,7 +350,7 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     
     
     
-        <a class="extend next" href="/page/15">次のページ</a>
+        <a class="extend next" href="/page/15">next</a>
     
 </div>
 
