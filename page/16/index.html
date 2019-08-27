@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   
-  <title>内存泄漏检查工具-LeakCanary [ Diablo ]</title>
+  <title> [ Diablo ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -55,44 +55,104 @@
 </div>
     </div>
     <div class="container">
-        <h1 class="post-title">内存泄漏检查工具-LeakCanary</h1>
-<article class="post markdown-style">
-  <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。</p>
-<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>1 添加项目依赖：</p>
-<pre><code>dependencies {
-    debugCompile &apos;com.squareup.leakcanary:leakcanary-android:1.4-beta2&apos;
-    releaseCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
-    testCompile &apos;com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2&apos;
-}
-</code></pre><p>2 初始化：</p>
-<pre><code>public class YourApplication extends Application {
+        
 
-@Override public void onCreate() {
-super.onCreate();
-LeakCanary.install(this);
-}
-}
-</code></pre><p>3 运行你的app，当检测到内存泄漏会有提示：</p>
-<p><img src="https://raw.githubusercontent.com/square/leakcanary/master/assets/screenshot.png" alt="图片"></p>
-<p>4 内存泄漏信息，将会保存在sdcard/blockcanary目录下。</p>
-<p>5 一般内存检查会出现在activity的销毁阶段。</p>
-<p>6 自己编译leakcanary源码的<a href="https://github.com/sirencode/LeakCanary">Demo</a>,可以根据自己的情况对功能进行定制。</p>
 
-</article>
 
-    <div class="pagenator post-pagenator">
+  <div class="article">
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/06/01/工作/">
+            工作
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>1 UI编写，自定义view,list等等。
+2 逻辑编写。
+3 多套UI显示逻辑处理，（AB，后端区分）。
+4 APP性能优化，启动速度优化，内存检查，代码格式化并review，lint，子线程绘制UI，矢量图使用。
+5 通讯，http,socket长连接。
+6 MVP,ui模块化（尽量少用fra...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-06-01
+            </span>
+          
+        </div>
+      </div>
+    
+  </div>
+
+
+
+    <div class="pagenator">
     
     
-        <a class="extend prev post-prev" href="/2016/08/31/内存泄漏/">prev</a>
+        <a class="extend prev" href="/page/15">prev</a>
     
 
     
-    <p>last update time 2016-08-31</p>
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/7">7</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/8">8</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/9">9</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/10">10</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/11">11</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/12">12</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/13">13</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/14">14</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/15">15</a>
+        
+    
+        
+            <span class="extend page-item page-item-select">16</span>
+        
+        
     
     
-        <a class="extend next post-next" href="/2016/08/30/lint/">next</a>
     
-    </div>
+        <a class="extend next-none">next</a>
+    
+    
+</div>
 
     </div>
     <div class="footer">

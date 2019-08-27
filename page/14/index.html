@@ -63,22 +63,23 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/31/LeakCanary/">
-            内存泄漏检查工具-LeakCanary
+          <a href="/2016/09/01/事件总线/">
+            事件总线
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
-使用1 添加项目依赖：
-dependencies {
-    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
+            <p>比较流行的事件总线框架有EventBus,otto，rxbus，greenrobot的EventBus等。
+介绍事件总线通俗来讲就是用来实现android中各个组件之间的通信的一种框架。
+通常我们在activity,service，fragment之间通信时，一般有以下几种方案：
+
+1 广播，使用起...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-31
+              2016-09-01
             </span>
           
         </div>
@@ -108,20 +109,22 @@ dependencies {
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/30/mvp/">
-            Android 设计模式-MVP框架
+          <a href="/2016/08/31/LeakCanary/">
+            内存泄漏检查工具-LeakCanary
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。
-MVP介绍MVP...</p>
+            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
+使用1 添加项目依赖：
+dependencies {
+    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-30
+              2016-08-31
             </span>
           
         </div>
@@ -152,21 +155,20 @@ Correctness 正确...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/24/性能分析/">
-            Android 性能分析
+          <a href="/2016/08/30/mvp/">
+            Android 设计模式-MVP框架
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>性能分类  除了交互、视觉、内容方面的问题外，在用户使用过程中，给用户造成烦恼的问题都可以归结为是性能问题，比如上文中列出的这些都属于性能问题，按照影响的方面不同，可以分为如下几大类：
-
-内存问题：耗内存、OOM、程序切换到后台后占用内存无法释放（OOM会影响产品的稳定性；耗内存、内存泄露会影响整机...</p>
+            <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。
+MVP介绍MVP...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-24
+              2016-08-30
             </span>
           
         </div>
@@ -195,22 +197,21 @@ Correctness 正确...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/23/gradle same dependencies/">
-            Android 多模块相同依赖问题
+          <a href="/2016/08/24/性能分析/">
+            Android 性能分析
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。
-相同依赖带来的问题
-1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。
-2 版本混乱，相同的依赖版本可能不同，这样就带...</p>
+            <p>性能分类  除了交互、视觉、内容方面的问题外，在用户使用过程中，给用户造成烦恼的问题都可以归结为是性能问题，比如上文中列出的这些都属于性能问题，按照影响的方面不同，可以分为如下几大类：
+
+内存问题：耗内存、OOM、程序切换到后台后占用内存无法释放（OOM会影响产品的稳定性；耗内存、内存泄露会影响整机...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-23
+              2016-08-24
             </span>
           
         </div>
@@ -228,6 +229,29 @@ Correctness 正确...</p>
 RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本。
 
 1 更灵活的...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-08-23
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/08/23/gradle same dependencies/">
+            Android 多模块相同依赖问题
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。
+相同依赖带来的问题
+1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。
+2 版本混乱，相同的依赖版本可能不同，这样就带...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -263,29 +287,6 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
         </div>
       </div>
     
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2016/08/22/lazy_load/">
-            Android 性能优化-懒加载
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。
-懒加载的使用在android开发中我们用到了很多懒加载的例子。如：
-
-1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-22
-            </span>
-          
-        </div>
-      </div>
-    
   </div>
 
 
@@ -296,11 +297,6 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
         <a class="extend prev" href="/page/13">prev</a>
     
 
-    
-        
-        
-            <a class="extend page-item page-item-normal" href="/page/6">6</a>
-        
     
         
         
@@ -345,6 +341,11 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
         
         
             <a class="extend page-item page-item-normal" href="/page/15">15</a>
+        
+    
+        
+        
+            <a class="extend page-item page-item-normal" href="/page/16">16</a>
         
     
     
