@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">トップページ</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">ポスト</a>
         
       </div>
     </div>
@@ -60,9 +60,9 @@
   <h1 id="Xposed"><a href="#Xposed" class="headerlink" title="Xposed"></a>Xposed</h1><p><a href="https://github.com/rovo89">Xposed</a>诞生于著名的XDA论坛，是由rovo89的一位严禁的德国小哥设计的一个针对Android平台的动态劫持项目。</p>
 <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p>首先需要相对root环境，注意这里说的是相对，因为virtualxposed的出现，在主机非root的情况下也可以实现部分xposed的功能，具体实现后续介绍virtualxposed详细说明。</p>
 <h2 id="核心模块介绍"><a href="#核心模块介绍" class="headerlink" title="核心模块介绍"></a>核心模块介绍</h2><ul>
-<li>Xposed -&gt; Xposed的C++部分，主要是用来替换/system/bin/app_process，并为 XposedBridge提供JNI方法。</li>
-<li>XposedBridge -&gt; Xposed的Java部分，以XposedBridge.jar文件存在，负责在Native 层与FrameWork层进行交互。/system/bin/app_process进程启动过程中会加载该jar包，其它的Modules的开发与运行都是基于这个jar。</li>
-<li>XposedInstaller -&gt; Xposed的安装包，负责配置Xposed工作的环境并且提供对基于Xposed框架的Modules的管理。在安装XposedInstaller之后，app_process与XposedBridge.jar放置在了/data/data/de.robv.android.xposed.installer。</li>
+<li>Xposed: Xposed的C++部分，主要是用来替换/system/bin/app_process，并为 XposedBridge提供JNI方法。</li>
+<li>XposedBridge: Xposed的Java部分，以XposedBridge.jar文件存在，负责在Native 层与FrameWork层进行交互。/system/bin/app_process进程启动过程中会加载该jar包，其它的Modules的开发与运行都是基于这个jar。</li>
+<li>XposedInstaller: Xposed的安装包，负责配置Xposed工作的环境并且提供对基于Xposed框架的Modules的管理。在安装XposedInstaller之后，app_process与XposedBridge.jar放置在了/data/data/de.robv.android.xposed.installer。</li>
 </ul>
 <h2 id="Hook原理"><a href="#Hook原理" class="headerlink" title="Hook原理"></a>Hook原理</h2><p>由于处于Linux 用户态，每个进程都有自己独立的进程空间，所以必须先注入到所要Hook 的进程空间，修改其内存中的进程代码，替换其过程表的符号地址。在Android 中一般是通过ptrace函数附加进程，然后向远程进程注人so 库，从而达到监控以及远程进程关键函数挂钩。</p>
 <h3 id="ptrace-函数"><a href="#ptrace-函数" class="headerlink" title="ptrace 函数"></a>ptrace 函数</h3><p>为方便应用软件的开发和调试，从 Unix 的早期版本开始就提供了一种对运行中的进程进行跟踪和控制的手段，那就是系统调用 ptrace()。通过 ptrace()，一个进程可以动态地读/写另一个进程的内存和寄存器，包括其指令空间、数据空间、堆栈以及所有的寄存器。与信号机制（以及其它手段）相结合， 就可以实现让一个进程在另一个进程的控制和跟踪下运行的目的。ptrace 提供了一种使父进程得以监视和控制其他进程的方式，它还能够改变子进程巾的寄存器和内核映像，因而可以实现断点调试和系统调用的跟踪。</p>
@@ -146,10 +146,10 @@
     
 
     
-    <p>last update time 2019-08-27</p>
+    <p>前回の更新 2019-08-27</p>
     
     
-        <a class="extend next post-next" href="/2019/08/09/Okio/">next</a>
+        <a class="extend next post-next" href="/2019/08/09/Okio/">次の章</a>
     
     </div>
 

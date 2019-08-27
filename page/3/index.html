@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">トップページ</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">ポスト</a>
         
       </div>
     </div>
@@ -63,16 +63,15 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析BroadcastReceiver/">
-            源码分析BroadcastReceiver
+          <a href="/2018/11/29/源码分析ContentProvider/">
+            源码分析ContentProvider
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析BroadcastReceiverBroadcastReceiver注册：
-1 ContextWrapper.registerReceiver()
-2 ContextImpl.registerReceiver()
-123456@Overridepublic Intent registerRe...</p>
+            <p>ContentProviderContentResolver的获取流程：
+1 ContextWrapper.getContentResolver()
+2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -86,15 +85,14 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析ContentProvider/">
-            源码分析ContentProvider
+          <a href="/2018/11/29/源码分析Service/">
+            源码分析Service
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>ContentProviderContentResolver的获取流程：
-1 ContextWrapper.getContentResolver()
-2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
+            <p>源码分析ServiceService启动流程APP端启动：
+1 Service.startService(Intent),Service继承自ContextWrapper,ContextWrapper实现了startService方法,因此实际调用ContextWrapper.startServic...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -288,7 +286,7 @@ Window分类:
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/2">prev</a>
+        <a class="extend prev" href="/page/2">前のページ</a>
     
 
     
@@ -345,7 +343,7 @@ Window分类:
     
     
     
-        <a class="extend next" href="/page/4">next</a>
+        <a class="extend next" href="/page/4">次のページ</a>
     
 </div>
 
