@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">トップページ</a>
+          <a href="/">Home</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">ポスト</a>
+          <a href="/archives">Archives</a>
         
       </div>
     </div>
@@ -60,6 +60,27 @@
 
 
   <div class="article">
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/11/18/子线程绘制UI/">
+            子线程绘制UI
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>UI绘制是一个比较耗时的操作，特别当页面相对比较复杂或者有一些很大的资源的时候，比如大图什么的。所以我们希望可以把一些相对不重要的部分延迟显示，不要阻塞了用户的操作，或者阻塞了关键UI的显然导致掉帧卡顿。实现思路，我们借助SurfaceView的特性来实现UI绘制和显示的分离从而避免卡顿现象。
+Su...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-11-18
+            </span>
+          
+        </div>
+      </div>
     
       <div class="article-item">
         <h2 class="article-item-header">
@@ -85,6 +106,28 @@ UI卡顿掉帧大多数手机的屏幕刷新频率是60hz，如果在1000/60=16.
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2016/11/15/图片OOM问题/">
+            图片OOM问题
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>OOM大家在项目开发中多多少少会遇到一些OOM的问题，内存是个大问题。
+手机内存解析Android是一个多任务系统, 为了保证多任务的运行, Android给每个App可使用的Heap大小设定了一个限定值.
+这个值是系统设置的prop值, 系统编译时内置的, 保存在system/build.prop...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-11-15
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2016/11/15/APK大小分析/">
             APK大小分析
           </a>
@@ -101,28 +144,6 @@ META-INF
 androidManifest
 
 assertsassets目录可以存放一些配置文件或资源文件，比如webview的本地html，rea...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-11-15
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2016/11/15/图片OOM问题/">
-            图片OOM问题
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>OOM大家在项目开发中多多少少会遇到一些OOM的问题，内存是个大问题。
-手机内存解析Android是一个多任务系统, 为了保证多任务的运行, Android给每个App可使用的Heap大小设定了一个限定值.
-这个值是系统设置的prop值, 系统编译时内置的, 保存在system/build.prop...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -276,26 +297,6 @@ SparseLo...</p>
         </div>
       </div>
     
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2016/10/19/清空Android studio配置/">
-            清空Android studio配置
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>1234567rm -Rf /Applications/Android\ Studio.apprm -Rf ~/Library/Preferences/AndroidStudio*rm ~/Library/Preferences/com.google.android.studio.plistrm -...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-10-19
-            </span>
-          
-        </div>
-      </div>
-    
   </div>
 
 
@@ -303,7 +304,7 @@ SparseLo...</p>
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/11">前のページ</a>
+        <a class="extend prev" href="/page/11">prev</a>
     
 
     
@@ -360,7 +361,7 @@ SparseLo...</p>
     
     
     
-        <a class="extend next" href="/page/13">次のページ</a>
+        <a class="extend next" href="/page/13">next</a>
     
 </div>
 
