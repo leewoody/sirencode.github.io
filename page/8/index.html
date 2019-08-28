@@ -193,15 +193,14 @@ Sta...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2017/08/25/MAT/">
-            内存检查MAT
+          <a href="/2017/08/25/多线程数据锁/">
+            多线程数据锁
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>下载
-mac 打不开问题mat -&amp;gt; Contents -&amp;gt; Eclipse -&amp;gt; MemoryAnalyzer.ini
-123456789101112-startup../Eclipse/plugins/org.eclipse.equinox.launcher_1.3.100.v...</p>
+            <p>关于多线程数据的安全问题，解决方法是synchronized关键字，但是其实synchronized的用法不对可能不一定起到数据锁的效果。
+synchronized原理每个锁对象都有两个队列，一个是就绪队列，一个是阻塞队列，就绪队列存储了将要获得锁的线程，阻塞队列存储了被阻塞的线程，当一个被线程被唤...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -215,14 +214,15 @@ mac 打不开问题mat -&amp;gt; Contents -&amp;gt; Eclipse -&amp;gt; MemoryAnal
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2017/08/25/多线程数据锁/">
-            多线程数据锁
+          <a href="/2017/08/25/MAT/">
+            内存检查MAT
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>关于多线程数据的安全问题，解决方法是synchronized关键字，但是其实synchronized的用法不对可能不一定起到数据锁的效果。
-synchronized原理每个锁对象都有两个队列，一个是就绪队列，一个是阻塞队列，就绪队列存储了将要获得锁的线程，阻塞队列存储了被阻塞的线程，当一个被线程被唤...</p>
+            <p>下载
+mac 打不开问题mat -&amp;gt; Contents -&amp;gt; Eclipse -&amp;gt; MemoryAnalyzer.ini
+123456789101112-startup../Eclipse/plugins/org.eclipse.equinox.launcher_1.3.100.v...</p>
           
         </div>
         <div class="atricle-item-time">
