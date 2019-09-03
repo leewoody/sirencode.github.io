@@ -109,6 +109,28 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2016/08/31/内存泄漏/">
+            Android 内存泄漏总结
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
+
+全局进程(process-global)的static...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-08-31
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2016/08/31/LeakCanary/">
             内存泄漏检查工具-LeakCanary
           </a>
@@ -132,21 +154,22 @@ dependencies {
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/31/内存泄漏/">
-            Android 内存泄漏总结
+          <a href="/2016/08/30/lint/">
+            Android 代码静态检查-lint
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
+            <p>Android Lint是一个静态代码分析工具，它能够对你的Android项目中潜在的bug、可优化的代码、安全性、性能、可用性、可访问性、国际化等进行检查。
+Lint规则Android Lint内置了很多lint规则，到现在为止是220项检查，总共可以分为以下几类：
 
-全局进程(process-global)的static...</p>
+Correctness 正确...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-31
+              2016-08-30
             </span>
           
         </div>
@@ -162,29 +185,6 @@ dependencies {
           
             <p>长久以来android的开发都是用的和web一样的MVC模式开发，但是大家在项目的开发中发现MVC模式不利于代码的解耦复用，而且会导致activity或者fragment的代码量很大。为了解决这个问题google推出了一种新的设计模式MVP，我们在这里主要讨论一下mvp的使用问题。
 MVP介绍MVP...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-30
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2016/08/30/lint/">
-            Android 代码静态检查-lint
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Android Lint是一个静态代码分析工具，它能够对你的Android项目中潜在的bug、可优化的代码、安全性、性能、可用性、可访问性、国际化等进行检查。
-Lint规则Android Lint内置了很多lint规则，到现在为止是220项检查，总共可以分为以下几类：
-
-Correctness 正确...</p>
           
         </div>
         <div class="atricle-item-time">

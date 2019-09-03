@@ -73,6 +73,11 @@
 <p>×××（所有者）×××（组用户）×××（其他用户：<br>第一个rwx代表文件所有者的权限，第二个rwx代表和所有者同组人的权限，第三个rwx代表其他用户对该文件的权限。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">cp /data/tmp/su /system/bin/</span><br><span class="line">copy su 到/system/分区chown root:root su</span><br><span class="line"><span class="comment">#su的所有者置成root</span></span><br><span class="line">chmod 4775 /system/bin/su        </span><br><span class="line"><span class="comment">#把su置成-rwsr-xr-x</span></span><br></pre></td></tr></table></figure>
 <p>执行上面的命令也是需要root权限的，一个办法就是找一个本身已经有root权限的进程(系统进程漏洞)来启动我上面的两行代码，那我这两行代码一启动就是root权限，就可以顺利执行了。</p>
+<h2 id="关于root漏洞提取"><a href="#关于root漏洞提取" class="headerlink" title="关于root漏洞提取"></a>关于root漏洞提取</h2><ul>
+<li>1 利用漏洞提权，并将一个带有恰当set-uid权限的su文件移动到系统分区。市面上的一键root等工具就是基于此原理。</li>
+<li>2 修改系统镜像文件(system.img)，再刷有带su和superuser的rom。</li>
+<li>3 使用自定义的recovery，并使用OTA升级的方法刷入我们自己的updater-script脚本进行，现在主流的方法。(解锁bootloader,OEM)</li>
+</ul>
 
 </article>
 
@@ -83,7 +88,7 @@
     
 
     
-    <p>last update time 2018-04-22</p>
+    <p>last update time 2019-09-03</p>
     
     
         <a class="extend next post-next" href="/2018/04/18/Android 加固技术/">next</a>
