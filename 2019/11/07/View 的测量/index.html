@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>View 的测量 [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">View 的测量</h1>
+<article class="post markdown-style">
+  <h1 id="View-的测量"><a href="#View-的测量" class="headerlink" title="View 的测量"></a>View 的测量</h1><h2 id="绘制流程"><a href="#绘制流程" class="headerlink" title="绘制流程"></a>绘制流程</h2><p>ViewRootImpl调用performMeasure方法后该方法中的DecorView又调用了measure方法，而DecorView的本质其实是集成自FrameLayout，那么本质就是一个ViewGroup，但是在FrameLayout和ViewGroup的源码中都没发现measure方法， 这就用到刚才的知识点了，ViewGroup本身也是View的子类，我们就去View的源码中查看一下，果然，measure方法赫然其中，在measure方法中，View又调用了其自身的方法onMeasure，而起自身的onMeasure方法中又调用setMeasureDimension方法，该方法有两个参数，这两个参数分别代表要设置的宽和高，而这两个参数都是是通过getDefaultSize方法来计算的，而getDefaultSize方法中有一个参数是根据getSuggestedMinimumWidth或getSuggestedMinimumHeight获得的。</p>
+<p>通过遍历所有的子View进行子View的测量，然后将所有子View的尺寸进行合并，最终得到ViewGroup父视图的测量值。</p>
+<p>ViewGroup的测量过程：measureChildren-&gt;measureChild-&gt;getChildMeasureSpec-&gt;measure-&gt;onMeasure-&gt;setMeasuredDimension</p>
+<p>测量始于DecorView，通过不断的遍历子View的measure方法，根据ViewGroup的MeasureSpec及子View的LayoutParams来决定子View的MeasureSpec，进一步获取子View的测量宽高，然后逐层返回，不断保存ViewGroup的测量宽高。</p>
+<p>Measure过程是对View尺寸的测量过程，View通过onMeasure方法确定自己的尺寸，ViewGroup在确定自己尺寸的同时，要正确调用子View的measure()方法，让子View正确测量。自定义View和ViewGroup的时候，也是通过onMeasure方法完成measure过程。</p>
+<h2 id="测量模式specMode"><a href="#测量模式specMode" class="headerlink" title="测量模式specMode"></a>测量模式specMode</h2><ul>
+<li>UNSPECIFIED模式：本质就是不限制模式，父视图不对子View进行任何约束，View想要多大要多大，想要多长要多长，这个在我们写自定义View中的时候非常少见，一般都是系统内部在设置ListView或者是ScrollView的时候才会用到（在可滚动的ViewGroup中，不应该限制Item的尺寸，Item要强制变成 UNSPECIFIED,换句话说，只要父viewUNSPECIFIED，子view的宽或高的限制就被解除了）。</li>
+<li>EXACTLY模式：该模式其实对应的场景就是match_parent或者是一个具体的数据。父视图为子View指定一个确切的大小，无论子View的值设置多大，都不能超出父视图的范围。</li>
+<li>AT_MOST模式：这个模式对应的场景就是wrap_content，其内容就是父视图给子View设置一个最大尺寸，子View只要不超过这个尺寸即可。</li>
+</ul>
+<p>MeasureSpec确定值：子View的MeasureSpec值是根据子View的布局参数(LayoutParams)和父容器的MeasureSpec至计算而来的。</p>
+<h2 id="View-measure"><a href="#View-measure" class="headerlink" title="View.measure()"></a>View.measure()</h2><p>当View的父ViewGroup对View进行测量时，会调用View的measure方法，ViewGroup会传入widthMeasureSpec和heightMeasureSpec，分别表示父控件对View的宽度和高度的一些限制条件。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">void</span> <span class="title">measure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 判断是不是LAYOUT_MODE_OPTICAL_BOUNDS进行特殊处理</span></span><br><span class="line">    <span class="keyword">boolean</span> optical = isLayoutModeOptical(<span class="keyword">this</span>);</span><br><span class="line">    <span class="keyword">if</span> (optical != isLayoutModeOptical(mParent)) &#123;</span><br><span class="line">        Insets insets = getOpticalInsets();</span><br><span class="line">        <span class="keyword">int</span> oWidth  = insets.left + insets.right;</span><br><span class="line">        <span class="keyword">int</span> oHeight = insets.top  + insets.bottom;</span><br><span class="line">        widthMeasureSpec  = MeasureSpec.adjust(widthMeasureSpec,  optical ? -oWidth  : oWidth);</span><br><span class="line">        heightMeasureSpec = MeasureSpec.adjust(heightMeasureSpec, optical ? -oHeight : oHeight);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 根据widthMeasureSpec和heightMeasureSpec计算key值，在下面用key值作为键，缓存我们测量得到的结果</span></span><br><span class="line">    <span class="keyword">long</span> key = (<span class="keyword">long</span>) widthMeasureSpec &lt;&lt; <span class="number">32</span> | (<span class="keyword">long</span>) heightMeasureSpec &amp; <span class="number">0xffffffffL</span>;</span><br><span class="line">    <span class="comment">// mMeasureCache缓存上一次测量的结果</span></span><br><span class="line">    <span class="keyword">if</span> (mMeasureCache == <span class="keyword">null</span>) mMeasureCache = <span class="keyword">new</span> LongSparseLongArray(<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> forceLayout = (mPrivateFlags &amp; PFLAG_FORCE_LAYOUT) == PFLAG_FORCE_LAYOUT;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Optimize layout by avoiding an extra EXACTLY pass when the view is</span></span><br><span class="line">    <span class="comment">// already measured as the correct size. In API 23 and below, this</span></span><br><span class="line">    <span class="comment">// extra pass is required to make LinearLayout re-distribute weight.</span></span><br><span class="line">    <span class="comment">// 判断宽高是否变化</span></span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> specChanged = widthMeasureSpec != mOldWidthMeasureSpec</span><br><span class="line">            || heightMeasureSpec != mOldHeightMeasureSpec;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> isSpecExactly = MeasureSpec.getMode(widthMeasureSpec) == MeasureSpec.EXACTLY</span><br><span class="line">            &amp;&amp; MeasureSpec.getMode(heightMeasureSpec) == MeasureSpec.EXACTLY;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> matchesSpecSize = getMeasuredWidth() == MeasureSpec.getSize(widthMeasureSpec)</span><br><span class="line">            &amp;&amp; getMeasuredHeight() == MeasureSpec.getSize(heightMeasureSpec);</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">boolean</span> needsLayout = specChanged</span><br><span class="line">            &amp;&amp; (sAlwaysRemeasureExactly || !isSpecExactly || !matchesSpecSize);</span><br><span class="line">    <span class="comment">// 果不是强制测量或者MeasureSpec与上次的MeasureSpec相同的时候,那么View就不需要重新测量了</span></span><br><span class="line">    <span class="keyword">if</span> (forceLayout || needsLayout) &#123;</span><br><span class="line">        <span class="comment">// first clears the measured dimension flag</span></span><br><span class="line">        mPrivateFlags &amp;= ~PFLAG_MEASURED_DIMENSION_SET;</span><br><span class="line"></span><br><span class="line">        resolveRtlPropertiesIfNeeded();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">int</span> cacheIndex = forceLayout ? -<span class="number">1</span> : mMeasureCache.indexOfKey(key);</span><br><span class="line">  </span><br><span class="line">        <span class="keyword">if</span> (cacheIndex &lt; <span class="number">0</span> || sIgnoreMeasureCache) &#123;</span><br><span class="line">            <span class="comment">// measure ourselves, this should set the measured dimension flag back</span></span><br><span class="line">            onMeasure(widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">            mPrivateFlags3 &amp;= ~PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">long</span> value = mMeasureCache.valueAt(cacheIndex);</span><br><span class="line">            <span class="comment">// Casting a long to int drops the high 32 bits, no mask needed</span></span><br><span class="line">            setMeasuredDimensionRaw((<span class="keyword">int</span>) (value &gt;&gt; <span class="number">32</span>), (<span class="keyword">int</span>) value);</span><br><span class="line">            mPrivateFlags3 |= PFLAG3_MEASURE_NEEDED_BEFORE_LAYOUT;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// flag not set, setMeasuredDimension() was not invoked, we raise</span></span><br><span class="line">        <span class="comment">// an exception to warn the developer</span></span><br><span class="line">        <span class="comment">// setMeasuredDimension()方法中会将mPrivateFlags设置为PFLAG_MEASURED_DIMENSION_SET状态，即已测量状态，</span></span><br><span class="line">        <span class="comment">//此处就检查mPrivateFlags是否含有PFLAG_MEASURED_DIMENSION_SET状态即可判断setMeasuredDimension是否被调用</span></span><br><span class="line">        <span class="keyword">if</span> ((mPrivateFlags &amp; PFLAG_MEASURED_DIMENSION_SET) != PFLAG_MEASURED_DIMENSION_SET) &#123;</span><br><span class="line">            <span class="keyword">throw</span> <span class="keyword">new</span> IllegalStateException(<span class="string">"View with id "</span> + getId() + <span class="string">": "</span></span><br><span class="line">                    + getClass().getName() + <span class="string">"#onMeasure() did not set the"</span></span><br><span class="line">                    + <span class="string">" measured dimension by calling"</span></span><br><span class="line">                    + <span class="string">" setMeasuredDimension()"</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//View已经测量完了并且将测量的结果保存在View的mMeasuredWidth和mMeasuredHeight中,将标志位置为可以layout的状态</span></span><br><span class="line">        mPrivateFlags |= PFLAG_LAYOUT_REQUIRED;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    mOldWidthMeasureSpec = widthMeasureSpec;</span><br><span class="line">    mOldHeightMeasureSpec = heightMeasureSpec;</span><br><span class="line"></span><br><span class="line">    mMeasureCache.put(key, ((<span class="keyword">long</span>) mMeasuredWidth) &lt;&lt; <span class="number">32</span> |</span><br><span class="line">            (<span class="keyword">long</span>) mMeasuredHeight &amp; <span class="number">0xffffffffL</span>); <span class="comment">// suppress sign extension</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="MeasureSpecqued"><a href="#MeasureSpecqued" class="headerlink" title="MeasureSpecqued"></a>MeasureSpecqued</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//@param spec 是parent的MeasureSpec</span></span><br><span class="line"><span class="comment">//@param padding 是已被使用的大小</span></span><br><span class="line"><span class="comment">//childDimension 为child的大小</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getChildMeasureSpec</span><span class="params">(<span class="keyword">int</span> spec, <span class="keyword">int</span> padding, <span class="keyword">int</span> childDimension)</span> </span>&#123;</span><br><span class="line">    <span class="comment">// 获取parent的specMode</span></span><br><span class="line">    <span class="keyword">int</span> specMode = MeasureSpec.getMode(spec);</span><br><span class="line">    <span class="comment">// 获取parent的specSize</span></span><br><span class="line">    <span class="keyword">int</span> specSize = MeasureSpec.getSize(spec);</span><br><span class="line">    <span class="comment">// size=剩余的可用大小</span></span><br><span class="line">    <span class="keyword">int</span> size = Math.max(<span class="number">0</span>, specSize - padding);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> resultSize = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> resultMode = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">    <span class="comment">// 1 parent为MeasureSpec.EXACTLY时</span></span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">        <span class="comment">// 1.1 当childDimension大于0时，表示child的大小是明确指出的,如100dp</span></span><br><span class="line">        <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            resultSize = childDimension;</span><br><span class="line">            <span class="comment">//child的测量模式= MeasureSpec.EXACTLY</span></span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">            <span class="comment">// 1.2 LayoutParams.MATCH_PARENT，因为parent的大小是明确的，child要匹配parent的大小，那么我们就直接让child=parent的大小就好</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">            <span class="comment">// 1.3这个模式需要特别对待，child说我要的大小刚好够放需要展示的内容就好，而此时我们并不知道child的内容需要多大的地方，暂时先把parent的size给他</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            <span class="comment">//自然，child的mode就是MeasureSpec.AT_MOST的了</span></span><br><span class="line">            resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// Parent has imposed a maximum size on us</span></span><br><span class="line">    <span class="comment">// 2 parent为AT_MOST，此时child最大不能超过parent</span></span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">        <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 2.1 同样child大小明确时，大小直接时指定的childDimension</span></span><br><span class="line">            resultSize = childDimension;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">            <span class="comment">// 2.2 child要跟parent一样大，resultSize=可用大小</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">            <span class="comment">//2.3又是特殊情况，先给child可用的大小</span></span><br><span class="line">            resultSize = size;</span><br><span class="line">            resultMode = MeasureSpec.AT_MOST;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 3 parent为UNSPECIFIED</span></span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">        <span class="keyword">if</span> (childDimension &gt;= <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="comment">// 3.1 大小直接时指定的childDimension</span></span><br><span class="line">            resultSize = childDimension;</span><br><span class="line">            resultMode = MeasureSpec.EXACTLY;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.MATCH_PARENT) &#123;</span><br><span class="line">            <span class="comment">// 因为父view为UNSPECIFIED，所以MATCH_PARENT的话子类大小为0  </span></span><br><span class="line">            resultSize = View.sUseZeroUnspecifiedMeasureSpec ? <span class="number">0</span> : size;</span><br><span class="line">            resultMode = MeasureSpec.UNSPECIFIED;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (childDimension == LayoutParams.WRAP_CONTENT) &#123;</span><br><span class="line">            <span class="comment">// 因为父view为UNSPECIFIED，所以WRAP_CONTENT的话子类大小为0</span></span><br><span class="line">            resultSize = View.sUseZeroUnspecifiedMeasureSpec ? <span class="number">0</span> : size;</span><br><span class="line">            resultMode = MeasureSpec.UNSPECIFIED;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 4 通过传入resultSize和resultMode生成一个MeasureSpec返回</span></span><br><span class="line">    <span class="keyword">return</span> MeasureSpec.makeMeasureSpec(resultSize, resultMode);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="onMeasure"><a href="#onMeasure" class="headerlink" title="onMeasure"></a>onMeasure</h2><p>通过上面的描述我们知道，当LayoutParams为wrap_content时，SpecMode为AT_MOST，而在关于getDefaultSize(int size, int measureSpec) 方法需要说明一下，通过上面的描述我们知道getDefaultSize()方法中AT_MOST与EXACTLY模式下，返回的 都是specSize，这个specSize是父View当前可以使用的大小，如果不处理，那wrap_content就相当于match_parent。事实上TextView、ImageView 等系统组件都在wrap_content上有自己的处理。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 默认的onMeasure的计算方式是有问题的，getDefaultSize的match_parent和wrap_content效果是一样的</span></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">onMeasure</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">    setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec),</span><br><span class="line">            getDefaultSize(getSuggestedMinimumHeight(), heightMeasureSpec));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//measureSpec指的是View测量后的大小</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">int</span> <span class="title">getDefaultSize</span><span class="params">(<span class="keyword">int</span> size, <span class="keyword">int</span> measureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//size是传进来的View自己想要的最小宽度/高度</span></span><br><span class="line">    <span class="keyword">int</span> result = size;</span><br><span class="line">    <span class="keyword">int</span> specMode = MeasureSpec.getMode(measureSpec);</span><br><span class="line">    <span class="keyword">int</span> specSize = MeasureSpec.getSize(measureSpec);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">switch</span> (specMode) &#123;</span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.UNSPECIFIED:</span><br><span class="line">        <span class="comment">//如果specMode为UNSPECIFIED，就表明父ViewGroup没有对该View尺寸进行限制，直接取View自己想要的宽高</span></span><br><span class="line">        result = size;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.AT_MOST:</span><br><span class="line">    <span class="keyword">case</span> MeasureSpec.EXACTLY:</span><br><span class="line">        <span class="comment">//返回的是View测量后的大小</span></span><br><span class="line">        result = specSize;</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getSuggestedMinimumHeight</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (mBackground == <span class="keyword">null</span>) ? mMinHeight : max(mMinHeight, mBackground.getMinimumHeight());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">int</span> <span class="title">getSuggestedMinimumWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> (mBackground == <span class="keyword">null</span>) ? mMinWidth : max(mMinWidth, mBackground.getMinimumWidth());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="子-View-的大小"><a href="#子-View-的大小" class="headerlink" title="子 View 的大小"></a>子 View 的大小</h2><p>LayoutParams 用来描述一个View在父容器中大小，它包括了高度和宽度两个维度的信息，每个维度的数据类型都是 int，取值是下面三种情况之一:</p>
+<ul>
+<li>1 FILL_PARENT / MATCH_PARENT, 取值是 -1。填充满父容器, minus padding。</li>
+<li>2 WRAP_CONTENT, 取值是 -2。尺寸尽量小，能包住自身的全部内容就行, plus padding。</li>
+<li>3 一个确定的尺寸，大于等于0的一个数值。</li>
+</ul>
+<p>注意，状态为GONE的View不会被测量。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">measureChildren</span><span class="params">(<span class="keyword">int</span> widthMeasureSpec, <span class="keyword">int</span> heightMeasureSpec)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">final</span> <span class="keyword">int</span> size = mChildrenCount;</span><br><span class="line">    <span class="keyword">final</span> View[] children = mChildren;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; size; ++i) &#123;</span><br><span class="line">        <span class="keyword">final</span> View child = children[i];</span><br><span class="line">        <span class="keyword">if</span> ((child.mViewFlags &amp; VISIBILITY_MASK) != GONE) &#123;</span><br><span class="line">            measureChild(child, widthMeasureSpec, heightMeasureSpec);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> MEASURED_SIZE_MASK = <span class="number">0x00ffffff</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">getMeasuredWidth</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> mMeasuredWidth &amp; MEASURED_SIZE_MASK;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="父容器的大小状态"><a href="#父容器的大小状态" class="headerlink" title="父容器的大小状态"></a>父容器的大小状态</h2><p>padding：留白。自身内容的大小加上留白就是父容器的内容的真正大小。</p>
+<p>MeasureSpec：当父容器要确定子 View 的大小的时候，父容器需要告诉子 View 自身的大小状态。当父容器所属的大小状态不同时，对子 View 的尺寸约束是不一样的。父容器大小状态有下面三种情况。</p>
+<ul>
+<li>UNSPECIFIED(00xx ….):父容器对子View没有任何约束，子 View 可以按自身需要，任意大小。</li>
+<li>EXACTLY(01xx ….):父容器大小是一个确定的数值，子 View 只能限定在指定大小内。</li>
+<li>AT_MOST(02xx ….):父容器本身以及内含的所有子 View 大小不能超过指定大小。</li>
+</ul>
+<p>尺寸大小的数据类型是 int, 8 个字节。尺寸大小和尺寸状态在很多时候需要一起传递，为了减少对象的分配，把三种尺寸状态编码到尺寸大小 int 变量的最高位2个位中。8字节=32位，前两位代表类型，后30位代表具体数值。</p>
+<h2 id="子-View-尺寸的最终确定"><a href="#子-View-尺寸的最终确定" class="headerlink" title="子 View 尺寸的最终确定"></a>子 View 尺寸的最终确定</h2><p>子 View 有一个期望的尺寸大小，父容器有尺寸大小约束，这两方面的约束协调，用来计算 View 的大小状态。</p>
+<p>父容器的尺寸大小: parentSize,父容器的留白:parentPadding。父容器真正内容的大小是： parentSize - parentPadding, 用变量 parentContentSize 代替。</p>
+<h3 id="父容器的大小状态处于EXACTLY"><a href="#父容器的大小状态处于EXACTLY" class="headerlink" title="父容器的大小状态处于EXACTLY"></a>父容器的大小状态处于EXACTLY</h3><ul>
+<li>1 view的宽或者高设置了具体的尺寸，则宽或者高为自身设置的值，测量模式为EXACTLY,子 View 只能限定在指定大小(父宽高)内。</li>
+<li>2 view的宽或者高设置为MATCH_PARENT，则宽或者高为父布局的尺寸，测量模式为EXACTLY</li>
+<li>3 view的宽或者高设置为WRAP_CONTENT，则宽或者高为父布局的尺寸，测量模式为AT_MOST</li>
+</ul>
+<h3 id="父容器的大小状态处于AT-MOST"><a href="#父容器的大小状态处于AT-MOST" class="headerlink" title="父容器的大小状态处于AT_MOST"></a>父容器的大小状态处于AT_MOST</h3><ul>
+<li>1 view的宽或者高设置了具体的尺寸，则宽或者高为自身设置的值，测量模式为EXACTLY</li>
+<li>2 view的宽或者高设置为MATCH_PARENT，则宽或者高为父布局的尺寸，测量模式为AT_MOST</li>
+<li>3 view的宽或者高设置为WRAP_CONTENT，则宽或者高为父布局的尺寸，测量模式为AT_MOST</li>
+</ul>
+<h3 id="父容器的大小状态处于UNSPECIFIED"><a href="#父容器的大小状态处于UNSPECIFIED" class="headerlink" title="父容器的大小状态处于UNSPECIFIED"></a>父容器的大小状态处于UNSPECIFIED</h3><ul>
+<li>view的宽或者高设置了具体的尺寸，则宽或者高为自身设置的值，测量模式为EXACTLY</li>
+<li>view的宽或者高设置为MATCH_PARENT，0，测量模式为UNSPECIFIED</li>
+<li>view的宽或者高设置为WRAP_CONTENT，0，测量模式为UNSPECIFIED</li>
+</ul>
+<h2 id="view-gone-invisible是否测量绘制"><a href="#view-gone-invisible是否测量绘制" class="headerlink" title="view gone invisible是否测量绘制"></a>view gone invisible是否测量绘制</h2>
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+
+    
+    <p>last update time 2019-11-07</p>
+    
+    
+        <a class="extend next post-next" href="/2019/08/28/retrofit/">next</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/sirencode" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2016 - 2019
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>
