@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>多线程数据锁 [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">多线程数据锁</h1>
+<article class="post markdown-style">
+  <h2 id="锁的类型"><a href="#锁的类型" class="headerlink" title="锁的类型"></a>锁的类型</h2><p>锁从宏观上分类，分为悲观锁与乐观锁。</p>
+<p>乐观锁：认为读多写少，读的时候不上锁。写操作的时候先将当前内容读出来，然后加锁和上一次比较如果一样则更新，不一样则要重复的读-比较-写操作。Java中常用的CAS(CompareAndSwap)，AtomicInteger就是这么实现的。ABA问题，加版本号1A2B3A作区分。</p>
+<p>悲观锁：即认为写多，每次读写数据的时候都会加锁。</p>
+<h3 id="阻塞的代价"><a href="#阻塞的代价" class="headerlink" title="阻塞的代价"></a>阻塞的代价</h3><p>java的线程是映射到操作系统原生线程之上的，如果要阻塞或唤醒一个线程就需要操作系统介入，需要在户态与核心态之间切换，这种切换会消耗大量的系统资源，因为用户态与内核态都有各自专用的内存空间，专用的寄存器等，用户态切换至内核态需要传递给许多变量、参数给内核，内核也需要保护好用户态在切换时的一些寄存器值、变量等，以便内核态调用结束后切换回用户态继续工作。</p>
+<h3 id="自旋锁"><a href="#自旋锁" class="headerlink" title="自旋锁"></a>自旋锁</h3><p>如果持有锁的线程能在很短时间内释放锁资源，那么那些等待竞争锁的线程就不需要做内核态和用户态之间的切换进入阻塞挂起状态，它们只需要等一等（自旋，cpu控制，但是占用），等持有锁的线程释放锁后即可立即获取锁，这样就避免用户线程和内核的切换的消耗。如果持有锁的线程执行的时间超过自旋等待的最大时间扔没有释放锁，就会导致其它争用锁的线程在最大等待时间内还是获取不到锁，这时争用线程会停止自旋进入阻塞状态。</p>
+<p>优点：自旋锁尽可能的减少线程的阻塞，这对于锁的竞争不激烈，且占用锁时间非常短的代码块来说性能能大幅度的提升，因为自旋的消耗会小于线程阻塞挂起再唤醒的操作的消耗。</p>
+<p>缺点：竞争激烈或等待时间过长的时候，cpu会被长时间占有做自旋无用功，造成cpu的浪费。</p>
+<h3 id="偏向锁"><a href="#偏向锁" class="headerlink" title="偏向锁"></a>偏向锁</h3><p>Java偏向锁(Biased Locking)是Java6引入的一项多线程优化。如果在运行过程中，同步锁只有一个线程访问，不存在多线程争用的情况，不需要触发同步，就会加一个偏向锁。如遇到其他线程抢占锁，持有偏向锁的线程挂起，消除它身上的偏向锁，将锁状态恢复为轻量级锁(升级-将对象头中的锁标志设为00)。</p>
+<h3 id="轻量级锁"><a href="#轻量级锁" class="headerlink" title="轻量级锁"></a>轻量级锁</h3><p>轻量级锁是由偏向锁升级而来。由轻量锁切换到重量锁，是发生在轻量锁释放锁的期间，之前在获取锁的时候它拷贝了锁对象头的markword，在释放锁的时候如果它发现在它持有锁的期间有其他线程来尝试获取锁了，并且该线程对markword做了修改，两者比对发现不一致，则切换到重量锁。等待轻量锁的线程不会阻塞，它会一直自旋等待锁。</p>
+<h3 id="重量级锁"><a href="#重量级锁" class="headerlink" title="重量级锁"></a>重量级锁</h3><p>由轻量级锁自旋失败升级为重量级锁。</p>
+<h3 id="升级"><a href="#升级" class="headerlink" title="升级"></a>升级</h3><p>偏向锁是在无锁争用的情况下使用的，也就是同步开在当前线程没有执行完之前，没有其它线程会执行该同步块，一旦有了第二个线程的争用，偏向锁就会升级为轻量级锁，如果轻量级锁自旋到达阈值后，没有获取到锁，就会升级为重量级锁；</p>
+<h2 id="synchronized"><a href="#synchronized" class="headerlink" title="synchronized"></a>synchronized</h2><h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>同步于对象：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">synchronized</span> (<span class="keyword">this</span>) &#123;</span><br><span class="line">    System.out.println(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">synchronized</span> (<span class="keyword">this</span>.getClass()) &#123;</span><br><span class="line">    System.out.println(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">synchronized</span> (XXX.class) &#123;</span><br><span class="line">    System.out.println(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同步与方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">void</span> <span class="title">a</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> <span class="keyword">synchronized</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">b</span><span class="params">()</span></span>&#123;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="java-对象头"><a href="#java-对象头" class="headerlink" title="java 对象头"></a>java 对象头</h3><p>HotSpot虚拟机中，对象在内存中存储的：</p>
+<p>普通对象包含：Mark Word、Klass Pointer、padding<br>数组对象包含：Mark Word、Klass Pointer、Array Length、padding</p>
+<ul>
+<li>Mark Word(头信息)</li>
+<li>Klass Pointer(类型指针存放的是该对象对应的类的指针)</li>
+<li>Array Length</li>
+<li>padding 填充，由于HotSpot规定对象的大小必须是8的整数倍，而对象头刚好是8的整数倍，如果对象实例数据这部分不是的话，就需要占位符对齐填充。</li>
+</ul>
+<p>HotSpot虚拟机的对象头(Object Header)包括两部分信息，第一部分用于存储对象自身的运行时数据， 如哈希码（HashCode）、GC分代年龄、锁状态标志、线程持有的锁、偏向线程ID、偏向时间戳等等，这部分数据的长度在32位和64位的虚拟机（暂 不考虑开启压缩指针的场景）中分别为32个和64个Bits，官方称它为“Mark Word”。</p>
+<p>锁的状态总共有四种：无锁状态、偏向锁、轻量级锁和重量级锁。随着锁的竞争，锁可以从偏向锁升级到轻量级锁，再升级的重量级锁（但是锁的升级是单向的，不会出现锁的降级）。</p>
+<p>例如在32位的HotSpot虚拟机对象的存储内容如下表所示：</p>
+<ul>
+<li>1 无锁状态 25bit(hash) + 4bit(对象分代年龄) + 1bit(偏向锁标志-0) + 2bit(锁标志-01)</li>
+<li>2 偏向锁 23bit(线程ID) + 2bit(epoch-偏向时间戳) + 4bit(对象分代年龄) + 1bit(偏向锁标志-1) + 2bit(锁标志-01)</li>
+<li>3 轻量级锁 30bit(指向栈中锁记录的指针) + 2bit(锁的标志位-00)</li>
+<li>4 重量级锁 30bit(指向栈中重量级锁的指针) + 2bit(锁的标志位-10)</li>
+<li>5 GC标志  30bit(gc_info) + 2bit(锁的标志位-11)</li>
+</ul>
+<p>例如在64位的HotSpot虚拟机对象的存储内容如下表所示：</p>
+<ul>
+<li>1 无锁状态 25bit(unused) + 25bit(hash) + 1bit(unused) + 4bit(对象分代年龄) + 1bit(偏向锁标志-0) + 2bit(锁标志-01)</li>
+<li>2 偏向锁 54bit(线程ID) + 2bit(epoch-偏向时间戳) + 1bit(unused) + 4bit(对象分代年龄) + 1bit(偏向锁标志-1) + 2bit(锁标志-01)</li>
+<li>3 轻量级锁 62bit(指向栈中锁记录的指针) + 2bit(锁的标志位-00)</li>
+<li>4 重量级锁 62bit(指向互斥量(重量级锁)的指针) + 2bit(锁的标志位-10)</li>
+<li>5 GC标志  62bit(gc_info) + 2bit(锁的标志位-11)</li>
+</ul>
+<h3 id="synchronized原理"><a href="#synchronized原理" class="headerlink" title="synchronized原理"></a>synchronized原理</h3><p>java中每个对象都存在着一个 monitor 与之关联，monitor 存储在对象头中，对象与其 monitor 之间的关系有存在多种实现方式，如monitor可以与对象一起创建销毁或当线程试图获取对象锁时自动生成，但当一个 monitor 被某个线程持有后，它便处于锁定状态。</p>
+<p>在Java虚拟机中，monitor是由ObjectMonitor实现的，其主要数据结构如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">ObjectMonitor() &#123;</span><br><span class="line">    _header       = <span class="literal">NULL</span>;</span><br><span class="line">    _count        = <span class="number">0</span>; <span class="comment">//记录个数</span></span><br><span class="line">    _waiters      = <span class="number">0</span>,</span><br><span class="line">    _recursions   = <span class="number">0</span>;</span><br><span class="line">    _object       = <span class="literal">NULL</span>;</span><br><span class="line">    _owner        = <span class="literal">NULL</span>;</span><br><span class="line">    _WaitSet      = <span class="literal">NULL</span>; <span class="comment">//处于wait状态的线程，会被加入到_WaitSet</span></span><br><span class="line">    _WaitSetLock  = <span class="number">0</span> ;</span><br><span class="line">    _Responsible  = <span class="literal">NULL</span> ;</span><br><span class="line">    _succ         = <span class="literal">NULL</span> ;</span><br><span class="line">    _cxq          = <span class="literal">NULL</span> ;</span><br><span class="line">    FreeNext      = <span class="literal">NULL</span> ;</span><br><span class="line">    _EntryList    = <span class="literal">NULL</span> ; <span class="comment">//处于等待锁block状态的线程，会被加入到该列表</span></span><br><span class="line">    _SpinFreq     = <span class="number">0</span> ;</span><br><span class="line">    _SpinClock    = <span class="number">0</span> ;</span><br><span class="line">    OwnerIsThread = <span class="number">0</span> ;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>ObjectMonitor中有两个队列，_WaitSet 和 _EntryList，用来保存ObjectWaiter对象列表(每个等待锁的线程都会被封装成ObjectWaiter对象)，_owner指向持有ObjectMonitor对象的线程，当多个线程同时访问一段同步代码时，首先会进入 _EntryList 集合，当线程获取到对象的monitor 后进入 _Owner 区域并把monitor中的owner变量设置为当前线程同时monitor中的计数器count加1，若线程调用 wait() 方法，将释放当前持有的monitor，owner变量恢复为null，count自减1，同时该线程进入 _WaitSet集合中等待被唤醒。若当前线程执行完毕也将释放monitor(锁)并复位变量的值，以便其他线程进入获取monitor(锁)。</p>
+<p>synchronized同步是基于进入和退出管程(Monitor)对象实现，无论是显式同步(有明确的 monitorenter 和 monitorexit 指令,即同步代码块)还是是由方法调用指令读取运行时常量池中方法的 ACC_SYNCHRONIZED 标志来隐式实现。</p>
+<p>synchronized执行过程：</p>
+<ul>
+<li>1 检查Mark Word里面的线程id是不是当前线程的id，如果是，表示当前线程处于偏向锁</li>
+<li>2 如果不是，使用CAS将当前线程的id替换Mark Word，成功表示当前线程获得偏向锁，偏向标志位1</li>
+<li>3 如果失败，说明发生竞争，撤销偏向锁，升级为轻量级锁</li>
+<li>4 当前线程使用CAS将对象头的Mark Word替换为锁记录指针，成功，当前线程获得锁</li>
+<li>5 失败，表示其他线程竞争锁，当前线程自旋获取锁</li>
+<li>6 自旋成功则依然是轻量级锁</li>
+<li>7 自旋失败升级为重量级锁</li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li>对象锁的阻塞先于自身的同步方法，同步方法没有数量限制，一个线程正在调用对象的摸某一个同步方法，那么此时另一个线程调用这个对象的另一个同步方法也是会被阻塞的。</li>
+<li>对象锁的不会阻塞非同步的阻塞方法，即使此时一个线程正在调用这个对象的同步方法，其他线程这个时候也是可以调用这个对象的非同步方法的</li>
+<li>对象锁的范围仅限自身，对象的成员变量不受外部对象锁的阻塞影响</li>
+<li>静态同步方法属于类本身，不管这个类有多少个实例，同一时刻只能有一个线程操作这个类的这个静态的同步方法，和对象实例没关系，只和类有关系</li>
+<li>同步代码块使用 Object.class或 this.class 等同于把方法标记为静态同步的</li>
+<li>当一个线程再次请求自己持有对象锁的临界资源时，这种情况属于重入锁，请求将会成功，在java中synchronized是基于原子性的内部锁机制，是可重入的，因此在一个线程调用synchronized方法的同时在其方法体内部调用该对象另一个synchronized方法，也就是说一个线程得到一个对象锁后再次请求该对象锁，是允许的</li>
+</ul>
+<h3 id="通知"><a href="#通知" class="headerlink" title="通知"></a>通知</h3><p>wait 和 notify以及notifyAll都是Object对象的本地final方法，无法被重写，他们必须在被 synchronized 同步的方法或代码块中调用，否则会报错IllegalMonitorStateException。</p>
+<ul>
+<li>wait 使该线程进入对象的等待状态，并且会释放被同步对象的锁</li>
+<li>notify 可以唤醒一个(多个等待的只会唤醒一个，具体又jvm决定)因执行wait而处于阻塞状态的线程，使其进入就绪状态(对象的就绪队列)，被唤醒的线程会去尝试着获取对象锁，然后执行wait之后的代码。注意执行notify并不会马上释放对象锁，会等到执行完该同步方法或同步代码块后才释放</li>
+<li>notifyAll方法可以唤醒等待队列中等待同一共享资源的“全部”线程从等待状态退出，进入可运行状态，但是同一时间还是只有一个线程访问对象，其他线程block。</li>
+<li>notify/notifyAll() 的执行只是唤醒沉睡的线程，而不会立即释放锁，锁的释放要看代码块的具体执行情况。</li>
+</ul>
+<p>sleep wait区别：</p>
+<ul>
+<li>1 wait是对象方法，sleep是线程方法。</li>
+<li>2 sleep不会立马释放对象锁，而wait会释放。</li>
+</ul>
+<h2 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h2><p>Lock和synchronized有以下几点不同</p>
+<ul>
+<li>Lock是一个接口，而synchronized是Java中的关键字，synchronized是内置的语言实现</li>
+<li>synchronized在发生异常时，会自动释放线程占有的锁，因此不会导致死锁现象发生；而Lock在发生异常时，如果没有主动通过unLock()去释放锁，则很可能造成死锁现象，因此使用Lock时需要在finally块中释放锁</li>
+<li>Lock可以让等待锁的线程响应中断，而synchronized却不行，使用synchronized时，等待的线程会一直等待下去，不能够响应中断</li>
+<li>通过Lock可以知道有没有成功获取锁，而synchronized却无法办到</li>
+<li>Lock可以提高多个线程进行读操作的效率</li>
+</ul>
+<h2 id="Condition"><a href="#Condition" class="headerlink" title="Condition"></a>Condition</h2><p>Condition将Object监视器方法(wait、notify和 notifyAll)分解成截然不同的对象，以便通过将这些对象与任意Lock实现组合使用。其中，Lock替代了synchronized方法的使用及作用，Condition替代了Object监视器方法的使用及作用。Condition的await方法代替Object的wait；Condition的signal方法代替Object的notify方法；Condition的signalAll方法代替Object的notifyAll方法。Condition实例在使用时需要绑定到一个锁上，可以通过newCondition方法获取Condition实例。</p>
+<h2 id="volatile"><a href="#volatile" class="headerlink" title="volatile"></a>volatile</h2><p>用volatile修饰的变量，线程在每次使用变量的时候，都会读取变量修改后的最新的值。volatile很容易被误用，用来进行原子性操作。</p>
+<p>可见性，是指线程之间的可见性，一个线程修改的状态对另一个线程是可见的。</p>
+<p>保证了不同线程对这个变量进行操作时的可见性，即一个线程修改了某个变量的值，这新值对其他线程来说是立即可见的。</p>
+<p>可见性只能保证每次读取的是最新的值，但是volatile没办法保证对变量的操作的原子性。</p>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+
+    
+    <p>last update time 2020-02-14</p>
+    
+    
+        <a class="extend next post-next" href="/2019/12/30/打包剔除so库/">next</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/sirencode" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2016 - 2020
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>

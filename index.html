@@ -63,6 +63,27 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2020/02/09/多线程数据锁/">
+            多线程数据锁
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>锁的类型锁从宏观上分类，分为悲观锁与乐观锁。
+乐观锁：认为读多写少，读的时候不上锁。写操作的时候先将当前内容读出来，然后加锁和上一次比较如果一样则更新，不一样则要重复的读-比较-写操作。Java中常用的CAS(CompareAndSwap)，AtomicInteger就是这么实现的。ABA问题，加版...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2020-02-09
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2019/12/30/打包剔除so库/">
             打包剔除so
           </a>
@@ -254,26 +275,6 @@
         </div>
       </div>
     
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2019/03/08/java 对象大小计算-unsafe/">
-            java 对象大小计算-unsafe
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>java 对象大小计算-unsafeJava计算对象大小的方式有两种，Instrumentation.getObjectSize()和Unsafe.objectFieldOffset(java.lang.reflect.Field field)。实例创建出来之后，在内存中所占的大小就是自身大小（Sh...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2019-03-08
-            </span>
-          
-        </div>
-      </div>
-    
   </div>
 
 
@@ -396,7 +397,7 @@
             
             
             
-                © ShenYonghe 2016 - 2019
+                © ShenYonghe 2016 - 2020
             
         </span>
     </div>
