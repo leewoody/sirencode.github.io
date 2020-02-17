@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
   
-  <title>多线程数据锁 [ Diablo ]</title>
+  <title>多线程锁 [ Diablo ]</title>
   
     <!-- stylesheets list from config.yml -->
     
@@ -55,7 +55,7 @@
 </div>
     </div>
     <div class="container">
-        <h1 class="post-title">多线程数据锁</h1>
+        <h1 class="post-title">多线程锁</h1>
 <article class="post markdown-style">
   <h2 id="锁的类型"><a href="#锁的类型" class="headerlink" title="锁的类型"></a>锁的类型</h2><p>锁从宏观上分类，分为悲观锁与乐观锁。</p>
 <p>乐观锁：认为读多写少，读的时候不上锁。写操作的时候先将当前内容读出来，然后加锁和上一次比较如果一样则更新，不一样则要重复的读-比较-写操作。Java中常用的CAS(CompareAndSwap)，AtomicInteger就是这么实现的。ABA问题，加版本号1A2B3A作区分。</p>
@@ -154,7 +154,7 @@
     
 
     
-    <p>last update time 2020-02-14</p>
+    <p>last update time 2020-02-17</p>
     
     
         <a class="extend next post-next" href="/2019/12/30/打包剔除so库/">next</a>
