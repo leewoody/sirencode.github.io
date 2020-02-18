@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>Android 启动过程 [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">Android 启动过程</h1>
+<article class="post markdown-style">
+  <h1 id="Android-启动过程"><a href="#Android-启动过程" class="headerlink" title="Android 启动过程"></a>Android 启动过程</h1><h2 id="Android的框架"><a href="#Android的框架" class="headerlink" title="Android的框架"></a>Android的框架</h2><p>linux kernel -&gt;HAL(硬件抽象) -&gt; libs -&gt; Framework -&gt; app</p>
+<ul>
+<li>内核层：Android 的核心系统服务基于Linux 内核，在此基础上添加了部分Android专用的驱动。系统的安全性、内存管理、进程管理、网络协议栈和驱动模型等都依赖于该内核。</li>
+<li>HAL层： 硬件抽象层，硬件抽象层是位于操作系统内核与硬件电路之间的接口层，其目的在于将硬件抽象化，为了保护硬件厂商的知识产权，它隐藏了特定平台的硬件接口细节，为操作系统提供虚拟硬件平台，使其具有硬件无关性，可在多种平台上进行移植。</li>
+<li>系统库层：Native libs，openGLES,sqlite,libc,SGL,SSL,Media Frame Work等。android运行时库。</li>
+<li>应用框架层：java framwork 应用框架层为开发人员提供了可以开发应用程序所需要的API</li>
+<li>应用层：系统以及我们的app进程</li>
+</ul>
+<h2 id="启动流程"><a href="#启动流程" class="headerlink" title="启动流程"></a>启动流程</h2><p>loader -&gt; HAL -&gt; libs&amp;framework -&gt; app</p>
+<h3 id="启动boot-loader"><a href="#启动boot-loader" class="headerlink" title="启动boot loader"></a>启动boot loader</h3><ul>
+<li>1 长按电源键，会通过硬件触发芯片从固化在rom里面的Boot ROM程序。</li>
+<li>2 引导程序BootLoader到RAM，它的主要作用是把系统OS拉起来并运行。</li>
+</ul>
+<h3 id="kernel启动"><a href="#kernel启动" class="headerlink" title="kernel启动"></a>kernel启动</h3><p>当内核启动时，设置缓存、被保护存储器、计划列表、加载驱动。此外，还启动了Kernel的swapper进程（pid = 0）和kthreadd进程（pid = 2）。当内核完成系统设置时，它首先在系统文件中寻找init.rc文件，并启动init进程。</p>
+<ul>
+<li>1 启动swapper进程（pid=0），这是系统初始化过程kernel创建的第一个进程，用于初始化进程管理、内存管理、加载Display、Camera、Binder等驱动相关工作</li>
+<li>2 启动kthreadd进程，这是Linux系统的内核进程，会创建内核工作线程kworkder、软中断线程ksoftirqd和thermal等内核守护进程。kthreadd是所有内核进程的鼻祖。</li>
+</ul>
+<h3 id="init进程"><a href="#init进程" class="headerlink" title="init进程"></a>init进程</h3><p>init进程是Android系统中用户空间的第一个进程，作为第一个进程，它被赋予了很多极其重要的工作职责，比如创建zygote(孵化器)和属性服务等。init进程是由多个源文件共同组成的。</p>
+<ul>
+<li>创建一些文件夹并挂载设备</li>
+<li>init进程会孵化出，ueventd、logd、healthd、installd、adbd、lmkd等用户守护进程</li>
+<li>init进程还通过fork Zygote启动了ServiceManager ，bootanim（开机动画）等重要服务</li>
+<li>init 进程还孵化了Zygote进程(主要是调用app_main.cpp的main函数中的AppRuntime的start来启动zygote进程的)，Zygote进程是Android中的第一个Java进程（即虚拟机进程），Zygote是所有Java进程的父进程，Zygote进程本身就是init进程孵化出来的(hook就是通过替换它)。</li>
+</ul>
+<p>framework层有native层和java层共同组成，协调系统平稳有序的工作。framework 层主要包括以下内容：</p>
+<ul>
+<li>Zygote进程，是由init进程通过解析init.rc文件后fork生成的</li>
+<li>System Server 进程，是由Zygote fork而来，System Server是Zygote孵化出的第一个进程，System Server 负责启动和管理整个Java FrameWork，包含ActivityManagerService， WorkManagerService，PagerManagerService，PowerManagerService等服务</li>
+<li>Media Server 进程，是由init fork而来，负责启动和管理整个C++FrameWork，包含AudioFlinger，Camera Service等</li>
+</ul>
+<p>Zygote进程共做了如下几件事：</p>
+<ul>
+<li>1.创建AppRuntime并调用其start方法，启动Zygote进程。</li>
+<li>2.创建DVM并为DVM注册JNI.</li>
+<li>3.通过JNI调用ZygoteInit的main函数进入Zygote的Java框架层。</li>
+<li>4.通过registerZygoteSocket函数创建服务端Socket，并通过runSelectLoop函数等待ActivityManagerService的请求来创建新的应用程序进程。</li>
+<li>5.启动SystemServer进程。</li>
+</ul>
+<p>SystemServer在启动时做了如下工作：</p>
+<ul>
+<li>1.启动Binder线程池，这样就可以与其他进程进行通信。</li>
+<li>2.创建SystemServiceManager用于对系统的服务进行创建、启动和生命周期管理。</li>
+<li>3.启动各种系统服务。</li>
+</ul>
+<h3 id="App"><a href="#App" class="headerlink" title="App"></a>App</h3><p>SystemServer进程在启动的过程中会启动PackageManagerService，PackageManagerService启动后会将系统中的应用程序安装完成。在此前已经启动的ActivityManagerService会将Launcher启动起来，Launcher启动后会将已安装应用的快捷图标显示到界面上。</p>
+<ul>
+<li>Zygote 孵化出的第一个App进程是Launcher</li>
+<li>Launcher启动的其他app也是由Zygote fork而来</li>
+</ul>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>1 电源按下时引导芯片代码开始从预定义的地方（固化在ROM）开始执行。加载引导程序Bootloader到RAM，然后执行。</li>
+<li>2 引导程序BootLoader把系统OS拉起来并运行。</li>
+<li>3 Linuc内核启动：设置缓存、被保护存储器、计划列表、加载驱动。完成系统设置后，在系统文件中寻找init.rc文件，并启动init进程。</li>
+<li>4 init进程启动：初始化和启动属性服务，并且启动Zygote进程。</li>
+<li>5 Zygote进程启动：创建JavaVM并为JavaVM注册JNI，创建服务端Socket，启动SystemServer进程。</li>
+<li>6 SystemServer进程启动：启动Binder线程池和SystemServiceManager，并且启动各种系统服务。</li>
+<li>7 Launcher启动：SystemServer进程启动的ActivityManagerService会启动Launcher，Launcher启动后会将已安装应用的快捷图标显示到界面上。</li>
+</ul>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+
+    
+    <p>last update time 2020-02-18</p>
+    
+    
+        <a class="extend next post-next" href="/2020/02/09/多线程数据锁/">next</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/sirencode" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2016 - 2020
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>
