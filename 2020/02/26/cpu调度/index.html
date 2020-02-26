@@ -96,7 +96,7 @@
 </ul>
 <h2 id="Android-Cgroup"><a href="#Android-Cgroup" class="headerlink" title="Android Cgroup"></a>Android Cgroup</h2><p>android通过Cgroup机制，把app的所有后台线程（nice值&gt;=THREAD_PRIORITY_BACKGROUND）分配到bg_non_interactive分组中。这样main thread等高优先级的线程可以分到95%的cpu资源，最大限度的避免了后台线程打断main thread执行。</p>
 <p>由于Android中只有这两个cgroup，也就是说默认分组(前台)中的应用可以利用95%的CPU，而处于bg_non_interactive分组(后台)中的应用则只能获得5%的CPU利用率。app退到后台时，其对应的所有线程都会被分配到分配到bg_non_interactive分组中，避免与前台app抢cpu资源。</p>
-<h2 id="Android-优先级"><a href="#Android-优先级" class="headerlink" title="Android 优先级"></a>Android 优先级</h2><p>android提供了android.os.Process类来设置线程的优先级， 即Process.setThreadPriority(tid, priority)。 Process中根据android的特点也定义了部分nice值对应的常量，比如：</p>
+<h2 id="Android-优先级设置"><a href="#Android-优先级设置" class="headerlink" title="Android 优先级设置"></a>Android 优先级设置</h2><p>android提供了android.os.Process类来设置线程的优先级， 即Process.setThreadPriority(tid, priority)。 Process中根据android的特点也定义了部分nice值对应的常量，比如：</p>
 <ul>
 <li>THREAD_PRIORITY_DEFAULT，默认的线程优先级，nice值为0。</li>
 <li>THREAD_PRIORITY_LOWEST，最低的线程级别，nice值为19。</li>
@@ -109,6 +109,108 @@
 <li>MIN_PRIORITY，相当于Process.THREAD_PRIORITY_LOWEST，nice值为0。</li>
 <li>NORM_PRIORITY，相当于Process.THREAD_PRIORITY_DEFAULT，nice值为5。</li>
 </ul>
+<h2 id="Android-进程优先级-oom-score-adj"><a href="#Android-进程优先级-oom-score-adj" class="headerlink" title="Android 进程优先级 oom_score_adj"></a>Android 进程优先级 oom_score_adj</h2><p>oom_score_adj这个文件允许的值的范围是：-1000 ~ +1000之间。值越小，表示进程越重要。</p>
+<table>
+<thead>
+<tr>
+<th>ADJ级别</th>
+<th>取值</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NATIVE_ADJ</td>
+<td>-1000</td>
+<td>native进程</td>
+</tr>
+<tr>
+<td>SYSTEM_ADJ</td>
+<td>-900</td>
+<td>仅指system_server进程</td>
+</tr>
+<tr>
+<td>PERSISTENT_PROC_ADJ</td>
+<td>-800</td>
+<td>系统persistent进程</td>
+</tr>
+<tr>
+<td>PERSISTENT_SERVICE_ADJ</td>
+<td>-700</td>
+<td>关联着系统或persistent进程</td>
+</tr>
+<tr>
+<td>FOREGROUND_APP_ADJ</td>
+<td>0</td>
+<td>前台进程</td>
+</tr>
+<tr>
+<td>VISIBLE_APP_ADJ</td>
+<td>100</td>
+<td>可见进程</td>
+</tr>
+<tr>
+<td>PERCEPTIBLE_APP_ADJ</td>
+<td>200</td>
+<td>可感知进程，比如后台音乐播放</td>
+</tr>
+<tr>
+<td>BACKUP_APP_ADJ</td>
+<td>300</td>
+<td>备份进程</td>
+</tr>
+<tr>
+<td>HEAVY_WEIGHT_APP_ADJ</td>
+<td>400</td>
+<td>重量级进程</td>
+</tr>
+<tr>
+<td>SERVICE_ADJ</td>
+<td>500</td>
+<td>服务进程</td>
+</tr>
+<tr>
+<td>HOME_APP_ADJ</td>
+<td>600</td>
+<td>home进程</td>
+</tr>
+<tr>
+<td>PREVIOUS_APP_ADJ</td>
+<td>700</td>
+<td>上一个进程</td>
+</tr>
+<tr>
+<td>SERVICE_B_ADJ</td>
+<td>800</td>
+<td>B List中的Service</td>
+</tr>
+<tr>
+<td>CACHED_APP_MIN_ADJ</td>
+<td>900</td>
+<td>不可见进程的adj最小值</td>
+</tr>
+<tr>
+<td>CACHED_APP_MAX_ADJ</td>
+<td>906</td>
+<td>不可见进程的adj最大值</td>
+</tr>
+</tbody>
+</table>
+<h2 id="Android-进程分类"><a href="#Android-进程分类" class="headerlink" title="Android 进程分类"></a>Android 进程分类</h2><h3 id="前台进程"><a href="#前台进程" class="headerlink" title="前台进程"></a>前台进程</h3><ul>
+<li>1 托管正在交互的Activity</li>
+<li>2 托管Service 绑定到正在交互的Activity</li>
+<li>3 托管正执行一个生命周期回调的 Service（onCreate()、onStart() 或 onDestroy()）</li>
+<li>4 托管正执行其 onReceive() 方法的 BroadcastReceiver</li>
+</ul>
+<h3 id="可见进程"><a href="#可见进程" class="headerlink" title="可见进程"></a>可见进程</h3><ul>
+<li>1 托管不在前台、但仍对用户可见的 Activity（已调用其 onPause() 方法）。</li>
+<li>2 托管通过 Service.startForeground() 启动的前台Service。</li>
+<li>3 托管系统用于某个用户可察觉的特定功能的Service，比如动态壁纸、输入法服务等等。</li>
+</ul>
+<h3 id="服务进程"><a href="#服务进程" class="headerlink" title="服务进程"></a>服务进程</h3><p>正在运行已使用 startService() 方法启动的服务且不属于上述两个更高类别进程的进程。尽管服务进程与用户所见内容没有直接关联，但是它们通常在执行一些用户关心的操作（例如，后台网络上传或下载数据）。因此，除非内存不足以维持所有前台进程和可见进程同时运行，否则系统会让服务进程保持运行状态。</p>
+<h3 id="后台进程"><a href="#后台进程" class="headerlink" title="后台进程"></a>后台进程</h3><p>这类进程一般会持有一个或多个目前对用户不可见的 Activity （已调用 Activity 的 onStop() 方法）。它们不是当前所必须的，因此当其他更高优先级的进程需要内存时，系统可能随时终止它们以回收内存。</p>
+<h3 id="空进程"><a href="#空进程" class="headerlink" title="空进程"></a>空进程</h3><p>不含任何活动应用组件的进程。保留这种进程的的唯一目的是用作缓存，以缩短下次在其中运行组件所需的启动时间。 </p>
+<h2 id="内存回收"><a href="#内存回收" class="headerlink" title="内存回收"></a>内存回收</h2><p>进程的优先级：空进程 -&gt; 后台进程 -&gt; 服务进程 -&gt; 可见进程 -&gt; 前台进程，从左到右，优先级越来越高，系统倾向于杀死低优先级的进程。LMK（Low Memory Killer） 杀死进程时，将遵从 空进程 -&gt; 后台进程 -&gt; 服务进程 -&gt; 可见进程 -&gt; 前台进程的顺序。</p>
 
 </article>
 
