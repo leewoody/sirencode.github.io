@@ -63,6 +63,33 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
+          <a href="/2018/05/18/Android DataBinding/">
+            Android DataBinding
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>Android DataBinding作用实现view和data的双向绑定。
+好处与不足
+减少findviewbyid的繁琐代码
+减少setview数据的繁琐代码
+包名修改时不能自动修改引用路径
+早起版本不问题，问题较多
+
+原理以XML注入的方式对view和数据进行绑定，并通过set数据时去更新UI...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-05-18
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
           <a href="/2018/05/05/Android 逆向工程/">
             Android 逆向工程
           </a>
@@ -92,17 +119,18 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/05/05/逆向-small语法/">
-            逆向-small语法
+          <a href="/2018/05/05/Apk二次打包/">
+            Apk二次打包
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>逆向-small语法Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。
-数据类型Dalvik的字节码中拥有两个主要的类型：基类和引用类型。引用类型是对象和数组，其他的一切都是基类。
-基类基类对照：
+            <p>Apk二次打包首先反编译获得smali文件1$ apktool d demo.apk
+找到要注入的方法并添加smali方法调用
+添加方法记得修改被注入方法的寄存器个数
 
-V        空类型...</p>
+修改后的smali进行打包1$ apktool b demo
+...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -116,18 +144,17 @@ V        空类型...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/05/05/Apk二次打包/">
-            Apk二次打包
+          <a href="/2018/05/05/逆向-small语法/">
+            逆向-small语法
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>Apk二次打包首先反编译获得smali文件1$ apktool d demo.apk
-找到要注入的方法并添加smali方法调用
-添加方法记得修改被注入方法的寄存器个数
+            <p>逆向-small语法Smali，Baksmali分别是指安卓系统里的Java虚拟机（Dalvik）所使用的一种.dex格式文件的汇编器，反汇编器。
+数据类型Dalvik的字节码中拥有两个主要的类型：基类和引用类型。引用类型是对象和数组，其他的一切都是基类。
+基类基类对照：
 
-修改后的smali进行打包1$ apktool b demo
-...</p>
+V        空类型...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -231,27 +258,6 @@ Android root首先Android系统不希望用户...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/09/Android Android 共享内存/">
-            Android 共享内存
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Android 匿名共享内存Android可以使用Linux的一切IPC通信方式，包括共享内存，不过Android主要使用的方式是匿名共享内存Ashmem（Anonymous Shared Memory），跟原生的不太一样，比如它在自己的驱动中添加了互斥锁，另外通过fd的传递来实现共享内存的传递。
-...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-04-09
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2018/04/09/设计模式-迭代器模式/">
             设计模式-迭代器模式
           </a>
@@ -272,22 +278,20 @@ Android root首先Android系统不希望用户...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/04/08/设计模式-适配器模式/">
-            设计模式-适配器模式
+          <a href="/2018/04/09/Android Android 共享内存/">
+            Android 共享内存
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>设计模式-适配器模式适配器模式(Adapter Pattern)：将一个接口转换成客户希望的另一个接口，使接口不兼容的那些类可以一起工作，其别名为包装器(Wrapper)。适配器模式既可以作为类结构型模式，也可以作为对象结构型模式。
-角色
-Target：目标角色,期待得到的接口.
-Adaptee：适...</p>
+            <p>Android 匿名共享内存Android可以使用Linux的一切IPC通信方式，包括共享内存，不过Android主要使用的方式是匿名共享内存Ashmem（Anonymous Shared Memory），跟原生的不太一样，比如它在自己的驱动中添加了互斥锁，另外通过fd的传递来实现共享内存的传递。
+...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2018-04-08
+              2018-04-09
             </span>
           
         </div>

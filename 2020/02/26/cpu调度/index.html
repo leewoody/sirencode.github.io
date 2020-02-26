@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>cpu调度 [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">cpu调度</h1>
+<article class="post markdown-style">
+  <h1 id="cpu调度"><a href="#cpu调度" class="headerlink" title="cpu调度"></a>cpu调度</h1><p>现在的操作系统都是多任务的，为了能让更多的任务能同时在系统上更好的运行，需要一个管理程序来管理计算机上同时运行的各个任务（也就是进程）。决定哪些进程运行，哪些进程等待，每个进程运行多长时间，以及中断响应。</p>
+<p>Linux内核有两个调度类：普通调度和实时调度类。</p>
+<h2 id="进程线程"><a href="#进程线程" class="headerlink" title="进程线程"></a>进程线程</h2><p>Linux把所有的线程都当做进程来实现。内核并没有准备特别的调度算法或者或是定义特别的数据结构来表征线程。线程仅仅被视为一个与其他进程共享某些资源的进程。</p>
+<h2 id="时间片"><a href="#时间片" class="headerlink" title="时间片"></a>时间片</h2><p>时间片是一个数值，它表明进程在被抢占前所能持续运行的时间。</p>
+<h2 id="Linux进程优先级"><a href="#Linux进程优先级" class="headerlink" title="Linux进程优先级"></a>Linux进程优先级</h2><p>进程提供了两种优先级，一种是普通的进程优先级，第二个是实时优先级。前者适用 SCHED_NORMAL 调度策略，后者可选 SCHED_FIFO 或 SCHED_RR 调度策略。任何时候，实时进程的优先级都高于普通进程，实时进程只会被更高级的实时进程抢占，同级实时进程之间是按照 FIFO（一次机会做完）或者 RR（多次轮转）规则调度的。普通进程和实时进程分别用 nice 值和实时优先级（RTPRI）来度量优先级。</p>
+<h3 id="nice值-linux和Android一致"><a href="#nice值-linux和Android一致" class="headerlink" title="nice值(linux和Android一致)"></a>nice值(linux和Android一致)</h3><p>nice范围 -20~19，值越大，进程优先级越低。父进程fork出来的子进程nice值与父进程相同。</p>
+<h3 id="实时优先级-Real-Time-Priority-RTPRI"><a href="#实时优先级-Real-Time-Priority-RTPRI" class="headerlink" title="实时优先级(Real Time Priority,RTPRI)"></a>实时优先级(Real Time Priority,RTPRI)</h3><p>实时优先级范围0~99，值越大优先级越高。实时进程都是一些对响应时间要求比较高的进程，因此系统中有实时优先级高的进程处于运行队列的话，它们会抢占一般的进程的运行时间。</p>
+<h2 id="进程调度"><a href="#进程调度" class="headerlink" title="进程调度"></a>进程调度</h2><p>优先级，可以决定谁先运行。但是对于调度程序来说，并不是运行一次就结束了，还必须知道间隔多久进行下次调度。于是就有了时间片的概念。时间片是一个数值，表示一个进程被抢占前能持续运行的时间。也可以认为是进程在下次调度发生前运行的时间(除非进程主动放弃CPU，或者有实时进程来抢占CPU)。默认的时间片一般是10ms。</p>
+<h2 id="进程调度算法CFS"><a href="#进程调度算法CFS" class="headerlink" title="进程调度算法CFS"></a>进程调度算法CFS</h2><p>Linux上的调度算法是不断发展的，一开始的调度器是复杂度为O(n)的始调度算法, 这个算法的缺点是当内核中有很多任务时，调度器本身就会耗费不少时间，所以，从linux2.5开始引入赫赫有名的O(1)调度器，在O(1)调度器风光了没几天就又被另一个更优秀的调度器取代了，它就是CFS调度器Completely Fair Scheduler. 这个也是在2.6内核中引入的，具体为2.6.23。</p>
+<ul>
+<li>O(N)：在每次进程切换时，内核依次扫描就绪队列上的每一个进程，计算每个进程的优先级，再选择出优先级最高的进程来运行。</li>
+<li>O(1)：其基本思想是根据进程的优先级进行调度。进程有两个优先级,一个是静态优先级,一个是动态优先级。静态优先级是用来计算进程运行的时间片长度的,动态优先级是在调度器进行调度时用到的,调度器每次都选取动态优先级最高的进程运行。</li>
+<li>CFS：cfs定义了一种新的模型，它给cfs_rq（cfs的run queue）中的每一个进程安排一个虚拟时钟，vruntime。如果一个进程得以执行，随着时间的增长（也就是一个个tick的到来），其vruntime将不断增大。没有得到执行的进程vruntime不变。而调度器总是选择vruntime跑得最慢的那个进程来执行。 </li>
+</ul>
+<p>CFS的思想就是让每个调度实体（没有组调度的情形下就是进程，以后就说进程了）的vruntime互相追赶，而每个调度实体的vruntime增加速度不同，权重越大的增加的越慢，这样就能获得更多的cpu执行时间。</p>
+<ul>
+<li>调度周期-将所有处于TASK_RUNNING态进程都调度一遍的时间。</li>
+</ul>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">分配给进程的运行时间 = 调度周期 * 进程权重 / 所有进程权重之和</span><br><span class="line">vruntime = 实际运行时间 * 1024(nice为0的进程的权重，NICE_0_LOAD) / 进程权重</span><br><span class="line">vruntime = （调度周期 * 进程权重 / 全部进程权重之和） * 1024 / 进程权重</span><br><span class="line">vruntime = （调度周期 / 全部进程权重之和） * 1024</span><br></pre></td></tr></table></figure>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>假如有三个可调度进程A、B、C，它们的优先级分别为5,10,15(总权重=优先级最小公倍数)，调度周期为60ms, 则它们的时间片分别为：</p>
+<ul>
+<li>A时间片-60ms * 5 / 30 = 10ms</li>
+<li>B时间片-60ms * 10 / 30 = 20ms</li>
+<li>C时间片-60ms * 15 / 30 = 30ms</li>
+<li>vruntime = 60/30 * 1024 = 2048 </li>
+</ul>
+<h2 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h2><p>CFS-进程在一个调度周期内的vruntime值大小与进程权重无关，所有进程的vruntime值在一个周期内增长是一致的。vruntime值较小的进程，说明它以前占用cpu的时间较短，受到了不公平对待，因此选择作为下一次运行的进程。其可以简单概括为：机会平等、时间差异。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="新进程的vruntime的初始值"><a href="#新进程的vruntime的初始值" class="headerlink" title="新进程的vruntime的初始值"></a>新进程的vruntime的初始值</h3><p>每个CPU的运行队列cfs_rq都维护一个 min_vruntime 字段，记录该运行队列中所有进程的vruntime最小值，新进程的初始vruntime值就以它所在运行队列的min_vruntime为基础来设置，与老进程保持在合理的差距范围内。</p>
+<h3 id="休眠进程的vruntime值"><a href="#休眠进程的vruntime值" class="headerlink" title="休眠进程的vruntime值"></a>休眠进程的vruntime值</h3><p>休眠进程的vruntime值：在休眠进程被唤醒时重新设置vruntime值，以min_vruntime值为基础，给予一定的补偿，但不能补偿太多。</p>
+<h3 id="进程从一个CPU迁移至另外一个CPU的时候vruntime的变化"><a href="#进程从一个CPU迁移至另外一个CPU的时候vruntime的变化" class="headerlink" title="进程从一个CPU迁移至另外一个CPU的时候vruntime的变化"></a>进程从一个CPU迁移至另外一个CPU的时候vruntime的变化</h3><p>当进程从一个CPU的运行队列中出来 (dequeue_entity) 的时候，它的vruntime要减去队列的min_vruntime值； 而当进程加入另一个CPU的运行队列 ( enqueue_entiry) 时，它的vruntime要加上该队列的min_vruntime值。 这样，进程从一个CPU迁移到另一个CPU之后，vruntime保持相对公平。</p>
+<h2 id="linux-Cgroup机制"><a href="#linux-Cgroup机制" class="headerlink" title="linux Cgroup机制"></a>linux Cgroup机制</h2><p>Cgroups是control groups的缩写，是Linux内核提供的一种可以限制、记录、隔离进程组（process groups）所使用的物理资源（如：cpu,memory,IO等等）的机制。最初由google的工程师提出，后来被整合进Linux内核。</p>
+<h1 id="Android-进程-amp-线程调度"><a href="#Android-进程-amp-线程调度" class="headerlink" title="Android 进程&amp;线程调度"></a>Android 进程&amp;线程调度</h1><p>Android 中的线程对应到 Linux 的内核中的轻量级进程，所以 Linux 为其分配资源适用 Linux 进程调度策略。其中主线程等同于应用进程的优先级，一般由 Android 系统根据应用状态的变化自行调控。</p>
+<p>android基于linux内核，android系统对进程、线程的调度也是基于linux实现的。 linux调度策略分为实时（realtime）调度与非实时（normal）调度。实时调度包括SCHED_FIFO、SHCHED_RR，android中使用SCHED_FIFO；非实时调度包括：SCHED_OTHER、SHCED_BATCH、SHCED_IDLE，android一般使用SCHED_OTHER。</p>
+<h2 id="Android-调度策略"><a href="#Android-调度策略" class="headerlink" title="Android 调度策略"></a>Android 调度策略</h2><ul>
+<li>高优先级的实时任务（比如Audio、SurfaceFlinger）使用SHCED_FIFO</li>
+<li>基于CFS的SCHED_OTHER（大部分任务都属于此类）</li>
+</ul>
+<h2 id="Android-Cgroup"><a href="#Android-Cgroup" class="headerlink" title="Android Cgroup"></a>Android Cgroup</h2><p>android通过Cgroup机制，把app的所有后台线程（nice值&gt;=THREAD_PRIORITY_BACKGROUND）分配到bg_non_interactive分组中。这样main thread等高优先级的线程可以分到95%的cpu资源，最大限度的避免了后台线程打断main thread执行。</p>
+<p>由于Android中只有这两个cgroup，也就是说默认分组(前台)中的应用可以利用95%的CPU，而处于bg_non_interactive分组(后台)中的应用则只能获得5%的CPU利用率。app退到后台时，其对应的所有线程都会被分配到分配到bg_non_interactive分组中，避免与前台app抢cpu资源。</p>
+<h2 id="Android-优先级"><a href="#Android-优先级" class="headerlink" title="Android 优先级"></a>Android 优先级</h2><p>android提供了android.os.Process类来设置线程的优先级， 即Process.setThreadPriority(tid, priority)。 Process中根据android的特点也定义了部分nice值对应的常量，比如：</p>
+<ul>
+<li>THREAD_PRIORITY_DEFAULT，默认的线程优先级，nice值为0。</li>
+<li>THREAD_PRIORITY_LOWEST，最低的线程级别，nice值为19。</li>
+<li>THREAD_PRIORITY_BACKGROUND 后台线程建议设置这个优先级，nice值为10。</li>
+<li>THREAD_PRIORITY_FOREGROUND 用户正在交互的UI线程优先级，nice值为-2。</li>
+</ul>
+<p>JAVA版本中的优先级使用java.lang.Thread中的setPriority(int priority)和getPriority()设置和获得线程的优先级，其只包括三种类型的线程优先级，属于粗粒度控制</p>
+<ul>
+<li>MAX_PRIORITY，相当于Process.THREAD_PRIORITY_URGENT_DISPLAY，nice值为10。</li>
+<li>MIN_PRIORITY，相当于Process.THREAD_PRIORITY_LOWEST，nice值为0。</li>
+<li>NORM_PRIORITY，相当于Process.THREAD_PRIORITY_DEFAULT，nice值为5。</li>
+</ul>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+
+    
+    <p>last update time 2020-02-26</p>
+    
+    
+        <a class="extend next post-next" href="/2020/02/18/Android 启动过程/">next</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/sirencode" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2016 - 2020
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>
