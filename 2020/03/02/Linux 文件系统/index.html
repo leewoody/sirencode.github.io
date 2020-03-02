@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>Linux 文件系统 [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">Linux 文件系统</h1>
+<article class="post markdown-style">
+  <h1 id="Linux-文件系统"><a href="#Linux-文件系统" class="headerlink" title="Linux 文件系统"></a>Linux 文件系统</h1><p>在LINUX系统中有一个重要的概念：一切都是文件。不仅普通的文件，目录、字符设备、块设备、 套接字等在 Unix/Linux 中都是以文件被对待；它们虽然类型不同，但是对其提供的却是同一套操作界面。</p>
+<p>计算机的用户想解决信息永久存储、获取的问题，于是硬件厂商扔出来一堆硬件器具，而操作这些硬件进行管理查看等操作的系统就是文件系统。</p>
+<h2 id="Linux-文件系统层级"><a href="#Linux-文件系统层级" class="headerlink" title="Linux 文件系统层级"></a>Linux 文件系统层级</h2><p>从顶到底依次是：VFS Layer -&gt; file system layer -&gt; generic block layer -&gt;io scheduler layer</p>
+<h2 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h2><ul>
+<li>1 app调用read()会触发相应的VFS（Virtual Filesystem Switch）函数，传递的参数有文件描述符和文件偏移量。</li>
+<li>2 VFS确定请求的数据是否已经在内存缓冲区中；若数据不在内存中，确定如何执行读 操作。</li>
+<li>3 假设内核必须从块设备上读取数据，这样内核就必须确定数据在物理设备上的位置。这由映射层（Mapping Layer）来完成。</li>
+<li>4 此时内核通过通用块设备层（Generic Block Layer）在块设备上执行读操作，启动I/O操作，传输请求的数据。</li>
+<li>5 在通用块设备层之下是I/O调度层（I/O Scheduler Layer），根据内核的调度策略，对等待的I/O等待队列排序。</li>
+<li>6 最后，块设备驱动（Block Device Driver）通过向磁盘控制器发送相应的命令，执行真正的数据传输。</li>
+</ul>
+<h2 id="存储介质-块设备"><a href="#存储介质-块设备" class="headerlink" title="存储介质-块设备"></a>存储介质-块设备</h2><p>系统中能够随机访问固定大小数据片（chunk）的设备称为块设备，这些数据片就称作块。最常见的块设备是硬盘，除此之外，还有CD-ROM驱动器和SSD等。它们通常安装文件系统的方式使用。</p>
+<ul>
+<li>扇区（Sectors）：块设备(硬件)中最小的可寻址单元是扇区。扇区大小一般是2的整数倍，而最常见的大小是512 字节，不过其他大小的扇区也很常见（比如，很多CD-ROM盘的扇区都是2k 大小）。若块设备使用的扇区大于512字节，则相应的底层驱动程序负责相应的转换工作。</li>
+<li>块（Blocks）：块是VFS和文件系统传送数据的基本单元，也是映射层的映射单元。一个块对应着设备上一个或多个相邻的扇区。对块大小的最终要求是，必须是扇区大小的2的整数倍，并且要小于页面大小。所以通 常块大小是512字节、1K或4K。</li>
+<li>页：内存管理单元，块缓冲区：页中包含一个或多个块缓冲区，每个块缓冲区对应着上述一个块的内容，同一个页的块缓冲区可以不连续。</li>
+<li>段（Segments）：一个段就是一个内存页或内存内的一部分，它们包括磁盘上物理相邻的数据块。</li>
+</ul>
+<h2 id="VFS-Virtual-File-System"><a href="#VFS-Virtual-File-System" class="headerlink" title="VFS(Virtual File System)"></a>VFS(Virtual File System)</h2><p>虚拟文件系统是Linux内核中的一个软件层，用于给用户空间的程序提供文件系统接口，同时也为内核提供了一个抽象功能，适配不同的文件系统共存。一个实际的文件系统想要被 Linux 支持，就必须提供一个符合VFS标准的接口，才能与 VFS 协同工作。实际文件系统在统一的接口和数据结构下隐藏了具体的实现细节，所以在VFS 层和内核的其他部分看来，所有文件系统都是相同的。</p>
+<p>用户间R/W-&gt;VFS的R/W -&gt; 实际文件系统的RW -&gt; 操作具体的存储介质</p>
+<p>VFS即虚拟文件系统是Linux文件系统中的一个抽象软件层；因为它的支持，众多不同的实际文件系统才能在Linux中共存，跨文件系统操作才能实现。VFS借助它四个主要的数据结构即超级块、索引节点、目录项和文件对象以及一些辅助的数据结构，向Linux中不管是普通的文件还是目录、设备、套接字等都提供同样的操作界面，如打开、读写、关闭等。只有当把控制权传给实际的文件系统时，实际的文件系统才会做出区分，对不同的文件类型执行不同的操作。</p>
+<h3 id="VFS数据结构"><a href="#VFS数据结构" class="headerlink" title="VFS数据结构"></a>VFS数据结构</h3><p>基本概念：</p>
+<ul>
+<li>文件：一组在逻辑上具有完整意义的信息项的系列。在Linux中，除了普通文件，其他诸如目录、设备、套接字等 也以文件被对待。</li>
+<li>目录：目录好比一个文件夹，用来容纳相关文件。</li>
+<li>目录项：在一个文件路径中，路径中的每一部分都被称为目录项；如路径/home/source/helloworld.c中，目录 /，home，/，source和文件 helloworld.c都是一个目录项。</li>
+<li>索引节点：用于存储文件的元数据的一个数据结构。文件的元数据，也就是文件的相关信息，和文件本身是两个不同 的概念。它包含的是诸如文件的大小、拥有者、创建时间、磁盘位置等和文件相关的信息。</li>
+<li>超级块 用于存储文件系统的控制信息的数据结构。描述文件系统的状态、文件系统类型、大小、区块数、索引节 点数等，存放于磁盘的特定扇区中。</li>
+</ul>
+<p>抽象对象：</p>
+<ul>
+<li>超级块对象：代表一个已安装的文件系统。</li>
+<li>索引节点对象：代表uti的文件。</li>
+<li>目录项对象：代表一个目录项，是文件路径的一个组成部分。</li>
+<li>文件对象：代表进程打开的文件。</li>
+</ul>
+<h2 id="FileSystem"><a href="#FileSystem" class="headerlink" title="FileSystem"></a>FileSystem</h2><p>linux常见文件系统：</p>
+<ul>
+<li>ext2</li>
+<li>ext3</li>
+<li>ext4</li>
+<li>RAMFS-内存文件系统，速度快</li>
+<li>NFS-网络文件系统，由SUN发明，主要用于远程文件共享</li>
+<li>MS-DOS </li>
+<li>VFTA win97/98操作系统采用</li>
+<li>FAT xp</li>
+<li>NTFS：winNT/XP系统</li>
+<li>HPFS：os/2操作系统</li>
+<li>PROC：虚拟的进程文件系统</li>
+<li>ISO9660：大部分光盘所采用的文件系统…</li>
+</ul>
+<h2 id="Android-文件系统"><a href="#Android-文件系统" class="headerlink" title="Android 文件系统"></a>Android 文件系统</h2><p>Android操作系统依托于Linux，所以主要的文件系统也是从Linux中发展而来，包括exFAT、ext3、ext4等，目前大多数手机仍使用Ext4。F2FS “Flash Friendly File System”，一种专门为闪存而生的文件系统，其优势就是小文件的传输速率更快。近年来不断的有旗舰机采用这一文件系统，华为、OnePlus、三星等，也使得这一文件系统在高端机上得到普及，促进了它的不断优化和兼容性。</p>
+<h3 id="mount"><a href="#mount" class="headerlink" title="mount"></a>mount</h3><p>在 Linux 中将一个文件系统与一个存储设备关联起来的过程称为挂装（mount）。使用 mount 命令将一个文件系统附着到当前文件系统层次结构中（根）。在执行挂装时，要提供文件系统类型、文件系统和一个挂装点。</p>
+<h2 id="通用块设备层（Generic-Block-Layer）"><a href="#通用块设备层（Generic-Block-Layer）" class="headerlink" title="通用块设备层（Generic Block Layer）"></a>通用块设备层（Generic Block Layer）</h2><p>通用块设备层（Generic Block Layer）是内核的一个组成部分，它处理系统所有对块设备的请求。</p>
+<p>通用块层的核心数据结构是一个称为BIO的描述符，它描述了块设备的IO操作。每个bio结构都包含一个磁盘存储区标识符（存储区中的起始扇区和扇区数目）和一个或多个描述符与IO操作相关的内存区的段。在块IO操作期间，bio描述符的内容一直保持更新。</p>
+<h2 id="IO调度器"><a href="#IO调度器" class="headerlink" title="IO调度器"></a>IO调度器</h2><p>为了优化寻址操作，内核不会一旦接收到I/O请求后，就按照请求的次序发起块I/O请求。 而是，它在提交前，先执行合并与排序（merging and sorting），这种操作可以极大地提高 系统的整体性能。在内核子系统中，负责以上操作的被称为I/O调度器（I/O scheduler）。</p>
+<p>I/O调度器将磁盘I/O资源分配给系统中所有挂起的块I/O请求。具体的说，这种资源分配是通过将请求队列中挂起的请求合并和排序来完成的。</p>
+<ul>
+<li>合并：并指将两个或多个请求结合成一个新请求。考虑一下这种情况，文件系统提交请求到请求队 列—从文件中读取一个数据区，如果这时队列中已经存在一个请求，它访问的磁盘扇区和当 前请求访问的磁盘扇区相邻，那么这两个请求就可以合并为一个对单个或多个相邻磁盘扇区操作的新请求。通过合并请求，I/O调度器将多次请求的开销压缩为一次请求的开销。更重要的是，请求合并后只需要传递给磁盘一条寻址命令，就可以访问到请求合并前必须多次寻址才能访问完的磁盘区域了，因此合并请求显然能减少系统开销和磁盘寻址次数。</li>
+<li>排序：整个请求队列将按扇区增长方向有序排列。</li>
+</ul>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+
+    
+    <p>last update time 2020-03-02</p>
+    
+    
+        <a class="extend next post-next" href="/2020/02/26/cpu调度/">next</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/sirencode" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2016 - 2020
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>
