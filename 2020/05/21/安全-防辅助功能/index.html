@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">Home</a>
+          <a href="/">トップページ</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">Archives</a>
+          <a href="/archives">ポスト</a>
         
       </div>
     </div>
@@ -61,104 +61,102 @@
 <h2 id="常用攻击场景"><a href="#常用攻击场景" class="headerlink" title="常用攻击场景"></a>常用攻击场景</h2><p>一般会监听页面某个动作，之后进行自己处理。比如你的页面有一个支付的按钮，在发生点击事件的时候被辅助功能监听，之后唤起一个支付网页，这个网页一般通过浏览器打开(如果你的内置webview提供了对外的功能，也可以唤起你的webview打开页面)，之后在对应的页面去诱导用户支付。 </p>
 <h2 id="辅助功能事件发送"><a href="#辅助功能事件发送" class="headerlink" title="辅助功能事件发送"></a>辅助功能事件发送</h2><p>java点击： </p>
 <pre><code>// View.click 
-public boolean performClick() { 
-// We still need to call this method to handle the cases where performClick() was called 
-// externally, instead of through performClickInternal() 
-notifyAutofillManagerOnClick(); 
-final boolean result; 
-final ListenerInfo li = mListenerInfo; 
-if (li != null &amp;&amp; li.mOnClickListener != null) { 
-playSoundEffect(SoundEffectConstants.CLICK); 
-li.mOnClickListener.onClick(this); 
-result = true; 
-} else { 
-result = false; 
-} 
-// 发送辅助功能的点击事件 
-sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED); 
-notifyEnterOrExitForAutoFillIfNeeded(true); 
-return result; 
-} 
+public boolean performClick() {
+    notifyAutofillManagerOnClick();
+    final boolean result;
+    final ListenerInfo li = mListenerInfo;
+    if (li != null &amp;&amp; li.mOnClickListener != null) {
+        playSoundEffect(SoundEffectConstants.CLICK);
+        li.mOnClickListener.onClick(this);
+        result = true;
+    } else {
+        result = false;
+    }
+    // 发送辅助功能的点击事件 
+    sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_CLICKED);
+    notifyEnterOrExitForAutoFillIfNeeded(true);
+    return result;
+}
 </code></pre><p>2 辅助功能事件的发送： </p>
-<pre><code>public void sendAccessibilityEvent(int eventType) { 
-// 如果设置了View的setAccessibilityDelegate，就调用mAccessibilityDelegate方法 
-if (mAccessibilityDelegate != null) { 
-mAccessibilityDelegate.sendAccessibilityEvent(this, eventType); 
-} else { 
-sendAccessibilityEventInternal(eventType); 
-} 
-} 
+<pre><code>public void sendAccessibilityEvent(int eventType) {
+    // 如果设置了View的setAccessibilityDelegate，就调用mAccessibilityDelegate方法 
+    if (mAccessibilityDelegate != null) {
+        mAccessibilityDelegate.sendAccessibilityEvent(this, eventType);
+    } else {
+        sendAccessibilityEventInternal(eventType);
+    }
+}
 </code></pre><p>3 mAccessibilityDelegate.sendAccessibilityEvent，既然可以设置View的AccessibilityDelegate，那我们就可以重写这个方法做到过滤掉一些辅助事件的发送。 </p>
 <pre><code>// AccessibilityDelegate 
-public void sendAccessibilityEvent(View host, int eventType) { 
-host.sendAccessibilityEventInternal(eventType); 
-} 
+public void sendAccessibilityEvent(View host, int eventType) {
+    host.sendAccessibilityEventInternal(eventType);
+}
 </code></pre><h2 id="辅助功能的模拟点击"><a href="#辅助功能的模拟点击" class="headerlink" title="辅助功能的模拟点击"></a>辅助功能的模拟点击</h2><p>1 AccessibilityNodeInfo.performAction </p>
-<pre><code>public boolean performAction(int action) { 
-enforceSealed(); 
-if (!canPerformRequestOverConnection(mSourceNodeId)) { 
-return false; 
-} 
-AccessibilityInteractionClient client = AccessibilityInteractionClient.getInstance(); 
-return client.performAccessibilityAction(mConnectionId, mWindowId, mSourceNodeId, 
-action, null); 
-} 
+<pre><code>public boolean performAction(int action) {
+    enforceSealed();
+    if (!canPerformRequestOverConnection(mSourceNodeId)) {
+        return false;
+    }
+    AccessibilityInteractionClient client = AccessibilityInteractionClient.getInstance();
+    return client.performAccessibilityAction(mConnectionId, mWindowId, mSourceNodeId,
+            action, null);
+}
 </code></pre><p>2 AccessibilityInteractionClient.performAccessibilityAction </p>
-<pre><code>public boolean performAccessibilityAction(int connectionId, int accessibilityWindowId, 
-long accessibilityNodeId, int action, Bundle arguments) { 
-try { 
-IAccessibilityServiceConnection connection = getConnection(connectionId); 
-if (connection != null) { 
-final int interactionId = mInteractionIdCounter.getAndIncrement(); 
-final long identityToken = Binder.clearCallingIdentity(); 
-final boolean success; 
-try { 
-success = connection.performAccessibilityAction( 
-accessibilityWindowId, accessibilityNodeId, action, arguments, 
-interactionId, this, Thread.currentThread().getId()); 
-} finally { 
-Binder.restoreCallingIdentity(identityToken); 
-} 
-if (success) { 
-return getPerformAccessibilityActionResultAndClear(interactionId); 
-} 
-} else { 
-if (DEBUG) { 
-Log.w(LOG_TAG, &quot;No connection for connection id: &quot; + connectionId); 
-} 
-} 
-} catch (RemoteException re) { 
-Log.w(LOG_TAG, &quot;Error while calling remote performAccessibilityAction&quot;, re); 
-} 
-return false; 
-} 
+<pre><code>public boolean performAccessibilityAction(int connectionId, int accessibilityWindowId,
+                                          long accessibilityNodeId, int action, Bundle arguments) {
+    try {
+        IAccessibilityServiceConnection connection = getConnection(connectionId);
+        if (connection != null) {
+            final int interactionId = mInteractionIdCounter.getAndIncrement();
+            final long identityToken = Binder.clearCallingIdentity();
+            final boolean success;
+            try {
+                success = connection.performAccessibilityAction(
+                        accessibilityWindowId, accessibilityNodeId, action, arguments,
+                        interactionId, this, Thread.currentThread().getId());
+            } finally {
+                Binder.restoreCallingIdentity(identityToken);
+            }
+            if (success) {
+                return getPerformAccessibilityActionResultAndClear(interactionId);
+            }
+        } else {
+            if (DEBUG) {
+                Log.w(LOG_TAG, &quot;No connection for connection id: &quot; + connectionId);
+            }
+        }
+    } catch (RemoteException re) {
+        Log.w(LOG_TAG, &quot;Error while calling remote performAccessibilityAction&quot;, re);
+    }
+    return false;
+}
 </code></pre><p>3 View.performAccessibilityAction </p>
-<pre><code>public boolean performAccessibilityAction(View host, int action, Bundle args) { 
-return host.performAccessibilityActionInternal(action, args); 
-} 
+<pre><code>public boolean performAccessibilityAction(View host, int action, Bundle args) {
+    return host.performAccessibilityActionInternal(action, args);
+}
 </code></pre><h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><p>通过上面的流程分析，可以明确知道辅助功能的发送点，以及辅助功能的控制点。 </p>
 <ul>
 <li>1 重写View的mAccessibilityDelegate抑制辅助功能事假的发送 </li>
-<li>2 重写View的performAccessibilityAction控制复制功能的模拟事件 <h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2>辅助功能分发控制： <pre><code>class DefenseAccessibolityDelegate : View.AccessibilityDelegate() { 
-override fun sendAccessibilityEvent(host: View?, eventType: Int) { 
-if (eventType != AccessibilityEvent.TYPE_VIEW_CLICKED) { 
-super.sendAccessibilityEvent(host, eventType) 
-} 
-} 
-} 
-</code></pre>放点击处理： <pre><code>class DefenseButton @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) 
-: Button(context, attrs, defStyleAttr) { 
-override fun performAccessibilityAction(action: Int, arguments: Bundle?): Boolean { 
-if (action == AccessibilityNodeInfo.ACTION_CLICK){ 
-return true; 
-} else{ 
-return super.performAccessibilityAction(action, arguments) 
-} 
-} 
-} 
+<li>2 重写View的performAccessibilityAction控制复制功能的模拟事件 <h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2>辅助功能分发控制： <pre><code>class DefenseAccessibolityDelegate : View.AccessibilityDelegate() {
+  override fun sendAccessibilityEvent(host: View?, eventType: Int) {
+      if (eventType != AccessibilityEvent.TYPE_VIEW_CLICKED) {
+          super.sendAccessibilityEvent(host, eventType)
+      }
+  }
+}
 </code></pre></li>
 </ul>
-
+<p>放点击处理：</p>
+<pre><code>class DefenseButton @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0): Button(context, attrs, defStyleAttr) {
+    override fun performAccessibilityAction(action: Int, arguments: Bundle?): Boolean {
+        if (action == AccessibilityNodeInfo.ACTION_CLICK){
+            return true;
+        } else{
+            return super.performAccessibilityAction(action, arguments)
+        }
+    }
+}
+</code></pre>
 </article>
 
     <div class="pagenator post-pagenator">
@@ -166,10 +164,10 @@ return super.performAccessibilityAction(action, arguments)
     
 
     
-    <p>last update time 2020-05-22</p>
+    <p>前回の更新 2020-05-22</p>
     
     
-        <a class="extend next post-next" href="/2020/03/02/Linux 文件系统/">next</a>
+        <a class="extend next post-next" href="/2020/03/02/Linux 文件系统/">次の章</a>
     
     </div>
 
