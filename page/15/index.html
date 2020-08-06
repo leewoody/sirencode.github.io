@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">トップページ</a>
+          <a href="/">페이지</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">ポスト</a>
+          <a href="/archives">압축 파일</a>
         
       </div>
     </div>
@@ -60,6 +60,28 @@
 
 
   <div class="article">
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/08/31/内存泄漏/">
+            Android 内存泄漏总结
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>1 context内存泄漏Activity是重量级对象，应该让Android系统来处理它。然而，逻辑内存泄漏总是在不经意间发生。（译者注：曾经试过一个Activity导致20M内存泄漏）。在Android中，导致潜在内存泄漏的陷阱不外乎两种：
+
+全局进程(process-global)的static...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-08-31
+            </span>
+          
+        </div>
+      </div>
     
       <div class="article-item">
         <h2 class="article-item-header">
@@ -107,15 +129,14 @@ MVP介绍MVP...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/24/性能分析/">
-            Android 性能分析
+          <a href="/2016/08/24/screen adapter/">
+            Android 屏幕适配-比例适配
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>性能分类  除了交互、视觉、内容方面的问题外，在用户使用过程中，给用户造成烦恼的问题都可以归结为是性能问题，比如上文中列出的这些都属于性能问题，按照影响的方面不同，可以分为如下几大类：
-
-内存问题：耗内存、OOM、程序切换到后台后占用内存无法释放（OOM会影响产品的稳定性；耗内存、内存泄露会影响整机...</p>
+            <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。
+适配分类完美适配(100分)这种适配方式是无差的适配方案。主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dime...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -129,14 +150,15 @@ MVP介绍MVP...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/24/screen adapter/">
-            Android 屏幕适配-比例适配
+          <a href="/2016/08/24/性能分析/">
+            Android 性能分析
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>碎片化一直是android开发人员的一大通病，可叫开发人员吃了不少的苦头。而屏幕适配，更是一直困扰着大部分开发人员。这里介绍一下市场上主流的适配方式，以及优缺点。
-适配分类完美适配(100分)这种适配方式是无差的适配方案。主要实现就是，为每一种布局写一套适配，可以定义多个values文件或者dime...</p>
+            <p>性能分类  除了交互、视觉、内容方面的问题外，在用户使用过程中，给用户造成烦恼的问题都可以归结为是性能问题，比如上文中列出的这些都属于性能问题，按照影响的方面不同，可以分为如下几大类：
+
+内存问题：耗内存、OOM、程序切换到后台后占用内存无法释放（OOM会影响产品的稳定性；耗内存、内存泄露会影响整机...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -261,27 +283,6 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
         </div>
       </div>
     
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2016/08/20/check_code_style/">
-            Android 代码规范-CheckStyle
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>代码的规范很重要，但是大多数情况下，项目组里面的每个人的编码规范都不太一样，虽然有代码规范，不过也保证不了百分百的执行。这是我们就需要一个check-style模板来完成这些工作了，它可以帮助我们动态的去检查每个文件的编码规范，并给出提示，只需要在代码review的时候做就可以了。
-AndroidS...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-20
-            </span>
-          
-        </div>
-      </div>
-    
   </div>
 
 
@@ -289,7 +290,7 @@ AndroidS...</p>
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/14">前のページ</a>
+        <a class="extend prev" href="/page/14">페이지</a>
     
 
     
@@ -346,7 +347,7 @@ AndroidS...</p>
     
     
     
-        <a class="extend next" href="/page/16">次のページ</a>
+        <a class="extend next" href="/page/16">다음 페이지</a>
     
 </div>
 

@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">トップページ</a>
+          <a href="/">페이지</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">ポスト</a>
+          <a href="/archives">압축 파일</a>
         
       </div>
     </div>
@@ -63,13 +63,38 @@
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2018/11/29/源码分析Activity分析/">
-            源码分析Activity分析
+          <a href="/2018/11/29/源码分析ContentProvider/">
+            源码分析ContentProvider
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>源码分析Activity分析布局PhoneWindow-&amp;gt;getDecorView()-&amp;gt;installDecor()-&amp;gt;DecorView 继承 FrameLayout-&amp;gt;generateLayout(DecorView)生成activity的跟布局LinearLayout...</p>
+            <p>ContentProviderContentResolver的获取流程：
+1 ContextWrapper.getContentResolver()
+2 ContextImpl.getContentResolver() mContentResolver是ApplicationContentResol...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2018-11-29
+            </span>
+          
+        </div>
+      </div>
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2018/11/29/源码分析BroadcastReceiver/">
+            源码分析BroadcastReceiver
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>源码分析BroadcastReceiverBroadcastReceiver注册：
+1 ContextWrapper.registerReceiver()
+2 ContextImpl.registerReceiver()
+123456@Overridepublic Intent registerRe...</p>
           
         </div>
         <div class="atricle-item-time">
@@ -259,27 +284,6 @@ ScrcpyScrcpy本身就是免费的，且默认传输速率为8M，最高支持32M
         </div>
       </div>
     
-      <div class="article-item">
-        <h2 class="article-item-header">
-          <a href="/2018/07/06/Android 模块化 /">
-            Android 模块化
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>Android 模块化背景，当我们的项目的业务随着时间的推移越来越多越来越复杂，有时候只是想测试一下或者修改一下相对简单的功能，也需要等待相对漫长的编译时间，以及各种跳转依赖的处理。为了使相对独立的模块相对快速的开发，我们决定事实模块化，可以单独打包对应的模块。
-整体的思路主项目全量打包，包含所有的...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2018-07-06
-            </span>
-          
-        </div>
-      </div>
-    
   </div>
 
 
@@ -287,7 +291,7 @@ ScrcpyScrcpy本身就是免费的，且默认传输速率为8M，最高支持32M
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/3">前のページ</a>
+        <a class="extend prev" href="/page/3">페이지</a>
     
 
     
@@ -344,7 +348,7 @@ ScrcpyScrcpy本身就是免费的，且默认传输速率为8M，最高支持32M
     
     
     
-        <a class="extend next" href="/page/5">次のページ</a>
+        <a class="extend next" href="/page/5">다음 페이지</a>
     
 </div>
 

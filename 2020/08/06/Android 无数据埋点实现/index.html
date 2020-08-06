@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>无数据埋 [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">페이지</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">압축 파일</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">无数据埋</h1>
+<article class="post markdown-style">
+  <h1 id="无数据埋点"><a href="#无数据埋点" class="headerlink" title="无数据埋点"></a>无数据埋点</h1><p>无数据埋点，又称自动埋点，就是指不需要开发人员添加任何代码(业务代码)，就可以实现数据的采集。</p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><p>无数据埋点适合那些和业务耦合不大的一些埋点，因为操作的是字节码很难获取到实时的一些数据添加到埋点中，其实是可以实现的，但是不建议那么做，无数据埋点的宗旨意在建立统一的规范化的一套自动化流程记录信息，并不关心一些运行时的数据。</p>
+<ul>
+<li>记录页面曝光</li>
+<li>记录页面链路</li>
+<li>统计方法执行时间</li>
+<li>高级用法-圈选-埋点-上报</li>
+</ul>
+<h2 id="代码插装"><a href="#代码插装" class="headerlink" title="代码插装"></a>代码插装</h2><p>插桩：目标程序代码中某些位置插入或修改成一些代码，从而在目标程序运行过程中获取某些程序状态并加以分析。简单来说就是在代码中插入代码。 那么函数插桩，便是在函数中插入或修改代码。在Android编译过程中，往字节码里插入自定义的字节码，所以也可以称为字节码插桩。</p>
+<h2 id="编译流程"><a href="#编译流程" class="headerlink" title="编译流程"></a>编译流程</h2><pre><code class="mermaid">graph LR
+    A(java resocrce) --IDE_AST插装时机--&gt;B(.java)
+    B --compiler_AspectJ插装时间--&gt; C(.class)
+    C --android compiler_ASM Javassist插装时机--&gt; D(.dex)
+</code></pre>
+<h2 id="方案"><a href="#方案" class="headerlink" title="方案"></a>方案</h2><h3 id="AST-Abstract-Syntax-Tree"><a href="#AST-Abstract-Syntax-Tree" class="headerlink" title="AST(Abstract Syntax Tree)"></a>AST(Abstract Syntax Tree)</h3><p>AST（Abstract Syntax Tree）是源代码的抽象语法结构树状表现形式。不同的语言，都会有对应不同的语法分析器，语法分析器会把源代码作为字符串读入、解析，并建立语法树，这是一个程序完成编译所必要的前期工作。</p>
+<p>Java 编译为例：</p>
+<pre><code class="mermaid">graph LR
+    A(词法分析) --token流--&gt;B(语法分析)
+    B --AST--&gt; C(语义分析)
+    C --处理APT注解回到词法分析--&gt; A
+    C --&gt; D(字节码生成器)
+</code></pre>
+<ul>
+<li>1 词法分析，读取源代码，按照预定规则合并成 Token，Token 是编译过程的最小元素，关键字、变量名、字面量、运算符等都可以成为 Token</li>
+<li>2 语法分析，根据 Token 流来构造树形表达式也就是 AST，AST 定义了代码的结构，通过操作 AST，我们可以精准地定位到声明语句、赋值语句、运算语句等，实现对源代码的分析、优化、变更等操作。(其实 Lombok、IDE 语法高亮、IDE 格式化代码、自动补全、代码混淆压缩、甚至大名鼎鼎的 ButterKnife 的 R、R2 文件映射和静态代码检查，都是利用了 AST。)</li>
+</ul>
+<p>使用：利用 JDK 的注解处理器，可在编译期间处理注解，还可以读取、修改、添加 AST 中的任意元素，让改动后的 AST 重新参与编译流程处理，直到语法树没有改动为止。</p>
+<h3 id="AspectJ"><a href="#AspectJ" class="headerlink" title="AspectJ"></a>AspectJ</h3><p><a href="http://www.eclipse.org/aspectj/" target="_blank" rel="noopener">AspectJ</a> 是使用最为广泛的 AOP 实现方案，适用于 Java 平台。AspectJ 实际上就是用一种特定语言编写切面，通过自己的语法编译工具 ajc 编译器来编译，生成一个新的代理类，该代理类增强了业务类。</p>
+<p>AspectJ提供了两套对切面的描述方法：</p>
+<ul>
+<li>一种就是我们常见的基于java注解切面描述的方法，这种方法兼容java语法，写起来十分方便，不需要IDE的额外语法检测支持。静态代理实现</li>
+<li>另外一种是基于aspect文件的切面描述方法，这种语法本身并不是java语法，因此写的时候需要IDE的插件支持才能进行语法检查。动态代理实现</li>
+</ul>
+<h3 id="Javassist"><a href="#Javassist" class="headerlink" title="Javassist"></a>Javassist</h3><p>Javassist是一个操作Java字节码的类库，它可以在一个已经编译好的类中添加新的方法，或者是修改已有的方法，并且不需要对字节码有深入的了解。它可以绕过编译，直接操作字节码，实现代码注入。</p>
+<p>实现：</p>
+<ul>
+<li>1 自定义gradle plugin</li>
+<li>2 transform中遍历字节码文件</li>
+<li>3 利用Javassist 框架的 API 可以对满足特定条件的方法进行修改</li>
+</ul>
+<h3 id="ASM"><a href="#ASM" class="headerlink" title="ASM"></a>ASM</h3><p>ASM和 Javassist 原理基本一样，只是在操作.class 文件时用的是ASM的API，比 Javassist性能更好，因为javassist用到反射，所以性能上有牺牲。。</p>
+<p><a href="https://asm.ow2.io/" target="_blank" rel="noopener">ASM</a>是一个通用的Java字节码操作和分析框架。它可以直接以二进制形式用于修改现有类或动态生成类。ASM提供了一些常见的字节码转换和分析算法，可以从中构建定制的复杂转换和代码分析工具。ASM提供了与其他Java字节码框架类似的功能，但是侧重于 性能。因为它的设计和实现是尽可能的小和尽可能快，所以它非常适合在动态系统中使用（但当然也可以以静态方式使用，例如在编译器中）。</p>
+<p>实现：</p>
+<ul>
+<li>1 自定义gradle plugin</li>
+<li>2 transform中遍历字节码文件</li>
+<li>3 利用ASM 框架的 API 可以对满足特定条件的方法进行修改</li>
+</ul>
+<h2 id="对比"><a href="#对比" class="headerlink" title="对比"></a>对比</h2><table>
+<thead>
+<tr>
+<th></th>
+<th>兼容java8+</th>
+<th>支持第三方库插桩</th>
+<th>技术点</th>
+<th>难度(0-5)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AST</td>
+<td>F</td>
+<td>F</td>
+<td>语法树·APT</td>
+<td>5</td>
+</tr>
+<tr>
+<td>AspectJ</td>
+<td>F</td>
+<td>F</td>
+<td>aop·AspectJ</td>
+<td>3</td>
+</tr>
+<tr>
+<td>Javassist</td>
+<td>T</td>
+<td>T</td>
+<td>Javassist api·反射·gradle plugin</td>
+<td>4</td>
+</tr>
+<tr>
+<td>ASM</td>
+<td>T</td>
+<td>T</td>
+<td>ASM ·gradle plugin</td>
+<td>4</td>
+</tr>
+</tbody>
+</table>
+<h2 id="IOS-实现"><a href="#IOS-实现" class="headerlink" title="IOS 实现"></a>IOS 实现</h2><p>运行时的代码替换</p>
+<h2 id="JS-实现"><a href="#JS-实现" class="headerlink" title="JS 实现"></a>JS 实现</h2><p>DOM的事件流拦截处理。</p>
+<h3 id="Transform-API"><a href="#Transform-API" class="headerlink" title="Transform API"></a>Transform API</h3><p>Android官方从gradle 1.5版本开始，Android官方提供了Gradle Transform技术用于在项目构建阶段，即由class到dex转换期间修改class文件的一套api，借用这套api，开发者可以很容易的完成字节码插桩、代码注入技术等注入技术。每个Transform其实都是一个gradle task，Android编译器中的TaskManager将每个Transform串连起来，第一个Transform接收来自javac编译的结果，每个Transform节点可以对class进行处理再传递给下一个Transform。</p>
+<p>作用域：Transform是作用在.class编译后，打包成.dex前，可以对.class和resource进行再处理的部分。</p>
+<p>Transform api:</p>
+<ul>
+<li>name:Transform名称，再回到我们刚刚Build的流程里-&gt;app:transformClassesWithXXXForDebug</li>
+<li>getInputTypes，必须是CLASSES(0x01)，RESOURCES(0x02)之一，Transform需要处理的类型</li>
+<li>getScopes，用来Transform表明作用域，一般来说如果是要处理所有class字节码，Scope我们一般使用TransformManager.SCOPE_FULL_PROJECT</li>
+<li>isIncremental，增量编译开关，当我们开启增量编译的时候，相当input包含了changed/removed/added三种状态，实际上还有notchanged</li>
+<li>transform，如果拿取了getInputs()的输入进行消费，则transform后必须再输出给下一级，如果拿取了getReferencedInputs()的输入，则不应该被transform，是否增量编译要以transformInvocation.isIncremental()为准</li>
+</ul>
+<h3 id="ASM-API"><a href="#ASM-API" class="headerlink" title="ASM API"></a>ASM API</h3><ul>
+<li>ClassVisitor：可以访问 class 文件的各个部分，比如方法、变量、注解等，这也是修改原代码的地方。</li>
+<li>ClassReader：对具体的 class 文件进行读取与解析。</li>
+<li>ClassWriter：将修改后的 class 文件通过文件流的方式覆盖掉原来的 class 文件，从而实现 class 修改。</li>
+<li>classReader.accept：依次调用 ClassVisitor 的各个方法。</li>
+<li>classWriter.toByteArray()：将最终修改的字节码以 byte 数组形式返回。</li>
+<li>FileOutputStream：通过文件流写入方式覆盖掉原先的内容，实现class文件的改写。</li>
+</ul>
+<h3 id="实现流程"><a href="#实现流程" class="headerlink" title="实现流程"></a>实现流程</h3><p>Android打包流程：.java文件-&gt;.class文件-&gt;.dex文件，在.class文件-&gt;.dex文件的时候实现拦截插装。</p>
+<ul>
+<li>自定义transform拦截.class-&gt;.dex的流程</li>
+<li>过滤需要插装的class文件</li>
+<li>ASM框架相应API进行字节码读取和分析和插入</li>
+<li>先拿到类的详细信息(类名，修饰符，继承的父类，实现的接口等信息)</li>
+<li>接着扫描到该类的方法，进行判断插入我们预设的埋点代码</li>
+<li>然后覆盖原来的class文件</li>
+<li>task传递下去</li>
+</ul>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+
+    
+    <p>업데이트 2020-08-06</p>
+    
+    
+        <a class="extend next post-next" href="/2020/05/21/安全-防辅助功能/">다음 편</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/sirencode" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2016 - 2020
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>
