@@ -40,7 +40,7 @@
           
           
           
-          <a href="/">페이지</a>
+          <a href="/">Home</a>
         
           
           
@@ -48,7 +48,7 @@
           
           
           
-          <a href="/archives">압축 파일</a>
+          <a href="/archives">Archives</a>
         
       </div>
     </div>
@@ -60,6 +60,29 @@
 
 
   <div class="article">
+    
+      <div class="article-item">
+        <h2 class="article-item-header">
+          <a href="/2016/08/31/LeakCanary/">
+            内存泄漏检查工具-LeakCanary
+          </a>
+        </h2>
+        <div class="article-item-content">
+          
+            <p>LeakCanary作为依赖包导入项目，并运行我们的app，如果检测到内存泄漏信息，就将泄漏信息保存起来，给我们分析所有。
+使用1 添加项目依赖：
+dependencies {
+    debugCompile &amp;apos;com.squareup.leakcanary:leakcanary-and...</p>
+          
+        </div>
+        <div class="atricle-item-time">
+          
+            <span>
+              2016-08-31
+            </span>
+          
+        </div>
+      </div>
     
       <div class="article-item">
         <h2 class="article-item-header">
@@ -172,29 +195,6 @@ MVP介绍MVP...</p>
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/23/gradle same dependencies/">
-            Android 多模块相同依赖问题
-          </a>
-        </h2>
-        <div class="article-item-content">
-          
-            <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。
-相同依赖带来的问题
-1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。
-2 版本混乱，相同的依赖版本可能不同，这样就带...</p>
-          
-        </div>
-        <div class="atricle-item-time">
-          
-            <span>
-              2016-08-23
-            </span>
-          
-        </div>
-      </div>
-    
-      <div class="article-item">
-        <h2 class="article-item-header">
           <a href="/2016/08/23/recycleview/">
             Android RecycleView
           </a>
@@ -218,22 +218,22 @@ RecycleView 和 ListView的对比可以说RecycleView是ListView的升级版本�
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/22/lazy_load/">
-            Android 性能优化-懒加载
+          <a href="/2016/08/23/gradle same dependencies/">
+            Android 多模块相同依赖问题
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。
-懒加载的使用在android开发中我们用到了很多懒加载的例子。如：
-
-1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示...</p>
+            <p>我们在实际的开发中，可能会将项目划分成多个模块，而不同的模块会有不同的gradle依赖库。现在我们讨论一下，如何将相同的依赖抽离出来，并实现集中的控制。
+相同依赖带来的问题
+1 冗余，当多个模块都依赖了recycleview的包，可能会导致代码的冗余。
+2 版本混乱，相同的依赖版本可能不同，这样就带...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-22
+              2016-08-23
             </span>
           
         </div>
@@ -265,19 +265,22 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     
       <div class="article-item">
         <h2 class="article-item-header">
-          <a href="/2016/08/21/h5-webview/">
-            Android 混合式开发-H5
+          <a href="/2016/08/22/lazy_load/">
+            Android 性能优化-懒加载
           </a>
         </h2>
         <div class="article-item-content">
           
-            <p>H5火热的时候还要追述到我大二（2012年）那会儿，我第一次使用h5开发是使用的APPCan开发的webApp,性能就不说了，卡的一逼。现在很多公司都会使用H5来实现混合式的开发，毕竟简单省事又可以热修复。我也接触过各种各样的混合式开发模式，在这里说一下我用到的方式，以及每种模式的优缺点，个大家一些...</p>
+            <p>在现在这个用户体验实时化得社会中，空白的等待是不被允许的。懒加载的原理就是在合理的时间去加载耗时的操作，在第一时间先显示代理，来达到不必卡住或者空白等待的现象。
+懒加载的使用在android开发中我们用到了很多懒加载的例子。如：
+
+1 异步加载图片的时候，我们先先设置一个默认图片，之后请求完成再显示...</p>
           
         </div>
         <div class="atricle-item-time">
           
             <span>
-              2016-08-21
+              2016-08-22
             </span>
           
         </div>
@@ -290,7 +293,7 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     <div class="pagenator">
     
     
-        <a class="extend prev" href="/page/14">페이지</a>
+        <a class="extend prev" href="/page/14">prev</a>
     
 
     
@@ -347,7 +350,7 @@ Monky测试使用的事件流数据流是随机的，不能自定义。
     
     
     
-        <a class="extend next" href="/page/16">다음 페이지</a>
+        <a class="extend next" href="/page/16">next</a>
     
 </div>
 

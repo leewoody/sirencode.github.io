@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  
+  <title>Android脏数据检查 [ Diablo ]</title>
+  
+    <!-- stylesheets list from config.yml -->
+    
+      <link rel="stylesheet" href="/css/iLiKE.css">
+    
+  
+  
+  
+  <script src="//cdn1.lncld.net/static/js/3.1.1/av-min.js"></script>
+    <script id="leancloud">
+      AV.init({
+          appId: "6E5zTbTljdUbVW2WkXPsXGJk-gzGzoHsz",
+          appKey: "0vsyDKfNpeSECAI70J794ugv"
+      });
+    </script>
+
+</head>
+<body>
+    <div class="header">
+        <div class="container">
+    <div class="menu">
+      <div class="menu-left">
+        <a href="/">
+          <img src="/home.png"></img>
+        </a>
+      </div>
+      <div class="menu-right">
+        
+          
+          
+          
+          
+          
+          
+          <a href="/">Home</a>
+        
+          
+          
+          
+          
+          
+          
+          <a href="/archives">Archives</a>
+        
+      </div>
+    </div>
+</div>
+    </div>
+    <div class="container">
+        <h1 class="post-title">Android脏数据检查</h1>
+<article class="post markdown-style">
+  <h1 id="Android脏数据检查"><a href="#Android脏数据检查" class="headerlink" title="Android脏数据检查"></a>Android脏数据检查</h1><p>对接口数据做定向的数据校验，检查有问题的数据，并根据优先级进行上报，并进行报警或预警或记录。 </p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>将解析后的数据，进行解析，判断特定注解的字段对应的值是否符合规则。 </p>
+<ul>
+<li>1 自定义注解(注解可以根据功能或字段类型做多种类型的注解，并且在注解中可以定义优先级参数，之后根据优先级对上报等级作区分) </li>
+<li>2 自定义接口，做是否需要检查的判断 </li>
+<li>3 数据类实现接口，对需要检查的字段加上特定的注解 </li>
+<li>4 解析后的对象进行注解字段查找，并对对应的值进行检查，记录有问题的字段，并合并数据 </li>
+<li>5 将出错数据上报或在debug模式下弹窗显示，方便调试(可根据debug和release的不同定义不同的业务场景) </li>
+</ul>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><h3 id="okhttp解析后的gosn数据中不方便记录请求的数"><a href="#okhttp解析后的gosn数据中不方便记录请求的数" class="headerlink" title="okhttp解析后的gosn数据中不方便记录请求的数"></a>okhttp解析后的gosn数据中不方便记录请求的数</h3><p>答：自定义拦截器，将request的数据取出来，之后build一个自定义类型（status,code,data,-request-）,序列化请求结果，然后赋值request对象，之后在把对象序列化返回。 </p>
+<h2 id="场景"><a href="#场景" class="headerlink" title="场景"></a>场景</h2><ul>
+<li>1 debug模式弹窗提示检查错误信息，方便调试。 </li>
+<li>2 release模式数据上报，预警，报警 </li>
+</ul>
+<h2 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h2><p>反射查找需要检查的字段，记录检查结果，数据展示。 </p>
+<h2 id="规则"><a href="#规则" class="headerlink" title="规则"></a>规则</h2><h3 id="String"><a href="#String" class="headerlink" title="String"></a>String</h3><ul>
+<li>1 空检查 </li>
+<li>2 长度检查，正则 </li>
+</ul>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>1 定义注解 </p>
+<pre><code class="java"><span class="meta">@Target</span>({ElementType.FIELD}) 
+<span class="meta">@Retention</span>(RetentionPolicy.RUNTIME) 
+<span class="keyword">public</span> <span class="meta">@interface</span> CheckNull { } 
+</code></pre>
+<p>2 需要校验的字段添加注解 </p>
+<pre><code class="java"><span class="meta">@CheckNull</span> 
+val code: String, 
+<span class="meta">@CheckNull</span> 
+val size: String, 
+</code></pre>
+<p>3 自定义拦截器将request信息放到请求数据中 </p>
+<pre><code class="java"><span class="function">data class <span class="title">HttpResultBean</span><span class="params">(</span></span>
+<span class="function"><span class="params">    var request: String = <span class="string">""</span>,</span></span>
+<span class="function"><span class="params">    var status: String ,</span></span>
+<span class="function"><span class="params">    var msg: String ,</span></span>
+<span class="function"><span class="params">    val data: Any</span></span>
+<span class="function"><span class="params">)</span> : <span class="title">BaseModel</span><span class="params">()</span></span>
+<span class="function"></span>
+<span class="function">class DataCheckInterceptor : Interceptor </span>{
+    <span class="function">override fun <span class="title">intercept</span><span class="params">(chain: Interceptor.Chain)</span>: Response </span>{
+        var request = chain.request()
+        var response = chain.proceed(request)
+        response.body()?.let {
+            var content = it.string()
+            val mediaType = it.contentType()
+            val gson = Gson()
+            val result: NFHttpResultBean?
+            <span class="keyword">try</span> {
+                result = gson.fromJson(content, NFHttpResultBean::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>)</span>
+<span class="class">                <span class="title">result</span>.<span class="title">request</span> </span>= request.toString()
+                <span class="keyword">return</span> response.newBuilder()
+                    .body(okhttp3.ResponseBody.create(mediaType, gson.toJson(result))).build()
+            } <span class="keyword">catch</span> (e: Exception) {
+
+            }
+        }
+        <span class="keyword">return</span> response
+    }
+}
+</code></pre>
+<p>4 json解析后做数据检查 </p>
+<pre><code class="java"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">GsonResponseBodyConverter</span>&lt;<span class="title">T</span>&gt; <span class="keyword">implements</span> <span class="title">Converter</span>&lt;<span class="title">ResponseBody</span>, <span class="title">T</span>&gt; </span>{
+    <span class="keyword">private</span> <span class="keyword">final</span> TypeAdapter&lt;T&gt; adapter;
+
+    GsonResponseBodyConverter(TypeAdapter&lt;T&gt; adapter) {
+        <span class="keyword">this</span>.adapter = adapter;
+    }
+
+    <span class="meta">@Override</span>
+    <span class="function"><span class="keyword">public</span> T <span class="title">convert</span><span class="params">(ResponseBody value)</span> <span class="keyword">throws</span> IOException </span>{
+        String jsonString = value.string();
+        Timber.tag(<span class="string">"Converter"</span>).e(<span class="string">"原生数据==&gt;"</span>+jsonString);
+        <span class="keyword">try</span> {
+            JSONObject object = <span class="keyword">new</span> JSONObject(jsonString);
+
+            String request = object.getString(<span class="string">"request"</span>);
+            T t = adapter.fromJson(object.getString(<span class="string">"data"</span>));
+            NetCheckManager.INSTANCE.checkValue(t,request);
+            <span class="keyword">return</span> t;
+        } <span class="keyword">catch</span> (Exception e) {
+            e.printStackTrace();
+            Timber.tag(<span class="string">"Converter"</span>).e(<span class="string">"数据解析出错==&gt;"</span>+e.getMessage());
+            <span class="keyword">if</span> (e <span class="keyword">instanceof</span> JsonParseException) {
+                CrashReport.postCatchedException(e);
+                CrashReport.putUserData(BaseApplication.context, <span class="string">"data"</span>, jsonString);
+                <span class="keyword">throw</span> <span class="keyword">new</span> RetrofitException.ServerException(RetrofitException.Companion.getPARSE_ERROR(), <span class="string">"数据解析出错"</span>);
+            } <span class="keyword">else</span> <span class="keyword">if</span> (e <span class="keyword">instanceof</span> RetrofitException.ServerException) {
+                <span class="keyword">throw</span> <span class="keyword">new</span> RetrofitException.ServerException(((RetrofitException.ServerException) e).getCode(), e.getMessage());
+            } <span class="keyword">else</span> {
+                <span class="keyword">throw</span> <span class="keyword">new</span> RetrofitException.ServerException(RetrofitException.Companion.getPARSE_ERROR(), <span class="string">"数据解析出错"</span>);
+            }
+        } <span class="keyword">finally</span> {
+            value.close();
+        }
+    }
+}
+</code></pre>
+<p>5 数据检查逻辑处理 </p>
+<pre><code class="java">object NetCheckManager {
+    <span class="keyword">private</span> <span class="keyword">const</span> val THREAD_COUNT = <span class="number">2</span>
+    <span class="keyword">const</span> val TAG = <span class="string">"NetCheckManager"</span>
+    <span class="keyword">private</span> var singleES: ExecutorService? = <span class="keyword">null</span>
+    var open = <span class="keyword">true</span>
+
+    <span class="function"><span class="keyword">private</span> fun <span class="title">needCheck</span><span class="params">(o: Any)</span>: Boolean </span>{
+        <span class="keyword">return</span> o != <span class="keyword">null</span> &amp;&amp; open &amp;&amp; (o.javaClass.isArray &amp;&amp; !o.javaClass.isPrimitive
+                &amp;&amp; Array.getLength(o) &gt; <span class="number">0</span> &amp;&amp; Array.get(o, <span class="number">0</span>) is NeedCheck
+                || o is Collection&lt;*&gt; &amp;&amp; !o.isEmpty() &amp;&amp; o.toTypedArray()[<span class="number">0</span>] is NeedCheck || o is NeedCheck)
+    }
+
+    <span class="keyword">private</span> val mCount = AtomicInteger(<span class="number">1</span>)
+
+    <span class="keyword">private</span> val sThreadFactory = ThreadFactory { r -&gt;
+        val thread: Thread = Thread(r, <span class="string">"dataCheck:"</span> + mCount.getAndIncrement())
+        thread.priority = Thread.MIN_PRIORITY
+        thread
+    }
+
+    <span class="meta">@Synchronized</span>
+    <span class="function">fun <span class="title">newFixedThreadPool</span><span class="params">(nThreads: Int)</span>: ExecutorService </span>{
+        <span class="keyword">return</span> ThreadPoolExecutor(
+            nThreads, nThreads,
+            <span class="number">0L</span>, TimeUnit.MILLISECONDS,
+            LinkedBlockingQueue(), sThreadFactory
+        )
+    }
+
+    <span class="function">fun <span class="title">isEmpty</span><span class="params">(obj: Any)</span>: Boolean </span>{
+        <span class="keyword">if</span> (obj == <span class="keyword">null</span>) {
+            <span class="keyword">return</span> <span class="keyword">true</span>
+        }
+        <span class="keyword">if</span> (obj is CharSequence &amp;&amp; obj.toString().trim().isEmpty()) {
+            <span class="keyword">return</span> <span class="keyword">true</span>
+        }
+        <span class="keyword">if</span> (obj.javaClass.isArray &amp;&amp; Array.getLength(obj) == <span class="number">0</span>) {
+            <span class="keyword">return</span> <span class="keyword">true</span>
+        }
+        <span class="keyword">if</span> (obj is Collection&lt;*&gt; &amp;&amp; obj.isEmpty()) {
+            <span class="keyword">return</span> <span class="keyword">true</span>
+        }
+        <span class="keyword">if</span> (obj is Map&lt;*, *&gt; &amp;&amp; obj.isEmpty()) {
+            <span class="keyword">return</span> <span class="keyword">true</span>
+        }
+        <span class="keyword">if</span> (obj is SimpleArrayMap&lt;*, *&gt; &amp;&amp; obj.isEmpty) {
+            <span class="keyword">return</span> <span class="keyword">true</span>
+        }
+        <span class="keyword">if</span> (obj is SparseArray&lt;*&gt; &amp;&amp; obj.size() == <span class="number">0</span>) {
+            <span class="keyword">return</span> <span class="keyword">true</span>
+        }
+        <span class="keyword">if</span> (obj is SparseBooleanArray &amp;&amp; obj.size() == <span class="number">0</span>) {
+            <span class="keyword">return</span> <span class="keyword">true</span>
+        }
+        <span class="keyword">if</span> (obj is SparseIntArray &amp;&amp; obj.size() == <span class="number">0</span>) {
+            <span class="keyword">return</span> <span class="keyword">true</span>
+        }
+        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+            <span class="keyword">if</span> (obj is SparseLongArray &amp;&amp; obj.size() == <span class="number">0</span>) {
+                <span class="keyword">return</span> <span class="keyword">true</span>
+            }
+        }
+        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN) {
+            <span class="keyword">if</span> (obj is LongSparseArray&lt;*&gt; &amp;&amp; obj.size() == <span class="number">0</span>) {
+                <span class="keyword">return</span> <span class="keyword">true</span>
+            }
+        }
+        <span class="keyword">if</span> (Build.VERSION.SDK_INT &gt;= Build.VERSION_CODES.JELLY_BEAN) {
+            <span class="keyword">if</span> (obj is LongSparseArray&lt;*&gt;
+                &amp;&amp; (obj as LongSparseArray&lt;*&gt;).size() == <span class="number">0</span>
+            ) {
+                <span class="keyword">return</span> <span class="keyword">true</span>
+            }
+        }
+        <span class="keyword">return</span> <span class="keyword">false</span>
+    }
+
+    <span class="function"><span class="keyword">private</span> fun <span class="title">check</span><span class="params">(o: Any)</span>: String </span>{
+        val checkMessage = StringBuilder()
+        val oClass: Class&lt;*&gt; = o.javaClass
+        val declaredFields = oClass.declaredFields
+        <span class="keyword">for</span> (declaredField in declaredFields) {
+            <span class="keyword">if</span> (declaredField.isAnnotationPresent(CheckNull::<span class="class"><span class="keyword">class</span>.<span class="title">java</span>)) </span>{
+                declaredField.isAccessible = <span class="keyword">true</span>
+                val paramClass = declaredField.type
+                var value: Any?
+                <span class="keyword">try</span> {
+                    value = declaredField[o]
+                    val paramName = declaredField.name
+                    <span class="keyword">if</span> (isEmpty(value)) {
+                        <span class="keyword">if</span> (!TextUtils.isEmpty(checkMessage)) {
+                            checkMessage.append(<span class="string">","</span>)
+                        }
+                        checkMessage.append(o.javaClass.simpleName).append(<span class="string">"."</span>).append(paramName)
+                            .append(<span class="string">"-&gt;$value"</span>).toString()
+                    }
+                    <span class="keyword">if</span> (value != <span class="keyword">null</span> &amp;&amp; !paramClass.isPrimitive &amp;&amp; value is NeedCheck) {
+                        <span class="keyword">if</span> (!TextUtils.isEmpty(checkMessage)) {
+                            checkMessage.append(<span class="string">","</span>)
+                        }
+                        checkMessage.append(check(value))
+                    }
+                } <span class="keyword">catch</span> (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
+        }
+        <span class="keyword">return</span> checkMessage.toString()
+    }
+
+    <span class="function">fun <span class="title">checkValue</span><span class="params">(o: Any, request: String)</span> </span>{
+        <span class="keyword">if</span> (needCheck(o)) {
+            <span class="keyword">if</span> (singleES == <span class="keyword">null</span>) {
+                singleES = newFixedThreadPool(THREAD_COUNT)
+            }
+            singleES!!.execute {
+                <span class="keyword">try</span> {
+                    val map: MutableMap&lt;String, String&gt; = HashMap()
+                    <span class="keyword">if</span> (o.javaClass.isArray &amp;&amp; !o.javaClass.isPrimitive
+                        &amp;&amp; Array.getLength(o) &gt; <span class="number">0</span> &amp;&amp; Array.get(o, <span class="number">0</span>) is NeedCheck
+                    ) {
+                        <span class="keyword">for</span> (i in <span class="number">0</span> until Array.getLength(o)) {
+                            val result = check(Array.get(o, i))
+                            <span class="keyword">if</span> (!TextUtils.isEmpty(result)) {
+                                map[Array.get(o, i).javaClass.simpleName + <span class="string">"."</span> + (i + <span class="number">1</span>)] = result
+                            }
+                        }
+                    }
+                    <span class="keyword">if</span> (o is Collection&lt;*&gt; &amp;&amp; !o.isEmpty() &amp;&amp; o.toTypedArray()[<span class="number">0</span>] is NeedCheck) {
+                        <span class="keyword">for</span> (i in o.indices) {
+                            val result = check(o.toTypedArray()[i]!!)
+                            <span class="keyword">if</span> (!TextUtils.isEmpty(result)) {
+                                map[o.toTypedArray()[i]!!.javaClass.simpleName + <span class="string">"."</span> + (i + <span class="number">1</span>)] =
+                                    result
+                            }
+                        }
+                    }
+                    <span class="keyword">if</span> (o is NeedCheck) {
+                        val result = check(o)
+                        <span class="keyword">if</span> (!TextUtils.isEmpty(result)) {
+                            map[o.javaClass.simpleName] = result
+                        }
+                    }
+                    <span class="keyword">if</span> (map.isNotEmpty()) {
+                        <span class="keyword">if</span>(BuildConfig.DEBUG) {
+                            NetCheckViewManager.updateLogMsg(request, map.toString())
+                        }
+                        <span class="comment">// todo 上报</span>
+                        map[<span class="string">"request"</span>] = request
+                        Timber.tag(TAG).d(map.toString())
+                    }
+                } <span class="keyword">catch</span> (e: java.lang.Exception) {
+                    e.printStackTrace()
+                } <span class="keyword">catch</span> (e: Error) {
+                }
+            }
+        }
+    }
+}
+</code></pre>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><ul>
+<li>1 可定义多条符合业务的检查规则，并制定检查机制，是fast fail还是全检查完 </li>
+<li>2 可定义优先级，根据不同优先级进行不同紧急程度的上报 </li>
+</ul>
+
+</article>
+
+    <div class="pagenator post-pagenator">
+    
+    
+
+    
+    <p>last update time 2020-08-24</p>
+    
+    
+        <a class="extend next post-next" href="/2020/08/06/Android 无数据埋点实现/">next</a>
+    
+    </div>
+
+    </div>
+    <div class="footer">
+        <div class="container">
+    <div class="social">
+	<ul class="social-list">
+		
+			
+				
+				
+				<li>
+					<a href="mailto:shenyonghe525@gmail.com" title="email" target="_blank">
+					<i class="fa fa-email"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+				
+				<li>
+					<a href="https://github.com/sirencode" title="github" target="_self">
+					<i class="fa fa-github"></i>
+					</a>
+				</li>
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+			
+		
+	</ul>
+</div>
+    <div class="copyright">
+        <span>
+            
+            
+            
+                © ShenYonghe 2016 - 2020
+            
+        </span>
+    </div>
+    <div class="power">
+        <span>
+            Powered by <a href="https://hexo.io">Hexo</a> & <a href="https://github.com/CaiChenghan/iLiKE">iLiKE Theme</a>
+        </span>
+    </div>
+    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.js"></script>
+    <!--page counter part-->
+<script>
+function addCount (Counter) {
+    url=$('.article-date').attr('href').trim();
+    title = $('.article-title').text().trim();
+    var query = new AV.Query(Counter);
+    //use url as unique idnetfication
+    query.equalTo("url",url);
+    query.find({
+        success: function(results) {
+            if (results.length>0) {
+                var counter=results[0];
+                counter.fetchWhenSave(true); //get recent result
+                counter.increment("time");
+                counter.save();
+            } else {
+                var newcounter=new Counter();
+                newcounter.set("title",title);
+                newcounter.set("url",url);
+                newcounter.set("time",1);
+                newcounter.save(null,{
+                    success: function(newcounter) {
+                        //alert('New object created');
+                    }, error: function(newcounter,error) {
+                        alert('Failed to create');
+                    }
+                })
+            }
+        },
+        error: function(error) {
+            //find null is not a error
+            alert('Error:'+error.code+" "+error.message);
+        }
+    });
+}
+$(function() {
+    var Counter=AV.Object.extend("Counter");
+    //only increse visit counting when intering a page
+    if ($('.article-title').length == 1) {
+       addCount(Counter);
+    }
+    var query=new AV.Query(Counter);
+    query.descending("time");
+    // the sum of popular posts
+    query.limit(10); 
+    query.find({
+        success: function(results) {
+                for(var i=0;i<results.length;i++) {
+                    var counter=results[i];
+                    title=counter.get("title");
+                    url=counter.get("url");
+                    time=counter.get("time");
+                    // add to the popularlist widget
+                    showcontent=title+" ("+time+")";
+                    //notice the "" in href
+                    $('.popularlist').append('<li><a href="'+url+'">'+showcontent+'</a></li>');
+                }
+            },
+        error: function(error) {
+            alert("Error:"+error.code+" "+error.message);
+        }
+    });
+});
+</script>
+</div>
+    </div>
+</body>
+</html>
